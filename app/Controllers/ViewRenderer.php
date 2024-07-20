@@ -5,25 +5,24 @@ namespace app\Controllers;
 class ViewRenderer
 {
   private $caminho;
+  private $variaveis = [];
 
   public function __construct($caminho)
   {
     $this->caminho = $caminho;
   }
 
-  public function renderizar($visao, $dados = [])
+  public function renderizar($visao)
   {
-    extract($dados);
+    extract($this->variaveis);
 
     // Conteúdo
     $arquivo = '..' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'Views' . str_replace('/', DIRECTORY_SEPARATOR, $this->caminho) . str_replace('/', DIRECTORY_SEPARATOR, $visao) . '.php';
 
-    ob_start();
     if (file_exists($arquivo)) {
       require $arquivo;
     }
 
-    $content = ob_get_clean();
     $temp = explode('/', $this->caminho);
     $diretorioBase = $temp[1] ?? '';
 
@@ -33,5 +32,10 @@ class ViewRenderer
     if (file_exists($layout)) {
       require $layout;
     }
+  }
+
+  public function variavel($nome, $valor)
+  {
+    $this->variaveis[ $nome ] = $valor;
   }
 }

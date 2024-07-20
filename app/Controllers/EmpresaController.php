@@ -22,7 +22,7 @@ class EmpresaController extends Controller
     $dados = [
       'titulo' => 'Empresa',
       'empresa' => [
-        'teste' => '1234',
+        'teste' => 1234,
       ],
     ];
 

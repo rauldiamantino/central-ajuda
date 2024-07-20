@@ -4,6 +4,7 @@ use app\Controllers\TesteController;
 use app\Controllers\UsuarioController;
 use app\Controllers\EmpresaController;
 use app\Controllers\EmpresaCadastroController;
+use app\Controllers\DashboardController;
 
 class Roteador
 {
@@ -13,7 +14,7 @@ class Roteador
   {
     $this->rotas = [
       'GET:/teste' => [TesteController::class, 'testar'],
-      'GET:/empresa' => [EmpresaController::class, 'empresaVer'],
+      'GET:/dashboard' => [DashboardController::class, 'dashboardVer'],
 
       'GET:/usuarios' => [UsuarioController::class, 'buscar'],
       'GET:/usuario/{id}' => [UsuarioController::class, 'buscar'],
