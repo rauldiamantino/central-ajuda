@@ -1,0 +1,22 @@
+{
+    "name": "rauld/central-ajuda",
+    "autoload": {
+        "psr-4": {
+            "app\\": "app/"
+        },
+        "files": [
+          [
+            "app/Config/app.php",
+            "app/Helpers/funcoes.php",
+            "app/Helpers/constantes.php"
+          ]
+        ]
+    },
+    "authors": [
+        {
+            "name": "Raul Diamantino",
+            "email": "rauldiamantino25@gmail.com"
+        }
+    ],
+    "require": {}
+}
