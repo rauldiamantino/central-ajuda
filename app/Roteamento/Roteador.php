@@ -13,6 +13,7 @@ class Roteador
   {
     $this->rotas = [
       'GET:/teste' => [TesteController::class, 'testar'],
+      'GET:/empresa' => [EmpresaController::class, 'empresaVer'],
 
       'GET:/usuarios' => [UsuarioController::class, 'buscar'],
       'GET:/usuario/{id}' => [UsuarioController::class, 'buscar'],

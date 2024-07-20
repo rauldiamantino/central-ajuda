@@ -1,16 +1,32 @@
 <?php
 namespace app\Controllers;
 use app\Models\EmpresaModel;
+use app\Controllers\ViewRenderer;
 
 class EmpresaController extends Controller
 {
   protected $middleware;
   protected $empresaModel;
+  protected $visao;
 
   public function __construct()
   {
+    $this->visao = new ViewRenderer('/dashboard/empresa');
     $this->empresaModel = new EmpresaModel();
+
     parent::__construct($this->empresaModel);
+  }
+
+  public function empresaVer()
+  {
+    $dados = [
+      'titulo' => 'Empresa',
+      'empresa' => [
+        'teste' => '1234',
+      ],
+    ];
+
+    $this->visao->renderizar('/cadastro/index', $dados);
   }
 
   public function adicionar(array $params = []): array
