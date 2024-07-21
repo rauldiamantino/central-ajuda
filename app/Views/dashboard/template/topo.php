@@ -2,7 +2,7 @@
   <nav class="bg-white">
     <div class="border-b border-slate-200 px-4 py-3 flex items-center justify-between">
 
-      <img src="img/luminaOn.png" alt="luminaOn" class="w-40">
+      <img src="../img/luminaOn.png" alt="luminaOn" class="w-40">
 
       <div class="flex gap-4 items-center justify-end w-max text-gray-500">
         <button class="p-3 rounded-lg hover:bg-slate-100 hover:text-black">

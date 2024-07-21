@@ -5,6 +5,7 @@ use app\Controllers\UsuarioController;
 use app\Controllers\EmpresaController;
 use app\Controllers\EmpresaCadastroController;
 use app\Controllers\DashboardController;
+use app\Controllers\ArtigoController;
 
 class Roteador
 {
@@ -15,6 +16,9 @@ class Roteador
     $this->rotas = [
       'GET:/teste' => [TesteController::class, 'testar'],
       'GET:/dashboard' => [DashboardController::class, 'dashboardVer'],
+      'GET:/dashboard/artigos' => [ArtigoController::class, 'artigosVer'],
+      'GET:/dashboard/artigo/editar' => [ArtigoController::class, 'artigoEditarVer'],
+      'GET:/dashboard/artigo/adicionar' => [ArtigoController::class, 'artigoAdicionarVer'],
 
       'GET:/usuarios' => [UsuarioController::class, 'buscar'],
       'GET:/usuario/{id}' => [UsuarioController::class, 'buscar'],
