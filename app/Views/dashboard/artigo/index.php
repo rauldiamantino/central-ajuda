@@ -1,4 +1,4 @@
-<div class="flex gap-6 w-full h-screen">
+<div class="flex gap-6 w-full min-h-screen">
   <session class="w-full h-full bg-white p-6 border border-slate-200 rounded-lg">
     <table class="w-full table-fixed text-sm text-left text-gray-500">
       <thead class="text-xs text-gray-700 uppercase bg-gray-50">
