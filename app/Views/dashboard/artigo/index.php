@@ -1,207 +1,55 @@
-<?php
+<div class="flex gap-6 w-full h-screen">
+  <session class="w-full h-full bg-white p-6 border border-slate-200 rounded-lg">
+    <table class="w-full table-fixed text-sm text-left text-gray-500">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+        <tr class="bg-white border-b hover:bg-gray-50">
+          <th scope="col" class="px-6 py-3 w-10">
+            <input type="checkbox" name="artigo" id="artigoTodos" class="flex items-center w-10">
+          </th>
+          <th scope="col" class="px-6 py-3 w-16">ID</th>
+          <th scope="col" class="px-6 py-3 w-24">Status</th>
+          <th scope="col" class="px-6 py-3 w-56">Título</th>
+          <th scope="col" class="px-6 py-3 w-32">Categoria</th>
+          <th scope="col" class="px-6 py-3 w-32">Criado</th>
+          <th scope="col" class="px-6 py-3 w-32">Modificado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach ($artigos as $chave => $linha) : ?>
+          <tr class="bg-white border-b hover:bg-gray-50">
+            <td class="whitespace-nowrap p-6 w-10">
+              <input type="checkbox" name="artigo" id="artigoUnico" class="w-10">
+            </td>
 
-$conteudo = divAbrir();
-$conteudo .= sessionAbrir();
-$conteudo .= tableAbrir();
-$conteudo .= tableTheadAbrir();
-$conteudo .= tableTrAbrir();
-$conteudo .= tableThAbrir();
-$conteudo .= checkbox('artigo', 'artigoTodos', 'flex items-center');
-$conteudo .= tableThFechar();
-$conteudo .= tableThAbrir();
-$conteudo .= 'ID';
-$conteudo .= tableThFechar();
-$conteudo .= tableThAbrir();
-$conteudo .= 'Status';
-$conteudo .= tableThFechar();
-$conteudo .= tableThAbrir();
-$conteudo .= 'Título';
-$conteudo .= tableThFechar();
-$conteudo .= tableThAbrir();
-$conteudo .= 'Criado';
-$conteudo .= tableThFechar();
-$conteudo .= tableThAbrir();
-$conteudo .= 'Modificado';
-$conteudo .= tableThFechar();
-$conteudo .= tableTrFechar();
-$conteudo .= tableTheadFechar();
+            <?php foreach ($linha as $subChave => $subLinha) : ?>
 
-$conteudo .= tableTbodyAbrir();
-foreach ($artigos as $chave => $artigo):
+              <?php if ($subChave == 'Artigo.id') { ?>
+                <td class="whitespace-nowrap p-6 w-16">#<?php echo $subLinha ?></td>
+              <?php } ?>
 
-  $conteudo .= tableTrAbrir();
-  $conteudo .= tableTdAbrir('min-w-10');
-  $conteudo .= checkbox('artigo', 'artigoUnico');
-  $conteudo .= tableTdFechar();
-  foreach ($artigo as $subChave => $subLinha):
+              <?php if ($subChave == 'Artigo.ativo') { ?>
+                <td class="whitespace-nowrap p-6 uppercase text-xs w-24"><?php echo $subLinha == 1 ? 'Ativo' : 'Inativo' ?></td>
+              <?php } ?>
 
-    if ($subChave == 'Artigo.usuario_id') {
-      continue;
-    }
+              <?php if ($subChave == 'Artigo.titulo') { ?>
+                <td class="whitespace-nowrap p-6 w-56"><?php echo $subLinha ?></td>
+              <?php } ?>
 
-    if ($subChave == 'Artigo.categoria_id') {
-      continue;
-    }
+              <?php if ($subChave == 'Categoria.nome') { ?>
+                <td class="whitespace-nowrap p-6 w-32"><?php echo $subLinha ?></td>
+              <?php } ?>
 
-    if ($subChave == 'Artigo.visualizacoes') {
-      continue;
-    }
+              <?php if ($subChave == 'Artigo.criado') { ?>
+                <td class="whitespace-nowrap p-6 w-32"><?php echo $subLinha ?></td>
+              <?php } ?>
 
-    if ($subChave == 'Artigo.id') {
-      $subLinha = '#' . $subLinha;
-      $conteudo .= tableTdAbrir('min-w-32');
-    }
-    elseif ($subChave == 'Artigo.ativo') {
-
-      if ($subLinha == 1)  {
-        $subLinha = 'Ativo';
-      }
-      elseif ($subLinha == 0) {
-        $subLinha = 'Inativo';
-      }
-
-      $conteudo .= tableTdAbrir('min-w-32');
-    }
-    elseif ($subChave == 'Artigo.titulo') {
-      $conteudo .= tableTdAbrir('min-w-min w-full text-black font-semibold');
-    }
-    elseif ($subChave == 'Artigo.criado') {
-      $conteudo .= tableTdAbrir('min-w-60');
-    }
-    elseif ($subChave == 'Artigo.modificado') {
-      $conteudo .= tableTdAbrir('min-w-60');
-    }
-
-    $conteudo .= $subLinha;
-    $conteudo .= tableTdFechar();
-  endforeach;
-
-  $conteudo .= tableTrFechar();
-endforeach;
-
-$conteudo .= tableTbodyFechar();
-$conteudo .= tableFechar();
-$conteudo .= sessionFechar();
-$conteudo .= divFechar();
-
-function divAbrir($classes = '') {
-  $classesBase = 'flex gap-6 w-full h-full';
-
-  if ($classes) {
-    $classesBase .= ' ' . $classes;
-  }
-
-  return '<div class="' . $classesBase . '">';
-}
-
-function checkbox($nome, $id, $classes = '') {
-  $classesBase = '';
-
-  if ($classes) {
-    $classesBase .= ' ' . $classes;
-  }
-
-  return '<input type="checkbox" name="' . $nome . '" id="' . $id . '" class="' . $classesBase . '">';
-}
-
-function sessionAbrir($classes = '') {
-  $classesBase = 'w-full h-full bg-white p-6 border border-slate-200 rounded-lg';
-
-  if ($classes) {
-    $classesBase .= ' ' . $classes;
-  }
-
-  return '<session class="' . $classesBase . '">';
-}
-
-function tableAbrir($classes = '') {
-  $classesBase = 'w-full table-auto text-sm text-left text-gray-500';
-
-  if ($classes) {
-    $classesBase .= ' ' . $classes;
-  }
-
-  return '<table class="' . $classesBase . '">';
-}
-
-function tableTheadAbrir($classes = '') {
-  $classesBase = 'text-xs text-gray-700 uppercase bg-gray-50';
-
-  if ($classes) {
-    $classesBase .= ' ' . $classes;
-  }
-
-  return '<thead class="' . $classesBase . '">';
-}
-
-function tableThAbrir($classes = '') {
-  $classesBase = 'px-6 py-3';
-
-  if ($classes) {
-    $classesBase .= ' ' . $classes;
-  }
-
-  return '<th scope="col" class="' . $classesBase . '">';
-}
-
-function tableTdAbrir($classes = '') {
-  $classesBase = 'whitespace-nowrap p-6';
-
-  if ($classes) {
-    $classesBase .= ' ' . $classes;
-  }
-
-  return '<td class="' . $classesBase . '">';
-}
-
-function tableTrAbrir($classes = '') {
-  $classesBase = 'bg-white border-b hover:bg-gray-50';
-
-  if ($classes) {
-    $classesBase .= ' ' . $classes;
-  }
-
-  return '<tr class="' . $classesBase . '">';
-}
-
-function tableTbodyAbrir($classes = '') {
-  $classesBase = '';
-
-  if ($classes) {
-    $classesBase .= ' ' . $classes;
-  }
-
-  return '<tbody class="' . $classesBase . '">';
-}
-
-function divFechar() {
-  return '</div>';
-}
-
-function sessionFechar() {
-  return '</session>';
-}
-
-function tableFechar() {
-  return '</table>';
-}
-
-function tableTheadFechar() {
-  return '</thead>';
-}
-
-function tableTbodyFechar() {
-  return '</tbody>';
-}
-
-function tableTrFechar() {
-  return '</tr>';
-}
-
-function tableThFechar() {
-  return '</th>';
-}
-
-function tableTdFechar() {
-  return '</td>';
-}
+              <?php if ($subChave == 'Artigo.modificado') { ?>
+                <td class="whitespace-nowrap p-6 w-32"><?php echo $subLinha ?></td>
+              <?php } ?>
+            <?php endforeach; ?>
+          </tr>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
+  </session>
+</div>

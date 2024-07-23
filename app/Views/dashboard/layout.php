@@ -16,15 +16,15 @@
 </head>
 <body class="w-full h-full">
 
-  <?php require_once('template/topo.php') ?>
+  <?php require_once 'template/topo.php' ?>
 
   <div class="flex w-full h-screen">
     <asside>
-      <?php require_once('template/menu_lateral.php') ?>
+      <?php require_once 'template/menu_lateral.php' ?>
     </asside>
     <div class="ml-64 w-full h-full bg-slate-50 p-4 flex gap-4 flex-col">
       <main>
-        <?php require_once('template/corpo.php') ?>
+        <?php require_once $visao ?>
       </main>
     </div>
   </div>

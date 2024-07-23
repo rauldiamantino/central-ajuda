@@ -1,52 +1,45 @@
 <?php
 namespace app\Controllers;
-use app\Models\ArtigoModel;
+use app\Models\CategoriaModel;
 use app\Controllers\ViewRenderer;
 
-class ArtigoController extends Controller
+class CategoriaController extends Controller
 {
   protected $middleware;
-  protected $artigoModel;
+  protected $categoriaModel;
   protected $visao;
 
   public function __construct()
   {
-    $this->visao = new ViewRenderer('/dashboard/artigo');
-    $this->artigoModel = new ArtigoModel();
+    $this->visao = new ViewRenderer('/dashboard/categoria');
+    $this->categoriaModel = new categoriaModel();
 
-    parent::__construct($this->artigoModel);
+    parent::__construct($this->categoriaModel);
   }
 
-  public function artigosVer()
+  public function categoriasVer()
   {
     $colunas = [
-      'Artigo.id',
-      'Artigo.ativo',
-      'Artigo.titulo',
-      'Artigo.usuario_id',
-      'Artigo.categoria_id',
-      'Artigo.visualizacoes',
+      'Categoria.id',
+      'Categoria.ativo',
       'Categoria.nome',
-      'Artigo.criado',
-      'Artigo.modificado',
+      'Categoria.descricao',
+      'Categoria.criado',
+      'Categoria.modificado',
     ];
 
-    $uniao = [
-      'Categoria',
-    ];
+    $resultado = $this->categoriaModel->buscar($colunas);
 
-    $resultado = $this->artigoModel->uniao2($uniao)->buscar($colunas);
-
-    $this->visao->variavel('titulo', 'Artigos');
-    $this->visao->variavel('artigos', $resultado);
+    $this->visao->variavel('titulo', 'Categorias');
+    $this->visao->variavel('categorias', $resultado);
     $this->visao->renderizar('/index');
   }
 
-  public function artigoAdicionarVer()
+  public function categoriaAdicionarVer()
   {
     $dados = [
-      'titulo' => 'Artigo',
-      'empresa' => [
+      'titulo' => 'Categoria',
+      'categorias' => [
         'teste' => 1234,
       ],
     ];
@@ -54,11 +47,11 @@ class ArtigoController extends Controller
     $this->visao->renderizar('/adicionar/index', $dados);
   }
 
-  public function artigoEditarVer()
+  public function categoriaEditarVer()
   {
     $dados = [
-      'titulo' => 'Artigo',
-      'empresa' => [
+      'titulo' => 'Categoria',
+      'categorias' => [
         'teste' => 1234,
       ],
     ];
@@ -74,7 +67,7 @@ class ArtigoController extends Controller
       $dados = $this->receberJson();
     }
 
-    $resultado = $this->artigoModel->adicionar($dados);
+    $resultado = $this->categoriaModel->adicionar($dados);
 
     if (isset($resultado['erro']) and $params) {
       return $resultado;
@@ -86,22 +79,20 @@ class ArtigoController extends Controller
     }
 
     $condicao = [
-      'Artigo.id' => $resultado['id'],
+      'Categoria.id' => $resultado['id'],
     ];
 
     $colunas = [
-      'Artigo.id',
-      'Artigo.ativo',
-      'Artigo.titulo',
-      'Artigo.usuario_id',
-      'Artigo.categoria_id',
-      'Artigo.visualizacoes',
-      'Artigo.criado',
-      'Artigo.modificado',
+      'Categoria.id',
+      'Categoria.ativo',
+      'Categoria.nome',
+      'Categoria.descricao',
+      'Categoria.criado',
+      'Categoria.modificado',
     ];
 
-    $empresa = $this->artigoModel->condicao($condicao)
-                                  ->buscar($colunas);
+    $empresa = $this->categoriaModel->condicao($condicao)
+                                    ->buscar($colunas);
 
     if ($params) {
       return reset($empresa);
@@ -116,23 +107,21 @@ class ArtigoController extends Controller
 
     if ($id) {
       $condicao = [
-        'Artigo.id' => $id,
+        'Categoria.id' => $id,
       ];
     }
 
     $colunas = [
-      'Artigo.id',
-      'Artigo.ativo',
-      'Artigo.titulo',
-      'Artigo.usuario_id',
-      'Artigo.categoria_id',
-      'Artigo.visualizacoes',
-      'Artigo.criado',
-      'Artigo.modificado',
+      'Categoria.id',
+      'Categoria.ativo',
+      'Categoria.nome',
+      'Categoria.descricao',
+      'Categoria.criado',
+      'Categoria.modificado',
     ];
 
-    $resultado = $this->artigoModel->condicao($condicao)
-                                   ->buscar($colunas);
+    $resultado = $this->categoriaModel->condicao($condicao)
+                                      ->buscar($colunas);
 
     if (isset($resultado['erro'])) {
       $codigo = $resultado['erro']['codigo'] ?? 500;
@@ -149,7 +138,7 @@ class ArtigoController extends Controller
   public function atualizar(int $id)
   {
     $json = $this->receberJson();
-    $resultado = $this->artigoModel->atualizar($json, $id);
+    $resultado = $this->categoriaModel->atualizar($json, $id);
 
     if (isset($resultado['erro'])) {
       $codigo = $resultado['erro']['codigo'] ?? 500;
@@ -161,7 +150,7 @@ class ArtigoController extends Controller
 
   public function apagar(int $id, bool $rollback = false)
   {
-    $resultado = $this->artigoModel->apagar($id);
+    $resultado = $this->categoriaModel->apagar($id);
 
     if ($rollback and isset($resultado['erro'])) {
       return $resultado;

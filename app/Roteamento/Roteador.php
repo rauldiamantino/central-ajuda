@@ -6,6 +6,7 @@ use app\Controllers\EmpresaController;
 use app\Controllers\EmpresaCadastroController;
 use app\Controllers\DashboardController;
 use app\Controllers\ArtigoController;
+use app\Controllers\CategoriaController;
 
 class Roteador
 {
@@ -19,6 +20,18 @@ class Roteador
       'GET:/dashboard/artigos' => [ArtigoController::class, 'artigosVer'],
       'GET:/dashboard/artigo/editar' => [ArtigoController::class, 'artigoEditarVer'],
       'GET:/dashboard/artigo/adicionar' => [ArtigoController::class, 'artigoAdicionarVer'],
+
+      'GET:/artigos' => [ArtigoController::class, 'buscar'],
+      'GET:/artigo/{id}' => [ArtigoController::class, 'buscar'],
+      'POST:/artigo' => [ArtigoController::class, 'adicionar'],
+      'PUT:/artigo/{id}' => [ArtigoController::class, 'atualizar'],
+      'DELETE:/artigo/{id}' => [ArtigoController::class, 'apagar'],
+
+      'GET:/categorias' => [CategoriaController::class, 'buscar'],
+      'GET:/categoria/{id}' => [CategoriaController::class, 'buscar'],
+      'POST:/categoria' => [CategoriaController::class, 'adicionar'],
+      'PUT:/categoria/{id}' => [CategoriaController::class, 'atualizar'],
+      'DELETE:/categoria/{id}' => [CategoriaController::class, 'apagar'],
 
       'GET:/usuarios' => [UsuarioController::class, 'buscar'],
       'GET:/usuario/{id}' => [UsuarioController::class, 'buscar'],

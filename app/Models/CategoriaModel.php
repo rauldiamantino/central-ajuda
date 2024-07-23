@@ -2,11 +2,11 @@
 namespace app\Models;
 use app\Models\Model;
 
-class ArtigoModel extends Model
+class CategoriaModel extends Model
 {
   public function __construct()
   {
-    parent::__construct('Artigo');
+    parent::__construct('Categoria');
   }
 
   // --- CRUD ---
@@ -70,10 +70,8 @@ class ArtigoModel extends Model
   {
     $campos = [
       'ativo' => $params['ativo'] ?? 0,
-      'titulo' => $params['titulo'] ?? '',
-      'usuario_id' => $params['usuario_id'] ?? 0,
-      'categoria_id' => $params['categoria_id'] ?? 0,
-      'visualizacoes' => $params['visualizacoes'] ?? 0,
+      'nome' => $params['nome'] ?? '',
+      'descricao' => $params['descricao'] ?? '',
     ];
 
     $msgErro = [
@@ -87,7 +85,7 @@ class ArtigoModel extends Model
     foreach ($campos as $chave => $linha):
       $permitidos = [
         'ativo',
-        'visualizacoes',
+        'descricao',
       ];
 
       if ($atualizar and ! isset($params[ $chave ])) {
@@ -109,33 +107,21 @@ class ArtigoModel extends Model
 
     if (empty($msgErro['erro']['mensagem'])) {
       $campos['ativo'] = filter_var($campos['ativo'], FILTER_SANITIZE_NUMBER_INT);
-      $campos['titulo'] = htmlspecialchars($campos['titulo']);
-      $campos['usuario_id'] = filter_var($campos['usuario_id'], FILTER_SANITIZE_NUMBER_INT);
-      $campos['categoria_id'] = filter_var($campos['categoria_id'], FILTER_SANITIZE_NUMBER_INT);
+      $campos['nome'] = htmlspecialchars($campos['nome']);
 
       if (isset($params['ativo']) and ! in_array($campos['ativo'], [0, 1])) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('ativo', 'valInvalido');
       }
 
       $ativoCaracteres = 1;
-      $tituloCaracteres = 255;
-      $usuarioIdCaracteres = 999999999;
-      $categoriaIdCaracteres = 999999999;
+      $nomeCaracteres = 255;
 
       if (strlen($campos['ativo']) > $ativoCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('id', 'caracteres', $ativoCaracteres);
       }
 
-      if (strlen($campos['titulo']) > $tituloCaracteres) {
-        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('titulo', 'caracteres', $tituloCaracteres);
-      }
-
-      if (strlen($campos['usuario_id']) > $usuarioIdCaracteres) {
-        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('usuario_id', 'caracteres', $usuarioIdCaracteres);
-      }
-
-      if (strlen($campos['categoria_id']) > $categoriaIdCaracteres) {
-        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('categoria_id', 'caracteres', $categoriaIdCaracteres);
+      if (strlen($campos['nome']) > $nomeCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('nome', 'caracteres', $nomeCaracteres);
       }
     }
 
@@ -145,10 +131,8 @@ class ArtigoModel extends Model
 
     $camposValidados = [
       'ativo' => $campos['ativo'],
-      'titulo' => $campos['titulo'],
-      'usuario_id' => $campos['usuario_id'],
-      'categoria_id' => $campos['categoria_id'],
-      'visualizacoes' => $campos['visualizacoes'],
+      'nome' => $campos['nome'],
+      'descricao' => $campos['descricao'],
     ];
 
     if ($atualizar) {
@@ -171,14 +155,6 @@ class ArtigoModel extends Model
 
   private function gerarMsgErro(string $campo, string $tipo, int $quantidade = 0): string
   {
-    if ($campo == 'usuario_id') {
-      $campo = 'ID do usuário';
-    }
-
-    if ($campo == 'categoria_id') {
-      $campo = 'ID da categoria';
-    }
-
     $msgErro = [
       'vazio' => 'O campo ' . $campo . ' não pode ser vazio',
       'invalido' => 'Campo ' . $campo . ' com formato inválido',

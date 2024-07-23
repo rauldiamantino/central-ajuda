@@ -189,6 +189,25 @@ class Model
     return $this;
   }
 
+  public function uniao2(array $params = [], string $uniao = 'INNER'): self
+  {
+    foreach ($params as $linha):
+      // Prepara Join
+      $tabelaUniao = $this->pluralizar($linha);
+      $tabelaUniao = $this->camel2Snake($tabelaUniao);
+      $tabelaUniao = $this->gerarBackticks($tabelaUniao);
+      $tabUniaoAlias = $this->gerarBackticks($linha);
+
+      $colunaUniao = strtolower($linha) . '_id';
+      $tabelaAlias = $this->gerarBackticks($this->tabela, $colunaUniao);
+      $tabelaColUniao = $this->gerarBackticks($linha, 'id');
+
+      $this->unioes[] = $uniao . ' JOIN ' . $tabelaUniao . ' AS ' . $tabUniaoAlias . ' ON ' . $tabelaAlias . ' = ' . $tabelaColUniao;
+    endforeach;
+
+    return $this;
+  }
+
   public function condicao(array $condicoes = []): self
   {
     if ($condicoes) {

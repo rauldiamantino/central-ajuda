@@ -16,12 +16,8 @@ class ViewRenderer
   {
     extract($this->variaveis);
 
-    // Conteúdo
-    $arquivo = '..' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'Views' . str_replace('/', DIRECTORY_SEPARATOR, $this->caminho) . str_replace('/', DIRECTORY_SEPARATOR, $visao) . '.php';
-
-    if (file_exists($arquivo)) {
-      require $arquivo;
-    }
+    // Visão
+    $visao = '..' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'Views' . str_replace('/', DIRECTORY_SEPARATOR, $this->caminho) . str_replace('/', DIRECTORY_SEPARATOR, $visao) . '.php';
 
     $temp = explode('/', $this->caminho);
     $diretorioBase = $temp[1] ?? '';
