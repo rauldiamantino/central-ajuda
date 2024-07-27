@@ -1,10 +1,10 @@
 <div class="flex gap-6">
   <div class="w-full h-max flex flex-col gap-4 bg-white p-4 border border-slate-200 rounded-lg">
-    <table class="table-fixed text-sm text-left text-gray-500">
+    <table class="table-fixed text-sm text-left text-gray-500 w-full">
       <thead class="text-xs text-gray-700 uppercase bg-slate-50">
-        <tr class="bg-white border-b">
+        <tr class="w-max bg-white border-b">
           <th scope="col" class="px-6 w-10">
-            <input type="checkbox" name="artigo" id="artigoTodos" class="flex items-center w-10">
+            <input type="checkbox" name="artigo" id="artigoTodos" class="w-10">
           </th>
           <th scope="col" class="px-6 py-3 w-16">ID</th>
           <th scope="col" class="px-6 py-3 w-24">Status</th>
@@ -14,7 +14,7 @@
           <th scope="col" class="px-6 py-3 w-32">Modificado</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="w-max">
         <?php foreach ($artigos as $chave => $linha) : ?>
           <tr class="bg-white border-b hover:bg-slate-50">
             <td class="whitespace-nowrap p-6 w-10">
@@ -22,7 +22,7 @@
             </td>
             <?php foreach ($linha as $subChave => $subLinha) : ?>
               <?php if ($subChave == 'Artigo.id') { ?>
-                <td class="whitespace-nowrap p-6 w-12"><?php echo $subLinha ?></td>
+                <td class="whitespace-nowrap p-6 w-16"><?php echo $subLinha ?></td>
               <?php } ?>
               <?php if ($subChave == 'Artigo.ativo') { ?>
                 <td class="whitespace-nowrap p-6 uppercase text-xs w-24"><?php echo $subLinha == 1 ? 'Ativo' : 'Inativo' ?></td>
@@ -46,7 +46,6 @@
     </table>
 
     <div class="w-full flex gap-1 justify-start">
-
       <?php if ($pagina > 1) { ?>
         <a href="/dashboard/artigos?pag=<?php echo $pagina - 1 ?>" class="border border-transparent bg-slate-50 hover:bg-slate-100 text-gray-500 hover:text-black p-3 rounded-lg">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
