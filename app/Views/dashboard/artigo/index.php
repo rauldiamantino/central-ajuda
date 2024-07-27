@@ -2,7 +2,7 @@
   <div class="w-full h-max flex flex-col gap-4 bg-white p-4 border border-slate-200 rounded-lg">
     <table class="table-fixed text-sm text-left text-gray-500 w-full">
       <thead class="text-xs text-gray-700 uppercase bg-slate-50">
-        <tr class="w-max bg-white border-b">
+        <tr class="bg-white border-b">
           <th scope="col" class="px-6 w-10">
             <input type="checkbox" name="artigo" id="artigoTodos" class="w-10">
           </th>
@@ -10,11 +10,11 @@
           <th scope="col" class="px-6 py-3 w-24">Status</th>
           <th scope="col" class="px-6 py-3 w-56">Título</th>
           <th scope="col" class="px-6 py-3 w-32">Categoria</th>
-          <th scope="col" class="px-6 py-3 w-32">Criado</th>
-          <th scope="col" class="px-6 py-3 w-32">Modificado</th>
+          <th scope="col" class="px-6 py-3 w-32 min-w-[120px]">Criado</th>
+          <th scope="col" class="px-6 py-3 w-32 min-w-[120px]">Modificado</th>
         </tr>
       </thead>
-      <tbody class="w-max">
+      <tbody>
         <?php foreach ($artigos as $chave => $linha) : ?>
           <tr class="bg-white border-b hover:bg-slate-50">
             <td class="whitespace-nowrap p-6 w-10">
@@ -28,16 +28,16 @@
                 <td class="whitespace-nowrap p-6 uppercase text-xs w-24"><?php echo $subLinha == 1 ? 'Ativo' : 'Inativo' ?></td>
               <?php } ?>
               <?php if ($subChave == 'Artigo.titulo') { ?>
-                <td class="whitespace-nowrap p-6 w-56"><?php echo $subLinha ?></td>
+                <td class="whitespace-normal p-6 w-56"><?php echo $subLinha ?></td>
               <?php } ?>
               <?php if ($subChave == 'Categoria.nome') { ?>
-                <td class="whitespace-nowrap p-6 w-32"><?php echo $subLinha ?></td>
+                <td class="whitespace-normal p-6 w-32"><?php echo $subLinha ?></td>
               <?php } ?>
               <?php if ($subChave == 'Artigo.criado') { ?>
-                <td class="whitespace-nowrap p-6 w-32"><?php echo $subLinha ?></td>
+                <td class="whitespace-normal p-6 w-32 min-w-[120px]"><?php echo $subLinha ?></td>
               <?php } ?>
               <?php if ($subChave == 'Artigo.modificado') { ?>
-                <td class="whitespace-nowrap p-6 w-32"><?php echo $subLinha ?></td>
+                <td class="whitespace-normal p-6 w-32 min-w-[120px]"><?php echo $subLinha ?></td>
               <?php } ?>
             <?php endforeach; ?>
           </tr>
