@@ -19,6 +19,18 @@ class ArtigoController extends Controller
 
   public function artigosVer()
   {
+    $limite = 10;
+    $pagina = intval($_GET['pag'] ?? 0);
+
+    // Recupera quantidade de páginas
+    $artigosTotal = $this->artigoModel->contar('Artigo.id');
+    $artigosTotal = $artigosTotal['total'] ?? 0;
+    $paginasTotal = ceil($artigosTotal / $limite);
+
+    $pagina = abs($pagina);
+    $pagina = max($pagina, 1);
+    $pagina = min($pagina, $paginasTotal);
+
     $colunas = [
       'Artigo.id',
       'Artigo.ativo',
@@ -35,10 +47,18 @@ class ArtigoController extends Controller
       'Categoria',
     ];
 
-    $resultado = $this->artigoModel->uniao2($uniao)->buscar($colunas);
+    $resultado = $this->artigoModel->uniao2($uniao)
+                                   ->pagina($limite, $pagina)
+                                   ->buscar($colunas);
+
+    $artigosTotal = $this->artigoModel->contar('Artigo.id');
+    $artigosTotal = $artigosTotal['total'] ?? 0;
+    $paginasTotal = ceil($artigosTotal / $limite);
 
     $this->visao->variavel('titulo', 'Artigos');
     $this->visao->variavel('artigos', $resultado);
+    $this->visao->variavel('pagina', $pagina);
+    $this->visao->variavel('paginasTotal', $paginasTotal);
     $this->visao->renderizar('/index');
   }
 

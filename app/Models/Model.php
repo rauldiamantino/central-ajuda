@@ -7,6 +7,8 @@ class Model
   protected $tabela = '';
   protected $colunas = '';
   protected $database = '';
+  protected $paginacao = '';
+  protected $contarColunas = '';
   protected $unioes = [];
   protected $condicoes = [];
   protected $parametros = [];
@@ -144,6 +146,10 @@ class Model
       $sql .= ' WHERE ' . implode(' ', $this->condicoes);
     }
 
+    if ($this->paginacao) {
+      $sql .= $this->paginacao;
+    }
+
     $resultado = $this->database->operacoes($sql, $this->parametros);
 
     if (empty($resultado)) {
@@ -158,6 +164,49 @@ class Model
     $this->limparPropriedades();
 
     return $resultado;
+  }
+
+  private function executarContar(array $params = []): array
+  {
+    // Prepara
+    $tabela = $this->camel2Snake($this->tabela);
+    $tabela = $this->pluralizar($tabela);
+    $tabela = $this->gerarBackticks($tabela);
+    $tabelaAlias = $this->gerarBackticks($this->tabela);
+
+    $sql = 'SELECT COUNT(' . $this->contarColunas . ') AS `total` FROM ' . $tabela . ' AS ' . $tabelaAlias;
+
+    // Por enquanto não aceita SELECT *
+    if ($this->unioes and $this->colunas != '*') {
+      $sql .= ' ' . implode(' ', $this->unioes);
+    }
+
+    if (isset($this->condicoes['erro'])) {
+      return [];
+    }
+
+    if ($this->condicoes) {
+      $sql .= ' WHERE ' . implode(' ', $this->condicoes);
+    }
+
+    if ($this->paginacao) {
+      $sql .= $this->paginacao;
+    }
+
+    $resultado = $this->database->operacoes($sql, $this->parametros);
+
+    if (empty($resultado) or ! is_array($resultado)) {
+      $resultado = [
+        'erro' => [
+          'codigo' => 404,
+          'mensagem' => 'Recurso não encontrado',
+        ],
+      ];
+    }
+
+    $this->limparPropriedades();
+
+    return reset($resultado);
   }
 
   // Queries manuais
@@ -204,6 +253,31 @@ class Model
 
       $this->unioes[] = $uniao . ' JOIN ' . $tabelaUniao . ' AS ' . $tabUniaoAlias . ' ON ' . $tabelaAlias . ' = ' . $tabelaColUniao;
     endforeach;
+
+    return $this;
+  }
+
+  public function contar(string $colunaContar): array
+  {
+    $temp = explode('.', $colunaContar);
+    $tabela = $temp[0] ?? '';
+    $coluna = $temp[1] ?? '';
+
+    if (empty($coluna)) {
+      return [];
+    }
+
+    // Prepara
+    $this->contarColunas = $this->gerarBackticks($tabela, $coluna);
+
+    return $this->executarContar();
+  }
+
+  public function pagina(int $limite = 10, int $pagina = 1): self
+  {
+    $pagina = $pagina - 1;
+    $offset = $pagina * $limite;
+    $this->paginacao = ' LIMIT ' . $limite . ' OFFSET ' . $offset;
 
     return $this;
   }
@@ -360,5 +434,7 @@ class Model
     $this->condicoes = [];
     $this->parametros = [];
     $this->colunasValores = [];
+    $this->contarColunas = '';
+    $this->paginacao = '';
   }
 }

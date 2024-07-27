@@ -19,10 +19,10 @@
   <?php require_once 'template/topo.php' ?>
 
   <div class="flex w-full h-screen">
-    <asside>
+    <asside class="mt-16">
       <?php require_once 'template/menu_lateral.php' ?>
     </asside>
-    <div class="ml-64 w-full h-full bg-slate-50 p-4 flex gap-4 flex-col">
+    <div class="mt-16 ml-64 w-full h-full bg-slate-50 p-4 flex gap-4 flex-col">
       <main>
         <?php require_once $visao ?>
       </main>
