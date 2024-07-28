@@ -1,7 +1,7 @@
 let artigoId = null
 const btnsArtigoEditar = document.querySelectorAll('.js-dashboard-artigos-editar')
-const btnsArtigoApagar = document.querySelectorAll('.js-dashboard-artigos-apagar')
-const modalApagar = document.querySelector('.modal-artigo-apagar')
+const btnsArtigoRemover = document.querySelectorAll('.js-dashboard-artigos-remover')
+const modalRemover = document.querySelector('.modal-artigo-remover')
 const btnModalRemover = document.querySelector('.modal-artigo-btn-remover')
 const btnModalCancelar = document.querySelector('.modal-artigo-btn-cancelar')
 
@@ -11,31 +11,31 @@ btnsArtigoEditar.forEach(artigo => {
   })
 })
 
-btnsArtigoApagar.forEach(artigo => {
+btnsArtigoRemover.forEach(artigo => {
   artigo.addEventListener('click', () => {
     artigoId = artigo.dataset.artigoId
-    abrirModalApagar()
+    abrirModalRemover()
   })
 })
 
 btnModalRemover.addEventListener('click', () => {
-  reqApagar(artigoId)
-  fecharModalApagar()
+  requisicaoRemover(artigoId)
+  fecharModalRemover()
 })
 
 btnModalCancelar.addEventListener('click', () => {
-  fecharModalApagar()
+  fecharModalRemover()
 })
 
-const abrirModalApagar = () => {
-  modalApagar.showModal()
+const abrirModalRemover = () => {
+  modalRemover.showModal()
 }
 
-const fecharModalApagar = () => {
-  modalApagar.close()
+const fecharModalRemover = () => {
+  modalRemover.close()
 }
 
-const reqApagar = (artigoId) => {
+const requisicaoRemover = (artigoId) => {
 
   if (! artigoId) {
     return
