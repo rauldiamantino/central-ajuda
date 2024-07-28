@@ -5,10 +5,7 @@
   </div>
     <thead class="p-6 text-xs font-light text-gray-500 uppercase bg-slate-100">
       <tr class="border-b">
-        <th class="px-6 w-10">
-          <input type="checkbox" name="artigo" id="artigoTodos" class="w-10">
-        </th>
-        <th class="p-6 w-16">ID</th>
+        <th class="p-6 w-22">ID</th>
         <th class="p-6 min-w-64 max-w-64">Título</th>
         <th class="p-6 min-w-56 max-w-56">Categoria</th>
         <th class="p-6 w-36 min-w-[120px]">Criado</th>
@@ -20,12 +17,9 @@
     <tbody class="divide-y">
       <?php foreach ($artigos as $chave => $linha) : ?>
         <tr class="hover:bg-slate-100">
-          <td class="whitespace-nowrap p-6 w-10">
-            <input type="checkbox" name="artigo" id="artigoUnico" class="w-10">
-          </td>
           <?php foreach ($linha as $subChave => $subLinha) : ?>
             <?php if ($subChave == 'Artigo.id') { ?>
-              <td class="whitespace-nowrap p-6 w-16"><?php echo $subLinha ?></td>
+              <td class="whitespace-nowrap p-6 w-22"><?php echo $subLinha ?></td>
             <?php } ?>
             <?php if ($subChave == 'Artigo.titulo') { ?>
               <td class="whitespace-nowrap p-6 min-w-64 max-w-64 font-semibold text-gray-700"><?php echo $subLinha ?></td>
