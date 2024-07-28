@@ -1,6 +1,6 @@
-<header class="fixed top-0 z-10 left-0 right-0">
+<header class="px-4 fixed top-0 w-screen bg-white z-20">
   <nav class="bg-white">
-    <div class="border-b border-slate-200 px-4 py-3 flex items-center justify-between">
+    <div class="border-b border-slate-200 px-4 py-2 flex items-center justify-between">
 
       <img src="/img/luminaOn.png" alt="luminaOn" class="w-40">
 

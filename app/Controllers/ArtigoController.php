@@ -19,8 +19,8 @@ class ArtigoController extends Controller
 
   public function artigosVer()
   {
-    $limite = 10;
-    $pagina = intval($_GET['pag'] ?? 0);
+    $limite = 20;
+    $pagina = intval($_GET['pagina'] ?? 0);
 
     // Recupera quantidade de páginas
     $artigosTotal = $this->artigoModel->contar('Artigo.id');
@@ -33,7 +33,6 @@ class ArtigoController extends Controller
 
     $colunas = [
       'Artigo.id',
-      'Artigo.ativo',
       'Artigo.titulo',
       'Artigo.usuario_id',
       'Artigo.categoria_id',
@@ -41,6 +40,7 @@ class ArtigoController extends Controller
       'Categoria.nome',
       'Artigo.criado',
       'Artigo.modificado',
+      'Artigo.ativo',
     ];
 
     $uniao = [
@@ -51,14 +51,18 @@ class ArtigoController extends Controller
                                    ->pagina($limite, $pagina)
                                    ->buscar($colunas);
 
-    $artigosTotal = $this->artigoModel->contar('Artigo.id');
-    $artigosTotal = $artigosTotal['total'] ?? 0;
-    $paginasTotal = ceil($artigosTotal / $limite);
+    // Calcular início e fim do intervalo
+    $intervaloInicio = ($pagina - 1) * $limite + 1;
+    $intervaloFim = min($pagina * $limite, $artigosTotal);
 
     $this->visao->variavel('titulo', 'Artigos');
     $this->visao->variavel('artigos', $resultado);
     $this->visao->variavel('pagina', $pagina);
+    $this->visao->variavel('artigosTotal', $artigosTotal);
+    $this->visao->variavel('limite', $limite);
     $this->visao->variavel('paginasTotal', $paginasTotal);
+    $this->visao->variavel('intervaloInicio', $intervaloInicio);
+    $this->visao->variavel('intervaloFim', $intervaloFim);
     $this->visao->renderizar('/index');
   }
 
@@ -187,6 +191,8 @@ class ArtigoController extends Controller
       return $resultado;
     }
     elseif (isset($resultado['erro'])) {
+      $_SESSION['erro'] = $resultado['erro'];
+
       $codigo = $resultado['erro']['codigo'] ?? 500;
       $this->responderJson($resultado, $codigo);
     }
@@ -194,6 +200,8 @@ class ArtigoController extends Controller
     if ($rollback) {
       return $resultado;
     }
+
+    $_SESSION['ok'] = 'Artigo excluído com sucesso';
 
     $this->responderJson($resultado);
   }
