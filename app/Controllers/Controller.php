@@ -22,8 +22,12 @@ class Controller
 
   protected function receberJson(): array
   {
-    $json = file_get_contents("php://input");
-    $dados = json_decode(trim($json), true);
+    $dados = $_POST;
+    
+    if (empty($dados)) {
+      $json = file_get_contents("php://input");
+      $dados = json_decode(trim($json), true);
+    }
 
     if (json_last_error() != JSON_ERROR_NONE) {
       $this->responderJson(['erro' => 'Requisição Inválida'], 400);

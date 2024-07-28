@@ -18,7 +18,7 @@ class Roteador
       'GET:/teste' => [TesteController::class, 'testar'],
       'GET:/dashboard' => [DashboardController::class, 'dashboardVer'],
       'GET:/dashboard/artigos' => [ArtigoController::class, 'artigosVer'],
-      'GET:/dashboard/artigo/editar' => [ArtigoController::class, 'artigoEditarVer'],
+      'GET:/dashboard/artigo/editar/{id}' => [ArtigoController::class, 'artigoEditarVer'],
       'GET:/dashboard/artigo/adicionar' => [ArtigoController::class, 'artigoAdicionarVer'],
 
       'GET:/artigos' => [ArtigoController::class, 'buscar'],
@@ -54,6 +54,13 @@ class Roteador
   {
     $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     $metodo = $_SERVER['REQUEST_METHOD'];
+
+    $metodoOculto = $_POST['_method'] ?? null;
+    
+    if ($metodoOculto and in_array(strtoupper($metodoOculto), ['PUT', 'DELETE'])) {
+      $metodo = strtoupper($metodoOculto);
+    }
+
     $chaveRota = $metodo . ':' . $url;
 
     $id = (int) basename($url);
