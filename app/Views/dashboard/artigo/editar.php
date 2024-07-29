@@ -24,12 +24,12 @@
         </div>
         <div class="w-full">
           <label for="artigo-editar-titulo" class="block text-sm font-medium text-gray-700">Título</label>
-          <input type="text" id="artigo-editar-titulo" name="artigo-editar-titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="<?php echo $artigo['Artigo.titulo']; ?>" required>
+          <input type="text" id="artigo-editar-titulo" name="titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="<?php echo $artigo['Artigo.titulo']; ?>" required>
         </div>
       </div>
       <div class="mb-4">
         <label for="artigo-editar-categoria" class="block text-sm font-medium text-gray-700">Categoria</label>
-        <select id="artigo-editar-categoria" name="artigo-editar-categoria" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" required>
+        <select id="artigo-editar-categoria" name="categoria_id" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" required>
           <?php foreach ($categorias as $chave => $linha) : ?>
             <option value="<?php echo $linha['Categoria.id']; ?>" <?php echo $linha['Categoria.id'] == $artigo['Artigo.categoria_id'] ? 'selected' : ''; ?>>
               <?php echo $linha['Categoria.nome']; ?>

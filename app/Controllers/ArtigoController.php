@@ -41,17 +41,19 @@ class ArtigoController extends Controller
       'Artigo.categoria_id',
       'Artigo.visualizacoes',
       'Categoria.nome',
+      'Usuario.nome',
       'Artigo.criado',
-      'Artigo.modificado',
       'Artigo.ativo',
     ];
 
     $uniao = [
       'Categoria',
+      'Usuario',
     ];
 
     $resultado = $this->artigoModel->uniao2($uniao)
                                    ->pagina($limite, $pagina)
+                                   ->ordem(['Artigo.id' => 'ASC'])
                                    ->buscar($colunas);
 
     // Calcular início e fim do intervalo

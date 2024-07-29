@@ -6,6 +6,7 @@ use app\Controllers\EmpresaController;
 use app\Controllers\EmpresaCadastroController;
 use app\Controllers\DashboardController;
 use app\Controllers\ArtigoController;
+use app\Controllers\ConteudoController;
 use app\Controllers\CategoriaController;
 
 class Roteador
@@ -26,6 +27,12 @@ class Roteador
       'POST:/artigo' => [ArtigoController::class, 'adicionar'],
       'PUT:/artigo/{id}' => [ArtigoController::class, 'atualizar'],
       'DELETE:/artigo/{id}' => [ArtigoController::class, 'apagar'],
+
+      'GET:/conteudos' => [ConteudoController::class, 'buscar'],
+      'GET:/conteudo/{id}' => [ConteudoController::class, 'buscar'],
+      'POST:/conteudo' => [ConteudoController::class, 'adicionar'],
+      'PUT:/conteudo/{id}' => [ConteudoController::class, 'atualizar'],
+      'DELETE:/conteudo/{id}' => [ConteudoController::class, 'apagar'],
 
       'GET:/categorias' => [CategoriaController::class, 'buscar'],
       'GET:/categoria/{id}' => [CategoriaController::class, 'buscar'],

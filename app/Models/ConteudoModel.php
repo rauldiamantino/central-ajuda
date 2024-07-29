@@ -1,0 +1,210 @@
+<?php
+namespace app\Models;
+use app\Models\Model;
+
+class ConteudoModel extends Model
+{
+  public function __construct()
+  {
+    parent::__construct('Conteudo');
+  }
+
+  // --- CRUD ---
+  public function adicionar(array $params = []): array
+  {
+    $campos = $this->validarCampos($params);
+
+    if (isset($campos['erro'])) {
+      return $campos;
+    }
+
+    return parent::adicionar($campos, true);
+  }
+
+  public function buscar(array $params = []): array
+  {
+    return parent::buscar($params);
+  }
+
+  public function atualizar(array $params, int $id): array
+  {
+    if (! is_int($id) or empty($id)) {
+      $msgErro = [
+        'erro' => [
+          'codigo' => 400,
+          'mensagem' => 'ID não informado',
+        ],
+      ];
+
+      return $msgErro;
+    }
+
+    $atualizar = true;
+    $campos = $this->validarCampos($params, $atualizar);
+
+    if (isset($campos['erro'])) {
+      return $campos;
+    }
+
+    return parent::atualizar($campos, $id);
+  }
+
+  public function apagar(int $id): array
+  {
+    if (! is_int($id) or empty($id)) {
+      $msgErro = [
+        'erro' => [
+          'codigo' => 400,
+          'mensagem' => 'ID não informado',
+        ],
+      ];
+
+      return $msgErro;
+    }
+
+    return parent::apagar($id);
+  }
+
+  // --- Métodos auxiliares
+  private function validarCampos(array $params, bool $atualizar = false): array
+  {
+    $campos = [
+      'ativo' => $params['ativo'] ?? 0,
+      'artigo_id' => $params['artigo_id'] ?? 0,
+      'tipo' => $params['tipo'] ?? 0,
+      'conteudo' => $params['conteudo'] ?? '',
+      'url' => $params['url'] ?? '',
+      'ordem' => $params['ordem'] ?? 0,
+    ];
+
+    $msgErro = [
+      'erro' => [
+        'codigo' => 400,
+        'mensagem' => [],
+      ],
+    ];
+
+    // Campos vazios
+    foreach ($campos as $chave => $linha):
+      $permitidos = [
+        'ativo',
+        'conteudo',
+        'url',
+      ];
+
+      if ($atualizar and ! isset($params[ $chave ])) {
+        continue;
+      }
+
+      if (! in_array($chave, $permitidos) and empty($linha)) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro($chave, 'vazio');
+      }
+    endforeach;
+
+    // Previne injection via array
+    foreach ($campos as $chave => $linha):
+
+      if (is_array($linha)) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro($chave, 'invalido');
+      }
+    endforeach;
+
+    if (empty($msgErro['erro']['mensagem'])) {
+      $campos['ativo'] = filter_var($campos['ativo'], FILTER_SANITIZE_NUMBER_INT);
+      $campos['artigo_id'] = filter_var($campos['artigo_id'], FILTER_SANITIZE_NUMBER_INT);
+      $campos['tipo'] = filter_var($campos['tipo'], FILTER_SANITIZE_NUMBER_INT);
+      $campos['conteudo'] = htmlspecialchars($campos['conteudo']);
+      $campos['tipo'] = filter_var($campos['tipo'], FILTER_SANITIZE_NUMBER_INT);
+      $campos['url'] = filter_var($campos['url'], FILTER_SANITIZE_URL);
+
+      if (isset($params['ativo']) and ! in_array($campos['ativo'], [0, 1])) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('ativo', 'valInvalido');
+      }
+
+      // 1 - Texto, 2 - Imagem, 3 - Video
+      if (isset($params['tipo']) and ! in_array($campos['tipo'], [0, 1, 2])) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('tipo', 'valInvalido');
+      }
+
+      if (isset($params['url']) and filter_var($campos['url'], FILTER_VALIDATE_URL) == false) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('url', 'valInvalido');
+      }
+
+      $ativoCaracteres = 1;
+      $tipoCaracteres = 1;
+      $ordemCaracteres = 1;
+      $urlCaracteres = 255;
+      $artigoIdCaracteres = 999999999;
+
+      if (strlen($campos['ativo']) > $ativoCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('id', 'caracteres', $ativoCaracteres);
+      }
+
+      if (strlen($campos['tipo']) > $tipoCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('tipo', 'caracteres', $tipoCaracteres);
+      }
+
+      if (strlen($campos['artigo_id']) > $artigoIdCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('artigo_id', 'caracteres', $artigoIdCaracteres);
+      }
+
+      if (strlen($campos['ordem']) > $ordemCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('ordem', 'caracteres', $ordemCaracteres);
+      }
+
+      if (strlen($campos['url']) > $urlCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('url', 'caracteres', $urlCaracteres);
+      }
+    }
+
+    if ($msgErro['erro']['mensagem']) {
+      return $msgErro;
+    }
+
+    $camposValidados = [
+      'ativo' => $campos['ativo'],
+      'artigo_id' => $campos['artigo_id'],
+      'tipo' => $campos['tipo'],
+      'conteudo' => $campos['conteudo'],
+      'url' => $campos['url'],
+      'ordem' => $campos['ordem'],
+    ];
+
+    if ($atualizar) {
+      foreach ($camposValidados as $chave => $linha):
+
+        if (! isset($params[ $chave ])) {
+          unset($camposValidados[ $chave ]);
+        }
+      endforeach;
+    }
+
+    if (empty($camposValidados)) {
+      $msgErro['erro']['mensagem'][] = 'Nenhum campo informado';
+
+      return $msgErro;
+    }
+
+    return $camposValidados;
+  }
+
+  private function gerarMsgErro(string $campo, string $tipo, int $quantidade = 0): string
+  {
+    if ($campo == 'artigo_id') {
+      $campo = 'ID do artigo';
+    }
+
+    $msgErro = [
+      'vazio' => 'O campo ' . $campo . ' não pode ser vazio',
+      'invalido' => 'Campo ' . $campo . ' com formato inválido',
+      'valInvalido' => 'Campo ' . $campo . ' com valor inválido',
+      'caracteres' => 'Campo ' . $campo . ' excedeu o limite de ' . $quantidade . ' caracteres',
+    ];
+
+    if (isset($msgErro[ $tipo ])) {
+      return $msgErro[ $tipo ];
+    }
+
+    return 'Campo inválido';
+  }
+}

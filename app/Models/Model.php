@@ -4,6 +4,7 @@ use app\Models\Database;
 
 class Model
 {
+  protected $ordem = '';
   protected $tabela = '';
   protected $colunas = '';
   protected $database = '';
@@ -123,6 +124,24 @@ class Model
   }
 
   // --- Métodos auxiliares ---
+  public function ordem(array $params = []): self
+  {
+    if ($params) {
+      $paramsTabColuna = array_keys($params);
+      $tempTabColuna = explode('.', $paramsTabColuna[0]);
+      $tabela = $tempTabColuna[0];
+      $coluna = $tempTabColuna[1] ?? '';
+
+      if ($coluna) {
+        $tabelaColuna = $this->gerarBackticks($tabela, $coluna);
+
+        $this->ordem = ' ORDER BY ' . $tabelaColuna . ' ' . $params[ $paramsTabColuna[0] ];
+      }
+    }
+
+    return $this;
+  }
+
   private function executarBusca(array $params = []): array
   {
     // Prepara
@@ -144,6 +163,10 @@ class Model
 
     if ($this->condicoes) {
       $sql .= ' WHERE ' . implode(' ', $this->condicoes);
+    }
+
+    if ($this->ordem) {
+      $sql .= $this->ordem;
     }
 
     if ($this->paginacao) {

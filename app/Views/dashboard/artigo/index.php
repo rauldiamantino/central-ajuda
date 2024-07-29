@@ -8,8 +8,8 @@
         <th class="p-6 w-22">ID</th>
         <th class="p-6 min-w-64 max-w-64">Título</th>
         <th class="p-6 min-w-56 max-w-56">Categoria</th>
+        <th class="p-6 w-36 min-w-[120px]">Autor</th>
         <th class="p-6 w-36 min-w-[120px]">Criado</th>
-        <th class="p-6 w-36 min-w-[120px]">Modificado</th>
         <th class="p-6 w-20">Status</th>
         <th class="p-6 w-32 min-w-max">Ações</th>
       </tr>
@@ -27,11 +27,11 @@
             <?php if ($subChave == 'Categoria.nome') { ?>
               <td class="whitespace-nowrap p-6 min-w-56 max-w-56"><?php echo $subLinha ?></td>
             <?php } ?>
-            <?php if ($subChave == 'Artigo.criado') { ?>
+            <?php if ($subChave == 'Usuario.nome') { ?>
               <td class="whitespace-nowrap p-6 w-36 min-w-[120px]"><?php echo $subLinha ?></td>
             <?php } ?>
-            <?php if ($subChave == 'Artigo.modificado') { ?>
-              <td class="whitespace-nowrap p-6 w-36 min-w-[120px]"><?php echo $subLinha ?></td>
+            <?php if ($subChave == 'Artigo.criado') { ?>
+              <td class="whitespace-nowrap p-6 w-36 min-w-[120px] truncate"><?php echo $subLinha ?></td>
             <?php } ?>
             <?php if ($subChave == 'Artigo.ativo') { ?>
               <td class="whitespace-nowrap p-6 w-20">
