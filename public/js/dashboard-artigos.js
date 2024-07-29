@@ -5,27 +5,35 @@ const modalRemover = document.querySelector('.modal-artigo-remover')
 const btnModalRemover = document.querySelector('.modal-artigo-btn-remover')
 const btnModalCancelar = document.querySelector('.modal-artigo-btn-cancelar')
 
-btnsArtigoEditar.forEach(artigo => {
-  artigo.addEventListener('click', () => {
-    console.log(artigo)
+if (btnsArtigoEditar) {
+  btnsArtigoEditar.forEach(artigo => {
+    artigo.addEventListener('click', () => {
+      console.log(artigo)
+    })
   })
-})
+}
 
-btnsArtigoRemover.forEach(artigo => {
+if (btnsArtigoRemover) {
+  btnsArtigoRemover.forEach(artigo => {
   artigo.addEventListener('click', () => {
     artigoId = artigo.dataset.artigoId
     abrirModalRemover()
   })
 })
+}
 
-btnModalRemover.addEventListener('click', () => {
+if (btnModalRemover) {
+  btnModalRemover.addEventListener('click', () => {
   requisicaoRemover(artigoId)
   fecharModalRemover()
 })
+}
 
-btnModalCancelar.addEventListener('click', () => {
+if (btnModalCancelar) {
+  btnModalCancelar.addEventListener('click', () => {
   fecharModalRemover()
 })
+}
 
 const abrirModalRemover = () => {
   modalRemover.showModal()
@@ -63,15 +71,19 @@ const requisicaoRemover = (artigoId) => {
 
 const inputNumeroPagina = document.querySelector('.artigo-numero-pagina')
 
-inputNumeroPagina.addEventListener('input', () => {
+if (inputNumeroPagina) {
+  inputNumeroPagina.addEventListener('input', () => {
 
-  if (this.value < 0) {
-    this.value = '';
-  }
-});
+    if (this.value < 0) {
+      this.value = '';
+    }
+  });
+}
 
-inputNumeroPagina.addEventListener('keypress', function(event) {
-  if (event.key === '-' || event.key === 'e') {
-    event.preventDefault();
-  }
-});
+if (inputNumeroPagina) {
+  inputNumeroPagina.addEventListener('keypress', function(event) {
+    if (event.key === '-' || event.key === 'e') {
+      event.preventDefault();
+    }
+  });
+}
