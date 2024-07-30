@@ -122,17 +122,17 @@ class ConteudoModel extends Model
       }
 
       // 1 - Texto, 2 - Imagem, 3 - Video
-      if (isset($params['tipo']) and ! in_array($campos['tipo'], [0, 1, 2])) {
+      if (isset($params['tipo']) and ! in_array($campos['tipo'], [1, 2, 3])) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('tipo', 'valInvalido');
       }
 
-      if (isset($params['url']) and filter_var($campos['url'], FILTER_VALIDATE_URL) == false) {
+      if (in_array($campos['tipo'], [2 , 3]) and isset($params['url']) and filter_var($campos['url'], FILTER_VALIDATE_URL) == false) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('url', 'valInvalido');
       }
 
       $ativoCaracteres = 1;
       $tipoCaracteres = 1;
-      $ordemCaracteres = 1;
+      $ordemCaracteres = 50;
       $urlCaracteres = 255;
       $artigoIdCaracteres = 999999999;
 

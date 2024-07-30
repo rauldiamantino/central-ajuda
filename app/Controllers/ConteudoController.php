@@ -32,9 +32,13 @@ class ConteudoController extends Controller
 
     if (isset($resultado['erro'])) {
       $codigo = $resultado['erro']['codigo'] ?? 500;
+      $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
+
       $this->responderJson($resultado, $codigo);
     }
 
+    $_SESSION['ok'] = 'Registro alterado com sucesso';
+    
     $condicao = [
       'Conteudo.id' => $resultado['id'],
     ];
@@ -51,14 +55,14 @@ class ConteudoController extends Controller
       'Conteudo.modificado',
     ];
 
-    $empresa = $this->conteudoModel->condicao($condicao)
-                                   ->buscar($colunas);
+    $conteudo = $this->conteudoModel->condicao($condicao)
+                                    ->buscar($colunas);
 
     if ($params) {
-      return reset($empresa);
+      return reset($conteudo);
     }
 
-    $this->responderJson(reset($empresa));
+    $this->responderJson(reset($conteudo));
   }
 
   public function buscar(int $id = 0)
@@ -84,7 +88,7 @@ class ConteudoController extends Controller
     ];
 
     $resultado = $this->conteudoModel->condicao($condicao)
-                                    ->buscar($colunas);
+                                     ->buscar($colunas);
 
     if (isset($resultado['erro'])) {
       $codigo = $resultado['erro']['codigo'] ?? 500;
