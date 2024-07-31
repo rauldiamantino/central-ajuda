@@ -72,6 +72,7 @@ class ConteudoModel extends Model
       'ativo' => $params['ativo'] ?? 0,
       'artigo_id' => $params['artigo_id'] ?? 0,
       'tipo' => $params['tipo'] ?? 0,
+      'titulo' => $params['titulo'] ?? '',
       'conteudo' => $params['conteudo'] ?? '',
       'url' => $params['url'] ?? '',
       'ordem' => $params['ordem'] ?? 0,
@@ -114,6 +115,7 @@ class ConteudoModel extends Model
       $campos['artigo_id'] = filter_var($campos['artigo_id'], FILTER_SANITIZE_NUMBER_INT);
       $campos['tipo'] = filter_var($campos['tipo'], FILTER_SANITIZE_NUMBER_INT);
       $campos['conteudo'] = htmlspecialchars($campos['conteudo']);
+      $campos['titulo'] = htmlspecialchars($campos['titulo']);
       $campos['tipo'] = filter_var($campos['tipo'], FILTER_SANITIZE_NUMBER_INT);
       $campos['url'] = filter_var($campos['url'], FILTER_SANITIZE_URL);
 
@@ -134,6 +136,7 @@ class ConteudoModel extends Model
       $tipoCaracteres = 1;
       $ordemCaracteres = 50;
       $urlCaracteres = 255;
+      $tituloCaracteres = 255;
       $artigoIdCaracteres = 999999999;
 
       if (strlen($campos['ativo']) > $ativoCaracteres) {
@@ -146,6 +149,10 @@ class ConteudoModel extends Model
 
       if (strlen($campos['artigo_id']) > $artigoIdCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('artigo_id', 'caracteres', $artigoIdCaracteres);
+      }
+
+      if (strlen($campos['titulo']) > $tituloCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('titulo', 'caracteres', $tituloCaracteres);
       }
 
       if (strlen($campos['ordem']) > $ordemCaracteres) {
@@ -165,6 +172,7 @@ class ConteudoModel extends Model
       'ativo' => $campos['ativo'],
       'artigo_id' => $campos['artigo_id'],
       'tipo' => $campos['tipo'],
+      'titulo' => $campos['titulo'],
       'conteudo' => $campos['conteudo'],
       'url' => $campos['url'],
       'ordem' => $campos['ordem'],
@@ -192,6 +200,10 @@ class ConteudoModel extends Model
   {
     if ($campo == 'artigo_id') {
       $campo = 'ID do artigo';
+    }
+
+    if ($campo == 'titulo') {
+      $campo = 'título';
     }
 
     $msgErro = [

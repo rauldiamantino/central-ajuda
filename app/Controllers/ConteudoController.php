@@ -37,7 +37,7 @@ class ConteudoController extends Controller
       $this->responderJson($resultado, $codigo);
     }
 
-    $_SESSION['ok'] = 'Registro alterado com sucesso';
+    $_SESSION['ok'] = 'Conteúdo adicionado com sucesso';
     
     $condicao = [
       'Conteudo.id' => $resultado['id'],
@@ -48,6 +48,7 @@ class ConteudoController extends Controller
       'Conteudo.ativo',
       'Conteudo.artigo_id',
       'Conteudo.tipo',
+      'Conteudo.titulo',
       'Conteudo.conteudo',
       'Conteudo.url',
       'Conteudo.ordem',
@@ -80,6 +81,7 @@ class ConteudoController extends Controller
       'Conteudo.ativo',
       'Conteudo.artigo_id',
       'Conteudo.tipo',
+      'Conteudo.titulo',
       'Conteudo.conteudo',
       'Conteudo.url',
       'Conteudo.ordem',
@@ -146,7 +148,7 @@ class ConteudoController extends Controller
       return $resultado;
     }
 
-    $_SESSION['ok'] = 'Artigo excluído com sucesso';
+    $_SESSION['ok'] = 'Conteûdo excluído com sucesso';
 
     $this->responderJson($resultado);
   }

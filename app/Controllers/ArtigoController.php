@@ -1,6 +1,7 @@
 <?php
 namespace app\Controllers;
 use app\Models\ArtigoModel;
+use app\Models\ConteudoModel;
 use app\Models\CategoriaModel;
 use app\Controllers\ViewRenderer;
 
@@ -8,6 +9,7 @@ class ArtigoController extends Controller
 {
   protected $middleware;
   protected $artigoModel;
+  protected $conteudoModel;
   protected $categoriaModel;
   protected $visao;
 
@@ -15,6 +17,7 @@ class ArtigoController extends Controller
   {
     $this->visao = new ViewRenderer('/dashboard/artigo');
     $this->artigoModel = new ArtigoModel();
+    $this->conteudoModel = new ConteudoModel();
     $this->categoriaModel = new CategoriaModel();
 
     parent::__construct($this->artigoModel);
@@ -124,7 +127,31 @@ class ArtigoController extends Controller
       $categorias = [];
     }
 
+    $condConteudo = [
+      'Conteudo.artigo_id' => $id,
+    ];
+    
+    $colConteudo = [
+      'Conteudo.id',
+      'Conteudo.ativo',
+      'Conteudo.tipo',
+      'Conteudo.titulo',
+      'Conteudo.conteudo',
+      'Conteudo.url',
+      'Conteudo.ordem',
+      'Conteudo.criado',
+      'Conteudo.modificado',
+    ];
+
+    $conteudos = $this->conteudoModel->condicao($condConteudo)
+                                     ->buscar($colConteudo);
+
+    if (! isset($conteudos[0]['Conteudo.id'])) {
+      $conteudos = [];
+    }
+
     $this->visao->variavel('artigo', reset($artigo));
+    $this->visao->variavel('conteudos', $conteudos);
     $this->visao->variavel('categorias', $categorias);
     $this->visao->variavel('titulo', 'Editar artigo');
     $this->visao->renderizar('/editar');
@@ -177,7 +204,7 @@ class ArtigoController extends Controller
     ];
 
     $empresa = $this->artigoModel->condicao($condicao)
-                                  ->buscar($colunas);
+                                 ->buscar($colunas);
 
     if ($params) {
       return reset($empresa);

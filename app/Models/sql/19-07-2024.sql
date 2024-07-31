@@ -48,6 +48,7 @@ CREATE TABLE `conteudos` (
   `ativo` int DEFAULT '0',
   `artigo_id` int NOT NULL,
   `tipo` int NOT NULL,
+  `titulo` varchar(255) DEFAULT NULL,
   `conteudo` text,
   `url` varchar(255) DEFAULT NULL,
   `ordem` int NOT NULL,

@@ -83,18 +83,27 @@ const fetchFormConteudo = (formConteudo) => {
   const formImagem = document.querySelector('.conteudo-imagem-adicionar > input[name=url').files[0]
   const formVideo = document.querySelector('.conteudo-video-adicionar > input[name=url').value
   const formOrdem = document.querySelector('.form-conteudo > input[name=ordem').value
-
-  if (formTexto) {
+  const formTextoTitulo = document.querySelector('#conteudo-texto-titulo').value
+  const formImagemTitulo = document.querySelector('#conteudo-imagem-titulo').value
+  const formVideoTitulo = document.querySelector('#conteudo-video-titulo').value
+  
+  if (formTexto && formTextoTitulo) {
     formConteudoData.append('conteudo', formTexto)
+    formConteudoData.append('titulo', formTextoTitulo)
     formConteudoData.append('tipo', 1)
   }
-  else if (formImagem) {
+  else if (formImagem && formImagemTitulo) {
     formConteudoData.append('url', formImagem)
+    formConteudoData.append('titulo', formImagemTitulo)
     formConteudoData.append('tipo', 2)
   }
-  else if (formVideo) {
+  else if (formVideo && formVideoTitulo) {
     formConteudoData.append('url', formVideo)
+    formConteudoData.append('titulo', formVideoTitulo)
     formConteudoData.append('tipo', 3)
+  }
+  else {
+    return
   }
 
   if (formOrdem) {
