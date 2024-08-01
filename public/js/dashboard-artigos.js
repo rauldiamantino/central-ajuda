@@ -15,24 +15,24 @@ if (btnsArtigoEditar) {
 
 if (btnsArtigoRemover) {
   btnsArtigoRemover.forEach(artigo => {
-  artigo.addEventListener('click', () => {
-    artigoId = artigo.dataset.artigoId
-    abrirModalRemover()
+    artigo.addEventListener('click', () => {
+      artigoId = artigo.dataset.artigoId
+      abrirModalRemover()
+    })
   })
-})
 }
 
 if (btnModalRemover) {
   btnModalRemover.addEventListener('click', () => {
-  requisicaoRemover(artigoId)
-  fecharModalRemover()
-})
+    requisicaoRemover(artigoId)
+    fecharModalRemover()
+  })
 }
 
 if (btnModalCancelar) {
-  btnModalCancelar.addEventListener('click', () => {
-  fecharModalRemover()
-})
+    btnModalCancelar.addEventListener('click', () => {
+    fecharModalRemover()
+  })
 }
 
 const abrirModalRemover = () => {
