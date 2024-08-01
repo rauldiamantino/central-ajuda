@@ -70,63 +70,123 @@ if (btnImagemEscolher) {
 // ----------- Adicionar bloco de conteúdo -----------
 const formConteudo = document.querySelector('.form-conteudo')
 
-formConteudo.addEventListener('submit', (event) => {
-  event.preventDefault()
-  fetchFormConteudo(formConteudo)
-})
+if (formConteudo) {
+  formConteudo.addEventListener('submit', (event) => {
+    event.preventDefault()
+    fetchFormConteudo(formConteudo)
+  })
 
-const fetchFormConteudo = (formConteudo) => {
-  const url = '/conteudo'
-  const formConteudoData = new FormData(formConteudo)
+  // funções
+  const fetchFormConteudo = (formConteudo) => {
+    const url = '/conteudo'
+    const formConteudoData = new FormData(formConteudo)
+    const conteudos = document.querySelectorAll('.conteudo-bloco')
+    let ordemUltimoConteudo = 0
 
-  const formTexto = document.querySelector('.conteudo-texto-adicionar > textarea[name=conteudo').value
-  const formImagem = document.querySelector('.conteudo-imagem-adicionar > input[name=url').files[0]
-  const formVideo = document.querySelector('.conteudo-video-adicionar > input[name=url').value
-  const formOrdem = document.querySelector('.form-conteudo > input[name=ordem').value
-  const formTextoTitulo = document.querySelector('#conteudo-texto-titulo').value
-  const formImagemTitulo = document.querySelector('#conteudo-imagem-titulo').value
-  const formVideoTitulo = document.querySelector('#conteudo-video-titulo').value
-  
-  if (formTexto && formTextoTitulo) {
-    formConteudoData.append('conteudo', formTexto)
-    formConteudoData.append('titulo', formTextoTitulo)
-    formConteudoData.append('tipo', 1)
+    if (conteudos != undefined && conteudos.length > 0) {
+      const ultimoConteudo = conteudos[conteudos.length - 1]
+      ordemUltimoConteudo = parseInt(ultimoConteudo.dataset.conteudoOrdem)
+    }
+
+    const formTexto = document.querySelector('.conteudo-texto-adicionar > textarea[name=conteudo').value
+    const formImagem = document.querySelector('.conteudo-imagem-adicionar > input[name=url').files[0]
+    const formVideo = document.querySelector('.conteudo-video-adicionar > input[name=url').value
+    const formTextoTitulo = document.querySelector('#conteudo-texto-titulo').value
+    const formImagemTitulo = document.querySelector('#conteudo-imagem-titulo').value
+    const formVideoTitulo = document.querySelector('#conteudo-video-titulo').value
+    
+    if (formTexto && formTextoTitulo) {
+      formConteudoData.append('conteudo', formTexto)
+      formConteudoData.append('titulo', formTextoTitulo)
+      formConteudoData.append('tipo', 1)
+    }
+    else if (formImagem && formImagemTitulo) {
+      formConteudoData.append('url', formImagem)
+      formConteudoData.append('titulo', formImagemTitulo)
+      formConteudoData.append('tipo', 2)
+    }
+    else if (formVideo && formVideoTitulo) {
+      formConteudoData.append('url', formVideo)
+      formConteudoData.append('titulo', formVideoTitulo)
+      formConteudoData.append('tipo', 3)
+    }
+    else {
+      return
+    }
+
+    formConteudoData.append('ordem', ordemUltimoConteudo + 1)
+
+    fetch(url, {
+      method: 'POST',
+      body: formConteudoData
+    })
+    .then(resposta => resposta.json())
+    .then(resposta => location.reload())
+    .catch(error => {
+      console.error('Erro:', error)
+    })
   }
-  else if (formImagem && formImagemTitulo) {
-    formConteudoData.append('url', formImagem)
-    formConteudoData.append('titulo', formImagemTitulo)
-    formConteudoData.append('tipo', 2)
-  }
-  else if (formVideo && formVideoTitulo) {
-    formConteudoData.append('url', formVideo)
-    formConteudoData.append('titulo', formVideoTitulo)
-    formConteudoData.append('tipo', 3)
-  }
-  else {
+}
+
+// ----------- Remover bloco de conteúdo -----------
+let conteudoId = null
+const btnsConteudoRemover = document.querySelectorAll('.js-dashboard-conteudo-remover')
+const modalConteudoRemover = document.querySelector('.modal-conteudo-remover')
+const btnModalConteudoRemover = document.querySelector('.modal-conteudo-btn-remover')
+const btnModalConteudoCancelar = document.querySelector('.modal-conteudo-btn-cancelar')
+
+if (btnsConteudoRemover) {
+  btnsConteudoRemover.forEach(conteudo => {
+    conteudo.addEventListener('click', () => {
+      conteudoId = conteudo.dataset.conteudoId
+      abrirModalConteudoRemover()
+    })
+  })
+}
+
+if (btnModalConteudoRemover) {
+  btnModalConteudoRemover.addEventListener('click', () => {
+    requisicaoConteudoRemover(conteudoId)
+    fecharModalConteudoRemover()
+  })
+}
+
+if (btnModalConteudoCancelar) {
+  btnModalConteudoCancelar.addEventListener('click', () => {
+    fecharModalConteudoRemover()
+  })
+}
+
+const abrirModalConteudoRemover = () => {
+  modalConteudoRemover.showModal()
+}
+
+const fecharModalConteudoRemover = () => {
+  modalConteudoRemover.close()
+}
+
+const requisicaoConteudoRemover = (conteudoId) => {
+
+  if (! conteudoId) {
     return
   }
 
-  if (formOrdem) {
-    formConteudoData.append('ordem', parseInt(formOrdem) + 1)
-  }
+  fetch(`/conteudo/${conteudoId}`, { method: 'DELETE' })
+    .then(resposta => resposta.json())
+    .then(resposta => {
 
-  fetch(url, {
-    method: 'POST',
-    body: formConteudoData
-  })
-  .then(resposta => resposta.json())
-  .then(resposta => {
-    
-    if (resposta.erro) {
-      console.log(resposta)
-    }
-    else {
-      console.log(resposta)
-    }
-    
-    location.reload()
-  })
-  .catch(error => {
-    console.error('Erro:', error)
-  })
+      if (resposta.linhasAfetadas == 1) {
+        location.reload()
+      }
+      else if (resposta.erro) {
+        throw new Error(resposta.erro)
+      }
+      else {
+        throw new Error('Erro ao remover conteudo')
+      }
+    })
+    .catch(error => {
+      location.reload()
+      console.log(error)
+    })
 }

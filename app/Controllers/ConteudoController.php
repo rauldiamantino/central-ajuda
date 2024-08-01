@@ -148,7 +148,7 @@ class ConteudoController extends Controller
       return $resultado;
     }
 
-    $_SESSION['ok'] = 'Conteûdo excluído com sucesso';
+    $_SESSION['ok'] = 'Conteúdo excluído com sucesso';
 
     $this->responderJson($resultado);
   }

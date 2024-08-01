@@ -46,7 +46,6 @@
       </form>
       <form action="/conteudo" method="post" class="flex flex-col gap-4 w-full min-w-96 form-conteudo">
         <input type="hidden" name="artigo.id" value="<?php echo $artigo['Artigo.id'] ?>">
-        <input type="hidden" name="ordem" value="">
         <div class="flex gap-2 conteudo-botoes-adicionar">
           <button type="button" class="flex gap-2 items-center justify-center py-2 px-4 border border-gray-800 hover:border-gray-500 text-gray-800 text-xs rounded-lg conteudo-btn-texto-adicionar">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-textarea-t" viewBox="0 0 16 16">
@@ -75,8 +74,8 @@
             <label for="conteudo-texto-titulo" class="block text-sm font-medium text-gray-700">Título</label>
             <input type="text" id="conteudo-texto-titulo" name="titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md">
           </div>
-          <textarea name="conteudo" id="conteudo-conteudo" class="border border-gray-300 w-full p-2 h-64 rounded-lg"></textarea>
-          <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg">Gravar</button>
+          <textarea name="conteudo" id="conteudo-conteudo" class="border border-gray-300 w-full p-2 h-56 rounded-lg"></textarea>
+          <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg">Adicionar</button>
         </div>
         <div class="flex flex-col w-full items-end gap-2 hidden conteudo-imagem-adicionar">
           <div class="w-full">
@@ -84,14 +83,14 @@
             <input type="text" id="conteudo-imagem-titulo" name="titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md">
           </div>
           <input type="file" accept="image/*" name="url" id="conteudo-conteudo" class="hidden conteudo-imagem-escolher">
-          <buton type="button" for="conteudo-conteudo" class="w-full flex items-center justify-center cursor-pointer border border-gray-300 bg-gray-50 p-4 rounded-lg hover:bg-gray-100 transition-colors conteudo-btn-imagem-escolher">
+          <buton type="button" for="conteudo-conteudo" class="w-full flex items-center justify-center cursor-pointer border border-gray-300 bg-gray-50 p-4 rounded-lg hover:bg-gray-100 conteudo-btn-imagem-escolher">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-image text-gray-500" viewBox="0 0 16 16">
               <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
               <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z" />
             </svg>
             <span class="ml-2 text-gray-700">Escolher Imagem</span>
           </buton>
-          <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-sm rounded-lg transition-colors">Gravar</button>
+          <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-sm text-xs rounded-lg">Adicionar</button>
         </div>
         <div class="flex flex-col items-end gap-2 hidden conteudo-video-adicionar">
           <div class="w-full">
@@ -99,15 +98,15 @@
             <input type="text" id="conteudo-video-titulo" name="titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md">
           </div>
           <input type="text" name="url" id="conteudo-conteudo" class="border border-gray-300 w-full p-2 rounded-lg text-sm" placeholder="https://www.youtube.com/watch?v=00000000000">
-          <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg">Gravar</button>
+          <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg">Adicionar</button>
         </div>
       </form>
     </div>
 
     <?php // Conteúdos ?>
-    <div class="w-full flex flex-col gap-4 cursor-pointer">
+    <div class="w-full select-none flex flex-col gap-4 cursor-pointer">
       <?php foreach ($conteudos as $linha): ?>
-        <div class="border border-slate-200 p-4 w-full flex items-center justify-between gap-4 rounded-lg shadow" data-conteudo-ordem="<?php echo $linha['Conteudo.ordem'] ?>">
+        <div class="border border-slate-200 p-4 w-full flex items-center justify-between gap-4 hover:bg-slate-50 rounded-lg shadow conteudo-bloco" data-conteudo-ordem="<?php echo $linha['Conteudo.ordem'] ?>">
           <div class="w-max">
             <?php if ($linha['Conteudo.tipo'] == 1) { ?>
               <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 16 16">
@@ -129,8 +128,46 @@
             <?php } ?>
           </div>
           <div class="w-full"><?php echo $linha['Conteudo.titulo'] ?></div>
+            <button type="button" class="flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+              </svg>
+              Editar
+            </a>
+            <button type="button" class="flex gap-2 items-center justify-center py-2 px-4 bg-red-800 hover:bg-red-600 text-white text-xs rounded-lg js-dashboard-conteudo-remover" data-conteudo-id="<?php echo $linha['Conteudo.id'] ?>">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+              </svg>
+              Remover
+            </button>
+          
         </div>
       <?php endforeach; ?>
     </div>
   </div>
 </div>
+
+<?php // Modal remover ?>
+<dialog class="p-4 sm:w-[440px] rounded-lg shadow modal-conteudo-remover">
+  <div class="w-full flex gap-4">
+    <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+      <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+      </svg>
+    </div>
+    <div class="text-left">
+      <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-conteudo-remover-titulo">Remover conteudo</h3>
+      <div class="mt-2">
+        <p class="text-sm text-gray-500">
+          Tem certeza que deseja remover este conteudo? Todos os dados serão permanentemente apagados. Esta ação não poderá ser revertida.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="mt-4 w-full flex flex-col sm:flex-row gap-3 font-semibold text-xs sm:justify-end justify-center">
+    <button type="button" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-gray-700 rounded-lg modal-conteudo-btn-cancelar w-full">Cancelar</button>
+    <button type="button" class="flex gap-2 items-center justify-center py-2 px-3 bg-red-800 hover:bg-red-600 text-white rounded-lg w-full modal-conteudo-btn-remover">Remover</button>
+  </div>
+</dialog>

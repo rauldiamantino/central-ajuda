@@ -143,7 +143,12 @@ class ArtigoController extends Controller
       'Conteudo.modificado',
     ];
 
+    $ordConteudo = [
+      'Conteudo.ordem' => 'ASC',
+    ];
+
     $conteudos = $this->conteudoModel->condicao($condConteudo)
+                                     ->ordem($ordConteudo)
                                      ->buscar($colConteudo);
 
     if (! isset($conteudos[0]['Conteudo.id'])) {
