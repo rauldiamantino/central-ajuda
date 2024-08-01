@@ -75,7 +75,7 @@
             <input type="text" id="conteudo-texto-titulo" name="titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md">
           </div>
           <textarea name="conteudo" id="conteudo-conteudo" class="border border-gray-300 w-full p-2 h-56 rounded-lg"></textarea>
-          <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg">Adicionar</button>
+          <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-green-800 hover:bg-green-600 text-white text-xs rounded-lg">Adicionar</button>
         </div>
         <div class="flex flex-col w-full items-end gap-2 hidden conteudo-imagem-adicionar">
           <div class="w-full">
@@ -90,7 +90,7 @@
             </svg>
             <span class="ml-2 text-gray-700">Escolher Imagem</span>
           </buton>
-          <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-sm text-xs rounded-lg">Adicionar</button>
+          <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-green-800 hover:bg-green-600 text-white text-sm text-xs rounded-lg">Adicionar</button>
         </div>
         <div class="flex flex-col items-end gap-2 hidden conteudo-video-adicionar">
           <div class="w-full">
@@ -98,7 +98,7 @@
             <input type="text" id="conteudo-video-titulo" name="titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md">
           </div>
           <input type="text" name="url" id="conteudo-conteudo" class="border border-gray-300 w-full p-2 rounded-lg text-sm" placeholder="https://www.youtube.com/watch?v=00000000000">
-          <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg">Adicionar</button>
+          <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-green-800 hover:bg-green-600 text-white text-xs rounded-lg">Adicionar</button>
         </div>
       </form>
     </div>
