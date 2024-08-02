@@ -128,7 +128,7 @@ class ConteudoModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('tipo', 'valInvalido');
       }
 
-      if (in_array($campos['tipo'], [2 , 3]) and isset($params['url']) and filter_var($campos['url'], FILTER_VALIDATE_URL) == false) {
+      if ($campos['tipo'] == 3 and isset($params['url']) and filter_var($campos['url'], FILTER_VALIDATE_URL) == false) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('url', 'valInvalido');
       }
 

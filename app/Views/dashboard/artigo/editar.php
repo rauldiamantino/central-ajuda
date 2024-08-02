@@ -83,13 +83,13 @@
             <input type="text" id="conteudo-imagem-titulo" name="titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md">
           </div>
           <input type="file" accept="image/*" name="url" id="conteudo-conteudo" class="hidden conteudo-imagem-escolher">
-          <buton type="button" for="conteudo-conteudo" class="w-full flex items-center justify-center cursor-pointer border border-gray-300 bg-gray-50 p-4 rounded-lg hover:bg-gray-100 conteudo-btn-imagem-escolher">
+          <button type="button" for="conteudo-conteudo" class="w-full flex items-center justify-center cursor-pointer border border-gray-300 bg-gray-50 p-4 rounded-lg hover:bg-gray-100 conteudo-btn-imagem-escolher">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-image text-gray-500" viewBox="0 0 16 16">
               <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
               <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z" />
             </svg>
-            <span class="ml-2 text-gray-700">Escolher Imagem</span>
-          </buton>
+            <span class="ml-2 text-gray-700 conteudo-txt-imagem-escolher">Escolher Imagem</span>
+          </button>
           <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-green-800 hover:bg-green-600 text-white text-sm text-xs rounded-lg">Adicionar</button>
         </div>
         <div class="flex flex-col items-end gap-2 hidden conteudo-video-adicionar">

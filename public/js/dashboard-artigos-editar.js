@@ -7,6 +7,7 @@ const textoAdicionar = document.querySelector('.conteudo-texto-adicionar')
 const imagemAdicionar = document.querySelector('.conteudo-imagem-adicionar')
 const videoAdicionar = document.querySelector('.conteudo-video-adicionar')
 const imagemEscolher = document.querySelector('.conteudo-imagem-escolher')
+const textoImagemEscolher = document.querySelector('.conteudo-txt-imagem-escolher')
 
 if (btnTextoAdicionar) {
   btnTextoAdicionar.addEventListener('click', () => {
@@ -18,6 +19,9 @@ if (btnTextoAdicionar) {
 
       imagemAdicionar.querySelector('input').value = ''
       videoAdicionar.querySelector('input').value = ''
+      
+      textoImagemEscolher.textContent = 'Escolher Imagem'
+      imagemEscolher.value = ''
     }
     else {
       textoAdicionar.classList.add('hidden')
@@ -39,6 +43,9 @@ if (btnImagemAdicionar) {
     else {
       imagemAdicionar.classList.add('hidden')
       imagemAdicionar.querySelector('input').value = ''
+
+      textoImagemEscolher.textContent = 'Escolher Imagem'
+      imagemEscolher.value = ''
     }
   })
 }
@@ -52,7 +59,9 @@ if (btnVideoAdicionar) {
       textoAdicionar.classList.add('hidden')
       imagemAdicionar.querySelector('input').value = ''
       textoAdicionar.querySelector('textarea').value = ''
-
+      
+      textoImagemEscolher.textContent = 'Escolher Imagem'
+      imagemEscolher.value = ''
     }
     else {
       videoAdicionar.classList.add('hidden')
@@ -64,6 +73,15 @@ if (btnVideoAdicionar) {
 if (btnImagemEscolher) {
   btnImagemEscolher.addEventListener('click', () => {
     imagemEscolher.click()
+  })
+}
+
+if (imagemEscolher) {
+  imagemEscolher.addEventListener('change', (event) => {
+
+    if (event.target.files[0].name !== undefined) {
+      textoImagemEscolher.textContent = event.target.files[0].name;
+    }
   })
 }
 
@@ -94,7 +112,7 @@ if (formConteudo) {
     const formTextoTitulo = document.querySelector('#conteudo-texto-titulo').value
     const formImagemTitulo = document.querySelector('#conteudo-imagem-titulo').value
     const formVideoTitulo = document.querySelector('#conteudo-video-titulo').value
-    
+
     if (formTexto && formTextoTitulo) {
       formConteudoData.append('conteudo', formTexto)
       formConteudoData.append('titulo', formTextoTitulo)
