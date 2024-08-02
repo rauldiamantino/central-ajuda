@@ -205,6 +205,50 @@ const requisicaoConteudoRemover = (conteudoId) => {
     })
     .catch(error => {
       location.reload()
-      console.log(error)
     })
 }
+
+// ----------- Reoganizar blocos de conteúdo -----------
+document.addEventListener('DOMContentLoaded', function () {
+  const bloco = document.querySelector('.conteudo-blocos')
+  
+  Sortable.create(bloco, {
+    animation: 150,
+    handle: '.handle',
+    onEnd: function () {
+      const ordem = []
+  
+      document.querySelectorAll('.conteudo-bloco').forEach(function (item, index) {
+        ordem.push({
+          id: item.dataset.conteudoId,
+          ordem: index
+        })
+      })
+  
+      if (! ordem) {
+        return
+      }
+
+      fetch(`/conteudo/ordem`, {
+         method: 'PUT',
+         body: JSON.stringify(ordem)
+        })
+        .then(resposta => resposta.json())
+        .then(resposta => {
+          
+          if (resposta.linhasAfetadas > 0) {
+            console.log(resposta)
+          }
+          else if (resposta.erro) {
+            throw new Error(resposta.erro)
+          }
+          else {
+            throw new Error('Erro ao reorganizar conteudo')
+          }
+        })
+        .catch(error => {
+          location.reload()
+        })
+    }
+  })
+})

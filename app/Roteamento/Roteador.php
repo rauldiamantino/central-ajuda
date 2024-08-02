@@ -32,6 +32,7 @@ class Roteador
       'GET:/conteudo/{id}' => [ConteudoController::class, 'buscar'],
       'POST:/conteudo' => [ConteudoController::class, 'adicionar'],
       'PUT:/conteudo/{id}' => [ConteudoController::class, 'atualizar'],
+      'PUT:/conteudo/ordem' => [ConteudoController::class, 'atualizarOrdem'],
       'DELETE:/conteudo/{id}' => [ConteudoController::class, 'apagar'],
 
       'GET:/categorias' => [CategoriaController::class, 'buscar'],
@@ -61,15 +62,13 @@ class Roteador
   {
     $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     $metodo = $_SERVER['REQUEST_METHOD'];
-
     $metodoOculto = $_POST['_method'] ?? null;
-    
+
     if ($metodoOculto and in_array(strtoupper($metodoOculto), ['PUT', 'DELETE'])) {
       $metodo = strtoupper($metodoOculto);
     }
 
     $chaveRota = $metodo . ':' . $url;
-
     $id = (int) basename($url);
     $chaveRota = str_replace($id, '{id}', $chaveRota);
 

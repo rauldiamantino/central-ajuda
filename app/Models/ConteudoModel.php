@@ -49,6 +49,37 @@ class ConteudoModel extends Model
     return parent::atualizar($campos, $id);
   }
 
+  public function atualizarOrdem(array $params): array
+  {
+    $ids = [];
+    $ordens = [];
+    $cases = [];
+    foreach ($params as $linha) {
+      $id = intval($linha['id'] ?? 0);
+      $ordem = intval($linha['ordem'] ?? 0);
+
+      if (in_array($id, $ids)) {
+        return ['erro' => 'IDs duplicados encontrados.'];
+      }
+
+      if (in_array($ordem, $ordens)) {
+        return ['erro' => 'Ordens duplicadas encontradas.'];
+      }
+
+      $ids[] = $id;
+      $ordens[] = $ordem;
+      $cases[] = "WHEN $id THEN $ordem";
+    }
+
+    if (empty($ids) or empty($ordens) or empty($cases)) {
+      return ['erro' => 'Não foi possível processar a requisição'];
+    }
+
+    $sql = 'UPDATE `conteudos` SET `ordem` = CASE `id` ' . implode(' ', $cases) . ' END WHERE `id` IN (' . implode(', ', $ids) . ')';
+
+    return parent::executarQuery($sql);
+  }
+
   public function apagar(int $id): array
   {
     if (! is_int($id) or empty($id)) {

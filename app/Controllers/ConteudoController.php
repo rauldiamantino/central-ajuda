@@ -130,6 +130,21 @@ class ConteudoController extends Controller
     $this->responderJson($resultado);
   }
 
+  public function atualizarOrdem()
+  {
+    $json = $this->receberJson();
+    $resultado = $this->conteudoModel->atualizarOrdem($json);
+
+    if (isset($resultado['erro'])) {
+      $_SESSION['erro'] = $resultado['erro'] ?? '';
+
+      $codigo = $resultado['erro']['codigo'] ?? 500;
+      $this->responderJson($resultado, $codigo);
+    }
+
+    $this->responderJson($resultado);
+  }
+
   public function apagar(int $id, bool $rollback = false)
   {
     $resultado = $this->conteudoModel->apagar($id);
