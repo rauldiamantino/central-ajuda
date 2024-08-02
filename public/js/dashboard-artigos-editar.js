@@ -146,6 +146,18 @@ if (formConteudo) {
   }
 }
 
+// ----------- Editar bloco de conteúdo -----------
+const btnsConteudoEditar = document.querySelectorAll('.js-dashboard-conteudo-editar')
+const modalConteudoEditar = document.querySelector('.modal-conteudo-texto-editar')
+
+if (btnConteudoTextoEditar) {
+  btnsConteudoEditar.forEach(conteudo => {
+    conteudo.addEventListener('click', () => {
+      modalConteudoEditar.showModal()
+    })
+  })
+}
+
 // ----------- Remover bloco de conteúdo -----------
 let conteudoId = null
 const btnsConteudoRemover = document.querySelectorAll('.js-dashboard-conteudo-remover')
@@ -237,7 +249,7 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(resposta => {
           
           if (resposta.linhasAfetadas > 0) {
-            console.log(resposta)
+            console.log(resposta.linhasAfetadas + ' conteúdos reorganizados')
           }
           else if (resposta.erro) {
             throw new Error(resposta.erro)
