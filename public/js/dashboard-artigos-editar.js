@@ -150,7 +150,7 @@ if (formConteudo) {
 const btnsConteudoEditar = document.querySelectorAll('.js-dashboard-conteudo-editar')
 const modalConteudoEditar = document.querySelector('.modal-conteudo-texto-editar')
 
-if (btnConteudoTextoEditar) {
+if (btnsConteudoEditar) {
   btnsConteudoEditar.forEach(conteudo => {
     conteudo.addEventListener('click', () => {
       modalConteudoEditar.showModal()
