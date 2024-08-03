@@ -128,7 +128,7 @@
                 </svg>
               <?php } ?>
             </div>
-            <div class="w-full group"><button type="button" class="group-hover:underline js-dashboard-conteudo-editar"><?php echo $linha['Conteudo.titulo'] ?></button></div>
+            <div class="w-full group"><button type="button" class="group-hover:underline js-dashboard-conteudo-editar" data-conteudo-id="<?php echo $linha['Conteudo.id'] ?>" data-conteudo-titulo="<?php echo $linha['Conteudo.titulo'] ?>" data-conteudo-conteudo="<?php echo $linha['Conteudo.conteudo'] ?>" data-conteudo-url="<?php echo $linha['Conteudo.url'] ?>" data-conteudo-tipo="<?php echo $linha['Conteudo.tipo'] ?>"><?php echo $linha['Conteudo.titulo'] ?></button></div>
           </div>
           <button type="button" class="w-max h-max text-red-800 hover:text-red-600 text-xs rounded-lg js-dashboard-conteudo-remover" data-conteudo-id="<?php echo $linha['Conteudo.id'] ?>">
             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 16 16" stroke-width="0.2" stroke="currentColor">
@@ -136,46 +136,60 @@
             </svg>
           </button>
         </div>
-
-        <?php // Editar conteúdo ?>
-        <dialog class="modal-conteudo-texto-editar">
-          <div class="flex flex-col items-end gap-2">
-            <div class="w-full">
-              <label for="conteudo-texto-editar-titulo" class="block text-sm font-medium text-gray-700">Título</label>
-              <input type="text" id="conteudo-texto-editar-titulo" name="titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="<?php echo $linha['Conteudo.titulo'] ?>">
-            </div>
-            <textarea name="conteudo" id="conteudo-conteudo" class="border border-gray-300 w-full p-2 h-56 rounded-lg"><?php echo $linha['Conteudo.conteudo'] ?></textarea>
-            <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg">Editar</button>
-          </div>
-        </dialog>
-
-        <!-- <dialog class="flex flex-col w-full items-end gap-2 conteudo-imagem-editar-adicionar">
-          <div class="w-full">
-            <label for="conteudo-imagem-editar-titulo" class="block text-sm font-medium text-gray-700">Título</label>
-            <input type="text" id="conteudo-imagem-editar-titulo" name="titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md">
-          </div>
-          <input type="file" accept="image/*" name="url" id="conteudo-conteudo" class="conteudo-imagem-editar-escolher">
-          <button type="button" for="conteudo-conteudo" class="w-full flex items-center justify-center cursor-pointer border border-gray-300 bg-gray-50 p-4 rounded-lg hover:bg-gray-100 conteudo-btn-imagem-editar-escolher">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-image text-gray-500" viewBox="0 0 16 16">
-              <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
-              <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z" />
-            </svg>
-            <span class="ml-2 text-gray-700 conteudo-txt-imagem-editar-escolher">Escolher Imagem</span>
-          </button>
-          <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-green-800 hover:bg-green-600 text-white text-sm text-xs rounded-lg">Adicionar</button>
-        </dialog>
-        <dialog class="flex flex-col items-end gap-2 conteudo-video-editar-adicionar">
-          <div class="w-full">
-            <label for="conteudo-video-editar-titulo" class="block text-sm font-medium text-gray-700">Título</label>
-            <input type="text" id="conteudo-video-editar-titulo" name="titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md">
-          </div>
-          <input type="text" name="url" id="conteudo-conteudo" class="border border-gray-300 w-full p-2 rounded-lg text-sm" placeholder="https://www.youtube.com/watch?v=00000000000">
-          <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-green-800 hover:bg-green-600 text-white text-xs rounded-lg">Adicionar</button>
-        </dialog> -->
       <?php endforeach; ?>
     </div>
   </div>
 </div>
+
+<?php // Editar conteúdo ?>
+<dialog class="p-4 w-full sm:w-[600px] rounded-lg shadow modal-conteudo-texto-editar">
+  <div class="flex flex-col items-end gap-2">
+    <div class="w-full">
+      <label for="conteudo-editar-texto-titulo" class="block text-sm font-medium text-gray-700">Título</label>
+      <input type="text" id="conteudo-editar-texto-titulo" name="titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="">
+    </div>
+    <textarea name="conteudo" id="conteudo-editar-texto-conteudo" class="border border-gray-300 w-full p-2 h-56 rounded-lg"></textarea>
+    <div class="flex gap-4">
+      <button type="button" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-texto-editar-btn-cancelar w-full">Cancelar</button>
+      <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg">Editar</button>
+    </div>
+  </div>
+</dialog>
+
+<dialog class="p-4 w-full sm:w-[600px] rounded-lg shadow modal-conteudo-imagem-editar">
+  <div class="flex flex-col w-full items-end gap-2 ">
+    <div class="w-full">
+      <label for="conteudo-editar-imagem-titulo" class="block text-sm font-medium text-gray-700">Título</label>
+      <input type="text" id="conteudo-editar-imagem-titulo" name="titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="">
+    </div>
+    <input type="file" accept="image/*" name="url" id="conteudo-editar-imagem" class="hidden conteudo-editar-imagem-escolher">
+    <button type="button" for="conteudo-editar-imagem" class="w-full flex items-center justify-center cursor-pointer border border-gray-300 bg-gray-50 p-4 rounded-lg hover:bg-gray-100 conteudo-btn-imagem-editar-escolher">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-image text-gray-500" viewBox="0 0 16 16">
+        <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+        <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z" />
+      </svg>
+      <span class="ml-2 text-gray-700 conteudo-txt-imagem-editar-escolher">Alterar Imagem</span>
+    </button>
+    <div class="flex gap-4">
+      <button type="button" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-conteudo-imagem-btn-cancelar w-full">Cancelar</button>
+      <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg">Editar</button>
+    </div>
+  </div>
+</dialog>
+
+<dialog class="p-4 w-full sm:w-[600px] rounded-lg shadow modal-conteudo-video-editar">
+  <div class="flex flex-col items-end gap-2">
+    <div class="w-full">
+      <label for="conteudo-editar-video-titulo" class="block text-sm font-medium text-gray-700">Título</label>
+      <input type="text" id="conteudo-editar-video-titulo" name="titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="">
+    </div>
+    <input type="text" name="url" id="conteudo-editar-video-url" class="border border-gray-300 w-full p-2 rounded-lg text-sm" placeholder="https://www.youtube.com/watch?v=00000000000">
+    <div class="flex gap-4">
+      <button type="button" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-conteudo-video-btn-cancelar w-full">Cancelar</button>
+      <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg">Editar</button>
+    </div>
+  </div>
+</dialog>
 
 <?php // Modal remover ?>
 <dialog class="p-4 sm:w-[440px] rounded-lg shadow modal-conteudo-remover">

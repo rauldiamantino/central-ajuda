@@ -148,13 +148,77 @@ if (formConteudo) {
 
 // ----------- Editar bloco de conteúdo -----------
 const btnsConteudoEditar = document.querySelectorAll('.js-dashboard-conteudo-editar')
-const modalConteudoEditar = document.querySelector('.modal-conteudo-texto-editar')
+
+const modalConteudoTextoEditar = document.querySelector('.modal-conteudo-texto-editar')
+const editarTextoTitulo = document.querySelector('#conteudo-editar-texto-titulo')
+const editarTextoConteudo = document.querySelector('#conteudo-editar-texto-conteudo')
+const btnFecharModalEditarTexto = document.querySelector('.modal-texto-editar-btn-cancelar')
+
+const modalConteudoImagemEditar = document.querySelector('.modal-conteudo-imagem-editar')
+const editarImagemTitulo = document.querySelector('#conteudo-editar-imagem-titulo')
+const editarImagemEscolher = document.querySelector('.conteudo-editar-imagem-escolher')
+const editarTextoImagemEscolher = document.querySelector('.conteudo-txt-imagem-editar-escolher')
+const btnEditarImagemEscolher = document.querySelector('.conteudo-btn-imagem-editar-escolher')
+const btnFecharModalEditarImagem = document.querySelector('.modal-conteudo-imagem-btn-cancelar')
+
+const modalConteudoVideoEditar = document.querySelector('.modal-conteudo-video-editar')
+const editarVideoTitulo = document.querySelector('#conteudo-editar-video-titulo')
+const editarVideoUrl = document.querySelector('#conteudo-editar-video-url')
+const btnFecharModalEditarVideo = document.querySelector('.modal-conteudo-video-btn-cancelar')
+
 
 if (btnsConteudoEditar) {
   btnsConteudoEditar.forEach(conteudo => {
     conteudo.addEventListener('click', () => {
-      modalConteudoEditar.showModal()
+      
+      if (conteudo.dataset.conteudoTipo == 1) {
+        editarTextoTitulo.value = conteudo.dataset.conteudoTitulo
+        editarTextoConteudo.textContent = conteudo.dataset.conteudoConteudo
+        modalConteudoTextoEditar.showModal()
+      }
+      else if (conteudo.dataset.conteudoTipo == 2) {
+        editarImagemTitulo.value = conteudo.dataset.conteudoTitulo 
+        modalConteudoImagemEditar.showModal()
+
+        if (btnEditarImagemEscolher) {
+          btnEditarImagemEscolher.addEventListener('click', () => {
+            editarImagemEscolher.click()
+          })
+        }
+
+        editarImagemEscolher.addEventListener('change', (event) => {
+
+          if (event.target.files[0].name !== undefined) {
+            editarTextoImagemEscolher.textContent = event.target.files[0].name
+          }
+        })
+
+        editarTextoImagemEscolher.textContent = ''
+      }
+      else if (conteudo.dataset.conteudoTipo == 3) {
+        editarVideoTitulo.value = conteudo.dataset.conteudoTitulo
+        editarVideoUrl.value = conteudo.dataset.conteudoUrl
+        modalConteudoVideoEditar.showModal()
+      }
     })
+  })
+}
+
+if (btnFecharModalEditarTexto) {
+  btnFecharModalEditarTexto.addEventListener('click', () => {
+    modalConteudoTextoEditar.close()
+  })
+}
+
+if (btnFecharModalEditarVideo) {
+  btnFecharModalEditarVideo.addEventListener('click', () => {
+    modalConteudoVideoEditar.close()
+  })
+}
+
+if (btnFecharModalEditarImagem) {
+  btnFecharModalEditarImagem.addEventListener('click', () => {
+    modalConteudoImagemEditar.close()
   })
 }
 
