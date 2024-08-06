@@ -80,7 +80,7 @@ if (imagemEscolher) {
   imagemEscolher.addEventListener('change', (event) => {
 
     if (event.target.files[0].name !== undefined) {
-      textoImagemEscolher.textContent = event.target.files[0].name;
+      textoImagemEscolher.textContent = event.target.files[0].name
     }
   })
 }
@@ -152,20 +152,22 @@ const btnsConteudoEditar = document.querySelectorAll('.js-dashboard-conteudo-edi
 const modalConteudoTextoEditar = document.querySelector('.modal-conteudo-texto-editar')
 const editarTextoTitulo = document.querySelector('#conteudo-editar-texto-titulo')
 const editarTextoConteudo = document.querySelector('#conteudo-editar-texto-conteudo')
-const btnFecharModalEditarTexto = document.querySelector('.modal-texto-editar-btn-cancelar')
+const btnCancelarModalEditarTexto = document.querySelector('.modal-texto-editar-btn-cancelar')
+const btnEnviarModalEditarTexto = document.querySelector('.modal-conteudo-texto-btn-enviar')
 
 const modalConteudoImagemEditar = document.querySelector('.modal-conteudo-imagem-editar')
 const editarImagemTitulo = document.querySelector('#conteudo-editar-imagem-titulo')
 const editarImagemEscolher = document.querySelector('.conteudo-editar-imagem-escolher')
 const editarTextoImagemEscolher = document.querySelector('.conteudo-txt-imagem-editar-escolher')
 const btnEditarImagemEscolher = document.querySelector('.conteudo-btn-imagem-editar-escolher')
-const btnFecharModalEditarImagem = document.querySelector('.modal-conteudo-imagem-btn-cancelar')
+const btnCancelarModalEditarImagem = document.querySelector('.modal-conteudo-imagem-btn-cancelar')
+const btnEnviarModalEditarImagem = document.querySelector('.modal-conteudo-imagem-btn-enviar')
 
 const modalConteudoVideoEditar = document.querySelector('.modal-conteudo-video-editar')
 const editarVideoTitulo = document.querySelector('#conteudo-editar-video-titulo')
 const editarVideoUrl = document.querySelector('#conteudo-editar-video-url')
-const btnFecharModalEditarVideo = document.querySelector('.modal-conteudo-video-btn-cancelar')
-
+const btnCancelarModalEditarVideo = document.querySelector('.modal-conteudo-video-btn-cancelar')
+const btnEnviarModalEditarVideo = document.querySelector('.modal-conteudo-video-btn-enviar')
 
 if (btnsConteudoEditar) {
   btnsConteudoEditar.forEach(conteudo => {
@@ -175,6 +177,32 @@ if (btnsConteudoEditar) {
         editarTextoTitulo.value = conteudo.dataset.conteudoTitulo
         editarTextoConteudo.textContent = conteudo.dataset.conteudoConteudo
         modalConteudoTextoEditar.showModal()
+
+        if (btnEnviarModalEditarTexto) {
+          btnEnviarModalEditarTexto.addEventListener('click', () => {
+
+            fetch(`/conteudo/` + conteudo.dataset.conteudoId, {
+              method: 'PUT',
+              body: JSON.stringify({
+                'titulo': editarTextoTitulo.value,
+                'conteudo': editarTextoConteudo.value
+              })
+            })
+              .then(resposta => resposta.json())
+              .then(resposta => {
+                
+                if (resposta.linhasAfetadas > 0 || resposta == '' || resposta.erro) {
+                  location.reload()
+                }
+                else {
+                  throw new Error('Erro ao editar conteúdo')
+                }
+              })
+              .catch(error => {
+                console.log(error)
+              })
+          })
+        }
       }
       else if (conteudo.dataset.conteudoTipo == 2) {
         editarImagemTitulo.value = conteudo.dataset.conteudoTitulo 
@@ -204,20 +232,20 @@ if (btnsConteudoEditar) {
   })
 }
 
-if (btnFecharModalEditarTexto) {
-  btnFecharModalEditarTexto.addEventListener('click', () => {
+if (btnCancelarModalEditarTexto) {
+  btnCancelarModalEditarTexto.addEventListener('click', () => {
     modalConteudoTextoEditar.close()
   })
 }
 
-if (btnFecharModalEditarVideo) {
-  btnFecharModalEditarVideo.addEventListener('click', () => {
+if (btnCancelarModalEditarVideo) {
+  btnCancelarModalEditarVideo.addEventListener('click', () => {
     modalConteudoVideoEditar.close()
   })
 }
 
-if (btnFecharModalEditarImagem) {
-  btnFecharModalEditarImagem.addEventListener('click', () => {
+if (btnCancelarModalEditarImagem) {
+  btnCancelarModalEditarImagem.addEventListener('click', () => {
     modalConteudoImagemEditar.close()
   })
 }
