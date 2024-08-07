@@ -180,8 +180,14 @@ if (btnsConteudoEditar) {
         modalConteudoTextoEditar.showModal()
       }
       else if (conteudo.dataset.conteudoTipo == 2) {
-        editarImagemTitulo.value = conteudo.dataset.conteudoTitulo 
+        editarImagemTitulo.value = conteudo.dataset.conteudoTitulo
         formularioEditarImagem.action = '/conteudo/' + conteudo.dataset.conteudoId
+        
+        const imgElemento = modalConteudoImagemEditar.querySelector('img')
+        
+        imgElemento.src = '/' + conteudo.dataset.conteudoUrl
+        imgElemento.classList.add('opacity-100')
+        imgElemento.classList.remove('opacity-0')
         modalConteudoImagemEditar.showModal()
 
         if (btnEditarImagemEscolher) {
@@ -191,13 +197,23 @@ if (btnsConteudoEditar) {
         }
 
         editarImagemEscolher.addEventListener('change', (event) => {
+          const anexo = event.target.files[0]
 
-          if (event.target.files[0].name !== undefined) {
-            // editarTextoImagemEscolher.textContent = event.target.files[0].name
+          if (anexo) {
+            const objetoReader = new FileReader()
+
+            objetoReader.onload = (e) => {
+              imgElemento.src = e.target.result
+              imgElemento.classList.remove('opacity-0')
+              imgElemento.classList.add('opacity-100')
+            }
+
+            editarTextoImagemEscolher.textContent = anexo.name
+            objetoReader.readAsDataURL(anexo)
           }
         })
 
-        editarTextoImagemEscolher.textContent = ''
+        editarTextoImagemEscolher.textContent = 'Alterar imagem'
       }
       else if (conteudo.dataset.conteudoTipo == 3) {
         editarVideoTitulo.value = conteudo.dataset.conteudoTitulo
@@ -222,9 +238,19 @@ if (btnCancelarModalEditarVideo) {
 }
 
 if (btnCancelarModalEditarImagem) {
-  btnCancelarModalEditarImagem.addEventListener('click', () => {
-    modalConteudoImagemEditar.close()
-  })
+  btnCancelarModalEditarImagem.addEventListener('click', () => fecharModalImagem())
+}
+
+document.addEventListener('keydown', (event) => {
+  
+  if (event.key === 'Escape' || event.keyCode === 27 && modalConteudoImagemEditar.open) {
+    fecharModalImagem()
+  }
+})
+
+function fecharModalImagem() {
+  modalConteudoImagemEditar.querySelector('img').src = '';
+  modalConteudoImagemEditar.close();
 }
 
 // ----------- Remover bloco de conteúdo -----------

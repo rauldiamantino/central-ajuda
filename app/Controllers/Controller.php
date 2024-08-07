@@ -35,7 +35,7 @@ class Controller
     }
 
     // Faz upload de imagem e recupera URL
-    if (isset($dados['tipo']) and $dados['tipo'] == 2 and isset($_FILES['url'])) {
+    if (isset($dados['tipo']) and $dados['tipo'] == 2 and isset($_FILES['url']) and $_FILES['url']) {
       $imagem = $_FILES['url'];
       $local = 'img/conteudo/';
 
