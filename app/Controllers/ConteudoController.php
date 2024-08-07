@@ -122,8 +122,14 @@ class ConteudoController extends Controller
       header('Location: ' . $urlRetorno);
       exit();
     }
-    elseif ($_POST) { 
-      $_SESSION['ok'] = 'Registro alterado com sucesso';
+    elseif ($_POST and $resultado) {
+      $_SESSION['ok'] = 'Conteúdo editado com sucesso';
+
+      header('Location: ' . $urlRetorno);
+      exit();
+    }
+    elseif ($_POST) {
+      $_SESSION['neutra'] = 'Nenhuma alteração realizada';
 
       header('Location: ' . $urlRetorno);
       exit();
