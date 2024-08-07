@@ -143,7 +143,11 @@
 
 <?php // Editar conteúdo ?>
 <dialog class="p-4 w-full sm:w-[600px] rounded-lg shadow modal-conteudo-texto-editar">
-  <div class="flex flex-col items-end gap-2">
+  <form method="POST" class="flex flex-col items-end gap-2" enctype="multipart/form-data">
+    <input type="hidden" name="_method" value="PUT">
+    <input type="hidden" name="artigo_id" value="<?php echo $artigo['Artigo.id'] ?>">
+    <input type="hidden" name="tipo" value="1">
+    
     <div class="w-full">
       <label for="conteudo-editar-texto-titulo" class="block text-sm font-medium text-gray-700">Título</label>
       <input type="text" id="conteudo-editar-texto-titulo" name="titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="">
@@ -153,11 +157,15 @@
       <button type="button" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-texto-editar-btn-cancelar w-full">Cancelar</button>
       <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg modal-conteudo-texto-btn-enviar">Editar</button>
     </div>
-  </div>
+  </form>
 </dialog>
 
 <dialog class="p-4 w-full sm:w-[600px] rounded-lg shadow modal-conteudo-imagem-editar">
-  <div class="flex flex-col w-full items-end gap-2 ">
+  <form method="POST" class="flex flex-col items-end gap-2" enctype="multipart/form-data">
+    <input type="hidden" name="_method" value="PUT">
+    <input type="hidden" name="artigo_id" value="<?php echo $artigo['Artigo.id'] ?>">
+    <input type="hidden" name="tipo" value="2">
+
     <div class="w-full">
       <label for="conteudo-editar-imagem-titulo" class="block text-sm font-medium text-gray-700">Título</label>
       <input type="text" id="conteudo-editar-imagem-titulo" name="titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="">
@@ -174,11 +182,15 @@
       <button type="button" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-conteudo-imagem-btn-cancelar w-full">Cancelar</button>
       <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg modal-conteudo-imagem-btn-enviar">Editar</button>
     </div>
-  </div>
+  </form>
 </dialog>
 
 <dialog class="p-4 w-full sm:w-[600px] rounded-lg shadow modal-conteudo-video-editar">
-  <div class="flex flex-col items-end gap-2">
+  <form method="POST" class="flex flex-col items-end gap-2" enctype="multipart/form-data">
+    <input type="hidden" name="_method" value="PUT">
+    <input type="hidden" name="artigo_id" value="<?php echo $artigo['Artigo.id'] ?>">
+    <input type="hidden" name="tipo" value="3">
+
     <div class="w-full">
       <label for="conteudo-editar-video-titulo" class="block text-sm font-medium text-gray-700">Título</label>
       <input type="text" id="conteudo-editar-video-titulo" name="titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="">
@@ -188,7 +200,7 @@
       <button type="button" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-conteudo-video-btn-cancelar w-full">Cancelar</button>
       <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg modal-conteudo-video-btn-enviar">Editar</button>
     </div>
-  </div>
+  </form>
 </dialog>
 
 <?php // Modal remover ?>

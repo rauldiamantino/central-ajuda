@@ -35,22 +35,19 @@ class Controller
     }
 
     // Faz upload de imagem e recupera URL
-    if (isset($dados['url']) and empty($dados['url']) and $_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($dados['tipo']) and $dados['tipo'] == 2 and isset($_FILES['url'])) {
+      $imagem = $_FILES['url'];
+      $local = 'img/conteudo/';
 
-      if (isset($_FILES['url'])) {
-        $imagem = $_FILES['url'];
-        $local = 'img/conteudo/';
+      if (! is_dir($local)) {
+        mkdir($local, 0777, true);
+      }
+      
+      $extensao = pathinfo($imagem['name'], PATHINFO_EXTENSION);
+      $arquivo = $local . md5(time() . $imagem['name']) . '.' . $extensao;
 
-        if (! is_dir($local)) {
-          mkdir($local, 0777, true);
-        }
-        
-        $extensao = pathinfo($imagem['name'], PATHINFO_EXTENSION);
-        $arquivo = $local . md5(time() . $imagem['name']) . '.' . $extensao;
-
-        if (move_uploaded_file($imagem['tmp_name'], $arquivo)) {
-          $dados['url'] = $arquivo;
-        }
+      if (move_uploaded_file($imagem['tmp_name'], $arquivo)) {
+        $dados['url'] = $arquivo;
       }
     }
 

@@ -153,7 +153,7 @@ const modalConteudoTextoEditar = document.querySelector('.modal-conteudo-texto-e
 const editarTextoTitulo = document.querySelector('#conteudo-editar-texto-titulo')
 const editarTextoConteudo = document.querySelector('#conteudo-editar-texto-conteudo')
 const btnCancelarModalEditarTexto = document.querySelector('.modal-texto-editar-btn-cancelar')
-const btnEnviarModalEditarTexto = document.querySelector('.modal-conteudo-texto-btn-enviar')
+const formularioEditarTexto = document.querySelector('.modal-conteudo-texto-editar > form')
 
 const modalConteudoImagemEditar = document.querySelector('.modal-conteudo-imagem-editar')
 const editarImagemTitulo = document.querySelector('#conteudo-editar-imagem-titulo')
@@ -161,13 +161,13 @@ const editarImagemEscolher = document.querySelector('.conteudo-editar-imagem-esc
 const editarTextoImagemEscolher = document.querySelector('.conteudo-txt-imagem-editar-escolher')
 const btnEditarImagemEscolher = document.querySelector('.conteudo-btn-imagem-editar-escolher')
 const btnCancelarModalEditarImagem = document.querySelector('.modal-conteudo-imagem-btn-cancelar')
-const btnEnviarModalEditarImagem = document.querySelector('.modal-conteudo-imagem-btn-enviar')
+const formularioEditarImagem = document.querySelector('.modal-conteudo-imagem-editar > form')
 
 const modalConteudoVideoEditar = document.querySelector('.modal-conteudo-video-editar')
 const editarVideoTitulo = document.querySelector('#conteudo-editar-video-titulo')
 const editarVideoUrl = document.querySelector('#conteudo-editar-video-url')
 const btnCancelarModalEditarVideo = document.querySelector('.modal-conteudo-video-btn-cancelar')
-const btnEnviarModalEditarVideo = document.querySelector('.modal-conteudo-video-btn-enviar')
+const formularioEditarVideo = document.querySelector('.modal-conteudo-video-editar > form')
 
 if (btnsConteudoEditar) {
   btnsConteudoEditar.forEach(conteudo => {
@@ -176,36 +176,12 @@ if (btnsConteudoEditar) {
       if (conteudo.dataset.conteudoTipo == 1) {
         editarTextoTitulo.value = conteudo.dataset.conteudoTitulo
         editarTextoConteudo.textContent = conteudo.dataset.conteudoConteudo
+        formularioEditarTexto.action = '/conteudo/' + conteudo.dataset.conteudoId
         modalConteudoTextoEditar.showModal()
-
-        if (btnEnviarModalEditarTexto) {
-          btnEnviarModalEditarTexto.addEventListener('click', () => {
-
-            fetch(`/conteudo/` + conteudo.dataset.conteudoId, {
-              method: 'PUT',
-              body: JSON.stringify({
-                'titulo': editarTextoTitulo.value,
-                'conteudo': editarTextoConteudo.value
-              })
-            })
-              .then(resposta => resposta.json())
-              .then(resposta => {
-                
-                if (resposta.linhasAfetadas > 0 || resposta == '' || resposta.erro) {
-                  location.reload()
-                }
-                else {
-                  throw new Error('Erro ao editar conteúdo')
-                }
-              })
-              .catch(error => {
-                console.log(error)
-              })
-          })
-        }
       }
       else if (conteudo.dataset.conteudoTipo == 2) {
         editarImagemTitulo.value = conteudo.dataset.conteudoTitulo 
+        formularioEditarImagem.action = '/conteudo/' + conteudo.dataset.conteudoId
         modalConteudoImagemEditar.showModal()
 
         if (btnEditarImagemEscolher) {
@@ -217,7 +193,7 @@ if (btnsConteudoEditar) {
         editarImagemEscolher.addEventListener('change', (event) => {
 
           if (event.target.files[0].name !== undefined) {
-            editarTextoImagemEscolher.textContent = event.target.files[0].name
+            // editarTextoImagemEscolher.textContent = event.target.files[0].name
           }
         })
 
@@ -226,6 +202,7 @@ if (btnsConteudoEditar) {
       else if (conteudo.dataset.conteudoTipo == 3) {
         editarVideoTitulo.value = conteudo.dataset.conteudoTitulo
         editarVideoUrl.value = conteudo.dataset.conteudoUrl
+        formularioEditarVideo.action = '/conteudo/' + conteudo.dataset.conteudoId
         modalConteudoVideoEditar.showModal()
       }
     })

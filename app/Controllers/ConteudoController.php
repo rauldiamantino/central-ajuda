@@ -109,14 +109,30 @@ class ConteudoController extends Controller
     $json = $this->receberJson();
     $resultado = $this->conteudoModel->atualizar($json, $id);
 
-    if (isset($resultado['erro'])) {
+    $urlRetorno = '/dashboard/artigos';
+    $artigoId = intval($json['artigo_id'] ?? 0);
+
+    if ($artigoId) {
+      $urlRetorno = '/dashboard/artigo/editar/' . $artigoId;
+    }
+
+    if ($_POST and isset($resultado['erro'])) { 
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
-    
+
+      header('Location: ' . $urlRetorno);
+      exit();
+    }
+    elseif ($_POST) { 
+      $_SESSION['ok'] = 'Registro alterado com sucesso';
+
+      header('Location: ' . $urlRetorno);
+      exit();
+    }
+
+    if (isset($resultado['erro'])) {
       $codigo = $resultado['erro']['codigo'] ?? 500;
       $this->responderJson($resultado, $codigo);
     }
-
-    $_SESSION['ok'] = 'Registro alterado com sucesso';
 
     $this->responderJson($resultado);
   }
