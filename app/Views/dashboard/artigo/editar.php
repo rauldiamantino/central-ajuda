@@ -90,8 +90,8 @@
             </svg>
             <span class="ml-2 text-gray-700 conteudo-txt-imagem-escolher">Escolher Imagem</span>
           </button>
-          <div class="relative flex flex-col gap-2 w-full h-48 opacity-50">
-            <img src="" class="object-cover w-full h-full opacity-0 transition-opacity duration-300 ease-in-out">
+          <div class="flex flex-col gap-2 w-full max-h-48 opacity-50">
+            <img src="" class="object-cover w-full h-full">
           </div>
           <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-green-800 hover:bg-green-600 text-white text-sm text-xs rounded-lg">Adicionar</button>
         </div>

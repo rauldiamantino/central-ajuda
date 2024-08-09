@@ -8,6 +8,7 @@ const imagemAdicionar = document.querySelector('.conteudo-imagem-adicionar')
 const videoAdicionar = document.querySelector('.conteudo-video-adicionar')
 const imagemEscolher = document.querySelector('.conteudo-imagem-escolher')
 const textoImagemEscolher = document.querySelector('.conteudo-txt-imagem-escolher')
+const imgElemento = imagemAdicionar.querySelector('img')
 
 if (btnTextoAdicionar) {
   btnTextoAdicionar.addEventListener('click', () => {
@@ -22,6 +23,8 @@ if (btnTextoAdicionar) {
       
       textoImagemEscolher.textContent = 'Escolher Imagem'
       imagemEscolher.value = ''
+      imgElemento.src = ''
+      imgElemento.classList.add('hidden')
     }
     else {
       textoAdicionar.classList.add('hidden')
@@ -39,6 +42,7 @@ if (btnImagemAdicionar) {
       videoAdicionar.classList.add('hidden')
       textoAdicionar.querySelector('textarea').value = ''
       videoAdicionar.querySelector('input').value = ''
+      imgElemento.classList.add('hidden')
     }
     else {
       imagemAdicionar.classList.add('hidden')
@@ -46,6 +50,8 @@ if (btnImagemAdicionar) {
 
       textoImagemEscolher.textContent = 'Escolher Imagem'
       imagemEscolher.value = ''
+      imgElemento.src = ''
+      imgElemento.classList.add('hidden')
     }
   })
 }
@@ -62,6 +68,8 @@ if (btnVideoAdicionar) {
       
       textoImagemEscolher.textContent = 'Escolher Imagem'
       imagemEscolher.value = ''
+      imgElemento.src = ''
+      imgElemento.classList.add('hidden')
     }
     else {
       videoAdicionar.classList.add('hidden')
@@ -79,15 +87,13 @@ if (btnImagemEscolher) {
 if (imagemEscolher) {
   imagemEscolher.addEventListener('change', (event) => {
     const anexo = event.target.files[0]
-    const imgElemento = imagemAdicionar.querySelector('img')
 
     if (anexo) {
       const objetoReader = new FileReader()
 
       objetoReader.onload = (e) => {
+        imgElemento.classList.remove('hidden')
         imgElemento.src = e.target.result
-        imgElemento.classList.remove('opacity-0')
-        imgElemento.classList.add('opacity-100')
       }
 
       textoImagemEscolher.textContent = anexo.name
