@@ -78,9 +78,20 @@ if (btnImagemEscolher) {
 
 if (imagemEscolher) {
   imagemEscolher.addEventListener('change', (event) => {
+    const anexo = event.target.files[0]
+    const imgElemento = imagemAdicionar.querySelector('img')
 
-    if (event.target.files[0].name !== undefined) {
-      textoImagemEscolher.textContent = event.target.files[0].name
+    if (anexo) {
+      const objetoReader = new FileReader()
+
+      objetoReader.onload = (e) => {
+        imgElemento.src = e.target.result
+        imgElemento.classList.remove('opacity-0')
+        imgElemento.classList.add('opacity-100')
+      }
+
+      textoImagemEscolher.textContent = anexo.name
+      objetoReader.readAsDataURL(anexo)
     }
   })
 }

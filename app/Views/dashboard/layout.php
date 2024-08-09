@@ -25,7 +25,7 @@
     <main class="ml-64 pt-16 flex w-screen h-screen flex-col">
       <?php // Notificação Sucesso ?>
       <?php if (isset($_SESSION['ok'])) { ?>
-        <div class="js-dashboard-notificacao-sucesso">
+        <div class="js-dashboard-notificacao-sucesso" onload="fecharNotificacao()">
           <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
             <strong class="font-bold">Ok!</strong>
             <span class="block sm:inline"><?php echo $_SESSION['ok']; ?></span>
