@@ -4,30 +4,30 @@
       <h2 class="text-2xl font-semibold">Todas as categorias</h2>
     </div>
     <thead class="p-6 text-xs font-light text-gray-500 uppercase bg-slate-100">
-      <tr class="border-b">
-        <th class="p-6 w-22">ID</th>
-        <th class="p-6 min-w-56 max-w-56">Categoria</th>
-        <th class="p-6 w-36 min-w-[120px]">Descrição</th>
-        <th class="p-6 w-36 min-w-[120px]">Criado</th>
+      <tr class="w-full border-b divide-x">
+        <th class="p-6 w-20">ID</th>
+        <th class="p-6 w-96">Título</th>
+        <th class="p-6 max-w-96">Descrição</th>
+        <th class="p-6 w-[120px]">Criado</th>
         <th class="p-6 w-20">Status</th>
         <th class="p-6 w-32 min-w-max">Ações</th>
       </tr>
     </thead>
     <tbody class="divide-y">
       <?php foreach ($categorias as $chave => $linha) : ?>
-        <tr class="hover:bg-slate-100">
+        <tr class="hover:bg-slate-100 divide-x">
           <?php foreach ($linha as $subChave => $subLinha) : ?>
             <?php if ($subChave == 'Categoria.id') { ?>
-              <td class="whitespace-nowrap p-6 w-22"><?php echo $subLinha ?></td>
+              <td class="whitespace-nowrap p-6 w-20"><?php echo $subLinha ?></td>
             <?php } ?>
             <?php if ($subChave == 'Categoria.nome') { ?>
-              <td class="whitespace-nowrap p-6 min-w-56 max-w-56 font-semibold text-gray-700"><?php echo $subLinha ?></td>
+              <td class="whitespace-nowrap p-6 w-96 font-semibold text-gray-700"><?php echo $subLinha ?></td>
             <?php } ?>
             <?php if ($subChave == 'Categoria.descricao') { ?>
-              <td class="whitespace-nowrap p-6 w-36 min-w-[120px]"><?php echo $subLinha ?></td>
+              <td class="whitespace-nowrap p-6 max-w-96 truncate"><?php echo $subLinha ?></td>
             <?php } ?>
             <?php if ($subChave == 'Categoria.criado') { ?>
-              <td class="whitespace-nowrap p-6 w-36 min-w-[120px] truncate"><?php echo $subLinha ?></td>
+              <td class="whitespace-nowrap p-6 w-[120px] truncate"><?php echo $subLinha ?></td>
             <?php } ?>
             <?php if ($subChave == 'Categoria.ativo') { ?>
               <td class="whitespace-nowrap p-6 w-20">

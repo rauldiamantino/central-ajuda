@@ -1,37 +1,33 @@
 <div class="relative w-full min-h-full flex flex-col bg-white">
   <table class="table-fixed text-sm text-left text-gray-500">
     <div class="p-4 w-full">
-    <h2 class="text-2xl font-semibold">Todos os artigos</h2>
-  </div>
+      <h2 class="text-2xl font-semibold">Todos os artigos</h2>
+    </div>
     <thead class="p-6 text-xs font-light text-gray-500 uppercase bg-slate-100">
-      <tr class="border-b">
-        <th class="p-6 w-22">ID</th>
-        <th class="p-6 min-w-64 max-w-64">Título</th>
-        <th class="p-6 min-w-56 max-w-56">Categoria</th>
-        <th class="p-6 w-36 min-w-[120px]">Autor</th>
-        <th class="p-6 w-36 min-w-[120px]">Criado</th>
+      <tr class="w-full border-b divide-x">
+        <th class="p-6 w-20">ID</th>
+        <th class="p-6 w-96">Título</th>
+        <th class="p-6 max-w-96">Categoria</th>
+        <th class="p-6 w-[120px]">Criado</th>
         <th class="p-6 w-20">Status</th>
         <th class="p-6 w-32 min-w-max">Ações</th>
       </tr>
     </thead>
     <tbody class="divide-y">
       <?php foreach ($artigos as $chave => $linha) : ?>
-        <tr class="hover:bg-slate-100">
+        <tr class="hover:bg-slate-100 divide-x">
           <?php foreach ($linha as $subChave => $subLinha) : ?>
             <?php if ($subChave == 'Artigo.id') { ?>
-              <td class="whitespace-nowrap p-6 w-22"><?php echo $subLinha ?></td>
+              <td class="whitespace-nowrap p-6 w-20"><?php echo $subLinha ?></td>
             <?php } ?>
             <?php if ($subChave == 'Artigo.titulo') { ?>
-              <td class="whitespace-nowrap p-6 min-w-64 max-w-64 font-semibold text-gray-700"><?php echo $subLinha ?></td>
+              <td class="whitespace-nowrap p-6 w-96 font-semibold text-gray-700"><?php echo $subLinha ?></td>
             <?php } ?>
             <?php if ($subChave == 'Categoria.nome') { ?>
-              <td class="whitespace-nowrap p-6 min-w-56 max-w-56"><?php echo $subLinha ?></td>
-            <?php } ?>
-            <?php if ($subChave == 'Usuario.nome') { ?>
-              <td class="whitespace-nowrap p-6 w-36 min-w-[120px]"><?php echo $subLinha ?></td>
+              <td class="whitespace-nowrap p-6 max-w-96 truncate"><?php echo $subLinha ?></td>
             <?php } ?>
             <?php if ($subChave == 'Artigo.criado') { ?>
-              <td class="whitespace-nowrap p-6 w-36 min-w-[120px] truncate"><?php echo $subLinha ?></td>
+              <td class="whitespace-nowrap p-6 w-[120px] truncate"><?php echo $subLinha ?></td>
             <?php } ?>
             <?php if ($subChave == 'Artigo.ativo') { ?>
               <td class="whitespace-nowrap p-6 w-20">
