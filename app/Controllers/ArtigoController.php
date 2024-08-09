@@ -283,8 +283,7 @@ class ArtigoController extends Controller
   public function apagar(int $id, bool $rollback = false)
   {
     $resultado = $this->artigoModel->apagar($id);
-echo json_encode($resultado);
-die;
+
     if ($rollback and isset($resultado['erro'])) {
       return $resultado;
     }
