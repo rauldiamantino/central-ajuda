@@ -1,24 +1,45 @@
-const notificacaoErro = document.querySelector('.js-dashboard-notificacao-erro')
-const notificacaoSucesso = document.querySelector('.js-dashboard-notificacao-sucesso')
-const notificacaoNeutra = document.querySelector('.js-dashboard-notificacao-neutra')
-const btnNotificacaoErroFechar = document.querySelector('.js-dashboard-notificacao-erro-btn-fechar')
-const btnNotificacaoSucessoFechar = document.querySelector('.js-dashboard-notificacao-sucesso-btn-fechar')
-const btnNotificacaoNeutraFechar = document.querySelector('.js-dashboard-notificacao-neutra-btn-fechar')
+const fecharNotificacao = (notificacao) => {
 
-if (btnNotificacaoErroFechar) {
-  btnNotificacaoErroFechar.addEventListener('click', () => {
-    notificacaoErro.classList.add('hidden')
-  })
+  if (! notificacao.classList.contains('hidden')) {
+    notificacao.classList.add('hidden')
+  }
 }
 
-if (btnNotificacaoSucessoFechar) {
-  btnNotificacaoSucessoFechar.addEventListener('click', () => {
-    notificacaoSucesso.classList.add('hidden')
-  })
-}
+document.addEventListener('DOMContentLoaded', function() {
+  const notificacaoErro = document.querySelector('.js-dashboard-notificacao-erro')
+  const notificacaoSucesso = document.querySelector('.js-dashboard-notificacao-sucesso')
+  const notificacaoNeutra = document.querySelector('.js-dashboard-notificacao-neutra')
+  const btnNotificacaoErroFechar = document.querySelector('.js-dashboard-notificacao-erro-btn-fechar')
+  const btnNotificacaoSucessoFechar = document.querySelector('.js-dashboard-notificacao-sucesso-btn-fechar')
+  const btnNotificacaoNeutraFechar = document.querySelector('.js-dashboard-notificacao-neutra-btn-fechar')
 
-if (btnNotificacaoNeutraFechar) {
-  btnNotificacaoNeutraFechar.addEventListener('click', () => {
-    notificacaoNeutra.classList.add('hidden')
-  })
-}
+  if (notificacaoErro) {
+    setTimeout(() => fecharNotificacao(notificacaoErro), 5000)
+  }
+
+  if (notificacaoSucesso) {
+    setTimeout(() => fecharNotificacao(notificacaoSucesso), 5000)
+  }
+
+  if (notificacaoNeutra) {
+    setTimeout(() => fecharNotificacao(notificacaoNeutra), 5000)
+  }
+
+  if (btnNotificacaoErroFechar) {
+    btnNotificacaoErroFechar.addEventListener('click', () => {
+     fecharNotificacao(notificacaoErro)
+    })
+  }
+
+  if (btnNotificacaoSucessoFechar) {
+    btnNotificacaoSucessoFechar.addEventListener('click', () => {
+      fecharNotificacao(notificacaoSucesso)
+    })
+  }
+
+  if (btnNotificacaoNeutraFechar) {
+    btnNotificacaoNeutraFechar.addEventListener('click', () => {
+      fecharNotificacao(notificacaoNeutra)
+    })
+  }
+})
