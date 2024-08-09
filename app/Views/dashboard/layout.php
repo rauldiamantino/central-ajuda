@@ -95,6 +95,7 @@
   <script src="/js/dashboard.js"></script>
   <script src="/js/dashboard-artigos.js"></script>
   <script src="/js/dashboard-artigos-editar.js"></script>
+  <script src="/js/dashboard-categorias.js"></script>
   <script>document.addEventListener('DOMContentLoaded', () => setTimeout(() => window.scrollTo({top: 0, left: 0, behavior: 'smooth'}), 60))</script>
 </body>
 

@@ -19,20 +19,76 @@ class CategoriaController extends Controller
 
   public function categoriasVer()
   {
+    $limite = 20;
+    $pagina = intval($_GET['pagina'] ?? 0);
+
+    // Recupera quantidade de páginas
+    $categoriasTotal = $this->categoriaModel->contar('Categoria.id');
+    $categoriasTotal = $categoriasTotal['total'] ?? 0;
+    $paginasTotal = ceil($categoriasTotal / $limite);
+
+    $pagina = abs($pagina);
+    $pagina = max($pagina, 1);
+    $pagina = min($pagina, $paginasTotal);
+
     $colunas = [
       'Categoria.id',
-      'Categoria.ativo',
       'Categoria.nome',
       'Categoria.descricao',
+      'Categoria.criado',
+      'Categoria.ativo',
+      'Categoria.modificado',
+    ];
+
+    $resultado = $this->categoriaModel->pagina($limite, $pagina)
+                                      ->ordem(['Categoria.id' => 'ASC'])
+                                      ->buscar($colunas);
+
+    // Calcular início e fim do intervalo
+    $intervaloInicio = ($pagina - 1) * $limite + 1;
+    $intervaloFim = min($pagina * $limite, $categoriasTotal);
+
+    $this->visao->variavel('categorias', $resultado);
+    $this->visao->variavel('pagina', $pagina);
+    $this->visao->variavel('categoriasTotal', $categoriasTotal);
+    $this->visao->variavel('limite', $limite);
+    $this->visao->variavel('paginasTotal', $paginasTotal);
+    $this->visao->variavel('intervaloInicio', $intervaloInicio);
+    $this->visao->variavel('intervaloFim', $intervaloFim);
+    $this->visao->variavel('titulo', 'Categorias');
+    $this->visao->renderizar('/index');
+  }
+
+  public function categoriaEditarVer(int $id)
+  {
+    $id = (int) $id;
+
+    $condicao = [
+      'Categoria.id' => $id,
+    ];
+
+    $colunas = [
+      'Categoria.id',
+      'Categoria.nome',
+      'Categoria.descricao',
+      'Categoria.ativo',
       'Categoria.criado',
       'Categoria.modificado',
     ];
 
-    $resultado = $this->categoriaModel->buscar($colunas);
+    $categoria = $this->categoriaModel->condicao($condicao)
+                                      ->buscar($colunas);
+    
+    if (isset($categoria['erro']) and $categoria['erro']) {
+      $_SESSION['erro'] = $categoria['erro']['mensagem'] ?? '';
 
-    $this->visao->variavel('titulo', 'Categorias');
-    $this->visao->variavel('categorias', $resultado);
-    $this->visao->renderizar('/index');
+      header('Location: /dashboard/categorias');
+      exit();
+    }
+
+    $this->visao->variavel('categoria', reset($categoria));
+    $this->visao->variavel('titulo', 'Editar categoria');
+    $this->visao->renderizar('/editar');
   }
 
   public function categoriaAdicionarVer()
@@ -45,18 +101,6 @@ class CategoriaController extends Controller
     ];
 
     $this->visao->renderizar('/adicionar/index', $dados);
-  }
-
-  public function categoriaEditarVer()
-  {
-    $dados = [
-      'titulo' => 'Categoria',
-      'categorias' => [
-        'teste' => 1234,
-      ],
-    ];
-
-    $this->visao->renderizar('/editar/index', $dados);
   }
 
   public function adicionar(array $params = []): array
@@ -140,6 +184,19 @@ class CategoriaController extends Controller
     $json = $this->receberJson();
     $resultado = $this->categoriaModel->atualizar($json, $id);
 
+    if ($_POST and isset($resultado['erro'])) { 
+      $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
+
+      header('Location: /dashboard/categorias');
+      exit();
+    }
+    elseif ($_POST) { 
+      $_SESSION['ok'] = 'Registro alterado com sucesso';
+
+      header('Location: /dashboard/categorias');
+      exit();
+    }
+
     if (isset($resultado['erro'])) {
       $codigo = $resultado['erro']['codigo'] ?? 500;
       $this->responderJson($resultado, $codigo);
@@ -156,6 +213,8 @@ class CategoriaController extends Controller
       return $resultado;
     }
     elseif (isset($resultado['erro'])) {
+      $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
+
       $codigo = $resultado['erro']['codigo'] ?? 500;
       $this->responderJson($resultado, $codigo);
     }
@@ -163,6 +222,8 @@ class CategoriaController extends Controller
     if ($rollback) {
       return $resultado;
     }
+
+    $_SESSION['ok'] = 'Categoria excluída com sucesso';
 
     $this->responderJson($resultado);
   }

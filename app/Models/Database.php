@@ -110,6 +110,18 @@ class Database
         return $retorno;
       }
 
+      if (strpos($e->getMessage(), 'SQLSTATE[23000]') === 0) {
+        $retorno = [
+          'erro' => [
+            'codigo' => 400,
+            'mensagem' => 'Este registro não pode ser excluído',
+          ],
+        ];
+
+        return $retorno;
+      }
+      
+      return ['erro' => $e->getMessage()];
       return ['erro' => false];
     }
   }

@@ -8,7 +8,7 @@ const imagemAdicionar = document.querySelector('.conteudo-imagem-adicionar')
 const videoAdicionar = document.querySelector('.conteudo-video-adicionar')
 const imagemEscolher = document.querySelector('.conteudo-imagem-escolher')
 const textoImagemEscolher = document.querySelector('.conteudo-txt-imagem-escolher')
-const imgElemento = imagemAdicionar.querySelector('img')
+const imgElemento = imagemAdicionar?.querySelector('img')
 
 if (btnTextoAdicionar) {
   btnTextoAdicionar.addEventListener('click', () => {
@@ -335,6 +335,10 @@ const requisicaoConteudoRemover = (conteudoId) => {
 // ----------- Reoganizar blocos de conteúdo -----------
 document.addEventListener('DOMContentLoaded', function () {
   const bloco = document.querySelector('.conteudo-blocos')
+  
+  if (! bloco) {
+    return
+  }
   
   Sortable.create(bloco, {
     animation: 150,
