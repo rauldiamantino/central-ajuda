@@ -129,7 +129,7 @@
       <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-categoria-remover-titulo">Remover categoria</h3>
       <div class="mt-2">
         <p class="text-sm text-gray-500">
-          Tem certeza que deseja remover este categoria? Todos os dados serão permanentemente apagados. Esta ação não poderá ser revertida.
+          Tem certeza que deseja remover esta categoria? Todos os dados serão permanentemente apagados. Esta ação não poderá ser revertida.
         </p>
       </div>
     </div>
