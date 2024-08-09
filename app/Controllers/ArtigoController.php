@@ -56,7 +56,7 @@ class ArtigoController extends Controller
 
     $resultado = $this->artigoModel->uniao2($uniao)
                                    ->pagina($limite, $pagina)
-                                   ->ordem(['Artigo.id' => 'ASC'])
+                                   ->ordem(['Artigo.id' => 'DESC'])
                                    ->buscar($colunas);
 
     // Calcular início e fim do intervalo
@@ -111,17 +111,12 @@ class ArtigoController extends Controller
       exit();
     }
 
-    $condCategoria = [
-      'Categoria.ativo' => 1,
-    ];
-
     $colCategoria = [
       'Categoria.id',
       'Categoria.nome',
     ];
 
-    $categorias = $this->categoriaModel->condicao($condCategoria)
-                                       ->buscar($colCategoria);
+    $categorias = $this->categoriaModel->buscar($colCategoria);
 
     if (! isset($categorias[0]['Categoria.nome'])) {
       $categorias = [];
@@ -164,14 +159,21 @@ class ArtigoController extends Controller
 
   public function artigoAdicionarVer()
   {
-    $dados = [
-      'titulo' => 'Artigo',
-      'empresa' => [
-        'teste' => 1234,
-      ],
+    $colCategoria = [
+      'Categoria.id',
+      'Categoria.nome',
     ];
 
-    $this->visao->renderizar('/adicionar/index', $dados);
+    $categorias = $this->categoriaModel->buscar($colCategoria);
+
+    if (! isset($categorias[0]['Categoria.nome'])) {
+      $categorias = [];
+    }
+
+    $this->visao->variavel('usuarioId', 1);
+    $this->visao->variavel('categorias', $categorias);
+    $this->visao->variavel('titulo', 'Adicionar artigo');
+    $this->visao->renderizar('/adicionar');
   }
 
   public function adicionar(array $params = []): array
@@ -184,38 +186,53 @@ class ArtigoController extends Controller
 
     $resultado = $this->artigoModel->adicionar($dados);
 
-    if (isset($resultado['erro']) and $params) {
+    // Requisição interna
+    if ($params and isset($resultado['erro'])) {
       return $resultado;
     }
+    elseif ($params and isset($resultado['id'])) {
+      $condicao = [
+        'Artigo.id' => $resultado['id'],
+      ];
 
+      $colunas = [
+        'Artigo.id',
+        'Artigo.ativo',
+        'Artigo.titulo',
+        'Artigo.usuario_id',
+        'Artigo.categoria_id',
+        'Artigo.visualizacoes',
+        'Artigo.criado',
+        'Artigo.modificado',
+      ];
+
+      $artigo = $this->artigoModel->condicao($condicao)
+                                  ->buscar($colunas);
+      
+      return reset($artigo);
+    }
+
+    // Formulário via POST
+    if ($_POST and isset($resultado['erro'])) { 
+      $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
+
+      header('Location: /dashboard/artigos');
+      exit();
+    }
+    elseif ($_POST and isset($resultado['id'])) { 
+      $_SESSION['ok'] = 'Artigo criado com sucesso';
+
+      header('Location: /dashboard/artigo/editar/' . $resultado['id']);
+      exit();
+    }
+    
+    // Formulário via Fetch
     if (isset($resultado['erro'])) {
       $codigo = $resultado['erro']['codigo'] ?? 500;
       $this->responderJson($resultado, $codigo);
     }
 
-    $condicao = [
-      'Artigo.id' => $resultado['id'],
-    ];
-
-    $colunas = [
-      'Artigo.id',
-      'Artigo.ativo',
-      'Artigo.titulo',
-      'Artigo.usuario_id',
-      'Artigo.categoria_id',
-      'Artigo.visualizacoes',
-      'Artigo.criado',
-      'Artigo.modificado',
-    ];
-
-    $empresa = $this->artigoModel->condicao($condicao)
-                                 ->buscar($colunas);
-
-    if ($params) {
-      return reset($empresa);
-    }
-
-    $this->responderJson(reset($empresa));
+    $this->responderJson($resultado);
   }
 
   public function buscar(int $id = 0)

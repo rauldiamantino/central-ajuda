@@ -1,8 +1,9 @@
 <div class="relative w-full min-h-full flex flex-col bg-white">
+  <div class="w-full flex justify-between items-center">
+    <h2 class="py-4 text-2xl font-semibold">Artigos</h2>
+    <a href="/dashboard/artigo/adicionar" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-green-800 hover:bg-green-600 text-white text-sm text-xs rounded-lg">Adicionar</a>
+  </div>
   <table class="table-fixed text-sm text-left text-gray-500">
-    <div class="p-4 w-full">
-      <h2 class="text-2xl font-semibold">Todos os artigos</h2>
-    </div>
     <thead class="p-6 text-xs font-light text-gray-500 uppercase bg-slate-100">
       <tr class="w-full border-b divide-x">
         <th class="p-6 w-20">ID</th>
