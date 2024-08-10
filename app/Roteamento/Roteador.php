@@ -25,6 +25,7 @@ class Roteador
       'GET:/dashboard/categoria/editar/{id}' => [CategoriaController::class, 'categoriaEditarVer'],
       'GET:/dashboard/categoria/adicionar' => [CategoriaController::class, 'categoriaAdicionarVer'],
       'GET:/dashboard/usuarios' => [UsuarioController::class, 'UsuariosVer'],
+      'GET:/dashboard/usuario/editar/{id}' => [UsuarioController::class, 'usuarioEditarVer'],
 
       'GET:/artigos' => [ArtigoController::class, 'buscar'],
       'GET:/artigo/{id}' => [ArtigoController::class, 'buscar'],

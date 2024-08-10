@@ -1,9 +1,15 @@
 <?php 
-  $nivelAcesso = [
-    0 => 'Suporte',
-    1 => 'Acesso total',
-    2 => 'Acesso restrito',
-  ];
+$tipoUsuario = [
+  0 => 'Suporte',
+  1 => 'Padrão',
+  2 => 'Comum',
+];
+
+$nivelAcesso = [
+  0 => 'Suporte',
+  1 => 'Acesso total',
+  2 => 'Acesso restrito',
+];
 ?>
 
 <div class="relative w-full min-h-full flex flex-col bg-white">
@@ -37,7 +43,7 @@
               <td class="whitespace-nowrap p-6 min-w-96 truncate"><?php echo $subLinha ?></td>
             <?php } ?>
             <?php if ($subChave == 'Usuario.padrao') { ?>
-              <td class="whitespace-nowrap p-6 max-w-40 truncate"><?php echo $subLinha == 1 ? 'Usuário padrão' : ''; ?></td>
+              <td class="whitespace-nowrap p-6 max-w-40 truncate"><?php echo $tipoUsuario[ $subLinha ]; ?></td>
             <?php } ?>
             <?php if ($subChave == 'Usuario.nivel') { ?>
               <td class="whitespace-nowrap p-6 max-w-40 truncate"><?php echo $nivelAcesso[ $subLinha ]; ?></td>

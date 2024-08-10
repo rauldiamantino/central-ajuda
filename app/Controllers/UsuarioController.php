@@ -105,6 +105,42 @@ class UsuarioController extends Controller
     $this->responderJson(reset($usuario));
   }
 
+  public function usuarioEditarVer(int $id)
+  {
+    $id = (int) $id;
+
+    $condicao = [
+      'Usuario.id' => $id,
+    ];
+
+    $colunas = [
+      'Usuario.id',
+      'Usuario.ativo',
+      'Usuario.nivel',
+      'Usuario.empresa_id',
+      'Usuario.padrao',
+      'Usuario.nome',
+      'Usuario.email',
+      'Usuario.telefone',
+      'Usuario.criado',
+      'Usuario.modificado',
+    ];
+
+    $usuario = $this->usuarioModel->condicao($condicao)
+                                  ->buscar($colunas);
+    
+    if (isset($usuario['erro']) and $usuario['erro']) {
+      $_SESSION['erro'] = $usuario['erro']['mensagem'] ?? '';
+
+      header('Location: /dashboard/usuarios');
+      exit();
+    }
+
+    $this->visao->variavel('usuario', reset($usuario));
+    $this->visao->variavel('titulo', 'Editar usuario');
+    $this->visao->renderizar('/editar');
+  }
+
   public function buscar(int $id = 0)
   {
     $condicao = [];
@@ -147,6 +183,19 @@ class UsuarioController extends Controller
   {
     $json = $this->receberJson();
     $resultado = $this->usuarioModel->atualizar($json, $id);
+
+    if ($_POST and isset($resultado['erro'])) { 
+      $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
+
+      header('Location: /dashboard/usuarios');
+      exit();
+    }
+    elseif ($_POST) { 
+      $_SESSION['ok'] = 'Registro alterado com sucesso';
+
+      header('Location: /dashboard/usuarios');
+      exit();
+    }
 
     if (isset($resultado['erro'])) {
       $codigo = $resultado['erro']['codigo'] ?? 500;

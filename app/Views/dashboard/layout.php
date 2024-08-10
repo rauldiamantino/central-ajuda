@@ -8,8 +8,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
-
   <title><?php echo $titulo ?></title>
   <style>
     body {
@@ -92,11 +90,19 @@
     </main>
   </div>
   
+<!-- Cleave.js principal -->
+<script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js"></script>
+
+<!-- Formatação específica para telefones do Brasil -->
+<script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/addons/cleave-phone.br.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
   <script src="/js/dashboard.js"></script>
   <script src="/js/dashboard-artigos.js"></script>
   <script src="/js/dashboard-artigos-editar.js"></script>
   <script src="/js/dashboard-categorias.js"></script>
   <script src="/js/dashboard-usuarios.js"></script>
+  <script src="/js/dashboard-usuarios-editar.js"></script>
   <script>document.addEventListener('DOMContentLoaded', () => setTimeout(() => window.scrollTo({top: 0, left: 0, behavior: 'smooth'}), 60))</script>
 </body>
 
