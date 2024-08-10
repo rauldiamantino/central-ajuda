@@ -41,7 +41,7 @@ class CategoriaController extends Controller
     ];
 
     $resultado = $this->categoriaModel->pagina($limite, $pagina)
-                                      ->ordem(['Categoria.id' => 'ASC'])
+                                      ->ordem(['Categoria.id' => 'DESC'])
                                       ->buscar($colunas);
 
     // Calcular início e fim do intervalo
@@ -93,14 +93,8 @@ class CategoriaController extends Controller
 
   public function categoriaAdicionarVer()
   {
-    $dados = [
-      'titulo' => 'Categoria',
-      'categorias' => [
-        'teste' => 1234,
-      ],
-    ];
-
-    $this->visao->renderizar('/adicionar/index', $dados);
+    $this->visao->variavel('titulo', 'Adicionar categoria');
+    $this->visao->renderizar('/adicionar');
   }
 
   public function adicionar(array $params = []): array
@@ -113,36 +107,53 @@ class CategoriaController extends Controller
 
     $resultado = $this->categoriaModel->adicionar($dados);
 
-    if (isset($resultado['erro']) and $params) {
+    // Requisição interna
+    if ($params and isset($resultado['erro'])) {
       return $resultado;
     }
+    elseif ($params and isset($resultado['id'])) {
+      $condicao = [
+        'Categoria.id' => $resultado['id'],
+      ];
 
+      $colunas = [
+        'Categoria.id',
+        'Categoria.ativo',
+        'Categoria.nome',
+        'Categoria.descricao',
+        'Categoria.criado',
+        'Categoria.modificado',
+      ];
+
+      $categoria = $this->categoriaModel->condicao($condicao)
+                                        ->buscar($colunas);
+
+      if ($params) {
+        return reset($categoria);
+      }
+    }
+
+    // Formulário via POST
+    if ($_POST and isset($resultado['erro'])) { 
+      $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
+
+      header('Location: /dashboard/categorias');
+      exit();
+    }
+    elseif ($_POST and isset($resultado['id'])) { 
+      $_SESSION['ok'] = 'Categoria criada com sucesso';
+
+      header('Location: /dashboard/categorias');
+      exit();
+    }
+
+    // Formulário via Fetch
     if (isset($resultado['erro'])) {
       $codigo = $resultado['erro']['codigo'] ?? 500;
       $this->responderJson($resultado, $codigo);
     }
 
-    $condicao = [
-      'Categoria.id' => $resultado['id'],
-    ];
-
-    $colunas = [
-      'Categoria.id',
-      'Categoria.ativo',
-      'Categoria.nome',
-      'Categoria.descricao',
-      'Categoria.criado',
-      'Categoria.modificado',
-    ];
-
-    $empresa = $this->categoriaModel->condicao($condicao)
-                                    ->buscar($colunas);
-
-    if ($params) {
-      return reset($empresa);
-    }
-
-    $this->responderJson(reset($empresa));
+    $this->responderJson($resultado);
   }
 
   public function buscar(int $id = 0)

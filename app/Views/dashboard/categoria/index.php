@@ -1,7 +1,7 @@
 <div class="relative w-full min-h-full flex flex-col bg-white">
   <div class="w-full flex justify-between items-center">
     <h2 class="py-4 text-2xl font-semibold">Categorias</h2>
-    <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-green-800 hover:bg-green-600 text-white text-sm text-xs rounded-lg">Adicionar</button>
+    <a href="/dashboard/categoria/adicionar" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-green-800 hover:bg-green-600 text-white text-sm text-xs rounded-lg">Adicionar</a>
   </div>
   <table class="table-fixed text-sm text-left text-gray-500">
     <thead class="p-6 text-xs font-light text-gray-500 uppercase bg-slate-100">
