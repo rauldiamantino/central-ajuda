@@ -18,6 +18,40 @@ class UsuarioModel extends Model
       return $campos;
     }
 
+    // Apenas um usuário padrão por empresa
+    if ($campos['padrao'] == 1) {
+      $condicao = [
+        'Usuario.padrao' => 1,
+        'Usuario.empresa_id' => $campos['empresa_id'],
+      ];
+
+      $usuarioPadrao = parent::condicao($condicao)
+                             ->contar('Usuario.id');
+
+      if ($usuarioPadrao) {
+        $msgErro = [
+          'erro' => [
+            'codigo' => 400,
+            'mensagem' => 'Já existe um usuário padrão',
+          ],
+        ];
+
+        return $msgErro;
+      }
+    }
+
+    // Revisar para tornar dinâmico
+    if ($campos['padrao'] == 0 or $campos['nivel'] == 0) {
+      $msgErro = [
+        'erro' => [
+          'codigo' => 400,
+          'mensagem' => 'Usuário inválido',
+        ],
+      ];
+
+      return $msgErro;
+    }
+
     return parent::adicionar($campos, true);
   }
 
@@ -39,12 +73,25 @@ class UsuarioModel extends Model
       return $msgErro;
     }
 
-    if (isset($params['senha'])) {
+
+    $novaSenha = $params['senha'] ?? '';
+    $senhaAtual = $params['senha_atual'] ?? '';
+
+    // Apenas se preencher nova senha
+    if ($novaSenha or $senhaAtual) {
       $senhaValidada = $this->validarSenha($params, $id);
 
       if (isset($senhaValidada['erro'])) {
         return $senhaValidada;
       }
+    }
+    
+    if (empty($novaSenha) and isset($params['senha'])) {
+      unset($params['senha']);
+    }
+    
+    if (empty($senhaValidada) and isset($params['senha_atual'])) {
+      unset($params['senha_atual']);
     }
 
     $atualizar = true;
@@ -52,6 +99,41 @@ class UsuarioModel extends Model
 
     if (isset($campos['erro'])) {
       return $campos;
+    }
+
+    // Apenas um usuário padrão por empresa
+    if ($campos['padrao'] == 1) {
+      $condicao = [
+        'Usuario.padrao' => 1,
+        'Usuario.empresa_id' => $campos['empresa_id'],
+        'Usuario.id !=' => $id,
+      ];
+
+      $usuarioPadrao = parent::condicao($condicao)
+                             ->contar('Usuario.id');
+
+      if ($usuarioPadrao) {
+        $msgErro = [
+          'erro' => [
+            'codigo' => 400,
+            'mensagem' => 'Já existe um usuário padrão',
+          ],
+        ];
+
+        return $msgErro;
+      }
+    }
+
+    // Revisar para tornar dinâmico
+    if ($campos['padrao'] == 0 or $campos['nivel'] == 0) {
+      $msgErro = [
+        'erro' => [
+          'codigo' => 400,
+          'mensagem' => 'Usuário inválido',
+        ],
+      ];
+
+      return $msgErro;
     }
 
     return parent::atualizar($campos, $id);
@@ -126,7 +208,11 @@ class UsuarioModel extends Model
       ];
 
       if ($atualizar and ! isset($params[ $chave ])) {
-        continue;
+
+        // Sempre precisa do ID da empresa
+        if ($chave != 'empresa_id') {
+          continue;
+        }
       }
 
       if (! in_array($chave, $permitidos) and empty($linha)) {
@@ -250,21 +336,30 @@ class UsuarioModel extends Model
 
   private function validarSenha(array $params, int $id): array
   {
+    $erroSenha = false;
+    $novaSenha = $params['senha'] ?? '';
     $senhaAtual = $params['senha_atual'] ?? '';
 
-    if (empty($senhaAtual)) {
+    if ($novaSenha and empty($senhaAtual)) {
+      $erroSenha = true;
+    }
+    elseif ($senhaAtual and empty($novaSenha)) {
+      $erroSenha = true;
+    }
+
+    if ($erroSenha) {
       $msgErro = [
         'erro' => [
           'codigo' => 400,
-          'mensagem' => 'Informe a senha atual',
+          'mensagem' => 'Para alterar a senha, é necessário preencher os campos Senha atual e Nova senha',
         ],
       ];
 
       return $msgErro;
     }
 
-    $usuario = parent::condicao(['id' => $id])
-                     ->buscar(['id', 'senha']);
+    $usuario = parent::condicao(['Usuario.id' => $id])
+                     ->buscar(['Usuario.id', 'Usuario.senha']);
 
     if (empty($usuario)) {
       $msgErro = [
@@ -277,13 +372,13 @@ class UsuarioModel extends Model
       return $msgErro;
     }
 
-    $senhaCadastro = $usuario[0]['senha'] ?? '';
+    $senhaCadastro = $usuario[0]['Usuario.senha'] ?? '';
 
     if (! password_verify(trim($senhaAtual), trim($senhaCadastro))) {
       $msgErro = [
         'erro' => [
           'codigo' => 401,
-          'mensagem' => 'Senha incorreta',
+          'mensagem' => 'Senha atual incorreta',
         ],
       ];
 

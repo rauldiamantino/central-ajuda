@@ -43,7 +43,9 @@
             <strong class="font-bold">Erro!</strong>
             <?php if (is_array($_SESSION['erro'])) { ?>
               <?php foreach($_SESSION['erro'] as $linha): ?>
-                <span class="block sm:inline"><?php echo $linha; ?></span>
+                <div class="flex flex-col gap-1">
+                  <span class="block sm:inline"><?php echo $linha; ?></span>
+                </div>
               <?php endforeach; ?>
             <?php } ?>
             <?php if (is_string($_SESSION['erro'])) { ?>

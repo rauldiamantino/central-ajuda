@@ -169,8 +169,10 @@ class ArtigoController extends Controller
     if (! isset($categorias[0]['Categoria.nome'])) {
       $categorias = [];
     }
-
+    
+    // Revisar para tornar dinâmico
     $this->visao->variavel('usuarioId', 1);
+    
     $this->visao->variavel('categorias', $categorias);
     $this->visao->variavel('titulo', 'Adicionar artigo');
     $this->visao->renderizar('/adicionar');

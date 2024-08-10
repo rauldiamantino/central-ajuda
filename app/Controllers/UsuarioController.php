@@ -60,7 +60,7 @@ class UsuarioController extends Controller
     $this->visao->renderizar('/index');
   }
 
-  public function adicionar($params = [])
+  public function adicionar(array $params = []): array
   {
     $dados = $params;
 
@@ -68,41 +68,62 @@ class UsuarioController extends Controller
       $dados = $this->receberJson();
     }
 
+    // Revisar para tornar dinâmico
+    $empresa_id = 1;
+    $dados = array_merge($dados, ['empresa_id' => $empresa_id]);
+
+    // Adiciona usuário
     $resultado = $this->usuarioModel->adicionar($dados);
 
+    // Requisição interna
     if ($params and isset($resultado['erro'])) {
       return $resultado;
     }
-    elseif (isset($resultado['erro'])) {
+    elseif ($params and isset($resultado['id'])) {
+      $condicao = [
+        'Usuario.id' => $resultado['id'],
+      ];
+
+      $colunas = [
+        'Usuario.id',
+        'Usuario.ativo',
+        'Usuario.nivel',
+        'Usuario.empresa_id',
+        'Usuario.padrao',
+        'Usuario.nome',
+        'Usuario.email',
+        'Usuario.telefone',
+        'Usuario.criado',
+        'Usuario.modificado',
+      ];
+
+      $usuario = $this->usuarioModel->condicao($condicao)
+                                    ->buscar($colunas);
+      
+      return reset($usuario);
+    }
+
+    // Formulário via POST
+    if ($_POST and isset($resultado['erro'])) { 
+      $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
+
+      header('Location: /dashboard/usuario/adicionar');
+      exit();
+    }
+    elseif ($_POST and isset($resultado['id'])) { 
+      $_SESSION['ok'] = 'Usuário criado com sucesso';
+
+      header('Location: /dashboard/usuario/editar/' . $resultado['id']);
+      exit();
+    }
+    
+    // Formulário via Fetch
+    if (isset($resultado['erro'])) {
       $codigo = $resultado['erro']['codigo'] ?? 500;
       $this->responderJson($resultado, $codigo);
     }
 
-    $condicao = [
-      'Usuario.id' => $resultado['id'],
-    ];
-
-    $colunas = [
-      'Usuario.id',
-      'Usuario.ativo',
-      'Usuario.nivel',
-      'Usuario.empresa_id',
-      'Usuario.padrao',
-      'Usuario.nome',
-      'Usuario.email',
-      'Usuario.telefone',
-      'Usuario.criado',
-      'Usuario.modificado',
-    ];
-
-    $usuario = $this->usuarioModel->condicao($condicao)
-                                  ->buscar($colunas);
-
-    if ($params) {
-      return reset($usuario);
-    }
-
-    $this->responderJson(reset($usuario));
+    $this->responderJson($resultado);
   }
 
   public function usuarioEditarVer(int $id)
@@ -139,6 +160,12 @@ class UsuarioController extends Controller
     $this->visao->variavel('usuario', reset($usuario));
     $this->visao->variavel('titulo', 'Editar usuario');
     $this->visao->renderizar('/editar');
+  }
+
+  public function usuarioAdicionarVer()
+  {
+    $this->visao->variavel('titulo', 'Adicionar usuário');
+    $this->visao->renderizar('/adicionar');
   }
 
   public function buscar(int $id = 0)
@@ -182,12 +209,13 @@ class UsuarioController extends Controller
   public function atualizar(int $id)
   {
     $json = $this->receberJson();
+
     $resultado = $this->usuarioModel->atualizar($json, $id);
 
     if ($_POST and isset($resultado['erro'])) { 
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
-      header('Location: /dashboard/usuarios');
+      header('Location: /dashboard/usuario/editar/' . $id);
       exit();
     }
     elseif ($_POST) { 

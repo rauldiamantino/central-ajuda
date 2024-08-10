@@ -23,6 +23,7 @@ CREATE TABLE `usuarios` (
   `modificado` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
+  UNIQUE KEY `empresa_padrao_unico` (`empresa_id`, `padrao`)
   KEY `fk_usuarios_empresa` (`empresa_id`),
   CONSTRAINT `fk_usuarios_empresa` FOREIGN KEY (`empresa_id`) REFERENCES `empresas` (`id`) ON DELETE CASCADE
 )
