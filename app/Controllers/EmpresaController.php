@@ -17,18 +17,6 @@ class EmpresaController extends Controller
     parent::__construct($this->empresaModel);
   }
 
-  public function empresaVer()
-  {
-    $dados = [
-      'titulo' => 'Empresa',
-      'empresa' => [
-        'teste' => 1234,
-      ],
-    ];
-
-    $this->visao->renderizar('/cadastro/index', $dados);
-  }
-
   public function adicionar(array $params = []): array
   {
     $dados = $params;

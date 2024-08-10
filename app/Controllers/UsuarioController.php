@@ -1,16 +1,63 @@
 <?php
 namespace app\Controllers;
 use app\Models\UsuarioModel;
+use app\Controllers\ViewRenderer;
 
 class UsuarioController extends Controller
 {
+  protected $visao;
   protected $middleware;
   protected $usuarioModel;
 
   public function __construct()
   {
+    $this->visao = new ViewRenderer('/dashboard/usuario');
     $this->usuarioModel = new UsuarioModel();
+
     parent::__construct($this->usuarioModel);
+  }
+
+  public function usuariosVer()
+  {
+    $limite = 20;
+    $pagina = intval($_GET['pagina'] ?? 0);
+
+    // Recupera quantidade de páginas
+    $usuariosTotal = $this->usuarioModel->contar('Usuario.id');
+    $usuariosTotal = $usuariosTotal['total'] ?? 0;
+    $paginasTotal = ceil($usuariosTotal / $limite);
+
+    $pagina = abs($pagina);
+    $pagina = max($pagina, 1);
+    $pagina = min($pagina, $paginasTotal);
+
+    $colunas = [
+      'Usuario.id',
+      'Usuario.nome',
+      'Usuario.email',
+      'Usuario.padrao',
+      'Usuario.nivel',
+      'Usuario.criado',
+      'Usuario.ativo',
+    ];
+
+    $resultado = $this->usuarioModel->pagina($limite, $pagina)
+                                    ->ordem(['Usuario.id' => 'DESC'])
+                                    ->buscar($colunas);
+
+    // Calcular início e fim do intervalo
+    $intervaloInicio = ($pagina - 1) * $limite + 1;
+    $intervaloFim = min($pagina * $limite, $usuariosTotal);
+
+    $this->visao->variavel('usuarios', $resultado);
+    $this->visao->variavel('pagina', $pagina);
+    $this->visao->variavel('usuariosTotal', $usuariosTotal);
+    $this->visao->variavel('limite', $limite);
+    $this->visao->variavel('paginasTotal', $paginasTotal);
+    $this->visao->variavel('intervaloInicio', $intervaloInicio);
+    $this->visao->variavel('intervaloFim', $intervaloFim);
+    $this->visao->variavel('titulo', 'Usuários');
+    $this->visao->renderizar('/index');
   }
 
   public function adicionar($params = [])
@@ -117,6 +164,8 @@ class UsuarioController extends Controller
       return $resultado;
     }
     elseif (isset($resultado['erro'])) {
+      $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
+
       $codigo = $resultado['erro']['codigo'] ?? 500;
       $this->responderJson($resultado, $codigo);
     }
@@ -124,6 +173,8 @@ class UsuarioController extends Controller
     if ($rollback) {
       return $resultado;
     }
+
+    $_SESSION['ok'] = 'Usuário excluído com sucesso';
 
     $this->responderJson($resultado);
   }

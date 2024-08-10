@@ -176,6 +176,7 @@ class UsuarioModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('padrao', 'valInvalido');
       }
 
+      // 0 - Suporte, 1 - Total, 2 - Restrito
       if (isset($params['nivel']) and ! in_array($campos['nivel'], [0, 1, 2])) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('nivel', 'valInvalido');
       }

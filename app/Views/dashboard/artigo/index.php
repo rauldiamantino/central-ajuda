@@ -9,8 +9,8 @@
         <th class="p-6 w-20">ID</th>
         <th class="p-6 w-96">Título</th>
         <th class="p-6 max-w-96">Categoria</th>
-        <th class="p-6 w-[120px]">Criado</th>
-        <th class="p-6 w-20">Status</th>
+        <th class="p-6 w-[200px] max-w-[200px]">Criado</th>
+        <th class="p-6 w-28">Status</th>
         <th class="p-6 w-32 min-w-max">Ações</th>
       </tr>
     </thead>
@@ -28,10 +28,10 @@
               <td class="whitespace-nowrap p-6 max-w-96 truncate"><?php echo $subLinha ?></td>
             <?php } ?>
             <?php if ($subChave == 'Artigo.criado') { ?>
-              <td class="whitespace-nowrap p-6 w-[120px] truncate"><?php echo $subLinha ?></td>
+              <td class="whitespace-nowrap p-6 w-[200px] max-w-[200px] truncate"><?php echo $subLinha ?></td>
             <?php } ?>
             <?php if ($subChave == 'Artigo.ativo') { ?>
-              <td class="whitespace-nowrap p-6 w-20">
+              <td class="whitespace-nowrap p-6 w-28">
                 <?php if ($subLinha == 1) { ?>
                   <div class="flex items-center gap-2">
                     <span class="text-green-800">

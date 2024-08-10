@@ -1,36 +1,48 @@
+<?php 
+  $nivelAcesso = [
+    0 => 'Suporte',
+    1 => 'Acesso total',
+    2 => 'Acesso restrito',
+  ];
+?>
+
 <div class="relative w-full min-h-full flex flex-col bg-white">
   <div class="w-full flex justify-between items-center">
-    <h2 class="py-4 text-2xl font-semibold">Categorias</h2>
-    <a href="/dashboard/categoria/adicionar" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-green-800 hover:bg-green-600 text-white text-sm text-xs rounded-lg">Adicionar</a>
+    <h2 class="py-4 text-2xl font-semibold">Usuários</h2>
+    <a href="/dashboard/usuario/adicionar" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-green-800 hover:bg-green-600 text-white text-sm text-xs rounded-lg">Adicionar</a>
   </div>
   <table class="table-fixed text-sm text-left text-gray-500">
     <thead class="p-6 text-xs font-light text-gray-500 uppercase bg-slate-100">
       <tr class="w-full border-b divide-x">
         <th class="p-6 w-20">ID</th>
-        <th class="p-6 w-96">Título</th>
-        <th class="p-6 max-w-96">Descrição</th>
-        <th class="p-6 w-[200px] max-w-[200px]">Criado</th>
+        <th class="p-6 w-96">Nome</th>
+        <th class="p-6 min-w-96">Email</th>
+        <th class="p-6 w-40 whitespace-nowrap">Tipo de usuário</th>
+        <th class="p-6 w-40">Nível</th>
         <th class="p-6 w-28">Status</th>
         <th class="p-6 w-32 min-w-max">Ações</th>
       </tr>
     </thead>
     <tbody class="divide-y">
-      <?php foreach ($categorias as $chave => $linha) : ?>
+      <?php foreach ($usuarios as $chave => $linha) : ?>
         <tr class="hover:bg-slate-100 divide-x">
           <?php foreach ($linha as $subChave => $subLinha) : ?>
-            <?php if ($subChave == 'Categoria.id') { ?>
+            <?php if ($subChave == 'Usuario.id') { ?>
               <td class="whitespace-nowrap p-6 w-20"><?php echo $subLinha ?></td>
             <?php } ?>
-            <?php if ($subChave == 'Categoria.nome') { ?>
+            <?php if ($subChave == 'Usuario.nome') { ?>
               <td class="whitespace-nowrap p-6 w-96 font-semibold text-gray-700"><?php echo $subLinha ?></td>
             <?php } ?>
-            <?php if ($subChave == 'Categoria.descricao') { ?>
-              <td class="whitespace-nowrap p-6 max-w-96 truncate"><?php echo $subLinha ?></td>
+            <?php if ($subChave == 'Usuario.email') { ?>
+              <td class="whitespace-nowrap p-6 min-w-96 truncate"><?php echo $subLinha ?></td>
             <?php } ?>
-            <?php if ($subChave == 'Categoria.criado') { ?>
-              <td class="whitespace-nowrap p-6 w-[200px] max-w-[200px] truncate"><?php echo $subLinha ?></td>
+            <?php if ($subChave == 'Usuario.padrao') { ?>
+              <td class="whitespace-nowrap p-6 max-w-40 truncate"><?php echo $subLinha == 1 ? 'Usuário padrão' : ''; ?></td>
             <?php } ?>
-            <?php if ($subChave == 'Categoria.ativo') { ?>
+            <?php if ($subChave == 'Usuario.nivel') { ?>
+              <td class="whitespace-nowrap p-6 max-w-40 truncate"><?php echo $nivelAcesso[ $subLinha ]; ?></td>
+            <?php } ?>
+            <?php if ($subChave == 'Usuario.ativo') { ?>
               <td class="whitespace-nowrap p-6 w-28">
                 <?php if ($subLinha == 1) { ?>
                   <div class="flex items-center gap-2">
@@ -56,14 +68,14 @@
             <?php } ?>
           <?php endforeach; ?>
           <td class="whitespace-normal p-6 w-32 min-w-max flex gap-2 items-center">
-            <a href="/dashboard/categoria/editar/<?php echo $linha['Categoria.id'] ?>" class="flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg js-dashboard-categorias-editar" data-categoria-id="<?php echo $linha['Categoria.id'] ?>">
+            <a href="/dashboard/usuario/editar/<?php echo $linha['Usuario.id'] ?>" class="flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg js-dashboard-usuarios-editar" data-usuario-id="<?php echo $linha['Usuario.id'] ?>">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
                 <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                 <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
               </svg>
               Editar
             </a>
-            <button type="button" class="flex gap-2 items-center justify-center py-2 px-4 bg-red-800 hover:bg-red-600 text-white text-xs rounded-lg js-dashboard-categorias-remover" data-categoria-id="<?php echo $linha['Categoria.id'] ?>">
+            <button type="button" class="flex gap-2 items-center justify-center py-2 px-4 bg-red-800 hover:bg-red-600 text-white text-xs rounded-lg js-dashboard-usuarios-remover" data-usuario-id="<?php echo $linha['Usuario.id'] ?>">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
                 <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
@@ -79,7 +91,7 @@
   <?php // Paginação ?>
   <div class="sticky inset-x-0 bottom-0 border-t border-slate-200 w-full h-max py-2 flex justify-center items-center gap-1 bg-white">
     <?php if ($pagina > 1) { ?>
-      <a href="/dashboard/categorias?pagina=<?php echo $pagina - 1 ?>" class="border border-slate-100 bg-slate-100 hover:bg-slate-200 text-gray-500 hover:text-black p-3 rounded-lg">
+      <a href="/dashboard/usuarios?pagina=<?php echo $pagina - 1 ?>" class="border border-slate-100 bg-slate-100 hover:bg-slate-200 text-gray-500 hover:text-black p-3 rounded-lg">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" stroke="currentColor" stroke-width="2" />
         </svg>
@@ -94,12 +106,12 @@
       </div>
     <?php } ?>
 
-    <form action="/dashboard/categorias" method="get">
-      <input type="number" name="pagina" value="<?php echo $pagina ?>" class="p-2 w-16 border-2 border-slate-100 text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none rounded-lg categoria-numero-pagina">
+    <form action="/dashboard/usuarios" method="get">
+      <input type="number" name="pagina" value="<?php echo $pagina ?>" class="p-2 w-16 border-2 border-slate-100 text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none rounded-lg usuario-numero-pagina">
     </form>
 
     <?php if ($pagina < $paginasTotal) { ?>
-      <a href="/dashboard/categorias?pagina=<?php echo $pagina + 1 ?>" class="border border-slate-100 bg-slate-100 hover:bg-slate-200 text-gray-500 hover:text-black p-3 rounded-lg">
+      <a href="/dashboard/usuarios?pagina=<?php echo $pagina + 1 ?>" class="border border-slate-100 bg-slate-100 hover:bg-slate-200 text-gray-500 hover:text-black p-3 rounded-lg">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" stroke="currentColor" stroke-width="2" />
         </svg>
@@ -114,12 +126,12 @@
       </div>
     <?php } ?>
 
-    <div class="pl-2 text-xs">Exibindo <?php echo $intervaloInicio; ?>-<?php echo $intervaloFim; ?> de <?php echo $categoriasTotal; ?></div>
+    <div class="pl-2 text-xs">Exibindo <?php echo $intervaloInicio; ?>-<?php echo $intervaloFim; ?> de <?php echo $usuariosTotal; ?></div>
   </div>
 </div>
 
 <?php // Modal remover ?>
-<dialog class="p-4 sm:w-[440px] rounded-lg shadow modal-categoria-remover">
+<dialog class="p-4 sm:w-[440px] rounded-lg shadow modal-usuario-remover">
   <div class="w-full flex gap-4">
     <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
       <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
@@ -127,16 +139,16 @@
       </svg>
     </div>
     <div class="text-left">
-      <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-categoria-remover-titulo">Remover categoria</h3>
+      <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-usuario-remover-titulo">Remover usuario</h3>
       <div class="mt-2">
         <p class="text-sm text-gray-500">
-          Tem certeza que deseja remover esta categoria? Todos os dados serão permanentemente apagados. Esta ação não poderá ser revertida.
+          Tem certeza que deseja remover este usuario? Todos os dados serão permanentemente apagados. Esta ação não poderá ser revertida.
         </p>
       </div>
     </div>
   </div>
   <div class="mt-4 w-full flex flex-col sm:flex-row gap-3 font-semibold text-xs sm:justify-end justify-center">
-    <button type="button" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-gray-700 rounded-lg modal-categoria-btn-cancelar w-full">Cancelar</button>
-    <button type="button" class="flex gap-2 items-center justify-center py-2 px-3 bg-red-800 hover:bg-red-600 text-white rounded-lg w-full modal-categoria-btn-remover">Remover</button>
+    <button type="button" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-gray-700 rounded-lg modal-usuario-btn-cancelar w-full">Cancelar</button>
+    <button type="button" class="flex gap-2 items-center justify-center py-2 px-3 bg-red-800 hover:bg-red-600 text-white rounded-lg w-full modal-usuario-btn-remover">Remover</button>
   </div>
 </dialog>
