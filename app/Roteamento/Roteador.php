@@ -8,6 +8,7 @@ use app\Controllers\DashboardController;
 use app\Controllers\ArtigoController;
 use app\Controllers\ConteudoController;
 use app\Controllers\CategoriaController;
+use app\Controllers\PublicoController;
 
 class Roteador
 {
@@ -28,6 +29,7 @@ class Roteador
       'GET:/dashboard/usuario/editar/{id}' => [UsuarioController::class, 'usuarioEditarVer'],
       'GET:/dashboard/usuario/adicionar' => [UsuarioController::class, 'usuarioAdicionarVer'],
       'GET:/dashboard/empresa/editar' => [EmpresaController::class, 'empresaEditarVer'],
+      'GET:/publico' => [PublicoController::class, 'publicoVer'],
 
       'GET:/artigos' => [ArtigoController::class, 'buscar'],
       'GET:/artigo/{id}' => [ArtigoController::class, 'buscar'],
