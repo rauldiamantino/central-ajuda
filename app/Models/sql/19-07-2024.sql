@@ -33,6 +33,7 @@ CREATE TABLE `artigos` (
   `ativo` int DEFAULT '0',
   `titulo` varchar(255) NOT NULL,
   `usuario_id` int DEFAULT NULL,
+  `empresa_id` int NOT NULL,
   `categoria_id` int DEFAULT NULL,
   `visualizacoes` int DEFAULT '0',
   `criado` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
@@ -48,6 +49,7 @@ CREATE TABLE `conteudos` (
   `id` int NOT NULL AUTO_INCREMENT,
   `ativo` int DEFAULT '0',
   `artigo_id` int NOT NULL,
+  `empresa_id` int NOT NULL,
   `tipo` int NOT NULL,
   `titulo` varchar(255) DEFAULT NULL,
   `conteudo` text,
@@ -66,6 +68,7 @@ CREATE TABLE `categorias` (
   `ativo` int DEFAULT '0',
   `nome` varchar(255) NOT NULL,
   `descricao` text,
+  `empresa_id` int NOT NULL,
   `criado` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `modificado` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)

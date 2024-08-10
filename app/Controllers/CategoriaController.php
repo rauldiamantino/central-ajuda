@@ -22,8 +22,14 @@ class CategoriaController extends Controller
     $limite = 20;
     $pagina = intval($_GET['pagina'] ?? 0);
 
+    $condicoes = [
+      'Categoria.empresa_id' => $this->empresaPadraoId,
+    ];
+
     // Recupera quantidade de páginas
-    $categoriasTotal = $this->categoriaModel->contar('Categoria.id');
+    $categoriasTotal = $this->categoriaModel->condicao($condicoes)
+                                            ->contar('Categoria.id');
+
     $categoriasTotal = $categoriasTotal['total'] ?? 0;
     $paginasTotal = ceil($categoriasTotal / $limite);
 
@@ -40,13 +46,19 @@ class CategoriaController extends Controller
       'Categoria.modificado',
     ];
 
-    $resultado = $this->categoriaModel->pagina($limite, $pagina)
+    $resultado = $this->categoriaModel->condicao($condicoes)
+                                      ->pagina($limite, $pagina)
                                       ->ordem(['Categoria.id' => 'DESC'])
                                       ->buscar($colunas);
 
     // Calcular início e fim do intervalo
-    $intervaloInicio = ($pagina - 1) * $limite + 1;
-    $intervaloFim = min($pagina * $limite, $categoriasTotal);
+    $intervaloInicio= 0;
+    $intervaloFim = 0;
+
+    if ($categoriasTotal) {
+      $intervaloInicio = ($pagina - 1) * $limite + 1;
+      $intervaloFim = min($pagina * $limite, $categoriasTotal);
+    }
 
     $this->visao->variavel('categorias', $resultado);
     $this->visao->variavel('pagina', $pagina);
@@ -65,6 +77,7 @@ class CategoriaController extends Controller
 
     $condicao = [
       'Categoria.id' => $id,
+      'Categoria.empresa_id' => $this->empresaPadraoId,
     ];
 
     $colunas = [
@@ -105,6 +118,10 @@ class CategoriaController extends Controller
       $dados = $this->receberJson();
     }
 
+    // Sempre informar Empresa ID
+    $dados = array_merge($dados, ['empresa_id' => $this->empresaPadraoId]);
+
+    // Adicionar categoria
     $resultado = $this->categoriaModel->adicionar($dados);
 
     // Requisição interna
@@ -114,8 +131,9 @@ class CategoriaController extends Controller
     elseif ($params and isset($resultado['id'])) {
       $condicao = [
         'Categoria.id' => $resultado['id'],
+        'Categoria.empresa_id' => $this->empresaPadraoId,
       ];
-
+  
       $colunas = [
         'Categoria.id',
         'Categoria.ativo',
@@ -163,6 +181,7 @@ class CategoriaController extends Controller
     if ($id) {
       $condicao = [
         'Categoria.id' => $id,
+        'Categoria.empresa_id' => $this->empresaPadraoId,
       ];
     }
 
@@ -193,6 +212,12 @@ class CategoriaController extends Controller
   public function atualizar(int $id)
   {
     $json = $this->receberJson();
+
+    // Sempre informar Empresa ID
+    $json = array_merge($json, ['empresa_id' => $this->empresaPadraoId]);
+
+    // Adicionar categoria
+
     $resultado = $this->categoriaModel->atualizar($json, $id);
 
     if ($_POST and isset($resultado['erro'])) { 
@@ -218,7 +243,7 @@ class CategoriaController extends Controller
 
   public function apagar(int $id, bool $rollback = false)
   {
-    $resultado = $this->categoriaModel->apagar($id);
+    $resultado = $this->categoriaModel->apagarCategoria($id, $this->empresaPadraoId);
 
     if ($rollback and isset($resultado['erro'])) {
       return $resultado;

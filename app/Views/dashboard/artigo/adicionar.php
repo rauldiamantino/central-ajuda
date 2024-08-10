@@ -2,7 +2,6 @@
   <h2 class="text-2xl font-semibold mb-4">
     Adicionar artigo
   </h2>
-
   <div class="w-full flex gap-4">
     <?php // Artigo e Inserção de Conteúdos ?>
     <div class="w-full flex flex-col gap-10">
@@ -13,7 +12,7 @@
             <label class="flex flex-col items-start gap-1 cursor-pointer">
               <span class="block text-sm font-medium text-gray-700">Status</span>
               <input type="hidden" name="ativo" value="0">
-              <input type="checkbox" value="1" class="sr-only peer" name="ativo">
+              <input type="checkbox" value="1" class="sr-only peer" name="ativo" checked>
               <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
             </label>
           </div>
@@ -24,7 +23,8 @@
         </div>
         <div class="mb-4">
           <label for="artigo-editar-categoria" class="block text-sm font-medium text-gray-700">Categoria</label>
-          <select id="artigo-editar-categoria" name="categoria_id" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" required>
+          <select id="artigo-editar-categoria" name="categoria_id" class="mt-1 p-2 block w-full border border-gray-300 rounded-md">
+            <option value="0">Sem categoria</option>
             <?php foreach ($categorias as $chave => $linha) : ?>
               <option value="<?php echo $linha['Categoria.id']; ?>">
                 <?php echo $linha['Categoria.nome']; ?>

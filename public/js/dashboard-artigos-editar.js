@@ -130,17 +130,17 @@ if (formConteudo) {
     const formImagemTitulo = document.querySelector('#conteudo-imagem-titulo').value
     const formVideoTitulo = document.querySelector('#conteudo-video-titulo').value
 
-    if (formTexto && formTextoTitulo) {
+    if (formTexto || formTextoTitulo) {
       formConteudoData.append('conteudo', formTexto)
       formConteudoData.append('titulo', formTextoTitulo)
       formConteudoData.append('tipo', 1)
     }
-    else if (formImagem && formImagemTitulo) {
+    else if (formImagem || formImagemTitulo) {
       formConteudoData.append('url', formImagem)
       formConteudoData.append('titulo', formImagemTitulo)
       formConteudoData.append('tipo', 2)
     }
-    else if (formVideo && formVideoTitulo) {
+    else if (formVideo || formVideoTitulo) {
       formConteudoData.append('url', formVideo)
       formConteudoData.append('titulo', formVideoTitulo)
       formConteudoData.append('tipo', 3)

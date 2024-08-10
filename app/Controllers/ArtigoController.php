@@ -28,8 +28,14 @@ class ArtigoController extends Controller
     $limite = 20;
     $pagina = intval($_GET['pagina'] ?? 0);
 
+    $condicoes = [
+      'Artigo.empresa_id' => $this->empresaPadraoId,
+    ];
+
     // Recupera quantidade de páginas
-    $artigosTotal = $this->artigoModel->contar('Artigo.id');
+    $artigosTotal = $this->artigoModel->condicao($condicoes)
+                                      ->contar('Artigo.id');
+                                      
     $artigosTotal = $artigosTotal['total'] ?? 0;
     $paginasTotal = ceil($artigosTotal / $limite);
 
@@ -49,19 +55,29 @@ class ArtigoController extends Controller
       'Artigo.ativo',
     ];
 
-    $uniao = [
+    $uniaoCategoria = [
       'Categoria',
+    ];
+
+    $uniaoUsuario = [
       'Usuario',
     ];
 
-    $resultado = $this->artigoModel->uniao2($uniao)
+    $resultado = $this->artigoModel->condicao($condicoes)
+                                   ->uniao2($uniaoCategoria, 'LEFT')
+                                   ->uniao2($uniaoUsuario)
                                    ->pagina($limite, $pagina)
                                    ->ordem(['Artigo.id' => 'DESC'])
                                    ->buscar($colunas);
 
     // Calcular início e fim do intervalo
-    $intervaloInicio = ($pagina - 1) * $limite + 1;
-    $intervaloFim = min($pagina * $limite, $artigosTotal);
+    $intervaloInicio = 0;
+    $intervaloFim = 0;
+
+    if ($artigosTotal) {
+      $intervaloInicio = ($pagina - 1) * $limite + 1;
+      $intervaloFim = min($pagina * $limite, $artigosTotal);
+    }
 
     $this->visao->variavel('artigos', $resultado);
     $this->visao->variavel('pagina', $pagina);
@@ -80,6 +96,7 @@ class ArtigoController extends Controller
 
     $condicao = [
       'Artigo.id' => $id,
+      'Artigo.empresa_id' => $this->empresaPadraoId,
     ];
 
     $colunas = [
@@ -95,13 +112,17 @@ class ArtigoController extends Controller
       'Artigo.ativo',
     ];
 
-    $uniao = [
-      'Usuario',
+    $uniaoCategoria = [
       'Categoria',
     ];
 
-    $artigo = $this->artigoModel->uniao2($uniao)
-                                ->condicao($condicao)
+    $uniaoUsuario = [
+      'Usuario',
+    ];
+
+    $artigo = $this->artigoModel->condicao($condicao)
+                                ->uniao2($uniaoCategoria, 'LEFT')
+                                ->uniao2($uniaoUsuario)
                                 ->buscar($colunas);
     
     if (isset($artigo['erro']) and $artigo['erro']) {
@@ -111,12 +132,17 @@ class ArtigoController extends Controller
       exit();
     }
 
+    $condCategoria = [
+      'Categoria.empresa_id' => $this->empresaPadraoId,
+    ];
+
     $colCategoria = [
       'Categoria.id',
       'Categoria.nome',
     ];
 
-    $categorias = $this->categoriaModel->buscar($colCategoria);
+    $categorias = $this->categoriaModel->condicao($condCategoria)
+                                       ->buscar($colCategoria);
 
     if (! isset($categorias[0]['Categoria.nome'])) {
       $categorias = [];
@@ -124,6 +150,7 @@ class ArtigoController extends Controller
 
     $condConteudo = [
       'Conteudo.artigo_id' => $id,
+      'Conteudo.empresa_id' => $this->empresaPadraoId,
     ];
     
     $colConteudo = [
@@ -159,20 +186,23 @@ class ArtigoController extends Controller
 
   public function artigoAdicionarVer()
   {
+    $condCategoria = [
+      'Categoria.empresa_id' => $this->empresaPadraoId,
+    ];
+
     $colCategoria = [
       'Categoria.id',
       'Categoria.nome',
     ];
 
-    $categorias = $this->categoriaModel->buscar($colCategoria);
+    $categorias = $this->categoriaModel->condicao($condCategoria)
+                                       ->buscar($colCategoria);
 
     if (! isset($categorias[0]['Categoria.nome'])) {
       $categorias = [];
     }
-    
-    // Revisar para tornar dinâmico
-    $this->visao->variavel('usuarioId', 1);
-    
+
+    $this->visao->variavel('usuarioId', $this->usuarioLogadoId);
     $this->visao->variavel('categorias', $categorias);
     $this->visao->variavel('titulo', 'Adicionar artigo');
     $this->visao->renderizar('/adicionar');
@@ -185,7 +215,11 @@ class ArtigoController extends Controller
     if (empty($params)) {
       $dados = $this->receberJson();
     }
+    
+    // Sempre informar Empresa ID
+    $dados = array_merge($dados, ['empresa_id' => $this->empresaPadraoId]);
 
+    // Adiciona artigo
     $resultado = $this->artigoModel->adicionar($dados);
 
     // Requisição interna
@@ -195,6 +229,7 @@ class ArtigoController extends Controller
     elseif ($params and isset($resultado['id'])) {
       $condicao = [
         'Artigo.id' => $resultado['id'],
+        'Artigo.empresa_id' => $this->empresaPadraoId,
       ];
 
       $colunas = [
@@ -244,6 +279,7 @@ class ArtigoController extends Controller
     if ($id) {
       $condicao = [
         'Artigo.id' => $id,
+        'Artigo.empresa_id' => $this->empresaPadraoId,
       ];
     }
 
@@ -276,6 +312,11 @@ class ArtigoController extends Controller
   public function atualizar(int $id)
   {
     $json = $this->receberJson();
+
+    // Sempre informar Empresa ID
+    $json = array_merge($json, ['empresa_id' => $this->empresaPadraoId]);
+
+    // Atualiza artigo
     $resultado = $this->artigoModel->atualizar($json, $id);
 
     if ($_POST and isset($resultado['erro'])) { 
@@ -287,7 +328,7 @@ class ArtigoController extends Controller
     elseif ($_POST) { 
       $_SESSION['ok'] = 'Registro alterado com sucesso';
 
-      header('Location: /dashboard/artigos');
+      header('Location: /dashboard/artigo/editar/' . $id);
       exit();
     }
 

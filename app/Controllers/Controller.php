@@ -1,14 +1,24 @@
 <?php
 namespace app\Controllers;
 use app\Models\MiddlewareModel;
+use app\Controllers\ViewRenderer;
 
 class Controller
 {
   protected $middleware;
+  protected $visao;
+  public $empresaPadraoId;
+  public $usuarioLogadoId;
 
   public function __construct($model)
   {
     $this->middleware = new MiddlewareModel($model);
+
+    // Revisar para tornar dinâmico
+    $this->empresaPadraoId = 1;
+    $this->usuarioLogadoId = 1;
+    // $this->empresaPadraoId = 39;
+    // $this->usuarioLogadoId = 41;
   }
 
   protected function processarRequisicao(array $dados = [])

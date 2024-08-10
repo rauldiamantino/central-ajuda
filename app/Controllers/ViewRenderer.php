@@ -7,7 +7,7 @@ class ViewRenderer
   private $caminho;
   private $variaveis = [];
 
-  public function __construct($caminho)
+  public function __construct($caminho = '')
   {
     $this->caminho = $caminho;
   }

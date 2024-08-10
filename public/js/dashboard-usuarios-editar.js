@@ -1,5 +1,11 @@
 document.addEventListener('DOMContentLoaded', function () {
-  var cleave = new Cleave('#usuario-editar-telefone', {
+  const telefone = document.querySelector('#usuario-editar-telefone')
+
+  if (! telefone) {
+    return
+  }
+
+  const cleave = new Cleave(telefone, {
     phone: true,
     phoneRegionCode: 'BR'
   })

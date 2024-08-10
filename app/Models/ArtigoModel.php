@@ -72,6 +72,7 @@ class ArtigoModel extends Model
       'ativo' => $params['ativo'] ?? 0,
       'titulo' => $params['titulo'] ?? '',
       'usuario_id' => $params['usuario_id'] ?? 0,
+      'empresa_id' => $params['empresa_id'] ?? 0,
       'categoria_id' => $params['categoria_id'] ?? 0,
       'visualizacoes' => $params['visualizacoes'] ?? 0,
     ];
@@ -87,11 +88,16 @@ class ArtigoModel extends Model
     foreach ($campos as $chave => $linha):
       $permitidos = [
         'ativo',
+        'categoria_id',
         'visualizacoes',
       ];
 
       if ($atualizar and ! isset($params[ $chave ])) {
-        continue;
+
+        // Sempre precisa do ID da empresa
+        if ($chave != 'empresa_id') {
+          continue;
+        }
       }
 
       if (! in_array($chave, $permitidos) and empty($linha)) {
@@ -111,6 +117,7 @@ class ArtigoModel extends Model
       $campos['ativo'] = filter_var($campos['ativo'], FILTER_SANITIZE_NUMBER_INT);
       $campos['titulo'] = htmlspecialchars($campos['titulo']);
       $campos['usuario_id'] = filter_var($campos['usuario_id'], FILTER_SANITIZE_NUMBER_INT);
+      $campos['empresa_id'] = filter_var($campos['empresa_id'], FILTER_SANITIZE_NUMBER_INT);
       $campos['categoria_id'] = filter_var($campos['categoria_id'], FILTER_SANITIZE_NUMBER_INT);
 
       if (isset($params['ativo']) and ! in_array($campos['ativo'], [0, 1])) {
@@ -119,6 +126,7 @@ class ArtigoModel extends Model
 
       $ativoCaracteres = 1;
       $tituloCaracteres = 255;
+      $empresaIdCaracteres = 999999999;
       $usuarioIdCaracteres = 999999999;
       $categoriaIdCaracteres = 999999999;
 
@@ -134,6 +142,10 @@ class ArtigoModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('usuario_id', 'caracteres', $usuarioIdCaracteres);
       }
 
+      if (strlen($campos['empresa_id']) > $empresaIdCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('empresa_id', 'caracteres', $empresaIdCaracteres);
+      }
+
       if (strlen($campos['categoria_id']) > $categoriaIdCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('categoria_id', 'caracteres', $categoriaIdCaracteres);
       }
@@ -147,6 +159,7 @@ class ArtigoModel extends Model
       'ativo' => $campos['ativo'],
       'titulo' => $campos['titulo'],
       'usuario_id' => $campos['usuario_id'],
+      'empresa_id' => $campos['empresa_id'],
       'categoria_id' => $campos['categoria_id'],
       'visualizacoes' => $campos['visualizacoes'],
     ];
@@ -154,10 +167,18 @@ class ArtigoModel extends Model
     if ($atualizar) {
       foreach ($camposValidados as $chave => $linha):
 
-        if (! isset($params[ $chave ])) {
+        if ($chave == 'categoria_id' and empty($linha)) {
+          $camposValidados[ $chave ] = null;
+        }
+        elseif (! isset($params[ $chave ])) {
           unset($camposValidados[ $chave ]);
         }
+        
       endforeach;
+    }
+
+    if (isset($camposValidados['categoria_id']) and empty($camposValidados['categoria_id'])) {
+      unset($camposValidados['categoria_id']);
     }
 
     if (empty($camposValidados)) {
@@ -175,8 +196,12 @@ class ArtigoModel extends Model
       $campo = 'ID do usuário';
     }
 
+    if ($campo == 'empresa_id') {
+      $campo = 'empresa ID';
+    }
+
     if ($campo == 'categoria_id') {
-      $campo = 'ID da categoria';
+      $campo = 'categoria';
     }
 
     $msgErro = [

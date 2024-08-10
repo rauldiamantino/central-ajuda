@@ -459,5 +459,7 @@ class Model
     $this->colunasValores = [];
     $this->contarColunas = '';
     $this->paginacao = '';
+    $this->unioes = [];
+    $this->ordem = '';
   }
 }

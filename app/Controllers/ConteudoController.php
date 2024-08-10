@@ -24,6 +24,10 @@ class ConteudoController extends Controller
       $dados = $this->receberJson();
     }
 
+    // Sempre informar Empresa ID
+    $dados = array_merge($dados, ['empresa_id' => $this->empresaPadraoId]);
+
+    // Adiciona conteudo
     $resultado = $this->conteudoModel->adicionar($dados);
 
     if (isset($resultado['erro']) and $params) {
@@ -41,6 +45,7 @@ class ConteudoController extends Controller
     
     $condicao = [
       'Conteudo.id' => $resultado['id'],
+      'Conteudo.empresa_id' => $this->empresaPadraoId,
     ];
 
     $colunas = [
@@ -73,6 +78,7 @@ class ConteudoController extends Controller
     if ($id) {
       $condicao = [
         'Conteudo.id' => $id,
+        'Conteudo.empresa_id' => $this->empresaPadraoId,
       ];
     }
 
@@ -107,6 +113,11 @@ class ConteudoController extends Controller
   public function atualizar(int $id)
   {
     $json = $this->receberJson();
+    
+    // Sempre informar Empresa ID
+    $json = array_merge($json, ['empresa_id' => $this->empresaPadraoId]);
+
+    // Atualiza conteudo
     $resultado = $this->conteudoModel->atualizar($json, $id);
 
     $urlRetorno = '/dashboard/artigos';

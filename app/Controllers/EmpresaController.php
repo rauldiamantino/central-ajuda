@@ -17,12 +17,47 @@ class EmpresaController extends Controller
     parent::__construct($this->empresaModel);
   }
 
+  public function empresaEditarVer()
+  {
+    $condicao = [
+      'Empresa.id' => (int) $this->empresaPadraoId,
+    ];
+
+    $colunas = [
+      'Empresa.id',
+      'Empresa.ativo',
+      'Empresa.nome',
+      'Empresa.cnpj',
+      'Empresa.criado',
+      'Empresa.modificado',
+    ];
+
+    $usuario = $this->empresaModel->condicao($condicao)
+                                  ->buscar($colunas);
+    
+    if (isset($usuario['erro']) and $usuario['erro']) {
+      $_SESSION['erro'] = $usuario['erro']['mensagem'] ?? '';
+
+      header('Location: /dashboard');
+      exit();
+    }
+
+    $this->visao->variavel('empresa', reset($usuario));
+    $this->visao->variavel('titulo', 'Editar empresa');
+    $this->visao->renderizar('/editar');
+  }
+
   public function adicionar(array $params = []): array
   {
     $dados = $params;
 
     if (empty($params)) {
       $dados = $this->receberJson();
+    }
+
+    // Revisar trava
+    if (isset($dados['ativo'])) {
+      unset($dados['ativo']);
     }
 
     $resultado = $this->empresaModel->adicionar($dados);
@@ -96,7 +131,26 @@ class EmpresaController extends Controller
   public function atualizar(int $id)
   {
     $json = $this->receberJson();
+
+    // Revisar trava
+    if (isset($json['ativo'])) {
+      unset($json['ativo']);
+    }
+
     $resultado = $this->empresaModel->atualizar($json, $id);
+
+    if ($_POST and isset($resultado['erro'])) { 
+      $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
+
+      header('Location: /dashboard/empresa/editar/' . $id);
+      exit();
+    }
+    elseif ($_POST) { 
+      $_SESSION['ok'] = 'Registro alterado com sucesso';
+
+      header('Location: /dashboard/empresa/editar/' . $id);
+      exit();
+    }
 
     if (isset($resultado['erro'])) {
       $codigo = $resultado['erro']['codigo'] ?? 500;

@@ -102,6 +102,7 @@ class ConteudoModel extends Model
     $campos = [
       'ativo' => $params['ativo'] ?? 0,
       'artigo_id' => $params['artigo_id'] ?? 0,
+      'empresa_id' => $params['empresa_id'] ?? 0,
       'tipo' => $params['tipo'] ?? 0,
       'titulo' => $params['titulo'] ?? '',
       'conteudo' => $params['conteudo'] ?? '',
@@ -121,11 +122,18 @@ class ConteudoModel extends Model
       $permitidos = [
         'ativo',
         'conteudo',
-        'url',
       ];
 
       if ($atualizar and ! isset($params[ $chave ])) {
-        continue;
+        
+        // Sempre precisa do ID da empresa
+        if ($chave != 'empresa_id') {
+          continue;
+        }
+      }
+      
+      if ($linha == 'undefined') {
+        $linha = '';
       }
 
       if (! in_array($chave, $permitidos) and empty($linha)) {
@@ -144,6 +152,7 @@ class ConteudoModel extends Model
     if (empty($msgErro['erro']['mensagem'])) {
       $campos['ativo'] = filter_var($campos['ativo'], FILTER_SANITIZE_NUMBER_INT);
       $campos['artigo_id'] = filter_var($campos['artigo_id'], FILTER_SANITIZE_NUMBER_INT);
+      $campos['empresa_id'] = filter_var($campos['empresa_id'], FILTER_SANITIZE_NUMBER_INT);
       $campos['tipo'] = filter_var($campos['tipo'], FILTER_SANITIZE_NUMBER_INT);
       $campos['conteudo'] = htmlspecialchars($campos['conteudo']);
       $campos['titulo'] = htmlspecialchars($campos['titulo']);
@@ -169,6 +178,7 @@ class ConteudoModel extends Model
       $urlCaracteres = 255;
       $tituloCaracteres = 255;
       $artigoIdCaracteres = 999999999;
+      $empresaIdCaracteres = 999999999;
 
       if (strlen($campos['ativo']) > $ativoCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('id', 'caracteres', $ativoCaracteres);
@@ -180,6 +190,10 @@ class ConteudoModel extends Model
 
       if (strlen($campos['artigo_id']) > $artigoIdCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('artigo_id', 'caracteres', $artigoIdCaracteres);
+      }
+
+      if (strlen($campos['empresa_id']) > $empresaIdCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('empresa_id', 'caracteres', $empresaIdCaracteres);
       }
 
       if (strlen($campos['titulo']) > $tituloCaracteres) {
@@ -202,6 +216,7 @@ class ConteudoModel extends Model
     $camposValidados = [
       'ativo' => $campos['ativo'],
       'artigo_id' => $campos['artigo_id'],
+      'empresa_id' => $campos['empresa_id'],
       'tipo' => $campos['tipo'],
       'titulo' => $campos['titulo'],
       'conteudo' => $campos['conteudo'],
@@ -231,6 +246,10 @@ class ConteudoModel extends Model
   {
     if ($campo == 'artigo_id') {
       $campo = 'ID do artigo';
+    }
+
+    if ($campo == 'empresa_id') {
+      $campo = 'empresa ID';
     }
 
     if ($campo == 'titulo') {

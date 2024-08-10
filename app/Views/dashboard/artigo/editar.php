@@ -31,7 +31,8 @@
         </div>
         <div class="mb-4">
           <label for="artigo-editar-categoria" class="block text-sm font-medium text-gray-700">Categoria</label>
-          <select id="artigo-editar-categoria" name="categoria_id" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" required>
+          <select id="artigo-editar-categoria" name="categoria_id" class="mt-1 p-2 block w-full border border-gray-300 rounded-md">
+            <option value="0">Sem categoria</option>
             <?php foreach ($categorias as $chave => $linha) : ?>
               <option value="<?php echo $linha['Categoria.id']; ?>" <?php echo $linha['Categoria.id'] == $artigo['Artigo.categoria_id'] ? 'selected' : ''; ?>>
                 <?php echo $linha['Categoria.nome']; ?>

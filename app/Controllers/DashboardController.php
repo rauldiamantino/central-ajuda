@@ -20,7 +20,7 @@ class DashboardController extends Controller
   public function dashboardVer()
   {
     $dados = $this->dashboardModel->dashboardVer();
-
+    
     $this->visao->variavel('titulo', $dados['titulo']);
     $this->visao->variavel('artigos', $dados['dashboard']['artigos']);
     $this->visao->variavel('resumo', $dados['dashboard']['resumo']);

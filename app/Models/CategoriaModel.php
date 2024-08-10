@@ -49,13 +49,38 @@ class CategoriaModel extends Model
     return parent::atualizar($campos, $id);
   }
 
-  public function apagar(int $id): array
+  public function apagarCategoria(int $id, int $empresaId): array
   {
     if (! is_int($id) or empty($id)) {
       $msgErro = [
         'erro' => [
           'codigo' => 400,
           'mensagem' => 'ID não informado',
+        ],
+      ];
+
+      return $msgErro;
+    }
+
+    // Categoria possui artigos
+    $condicoes = [
+      'Categoria.id' => $id,
+      'Categoria.empresa_id' => $empresaId,
+    ];
+
+    $uniao = [
+      'Artigo',
+    ];
+
+    $categoriaArtigos = parent::condicao($condicoes)
+                              ->uniao($uniao)
+                              ->contar('Categoria.id');
+
+    if (isset($categoriaArtigos['total']) and (int) $categoriaArtigos['total'] > 0) {
+      $msgErro = [
+        'erro' => [
+          'codigo' => 400,
+          'mensagem' => 'Esta categoria possui artigos publicados, não é possível apagá-la',
         ],
       ];
 
@@ -72,6 +97,7 @@ class CategoriaModel extends Model
       'ativo' => $params['ativo'] ?? 0,
       'nome' => $params['nome'] ?? '',
       'descricao' => $params['descricao'] ?? '',
+      'empresa_id' => $params['empresa_id'] ?? 0,
     ];
 
     $msgErro = [
@@ -89,6 +115,12 @@ class CategoriaModel extends Model
       ];
 
       if ($atualizar and ! isset($params[ $chave ])) {
+
+        // Sempre precisa do ID da empresa
+        if ($chave != 'empresa_id') {
+          continue;
+        }
+
         continue;
       }
 
@@ -108,6 +140,7 @@ class CategoriaModel extends Model
     if (empty($msgErro['erro']['mensagem'])) {
       $campos['ativo'] = filter_var($campos['ativo'], FILTER_SANITIZE_NUMBER_INT);
       $campos['nome'] = htmlspecialchars($campos['nome']);
+      $campos['empresa_id'] = filter_var($campos['empresa_id'], FILTER_SANITIZE_NUMBER_INT);
 
       if (isset($params['ativo']) and ! in_array($campos['ativo'], [0, 1])) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('ativo', 'valInvalido');
@@ -115,6 +148,7 @@ class CategoriaModel extends Model
 
       $ativoCaracteres = 1;
       $nomeCaracteres = 255;
+      $empresaIdCaracteres = 999999999;
 
       if (strlen($campos['ativo']) > $ativoCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('id', 'caracteres', $ativoCaracteres);
@@ -122,6 +156,10 @@ class CategoriaModel extends Model
 
       if (strlen($campos['nome']) > $nomeCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('nome', 'caracteres', $nomeCaracteres);
+      }
+
+      if (strlen($campos['empresa_id']) > $empresaIdCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('empresa_id', 'caracteres', $empresaIdCaracteres);
       }
     }
 
@@ -133,6 +171,7 @@ class CategoriaModel extends Model
       'ativo' => $campos['ativo'],
       'nome' => $campos['nome'],
       'descricao' => $campos['descricao'],
+      'empresa_id' => $campos['empresa_id'],
     ];
 
     if ($atualizar) {
@@ -155,6 +194,10 @@ class CategoriaModel extends Model
 
   private function gerarMsgErro(string $campo, string $tipo, int $quantidade = 0): string
   {
+    if ($campo == 'empresa_id') {
+      $campo = 'empresa ID';
+    }
+
     $msgErro = [
       'vazio' => 'O campo ' . $campo . ' não pode ser vazio',
       'invalido' => 'Campo ' . $campo . ' com formato inválido',

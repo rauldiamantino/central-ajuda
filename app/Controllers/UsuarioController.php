@@ -22,8 +22,14 @@ class UsuarioController extends Controller
     $limite = 20;
     $pagina = intval($_GET['pagina'] ?? 0);
 
+    $condicoes = [
+      'Usuario.empresa_id' => $this->empresaPadraoId,
+    ];
+
     // Recupera quantidade de páginas
-    $usuariosTotal = $this->usuarioModel->contar('Usuario.id');
+    $usuariosTotal = $this->usuarioModel->condicao($condicoes)
+                                        ->contar('Usuario.id');
+
     $usuariosTotal = $usuariosTotal['total'] ?? 0;
     $paginasTotal = ceil($usuariosTotal / $limite);
 
@@ -41,13 +47,19 @@ class UsuarioController extends Controller
       'Usuario.ativo',
     ];
 
-    $resultado = $this->usuarioModel->pagina($limite, $pagina)
+    $resultado = $this->usuarioModel->condicao($condicoes)
+                                    ->pagina($limite, $pagina)
                                     ->ordem(['Usuario.id' => 'DESC'])
                                     ->buscar($colunas);
 
     // Calcular início e fim do intervalo
-    $intervaloInicio = ($pagina - 1) * $limite + 1;
-    $intervaloFim = min($pagina * $limite, $usuariosTotal);
+    $intervaloInicio = 0;
+    $intervaloFim = 0;
+
+    if ($usuariosTotal) {
+      $intervaloInicio = ($pagina - 1) * $limite + 1;
+      $intervaloFim = min($pagina * $limite, $usuariosTotal);
+    }
 
     $this->visao->variavel('usuarios', $resultado);
     $this->visao->variavel('pagina', $pagina);
@@ -68,9 +80,7 @@ class UsuarioController extends Controller
       $dados = $this->receberJson();
     }
 
-    // Revisar para tornar dinâmico
-    $empresa_id = 1;
-    $dados = array_merge($dados, ['empresa_id' => $empresa_id]);
+    $dados = array_merge($dados, ['empresa_id' => $this->empresaPadraoId]);
 
     // Adiciona usuário
     $resultado = $this->usuarioModel->adicionar($dados);
@@ -82,6 +92,7 @@ class UsuarioController extends Controller
     elseif ($params and isset($resultado['id'])) {
       $condicao = [
         'Usuario.id' => $resultado['id'],
+        'Usuario.empresa_id' => $this->empresaPadraoId,
       ];
 
       $colunas = [
@@ -132,6 +143,7 @@ class UsuarioController extends Controller
 
     $condicao = [
       'Usuario.id' => $id,
+      'Usuario.empresa_id' => $this->empresaPadraoId,
     ];
 
     $colunas = [
@@ -175,6 +187,7 @@ class UsuarioController extends Controller
     if ($id) {
       $condicao = [
         'Usuario.id' => $id,
+        'Usuario.empresa_id' => $this->empresaPadraoId,
       ];
     }
 
@@ -235,7 +248,7 @@ class UsuarioController extends Controller
 
   public function apagar(int $id, bool $rollback = false)
   {
-    $resultado = $this->usuarioModel->apagar($id);
+    $resultado = $this->usuarioModel->apagarUsuario($id, $this->empresaPadraoId);
 
     if ($rollback and isset($resultado['erro'])) {
       return $resultado;

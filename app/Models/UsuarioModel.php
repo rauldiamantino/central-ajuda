@@ -28,7 +28,7 @@ class UsuarioModel extends Model
       $usuarioPadrao = parent::condicao($condicao)
                              ->contar('Usuario.id');
 
-      if ($usuarioPadrao) {
+      if (isset($usuarioPadrao['total']) and (int) $usuarioPadrao['total'] > 0) {
         $msgErro = [
           'erro' => [
             'codigo' => 400,
@@ -112,7 +112,7 @@ class UsuarioModel extends Model
       $usuarioPadrao = parent::condicao($condicao)
                              ->contar('Usuario.id');
 
-      if ($usuarioPadrao) {
+      if (isset($usuarioPadrao['total']) and (int) $usuarioPadrao['total'] > 0) {
         $msgErro = [
           'erro' => [
             'codigo' => 400,
@@ -139,7 +139,7 @@ class UsuarioModel extends Model
     return parent::atualizar($campos, $id);
   }
 
-  public function apagar(int $id): array
+  public function apagarUsuario(int $id, int $empresaId): array
   {
     if (! is_int($id) or empty($id)) {
       $msgErro = [
@@ -152,19 +152,42 @@ class UsuarioModel extends Model
       return $msgErro;
     }
 
+    // Usuário possui artigos
     $condicoes = [
-      'id' => $id,
-      'padrao' => 1,
+      'Usuario.id' => $id,
+      'Usuario.empresa_id' => $empresaId,
     ];
 
-    $colunas = [
-      'id',
+    $uniao = [
+      'Artigo',
     ];
 
-    $usuario = parent::condicao($condicoes)
-                     ->buscar($colunas);
+    $usuarioArtigos = parent::condicao($condicoes)
+                            ->uniao($uniao)
+                            ->contar('Usuario.id');
 
-    if (isset($usuario[0]['id'])) {
+    if (isset($usuarioArtigos['total']) and (int) $usuarioArtigos['total'] > 0) {
+      $msgErro = [
+        'erro' => [
+          'codigo' => 400,
+          'mensagem' => 'Este usuário possui artigos publicados, não é possível apagá-lo',
+        ],
+      ];
+
+      return $msgErro;
+    }
+
+    // Usuário padrão
+    $condicoes = [
+      'Usuario.id' => $id,
+      'Usuario.padrao' => 1,
+      'Usuario.empresa_id' => $empresaId,
+    ];
+
+    $usuarioPadrao = parent::condicao($condicoes)
+                           ->contar('Usuario.id');
+
+    if (isset($usuarioPadrao['total']) and (int) $usuarioPadrao['total'] > 0) {
       $msgErro = [
         'erro' => [
           'codigo' => 400,
