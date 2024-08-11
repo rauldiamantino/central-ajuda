@@ -177,7 +177,38 @@ class ArtigoController extends Controller
       $conteudos = [];
     }
 
+    $condConteudoOrdem = [
+      'Conteudo.artigo_id' => $id,
+      'Conteudo.empresa_id' => $this->empresaPadraoId,
+    ];
+    
+    $colConteudoOrdem = [
+      'Conteudo.id',
+      'Conteudo.ordem',
+    ];
+
+    $ordConteudoOrdem = [
+      'Conteudo.ordem' => 'DESC',
+    ];
+
+    $limiteConteudoOrdem = 1;
+
+    $resultadoOrdem = $this->conteudoModel->condicao($condConteudoOrdem)
+                                          ->ordem($ordConteudoOrdem)
+                                          ->limite($limiteConteudoOrdem)
+                                          ->buscar($colConteudoOrdem);
+
+    $ordem = [];
+    $ordemAtual = intval($resultadoOrdem[0]['Conteudo.ordem'] ?? 0);
+
+    if ($resultadoOrdem) {
+      $ordem = [
+        'prox' => $ordemAtual + 1,
+      ];
+    }
+
     $this->visao->variavel('artigo', reset($artigo));
+    $this->visao->variavel('ordem', $ordem);
     $this->visao->variavel('conteudos', $conteudos);
     $this->visao->variavel('categorias', $categorias);
     $this->visao->variavel('titulo', 'Editar artigo');

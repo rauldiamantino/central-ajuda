@@ -30,45 +30,62 @@ class ConteudoController extends Controller
     // Adiciona conteudo
     $resultado = $this->conteudoModel->adicionar($dados);
 
-    if (isset($resultado['erro']) and $params) {
+    // Requisição interna
+    if ($params and isset($resultado['erro'])) {
       return $resultado;
     }
+    elseif ($params and isset($resultado['id'])) {
+      $condicao = [
+        'Conteudo.id' => $resultado['id'],
+        'Conteudo.empresa_id' => $this->empresaPadraoId,
+      ];
 
-    if (isset($resultado['erro'])) {
-      $codigo = $resultado['erro']['codigo'] ?? 500;
-      $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
+      $colunas = [
+        'Conteudo.id',
+        'Conteudo.ativo',
+        'Conteudo.artigo_id',
+        'Conteudo.tipo',
+        'Conteudo.titulo',
+        'Conteudo.conteudo',
+        'Conteudo.url',
+        'Conteudo.ordem',
+        'Conteudo.criado',
+        'Conteudo.modificado',
+      ];
 
-      $this->responderJson($resultado, $codigo);
-    }
-
-    $_SESSION['ok'] = 'Conteúdo adicionado com sucesso';
-    
-    $condicao = [
-      'Conteudo.id' => $resultado['id'],
-      'Conteudo.empresa_id' => $this->empresaPadraoId,
-    ];
-
-    $colunas = [
-      'Conteudo.id',
-      'Conteudo.ativo',
-      'Conteudo.artigo_id',
-      'Conteudo.tipo',
-      'Conteudo.titulo',
-      'Conteudo.conteudo',
-      'Conteudo.url',
-      'Conteudo.ordem',
-      'Conteudo.criado',
-      'Conteudo.modificado',
-    ];
-
-    $conteudo = $this->conteudoModel->condicao($condicao)
-                                    ->buscar($colunas);
-
-    if ($params) {
+      $conteudo = $this->conteudoModel->condicao($condicao)
+                                      ->buscar($colunas);
+      
       return reset($conteudo);
     }
 
-    $this->responderJson(reset($conteudo));
+    $urlRetorno = '/dashboard/artigos';
+
+    if (isset($dados['artigo_id'])) {
+      $urlRetorno = '/dashboard/artigo/editar/' . $dados['artigo_id'];
+    }
+
+    // Formulário via POST
+    if ($_POST and isset($resultado['erro'])) { 
+      $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
+
+      header('Location: ' . $urlRetorno);
+      exit();
+    }
+    elseif ($_POST and isset($resultado['id'])) { 
+      $_SESSION['ok'] = 'Conteúdo adicionado com sucesso';
+
+      header('Location: ' . $urlRetorno);
+      exit();
+    }
+    
+    // Formulário via Fetch
+    if (isset($resultado['erro'])) {
+      $codigo = $resultado['erro']['codigo'] ?? 500;
+      $this->responderJson($resultado, $codigo);
+    }
+
+    $this->responderJson($resultado);
   }
 
   public function buscar(int $id = 0)

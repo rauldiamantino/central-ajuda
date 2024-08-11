@@ -23,18 +23,21 @@
       <?php foreach ($conteudos as $chave => $linha) : ?>
         <?php if ($linha['Conteudo.tipo'] == 1) { ?>
           <div class="flex flex-col gap-2 leading-7 publico-artigo-bloco">
+            <h2><?php echo $linha['Conteudo.titulo'] ?></h2>
             <?php echo htmlspecialchars_decode($linha['Conteudo.conteudo']); ?>
           </div>
         <?php } ?>
 
         <?php if ($linha['Conteudo.tipo'] == 2) { ?>
           <div class="publico-artigo-bloco">
+            <h2><?php echo $linha['Conteudo.titulo'] ?></h2>
             <img src="/<?php echo $linha['Conteudo.url'] ?>" alt="">
           </div>
         <?php } ?>
 
         <?php if ($linha['Conteudo.tipo'] == 3) { ?>
           <div class="publico-artigo-bloco">
+            <h2><?php echo $linha['Conteudo.titulo'] ?></h2>
             <iframe src="<?php echo str_replace('watch?v=', 'embed/', $linha['Conteudo.url']) ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="width: 100%; height: auto; aspect-ratio: 16/9"></iframe>
           </div>
         <?php } ?>

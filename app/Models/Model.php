@@ -10,6 +10,7 @@ class Model
   protected $database = '';
   protected $paginacao = '';
   protected $contarColunas = '';
+  protected $limiteRegistros = 0;
   protected $unioes = [];
   protected $condicoes = [];
   protected $parametros = [];
@@ -173,6 +174,10 @@ class Model
       $sql .= $this->paginacao;
     }
 
+    if (empty($this->paginacao) and $this->limiteRegistros) {
+      $sql .= ' LIMIT ' . $this->limiteRegistros;
+    }
+
     $resultado = $this->database->operacoes($sql, $this->parametros);
 
     if (empty($resultado)) {
@@ -294,6 +299,13 @@ class Model
     $this->contarColunas = $this->gerarBackticks($tabela, $coluna);
 
     return $this->executarContar();
+  }
+
+  public function limite(int $limite = 0): self
+  {
+    $this->limiteRegistros = $limite;
+
+    return $this;
   }
 
   public function pagina(int $limite = 10, int $pagina = 1): self

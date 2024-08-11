@@ -12,7 +12,7 @@ import {
 	HorizontalLine,
 	Indent,
 	Italic,
-	Link,
+  Link,
 	List,
 	ListProperties,
 	Paragraph,
@@ -170,169 +170,96 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 })
 
+// ----------- Adicionar bloco de conteúdo -----------
 const btnTextoAdicionar = document.querySelector('.conteudo-btn-texto-adicionar')
 const btnImagemAdicionar = document.querySelector('.conteudo-btn-imagem-adicionar')
 const btnVideoAdicionar = document.querySelector('.conteudo-btn-video-adicionar')
-const btnImagemEscolher = document.querySelector('.conteudo-btn-imagem-escolher')
 
-const textoAdicionar = document.querySelector('.conteudo-texto-adicionar')
-const imagemAdicionar = document.querySelector('.conteudo-imagem-adicionar')
-const videoAdicionar = document.querySelector('.conteudo-video-adicionar')
-const imagemEscolher = document.querySelector('.conteudo-imagem-escolher')
-const textoImagemEscolher = document.querySelector('.conteudo-txt-imagem-escolher')
-const imgElemento = imagemAdicionar?.querySelector('img')
+const modalConteudoTextoAdicionar = document.querySelector('.modal-conteudo-texto-adicionar')
+const btnCancelarModalAdicionarTexto = document.querySelector('.modal-texto-adicionar-btn-cancelar')
+
+const modalConteudoImagemAdicionar = document.querySelector('.modal-conteudo-imagem-adicionar')
+const adicionarImagemEscolher = document.querySelector('.conteudo-adicionar-imagem-escolher')
+const adicionarTextoImagemEscolher = document.querySelector('.conteudo-txt-imagem-adicionar-escolher')
+const btnAdicionarImagemEscolher = document.querySelector('.conteudo-btn-imagem-adicionar-escolher')
+const btnCancelarModalAdicionarImagem = document.querySelector('.modal-conteudo-imagem-btn-cancelar-adicionar')
+
+const modalConteudoVideoAdicionar = document.querySelector('.modal-conteudo-video-adicionar')
+const btnCancelarModalAdicionarVideo = document.querySelector('.modal-conteudo-video-btn-cancelar-adicionar')
 
 if (btnTextoAdicionar) {
   btnTextoAdicionar.addEventListener('click', () => {
-    
-    if (textoAdicionar.classList.contains('hidden')) {
-      textoAdicionar.classList.remove('hidden')
-      imagemAdicionar.classList.add('hidden')
-      videoAdicionar.classList.add('hidden')
-
-      imagemAdicionar.querySelector('input').value = ''
-      videoAdicionar.querySelector('input').value = ''
-      
-      textoImagemEscolher.textContent = 'Escolher Imagem'
-      imagemEscolher.value = ''
-      imgElemento.src = ''
-      imgElemento.classList.add('hidden')
-    }
-    else {
-      textoAdicionar.classList.add('hidden')
-      textoAdicionar.querySelector('textarea').value = ''
-    }
+    modalConteudoTextoAdicionar.showModal()
   })
 }
 
 if (btnImagemAdicionar) {
   btnImagemAdicionar.addEventListener('click', () => {
+    const imgElemento = modalConteudoImagemAdicionar.querySelector('img')
 
-    if (imagemAdicionar.classList.contains('hidden')) {
-      imagemAdicionar.classList.remove('hidden')
-      textoAdicionar.classList.add('hidden')
-      videoAdicionar.classList.add('hidden')
-      textoAdicionar.querySelector('textarea').value = ''
-      videoAdicionar.querySelector('input').value = ''
-      imgElemento.classList.add('hidden')
-    }
-    else {
-      imagemAdicionar.classList.add('hidden')
-      imagemAdicionar.querySelector('input').value = ''
+    imgElemento.classList.add('opacity-100')
+    imgElemento.classList.remove('opacity-0')
+    modalConteudoImagemAdicionar.showModal()
 
-      textoImagemEscolher.textContent = 'Escolher Imagem'
-      imagemEscolher.value = ''
-      imgElemento.src = ''
-      imgElemento.classList.add('hidden')
+    if (btnAdicionarImagemEscolher) {
+      btnAdicionarImagemEscolher.addEventListener('click', () => {
+        adicionarImagemEscolher.click()
+      })
     }
+
+    adicionarImagemEscolher.addEventListener('change', (event) => {
+      const anexo = event.target.files[0]
+      const blocoImagem = modalConteudoImagemAdicionar.querySelector('.bloco-imagem')
+
+      if (anexo) {
+        const objetoReader = new FileReader()
+
+        objetoReader.onload = (e) => {
+          imgElemento.src = e.target.result
+          blocoImagem.classList.remove('hidden')
+        }
+
+        adicionarTextoImagemEscolher.textContent = anexo.name
+        objetoReader.readAsDataURL(anexo)
+      }
+    })
+
+    adicionarTextoImagemEscolher.textContent = 'Escolher imagem'
   })
 }
 
 if (btnVideoAdicionar) {
   btnVideoAdicionar.addEventListener('click', () => {
-    
-    if (videoAdicionar.classList.contains('hidden')) {
-      videoAdicionar.classList.remove('hidden')
-      imagemAdicionar.classList.add('hidden')
-      textoAdicionar.classList.add('hidden')
-      imagemAdicionar.querySelector('input').value = ''
-      textoAdicionar.querySelector('textarea').value = ''
-      
-      textoImagemEscolher.textContent = 'Escolher Imagem'
-      imagemEscolher.value = ''
-      imgElemento.src = ''
-      imgElemento.classList.add('hidden')
-    }
-    else {
-      videoAdicionar.classList.add('hidden')
-      videoAdicionar.querySelector('input').value = ''
-    }
+    modalConteudoVideoAdicionar.showModal()
   })
 }
 
-if (btnImagemEscolher) {
-  btnImagemEscolher.addEventListener('click', () => {
-    imagemEscolher.click()
+if (btnCancelarModalAdicionarTexto) {
+  btnCancelarModalAdicionarTexto.addEventListener('click', () => {
+    modalConteudoTextoAdicionar.close()
   })
 }
 
-if (imagemEscolher) {
-  imagemEscolher.addEventListener('change', (event) => {
-    const anexo = event.target.files[0]
-
-    if (anexo) {
-      const objetoReader = new FileReader()
-
-      objetoReader.onload = (e) => {
-        imgElemento.classList.remove('hidden')
-        imgElemento.src = e.target.result
-      }
-
-      textoImagemEscolher.textContent = anexo.name
-      objetoReader.readAsDataURL(anexo)
-    }
+if (btnCancelarModalAdicionarVideo) {
+  btnCancelarModalAdicionarVideo.addEventListener('click', () => {
+    modalConteudoVideoAdicionar.close()
   })
 }
 
-// ----------- Adicionar bloco de conteúdo -----------
-const formConteudo = document.querySelector('.form-conteudo')
+if (btnCancelarModalAdicionarImagem) {
+  btnCancelarModalAdicionarImagem.addEventListener('click', () => fecharModalAdicionarImagem())
+}
 
-if (formConteudo) {
-  formConteudo.addEventListener('submit', (event) => {
-    event.preventDefault()
-    fetchFormConteudo(formConteudo)
-  })
-
-  // funções
-  const fetchFormConteudo = (formConteudo) => {
-    const url = '/conteudo'
-    const formConteudoData = new FormData(formConteudo)
-    const conteudos = document.querySelectorAll('.conteudo-bloco')
-    let ordemUltimoConteudo = 0
-
-    if (conteudos != undefined && conteudos.length > 0) {
-      const ultimoConteudo = conteudos[conteudos.length - 1]
-      ordemUltimoConteudo = parseInt(ultimoConteudo.dataset.conteudoOrdem)
-    }
-
-    const formTexto = document.querySelector('.conteudo-texto-adicionar > textarea[name=conteudo').value
-    const formImagem = document.querySelector('.conteudo-imagem-adicionar > input[name=url').files[0]
-    const formVideo = document.querySelector('.conteudo-video-adicionar > input[name=url').value
-    const formTextoTitulo = document.querySelector('#conteudo-texto-titulo').value
-    const formImagemTitulo = document.querySelector('#conteudo-imagem-titulo').value
-    const formVideoTitulo = document.querySelector('#conteudo-video-titulo').value
-
-    if (formTexto || formTextoTitulo) {
-      formConteudoData.append('conteudo', formTexto)
-      formConteudoData.append('titulo', formTextoTitulo)
-      formConteudoData.append('tipo', 1)
-    }
-    else if (formImagem || formImagemTitulo) {
-      formConteudoData.append('url', formImagem)
-      formConteudoData.append('titulo', formImagemTitulo)
-      formConteudoData.append('tipo', 2)
-    }
-    else if (formVideo || formVideoTitulo) {
-      formConteudoData.append('url', formVideo)
-      formConteudoData.append('titulo', formVideoTitulo)
-      formConteudoData.append('tipo', 3)
-    }
-    else {
-      return
-    }
-
-    formConteudoData.append('ordem', ordemUltimoConteudo + 1)
-
-    fetch(url, {
-      method: 'POST',
-      body: formConteudoData
-    })
-    .then(resposta => resposta.json())
-    .then(resposta => location.reload())
-    .catch(error => {
-      console.error('Erro:', error)
-    })
+document.addEventListener('keydown', (event) => {
+  
+  if (event.key === 'Escape' || event.keyCode === 27 && modalConteudoImagemAdicionar.open) {
+    fecharModalAdicionarImagem()
   }
+})
+
+function fecharModalAdicionarImagem() {
+  modalConteudoImagemAdicionar.querySelector('img').src = ''
+  modalConteudoImagemAdicionar.close()
 }
 
 // ----------- Editar bloco de conteúdo -----------
@@ -340,7 +267,6 @@ const btnsConteudoEditar = document.querySelectorAll('.js-dashboard-conteudo-edi
 
 const modalConteudoTextoEditar = document.querySelector('.modal-conteudo-texto-editar')
 const editarTextoTitulo = document.querySelector('#conteudo-editar-texto-titulo')
-const editarTextoConteudo = document.querySelector('#conteudo-editar-texto-conteudo')
 const btnCancelarModalEditarTexto = document.querySelector('.modal-texto-editar-btn-cancelar')
 const formularioEditarTexto = document.querySelector('.modal-conteudo-texto-editar > form')
 
