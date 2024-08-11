@@ -70,12 +70,12 @@
             Vídeo
           </button>
         </div>
-        <div class="flex flex-col items-end gap-2 hidden conteudo-texto-adicionar hidden">
+        <div class="w-full flex flex-col items-end gap-2 hidden conteudo-texto-adicionar hidden">
           <div class="w-full">
             <label for="conteudo-texto-titulo" class="block text-sm font-medium text-gray-700">Título</label>
             <input type="text" id="conteudo-texto-titulo" name="titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md">
           </div>
-          <textarea name="conteudo" id="conteudo-conteudo" class="border border-gray-300 w-full p-2 h-56 rounded-lg"></textarea>
+          <textarea name="conteudo" id="conteudo-conteudo" class="border border-gray-300 w-full p-2 h-56 rounded-lg ckeditor"></textarea>
           <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-green-800 hover:bg-green-600 text-white text-xs rounded-lg">Adicionar</button>
         </div>
         <div class="flex flex-col w-full items-end gap-2 hidden conteudo-imagem-adicionar">
@@ -146,7 +146,7 @@
 </div>
 
 <?php // Editar conteúdo ?>
-<dialog class="p-4 w-full sm:w-[600px] rounded-lg shadow modal-conteudo-texto-editar">
+<dialog class="p-4 w-full sm:w-[1000px] rounded-lg shadow modal-conteudo-texto-editar">
   <form method="POST" class="flex flex-col items-end gap-2" enctype="multipart/form-data">
     <input type="hidden" name="_method" value="PUT">
     <input type="hidden" name="artigo_id" value="<?php echo $artigo['Artigo.id'] ?>">
@@ -156,7 +156,7 @@
       <label for="conteudo-editar-texto-titulo" class="block text-sm font-medium text-gray-700">Título</label>
       <input type="text" id="conteudo-editar-texto-titulo" name="titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="">
     </div>
-    <textarea name="conteudo" id="conteudo-editar-texto-conteudo" class="border border-gray-300 w-full p-2 h-56 rounded-lg"></textarea>
+    <textarea name="conteudo" id="conteudo-editar-texto-conteudo" class="border border-gray-300 w-full p-2 h-56 rounded-lg ckeditor"></textarea>
     <div class="flex gap-4">
       <button type="button" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-texto-editar-btn-cancelar w-full">Cancelar</button>
       <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg modal-conteudo-texto-btn-enviar">Editar</button>

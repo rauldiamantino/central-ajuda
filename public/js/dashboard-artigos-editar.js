@@ -1,3 +1,231 @@
+// ----------- CKEditor -----------
+// import { ClassicEditor, Essentials, Bold, Italic, Font, Paragraph, Heading, List } from 'https://cdn.ckeditor.com/ckeditor5/43.0.0/ckeditor5.js'
+
+import {
+	ClassicEditor,
+	AccessibilityHelp,
+	Alignment,
+	Autoformat,
+	AutoLink,
+	Autosave,
+	BlockQuote,
+	Bold,
+	Code,
+	CodeBlock,
+	Essentials,
+	FindAndReplace,
+	FontBackgroundColor,
+	FontColor,
+	FontFamily,
+	FontSize,
+	GeneralHtmlSupport,
+	Heading,
+	Highlight,
+	HorizontalLine,
+	HtmlEmbed,
+	Indent,
+	IndentBlock,
+	Italic,
+	Link,
+	Paragraph,
+	RemoveFormat,
+	SelectAll,
+	SpecialCharacters,
+	SpecialCharactersArrows,
+	SpecialCharactersCurrency,
+	SpecialCharactersEssentials,
+	SpecialCharactersLatin,
+	SpecialCharactersMathematical,
+	SpecialCharactersText,
+	Strikethrough,
+	Style,
+	Subscript,
+	Superscript,
+	Table,
+	TableCellProperties,
+	TableProperties,
+	TableToolbar,
+	TextTransformation,
+	Underline,
+	Undo
+} from 'ckeditor5';
+
+import translations from 'ckeditor5/translations/pt-br.js';
+
+const editorConfig = {
+	toolbar: {
+		items: [
+			'undo',
+			'redo',
+			'|',
+			'heading',
+			'|',
+			'fontSize',
+			'fontFamily',
+			'fontColor',
+			'fontBackgroundColor',
+			'|',
+			'bold',
+			'italic',
+			'underline',
+			'|',
+			'alignment',
+			'|',
+			'outdent',
+			'indent'
+		],
+		shouldNotGroupWhenFull: false
+	},
+	plugins: [
+		AccessibilityHelp,
+		Alignment,
+		Autoformat,
+		AutoLink,
+		Autosave,
+		BlockQuote,
+		Bold,
+		Code,
+		CodeBlock,
+		Essentials,
+		FindAndReplace,
+		FontBackgroundColor,
+		FontColor,
+		FontFamily,
+		FontSize,
+		GeneralHtmlSupport,
+		Heading,
+		Highlight,
+		HorizontalLine,
+		HtmlEmbed,
+		Indent,
+		IndentBlock,
+		Italic,
+		Link,
+		Paragraph,
+		RemoveFormat,
+		SelectAll,
+		SpecialCharacters,
+		SpecialCharactersArrows,
+		SpecialCharactersCurrency,
+		SpecialCharactersEssentials,
+		SpecialCharactersLatin,
+		SpecialCharactersMathematical,
+		SpecialCharactersText,
+		Strikethrough,
+		Style,
+		Subscript,
+		Superscript,
+		Table,
+		TableCellProperties,
+		TableProperties,
+		TableToolbar,
+		TextTransformation,
+		Underline,
+		Undo
+	],
+	fontFamily: {
+		supportAllValues: false
+	},
+	fontSize: {
+		options: [10, 12, 14, 'default', 18, 20, 22],
+		supportAllValues: false
+	},
+	heading: {
+		options: [
+			{
+				model: 'paragraph',
+				title: 'Paragraph',
+				class: 'ck-heading_paragraph'
+			},
+			{
+				model: 'heading1',
+				view: 'h1',
+				title: 'Heading 1',
+				class: 'ck-heading_heading1'
+			},
+			{
+				model: 'heading2',
+				view: 'h2',
+				title: 'Heading 2',
+				class: 'ck-heading_heading2'
+			},
+			{
+				model: 'heading3',
+				view: 'h3',
+				title: 'Heading 3',
+				class: 'ck-heading_heading3'
+			},
+			{
+				model: 'heading4',
+				view: 'h4',
+				title: 'Heading 4',
+				class: 'ck-heading_heading4'
+			},
+			{
+				model: 'heading5',
+				view: 'h5',
+				title: 'Heading 5',
+				class: 'ck-heading_heading5'
+			},
+			{
+				model: 'heading6',
+				view: 'h6',
+				title: 'Heading 6',
+				class: 'ck-heading_heading6'
+			}
+		]
+	},
+	htmlSupport: {
+		allow: [
+			{
+				name: /^.*$/,
+				styles: true,
+				attributes: true,
+				classes: true
+			}
+		]
+	},
+	language: 'pt-br',
+	link: {
+		addTargetToExternalLinks: true,
+		defaultProtocol: 'https://',
+		decorators: {
+			toggleDownloadable: {
+				mode: 'manual',
+				label: 'Downloadable',
+				attributes: {
+					download: 'file'
+				}
+			}
+		}
+	},
+	menuBar: {
+		isVisible: false
+	},
+	placeholder: 'Insira o conteúdo aqui',
+	table: {
+		contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties']
+	},
+	translations: [translations]
+};
+
+let editorInstances = {}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const textareas = document.querySelectorAll('textarea.ckeditor')
+  
+  textareas.forEach(textarea => {
+    ClassicEditor.create(textarea, editorConfig)
+      .then(editor => {
+        editorInstances[textarea.name]  = editor
+        console.log('CKEditor 5 initialized', editor)
+      })
+      .catch(error => {
+        console.error('There was a problem initializing CKEditor 5', error)
+      })
+  })
+})
+
 const btnTextoAdicionar = document.querySelector('.conteudo-btn-texto-adicionar')
 const btnImagemAdicionar = document.querySelector('.conteudo-btn-imagem-adicionar')
 const btnVideoAdicionar = document.querySelector('.conteudo-btn-video-adicionar')
@@ -192,7 +420,16 @@ if (btnsConteudoEditar) {
       
       if (conteudo.dataset.conteudoTipo == 1) {
         editarTextoTitulo.value = conteudo.dataset.conteudoTitulo
-        editarTextoConteudo.textContent = conteudo.dataset.conteudoConteudo
+
+        const editor = editorInstances['conteudo']
+
+        if (editor) {
+          editor.setData(conteudo.dataset.conteudoConteudo)
+        }
+        else {
+          console.error('CKEditor instance not found for the specified textarea.')
+        }
+        
         formularioEditarTexto.action = '/conteudo/' + conteudo.dataset.conteudoId
         modalConteudoTextoEditar.showModal()
       }
@@ -266,8 +503,8 @@ document.addEventListener('keydown', (event) => {
 })
 
 function fecharModalImagem() {
-  modalConteudoImagemEditar.querySelector('img').src = '';
-  modalConteudoImagemEditar.close();
+  modalConteudoImagemEditar.querySelector('img').src = ''
+  modalConteudoImagemEditar.close()
 }
 
 // ----------- Remover bloco de conteúdo -----------

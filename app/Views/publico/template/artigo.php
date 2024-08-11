@@ -26,7 +26,7 @@ $Parsedown = new Parsedown();
       <?php foreach ($conteudos as $chave => $linha) : ?>
         <?php if ($linha['Conteudo.tipo'] == 1) { ?>
           <div class="flex flex-col gap-2 leading-7 publico-artigo-bloco">
-            <?php echo $Parsedown->text($linha['Conteudo.conteudo']); ?>
+            <?php echo htmlspecialchars_decode($linha['Conteudo.conteudo']); ?>
           </div>
         <?php } ?>
 
