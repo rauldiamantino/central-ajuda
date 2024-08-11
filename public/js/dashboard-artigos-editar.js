@@ -1,51 +1,31 @@
 // ----------- CKEditor -----------
-// import { ClassicEditor, Essentials, Bold, Italic, Font, Paragraph, Heading, List } from 'https://cdn.ckeditor.com/ckeditor5/43.0.0/ckeditor5.js'
-
 import {
 	ClassicEditor,
 	AccessibilityHelp,
 	Alignment,
-	Autoformat,
-	AutoLink,
 	Autosave,
-	BlockQuote,
+	BalloonToolbar,
 	Bold,
-	Code,
-	CodeBlock,
 	Essentials,
-	FindAndReplace,
-	FontBackgroundColor,
 	FontColor,
-	FontFamily,
-	FontSize,
-	GeneralHtmlSupport,
 	Heading,
-	Highlight,
 	HorizontalLine,
-	HtmlEmbed,
 	Indent,
-	IndentBlock,
 	Italic,
 	Link,
+	List,
+	ListProperties,
 	Paragraph,
 	RemoveFormat,
 	SelectAll,
-	SpecialCharacters,
-	SpecialCharactersArrows,
-	SpecialCharactersCurrency,
-	SpecialCharactersEssentials,
-	SpecialCharactersLatin,
-	SpecialCharactersMathematical,
-	SpecialCharactersText,
 	Strikethrough,
-	Style,
-	Subscript,
-	Superscript,
 	Table,
+	TableCaption,
 	TableCellProperties,
+	TableColumnResize,
 	TableProperties,
 	TableToolbar,
-	TextTransformation,
+	TodoList,
 	Underline,
 	Undo
 } from 'ckeditor5';
@@ -58,78 +38,64 @@ const editorConfig = {
 			'undo',
 			'redo',
 			'|',
+			'selectAll',
+			'|',
 			'heading',
 			'|',
-			'fontSize',
-			'fontFamily',
 			'fontColor',
-			'fontBackgroundColor',
 			'|',
 			'bold',
 			'italic',
 			'underline',
+			'strikethrough',
+			'removeFormat',
+			'|',
+			'horizontalLine',
+			'link',
+			'insertTable',
 			'|',
 			'alignment',
 			'|',
+			'bulletedList',
+			'numberedList',
+			'todoList',
 			'outdent',
-			'indent'
+			'indent',
+			'|',
+			'accessibilityHelp'
 		],
 		shouldNotGroupWhenFull: false
 	},
 	plugins: [
 		AccessibilityHelp,
 		Alignment,
-		Autoformat,
-		AutoLink,
 		Autosave,
-		BlockQuote,
+		BalloonToolbar,
 		Bold,
-		Code,
-		CodeBlock,
 		Essentials,
-		FindAndReplace,
-		FontBackgroundColor,
 		FontColor,
-		FontFamily,
-		FontSize,
-		GeneralHtmlSupport,
 		Heading,
-		Highlight,
 		HorizontalLine,
-		HtmlEmbed,
 		Indent,
-		IndentBlock,
 		Italic,
 		Link,
+		List,
+		ListProperties,
 		Paragraph,
 		RemoveFormat,
 		SelectAll,
-		SpecialCharacters,
-		SpecialCharactersArrows,
-		SpecialCharactersCurrency,
-		SpecialCharactersEssentials,
-		SpecialCharactersLatin,
-		SpecialCharactersMathematical,
-		SpecialCharactersText,
 		Strikethrough,
-		Style,
-		Subscript,
-		Superscript,
 		Table,
+		TableCaption,
 		TableCellProperties,
+		TableColumnResize,
 		TableProperties,
 		TableToolbar,
-		TextTransformation,
+		TodoList,
 		Underline,
 		Undo
 	],
-	fontFamily: {
-		supportAllValues: false
-	},
-	fontSize: {
-		options: [10, 12, 14, 'default', 18, 20, 22],
-		supportAllValues: false
-	},
+	balloonToolbar: ['bold', 'italic', '|', 'link', '|', 'bulletedList', 'numberedList'],
 	heading: {
 		options: [
 			{
@@ -155,38 +121,12 @@ const editorConfig = {
 				title: 'Heading 3',
 				class: 'ck-heading_heading3'
 			},
-			{
-				model: 'heading4',
-				view: 'h4',
-				title: 'Heading 4',
-				class: 'ck-heading_heading4'
-			},
-			{
-				model: 'heading5',
-				view: 'h5',
-				title: 'Heading 5',
-				class: 'ck-heading_heading5'
-			},
-			{
-				model: 'heading6',
-				view: 'h6',
-				title: 'Heading 6',
-				class: 'ck-heading_heading6'
-			}
 		]
 	},
-	htmlSupport: {
-		allow: [
-			{
-				name: /^.*$/,
-				styles: true,
-				attributes: true,
-				classes: true
-			}
-		]
-	},
+	initialData: '',
 	language: 'pt-br',
 	link: {
+    forceSimpleAmpersand: true,
 		addTargetToExternalLinks: true,
 		defaultProtocol: 'https://',
 		decorators: {
@@ -199,10 +139,14 @@ const editorConfig = {
 			}
 		}
 	},
-	menuBar: {
-		isVisible: false
+	list: {
+		properties: {
+			styles: true,
+			startIndex: true,
+			reversed: true
+		}
 	},
-	placeholder: 'Insira o conteúdo aqui',
+	placeholder: 'Digite ou cole seu conteúdo aqui!',
 	table: {
 		contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties']
 	},
@@ -217,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
   textareas.forEach(textarea => {
     ClassicEditor.create(textarea, editorConfig)
       .then(editor => {
-        editorInstances[textarea.name]  = editor
+        editorInstances[textarea.name] = editor
         console.log('CKEditor 5 initialized', editor)
       })
       .catch(error => {

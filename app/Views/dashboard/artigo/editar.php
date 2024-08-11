@@ -70,7 +70,7 @@
             Vídeo
           </button>
         </div>
-        <div class="w-full flex flex-col items-end gap-2 hidden conteudo-texto-adicionar hidden">
+        <div class="w-full flex flex-col items-end gap-2 editor-container__editor conteudo-texto-adicionar hidden">
           <div class="w-full">
             <label for="conteudo-texto-titulo" class="block text-sm font-medium text-gray-700">Título</label>
             <input type="text" id="conteudo-texto-titulo" name="titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md">
@@ -146,8 +146,8 @@
 </div>
 
 <?php // Editar conteúdo ?>
-<dialog class="p-4 w-full sm:w-[1000px] rounded-lg shadow modal-conteudo-texto-editar">
-  <form method="POST" class="flex flex-col items-end gap-2" enctype="multipart/form-data">
+<dialog class="p-4 w-full sm:w-[1000px] rounded-lg shadow editor-container modal-conteudo-texto-editar">
+  <form method="POST" class="flex flex-col items-end gap-2 editor-container__editor" enctype="multipart/form-data">
     <input type="hidden" name="_method" value="PUT">
     <input type="hidden" name="artigo_id" value="<?php echo $artigo['Artigo.id'] ?>">
     <input type="hidden" name="tipo" value="1">
@@ -156,7 +156,9 @@
       <label for="conteudo-editar-texto-titulo" class="block text-sm font-medium text-gray-700">Título</label>
       <input type="text" id="conteudo-editar-texto-titulo" name="titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="">
     </div>
-    <textarea name="conteudo" id="conteudo-editar-texto-conteudo" class="border border-gray-300 w-full p-2 h-56 rounded-lg ckeditor"></textarea>
+    <div class="editor-container_classic-editor">
+      <textarea name="conteudo" id="conteudo-editar-texto-conteudo" class="border border-gray-300 w-full p-2 h-56 rounded-lg ckeditor"></textarea>
+    </div>
     <div class="flex gap-4">
       <button type="button" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-texto-editar-btn-cancelar w-full">Cancelar</button>
       <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg modal-conteudo-texto-btn-enviar">Editar</button>
