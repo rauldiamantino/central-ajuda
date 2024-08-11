@@ -26,12 +26,18 @@ class ComposerStaticInit86860897b725342a598e52c3c04c14d5
         ),
     );
 
+    public static $prefixesPsr0 = array (
+        'P' => 
+        array (
+            'Parsedown' => 
+            array (
+                0 => __DIR__ . '/..' . '/erusev/parsedown',
+            ),
+        ),
+    );
+
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'app\\Models\\Database' => __DIR__ . '/../..' . '/app/Models/Database.php',
-        'app\\Models\\EmpresaModel' => __DIR__ . '/../..' . '/app/Models/EmpresaModel.php',
-        'app\\Models\\Model' => __DIR__ . '/../..' . '/app/Models/Model.php',
-        'app\\Models\\UsuarioModel' => __DIR__ . '/../..' . '/app/Models/UsuarioModel.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
@@ -39,6 +45,7 @@ class ComposerStaticInit86860897b725342a598e52c3c04c14d5
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit86860897b725342a598e52c3c04c14d5::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit86860897b725342a598e52c3c04c14d5::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit86860897b725342a598e52c3c04c14d5::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit86860897b725342a598e52c3c04c14d5::$classMap;
 
         }, null, ClassLoader::class);

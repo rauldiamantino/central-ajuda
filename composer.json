@@ -18,5 +18,7 @@
             "email": "rauldiamantino25@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "erusev/parsedown": "^1.7"
+    }
 }

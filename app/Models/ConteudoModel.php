@@ -117,12 +117,21 @@ class ConteudoModel extends Model
       ],
     ];
 
+    $permitidos = [
+      'ativo',
+      'conteudo',
+    ];
+
+    foreach ($params as $chave => $linha) :
+      
+      if ($chave == 'tipo' and $linha == 1) {
+        array_push($permitidos, 'url');
+        break;
+      }
+    endforeach;
+
     // Campos vazios
     foreach ($campos as $chave => $linha):
-      $permitidos = [
-        'ativo',
-        'conteudo',
-      ];
 
       if ($atualizar and ! isset($params[ $chave ])) {
         
@@ -154,7 +163,7 @@ class ConteudoModel extends Model
       $campos['artigo_id'] = filter_var($campos['artigo_id'], FILTER_SANITIZE_NUMBER_INT);
       $campos['empresa_id'] = filter_var($campos['empresa_id'], FILTER_SANITIZE_NUMBER_INT);
       $campos['tipo'] = filter_var($campos['tipo'], FILTER_SANITIZE_NUMBER_INT);
-      $campos['conteudo'] = htmlspecialchars($campos['conteudo']);
+      $campos['conteudo'] = htmlspecialchars($campos['conteudo'], ENT_QUOTES, 'UTF-8');
       $campos['titulo'] = htmlspecialchars($campos['titulo']);
       $campos['tipo'] = filter_var($campos['tipo'], FILTER_SANITIZE_NUMBER_INT);
       $campos['url'] = filter_var($campos['url'], FILTER_SANITIZE_URL);

@@ -29,7 +29,9 @@ class Roteador
       'GET:/dashboard/usuario/editar/{id}' => [UsuarioController::class, 'usuarioEditarVer'],
       'GET:/dashboard/usuario/adicionar' => [UsuarioController::class, 'usuarioAdicionarVer'],
       'GET:/dashboard/empresa/editar' => [EmpresaController::class, 'empresaEditarVer'],
-      'GET:/publico' => [PublicoController::class, 'publicoVer'],
+      'GET:/publico' => [PublicoController::class, 'publicoCategoriasVer'],
+      'GET:/publico/categoria/{id}' => [PublicoController::class, 'publicoCategoriaVer'],
+      'GET:/publico/artigo/{id}' => [PublicoController::class, 'publicoArtigoVer'],
 
       'GET:/artigos' => [ArtigoController::class, 'buscar'],
       'GET:/artigo/{id}' => [ArtigoController::class, 'buscar'],
