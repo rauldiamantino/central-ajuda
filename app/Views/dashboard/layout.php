@@ -105,23 +105,21 @@
       </div>
     </main>
   </div>
-  
-  <!------------------- scripts ------------------->
-  <script type="importmap">
-  {
-    "imports": {
-      "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.0.0/ckeditor5.js",
-      "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.0.0/"
-    }
-  }
-  </script>
 
+  <!----------------- bibliotecas ----------------->
   <script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/addons/cleave-phone.br.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+  <script type="importmap">{ "imports": { "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.0.0/ckeditor5.js", "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.0.0/" }}</script>
+  <script src="/js/ckeditor.js" type="module"></script>
+
+  <!------------------- scripts ------------------->
   <script src="/js/dashboard.js"></script>
   <script src="/js/dashboard-artigos.js"></script>
-  <script src="/js/dashboard-artigos-editar.js" type="module"></script>
+  <script src="/js/dashboard-conteudo-adicionar.js" type="module"></script>
+  <script src="/js/dashboard-conteudo-editar.js" type="module"></script>
+  <script src="/js/dashboard-conteudo-remover.js" type="module"></script>
+  <script src="/js/dashboard-conteudo-organizar.js" type="module"></script>
   <script src="/js/dashboard-categorias.js"></script>
   <script src="/js/dashboard-usuarios.js"></script>
   <script src="/js/dashboard-usuarios-editar.js"></script>

@@ -1,0 +1,115 @@
+import { editorInstances } from './ckeditor.js';
+
+const btnsConteudoEditar = document.querySelectorAll('.js-dashboard-conteudo-editar')
+
+const modalConteudoTextoEditar = document.querySelector('.modal-conteudo-texto-editar')
+const editarTextoTitulo = document.querySelector('#conteudo-editar-texto-titulo')
+const btnCancelarModalEditarTexto = document.querySelector('.modal-texto-editar-btn-cancelar')
+const formularioEditarTexto = document.querySelector('.modal-conteudo-texto-editar > form')
+
+const modalConteudoImagemEditar = document.querySelector('.modal-conteudo-imagem-editar')
+const editarImagemTitulo = document.querySelector('#conteudo-editar-imagem-titulo')
+const editarImagemEscolher = document.querySelector('.conteudo-editar-imagem-escolher')
+const editarTextoImagemEscolher = document.querySelector('.conteudo-txt-imagem-editar-escolher')
+const btnEditarImagemEscolher = document.querySelector('.conteudo-btn-imagem-editar-escolher')
+const btnCancelarModalEditarImagem = document.querySelector('.modal-conteudo-imagem-btn-cancelar')
+const formularioEditarImagem = document.querySelector('.modal-conteudo-imagem-editar > form')
+
+const modalConteudoVideoEditar = document.querySelector('.modal-conteudo-video-editar')
+const editarVideoTitulo = document.querySelector('#conteudo-editar-video-titulo')
+const editarVideoUrl = document.querySelector('#conteudo-editar-video-url')
+const btnCancelarModalEditarVideo = document.querySelector('.modal-conteudo-video-btn-cancelar')
+const formularioEditarVideo = document.querySelector('.modal-conteudo-video-editar > form')
+
+if (btnsConteudoEditar) {
+  btnsConteudoEditar.forEach(conteudo => {
+    conteudo.addEventListener('click', () => {
+      
+      if (conteudo.dataset.conteudoTipo == 1) {
+        editarTextoTitulo.value = conteudo.dataset.conteudoTitulo
+
+        const editor = editorInstances['conteudo']
+
+        if (editor) {
+          editor.setData(conteudo.dataset.conteudoConteudo)
+        }
+        else {
+          console.error('CKEditor instance not found for the specified textarea.')
+        }
+        
+        formularioEditarTexto.action = '/conteudo/' + conteudo.dataset.conteudoId
+        modalConteudoTextoEditar.showModal()
+      }
+      else if (conteudo.dataset.conteudoTipo == 2) {
+        editarImagemTitulo.value = conteudo.dataset.conteudoTitulo
+        formularioEditarImagem.action = '/conteudo/' + conteudo.dataset.conteudoId
+        
+        const imgElemento = modalConteudoImagemEditar.querySelector('img')
+        
+        imgElemento.src = '/' + conteudo.dataset.conteudoUrl
+        imgElemento.classList.add('opacity-100')
+        imgElemento.classList.remove('opacity-0')
+        modalConteudoImagemEditar.showModal()
+
+        if (btnEditarImagemEscolher) {
+          btnEditarImagemEscolher.addEventListener('click', () => {
+            editarImagemEscolher.click()
+          })
+        }
+
+        editarImagemEscolher.addEventListener('change', (event) => {
+          const anexo = event.target.files[0]
+
+          if (anexo) {
+            const objetoReader = new FileReader()
+
+            objetoReader.onload = (e) => {
+              imgElemento.src = e.target.result
+              imgElemento.classList.remove('opacity-0')
+              imgElemento.classList.add('opacity-100')
+            }
+
+            editarTextoImagemEscolher.textContent = anexo.name
+            objetoReader.readAsDataURL(anexo)
+          }
+        })
+
+        editarTextoImagemEscolher.textContent = 'Alterar imagem'
+      }
+      else if (conteudo.dataset.conteudoTipo == 3) {
+        editarVideoTitulo.value = conteudo.dataset.conteudoTitulo
+        editarVideoUrl.value = conteudo.dataset.conteudoUrl
+        formularioEditarVideo.action = '/conteudo/' + conteudo.dataset.conteudoId
+        modalConteudoVideoEditar.showModal()
+      }
+    })
+  })
+}
+
+if (btnCancelarModalEditarTexto) {
+  btnCancelarModalEditarTexto.addEventListener('click', () => {
+    modalConteudoTextoEditar.close()
+  })
+}
+
+if (btnCancelarModalEditarVideo) {
+  btnCancelarModalEditarVideo.addEventListener('click', () => {
+    modalConteudoVideoEditar.close()
+  })
+}
+
+if (btnCancelarModalEditarImagem) {
+  btnCancelarModalEditarImagem.addEventListener('click', () => fecharModalImagem())
+}
+
+document.addEventListener('keydown', (event) => {
+  
+  if (event.key === 'Escape' || event.keyCode === 27 && modalConteudoImagemEditar.open) {
+    fecharModalImagem()
+  }
+})
+
+function fecharModalImagem() {
+  modalConteudoImagemEditar.querySelector('img').src = ''
+  modalConteudoImagemEditar.close()
+}
