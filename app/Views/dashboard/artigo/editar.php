@@ -75,7 +75,7 @@
       </div>
 
       <?php // Adicionar texto ?>
-      <dialog class="p-4 w-full sm:w-[1000px] rounded-lg shadow editor-container modal-conteudo-texto-adicionar">
+      <dialog class="relative pt-4 px-4 w-full sm:w-[1000px] rounded-lg shadow editor-container modal-conteudo-texto-adicionar">
         <form method="POST" action="/conteudo" class="flex flex-col items-end gap-2 editor-container__editor" enctype="multipart/form-data">
           <input type="hidden" name="tipo" value="1">
           <input type="hidden" name="artigo_id" value="<?php echo $artigo['Artigo.id'] ?>">
@@ -89,15 +89,25 @@
           <div class="editor-container_classic-editor">
             <textarea name="conteudo" id="conteudo-adicionar-texto-conteudo" class="border border-gray-300 w-full p-2 h-56 rounded-lg ckeditor"></textarea>
           </div>
-          <div class="flex gap-4">
-            <button type="button" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-texto-adicionar-btn-cancelar w-full">Cancelar</button>
-            <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-green-800 hover:bg-green-600 text-white text-xs rounded-lg modal-conteudo-texto-btn-enviar">Adicionar</button>
+         <div class="sticky bottom-0 py-4 w-full h-max flex justify-between gap-4 bg-white">
+            <div class="w-full">
+              <label class="flex items-start gap-2 cursor-pointer">
+                <input type="hidden" name="titulo_ocultar" value="0">
+                <input type="checkbox" value="1" class="sr-only peer" name="titulo_ocultar">
+                <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
+                <span class="block text-sm font-medium text-gray-700">Ocultar título na publicação</span>
+              </label>
+            </div>
+            <div class="flex gap-4">
+              <button type="button" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-texto-adicionar-btn-cancelar w-full">Cancelar</button>
+              <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-green-800 hover:bg-green-600 text-white text-xs rounded-lg modal-conteudo-texto-btn-enviar">Adicionar</button>
+            </div>
           </div>
         </form>
       </dialog>
 
       <?php // Adicionar imagem ?>
-      <dialog class="p-4 w-full sm:w-[600px] rounded-lg shadow modal-conteudo-imagem-adicionar">
+      <dialog class="p-4 w-full sm:w-[1000px] rounded-lg shadow modal-conteudo-imagem-adicionar">
         <form method="POST" action="/conteudo" class="flex flex-col items-end gap-2" enctype="multipart/form-data">
           <input type="hidden" name="artigo_id" value="<?php echo $artigo['Artigo.id'] ?>">
           <input type="hidden" name="tipo" value="2">
@@ -121,9 +131,19 @@
               <img src="" class="object-cover w-full h-full">
             </div>
           </div>
-          <div class="flex gap-4">
-            <button type="button" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-conteudo-imagem-btn-cancelar-adicionar w-full">Cancelar</button>
-            <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg modal-conteudo-imagem-btn-enviar">Adicionar</button>
+          <div class="w-full flex justify-between gap-4">
+            <div class="w-full">
+              <label class="flex items-start gap-2 cursor-pointer">
+                <input type="hidden" name="titulo_ocultar" value="0">
+                <input type="checkbox" value="1" class="sr-only peer" name="titulo_ocultar">
+                <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
+                <span class="block text-sm font-medium text-gray-700">Ocultar título na publicação</span>
+              </label>
+            </div>
+            <div class="flex gap-4">
+              <button type="button" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-conteudo-imagem-btn-cancelar-adicionar w-full">Cancelar</button>
+              <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg modal-conteudo-imagem-btn-enviar">Adicionar</button>
+            </div>
           </div>
         </form>
       </dialog>
@@ -141,9 +161,19 @@
             <input type="text" id="conteudo-adicionar-video-titulo" name="titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="">
           </div>
           <input type="text" name="url" id="conteudo-adicionar-video-url" class="border border-gray-300 w-full p-2 rounded-lg text-sm" placeholder="https://www.youtube.com/watch?v=00000000000">
-          <div class="flex gap-4">
-            <button type="button" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-conteudo-video-btn-cancelar-adicionar w-full">Cancelar</button>
-            <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg modal-conteudo-video-btn-enviar">Adicionar</button>
+          <div class="w-full flex justify-between gap-4">
+            <div class="w-full">
+              <label class="flex items-start gap-2 cursor-pointer">
+                <input type="hidden" name="titulo_ocultar" value="0">
+                <input type="checkbox" value="1" class="sr-only peer" name="titulo_ocultar">
+                <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
+                <span class="block text-sm font-medium text-gray-700">Ocultar título na publicação</span>
+              </label>
+            </div>
+            <div class="flex gap-4">
+              <button type="button" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-conteudo-video-btn-cancelar-adicionar w-full">Cancelar</button>
+              <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg modal-conteudo-video-btn-enviar">Adicionar</button>
+            </div>
           </div>
         </form>
       </dialog>
@@ -174,7 +204,7 @@
                 </svg>
               <?php } ?>
             </div>
-            <div class="w-full group"><button type="button" class="text-start group-hover:underline js-dashboard-conteudo-editar" data-conteudo-id="<?php echo $linha['Conteudo.id'] ?>" data-conteudo-titulo="<?php echo $linha['Conteudo.titulo'] ?>" data-conteudo-conteudo="<?php echo $linha['Conteudo.conteudo'] ?>" data-conteudo-url="<?php echo $linha['Conteudo.url'] ?>" data-conteudo-tipo="<?php echo $linha['Conteudo.tipo'] ?>"><?php echo $linha['Conteudo.titulo'] ?></button></div>
+            <div class="w-full group"><button type="button" class="text-start group-hover:underline js-dashboard-conteudo-editar" data-conteudo-id="<?php echo $linha['Conteudo.id'] ?>" data-conteudo-titulo="<?php echo $linha['Conteudo.titulo'] ?>" data-conteudo-titulo-ocultar="<?php echo $linha['Conteudo.titulo_ocultar'] ?>" data-conteudo-conteudo="<?php echo $linha['Conteudo.conteudo'] ?>" data-conteudo-url="<?php echo $linha['Conteudo.url'] ?>" data-conteudo-tipo="<?php echo $linha['Conteudo.tipo'] ?>"><?php echo $linha['Conteudo.titulo'] ?></button></div>
           </div>
           <button type="button" class="w-max h-max text-red-800 hover:text-red-600 text-xs rounded-lg js-dashboard-conteudo-remover" data-conteudo-id="<?php echo $linha['Conteudo.id'] ?>">
             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 16 16" stroke-width="0.2" stroke="currentColor">
@@ -188,7 +218,7 @@
 </div>
 
 <?php // Editar conteúdo ?>
-<dialog class="p-4 w-full sm:w-[1000px] rounded-lg shadow editor-container modal-conteudo-texto-editar">
+<dialog class="relative pt-4 px-4 w-full sm:w-[1000px] rounded-lg shadow editor-container modal-conteudo-texto-editar">
   <form method="POST" class="flex flex-col items-end gap-2 editor-container__editor" enctype="multipart/form-data">
     <input type="hidden" name="_method" value="PUT">
     <input type="hidden" name="artigo_id" value="<?php echo $artigo['Artigo.id'] ?>">
@@ -201,9 +231,19 @@
     <div class="editor-container_classic-editor">
       <textarea name="conteudo" id="conteudo-editar-texto-conteudo" class="border border-gray-300 w-full p-2 h-56 rounded-lg ckeditor"></textarea>
     </div>
-    <div class="flex gap-4">
-      <button type="button" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-texto-editar-btn-cancelar w-full">Cancelar</button>
-      <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg modal-conteudo-texto-btn-enviar">Editar</button>
+    <div class="sticky bottom-0 py-4 w-full h-max flex justify-between gap-4 bg-white">
+      <div class="w-full bg-white">
+        <label class="flex items-start gap-2 cursor-pointer">
+          <input type="hidden" name="titulo_ocultar" value="0">
+          <input type="checkbox" value="1" class="sr-only peer conteudo-editar-texto-titulo-ocultar" name="titulo_ocultar">
+          <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
+          <span class="block text-sm font-medium text-gray-700">Ocultar título na publicação</span>
+        </label>
+      </div>
+      <div class="flex gap-4 bg-white">
+        <button type="button" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-texto-editar-btn-cancelar w-full">Cancelar</button>
+        <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg modal-conteudo-texto-btn-enviar">Editar</button>
+      </div>
     </div>
   </form>
 </dialog>
@@ -231,9 +271,19 @@
         <img src="" class="object-cover w-full h-full opacity-0 transition-opacity duration-300 ease-in-out">
       </div>
     </div>
-    <div class="flex gap-4">
-      <button type="button" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-conteudo-imagem-btn-cancelar w-full">Cancelar</button>
-      <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg modal-conteudo-imagem-btn-enviar">Editar</button>
+    <div class="w-full flex justify-between gap-4">
+      <div class="w-full">
+        <label class="flex items-start gap-2 cursor-pointer">
+          <input type="hidden" name="titulo_ocultar" value="0">
+          <input type="checkbox" value="1" class="sr-only peer conteudo-editar-imagem-titulo-ocultar" name="titulo_ocultar">
+          <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
+          <span class="block text-sm font-medium text-gray-700">Ocultar título na publicação</span>
+        </label>
+      </div>
+      <div class="flex gap-4">
+        <button type="button" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-conteudo-imagem-btn-cancelar w-full">Cancelar</button>
+        <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg modal-conteudo-imagem-btn-enviar">Editar</button>
+      </div>
     </div>
   </form>
 </dialog>
@@ -249,9 +299,19 @@
       <input type="text" id="conteudo-editar-video-titulo" name="titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="">
     </div>
     <input type="text" name="url" id="conteudo-editar-video-url" class="border border-gray-300 w-full p-2 rounded-lg text-sm" placeholder="https://www.youtube.com/watch?v=00000000000">
-    <div class="flex gap-4">
-      <button type="button" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-conteudo-video-btn-cancelar w-full">Cancelar</button>
-      <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg modal-conteudo-video-btn-enviar">Editar</button>
+    <div class="w-full flex justify-between gap-4">
+      <div class="w-full">
+        <label class="flex items-start gap-2 cursor-pointer">
+          <input type="hidden" name="titulo_ocultar" value="0">
+          <input type="checkbox" value="1" class="sr-only peer conteudo-editar-video-titulo-ocultar" name="titulo_ocultar">
+          <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
+          <span class="block text-sm font-medium text-gray-700">Ocultar título na publicação</span>
+        </label>
+      </div>
+      <div class="flex gap-4">
+        <button type="button" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-conteudo-video-btn-cancelar w-full">Cancelar</button>
+        <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg modal-conteudo-video-btn-enviar">Editar</button>
+      </div>
     </div>
   </form>
 </dialog>

@@ -158,6 +158,7 @@ class ArtigoController extends Controller
       'Conteudo.ativo',
       'Conteudo.tipo',
       'Conteudo.titulo',
+      'Conteudo.titulo_ocultar',
       'Conteudo.conteudo',
       'Conteudo.url',
       'Conteudo.ordem',

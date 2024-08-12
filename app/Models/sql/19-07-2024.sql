@@ -52,6 +52,7 @@ CREATE TABLE `conteudos` (
   `empresa_id` int NOT NULL,
   `tipo` int NOT NULL,
   `titulo` varchar(255) DEFAULT NULL,
+  `titulo_ocultar` int DEFAULT '0',
   `conteudo` text,
   `url` varchar(255) DEFAULT NULL,
   `ordem` int NOT NULL,

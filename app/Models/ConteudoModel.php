@@ -100,14 +100,15 @@ class ConteudoModel extends Model
   private function validarCampos(array $params, bool $atualizar = false): array
   {
     $campos = [
-      'ativo' => $params['ativo'] ?? 0,
-      'artigo_id' => $params['artigo_id'] ?? 0,
-      'empresa_id' => $params['empresa_id'] ?? 0,
-      'tipo' => $params['tipo'] ?? 0,
+      'ativo' => intval($params['ativo'] ?? 0),
+      'artigo_id' => intval($params['artigo_id'] ?? 0),
+      'empresa_id' => intval($params['empresa_id'] ?? 0),
+      'tipo' => intval($params['tipo'] ?? 0),
       'titulo' => $params['titulo'] ?? '',
+      'titulo_ocultar' => intval($params['titulo_ocultar'] ?? 0),
       'conteudo' => $params['conteudo'] ?? '',
       'url' => $params['url'] ?? '',
-      'ordem' => $params['ordem'] ?? 0,
+      'ordem' => intval($params['ordem'] ?? 0),
     ];
 
     $msgErro = [
@@ -120,6 +121,7 @@ class ConteudoModel extends Model
     $permitidos = [
       'ativo',
       'conteudo',
+      'titulo_ocultar',
     ];
 
     foreach ($params as $chave => $linha) :
@@ -165,6 +167,7 @@ class ConteudoModel extends Model
       $campos['tipo'] = filter_var($campos['tipo'], FILTER_SANITIZE_NUMBER_INT);
       $campos['conteudo'] = htmlspecialchars($campos['conteudo'], ENT_QUOTES, 'UTF-8');
       $campos['titulo'] = htmlspecialchars($campos['titulo']);
+      $campos['titulo_ocultar'] = filter_var($campos['titulo_ocultar'], FILTER_SANITIZE_NUMBER_INT);
       $campos['tipo'] = filter_var($campos['tipo'], FILTER_SANITIZE_NUMBER_INT);
       $campos['url'] = filter_var($campos['url'], FILTER_SANITIZE_URL);
 
@@ -177,6 +180,10 @@ class ConteudoModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('tipo', 'valInvalido');
       }
 
+      if (isset($params['titulo_ocultar']) and ! in_array($campos['titulo_ocultar'], [0, 1])) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('titulo_ocultar', 'valInvalido');
+      }
+
       if ($campos['tipo'] == 3 and isset($params['url']) and filter_var($campos['url'], FILTER_VALIDATE_URL) == false) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('url', 'valInvalido');
       }
@@ -186,6 +193,7 @@ class ConteudoModel extends Model
       $ordemCaracteres = 50;
       $urlCaracteres = 255;
       $tituloCaracteres = 255;
+      $tituloOcultarCaracteres = 1;
       $artigoIdCaracteres = 999999999;
       $empresaIdCaracteres = 999999999;
 
@@ -209,6 +217,10 @@ class ConteudoModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('titulo', 'caracteres', $tituloCaracteres);
       }
 
+      if (strlen($campos['titulo_ocultar']) > $tituloOcultarCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('titulo_ocultar', 'caracteres', $tituloOcultarCaracteres);
+      }
+
       if (strlen($campos['ordem']) > $ordemCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('ordem', 'caracteres', $ordemCaracteres);
       }
@@ -228,6 +240,7 @@ class ConteudoModel extends Model
       'empresa_id' => $campos['empresa_id'],
       'tipo' => $campos['tipo'],
       'titulo' => $campos['titulo'],
+      'titulo_ocultar' => $campos['titulo_ocultar'],
       'conteudo' => $campos['conteudo'],
       'url' => $campos['url'],
       'ordem' => $campos['ordem'],
@@ -263,6 +276,10 @@ class ConteudoModel extends Model
 
     if ($campo == 'titulo') {
       $campo = 'título';
+    }
+
+    if ($campo == 'titulo_ocultar') {
+      $campo = 'ocultar títulio';
     }
 
     $msgErro = [

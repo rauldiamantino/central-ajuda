@@ -4,11 +4,13 @@ const btnsConteudoEditar = document.querySelectorAll('.js-dashboard-conteudo-edi
 
 const modalConteudoTextoEditar = document.querySelector('.modal-conteudo-texto-editar')
 const editarTextoTitulo = document.querySelector('#conteudo-editar-texto-titulo')
+const editarTextoTituloOcultar = document.querySelector('.conteudo-editar-texto-titulo-ocultar')
 const btnCancelarModalEditarTexto = document.querySelector('.modal-texto-editar-btn-cancelar')
 const formularioEditarTexto = document.querySelector('.modal-conteudo-texto-editar > form')
 
 const modalConteudoImagemEditar = document.querySelector('.modal-conteudo-imagem-editar')
 const editarImagemTitulo = document.querySelector('#conteudo-editar-imagem-titulo')
+const editarImagemTituloOcultar = document.querySelector('.conteudo-editar-imagem-titulo-ocultar')
 const editarImagemEscolher = document.querySelector('.conteudo-editar-imagem-escolher')
 const editarTextoImagemEscolher = document.querySelector('.conteudo-txt-imagem-editar-escolher')
 const btnEditarImagemEscolher = document.querySelector('.conteudo-btn-imagem-editar-escolher')
@@ -17,6 +19,7 @@ const formularioEditarImagem = document.querySelector('.modal-conteudo-imagem-ed
 
 const modalConteudoVideoEditar = document.querySelector('.modal-conteudo-video-editar')
 const editarVideoTitulo = document.querySelector('#conteudo-editar-video-titulo')
+const editarVideoTituloOcultar = document.querySelector('.conteudo-editar-video-titulo-ocultar')
 const editarVideoUrl = document.querySelector('#conteudo-editar-video-url')
 const btnCancelarModalEditarVideo = document.querySelector('.modal-conteudo-video-btn-cancelar')
 const formularioEditarVideo = document.querySelector('.modal-conteudo-video-editar > form')
@@ -27,6 +30,7 @@ if (btnsConteudoEditar) {
       
       if (conteudo.dataset.conteudoTipo == 1) {
         editarTextoTitulo.value = conteudo.dataset.conteudoTitulo
+        conteudo.dataset.conteudoTituloOcultar == 1 ? editarTextoTituloOcultar.checked = true : editarTextoTituloOcultar.checked = false
 
         const editor = editorInstances['conteudo']
 
@@ -42,6 +46,7 @@ if (btnsConteudoEditar) {
       }
       else if (conteudo.dataset.conteudoTipo == 2) {
         editarImagemTitulo.value = conteudo.dataset.conteudoTitulo
+        conteudo.dataset.conteudoTituloOcultar == 1 ? editarImagemTituloOcultar.checked = true : editarImagemTituloOcultar.checked = false
         formularioEditarImagem.action = '/conteudo/' + conteudo.dataset.conteudoId
         
         const imgElemento = modalConteudoImagemEditar.querySelector('img')
@@ -78,6 +83,7 @@ if (btnsConteudoEditar) {
       }
       else if (conteudo.dataset.conteudoTipo == 3) {
         editarVideoTitulo.value = conteudo.dataset.conteudoTitulo
+        conteudo.dataset.conteudoTituloOcultar == 1 ? editarVideoTituloOcultar.checked = true : editarVideoTituloOcultar.checked = false
         editarVideoUrl.value = conteudo.dataset.conteudoUrl
         formularioEditarVideo.action = '/conteudo/' + conteudo.dataset.conteudoId
         modalConteudoVideoEditar.showModal()
