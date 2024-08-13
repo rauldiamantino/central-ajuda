@@ -213,7 +213,7 @@ class ArtigoController extends Controller
     $this->visao->variavel('conteudos', $conteudos);
     $this->visao->variavel('categorias', $categorias);
     $this->visao->variavel('titulo', 'Editar artigo');
-    $this->visao->renderizar('/editar');
+    $this->visao->renderizar('/editar/index');
   }
 
   public function artigoAdicionarVer()
