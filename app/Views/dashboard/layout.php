@@ -116,18 +116,18 @@
 
   <!------------------- scripts ------------------->
   <script src="/js/dashboard/dashboard.js"></script>
-  <script src="/js/dashboard/artigos.js"></script>
-  <script src="/js/dashboard/conteudo-adicionar.js"></script>
-  <script src="/js/dashboard/conteudo-editar.js" type="module"></script>
-  <script src="/js/dashboard/conteudo-remover.js"></script>
-  <script src="/js/dashboard/conteudo-organizar.js"></script>
-  <script src="/js/dashboard/artigo-organizar.js"></script>
-  <script src="/js/dashboard/artigo-filtrar-categoria.js"></script>
-  <script src="/js/dashboard/categoria-organizar.js"></script>
-  <script src="/js/dashboard/categorias.js"></script>
-  <script src="/js/dashboard/usuarios.js"></script>
-  <script src="/js/dashboard/usuarios-editar.js"></script>
-  <script src="/js/dashboard/empresa.js"></script>
+  <script src="/js/dashboard/artigos/index.js"></script>
+  <script src="/js/dashboard/artigos/conteudos/adicionar.js"></script>
+  <script src="/js/dashboard/artigos/conteudos/editar.js" type="module"></script>
+  <script src="/js/dashboard/artigos/conteudos/remover.js"></script>
+  <script src="/js/dashboard/artigos/conteudos/organizar.js"></script>
+  <script src="/js/dashboard/artigos/organizar.js"></script>
+  <script src="/js/dashboard/artigos/filtrar.js"></script>
+  <script src="/js/dashboard/categorias/organizar.js"></script>
+  <script src="/js/dashboard/categorias/index.js"></script>
+  <script src="/js/dashboard/usuarios/index.js"></script>
+  <script src="/js/dashboard/usuarios/editar.js"></script>
+  <script src="/js/dashboard/empresas/index.js"></script>
   <script>document.addEventListener('DOMContentLoaded', () => setTimeout(() => window.scrollTo({top: 0, left: 0, behavior: 'smooth'}), 60))</script>
 </body>
 

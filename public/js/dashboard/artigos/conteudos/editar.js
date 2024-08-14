@@ -1,4 +1,4 @@
-import { editorInstances } from './ckeditor.js';
+import { editorInstances } from '../../ckeditor.js';
 
 const btnsConteudoEditar = document.querySelectorAll('.js-dashboard-conteudo-editar')
 
