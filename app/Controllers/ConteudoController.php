@@ -88,40 +88,28 @@ class ConteudoController extends Controller
     $this->responderJson($resultado);
   }
 
-  public function buscar(int $id = 0)
+  public function buscar(int $artigoId)
   {
-    $condicao = [];
-
-    if ($id) {
-      $condicao = [
-        'Conteudo.id' => $id,
-        'Conteudo.empresa_id' => $this->empresaPadraoId,
-      ];
-    }
+    $condicao = [
+      'Conteudo.empresa_id' => $this->empresaPadraoId,
+      'Conteudo.artigo_id' => $artigoId,
+    ];
 
     $colunas = [
       'Conteudo.id',
-      'Conteudo.ativo',
-      'Conteudo.artigo_id',
-      'Conteudo.tipo',
       'Conteudo.titulo',
-      'Conteudo.conteudo',
-      'Conteudo.url',
-      'Conteudo.ordem',
-      'Conteudo.criado',
-      'Conteudo.modificado',
     ];
 
+    $limite = 100;
+
     $resultado = $this->conteudoModel->condicao($condicao)
+                                     ->ordem(['Conteudo.ordem' => 'ASC'])
+                                     ->limite($limite)
                                      ->buscar($colunas);
 
     if (isset($resultado['erro'])) {
       $codigo = $resultado['erro']['codigo'] ?? 500;
       $this->responderJson($resultado, $codigo);
-    }
-
-    if ($id and count($resultado) == 1) {
-      $resultado = reset($resultado);
     }
 
     $this->responderJson($resultado);

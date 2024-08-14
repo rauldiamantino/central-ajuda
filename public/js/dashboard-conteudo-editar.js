@@ -116,6 +116,11 @@ document.addEventListener('keydown', (event) => {
 })
 
 function fecharModalImagem() {
+
+  if (! modalConteudoImagemEditar) {
+    return
+  }
+  
   modalConteudoImagemEditar.querySelector('img').src = ''
   modalConteudoImagemEditar.close()
 }

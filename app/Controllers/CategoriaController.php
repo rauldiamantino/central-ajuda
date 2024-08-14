@@ -206,34 +206,29 @@ class CategoriaController extends Controller
 
   public function buscar(int $id = 0)
   {
-    $condicao = [];
+    $condicao = [
+      'Categoria.empresa_id' => $this->empresaPadraoId,
+    ];
 
     if ($id) {
-      $condicao = [
-        'Categoria.id' => $id,
-        'Categoria.empresa_id' => $this->empresaPadraoId,
-      ];
+      $condicao['Categoria.id'] = $id;
     }
 
     $colunas = [
       'Categoria.id',
-      'Categoria.ativo',
       'Categoria.nome',
-      'Categoria.descricao',
-      'Categoria.criado',
-      'Categoria.modificado',
     ];
+    
+    $limite = 100;
 
     $resultado = $this->categoriaModel->condicao($condicao)
+                                      ->ordem(['Categoria.ordem' => 'ASC'])
+                                      ->limite($limite)
                                       ->buscar($colunas);
 
     if (isset($resultado['erro'])) {
       $codigo = $resultado['erro']['codigo'] ?? 500;
       $this->responderJson($resultado, $codigo);
-    }
-
-    if ($id and count($resultado) == 1) {
-      $resultado = reset($resultado);
     }
 
     $this->responderJson($resultado);

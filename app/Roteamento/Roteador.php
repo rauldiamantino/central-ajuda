@@ -41,7 +41,7 @@ class Roteador
       'DELETE:/artigo/{id}' => [ArtigoController::class, 'apagar'],
 
       'GET:/conteudos' => [ConteudoController::class, 'buscar'],
-      'GET:/conteudo/{id}' => [ConteudoController::class, 'buscar'],
+      'GET:/conteudos/{id}' => [ConteudoController::class, 'buscar'],
       'POST:/conteudo' => [ConteudoController::class, 'adicionar'],
       'PUT:/conteudo/{id}' => [ConteudoController::class, 'atualizar'],
       'PUT:/conteudo/ordem' => [ConteudoController::class, 'atualizarOrdem'],

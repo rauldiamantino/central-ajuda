@@ -22,5 +22,8 @@
       </svg>
       Vídeo
     </button>
+    <?php if (is_array($conteudos) and count($conteudos) > 1) { ?>
+      <button type="button" class="w-max flex gap-2 items-center justify-center py-2 px-4 border border-yellow-800 hover:border-yellow-600 text-yellow-800 text-sm text-xs rounded-lg" onclick="buscarConteudos()">Reorganizar</button>
+    <?php } ?>
   </div>
 </div>

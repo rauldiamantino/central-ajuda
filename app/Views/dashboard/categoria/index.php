@@ -1,7 +1,12 @@
 <div class="relative w-full min-h-full flex flex-col bg-white">
   <div class="w-full flex justify-between items-center">
     <h2 class="py-4 text-2xl font-semibold">Categorias</h2>
-    <a href="/dashboard/categoria/adicionar" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-green-800 hover:bg-green-600 text-white text-sm text-xs rounded-lg">Adicionar</a>
+    <div class="flex gap-2">
+      <?php if (is_array($categorias) and count($categorias) > 1) { ?>
+        <button type="button" class="w-max flex gap-2 items-center justify-center py-2 px-4 border border-yellow-800 hover:border-yellow-600 text-yellow-800 text-sm text-xs rounded-lg" onclick="buscarCategorias()">Reorganizar</button>
+      <?php } ?>
+      <a href="/dashboard/categoria/adicionar" class="w-max flex gap-2 items-center justify-center py-2 px-4 border border-green-800 bg-green-800 hover:bg-green-600 text-white text-xs rounded-lg">Adicionar</a>
+    </div>
   </div>
   <table class="table-fixed text-sm text-left text-gray-500">
     <thead class="p-6 text-xs font-light text-gray-500 uppercase bg-slate-100">
@@ -14,9 +19,9 @@
         <th class="p-6 w-32 min-w-max">Ações</th>
       </tr>
     </thead>
-    <tbody class="divide-y handle categorias-mover" data-categoria-ordem="<?php echo $linha['Categoria.ordem'] ?>">
+    <tbody class="divide-y" data-categoria-ordem="<?php echo $linha['Categoria.ordem'] ?>">
       <?php foreach ($categorias as $chave => $linha) : ?>
-        <tr class="hover:bg-slate-100 divide-x categoria-mover" data-categoria-id="<?php echo $linha['Categoria.id'] ?>">
+        <tr class="hover:bg-slate-100 divide-x">
           <?php if (isset($linha['Categoria.id'])) { ?>
             <?php foreach ($linha as $subChave => $subLinha) : ?>
               <?php if ($subChave == 'Categoria.id') { ?>
@@ -144,3 +149,6 @@
     <button type="button" class="flex gap-2 items-center justify-center py-2 px-3 bg-red-800 hover:bg-red-600 text-white rounded-lg w-full modal-categoria-btn-remover">Remover</button>
   </div>
 </dialog>
+
+<?php // Modal organizar ?>
+<?php require_once 'modais/organizar.php' ?>

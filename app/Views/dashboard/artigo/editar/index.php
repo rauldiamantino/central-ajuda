@@ -5,6 +5,7 @@
     <div class="w-full flex flex-col gap-10">
       <?php require_once 'formulario.php' ?>
       <?php require_once 'conteudo/menu-adicionar.php' ?>
+      <?php require_once 'conteudo/modais/organizar.php' ?>
       <?php require_once 'conteudo/modais/adicionar.php' ?>
     </div>
     <?php require_once 'conteudo/blocos.php' ?>

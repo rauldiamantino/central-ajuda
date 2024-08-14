@@ -337,36 +337,29 @@ class ArtigoController extends Controller
 
   public function buscar(int $id = 0)
   {
-    $condicao = [];
+    $condicao = [
+      'Artigo.empresa_id' => $this->empresaPadraoId,
+    ];
 
     if ($id) {
-      $condicao = [
-        'Artigo.id' => $id,
-        'Artigo.empresa_id' => $this->empresaPadraoId,
-      ];
+      $condicao['Artigo.id'] = $id;
     }
 
     $colunas = [
       'Artigo.id',
-      'Artigo.ativo',
       'Artigo.titulo',
-      'Artigo.usuario_id',
-      'Artigo.categoria_id',
-      'Artigo.visualizacoes',
-      'Artigo.criado',
-      'Artigo.modificado',
     ];
 
+    $limite = 500;
+
     $resultado = $this->artigoModel->condicao($condicao)
+                                   ->ordem(['Artigo.ordem' => 'ASC'])
+                                   ->limite($limite)
                                    ->buscar($colunas);
 
     if (isset($resultado['erro'])) {
       $codigo = $resultado['erro']['codigo'] ?? 500;
       $this->responderJson($resultado, $codigo);
-    }
-
-    if ($id and count($resultado) == 1) {
-      $resultado = reset($resultado);
     }
 
     $this->responderJson($resultado);

@@ -9,9 +9,9 @@
       <th class="p-6 w-32 min-w-max">Ações</th>
     </tr>
   </thead>
-  <tbody class="divide-y handle artigos-mover" data-artigo-ordem="<?php echo $linha['Artigo.ordem'] ?>">
+  <tbody class="divide-y" data-artigo-ordem="<?php echo $linha['Artigo.ordem'] ?>">
     <?php foreach ($artigos as $chave => $linha) : ?>
-      <tr class="hover:bg-slate-100 divide-x artigo-mover" data-artigo-id="<?php echo $linha['Artigo.id'] ?>">
+      <tr class="hover:bg-slate-100 divide-x">
         <?php if (isset($linha['Artigo.id'])) { ?>
           <?php foreach ($linha as $subChave => $subLinha) : ?>
             <?php if ($subChave == 'Artigo.id') { ?>

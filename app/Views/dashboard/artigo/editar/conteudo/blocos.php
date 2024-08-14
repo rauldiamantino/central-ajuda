@@ -1,6 +1,6 @@
-<div class="w-full select-none flex flex-col gap-4 conteudo-blocos">
+<div class="w-full select-none flex flex-col gap-4">
   <?php foreach ($conteudos as $linha): ?>
-    <div class="flex gap-1 w-full handle conteudo-bloco" data-conteudo-ordem="<?php echo $linha['Conteudo.ordem'] ?>" data-conteudo-id="<?php echo $linha['Conteudo.id'] ?>">
+    <div class="flex gap-1 w-full" data-conteudo-ordem="<?php echo $linha['Conteudo.ordem'] ?>" data-conteudo-id="<?php echo $linha['Conteudo.id'] ?>">
       <div class="border border-slate-200 p-4 w-full flex items-center justify-between gap-4 hover:bg-slate-50 rounded-lg shadow">
         <div class="w-max">
           <?php if ($linha['Conteudo.tipo'] == 1) { ?>

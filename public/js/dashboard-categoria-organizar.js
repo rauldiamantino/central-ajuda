@@ -1,47 +1,83 @@
-document.addEventListener('DOMContentLoaded', function () {
-  const bloco = document.querySelector('.categorias-mover')
+const buscarCategorias = () => {
+  const modalOrganizar = document.querySelector('.modal-categorias-organizar')
+  const modalOrganizarCancelar = document.querySelector('.modal-cate-organizar-btn-cancelar')
+  const modalOrganizarConfirmar = document.querySelector('.modal-cate-organizar-btn-confirmar')
+  const modalOrganizarBlocos = document.querySelector('.modal-categorias-organizar-blocos')
 
-  if (! bloco) {
+  if (! modalOrganizar || ! modalOrganizarCancelar || ! modalOrganizarBlocos || ! modalOrganizarConfirmar) {
     return
   }
-  
-  Sortable.create(bloco, {
-    animation: 150,
-    handle: '.handle',
-    onEnd: function () {
-      const ordem = []
-  
-      document.querySelectorAll('.categoria-mover').forEach(function (item, index) {
-        ordem.push({
-          id: item.dataset.categoriaId,
-          ordem: index
+
+  modalOrganizarCancelar.addEventListener('click', () => modalOrganizar.close())
+
+  fetch(`/categorias`, { method: 'GET' })
+    .then(resposta => resposta.json())
+    .then(resposta => {
+
+      if (resposta.length > 0) {
+        modalOrganizarBlocos.innerHTML = ''
+
+        resposta.forEach(categoria => {
+          const span = document.createElement('span')
+
+          span.className = 'py-1 px-4 border border-slate-200 selected-none truncate rounded-md modal-categorias-organizar-bloco'
+          span.textContent = categoria['Categoria.nome']
+          span.setAttribute('data-categoria-id', categoria['Categoria.id'])
+
+          modalOrganizarBlocos.appendChild(span)
         })
-      })
-  
-      if (! ordem) {
-        return
+
+        modalOrganizar.showModal()
+
+        Sortable.create(modalOrganizarBlocos, {
+          animation: 150,
+          handle: '.handle',
+          onEnd: function () {
+            const ordem = []
+        
+            document.querySelectorAll('.modal-categorias-organizar-bloco').forEach(function (item, index) {
+              ordem.push({
+                id: item.dataset.categoriaId,
+                ordem: index
+              })
+            })
+        
+            if (! ordem) {
+              return
+            }
+
+            modalOrganizarConfirmar.addEventListener('click', () => {
+              fetch(`/categoria/ordem`, {
+                method: 'PUT',
+                body: JSON.stringify(ordem)
+                })
+                .then(resposta => resposta.json())
+                .then(resposta => {
+                  
+                  if (resposta.linhasAfetadas > 0) {
+                    location.reload()
+                  }
+                  else if (resposta.erro) {
+                    throw new Error(resposta.erro)
+                  }
+                  else {
+                    throw new Error('Erro ao reorganizar categorias')
+                  }
+                })
+                .catch(error => {
+                  alert('Não foi possível reorganizar')
+                  location.reload()
+                })
+            })
+
+          }
+        })
+      } 
+      else {
+        throw new Error('Erro ao buscar categorias')
       }
-
-      fetch(`/categoria/ordem`, {
-         method: 'PUT',
-         body: JSON.stringify(ordem)
-        })
-        .then(resposta => resposta.json())
-        .then(resposta => {
-
-          if (resposta.linhasAfetadas > 0) {
-            console.log(resposta.linhasAfetadas + ' categorias reorganizados')
-          }
-          else if (resposta.erro) {
-            throw new Error(resposta.erro)
-          }
-          else {
-            throw new Error('Erro ao reorganizar categorias')
-          }
-        })
-        .catch(error => {
-          location.reload()
-        })
-    }
-  })
-})
+    })
+    .catch(error => {
+      console.error(error)
+    })
+}
