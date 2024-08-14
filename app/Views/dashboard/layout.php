@@ -115,20 +115,19 @@
   <script src="/js/dashboard/ckeditor.js" type="module"></script>
 
   <!------------------- scripts ------------------->
-  <script src="/js/dashboard/dashboard.js"></script>
-  <script src="/js/dashboard/artigos/index.js"></script>
-  <script src="/js/dashboard/artigos/conteudos/adicionar.js"></script>
-  <script src="/js/dashboard/artigos/conteudos/editar.js" type="module"></script>
-  <script src="/js/dashboard/artigos/conteudos/remover.js"></script>
-  <script src="/js/dashboard/artigos/conteudos/organizar.js"></script>
-  <script src="/js/dashboard/artigos/organizar.js"></script>
-  <script src="/js/dashboard/artigos/filtrar.js"></script>
-  <script src="/js/dashboard/categorias/organizar.js"></script>
-  <script src="/js/dashboard/categorias/index.js"></script>
+  <script src="/js/dashboard/index.js"></script>
+  <script src="/js/dashboard/empresas/index.js"></script>
   <script src="/js/dashboard/usuarios/index.js"></script>
   <script src="/js/dashboard/usuarios/editar.js"></script>
-  <script src="/js/dashboard/empresas/index.js"></script>
-  <script>document.addEventListener('DOMContentLoaded', () => setTimeout(() => window.scrollTo({top: 0, left: 0, behavior: 'smooth'}), 60))</script>
+  <script src="/js/dashboard/categorias/index.js"></script>
+  <script src="/js/dashboard/categorias/organizar.js"></script>
+  <script src="/js/dashboard/artigos/index.js"></script>
+  <script src="/js/dashboard/artigos/filtrar.js"></script>
+  <script src="/js/dashboard/artigos/organizar.js"></script>
+  <script src="/js/dashboard/artigos/conteudos/remover.js"></script>
+  <script src="/js/dashboard/artigos/conteudos/organizar.js"></script>
+  <script src="/js/dashboard/artigos/conteudos/adicionar.js"></script>
+  <script src="/js/dashboard/artigos/conteudos/editar.js" type="module"></script>
 </body>
 
 </html>
