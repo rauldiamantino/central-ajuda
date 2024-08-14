@@ -36,6 +36,7 @@ CREATE TABLE `artigos` (
   `empresa_id` int NOT NULL,
   `categoria_id` int DEFAULT NULL,
   `visualizacoes` int DEFAULT '0',
+  `ordem` int NOT NULL,
   `criado` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `modificado` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -70,6 +71,7 @@ CREATE TABLE `categorias` (
   `nome` varchar(255) NOT NULL,
   `descricao` text,
   `empresa_id` int NOT NULL,
+  `ordem` int NOT NULL,
   `criado` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `modificado` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)

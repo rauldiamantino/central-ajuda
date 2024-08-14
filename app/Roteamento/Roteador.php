@@ -37,6 +37,7 @@ class Roteador
       'GET:/artigo/{id}' => [ArtigoController::class, 'buscar'],
       'POST:/artigo' => [ArtigoController::class, 'adicionar'],
       'PUT:/artigo/{id}' => [ArtigoController::class, 'atualizar'],
+      'PUT:/artigo/ordem' => [ArtigoController::class, 'atualizarOrdem'],
       'DELETE:/artigo/{id}' => [ArtigoController::class, 'apagar'],
 
       'GET:/conteudos' => [ConteudoController::class, 'buscar'],
@@ -50,6 +51,7 @@ class Roteador
       'GET:/categoria/{id}' => [CategoriaController::class, 'buscar'],
       'POST:/categoria' => [CategoriaController::class, 'adicionar'],
       'PUT:/categoria/{id}' => [CategoriaController::class, 'atualizar'],
+      'PUT:/categoria/ordem' => [CategoriaController::class, 'atualizarOrdem'],
       'DELETE:/categoria/{id}' => [CategoriaController::class, 'apagar'],
 
       'GET:/usuarios' => [UsuarioController::class, 'buscar'],

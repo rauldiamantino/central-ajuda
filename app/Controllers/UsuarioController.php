@@ -19,7 +19,7 @@ class UsuarioController extends Controller
 
   public function usuariosVer()
   {
-    $limite = 20;
+    $limite = 10;
     $pagina = intval($_GET['pagina'] ?? 0);
 
     $condicoes = [

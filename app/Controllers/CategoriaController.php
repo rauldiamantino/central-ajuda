@@ -19,7 +19,7 @@ class CategoriaController extends Controller
 
   public function categoriasVer()
   {
-    $limite = 20;
+    $limite = 10;
     $pagina = intval($_GET['pagina'] ?? 0);
 
     $condicoes = [
@@ -48,7 +48,7 @@ class CategoriaController extends Controller
 
     $resultado = $this->categoriaModel->condicao($condicoes)
                                       ->pagina($limite, $pagina)
-                                      ->ordem(['Categoria.id' => 'DESC'])
+                                      ->ordem(['Categoria.ordem' => 'ASC'])
                                       ->buscar($colunas);
 
     // Calcular início e fim do intervalo
@@ -106,6 +106,36 @@ class CategoriaController extends Controller
 
   public function categoriaAdicionarVer()
   {
+    $condCategoriaOrdem = [
+      'Categoria.empresa_id' => $this->empresaPadraoId,
+    ];
+    
+    $colCategoriaOrdem = [
+      'Categoria.id',
+      'Categoria.ordem',
+    ];
+
+    $ordCategoriaOrdem = [
+      'Categoria.ordem' => 'DESC',
+    ];
+
+    $limiteCategoriaOrdem = 1;
+
+    $resultadoOrdem = $this->categoriaModel->condicao($condCategoriaOrdem)
+                                           ->ordem($ordCategoriaOrdem)
+                                           ->limite($limiteCategoriaOrdem)
+                                           ->buscar($colCategoriaOrdem);
+
+    $ordem = [];
+    $ordemAtual = intval($resultadoOrdem[0]['Categoria.ordem'] ?? 0);
+
+    if ($resultadoOrdem) {
+      $ordem = [
+        'prox' => $ordemAtual + 1,
+      ];
+    }
+
+    $this->visao->variavel('ordem', $ordem);
     $this->visao->variavel('titulo', 'Adicionar categoria');
     $this->visao->renderizar('/adicionar');
   }
@@ -234,6 +264,21 @@ class CategoriaController extends Controller
     }
 
     if (isset($resultado['erro'])) {
+      $codigo = $resultado['erro']['codigo'] ?? 500;
+      $this->responderJson($resultado, $codigo);
+    }
+
+    $this->responderJson($resultado);
+  }
+
+  public function atualizarOrdem()
+  {
+    $json = $this->receberJson();
+    $resultado = $this->categoriaModel->atualizarOrdem($json);
+
+    if (isset($resultado['erro'])) {
+      $_SESSION['erro'] = $resultado['erro'] ?? '';
+
       $codigo = $resultado['erro']['codigo'] ?? 500;
       $this->responderJson($resultado, $codigo);
     }

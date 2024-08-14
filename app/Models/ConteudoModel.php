@@ -190,7 +190,7 @@ class ConteudoModel extends Model
 
       $ativoCaracteres = 1;
       $tipoCaracteres = 1;
-      $ordemCaracteres = 50;
+      $ordemCaracteres = 999999999;
       $urlCaracteres = 255;
       $tituloCaracteres = 255;
       $tituloOcultarCaracteres = 1;

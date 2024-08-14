@@ -38,7 +38,7 @@ class PublicoController extends Controller
     ];
 
     $resultado = $this->categoriaModel->condicao($condicoes)
-                                      ->ordem(['Categoria.id' => 'DESC'])
+                                      ->ordem(['Categoria.ordem' => 'ASC'])
                                       ->buscar($colunas);
     
     if (! isset($resultado[0]['Categoria.id'])) {
@@ -62,7 +62,7 @@ class PublicoController extends Controller
     ];
 
     $categorias = $this->categoriaModel->condicao($condicoes)
-                                       ->ordem(['Categoria.id' => 'DESC'])
+                                       ->ordem(['Categoria.ordem' => 'ASC'])
                                        ->buscar($colunas);
     
     if (! isset($categorias[0]['Categoria.id'])) {
@@ -92,7 +92,7 @@ class PublicoController extends Controller
 
     $artigos = $this->artigoModel->condicao($condicoes)
                                  ->uniao2($uniao, 'LEFT')
-                                 ->ordem(['Artigo.id' => 'DESC'])
+                                 ->ordem(['Artigo.ordem' => 'ASC'])
                                  ->buscar($colunas);
 
     if (! isset($artigos[0]['Artigo.id'])) {
@@ -133,7 +133,7 @@ class PublicoController extends Controller
     
     $artigo = $this->artigoModel->condicao($condicoes)
                                 ->uniao2($uniao, 'LEFT')
-                                ->ordem(['Artigo.id' => 'DESC'])
+                                ->ordem(['Artigo.ordem' => 'ASC'])
                                 ->buscar($colunas);
 
     if (! isset($artigo[0]['Artigo.id'])) {
@@ -189,7 +189,7 @@ class PublicoController extends Controller
 
     $demaisArtigos = $this->artigoModel->condicao($condicoes)
                                  ->uniao2($uniao, 'LEFT')
-                                 ->ordem(['Artigo.id' => 'DESC'])
+                                 ->ordem(['Artigo.ordem' => 'ASC'])
                                  ->buscar($colunas);
 
     if (! isset($demaisArtigos[0]['Artigo.id'])) {

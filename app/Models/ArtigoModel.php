@@ -49,6 +49,37 @@ class ArtigoModel extends Model
     return parent::atualizar($campos, $id);
   }
 
+  public function atualizarOrdem(array $params): array
+  {
+    $ids = [];
+    $ordens = [];
+    $cases = [];
+    foreach ($params as $linha) {
+      $id = intval($linha['id'] ?? 0);
+      $ordem = intval($linha['ordem'] ?? 0);
+
+      if (in_array($id, $ids)) {
+        return ['erro' => 'IDs duplicados encontrados.'];
+      }
+
+      if (in_array($ordem, $ordens)) {
+        return ['erro' => 'Ordens duplicadas encontradas.'];
+      }
+
+      $ids[] = $id;
+      $ordens[] = $ordem;
+      $cases[] = "WHEN $id THEN $ordem";
+    }
+
+    if (empty($ids) or empty($ordens) or empty($cases)) {
+      return ['erro' => 'Não foi possível processar a requisição'];
+    }
+
+    $sql = 'UPDATE `artigos` SET `ordem` = CASE `id` ' . implode(' ', $cases) . ' END WHERE `id` IN (' . implode(', ', $ids) . ')';
+
+    return parent::executarQuery($sql);
+  }
+
   public function apagar(int $id): array
   {
     if (! is_int($id) or empty($id)) {
@@ -75,6 +106,7 @@ class ArtigoModel extends Model
       'empresa_id' => $params['empresa_id'] ?? 0,
       'categoria_id' => $params['categoria_id'] ?? 0,
       'visualizacoes' => $params['visualizacoes'] ?? 0,
+      'ordem' => $params['ordem'] ?? 0,
     ];
 
     $msgErro = [
@@ -129,6 +161,7 @@ class ArtigoModel extends Model
       $empresaIdCaracteres = 999999999;
       $usuarioIdCaracteres = 999999999;
       $categoriaIdCaracteres = 999999999;
+      $ordemCaracteres = 999999999;
 
       if (strlen($campos['ativo']) > $ativoCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('id', 'caracteres', $ativoCaracteres);
@@ -149,6 +182,10 @@ class ArtigoModel extends Model
       if (strlen($campos['categoria_id']) > $categoriaIdCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('categoria_id', 'caracteres', $categoriaIdCaracteres);
       }
+
+      if (strlen($campos['ordem']) > $ordemCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('ordem', 'caracteres', $ordemCaracteres);
+      }
     }
 
     if ($msgErro['erro']['mensagem']) {
@@ -162,6 +199,7 @@ class ArtigoModel extends Model
       'empresa_id' => $campos['empresa_id'],
       'categoria_id' => $campos['categoria_id'],
       'visualizacoes' => $campos['visualizacoes'],
+      'ordem' => $campos['ordem'],
     ];
 
     if ($atualizar) {

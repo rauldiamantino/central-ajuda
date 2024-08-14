@@ -49,6 +49,37 @@ class CategoriaModel extends Model
     return parent::atualizar($campos, $id);
   }
 
+  public function atualizarOrdem(array $params): array
+  {
+    $ids = [];
+    $ordens = [];
+    $cases = [];
+    foreach ($params as $linha) {
+      $id = intval($linha['id'] ?? 0);
+      $ordem = intval($linha['ordem'] ?? 0);
+
+      if (in_array($id, $ids)) {
+        return ['erro' => 'IDs duplicados encontrados.'];
+      }
+
+      if (in_array($ordem, $ordens)) {
+        return ['erro' => 'Ordens duplicadas encontradas.'];
+      }
+
+      $ids[] = $id;
+      $ordens[] = $ordem;
+      $cases[] = "WHEN $id THEN $ordem";
+    }
+
+    if (empty($ids) or empty($ordens) or empty($cases)) {
+      return ['erro' => 'Não foi possível processar a requisição'];
+    }
+
+    $sql = 'UPDATE `categorias` SET `ordem` = CASE `id` ' . implode(' ', $cases) . ' END WHERE `id` IN (' . implode(', ', $ids) . ')';
+
+    return parent::executarQuery($sql);
+  }
+
   public function apagarCategoria(int $id, int $empresaId): array
   {
     if (! is_int($id) or empty($id)) {
@@ -98,6 +129,7 @@ class CategoriaModel extends Model
       'nome' => $params['nome'] ?? '',
       'descricao' => $params['descricao'] ?? '',
       'empresa_id' => $params['empresa_id'] ?? 0,
+      'ordem' => $params['ordem'] ?? 0,
     ];
 
     $msgErro = [
@@ -149,6 +181,7 @@ class CategoriaModel extends Model
       $ativoCaracteres = 1;
       $nomeCaracteres = 255;
       $empresaIdCaracteres = 999999999;
+      $ordemCaracteres = 999999999;
 
       if (strlen($campos['ativo']) > $ativoCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('id', 'caracteres', $ativoCaracteres);
@@ -161,6 +194,10 @@ class CategoriaModel extends Model
       if (strlen($campos['empresa_id']) > $empresaIdCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('empresa_id', 'caracteres', $empresaIdCaracteres);
       }
+
+      if (strlen($campos['ordem']) > $ordemCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('ordem', 'caracteres', $ordemCaracteres);
+      }
     }
 
     if ($msgErro['erro']['mensagem']) {
@@ -172,6 +209,7 @@ class CategoriaModel extends Model
       'nome' => $campos['nome'],
       'descricao' => $campos['descricao'],
       'empresa_id' => $campos['empresa_id'],
+      'ordem' => $campos['ordem'],
     ];
 
     if ($atualizar) {

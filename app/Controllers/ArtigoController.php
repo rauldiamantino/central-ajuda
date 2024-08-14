@@ -25,7 +25,7 @@ class ArtigoController extends Controller
 
   public function artigosVer()
   {
-    $limite = 20;
+    $limite = 10;
     $pagina = intval($_GET['pagina'] ?? 0);
 
     $condicoes = [
@@ -51,6 +51,7 @@ class ArtigoController extends Controller
       'Artigo.visualizacoes',
       'Categoria.nome',
       'Usuario.nome',
+      'Artigo.ordem',
       'Artigo.criado',
       'Artigo.ativo',
     ];
@@ -67,7 +68,7 @@ class ArtigoController extends Controller
                                    ->uniao2($uniaoCategoria, 'LEFT')
                                    ->uniao2($uniaoUsuario)
                                    ->pagina($limite, $pagina)
-                                   ->ordem(['Artigo.id' => 'DESC'])
+                                   ->ordem(['Artigo.ordem' => 'ASC'])
                                    ->buscar($colunas);
 
     // Calcular início e fim do intervalo
@@ -234,6 +235,36 @@ class ArtigoController extends Controller
       $categorias = [];
     }
 
+    $condArtigoOrdem = [
+      'Artigo.empresa_id' => $this->empresaPadraoId,
+    ];
+    
+    $colArtigoOrdem = [
+      'Artigo.id',
+      'Artigo.ordem',
+    ];
+
+    $ordArtigoOrdem = [
+      'Artigo.ordem' => 'DESC',
+    ];
+
+    $limiteArtigoOrdem = 1;
+
+    $resultadoOrdem = $this->artigoModel->condicao($condArtigoOrdem)
+                                        ->ordem($ordArtigoOrdem)
+                                        ->limite($limiteArtigoOrdem)
+                                        ->buscar($colArtigoOrdem);
+
+    $ordem = [];
+    $ordemAtual = intval($resultadoOrdem[0]['Artigo.ordem'] ?? 0);
+
+    if ($resultadoOrdem) {
+      $ordem = [
+        'prox' => $ordemAtual + 1,
+      ];
+    }
+
+    $this->visao->variavel('ordem', $ordem);
     $this->visao->variavel('usuarioId', $this->usuarioLogadoId);
     $this->visao->variavel('categorias', $categorias);
     $this->visao->variavel('titulo', 'Adicionar artigo');
@@ -365,6 +396,21 @@ class ArtigoController extends Controller
     }
 
     if (isset($resultado['erro'])) {
+      $codigo = $resultado['erro']['codigo'] ?? 500;
+      $this->responderJson($resultado, $codigo);
+    }
+
+    $this->responderJson($resultado);
+  }
+
+  public function atualizarOrdem()
+  {
+    $json = $this->receberJson();
+    $resultado = $this->artigoModel->atualizarOrdem($json);
+
+    if (isset($resultado['erro'])) {
+      $_SESSION['erro'] = $resultado['erro'] ?? '';
+
       $codigo = $resultado['erro']['codigo'] ?? 500;
       $this->responderJson($resultado, $codigo);
     }

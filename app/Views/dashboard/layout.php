@@ -116,10 +116,12 @@
   <!------------------- scripts ------------------->
   <script src="/js/dashboard.js"></script>
   <script src="/js/dashboard-artigos.js"></script>
-  <script src="/js/dashboard-conteudo-adicionar.js" type="module"></script>
+  <script src="/js/dashboard-conteudo-adicionar.js"></script>
   <script src="/js/dashboard-conteudo-editar.js" type="module"></script>
-  <script src="/js/dashboard-conteudo-remover.js" type="module"></script>
-  <script src="/js/dashboard-conteudo-organizar.js" type="module"></script>
+  <script src="/js/dashboard-conteudo-remover.js"></script>
+  <script src="/js/dashboard-conteudo-organizar.js"></script>
+  <script src="/js/dashboard-artigo-organizar.js"></script>
+  <script src="/js/dashboard-categoria-organizar.js"></script>
   <script src="/js/dashboard-categorias.js"></script>
   <script src="/js/dashboard-usuarios.js"></script>
   <script src="/js/dashboard-usuarios-editar.js"></script>

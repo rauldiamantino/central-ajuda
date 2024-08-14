@@ -6,6 +6,9 @@
   <div class="w-full flex gap-4">
     <div class="w-full flex flex-col gap-10">
       <form method="POST" action="/categoria" class="border border-slate-200 w-full min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow">
+        <?php if (isset($ordem['prox'])) { ?>
+          <input type="hidden" name="ordem" value="<?php echo $ordem['prox'] ?>">
+        <?php } ?>
         <div class="w-full flex gap-4">
           <div>
             <label class="flex flex-col items-start gap-1 cursor-pointer">
