@@ -26,7 +26,7 @@
           <div class="w-full flex flex-col gap-4">
             <div class="w-full">
               <label for="categoria-editar-titulo" class="block text-sm font-medium text-gray-700">Título</label>
-              <input type="text" id="categoria-editar-titulo" name="nome" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="<?php echo $categoria['Categoria.nome']; ?>" required>
+              <input type="text" id="categoria-editar-titulo" name="nome" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="<?php echo $categoria['Categoria.nome']; ?>" required autofocus>
             </div>
             <div class="w-full">
               <textarea name="descricao" id="descricao" class="border border-gray-300 w-full p-2 h-56 rounded-lg"><?php echo $categoria['Categoria.descricao']; ?></textarea>

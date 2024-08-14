@@ -21,7 +21,7 @@
           </div>
           <div class="w-full">
             <label for="artigo-editar-titulo" class="block text-sm font-medium text-gray-700">Título</label>
-            <input type="text" id="artigo-editar-titulo" name="titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="" required>
+            <input type="text" id="artigo-editar-titulo" name="titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="" required autofocus>
           </div>
         </div>
         <div class="mb-4">

@@ -45,7 +45,7 @@ $tipoUsuario = [
           </div>
           <div class="w-full">
             <label for="usuario-editar-nome" class="block text-sm font-medium text-gray-700">Nome</label>
-            <input type="text" id="usuario-editar-nome" name="nome" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="" required>
+            <input type="text" id="usuario-editar-nome" name="nome" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="" required autofocus>
           </div>
           <div class="w-full">
             <label for="usuario-editar-email" class="block text-sm font-medium text-gray-700">Email</label>
