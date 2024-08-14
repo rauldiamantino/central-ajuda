@@ -4,7 +4,7 @@ use app\Models\Database;
 
 class Model
 {
-  protected $ordem = '';
+  protected $ordem = [];
   protected $tabela = '';
   protected $colunas = '';
   protected $database = '';
@@ -127,18 +127,21 @@ class Model
   // --- Métodos auxiliares ---
   public function ordem(array $params = []): self
   {
-    if ($params) {
-      $paramsTabColuna = array_keys($params);
-      $tempTabColuna = explode('.', $paramsTabColuna[0]);
+    if (empty($params)) {
+      return $this;
+    }
+
+    foreach($params as $chave => $linha):
+      $tempTabColuna = explode('.', $chave);
       $tabela = $tempTabColuna[0];
       $coluna = $tempTabColuna[1] ?? '';
 
       if ($coluna) {
         $tabelaColuna = $this->gerarBackticks($tabela, $coluna);
 
-        $this->ordem = ' ORDER BY ' . $tabelaColuna . ' ' . $params[ $paramsTabColuna[0] ];
+        $this->ordem[] = $tabelaColuna . ' ' . $linha;
       }
-    }
+    endforeach;
 
     return $this;
   }
@@ -167,7 +170,7 @@ class Model
     }
 
     if ($this->ordem) {
-      $sql .= $this->ordem;
+      $sql .= ' ORDER BY ' . implode(', ', $this->ordem);
     }
 
     if ($this->paginacao) {
@@ -472,6 +475,6 @@ class Model
     $this->contarColunas = '';
     $this->paginacao = '';
     $this->unioes = [];
-    $this->ordem = '';
+    $this->ordem = [];
   }
 }

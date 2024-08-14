@@ -3,6 +3,17 @@ const buscarArtigos = () => {
   const modalOrganizarCancelar = document.querySelector('.modal-artigos-organizar-btn-cancelar')
   const modalOrganizarConfirmar = document.querySelector('.modal-artigos-organizar-btn-confirmar')
   const modalOrganizarBlocos = document.querySelector('.modal-artigos-organizar-blocos')
+  const urlParams = new URLSearchParams(window.location.search)
+  const categoriaSelecionadaId = urlParams.get('categoria_id')
+  const urlBuscar = `/artigos?categoria_id=${categoriaSelecionadaId}`
+  const modalAlertaFiltro = document.querySelector('.modal-artigos-alerta-filtro')
+  const modalAlertaFiltroOk = modalAlertaFiltro.querySelector('.modal-artigo-btn-alerta-ok')
+
+  if (! categoriaSelecionadaId) {
+    modalAlertaFiltroOk.addEventListener('click', () => modalAlertaFiltro.close())
+    
+    return modalAlertaFiltro.showModal()
+  }
 
   if (! modalOrganizar || ! modalOrganizarCancelar || ! modalOrganizarBlocos || ! modalOrganizarConfirmar) {
     return
@@ -10,7 +21,7 @@ const buscarArtigos = () => {
 
   modalOrganizarCancelar.addEventListener('click', () => modalOrganizar.close())
 
-  fetch(`/artigos`, { method: 'GET' })
+  fetch(urlBuscar, { method: 'GET' })
     .then(resposta => resposta.json())
     .then(resposta => {
 

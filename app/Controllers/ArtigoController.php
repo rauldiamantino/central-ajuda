@@ -76,11 +76,16 @@ class ArtigoController extends Controller
       'Usuario',
     ];
 
+    $ordem = [
+      'Categoria.nome' => 'ASC',
+      'Artigo.ordem' => 'ASC',
+    ];
+
     $resultado = $this->artigoModel->condicao($condicoes)
                                    ->uniao2($uniaoCategoria, 'LEFT')
                                    ->uniao2($uniaoUsuario)
                                    ->pagina($limite, $pagina)
-                                   ->ordem(['Artigo.ordem' => 'ASC'])
+                                   ->ordem($ordem)
                                    ->buscar($colunas);
 
     // Calcular início e fim do intervalo
@@ -357,15 +362,32 @@ class ArtigoController extends Controller
       $condicao['Artigo.id'] = $id;
     }
 
+    // Filtrar por categoria
+    $categoriaId = $_GET['categoria_id'] ?? '';
+    
+    if (isset($_GET['categoria_id'])) {
+
+      if (intval($categoriaId) > 0) {
+        $condicao['Artigo.categoria_id'] = (int) $categoriaId;
+      }
+      elseif ($categoriaId === '0') {
+        $condicao['Artigo.categoria_id IS'] = NULL;
+      }
+    }
+
     $colunas = [
       'Artigo.id',
       'Artigo.titulo',
     ];
 
+    $ordem = [
+      'Artigo.ordem' => 'ASC'
+    ];
+
     $limite = 500;
 
     $resultado = $this->artigoModel->condicao($condicao)
-                                   ->ordem(['Artigo.ordem' => 'ASC'])
+                                   ->ordem($ordem)
                                    ->limite($limite)
                                    ->buscar($colunas);
 

@@ -11,7 +11,7 @@ const filtrarArtigos = () => {
   const urlParams = new URLSearchParams(window.location.search)
   const categoriaSelecionadaId = urlParams.get('categoria_id')
   const select = modalFiltrarBlocos.querySelector('select')
-  
+
   // Sempre limpa
   select.innerHTML = ''
 
@@ -35,7 +35,10 @@ const filtrarArtigos = () => {
           option.value = valor
           option.textContent = nome
 
-          if (valor == categoriaSelecionadaId) {
+          if (typeof valor == 'number' && valor == parseInt(categoriaSelecionadaId)) {
+            option.selected = true
+          }
+          else if (valor === categoriaSelecionadaId) {
             option.selected = true
           }
 
