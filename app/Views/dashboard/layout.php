@@ -112,22 +112,22 @@
   <script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/addons/cleave-phone.br.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
   <script type="importmap">{ "imports": { "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.0.0/ckeditor5.js", "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.0.0/" }}</script>
-  <script src="/js/ckeditor.js" type="module"></script>
+  <script src="/js/dashboard/ckeditor.js" type="module"></script>
 
   <!------------------- scripts ------------------->
-  <script src="/js/dashboard.js"></script>
-  <script src="/js/dashboard-artigos.js"></script>
-  <script src="/js/dashboard-conteudo-adicionar.js"></script>
-  <script src="/js/dashboard-conteudo-editar.js" type="module"></script>
-  <script src="/js/dashboard-conteudo-remover.js"></script>
-  <script src="/js/dashboard-conteudo-organizar.js"></script>
-  <script src="/js/dashboard-artigo-organizar.js"></script>
-  <script src="/js/dashboard-artigo-filtrar-categoria.js"></script>
-  <script src="/js/dashboard-categoria-organizar.js"></script>
-  <script src="/js/dashboard-categorias.js"></script>
-  <script src="/js/dashboard-usuarios.js"></script>
-  <script src="/js/dashboard-usuarios-editar.js"></script>
-  <script src="/js/dashboard-empresa.js"></script>
+  <script src="/js/dashboard/dashboard.js"></script>
+  <script src="/js/dashboard/artigos.js"></script>
+  <script src="/js/dashboard/conteudo-adicionar.js"></script>
+  <script src="/js/dashboard/conteudo-editar.js" type="module"></script>
+  <script src="/js/dashboard/conteudo-remover.js"></script>
+  <script src="/js/dashboard/conteudo-organizar.js"></script>
+  <script src="/js/dashboard/artigo-organizar.js"></script>
+  <script src="/js/dashboard/artigo-filtrar-categoria.js"></script>
+  <script src="/js/dashboard/categoria-organizar.js"></script>
+  <script src="/js/dashboard/categorias.js"></script>
+  <script src="/js/dashboard/usuarios.js"></script>
+  <script src="/js/dashboard/usuarios-editar.js"></script>
+  <script src="/js/dashboard/empresa.js"></script>
   <script>document.addEventListener('DOMContentLoaded', () => setTimeout(() => window.scrollTo({top: 0, left: 0, behavior: 'smooth'}), 60))</script>
 </body>
 
