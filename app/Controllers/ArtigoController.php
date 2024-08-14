@@ -27,15 +27,27 @@ class ArtigoController extends Controller
   {
     $limite = 10;
     $pagina = intval($_GET['pagina'] ?? 0);
+    $categoriaId = $_GET['categoria_id'] ?? '';
 
     $condicoes = [
       'Artigo.empresa_id' => $this->empresaPadraoId,
     ];
 
+    // Filtrar por categoria
+    if (isset($_GET['categoria_id'])) {
+
+      if (intval($categoriaId) > 0) {
+        $condicoes['Artigo.categoria_id'] = (int) $categoriaId;
+      }
+      elseif ($categoriaId === '0') {
+        $condicoes['Artigo.categoria_id IS'] = NULL;
+      }
+    }
+
     // Recupera quantidade de páginas
     $artigosTotal = $this->artigoModel->condicao($condicoes)
                                       ->contar('Artigo.id');
-                                      
+                         
     $artigosTotal = $artigosTotal['total'] ?? 0;
     $paginasTotal = ceil($artigosTotal / $limite);
 

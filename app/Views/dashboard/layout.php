@@ -122,6 +122,7 @@
   <script src="/js/dashboard-conteudo-remover.js"></script>
   <script src="/js/dashboard-conteudo-organizar.js"></script>
   <script src="/js/dashboard-artigo-organizar.js"></script>
+  <script src="/js/dashboard-artigo-filtrar-categoria.js"></script>
   <script src="/js/dashboard-categoria-organizar.js"></script>
   <script src="/js/dashboard-categorias.js"></script>
   <script src="/js/dashboard-usuarios.js"></script>
