@@ -102,7 +102,7 @@ class ConteudoModel extends Model
     $campos = [
       'ativo' => intval($params['ativo'] ?? 0),
       'artigo_id' => intval($params['artigo_id'] ?? 0),
-      'empresa_id' => intval($params['empresa_id'] ?? 0),
+      'empresa_id' => $this->empresaPadraoId,
       'tipo' => intval($params['tipo'] ?? 0),
       'titulo' => $params['titulo'] ?? '',
       'titulo_ocultar' => intval($params['titulo_ocultar'] ?? 0),

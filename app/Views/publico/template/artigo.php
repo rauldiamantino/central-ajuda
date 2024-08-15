@@ -50,12 +50,12 @@
       <?php endforeach; ?>
     <?php } ?>
   </div>
-<div id="player"></div>
-  <div class="w-full p-10 flex flex-col gap-4 items-center justify-center publico-artigo-feedback">
-    <h3>Este artigo foi útil?</h3>
-    <div class="w-full flex justify-center gap-5">
-      <span class="publico-artigo-feedback-sim">Sim</span>
-      <span class="publico-artigo-feedback-nao">Não</span>
+  <!-- <div id="player"></div>
+    <div class="w-full p-10 flex flex-col gap-4 items-center justify-center publico-artigo-feedback">
+      <h3>Este artigo foi útil?</h3>
+      <div class="w-full flex justify-center gap-5">
+        <span class="publico-artigo-feedback-sim">Sim</span>
+        <span class="publico-artigo-feedback-nao">Não</span>
+      </div>
     </div>
-  </div>
-</div>
+  </div> -->

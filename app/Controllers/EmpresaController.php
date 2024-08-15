@@ -19,10 +19,6 @@ class EmpresaController extends Controller
 
   public function empresaEditarVer()
   {
-    $condicao = [
-      'Empresa.id' => (int) $this->empresaPadraoId,
-    ];
-
     $colunas = [
       'Empresa.id',
       'Empresa.ativo',
@@ -32,17 +28,16 @@ class EmpresaController extends Controller
       'Empresa.modificado',
     ];
 
-    $usuario = $this->empresaModel->condicao($condicao)
-                                  ->buscar($colunas);
-    
-    if (isset($usuario['erro']) and $usuario['erro']) {
-      $_SESSION['erro'] = $usuario['erro']['mensagem'] ?? '';
+    $empresa = $this->empresaModel->buscar($colunas);
+
+    if (isset($empresa['erro']) and $empresa['erro']) {
+      $_SESSION['erro'] = $empresa['erro']['mensagem'] ?? '';
 
       header('Location: /dashboard');
       exit();
     }
 
-    $this->visao->variavel('empresa', reset($usuario));
+    $this->visao->variavel('empresa', reset($empresa));
     $this->visao->variavel('titulo', 'Editar empresa');
     $this->visao->renderizar('/editar');
   }
@@ -142,13 +137,13 @@ class EmpresaController extends Controller
     if ($_POST and isset($resultado['erro'])) { 
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
-      header('Location: /dashboard/empresa/editar/' . $id);
+      header('Location: /dashboard/empresa/editar');
       exit();
     }
     elseif ($_POST) { 
       $_SESSION['ok'] = 'Registro alterado com sucesso';
 
-      header('Location: /dashboard/empresa/editar/' . $id);
+      header('Location: /dashboard/empresa/editar');
       exit();
     }
 

@@ -103,7 +103,7 @@ class ArtigoModel extends Model
       'ativo' => $params['ativo'] ?? 0,
       'titulo' => $params['titulo'] ?? '',
       'usuario_id' => $params['usuario_id'] ?? 0,
-      'empresa_id' => $params['empresa_id'] ?? 0,
+      'empresa_id' => $this->empresaPadraoId,
       'categoria_id' => $params['categoria_id'] ?? 0,
       'visualizacoes' => $params['visualizacoes'] ?? 0,
       'ordem' => $params['ordem'] ?? 0,

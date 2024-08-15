@@ -128,7 +128,7 @@ class CategoriaModel extends Model
       'ativo' => $params['ativo'] ?? 0,
       'nome' => $params['nome'] ?? '',
       'descricao' => $params['descricao'] ?? '',
-      'empresa_id' => $params['empresa_id'] ?? 0,
+      'empresa_id' => $this->empresaPadraoId,
       'ordem' => $params['ordem'] ?? 0,
     ];
 

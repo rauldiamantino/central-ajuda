@@ -22,13 +22,8 @@ class CategoriaController extends Controller
     $limite = 10;
     $pagina = intval($_GET['pagina'] ?? 0);
 
-    $condicoes = [
-      'Categoria.empresa_id' => $this->empresaPadraoId,
-    ];
-
     // Recupera quantidade de páginas
-    $categoriasTotal = $this->categoriaModel->condicao($condicoes)
-                                            ->contar('Categoria.id');
+    $categoriasTotal = $this->categoriaModel->contar('Categoria.id');
 
     $categoriasTotal = $categoriasTotal['total'] ?? 0;
     $paginasTotal = ceil($categoriasTotal / $limite);
@@ -46,8 +41,7 @@ class CategoriaController extends Controller
       'Categoria.modificado',
     ];
 
-    $resultado = $this->categoriaModel->condicao($condicoes)
-                                      ->pagina($limite, $pagina)
+    $resultado = $this->categoriaModel->pagina($limite, $pagina)
                                       ->ordem(['Categoria.ordem' => 'ASC'])
                                       ->buscar($colunas);
 
@@ -77,7 +71,6 @@ class CategoriaController extends Controller
 
     $condicao = [
       'Categoria.id' => $id,
-      'Categoria.empresa_id' => $this->empresaPadraoId,
     ];
 
     $colunas = [
@@ -106,10 +99,6 @@ class CategoriaController extends Controller
 
   public function categoriaAdicionarVer()
   {
-    $condCategoriaOrdem = [
-      'Categoria.empresa_id' => $this->empresaPadraoId,
-    ];
-    
     $colCategoriaOrdem = [
       'Categoria.id',
       'Categoria.ordem',
@@ -121,8 +110,7 @@ class CategoriaController extends Controller
 
     $limiteCategoriaOrdem = 1;
 
-    $resultadoOrdem = $this->categoriaModel->condicao($condCategoriaOrdem)
-                                           ->ordem($ordCategoriaOrdem)
+    $resultadoOrdem = $this->categoriaModel->ordem($ordCategoriaOrdem)
                                            ->limite($limiteCategoriaOrdem)
                                            ->buscar($colCategoriaOrdem);
 
@@ -148,9 +136,6 @@ class CategoriaController extends Controller
       $dados = $this->receberJson();
     }
 
-    // Sempre informar Empresa ID
-    $dados = array_merge($dados, ['empresa_id' => $this->empresaPadraoId]);
-
     // Adicionar categoria
     $resultado = $this->categoriaModel->adicionar($dados);
 
@@ -161,7 +146,6 @@ class CategoriaController extends Controller
     elseif ($params and isset($resultado['id'])) {
       $condicao = [
         'Categoria.id' => $resultado['id'],
-        'Categoria.empresa_id' => $this->empresaPadraoId,
       ];
   
       $colunas = [
@@ -206,10 +190,6 @@ class CategoriaController extends Controller
 
   public function buscar(int $id = 0)
   {
-    $condicao = [
-      'Categoria.empresa_id' => $this->empresaPadraoId,
-    ];
-
     if ($id) {
       $condicao['Categoria.id'] = $id;
     }
@@ -221,8 +201,7 @@ class CategoriaController extends Controller
     
     $limite = 100;
 
-    $resultado = $this->categoriaModel->condicao($condicao)
-                                      ->ordem(['Categoria.ordem' => 'ASC'])
+    $resultado = $this->categoriaModel->ordem(['Categoria.ordem' => 'ASC'])
                                       ->limite($limite)
                                       ->buscar($colunas);
 
@@ -238,14 +217,10 @@ class CategoriaController extends Controller
   {
     $json = $this->receberJson();
 
-    // Sempre informar Empresa ID
-    $json = array_merge($json, ['empresa_id' => $this->empresaPadraoId]);
-
     // Adicionar categoria
-
     $resultado = $this->categoriaModel->atualizar($json, $id);
 
-    if ($_POST and isset($resultado['erro'])) { 
+    if ($_POST and isset($resultado['erro'])) {
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
       header('Location: /dashboard/categorias');

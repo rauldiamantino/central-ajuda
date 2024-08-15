@@ -29,9 +29,7 @@ class ArtigoController extends Controller
     $pagina = intval($_GET['pagina'] ?? 0);
     $categoriaId = $_GET['categoria_id'] ?? '';
 
-    $condicoes = [
-      'Artigo.empresa_id' => $this->empresaPadraoId,
-    ];
+    $condicoes = [];
 
     // Filtrar por categoria
     if (isset($_GET['categoria_id'])) {
@@ -114,7 +112,6 @@ class ArtigoController extends Controller
 
     $condicao = [
       'Artigo.id' => $id,
-      'Artigo.empresa_id' => $this->empresaPadraoId,
     ];
 
     $colunas = [
@@ -150,17 +147,12 @@ class ArtigoController extends Controller
       exit();
     }
 
-    $condCategoria = [
-      'Categoria.empresa_id' => $this->empresaPadraoId,
-    ];
-
     $colCategoria = [
       'Categoria.id',
       'Categoria.nome',
     ];
 
-    $categorias = $this->categoriaModel->condicao($condCategoria)
-                                       ->buscar($colCategoria);
+    $categorias = $this->categoriaModel->buscar($colCategoria);
 
     if (! isset($categorias[0]['Categoria.nome'])) {
       $categorias = [];
@@ -168,7 +160,6 @@ class ArtigoController extends Controller
 
     $condConteudo = [
       'Conteudo.artigo_id' => $id,
-      'Conteudo.empresa_id' => $this->empresaPadraoId,
     ];
     
     $colConteudo = [
@@ -198,7 +189,6 @@ class ArtigoController extends Controller
 
     $condConteudoOrdem = [
       'Conteudo.artigo_id' => $id,
-      'Conteudo.empresa_id' => $this->empresaPadraoId,
     ];
     
     $colConteudoOrdem = [
@@ -236,25 +226,16 @@ class ArtigoController extends Controller
 
   public function artigoAdicionarVer()
   {
-    $condCategoria = [
-      'Categoria.empresa_id' => $this->empresaPadraoId,
-    ];
-
     $colCategoria = [
       'Categoria.id',
       'Categoria.nome',
     ];
 
-    $categorias = $this->categoriaModel->condicao($condCategoria)
-                                       ->buscar($colCategoria);
+    $categorias = $this->categoriaModel->buscar($colCategoria);
 
     if (! isset($categorias[0]['Categoria.nome'])) {
       $categorias = [];
     }
-
-    $condArtigoOrdem = [
-      'Artigo.empresa_id' => $this->empresaPadraoId,
-    ];
     
     $colArtigoOrdem = [
       'Artigo.id',
@@ -267,8 +248,7 @@ class ArtigoController extends Controller
 
     $limiteArtigoOrdem = 1;
 
-    $resultadoOrdem = $this->artigoModel->condicao($condArtigoOrdem)
-                                        ->ordem($ordArtigoOrdem)
+    $resultadoOrdem = $this->artigoModel->ordem($ordArtigoOrdem)
                                         ->limite($limiteArtigoOrdem)
                                         ->buscar($colArtigoOrdem);
 
@@ -295,9 +275,6 @@ class ArtigoController extends Controller
     if (empty($params)) {
       $dados = $this->receberJson();
     }
-    
-    // Sempre informar Empresa ID
-    $dados = array_merge($dados, ['empresa_id' => $this->empresaPadraoId]);
 
     // Adiciona artigo
     $resultado = $this->artigoModel->adicionar($dados);
@@ -309,7 +286,6 @@ class ArtigoController extends Controller
     elseif ($params and isset($resultado['id'])) {
       $condicao = [
         'Artigo.id' => $resultado['id'],
-        'Artigo.empresa_id' => $this->empresaPadraoId,
       ];
 
       $colunas = [
@@ -354,9 +330,7 @@ class ArtigoController extends Controller
 
   public function buscar(int $id = 0)
   {
-    $condicao = [
-      'Artigo.empresa_id' => $this->empresaPadraoId,
-    ];
+    $condicao = [];
 
     if ($id) {
       $condicao['Artigo.id'] = $id;
@@ -402,9 +376,6 @@ class ArtigoController extends Controller
   public function atualizar(int $id)
   {
     $json = $this->receberJson();
-
-    // Sempre informar Empresa ID
-    $json = array_merge($json, ['empresa_id' => $this->empresaPadraoId]);
 
     // Atualiza artigo
     $resultado = $this->artigoModel->atualizar($json, $id);

@@ -15,11 +15,16 @@ class Model
   protected $condicoes = [];
   protected $parametros = [];
   protected $colunasValores = [];
+  protected $empresaPadraoId;
 
   public function __construct(string $tabela = '')
   {
     $this->tabela = $tabela;
     $this->database = new Database();
+
+    // Revisar para tornar dinâmico
+    $this->empresaPadraoId = 1;
+    // $this->empresaPadraoId = 39;
   }
 
   // --- CRUD ---
@@ -164,9 +169,26 @@ class Model
     if (isset($this->condicoes['erro'])) {
       return [];
     }
-
+    
     if ($this->condicoes) {
       $sql .= ' WHERE ' . implode(' ', $this->condicoes);
+
+      if ($this->tabela == 'Empresa') {
+        $sql .= ' AND ' . $this->gerarBackticks($this->tabela, 'id') . ' = ?';
+      }
+      else {
+        $sql .= ' AND ' . $this->gerarBackticks($this->tabela, 'empresa_id') . ' = ?';
+      }
+      
+      $this->parametros[] = $this->empresaPadraoId;
+    }
+    elseif ($this->tabela == 'Empresa') {
+      $sql .= ' WHERE ' . $this->gerarBackticks($this->tabela, 'id') . ' = ?';
+      $this->parametros[] = $this->empresaPadraoId;
+    }
+    else {
+      $sql .= ' WHERE ' . $this->gerarBackticks($this->tabela, 'empresa_id') . ' = ?';
+      $this->parametros[] = $this->empresaPadraoId;
     }
 
     if ($this->ordem) {
@@ -218,6 +240,23 @@ class Model
 
     if ($this->condicoes) {
       $sql .= ' WHERE ' . implode(' ', $this->condicoes);
+
+      if ($this->tabela == 'Empresa') {
+        $sql .= ' AND ' . $this->gerarBackticks($this->tabela, 'id') . ' = ?';
+      }
+      else {
+        $sql .= ' AND ' . $this->gerarBackticks($this->tabela, 'empresa_id') . ' = ?';
+      }
+      
+      $this->parametros[] = $this->empresaPadraoId;
+    }
+    elseif ($this->tabela == 'Empresa') {
+      $sql .= ' WHERE ' . $this->gerarBackticks($this->tabela, 'id') . ' = ?';
+      $this->parametros[] = $this->empresaPadraoId;
+    }
+    else {
+      $sql .= ' WHERE ' . $this->gerarBackticks($this->tabela, 'empresa_id') . ' = ?';
+      $this->parametros[] = $this->empresaPadraoId;
     }
 
     if ($this->paginacao) {

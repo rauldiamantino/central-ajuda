@@ -28,21 +28,17 @@ class PublicoController extends Controller
 
   public function publicoCategoriasVer()
   {
-    $condicoes = [
-      'Categoria.empresa_id' => $this->empresaPadraoId,
-    ];
-
     $colunas = [
       'Categoria.id',
       'Categoria.nome',
     ];
 
-    $resultado = $this->categoriaModel->condicao($condicoes)
-                                      ->ordem(['Categoria.ordem' => 'ASC'])
+    $resultado = $this->categoriaModel->ordem(['Categoria.ordem' => 'ASC'])
                                       ->buscar($colunas);
     
-    if (! isset($resultado[0]['Categoria.id'])) {
-      $resultado = [];
+    if (isset($resultado[0]['Categoria.id'])) {
+      header('Location: /publico/categoria/' . $resultado[0]['Categoria.id']);
+      exit;
     }
 
     $this->visao->variavel('categorias', $resultado);
@@ -52,17 +48,12 @@ class PublicoController extends Controller
 
   public function publicoCategoriaVer(int $id)
   {
-    $condicoes = [
-      'Categoria.empresa_id' => $this->empresaPadraoId,
-    ];
-
     $colunas = [
       'Categoria.id',
       'Categoria.nome',
     ];
 
-    $categorias = $this->categoriaModel->condicao($condicoes)
-                                       ->ordem(['Categoria.ordem' => 'ASC'])
+    $categorias = $this->categoriaModel->ordem(['Categoria.ordem' => 'ASC'])
                                        ->buscar($colunas);
     
     if (! isset($categorias[0]['Categoria.id'])) {
@@ -71,7 +62,6 @@ class PublicoController extends Controller
     
     $condicoes = [
       'Artigo.categoria_id' => (int) $id,
-      'Artigo.empresa_id' => $this->empresaPadraoId,
     ];
 
     $colunas = [
@@ -110,7 +100,6 @@ class PublicoController extends Controller
     // Artigo selecionado
     $condicoes = [
       'Artigo.id' => (int) $id,
-      'Artigo.empresa_id' => $this->empresaPadraoId,
     ];
 
     $colunas = [
@@ -143,7 +132,6 @@ class PublicoController extends Controller
     // Conteúdos do artigo selecionado
     $condConteudo = [
       'Conteudo.artigo_id' => $id,
-      'Conteudo.empresa_id' => $this->empresaPadraoId,
     ];
     
     $colConteudo = [
@@ -174,7 +162,6 @@ class PublicoController extends Controller
     // Demais artigos da categoria
     $condicoes = [
       'Artigo.categoria_id' => intval($artigo[0]['Artigo.categoria_id'] ?? 0),
-      'Artigo.empresa_id' => $this->empresaPadraoId,
     ];
 
     $colunas = [
@@ -188,9 +175,9 @@ class PublicoController extends Controller
     ];
 
     $demaisArtigos = $this->artigoModel->condicao($condicoes)
-                                 ->uniao2($uniao, 'LEFT')
-                                 ->ordem(['Artigo.ordem' => 'ASC'])
-                                 ->buscar($colunas);
+                                       ->uniao2($uniao, 'LEFT')
+                                       ->ordem(['Artigo.ordem' => 'ASC'])
+                                       ->buscar($colunas);
 
     if (! isset($demaisArtigos[0]['Artigo.id'])) {
       $demaisArtigos = [];

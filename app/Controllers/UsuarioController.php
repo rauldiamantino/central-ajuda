@@ -22,13 +22,8 @@ class UsuarioController extends Controller
     $limite = 10;
     $pagina = intval($_GET['pagina'] ?? 0);
 
-    $condicoes = [
-      'Usuario.empresa_id' => $this->empresaPadraoId,
-    ];
-
     // Recupera quantidade de páginas
-    $usuariosTotal = $this->usuarioModel->condicao($condicoes)
-                                        ->contar('Usuario.id');
+    $usuariosTotal = $this->usuarioModel->contar('Usuario.id');
 
     $usuariosTotal = $usuariosTotal['total'] ?? 0;
     $paginasTotal = ceil($usuariosTotal / $limite);
@@ -47,8 +42,7 @@ class UsuarioController extends Controller
       'Usuario.ativo',
     ];
 
-    $resultado = $this->usuarioModel->condicao($condicoes)
-                                    ->pagina($limite, $pagina)
+    $resultado = $this->usuarioModel->pagina($limite, $pagina)
                                     ->ordem(['Usuario.id' => 'DESC'])
                                     ->buscar($colunas);
 
@@ -80,8 +74,6 @@ class UsuarioController extends Controller
       $dados = $this->receberJson();
     }
 
-    $dados = array_merge($dados, ['empresa_id' => $this->empresaPadraoId]);
-
     // Adiciona usuário
     $resultado = $this->usuarioModel->adicionar($dados);
 
@@ -92,7 +84,6 @@ class UsuarioController extends Controller
     elseif ($params and isset($resultado['id'])) {
       $condicao = [
         'Usuario.id' => $resultado['id'],
-        'Usuario.empresa_id' => $this->empresaPadraoId,
       ];
 
       $colunas = [
@@ -143,7 +134,6 @@ class UsuarioController extends Controller
 
     $condicao = [
       'Usuario.id' => $id,
-      'Usuario.empresa_id' => $this->empresaPadraoId,
     ];
 
     $colunas = [
@@ -187,7 +177,6 @@ class UsuarioController extends Controller
     if ($id) {
       $condicao = [
         'Usuario.id' => $id,
-        'Usuario.empresa_id' => $this->empresaPadraoId,
       ];
     }
 

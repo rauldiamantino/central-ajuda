@@ -7,7 +7,6 @@ class Controller
 {
   protected $middleware;
   protected $visao;
-  public $empresaPadraoId;
   public $usuarioLogadoId;
 
   public function __construct($model)
@@ -15,10 +14,8 @@ class Controller
     $this->middleware = new MiddlewareModel($model);
 
     // Revisar para tornar dinâmico
-    $this->empresaPadraoId = 1;
-    $this->usuarioLogadoId = 1;
-    // $this->empresaPadraoId = 39;
-    // $this->usuarioLogadoId = 41;
+    $this->usuarioLogadoId = 1; // empresa 1
+    // $this->usuarioLogadoId = 41; // empresa 39
   }
 
   protected function processarRequisicao(array $dados = [])

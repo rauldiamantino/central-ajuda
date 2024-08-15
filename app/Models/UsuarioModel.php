@@ -207,7 +207,7 @@ class UsuarioModel extends Model
     $campos = [
       'ativo' => $params['ativo'] ?? 0,
       'nivel' => $params['nivel'] ?? 0,
-      'empresa_id' => $params['empresa_id'] ?? 0,
+      'empresa_id' => $this->empresaPadraoId,
       'padrao' => $params['padrao'] ?? 0,
       'nome' => $params['nome'] ?? '',
       'email' => $params['email'] ?? '',
