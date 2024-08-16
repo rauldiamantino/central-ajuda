@@ -124,7 +124,8 @@ class Roteador
     }
 
     $_SESSION['empresa_id'] = $this->empresaId;
-
+    
+    // ---- revisar ----
     // Redireciona para o login sempre que utilizar rotas da dashboard sem estar logado
     if (strpos($url, 'dashboard') and strpos($chaveRota, '/dashboard/login') == false and strpos($chaveRota, '/dashboard/cadastro') == false) {
 
