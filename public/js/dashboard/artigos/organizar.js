@@ -3,11 +3,13 @@ const buscarArtigos = () => {
   const modalOrganizarCancelar = document.querySelector('.modal-artigos-organizar-btn-cancelar')
   const modalOrganizarConfirmar = document.querySelector('.modal-artigos-organizar-btn-confirmar')
   const modalOrganizarBlocos = document.querySelector('.modal-artigos-organizar-blocos')
+  
+  const modalAlertaFiltro = document.querySelector('.modal-artigos-alerta-filtro')
+  const modalAlertaFiltroOk = modalAlertaFiltro.querySelector('.modal-artigo-btn-alerta-ok')
+
   const urlParams = new URLSearchParams(window.location.search)
   const categoriaSelecionadaId = urlParams.get('categoria_id')
   const urlBuscar = `/artigos?categoria_id=${categoriaSelecionadaId}`
-  const modalAlertaFiltro = document.querySelector('.modal-artigos-alerta-filtro')
-  const modalAlertaFiltroOk = modalAlertaFiltro.querySelector('.modal-artigo-btn-alerta-ok')
 
   if (! categoriaSelecionadaId) {
     modalAlertaFiltroOk.addEventListener('click', () => modalAlertaFiltro.close())

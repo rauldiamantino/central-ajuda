@@ -33,7 +33,7 @@ class EmpresaController extends Controller
     if (isset($empresa['erro']) and $empresa['erro']) {
       $_SESSION['erro'] = $empresa['erro']['mensagem'] ?? '';
 
-      header('Location: /dashboard');
+     header('Location: /dashboard');
       exit();
     }
 
@@ -137,13 +137,13 @@ class EmpresaController extends Controller
     if ($_POST and isset($resultado['erro'])) { 
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
-      header('Location: /dashboard/empresa/editar');
+     header('Location: /dashboard/empresa/editar');
       exit();
     }
     elseif ($_POST) { 
       $_SESSION['ok'] = 'Registro alterado com sucesso';
 
-      header('Location: /dashboard/empresa/editar');
+     header('Location: /dashboard/empresa/editar');
       exit();
     }
 

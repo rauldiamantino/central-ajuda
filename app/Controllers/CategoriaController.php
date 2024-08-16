@@ -88,7 +88,7 @@ class CategoriaController extends Controller
     if (isset($categoria['erro']) and $categoria['erro']) {
       $_SESSION['erro'] = $categoria['erro']['mensagem'] ?? '';
 
-      header('Location: /dashboard/categorias');
+     header('Location: /dashboard/categorias');
       exit();
     }
 
@@ -169,13 +169,13 @@ class CategoriaController extends Controller
     if ($_POST and isset($resultado['erro'])) { 
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
-      header('Location: /dashboard/categorias');
+     header('Location: /dashboard/categorias');
       exit();
     }
     elseif ($_POST and isset($resultado['id'])) { 
       $_SESSION['ok'] = 'Categoria criada com sucesso';
 
-      header('Location: /dashboard/categorias');
+     header('Location: /dashboard/categorias');
       exit();
     }
 
@@ -223,13 +223,13 @@ class CategoriaController extends Controller
     if ($_POST and isset($resultado['erro'])) {
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
-      header('Location: /dashboard/categorias');
+     header('Location: /dashboard/categorias');
       exit();
     }
     elseif ($_POST) { 
       $_SESSION['ok'] = 'Registro alterado com sucesso';
 
-      header('Location: /dashboard/categorias');
+     header('Location: /dashboard/categorias');
       exit();
     }
 

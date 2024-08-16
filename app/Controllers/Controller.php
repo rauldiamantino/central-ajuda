@@ -7,24 +7,10 @@ class Controller
 {
   protected $middleware;
   protected $visao;
-  public $usuarioLogadoId;
 
   public function __construct($model)
   {
-    $this->middleware = new MiddlewareModel($model);
 
-    // Revisar para tornar dinâmico
-    $this->usuarioLogadoId = 1; // empresa 1
-    // $this->usuarioLogadoId = 41; // empresa 39
-  }
-
-  protected function processarRequisicao(array $dados = [])
-  {
-    $processarRequisicao = $this->middleware->processarRequisicao($dados);
-
-    if (isset($processarRequisicao['erro'])) {
-      $this->responderJson($processarRequisicao, 401);
-    }
   }
 
   protected function receberJson(): array

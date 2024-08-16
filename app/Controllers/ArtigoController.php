@@ -12,7 +12,7 @@ class ArtigoController extends Controller
   protected $conteudoModel;
   protected $categoriaModel;
   protected $visao;
-
+  
   public function __construct()
   {
     $this->visao = new ViewRenderer('/dashboard/artigo');
@@ -143,7 +143,7 @@ class ArtigoController extends Controller
     if (isset($artigo['erro']) and $artigo['erro']) {
       $_SESSION['erro'] = $artigo['erro']['mensagem'] ?? '';
 
-      header('Location: /dashboard/artigos');
+     header('Location: /dashboard/artigos');
       exit();
     }
 

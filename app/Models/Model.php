@@ -15,16 +15,19 @@ class Model
   protected $condicoes = [];
   protected $parametros = [];
   protected $colunasValores = [];
-  protected $empresaPadraoId;
+  protected $usuarioLogadoId = 0;
+  protected $empresaPadraoId = 0;
+  protected $empresaIdPublico = 0;
+  protected $url = '';
 
   public function __construct(string $tabela = '')
   {
     $this->tabela = $tabela;
     $this->database = new Database();
 
-    // Revisar para tornar dinâmico
-    $this->empresaPadraoId = 1;
-    // $this->empresaPadraoId = 39;
+    $this->url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    $this->empresaPadraoId = intval($_SESSION['empresa_id'] ?? 0);
+    $this->usuarioLogadoId = intval($_SESSION['usuario']['id'] ?? 0);
   }
 
   // --- CRUD ---
@@ -281,6 +284,15 @@ class Model
 
   // Queries manuais
   public function executarQuery(string $sql, array $params = []): array
+  {
+    if (empty($sql)) {
+      return [];
+    }
+
+    return $this->database->operacoes($sql, $params);
+  }
+
+  public function executarQueryLogin(string $sql, array $params = []): array
   {
     if (empty($sql)) {
       return [];

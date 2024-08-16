@@ -1,7 +1,6 @@
 import { editorInstances } from '../../ckeditor.js';
 
 const btnsConteudoEditar = document.querySelectorAll('.js-dashboard-conteudo-editar')
-
 const modalConteudoTextoEditar = document.querySelector('.modal-conteudo-texto-editar')
 const editarTextoTitulo = document.querySelector('#conteudo-editar-texto-titulo')
 const editarTextoTituloOcultar = document.querySelector('.conteudo-editar-texto-titulo-ocultar')
@@ -41,17 +40,17 @@ if (btnsConteudoEditar) {
           console.error('CKEditor instance not found for the specified textarea.')
         }
         
-        formularioEditarTexto.action = '/conteudo/' + conteudo.dataset.conteudoId
+        formularioEditarTexto.action = `/conteudo/${conteudo.dataset.conteudoId}`
         modalConteudoTextoEditar.showModal()
       }
       else if (conteudo.dataset.conteudoTipo == 2) {
         editarImagemTitulo.value = conteudo.dataset.conteudoTitulo
         conteudo.dataset.conteudoTituloOcultar == 1 ? editarImagemTituloOcultar.checked = true : editarImagemTituloOcultar.checked = false
-        formularioEditarImagem.action = '/conteudo/' + conteudo.dataset.conteudoId
+        formularioEditarImagem.action = `/conteudo/${conteudo.dataset.conteudoId}`
         
         const imgElemento = modalConteudoImagemEditar.querySelector('img')
-        
-        imgElemento.src = '/' + conteudo.dataset.conteudoUrl
+
+        imgElemento.src = `/${conteudo.dataset.conteudoUrl}`
         imgElemento.classList.add('opacity-100')
         imgElemento.classList.remove('opacity-0')
         modalConteudoImagemEditar.showModal()
@@ -85,7 +84,7 @@ if (btnsConteudoEditar) {
         editarVideoTitulo.value = conteudo.dataset.conteudoTitulo
         conteudo.dataset.conteudoTituloOcultar == 1 ? editarVideoTituloOcultar.checked = true : editarVideoTituloOcultar.checked = false
         editarVideoUrl.value = conteudo.dataset.conteudoUrl
-        formularioEditarVideo.action = '/conteudo/' + conteudo.dataset.conteudoId
+        formularioEditarVideo.action = `/conteudo/${conteudo.dataset.conteudoId}`
         modalConteudoVideoEditar.showModal()
       }
     })

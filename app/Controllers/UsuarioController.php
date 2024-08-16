@@ -5,9 +5,8 @@ use app\Controllers\ViewRenderer;
 
 class UsuarioController extends Controller
 {
-  protected $visao;
-  protected $middleware;
   protected $usuarioModel;
+  protected $visao;
 
   public function __construct()
   {
@@ -106,16 +105,16 @@ class UsuarioController extends Controller
     }
 
     // Formulário via POST
-    if ($_POST and isset($resultado['erro'])) { 
+    if ($_POST and isset($resultado['erro'])) {
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
-      header('Location: /dashboard/usuario/adicionar');
+     header('Location: /dashboard/usuario/adicionar');
       exit();
     }
     elseif ($_POST and isset($resultado['id'])) { 
       $_SESSION['ok'] = 'Usuário criado com sucesso';
 
-      header('Location: /dashboard/usuario/editar/' . $resultado['id']);
+     header('Location: /dashboard/usuario/editar/' . $resultado['id']);
       exit();
     }
     
@@ -155,7 +154,7 @@ class UsuarioController extends Controller
     if (isset($usuario['erro']) and $usuario['erro']) {
       $_SESSION['erro'] = $usuario['erro']['mensagem'] ?? '';
 
-      header('Location: /dashboard/usuarios');
+     header('Location: /dashboard/usuarios');
       exit();
     }
 
@@ -217,13 +216,13 @@ class UsuarioController extends Controller
     if ($_POST and isset($resultado['erro'])) { 
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
-      header('Location: /dashboard/usuario/editar/' . $id);
+     header('Location: /dashboard/usuario/editar/' . $id);
       exit();
     }
     elseif ($_POST) { 
       $_SESSION['ok'] = 'Registro alterado com sucesso';
 
-      header('Location: /dashboard/usuarios');
+     header('Location: /dashboard/usuarios');
       exit();
     }
 

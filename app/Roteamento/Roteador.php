@@ -1,6 +1,7 @@
 <?php
 namespace app\Roteamento;
 use app\Controllers\TesteController;
+use app\Controllers\LoginController;
 use app\Controllers\UsuarioController;
 use app\Controllers\EmpresaController;
 use app\Controllers\EmpresaCadastroController;
@@ -13,12 +14,30 @@ use app\Controllers\PublicoController;
 class Roteador
 {
   protected $rotas;
+  protected $dominios;
 
   public function __construct()
   {
+    $this->dominios = [
+      'luminaon' => 1,
+      'teste' => 39,
+    ];
+
+    $host = $_SERVER['HTTP_HOST'] ?? '';
+    $partes = explode('.', $host);
+    $empresaId = $this->dominios[ $partes[0] ] ?? '';
+
+    if (empty($empresaId)) {
+      echo '<div><h2>404 - Página não encontrada</h2></div>';
+      exit;
+    }
+
+    $_SESSION['empresa_id'] = $empresaId;
+
     $this->rotas = [
       'GET:/teste' => [TesteController::class, 'testar'],
       'GET:/dashboard' => [DashboardController::class, 'dashboardVer'],
+      'GET:/dashboard/login' => [LoginController::class, 'loginVer'],
       'GET:/dashboard/artigos' => [ArtigoController::class, 'artigosVer'],
       'GET:/dashboard/artigo/editar/{id}' => [ArtigoController::class, 'artigoEditarVer'],
       'GET:/dashboard/artigo/adicionar' => [ArtigoController::class, 'artigoAdicionarVer'],
@@ -29,9 +48,13 @@ class Roteador
       'GET:/dashboard/usuario/editar/{id}' => [UsuarioController::class, 'usuarioEditarVer'],
       'GET:/dashboard/usuario/adicionar' => [UsuarioController::class, 'usuarioAdicionarVer'],
       'GET:/dashboard/empresa/editar' => [EmpresaController::class, 'empresaEditarVer'],
+      
       'GET:/publico' => [PublicoController::class, 'publicoCategoriasVer'],
       'GET:/publico/categoria/{id}' => [PublicoController::class, 'publicoCategoriaVer'],
       'GET:/publico/artigo/{id}' => [PublicoController::class, 'publicoArtigoVer'],
+
+      'POST:/login' => [LoginController::class, 'login'],
+      'GET:/logout' => [LoginController::class, 'logout'],
 
       'GET:/artigos' => [ArtigoController::class, 'buscar'],
       'GET:/artigo/{id}' => [ArtigoController::class, 'buscar'],
@@ -84,6 +107,14 @@ class Roteador
     $chaveRota = $metodo . ':' . $url;
     $id = (int) basename($url);
     $chaveRota = str_replace($id, '{id}', $chaveRota);
+
+    if (strpos($url, 'dashboard') and $chaveRota !== 'GET:/dashboard/login') {
+
+      if (! isset($_SESSION['usuario']) or empty($_SESSION['usuario'])) {
+        header('Location: /dashboard/login');
+        exit;
+      }
+    }
 
     if (isset($this->rotas[ $chaveRota ])) {
       $rota = $this->rotas[ $chaveRota ];
