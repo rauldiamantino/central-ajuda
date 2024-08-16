@@ -1,0 +1,101 @@
+<?php
+namespace app\Controllers;
+
+use \Exception;
+use app\Controllers\EmpresaController;
+use app\Controllers\UsuarioController;
+use app\Models\EmpresaModel;
+use app\Models\UsuarioModel;
+use app\Models\CadastroModel;
+
+class CadastroController extends Controller
+{
+  private $empresaController;
+  private $usuarioController;
+  private $empresaModel;
+  private $usuarioModel;
+  private $cadastroModel;
+  protected $visao;
+
+  public function __construct()
+  {
+    $this->empresaController = new EmpresaController();
+    $this->usuarioController = new UsuarioController();
+    $this->empresaModel = new EmpresaModel();
+    $this->usuarioModel = new UsuarioModel();
+    $this->cadastroModel = new CadastroModel();
+
+    $this->visao = new ViewRenderer('/dashboard');
+  }
+
+  public function cadastroVer()
+  {
+    $usuarioLogadoId = intval($_SESSION['usuario']['id'] ?? 0);
+
+    if ($usuarioLogadoId > 0) {
+      header('Location: /dashboard');
+      exit();
+    }
+
+    $this->visao->variavel('titulo', 'Cadastro');
+    $this->visao->variavel('pagCadastro', true);
+    $this->visao->renderizar('/cadastro/index');
+  }
+
+  public function adicionar()
+  {
+    $dados = $this->receberJson();
+
+    // Adiciona usuário padrão
+    $resultado = $this->cadastroModel->validarCampos($dados);
+
+    if (isset($resultado['erro'])) {
+      $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
+      header('Location: /dashboard/cadastro');
+      exit();
+    }
+
+    $usuarioExiste = $this->cadastroModel->usuarioExiste($resultado['email']);
+
+    if ($usuarioExiste) {
+      $_SESSION['erro'] = 'Email já cadastrado';
+      header('Location: /dashboard/cadastro');
+      exit();
+    }
+
+    $empresaId = $this->cadastroModel->gerarEmpresa();
+
+    if (intval($empresaId) < 1) {
+      $_SESSION['erro'] = 'Erro ao realizar cadastro (C500#EMP)';
+      header('Location: /dashboard/cadastro');
+      exit();
+    }
+
+    $resultado = array_merge($resultado, ['empresa_id' => $empresaId]);
+    $usuario = $this->cadastroModel->gerarUsuarioPadrao($resultado);
+
+    if (isset($usuario['erro']['mensagem'])) {
+      $_SESSION['erro'] = $usuario['erro']['mensagem'];
+      header('Location: /dashboard/cadastro');
+      exit();
+    }
+    
+    if (intval($usuario) < 1) {
+      $_SESSION['erro'] = 'Erro ao cadastrar usuário (C500#USR)';
+      header('Location: /dashboard/cadastro');
+      exit();
+    }
+
+    // Aplica login
+    $_SESSION['usuario'] = [
+      'id' => $usuario[0]['id'],
+      'nome' => $usuario[0]['nome'],
+      'email' => $usuario[0]['email'],
+      'empresa_id' => $usuario[0]['empresa_id'],
+    ];
+
+    $_SESSION['ok'] = 'Cadastro realizado com sucesso!';
+    header('Location: /dashboard/login');
+    exit();
+  }
+}

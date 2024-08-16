@@ -1,8 +1,8 @@
 CREATE TABLE `empresas` (
   `id` int NOT NULL AUTO_INCREMENT,
   `ativo` int DEFAULT '0',
-  `nome` varchar(255) NOT NULL,
-  `cnpj` varchar(14) NOT NULL,
+  `nome` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `cnpj` varchar(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `criado` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `modificado` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -15,15 +15,14 @@ CREATE TABLE `usuarios` (
   `nivel` int NOT NULL DEFAULT '2',
   `empresa_id` int NOT NULL,
   `padrao` int DEFAULT '0',
-  `nome` varchar(100) NOT NULL,
+  `nome` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `email` varchar(50) NOT NULL,
-  `telefone` varchar(11) NOT NULL,
+  `telefone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `senha` varchar(255) NOT NULL,
   `criado` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `modificado` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
-  UNIQUE KEY `empresa_padrao_unico` (`empresa_id`, `padrao`)
   KEY `fk_usuarios_empresa` (`empresa_id`),
   CONSTRAINT `fk_usuarios_empresa` FOREIGN KEY (`empresa_id`) REFERENCES `empresas` (`id`) ON DELETE CASCADE
 )

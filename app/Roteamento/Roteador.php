@@ -2,6 +2,7 @@
 namespace app\Roteamento;
 use app\Controllers\TesteController;
 use app\Controllers\LoginController;
+use app\Controllers\CadastroController;
 use app\Controllers\UsuarioController;
 use app\Controllers\EmpresaController;
 use app\Controllers\EmpresaCadastroController;
@@ -17,12 +18,14 @@ class Roteador
   protected $rotas;
   protected $subdominios;
   protected $paginaErro;
+  protected $empresaId;
 
   public function __construct()
   {
     $this->paginaErro = new PaginaErroController();
 
     $this->subdominios = [
+      'localhost' => 99,
       'luminaon' => 1,
       'teste' => 39,
     ];
@@ -30,20 +33,19 @@ class Roteador
     // Subdomínio
     $host = $_SERVER['HTTP_HOST'] ?? '';
     $partes = explode('.', $host);
-    $empresaId = $this->subdominios[ $partes[0] ] ?? '';
+    $this->empresaId = $this->subdominios[ $partes[0] ] ?? '';
 
-    if (empty($empresaId)) {
+    if (empty($this->empresaId)) {
       $this->paginaErro->erroVer();
       exit;
     }
-
-    $_SESSION['empresa_id'] = $empresaId;
 
     $this->rotas = [
       'GET:/teste' => [TesteController::class, 'testar'],
       'GET:/erro' => [PaginaErroController::class, 'erroVer'],
       'GET:/dashboard' => [DashboardController::class, 'dashboardVer'],
       'GET:/dashboard/login' => [LoginController::class, 'loginVer'],
+      'GET:/dashboard/cadastro' => [CadastroController::class, 'cadastroVer'],
       'GET:/dashboard/artigos' => [ArtigoController::class, 'artigosVer'],
       'GET:/dashboard/artigo/editar/{id}' => [ArtigoController::class, 'artigoEditarVer'],
       'GET:/dashboard/artigo/adicionar' => [ArtigoController::class, 'artigoAdicionarVer'],
@@ -59,8 +61,8 @@ class Roteador
       'GET:/publico/categoria/{id}' => [PublicoController::class, 'publicoCategoriaVer'],
       'GET:/publico/artigo/{id}' => [PublicoController::class, 'publicoArtigoVer'],
 
-      'POST:/login' => [LoginController::class, 'login'],
-      'GET:/logout' => [LoginController::class, 'logout'],
+      'POST:/dashboard/login' => [LoginController::class, 'login'],
+      'GET:/dashboard/logout' => [LoginController::class, 'logout'],
 
       'GET:/artigos' => [ArtigoController::class, 'buscar'],
       'GET:/artigo/{id}' => [ArtigoController::class, 'buscar'],
@@ -95,6 +97,8 @@ class Roteador
       'PUT:/empresa/{id}' => [EmpresaController::class, 'atualizar'],
       'DELETE:/empresa/{id}' => [EmpresaController::class, 'apagar'],
 
+      'POST:/cadastro' => [CadastroController::class, 'adicionar'],
+
       'GET:/empresas/cadastro/{id}' => [EmpresaCadastroController::class, 'buscar'],
       'POST:/empresas/cadastro' => [EmpresaCadastroController::class, 'adicionar'],
     ];
@@ -114,7 +118,15 @@ class Roteador
     $id = (int) basename($url);
     $chaveRota = str_replace($id, '{id}', $chaveRota);
 
-    if (strpos($url, 'dashboard') and $chaveRota !== 'GET:/dashboard/login') {
+    if ($this->empresaId == 99 and strpos($chaveRota, '/dashboard') == false) {
+      $this->paginaErro->erroVer();
+      exit;
+    }
+
+    $_SESSION['empresa_id'] = $this->empresaId;
+
+    // Redireciona para o login sempre que utilizar rotas da dashboard sem estar logado
+    if (strpos($url, 'dashboard') and strpos($chaveRota, '/dashboard/login') == false and strpos($chaveRota, '/dashboard/cadastro') == false) {
 
       if (! isset($_SESSION['usuario']) or empty($_SESSION['usuario'])) {
         header('Location: /dashboard/login');

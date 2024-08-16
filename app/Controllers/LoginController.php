@@ -33,6 +33,7 @@ class LoginController extends Controller
   public function login()
   {
     $json = $this->receberJson();
+
     $resultado = $this->loginModel->login($json);
 
     if (isset($resultado['ok'])) { 

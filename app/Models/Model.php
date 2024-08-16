@@ -30,13 +30,21 @@ class Model
     $this->usuarioLogadoId = intval($_SESSION['usuario']['id'] ?? 0);
     $this->usuarioLogadoEmpresaId = intval($_SESSION['usuario']['empresa_id'] ?? 0);
 
-    if (empty($this->empresaPadraoId)) {
-      header('Location: /dashboard/login');
-      exit;
-    }
+    if (strpos($this->url, '/dashboard') !== false and $this->url !== '/dashboard/login' and $this->url !== '/dashboard/cadastro') {
 
-    if (strpos($this->url, '/dashboard') !== false and $this->url !== '/dashboard/login') {
-      
+      if ($this->empresaPadraoId == 99) {
+        // localiza empresa sem subdomínio criado
+        $sql = 'SELECT `Empresa`.`id` FROM `empresas` AS `Empresa` WHERE `Empresa`.`id` = ? LIMIT 1';
+        $params = [ $this->usuarioLogadoEmpresaId ];
+
+        $resultado = $this->executarQuery($sql, $params);
+
+        if (isset($resultado[0]['id']) and floatval($resultado[0]['id']) > 0) {
+          $_SESSION['empresa_id'] = $resultado[0]['id'];
+          $this->empresaPadraoId = $resultado[0]['id'];
+        }
+      }
+
       if ($this->empresaPadraoId != $this->usuarioLogadoEmpresaId) {
         $_SESSION['usuario'] = '';
         $_SESSION['erro'] = 'Usuário não encontrado';

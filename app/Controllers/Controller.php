@@ -9,7 +9,7 @@ class Controller
   protected $visao;
   protected $usuarioLogadoId;
 
-  public function __construct($model)
+  public function __construct($model = '')
   {
     // Revisar para centralizar tudo na Model
     $this->usuarioLogadoId = intval($_SESSION['usuario']['id'] ?? 0);
