@@ -15,9 +15,9 @@ class Model
   protected $condicoes = [];
   protected $parametros = [];
   protected $colunasValores = [];
-  protected $usuarioLogadoId = 0;
   protected $empresaPadraoId = 0;
-  protected $empresaIdPublico = 0;
+  protected $usuarioLogadoId = 0;
+  protected $usuarioLogadoEmpresaId = 0;
   protected $url = '';
 
   public function __construct(string $tabela = '')
@@ -28,6 +28,22 @@ class Model
     $this->url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     $this->empresaPadraoId = intval($_SESSION['empresa_id'] ?? 0);
     $this->usuarioLogadoId = intval($_SESSION['usuario']['id'] ?? 0);
+    $this->usuarioLogadoEmpresaId = intval($_SESSION['usuario']['empresa_id'] ?? 0);
+
+    if (empty($this->empresaPadraoId)) {
+      header('Location: /dashboard/login');
+      exit;
+    }
+
+    if (strpos($this->url, '/dashboard') !== false and $this->url !== '/dashboard/login') {
+      
+      if ($this->empresaPadraoId != $this->usuarioLogadoEmpresaId) {
+        $_SESSION['usuario'] = '';
+        $_SESSION['erro'] = 'Usuário não encontrado';
+        header('Location: /dashboard/login');
+        exit;
+      }
+    }
   }
 
   // --- CRUD ---

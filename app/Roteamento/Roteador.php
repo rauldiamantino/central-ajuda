@@ -10,25 +10,30 @@ use app\Controllers\ArtigoController;
 use app\Controllers\ConteudoController;
 use app\Controllers\CategoriaController;
 use app\Controllers\PublicoController;
+use app\Controllers\PaginaErroController;
 
 class Roteador
 {
   protected $rotas;
-  protected $dominios;
+  protected $subdominios;
+  protected $paginaErro;
 
   public function __construct()
   {
-    $this->dominios = [
+    $this->paginaErro = new PaginaErroController();
+
+    $this->subdominios = [
       'luminaon' => 1,
       'teste' => 39,
     ];
 
+    // Subdomínio
     $host = $_SERVER['HTTP_HOST'] ?? '';
     $partes = explode('.', $host);
-    $empresaId = $this->dominios[ $partes[0] ] ?? '';
+    $empresaId = $this->subdominios[ $partes[0] ] ?? '';
 
     if (empty($empresaId)) {
-      echo '<div><h2>404 - Página não encontrada</h2></div>';
+      $this->paginaErro->erroVer();
       exit;
     }
 
@@ -36,6 +41,7 @@ class Roteador
 
     $this->rotas = [
       'GET:/teste' => [TesteController::class, 'testar'],
+      'GET:/erro' => [PaginaErroController::class, 'erroVer'],
       'GET:/dashboard' => [DashboardController::class, 'dashboardVer'],
       'GET:/dashboard/login' => [LoginController::class, 'loginVer'],
       'GET:/dashboard/artigos' => [ArtigoController::class, 'artigosVer'],
@@ -129,10 +135,7 @@ class Roteador
       }
     }
     else {
-      header('Content-Type: application/json');
-      http_response_code(404);
-      echo json_encode(['erro' => 'Recurso não encontrado'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-      exit;
+      $this->paginaErro->erroVer();
     }
   }
 }

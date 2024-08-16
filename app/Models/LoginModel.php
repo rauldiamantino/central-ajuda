@@ -73,8 +73,6 @@ class LoginModel extends Model
       'empresa_id' => $usuario[0]['empresa_id'],
     ];
 
-    $this->empresaPadraoId = 1;
-
     return ['ok' => true];
   }
 

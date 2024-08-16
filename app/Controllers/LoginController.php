@@ -13,7 +13,6 @@ class LoginController extends Controller
   {
     $this->loginModel = new LoginModel();
     $this->visao = new ViewRenderer('/dashboard');
-
     parent::__construct($this->loginModel);
   }
 
