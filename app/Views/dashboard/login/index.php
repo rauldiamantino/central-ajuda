@@ -1,4 +1,4 @@
-<div class="w-full h-full">
+<div class="w-full h-full shadow rounded-lg">
   <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
       <img class="mx-auto h-10 w-auto" src="/img/luminaOn.png" alt="">
@@ -18,7 +18,7 @@
           <div class="flex items-center justify-between">
             <label for="senha" class="block text-sm font-medium leading-6 text-gray-900">Senha</label>
             <div class="text-sm">
-              <a href="#" class="font-semibold text-blue-900 hover:text-blue-500">Esqueceu sua senha?</a>
+              <!-- <a href="#" class="font-semibold text-blue-900 hover:text-blue-500">Esqueceu sua senha?</a> -->
             </div>
           </div>
           <div class="mt-2">
