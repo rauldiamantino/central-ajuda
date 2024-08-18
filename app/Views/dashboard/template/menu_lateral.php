@@ -1,3 +1,4 @@
+
 <asside class="pt-16 fixed top-0 left-0 z-10 border-r border-slate-200 bg-white w-64 h-screen overflow-hidden">
   <ul class="flex flex-col gap-3 text-gray-500 px-4 py-6">
     <li class="hover:bg-slate-100 bg-slate-50 rounded-lg cursor-pointer flex justify-between group">

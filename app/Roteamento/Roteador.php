@@ -137,6 +137,14 @@ class Roteador
       $empresa_id = intval($_SESSION['usuario']['empresa_id'] ?? 0);
     }
 
+    // Demais rotas apenas se for para a mesma empresa ID do usuário
+    if (isset($_SESSION['usuario']['empresa_id']) and isset($_SESSION['empresa_id'])) {
+
+      if (intval($_SESSION['usuario']['empresa_id']) > 0 and intval($_SESSION['empresa_id']) > 0) {
+        $empresa_id = intval($_SESSION['empresa_id']);
+      }
+    }
+
     if ($empresa_id == 0) {
       $rotasPermitidas = [
         'GET:/login',

@@ -86,6 +86,8 @@ class EmpresaModel extends Model
     foreach ($campos as $chave => $linha):
       $permitidos = [
         'ativo',
+        'nome',
+        'cnpj',
         'subdominio',
       ];
 
@@ -119,7 +121,7 @@ class EmpresaModel extends Model
       if (isset($params['cnpj']) and $cnpjValido) {
         $campos['cnpj'] = preg_replace('/[^0-9]/', '', $campos['cnpj']);
       }
-      elseif (isset($params['cnpj'])) {
+      elseif (isset($params['cnpj']) and $params['cnpj'] != '') {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('cnpj', 'valInvalido');
       }
 

@@ -10,7 +10,7 @@
     <div>Criado em <?php echo traduzirDataPtBr($empresa['Empresa.criado']); ?></div>
     <div>Última atualização: <?php echo traduzirDataPtBr($empresa['Empresa.modificado']); ?></div>
   </div>
-  
+
   <div class="w-full flex gap-4">
     <div class="w-full flex flex-col gap-2">
       <form method="POST" action="/empresa/<?php echo $empresa['Empresa.id'] ?>" class="border border-slate-200 w-full min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow">
@@ -27,11 +27,15 @@
           </div>
           <div class="w-full">
             <label for="empresa-editar-nome" class="block text-sm font-medium text-gray-700">Nome</label>
-            <input type="text" id="empresa-editar-nome" name="nome" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="<?php echo $empresa['Empresa.nome']; ?>" required>
+            <input type="text" id="empresa-editar-nome" name="nome" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="<?php echo $empresa['Empresa.nome']; ?>">
           </div>
           <div class="w-full">
             <label for="empresa-editar-cnpj" class="block text-sm font-medium text-gray-700">CNPJ</label>
-            <input type="text" id="empresa-editar-cnpj" name="cnpj" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="<?php echo $empresa['Empresa.cnpj']; ?>" required>
+            <input type="text" id="empresa-editar-cnpj" name="cnpj" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="<?php echo $empresa['Empresa.cnpj']; ?>">
+          </div>
+          <div class="w-full">
+            <label for="empresa-editar-subdominio" class="block text-sm font-medium text-gray-700">Subdomínio</label>
+            <input type="text" id="empresa-editar-subdominio" name="subdominio" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="<?php echo $empresa['Empresa.subdominio']; ?>">
           </div>
         </div>
         <div class="flex gap-4">

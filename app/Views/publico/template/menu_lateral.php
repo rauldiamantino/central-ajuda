@@ -1,7 +1,8 @@
+
 <aside class="min-w-64 max-w-64 min-h-full">
   <nav class="h-full py-10 text-sm">
     <ul class="h-full border-r border-slate-300 px-4 py-2 flex flex-col">
-      <?php if (isset($categorias) and $categorias) { ?>
+      <?php if (isset($categorias[0]) and is_array($categorias[0])) { ?>
         <h3 class="w-full text-start mb-2 px-6 py-4 text-lg">Categorias</h3>
         <?php foreach ($categorias as $chave => $linha) : ?>
           <li class="w-full flex hover:underline hover:bg-slate-100"><a href="/publico/categoria/<?php echo $linha['Categoria.id'] ?>" class="w-full px-6 py-4"><?php echo $linha['Categoria.nome'] ?></a></li>
