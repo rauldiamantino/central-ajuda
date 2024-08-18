@@ -33,7 +33,7 @@ class CadastroController extends Controller
     $usuarioLogadoId = intval($_SESSION['usuario']['id'] ?? 0);
 
     if ($usuarioLogadoId > 0) {
-      header('Location: /dashboard');
+      header('Location: /dashboard/artigos');
       exit();
     }
 

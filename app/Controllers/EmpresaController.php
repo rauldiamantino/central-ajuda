@@ -34,7 +34,7 @@ class EmpresaController extends Controller
     if (isset($empresa['erro']) and $empresa['erro']) {
       $_SESSION['erro'] = $empresa['erro']['mensagem'] ?? '';
 
-     header('Location: /dashboard');
+     header('Location: /dashboard/artigos');
       exit();
     }
 
