@@ -51,7 +51,7 @@ class CadastroController extends Controller
 
     if (isset($resultado['erro'])) {
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
-      header('Location: /dashboard/cadastro');
+      header('Location: /cadastro');
       exit();
     }
 
@@ -59,7 +59,7 @@ class CadastroController extends Controller
 
     if ($usuarioExiste) {
       $_SESSION['erro'] = 'Email já cadastrado';
-      header('Location: /dashboard/cadastro');
+      header('Location: /cadastro');
       exit();
     }
 
@@ -67,7 +67,7 @@ class CadastroController extends Controller
 
     if (intval($empresaId) < 1) {
       $_SESSION['erro'] = 'Erro ao realizar cadastro (C500#EMP)';
-      header('Location: /dashboard/cadastro');
+      header('Location: /cadastro');
       exit();
     }
 
@@ -76,13 +76,13 @@ class CadastroController extends Controller
 
     if (isset($usuario['erro']['mensagem'])) {
       $_SESSION['erro'] = $usuario['erro']['mensagem'];
-      header('Location: /dashboard/cadastro');
+      header('Location: /cadastro');
       exit();
     }
     
     if (intval($usuario) < 1) {
       $_SESSION['erro'] = 'Erro ao cadastrar usuário (C500#USR)';
-      header('Location: /dashboard/cadastro');
+      header('Location: /cadastro');
       exit();
     }
 
@@ -95,7 +95,7 @@ class CadastroController extends Controller
     ];
 
     $_SESSION['ok'] = 'Cadastro realizado com sucesso!';
-    header('Location: /dashboard/login');
+    header('Location: /login');
     exit();
   }
 }

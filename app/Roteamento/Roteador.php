@@ -12,6 +12,7 @@ use app\Controllers\ConteudoController;
 use app\Controllers\CategoriaController;
 use app\Controllers\PublicoController;
 use app\Controllers\PaginaErroController;
+use app\Models\Model;
 
 class Roteador
 {
@@ -24,28 +25,10 @@ class Roteador
   {
     $this->paginaErro = new PaginaErroController();
 
-    $this->subdominios = [
-      'localhost' => 99,
-      'luminaon' => 1,
-      'teste' => 39,
-    ];
-
-    // Subdomínio
-    $host = $_SERVER['HTTP_HOST'] ?? '';
-    $partes = explode('.', $host);
-    $this->empresaId = $this->subdominios[ $partes[0] ] ?? '';
-
-    if (empty($this->empresaId)) {
-      $this->paginaErro->erroVer();
-      exit;
-    }
-
     $this->rotas = [
       'GET:/teste' => [TesteController::class, 'testar'],
       'GET:/erro' => [PaginaErroController::class, 'erroVer'],
       'GET:/dashboard' => [DashboardController::class, 'dashboardVer'],
-      'GET:/dashboard/login' => [LoginController::class, 'loginVer'],
-      'GET:/dashboard/cadastro' => [CadastroController::class, 'cadastroVer'],
       'GET:/dashboard/artigos' => [ArtigoController::class, 'artigosVer'],
       'GET:/dashboard/artigo/editar/{id}' => [ArtigoController::class, 'artigoEditarVer'],
       'GET:/dashboard/artigo/adicionar' => [ArtigoController::class, 'artigoAdicionarVer'],
@@ -61,8 +44,10 @@ class Roteador
       'GET:/publico/categoria/{id}' => [PublicoController::class, 'publicoCategoriaVer'],
       'GET:/publico/artigo/{id}' => [PublicoController::class, 'publicoArtigoVer'],
 
-      'POST:/dashboard/login' => [LoginController::class, 'login'],
-      'GET:/dashboard/logout' => [LoginController::class, 'logout'],
+      'GET:/login' => [LoginController::class, 'loginVer'],
+      'GET:/cadastro' => [CadastroController::class, 'cadastroVer'],
+      'POST:/login' => [LoginController::class, 'login'],
+      'GET:/logout' => [LoginController::class, 'logout'],
 
       'GET:/artigos' => [ArtigoController::class, 'buscar'],
       'GET:/artigo/{id}' => [ArtigoController::class, 'buscar'],
@@ -118,22 +103,55 @@ class Roteador
     $id = (int) basename($url);
     $chaveRota = str_replace($id, '{id}', $chaveRota);
 
-    if ($this->empresaId == 99 and strpos($chaveRota, '/dashboard') == false) {
-      $this->paginaErro->erroVer();
-      exit;
-    }
+    // Subdomínio
+    $host = $_SERVER['HTTP_HOST'] ?? '';
+    $partes = explode('.', $host);
+    $subdominio = $partes[0] ?? '';
+    $empresa_id = 0;
 
-    $_SESSION['empresa_id'] = $this->empresaId;
-    
-    // ---- revisar ----
-    // Redireciona para o login sempre que utilizar rotas da dashboard sem estar logado
-    if (strpos($url, 'dashboard') and strpos($chaveRota, '/dashboard/login') == false and strpos($chaveRota, '/dashboard/cadastro') == false) {
+    if (count($partes) == 2 and strpos($chaveRota, '/publico')) {
+      $sql = 'SELECT
+                `Empresa`.`id` 
+              FROM
+                `empresas` AS `Empresa`
+              WHERE
+                `Empresa`.`subdominio` = ?
+              ORDER BY
+                `Empresa`.`id` ASC
+              LIMIT
+                1';
 
-      if (! isset($_SESSION['usuario']) or empty($_SESSION['usuario'])) {
-        header('Location: /dashboard/login');
-        exit;
+      $params = [
+        0 => $subdominio,
+      ];
+
+      $model = new Model('Empresa');
+      $resultado = $model->executarQuery($sql, $params);
+
+      // Empresa encontrada no banco de dados
+      if (isset($resultado[0]['id']) and $resultado[0]['id']) {
+        $empresa_id = intval($resultado[0]['id']);
       }
     }
+    elseif (strpos($chaveRota, '/dashboard') and isset($_SESSION['usuario']['empresa_id'])) {
+      $empresa_id = intval($_SESSION['usuario']['empresa_id'] ?? 0);
+    }
+
+    if ($empresa_id == 0) {
+      $rotasPermitidas = [
+        'GET:/login',
+        'POST:/login',
+        'GET:/logout',
+        'GET:/cadastro',
+        'POST:/cadastro',
+      ];
+
+      if (! in_array($chaveRota, $rotasPermitidas)) {
+        return $this->paginaErro->erroVer();
+      }
+    }
+
+    $_SESSION['empresa_id'] = $empresa_id;
 
     if (isset($this->rotas[ $chaveRota ])) {
       $rota = $this->rotas[ $chaveRota ];

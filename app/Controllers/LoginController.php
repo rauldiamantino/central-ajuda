@@ -42,14 +42,14 @@ class LoginController extends Controller
     }
 
     $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
-    header('Location: /dashboard/login');
+    header('Location: /login');
     exit();
   }
 
   public function logout()
   {
     $_SESSION['usuario'] = '';
-    header('Location: /dashboard/login');
+    header('Location: /login');
     exit();
   }
 }

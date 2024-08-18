@@ -6,7 +6,7 @@
     </div>
 
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-      <form class="space-y-6" action="/dashboard/cadastro" method="POST">
+      <form class="space-y-6" action="/cadastro" method="POST">
         <div>
           <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
           <input id="email" name="email" type="email" autocomplete="email" required class="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-900 sm:text-sm sm:leading-6">
@@ -29,7 +29,7 @@
 
       <p class="mt-10 text-center text-sm text-gray-500">
         Já possui cadastro?
-        <a href="/dashboard/login" class="font-semibold leading-6 text-blue-900 hover:text-blue-500">Clique aqui</a>
+        <a href="/login" class="font-semibold leading-6 text-blue-900 hover:text-blue-500">Clique aqui</a>
       </p>
     </div>
   </div>

@@ -2,6 +2,7 @@ CREATE TABLE `empresas` (
   `id` int NOT NULL AUTO_INCREMENT,
   `ativo` int DEFAULT '0',
   `nome` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `subdominio` varchar(255) DEFAULT NULL,
   `cnpj` varchar(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `criado` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `modificado` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

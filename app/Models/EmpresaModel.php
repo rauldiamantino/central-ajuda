@@ -71,6 +71,7 @@ class EmpresaModel extends Model
     $campos = [
       'ativo' => $params['ativo'] ?? 0,
       'nome' => $params['nome'] ?? '',
+      'subdominio' => $params['subdominio'] ?? '',
       'cnpj' => $params['cnpj'] ?? '',
     ];
 
@@ -85,6 +86,7 @@ class EmpresaModel extends Model
     foreach ($campos as $chave => $linha):
       $permitidos = [
         'ativo',
+        'subdominio',
       ];
 
       if ($atualizar and ! isset($params[ $chave ])) {
@@ -107,6 +109,7 @@ class EmpresaModel extends Model
     if (empty($msgErro['erro']['mensagem'])) {
       $campos['ativo'] = filter_var($campos['ativo'], FILTER_SANITIZE_NUMBER_INT);
       $campos['nome'] = htmlspecialchars($campos['nome']);
+      $campos['subdominio'] = htmlspecialchars($campos['subdominio']);
       $cnpjValido = preg_match('/^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/', $campos['cnpj']);
 
       if (isset($params['ativo']) and ! in_array($campos['ativo'], [0, 1])) {
@@ -122,6 +125,7 @@ class EmpresaModel extends Model
 
       $ativoCaracteres = 1;
       $nomeCaracteres = 255;
+      $subdominioCaracteres = 255;
 
       if (strlen($campos['ativo']) > $ativoCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('id', 'caracteres', $ativoCaracteres);
@@ -129,6 +133,10 @@ class EmpresaModel extends Model
 
       if (strlen($campos['nome']) > $nomeCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('nome', 'caracteres', $nomeCaracteres);
+      }
+
+      if (strlen($campos['subdominio']) > $subdominioCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('subdominio', 'caracteres', $subdominioCaracteres);
       }
     }
 
@@ -139,6 +147,7 @@ class EmpresaModel extends Model
     $camposValidados = [
       'ativo' => $campos['ativo'],
       'nome' => $campos['nome'],
+      'subdominio' => $campos['subdominio'],
       'cnpj' => $campos['cnpj'],
     ];
 
