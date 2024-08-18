@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <?php require_once 'template/cabecalho.php' ?>
-<body class="min-h-screen max-w-screen flex flex-col gap-4 font-normal bg-gray-200">
+<body class="min-h-screen max-w-screen flex flex-col gap-4 font-normal">
   <?php require_once 'template/topo.php' ?>
   <main class="w-full min-h-screen flex flex-col gap-4 items-center">
-    <?php require_once 'template/busca.php' ?>
     <div class="w-8/12 min-h-screen flex bg-white rounded">
       <?php require_once 'template/menu_lateral.php' ?>
       
@@ -20,5 +19,7 @@
     </div>
   </main>
   <?php require_once 'template/rodape.php' ?>
+
+  <script src="/js/publico/index.js"></script>
 </body>
 </html>
