@@ -1,5 +1,5 @@
 
-<asside class="pt-16 fixed top-0 left-0 z-10 border-r border-slate-200 bg-white w-64 h-screen overflow-hidden">
+<asside class="pt-16 fixed top-0 left-0 z-10 border-r border-slate-200 flex flex-col justify-between bg-white w-64 h-screen overflow-hidden">
   <ul class="flex flex-col gap-3 text-gray-500 px-4 py-6">
     <li class="hover:bg-slate-100 rounded-lg cursor-pointer flex justify-between group">
       <a href="/dashboard" class="w-full p-2">
@@ -66,7 +66,7 @@
         </div>
       </a>
     </li>
-    <li class="hover:bg-slate-100 rounded-lg cursor-pointer flex justify-between group">
+    <!-- <li class="hover:bg-slate-100 rounded-lg cursor-pointer flex justify-between group">
       <a href="" class="w-full p-2">
         <div class="flex items-center gap-3">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16" class="group-hover:text-black">
@@ -75,7 +75,7 @@
           <span>Suporte</span>
         </div>
       </a>
-    </li>
+    </li> -->
     <li class="hover:bg-slate-100 rounded-lg cursor-pointer flex justify-between group">
       <a href="/logout" class="w-full p-2">
         <div class="flex items-center gap-3 text-red-800">
@@ -88,4 +88,13 @@
       </a>
     </li>
   </ul>
+
+  <div class="p-4 text-gray-500 text-sm">
+    <div class="flex items-center gap-3">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
+      </svg>
+      <span>suporte@luminaon.com.br</span>
+    </div>
+  </div>
 </asside>
