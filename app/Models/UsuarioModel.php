@@ -22,7 +22,6 @@ class UsuarioModel extends Model
     if ($campos['padrao'] == 1) {
       $condicao = [
         'Usuario.padrao' => 1,
-        'Usuario.empresa_id' => $campos['empresa_id'],
       ];
 
       $usuarioPadrao = parent::condicao($condicao)
@@ -105,7 +104,6 @@ class UsuarioModel extends Model
     if ($campos['padrao'] == 1) {
       $condicao = [
         'Usuario.padrao' => 1,
-        'Usuario.empresa_id' => $campos['empresa_id'],
         'Usuario.id !=' => $id,
       ];
 
@@ -139,7 +137,7 @@ class UsuarioModel extends Model
     return parent::atualizar($campos, $id);
   }
 
-  public function apagarUsuario(int $id, int $empresaId): array
+  public function apagarUsuario(int $id): array
   {
     if (! is_int($id) or empty($id)) {
       $msgErro = [
@@ -152,10 +150,29 @@ class UsuarioModel extends Model
       return $msgErro;
     }
 
+    // Usuário padrão
+    $condicoes = [
+      'Usuario.id' => $id,
+      'Usuario.padrao' => 1,
+    ];
+
+    $usuarioPadrao = parent::condicao($condicoes)
+                           ->contar('Usuario.id');
+
+    if (isset($usuarioPadrao['total']) and (int) $usuarioPadrao['total'] > 0) {
+      $msgErro = [
+        'erro' => [
+          'codigo' => 400,
+          'mensagem' => 'Não é permitido apagar o usuário padrão',
+        ],
+      ];
+
+      return $msgErro;
+    }
+
     // Usuário possui artigos
     $condicoes = [
       'Usuario.id' => $id,
-      'Usuario.empresa_id' => $empresaId,
     ];
 
     $uniao = [
@@ -177,26 +194,6 @@ class UsuarioModel extends Model
       return $msgErro;
     }
 
-    // Usuário padrão
-    $condicoes = [
-      'Usuario.id' => $id,
-      'Usuario.padrao' => 1,
-      'Usuario.empresa_id' => $empresaId,
-    ];
-
-    $usuarioPadrao = parent::condicao($condicoes)
-                           ->contar('Usuario.id');
-
-    if (isset($usuarioPadrao['total']) and (int) $usuarioPadrao['total'] > 0) {
-      $msgErro = [
-        'erro' => [
-          'codigo' => 400,
-          'mensagem' => 'Não é permitido apagar o usuário padrão',
-        ],
-      ];
-
-      return $msgErro;
-    }
 
     return parent::apagar($id);
   }

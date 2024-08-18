@@ -236,7 +236,7 @@ class UsuarioController extends Controller
 
   public function apagar(int $id, bool $rollback = false)
   {
-    $resultado = $this->usuarioModel->apagarUsuario($id, $this->empresaPadraoId);
+    $resultado = $this->usuarioModel->apagarUsuario($id);
 
     if ($rollback and isset($resultado['erro'])) {
       return $resultado;
