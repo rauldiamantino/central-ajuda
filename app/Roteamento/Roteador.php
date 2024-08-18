@@ -137,6 +137,10 @@ class Roteador
     elseif (strpos($chaveRota, '/dashboard') and isset($_SESSION['usuario']['empresa_id'])) {
       $empresa_id = intval($_SESSION['usuario']['empresa_id'] ?? 0);
     }
+    elseif (strpos($chaveRota, '/dashboard') and ! isset($_SESSION['usuario']['empresa_id'])) {
+      header('Location: /login');
+      exit;
+    }
 
     // Demais rotas apenas se for para a mesma empresa ID do usuário
     if (isset($_SESSION['usuario']['empresa_id']) and isset($_SESSION['empresa_id'])) {
