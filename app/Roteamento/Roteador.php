@@ -116,6 +116,7 @@ class Roteador
                 `empresas` AS `Empresa`
               WHERE
                 `Empresa`.`subdominio` = ?
+                AND `Empresa`.`ativo` = 1
               ORDER BY
                 `Empresa`.`id` ASC
               LIMIT
