@@ -367,6 +367,11 @@ class Model
   {
     $pagina = $pagina - 1;
     $offset = $pagina * $limite;
+
+    if ($offset < 0) {
+      $offset = 0;
+    }
+    
     $this->paginacao = ' LIMIT ' . $limite . ' OFFSET ' . $offset;
 
     return $this;

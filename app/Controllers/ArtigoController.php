@@ -45,9 +45,13 @@ class ArtigoController extends Controller
     // Recupera quantidade de páginas
     $artigosTotal = $this->artigoModel->condicao($condicoes)
                                       ->contar('Artigo.id');
-                         
-    $artigosTotal = $artigosTotal['total'] ?? 0;
-    $paginasTotal = ceil($artigosTotal / $limite);
+    
+    $artigosTotal = intval($artigosTotal['total'] ?? 0);
+    $paginasTotal = 0;
+
+    if ($artigosTotal > 0) {
+      $paginasTotal = ceil($artigosTotal / $limite);
+    }
 
     $pagina = abs($pagina);
     $pagina = max($pagina, 1);
