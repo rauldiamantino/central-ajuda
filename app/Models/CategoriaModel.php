@@ -80,7 +80,7 @@ class CategoriaModel extends Model
     return parent::executarQuery($sql);
   }
 
-  public function apagarCategoria(int $id, int $empresaId): array
+  public function apagarCategoria(int $id): array
   {
     if (! is_int($id) or empty($id)) {
       $msgErro = [
@@ -96,7 +96,6 @@ class CategoriaModel extends Model
     // Categoria possui artigos
     $condicoes = [
       'Categoria.id' => $id,
-      'Categoria.empresa_id' => $empresaId,
     ];
 
     $uniao = [

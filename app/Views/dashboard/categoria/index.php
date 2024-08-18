@@ -17,7 +17,7 @@
         <th class="p-6 w-32 min-w-max">Ações</th>
       </tr>
     </thead>
-    <tbody class="divide-y" data-categoria-ordem="<?php echo $linha['Categoria.ordem'] ?>">
+    <tbody class="divide-y">
       <?php foreach ($categorias as $chave => $linha) : ?>
         <tr class="hover:bg-slate-100 divide-x">
           <?php if (isset($linha['Categoria.id'])) { ?>

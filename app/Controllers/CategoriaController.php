@@ -258,7 +258,7 @@ class CategoriaController extends Controller
 
   public function apagar(int $id, bool $rollback = false)
   {
-    $resultado = $this->categoriaModel->apagarCategoria($id, $this->empresaPadraoId);
+    $resultado = $this->categoriaModel->apagarCategoria($id);
 
     if ($rollback and isset($resultado['erro'])) {
       return $resultado;

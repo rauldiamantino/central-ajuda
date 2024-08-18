@@ -9,7 +9,7 @@
       <th class="p-6 w-32 min-w-max">Ações</th>
     </tr>
   </thead>
-  <tbody class="divide-y" data-artigo-ordem="<?php echo $linha['Artigo.ordem'] ?>">
+  <tbody class="divide-y">
     <?php foreach ($artigos as $chave => $linha) : ?>
       <tr class="hover:bg-slate-100 divide-x">
         <?php if (isset($linha['Artigo.id'])) { ?>
