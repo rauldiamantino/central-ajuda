@@ -114,12 +114,12 @@
 
   <?php if (! isset($pagLogin) and ! isset($pagCadastro)) { ?>
     <?php require_once 'template/topo.php' ?>
-    <div class="flex p-4">
+    <div class="flex">
       <?php require_once 'template/menu_lateral.php' ?>
       <main class="ml-64 pt-16 flex w-screen h-screen flex-col">
         <?php // Notificação Sucesso ?>
         <?php if (isset($_SESSION['ok'])) { ?>
-          <div class="js-dashboard-notificacao-sucesso" onload="fecharNotificacao()">
+          <div class="p-4 js-dashboard-notificacao-sucesso" onload="fecharNotificacao()">
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
               <strong class="font-bold">Ok!</strong>
               <span class="block sm:inline"><?php echo $_SESSION['ok']; ?></span>
@@ -134,7 +134,7 @@
         <?php } ?>
         <?php // Notificação Erro ?>
         <?php if (isset($_SESSION['erro'])) { ?>
-          <div class="js-dashboard-notificacao-erro">
+          <div class="p-4 js-dashboard-notificacao-erro">
             <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
               <strong class="font-bold">Erro!</strong>
               <?php if (is_array($_SESSION['erro'])) { ?>
@@ -158,7 +158,7 @@
         <?php } ?>
         <?php // Notificação Neutra ?>
         <?php if (isset($_SESSION['neutra'])) { ?>
-          <div class="js-dashboard-notificacao-neutra">
+          <div class="p-4 js-dashboard-notificacao-neutra">
             <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded relative" role="alert">
               <?php if (is_array($_SESSION['neutra'])) { ?>
                 <?php foreach($_SESSION['neutra'] as $linha): ?>
@@ -182,7 +182,7 @@
         <?php $_SESSION['erro'] = null; ?>
         <?php $_SESSION['neutra'] = null; ?>
 
-        <div class="w-full max-w-screen h-max flex gap-6">
+        <div class="w-full max-w-screen h-full h-max-screen flex gap-6">
           <?php require_once $visao ?>
         </div>
       </main>

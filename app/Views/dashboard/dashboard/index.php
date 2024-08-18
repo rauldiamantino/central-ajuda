@@ -1,4 +1,4 @@
-<div class="h-screen flex flex-col gap-6">
+<div class="p-4 h-screen flex flex-col gap-6">
   <div class="flex gap-6 w-full h-full">
     <section class="w-full h-full bg-white p-6 border border-slate-200 rounded-lg">
       <?php echo $artigos ?>
