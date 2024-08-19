@@ -40,7 +40,7 @@ class EmpresaController extends Controller
 
     $this->visao->variavel('empresa', reset($empresa));
     $this->visao->variavel('titulo', 'Editar empresa');
-    $this->visao->renderizar('/editar');
+    $this->visao->renderizar('/index');
   }
 
   public function adicionar(array $params = []): array
