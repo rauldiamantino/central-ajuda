@@ -94,7 +94,7 @@ class CategoriaController extends Controller
 
     $this->visao->variavel('categoria', reset($categoria));
     $this->visao->variavel('titulo', 'Editar categoria');
-    $this->visao->renderizar('/editar');
+    $this->visao->renderizar('/editar/index');
   }
 
   public function categoriaAdicionarVer()
