@@ -13,8 +13,6 @@ class DashboardController extends Controller
   {
     $this->dashboardModel = new DashboardModel();
     $this->visao = new ViewRenderer('/dashboard');
-
-    parent::__construct($this->dashboardModel);
   }
 
   public function dashboardVer()

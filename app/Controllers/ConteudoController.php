@@ -12,8 +12,6 @@ class ConteudoController extends Controller
   public function __construct()
   {
     $this->conteudoModel = new ConteudoModel();
-
-    parent::__construct($this->conteudoModel);
   }
 
   public function adicionar(array $params = []): array

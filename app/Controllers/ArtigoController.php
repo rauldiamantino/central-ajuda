@@ -19,8 +19,6 @@ class ArtigoController extends Controller
     $this->artigoModel = new ArtigoModel();
     $this->conteudoModel = new ConteudoModel();
     $this->categoriaModel = new CategoriaModel();
-
-    parent::__construct($this->artigoModel);
   }
 
   public function artigosVer()

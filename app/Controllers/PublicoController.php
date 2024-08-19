@@ -22,8 +22,6 @@ class PublicoController extends Controller
     $this->artigoModel = new ArtigoModel();
     $this->conteudoModel = new ConteudoModel();
     $this->visao = new ViewRenderer('/publico');
-
-    parent::__construct($this->publicoModel);
   }
 
   public function publicoCategoriasVer()

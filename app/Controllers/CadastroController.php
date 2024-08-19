@@ -1,30 +1,16 @@
 <?php
 namespace app\Controllers;
 
-use \Exception;
-use app\Controllers\EmpresaController;
-use app\Controllers\UsuarioController;
-use app\Models\EmpresaModel;
-use app\Models\UsuarioModel;
 use app\Models\CadastroModel;
 
 class CadastroController extends Controller
 {
-  private $empresaController;
-  private $usuarioController;
-  private $empresaModel;
-  private $usuarioModel;
   private $cadastroModel;
   protected $visao;
 
   public function __construct()
   {
-    $this->empresaController = new EmpresaController();
-    $this->usuarioController = new UsuarioController();
-    $this->empresaModel = new EmpresaModel();
-    $this->usuarioModel = new UsuarioModel();
     $this->cadastroModel = new CadastroModel();
-
     $this->visao = new ViewRenderer('/dashboard');
   }
 

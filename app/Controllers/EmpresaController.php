@@ -13,8 +13,6 @@ class EmpresaController extends Controller
   {
     $this->visao = new ViewRenderer('/dashboard/empresa');
     $this->empresaModel = new EmpresaModel();
-
-    parent::__construct($this->empresaModel);
   }
 
   public function empresaEditarVer()

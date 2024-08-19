@@ -12,8 +12,6 @@ class UsuarioController extends Controller
   {
     $this->visao = new ViewRenderer('/dashboard/usuario');
     $this->usuarioModel = new UsuarioModel();
-
-    parent::__construct($this->usuarioModel);
   }
 
   public function usuariosVer()

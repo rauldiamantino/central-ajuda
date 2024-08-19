@@ -13,8 +13,6 @@ class CategoriaController extends Controller
   {
     $this->visao = new ViewRenderer('/dashboard/categoria');
     $this->categoriaModel = new categoriaModel();
-
-    parent::__construct($this->categoriaModel);
   }
 
   public function categoriasVer()
