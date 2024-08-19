@@ -95,34 +95,14 @@ class Database
 
       error_log($logMensagem, 3, '../app/logs/database_' . date('Y-m-d') . '.log');
 
-      if (preg_match("/Duplicate entry '([^']+)' for key '([^']+)'/", $e->getMessage(), $matches)) {
-        $tabelaColuna = $matches[2] ?? '';
-        $tabelaColunaArray = explode('.', $tabelaColuna);
-        $coluna = $tabelaColunaArray[1] ?? 'campo';
+      $retorno = [
+        'erro' => [
+          'codigo' => 400,
+          'mensagem' => 'Essa solicitação não pode ser atendida',
+        ],
+      ];
 
-        $retorno = [
-          'erro' => [
-            'codigo' => 400,
-            'mensagem' => $coluna . ' já cadastrado',
-          ],
-        ];
-
-        return $retorno;
-      }
-
-      if (strpos($e->getMessage(), 'SQLSTATE[23000]') === 0) {
-        $retorno = [
-          'erro' => [
-            'codigo' => 400,
-            'mensagem' => 'Este registro não pode ser excluído',
-          ],
-        ];
-
-        return $retorno;
-      }
-      
-      return ['erro' => $e->getMessage()];
-      return ['erro' => false];
+      return $retorno;
     }
   }
 }
