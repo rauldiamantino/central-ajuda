@@ -1,1 +1,0 @@
-<div class="bg-blue-200">TESTE</div>
