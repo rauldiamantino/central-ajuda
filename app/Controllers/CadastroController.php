@@ -72,14 +72,6 @@ class CadastroController extends Controller
       exit();
     }
 
-    // Aplica login
-    $_SESSION['usuario'] = [
-      'id' => $usuario[0]['id'],
-      'nome' => $usuario[0]['nome'],
-      'email' => $usuario[0]['email'],
-      'empresa_id' => $usuario[0]['empresa_id'],
-    ];
-
     $_SESSION['ok'] = 'Cadastro realizado com sucesso!';
     header('Location: /login');
     exit();
