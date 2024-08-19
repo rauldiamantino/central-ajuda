@@ -160,13 +160,13 @@ class UsuarioController extends Controller
 
     $this->visao->variavel('usuario', reset($usuario));
     $this->visao->variavel('titulo', 'Editar usuario');
-    $this->visao->renderizar('/editar');
+    $this->visao->renderizar('/editar/index');
   }
 
   public function usuarioAdicionarVer()
   {
     $this->visao->variavel('titulo', 'Adicionar usuário');
-    $this->visao->renderizar('/adicionar');
+    $this->visao->renderizar('/adicionar/index');
   }
 
   public function buscar(int $id = 0)
