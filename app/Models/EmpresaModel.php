@@ -162,6 +162,10 @@ class EmpresaModel extends Model
       endforeach;
     }
 
+    if (isset($camposValidados['cnpj']) and empty($camposValidados['cnpj'])) {
+      $camposValidados['cnpj'] = null;
+    }
+
     if (empty($camposValidados)) {
       $msgErro['erro']['mensagem'][] = 'Nenhum campo informado';
 
