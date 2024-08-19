@@ -23,10 +23,10 @@ class ViewRenderer
     $diretorioBase = $temp[1] ?? '';
 
     // Layout base
-    $layout = '..' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR . $diretorioBase . DIRECTORY_SEPARATOR . 'layout.php';
+    $index = '..' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR . $diretorioBase . DIRECTORY_SEPARATOR . 'index.php';
 
-    if (file_exists($layout)) {
-      require $layout;
+    if (file_exists($index)) {
+      require $index;
     }
   }
 
