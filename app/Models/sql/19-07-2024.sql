@@ -8,7 +8,8 @@ CREATE TABLE `empresas` (
   `criado` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `modificado` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `cnpj` (`cnpj`)
+  UNIQUE KEY `cnpj` (`cnpj`),
+  UNIQUE KEY `subdominio` (`subdominio`)
 )
 
 CREATE TABLE `usuarios` (

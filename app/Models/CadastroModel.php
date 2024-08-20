@@ -107,11 +107,11 @@ class CadastroModel extends Model
 
   public function gerarEmpresa(): int
   {
-    $sql = 'INSERT INTO `empresas` (ativo, nome) VALUES (?, ?)';
+    $sql = 'INSERT INTO `empresas` (ativo, subdominio) VALUES (?, ?)';
 
     $params = [
       0 => 1,
-      1 => substr(bin2hex(random_bytes(5)), 0, 10),
+      1 => substr(base_convert(bin2hex(random_bytes(3)), 16, 36), 0, 6),
     ];
 
     $resultado = parent::executarQuery($sql, $params);
