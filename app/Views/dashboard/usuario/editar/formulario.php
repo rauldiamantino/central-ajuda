@@ -18,14 +18,19 @@ else {
   <input type="hidden" name="_method" value="PUT">
   <input type="hidden" name="padrao" value="<?php echo $usuario['Usuario.padrao']; ?>">
   <input type="hidden" name="empresa_id" value="<?php echo $usuario['Usuario.empresa_id']; ?>">
-  
   <div class="w-full flex flex-col gap-4">
     <div class="flex gap-10">
       <div class="w-full flex gap-4">
         <label class="flex flex-col items-start gap-1 cursor-pointer">
           <span class="block text-sm font-medium text-gray-700">Status</span>
           <input type="hidden" name="ativo" value="0">
-          <input type="checkbox" value="1" class="sr-only peer" <?php echo $usuario['Usuario.ativo'] ? 'checked' : '' ?> name="ativo">
+          <?php if (in_array($usuario['Usuario.nivel'], [0, 1])) { ?>
+            <input type="checkbox" class="sr-only peer" <?php echo $usuario['Usuario.ativo'] ? 'checked' : '' ?> name="ativo" disabled>
+          <?php } ?>
+
+          <?php if ($usuario['Usuario.nivel'] == 2) { ?>
+            <input type="checkbox" value="1" class="sr-only peer" <?php echo $usuario['Usuario.ativo'] ? 'checked' : '' ?> name="ativo">
+          <?php } ?>
           <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
         </label>
 
@@ -43,7 +48,7 @@ else {
     </div>
     <div class="w-full">
       <label for="usuario-editar-nome" class="block text-sm font-medium text-gray-700">Nome</label>
-      <input type="text" id="usuario-editar-nome" name="nome" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="<?php echo $usuario['Usuario.nome']; ?>" required autofocus>
+      <input type="text" id="usuario-editar-nome" name="nome" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="<?php echo $usuario['Usuario.nome']; ?>" autofocus>
     </div>
     <div class="w-full">
       <label for="usuario-editar-email" class="block text-sm font-medium text-gray-700">Email</label>
@@ -51,7 +56,7 @@ else {
     </div>
     <div class="w-full">
       <label for="usuario-editar-telefone" class="block text-sm font-medium text-gray-700">Telefone</label>
-      <input type="text" id="usuario-editar-telefone" name="telefone" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" placeholder="00 00000 0000" value="<?php echo $usuario['Usuario.telefone']; ?>" required>
+      <input type="text" id="usuario-editar-telefone" name="telefone" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" placeholder="00 00000 0000" value="<?php echo $usuario['Usuario.telefone']; ?>">
     </div>
     <div>
       <div class="mt-4 text-red-800 text-xs">*Preencha os campos abaixo apenas para alterar a senha</div>

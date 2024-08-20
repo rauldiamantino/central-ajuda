@@ -72,7 +72,6 @@ class UsuarioModel extends Model
       return $msgErro;
     }
 
-
     $novaSenha = $params['senha'] ?? '';
     $senhaAtual = $params['senha_atual'] ?? '';
 
@@ -120,6 +119,10 @@ class UsuarioModel extends Model
 
         return $msgErro;
       }
+    }
+
+    if ($campos['padrao'] == 1 and isset($campos['ativo'])) {
+      unset($campos['ativo']);
     }
 
     // Revisar para tornar dinâmico
@@ -224,6 +227,8 @@ class UsuarioModel extends Model
       $permitidos = [
         'ativo',
         'nivel',
+        'nome',
+        'telefone',
         'padrao',
       ];
 
@@ -313,11 +318,11 @@ class UsuarioModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('email', 'caracteres', $emailCaracteres);
       }
 
-      if (strlen($campos['telefone']) > $telefoneCaracteresMax) {
+      if ($campos['telefone'] and strlen($campos['telefone']) > $telefoneCaracteresMax) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('telefone', 'caracteres', $telefoneCaracteresMax);
       }
 
-      if (strlen($campos['telefone']) < $telefoneCaracteresMin) {
+      if ($campos['telefone'] and strlen($campos['telefone']) < $telefoneCaracteresMin) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('telefone', 'caracteres', $telefoneCaracteresMin);
       }
     }
