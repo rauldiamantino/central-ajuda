@@ -1,8 +1,7 @@
 <?php
-
 namespace app\Controllers;
 
-class ViewRenderer
+class ViewRenderer extends Controller
 {
   private $caminho;
   private $variaveis = [];

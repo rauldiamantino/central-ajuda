@@ -2,6 +2,7 @@
 namespace app\Controllers;
 use app\Models\MiddlewareModel;
 use app\Controllers\ViewRenderer;
+use app\Models\Model;
 
 class Controller
 {
@@ -13,6 +14,24 @@ class Controller
   {
     // Revisar para centralizar tudo na Model
     $this->usuarioLogadoId = intval($_SESSION['usuario']['id'] ?? 0);
+  }
+
+  public static function ajuste(string $nome)
+  {
+    $ajusteModel = new Model('Ajuste');
+
+    $condicoes = [
+      'Ajuste.nome' => $nome,
+    ];
+
+    $colunas = [
+      'Ajuste.ativo',
+    ];
+
+    $resultado = $ajusteModel->condicao($condicoes)
+                             ->buscar($colunas);
+
+    return $resultado;
   }
 
   protected function receberJson(): array
