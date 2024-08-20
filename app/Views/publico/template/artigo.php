@@ -1,3 +1,11 @@
+<?php 
+$textoAutor = '';
+
+if(buscarAjuste('artigo_autor') == 1) {
+  $textoAutor = 'por <span class="font-semibold">' . $artigo['Usuario.nome'] . '</span>';
+}
+?>
+
 <div class="w-full flex flex-col px-12 py-14">
   <div class="pb-6 border-b border-slate-200 flex gap-2 font-light text-sm publico-migalhas">
     <a href="/publico" class="hover:underline">Início</a>
@@ -12,7 +20,7 @@
   <div class="flex flex-col justify-between items-start gap-4 pt-10 publico-artigo-topo">
     <h2 class="text-4xl publico-artigo-titulo"><?php echo $artigo['Artigo.titulo'] ?></h2>
     <div class="text-xs font-light publico-artigo-datas">
-      <div>Criado por <span class="font-semibold"><?php echo $artigo['Usuario.nome']; ?></span> em <?php echo traduzirDataPtBr($artigo['Artigo.criado']); ?></div>
+      <div>Criado <?php echo $textoAutor; ?> em <?php echo traduzirDataPtBr($artigo['Artigo.criado']); ?></div>
       <div>Última atualização: <?php echo traduzirDataPtBr($artigo['Artigo.modificado']); ?></div>
     </div>
   </div>

@@ -264,7 +264,7 @@ class ArtigoController extends Controller
     }
 
     $this->visao->variavel('ordem', $ordem);
-    $this->visao->variavel('usuarioId', $this->usuarioLogadoId);
+    $this->visao->variavel('usuarioId', intval($_SESSION['usuario']['id'] ?? 0));
     $this->visao->variavel('categorias', $categorias);
     $this->visao->variavel('titulo', 'Adicionar artigo');
     $this->visao->renderizar('/adicionar');

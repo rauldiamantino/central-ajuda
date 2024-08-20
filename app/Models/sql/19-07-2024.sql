@@ -77,3 +77,13 @@ CREATE TABLE `categorias` (
   `modificado` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 )
+
+CREATE TABLE `ajustes` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `ativo` int DEFAULT '0',
+  `empresa_id` int NOT NULL,
+  `criado` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `modificado` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+)
