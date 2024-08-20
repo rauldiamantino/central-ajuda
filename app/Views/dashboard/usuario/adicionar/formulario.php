@@ -38,7 +38,7 @@ $tipoUsuario = [
     </div>
     <div class="w-full">
       <label for="usuario-editar-nome" class="block text-sm font-medium text-gray-700">Nome</label>
-      <input type="text" id="usuario-editar-nome" name="nome" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="" required autofocus>
+      <input type="text" id="usuario-editar-nome" name="nome" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="" autofocus>
     </div>
     <div class="w-full">
       <label for="usuario-editar-email" class="block text-sm font-medium text-gray-700">Email</label>
@@ -46,7 +46,7 @@ $tipoUsuario = [
     </div>
     <div class="w-full">
       <label for="usuario-editar-telefone" class="block text-sm font-medium text-gray-700">Telefone</label>
-      <input type="text" id="usuario-editar-telefone" name="telefone" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" placeholder="00 00000 0000" value="" required>
+      <input type="text" id="usuario-editar-telefone" name="telefone" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" placeholder="00 00000 0000" value="">
     </div>
     <div class="w-full">
       <label for="usuario-editar-senha" class="block text-sm font-medium text-gray-700">Senha</label>
