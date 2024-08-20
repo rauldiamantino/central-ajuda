@@ -211,7 +211,6 @@ class UsuarioModel extends Model
       'padrao' => $params['padrao'] ?? 0,
       'nome' => $params['nome'] ?? '',
       'email' => $params['email'] ?? '',
-      'telefone' => $params['telefone'] ?? '',
       'senha' => $params['senha'] ?? '',
     ];
 
@@ -228,7 +227,6 @@ class UsuarioModel extends Model
         'ativo',
         'nivel',
         'nome',
-        'telefone',
         'padrao',
       ];
 
@@ -260,7 +258,6 @@ class UsuarioModel extends Model
       $campos['padrao'] = filter_var($campos['padrao'], FILTER_SANITIZE_NUMBER_INT);
       $campos['nome'] = htmlspecialchars($campos['nome']);
       $campos['email'] = filter_Var($campos['email'], FILTER_SANITIZE_EMAIL);
-      $campos['telefone'] = filter_var($campos['telefone'], FILTER_SANITIZE_NUMBER_INT);
       $emailValidado = filter_Var($campos['email'], FILTER_VALIDATE_EMAIL);
 
       if (isset($params['email']) and $emailValidado == false) {
@@ -291,8 +288,6 @@ class UsuarioModel extends Model
       $padraoCaracteres = 1;
       $nomeCaracteres = 25;
       $emailCaracteres = 50;
-      $telefoneCaracteresMin = 10;
-      $telefoneCaracteresMax = 11;
 
       if (strlen($campos['ativo']) > $ativoCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('ativo', 'caracteres', $ativoCaracteres);
@@ -317,14 +312,6 @@ class UsuarioModel extends Model
       if (strlen($campos['email']) > $emailCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('email', 'caracteres', $emailCaracteres);
       }
-
-      if ($campos['telefone'] and strlen($campos['telefone']) > $telefoneCaracteresMax) {
-        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('telefone', 'caracteres', $telefoneCaracteresMax);
-      }
-
-      if ($campos['telefone'] and strlen($campos['telefone']) < $telefoneCaracteresMin) {
-        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('telefone', 'caracteres', $telefoneCaracteresMin);
-      }
     }
 
     if ($msgErro['erro']['mensagem']) {
@@ -338,7 +325,6 @@ class UsuarioModel extends Model
       'padrao' => $campos['padrao'],
       'nome' => $campos['nome'],
       'email' => $campos['email'],
-      'telefone' => $campos['telefone'],
       'senha' => $campos['senha'],
     ];
 
@@ -429,10 +415,6 @@ class UsuarioModel extends Model
       'valInvalido' => 'Campo ' . $campo . ' com valor inválido',
       'caracteres' => 'Campo ' . $campo . ' excedeu o limite de ' . $quantidade . ' caracteres',
     ];
-
-    if ($campo == 'telefone') {
-      $msgErro['caracteres'] = 'Telefone com tamanho inválido';
-    }
 
     if (isset($msgErro[ $tipo ])) {
       return $msgErro[ $tipo ];

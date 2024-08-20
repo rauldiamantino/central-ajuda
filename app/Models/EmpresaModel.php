@@ -121,6 +121,7 @@ class EmpresaModel extends Model
       'ativo' => $params['ativo'] ?? 0,
       'nome' => $params['nome'] ?? '',
       'subdominio' => $params['subdominio'] ?? '',
+      'telefone' => $params['telefone'] ?? '',
       'cnpj' => $params['cnpj'] ?? '',
     ];
 
@@ -137,6 +138,7 @@ class EmpresaModel extends Model
         'ativo',
         'nome',
         'cnpj',
+        'telefone',
         'subdominio',
       ];
 
@@ -161,6 +163,7 @@ class EmpresaModel extends Model
       $campos['ativo'] = filter_var($campos['ativo'], FILTER_SANITIZE_NUMBER_INT);
       $campos['nome'] = htmlspecialchars($campos['nome']);
       $campos['subdominio'] = htmlspecialchars($campos['subdominio']);
+      $campos['telefone'] = filter_var($campos['telefone'], FILTER_SANITIZE_NUMBER_INT);
       $cnpjValido = preg_match('/^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/', $campos['cnpj']);
 
       if (isset($params['ativo']) and ! in_array($campos['ativo'], [0, 1])) {
@@ -177,6 +180,8 @@ class EmpresaModel extends Model
       $ativoCaracteres = 1;
       $nomeCaracteres = 255;
       $subdominioCaracteres = 255;
+      $telefoneCaracteresMin = 10;
+      $telefoneCaracteresMax = 11;
 
       if (strlen($campos['ativo']) > $ativoCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('id', 'caracteres', $ativoCaracteres);
@@ -188,6 +193,15 @@ class EmpresaModel extends Model
 
       if (strlen($campos['subdominio']) > $subdominioCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('subdominio', 'caracteres', $subdominioCaracteres);
+      }
+
+
+      if ($campos['telefone'] and strlen($campos['telefone']) > $telefoneCaracteresMax) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('telefone', 'caracteres', $telefoneCaracteresMax);
+      }
+
+      if ($campos['telefone'] and strlen($campos['telefone']) < $telefoneCaracteresMin) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('telefone', 'caracteres', $telefoneCaracteresMin);
       }
 
       $campos['cnpj'] = trim($campos['cnpj']);
@@ -202,6 +216,7 @@ class EmpresaModel extends Model
       'ativo' => $campos['ativo'],
       'nome' => $campos['nome'],
       'subdominio' => $campos['subdominio'],
+      'telefone' => $campos['telefone'],
       'cnpj' => $campos['cnpj'],
     ];
 
@@ -243,6 +258,10 @@ class EmpresaModel extends Model
       'valInvalido' => 'Campo ' . $campo . ' com valor inválido',
       'caracteres' => 'Campo ' . $campo . ' excedeu o limite de ' . $quantidade . ' caracteres',
     ];
+
+    if ($campo == 'telefone') {
+      $msgErro['caracteres'] = 'Telefone com tamanho inválido';
+    }
 
     if (isset($msgErro[ $tipo ])) {
       return $msgErro[ $tipo ];

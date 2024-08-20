@@ -54,10 +54,6 @@ else {
       <label for="usuario-editar-email" class="block text-sm font-medium text-gray-700">Email</label>
       <input type="text" id="usuario-editar-email" name="email" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="<?php echo $usuario['Usuario.email']; ?>" required>
     </div>
-    <div class="w-full">
-      <label for="usuario-editar-telefone" class="block text-sm font-medium text-gray-700">Telefone</label>
-      <input type="text" id="usuario-editar-telefone" name="telefone" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" placeholder="00 00000 0000" value="<?php echo $usuario['Usuario.telefone']; ?>">
-    </div>
     <div>
       <div class="mt-4 text-red-800 text-xs">*Preencha os campos abaixo apenas para alterar a senha</div>
       <div class="px-4 p-6 flex flex-col gap-4 border border-slate-200 bg-slate-50 rounded-md">

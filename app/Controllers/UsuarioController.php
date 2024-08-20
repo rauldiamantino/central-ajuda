@@ -91,7 +91,6 @@ class UsuarioController extends Controller
         'Usuario.padrao',
         'Usuario.nome',
         'Usuario.email',
-        'Usuario.telefone',
         'Usuario.criado',
         'Usuario.modificado',
       ];
@@ -112,7 +111,7 @@ class UsuarioController extends Controller
     elseif ($_POST and isset($resultado['id'])) { 
       $_SESSION['ok'] = 'Usuário criado com sucesso';
 
-     header('Location: /dashboard/usuario/editar/' . $resultado['id']);
+      header('Location: /dashboard/usuarios');
       exit();
     }
     
@@ -141,7 +140,6 @@ class UsuarioController extends Controller
       'Usuario.padrao',
       'Usuario.nome',
       'Usuario.email',
-      'Usuario.telefone',
       'Usuario.criado',
       'Usuario.modificado',
     ];
@@ -185,7 +183,6 @@ class UsuarioController extends Controller
       'Usuario.padrao',
       'Usuario.nome',
       'Usuario.email',
-      'Usuario.telefone',
       'Usuario.criado',
       'Usuario.modificado',
     ];
@@ -220,7 +217,7 @@ class UsuarioController extends Controller
     elseif ($_POST) { 
       $_SESSION['ok'] = 'Registro alterado com sucesso';
 
-     header('Location: /dashboard/usuarios');
+      header('Location: /dashboard/usuarios');
       exit();
     }
 

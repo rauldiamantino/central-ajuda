@@ -212,7 +212,6 @@
   <script src="/js/dashboard/index.js"></script>
   <script src="/js/dashboard/empresas/index.js"></script>
   <script src="/js/dashboard/usuarios/index.js"></script>
-  <script src="/js/dashboard/usuarios/editar.js"></script>
   <script src="/js/dashboard/categorias/index.js"></script>
   <script src="/js/dashboard/categorias/organizar.js"></script>
   <script src="/js/dashboard/artigos/index.js"></script>

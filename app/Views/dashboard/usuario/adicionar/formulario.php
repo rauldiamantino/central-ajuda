@@ -45,10 +45,6 @@ $tipoUsuario = [
       <input type="text" id="usuario-editar-email" name="email" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="" required autocomplete="off">
     </div>
     <div class="w-full">
-      <label for="usuario-editar-telefone" class="block text-sm font-medium text-gray-700">Telefone</label>
-      <input type="text" id="usuario-editar-telefone" name="telefone" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" placeholder="00 00000 0000" value="">
-    </div>
-    <div class="w-full">
       <label for="usuario-editar-senha" class="block text-sm font-medium text-gray-700">Senha</label>
       <input type="password" id="usuario-editar-senha" name="senha" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" required autocomplete="off">
     </div>

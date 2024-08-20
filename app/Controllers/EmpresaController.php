@@ -23,6 +23,7 @@ class EmpresaController extends Controller
       'Empresa.nome',
       'Empresa.subdominio',
       'Empresa.cnpj',
+      'Empresa.telefone',
       'Empresa.criado',
       'Empresa.modificado',
     ];
@@ -75,6 +76,7 @@ class EmpresaController extends Controller
       'Empresa.nome',
       'Empresa.subdominio',
       'Empresa.cnpj',
+      'Empresa.telefone',
       'Empresa.criado',
       'Empresa.modificado',
     ];
@@ -105,6 +107,7 @@ class EmpresaController extends Controller
       'Empresa.nome',
       'Empresa.subdominio',
       'Empresa.cnpj',
+      'Empresa.telefone',
       'Empresa.criado',
       'Empresa.modificado',
     ];
