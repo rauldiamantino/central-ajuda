@@ -46,6 +46,44 @@ class EmpresaModel extends Model
       return $campos;
     }
 
+    // CNPJ duplicado
+    if (isset($campos['cnpj']) and $campos['cnpj'] !== null) {
+      $sql = 'SELECT `Empresa`.`id` AS `Empresa.id` FROM `empresas` AS `Empresa` WHERE `Empresa`.`cnpj` = ?';
+      $sqlParams = [ $campos['cnpj'] ];
+
+      $resultado = parent::executarQuery($sql, $sqlParams);
+
+      if (isset($resultado[0]['Empresa.id'])) {
+        $msgErro = [
+          'erro' => [
+            'codigo' => 400,
+            'mensagem' => 'O CNPJ <span class="font-semibold">' . $params['cnpj'] . '</span> não pode ser utilizado, pois está associado a outro cadastro',
+          ],
+        ];
+
+        return $msgErro;
+      }
+    }
+
+    // Subdomínio duplicado
+    if (isset($campos['subdominio']) and $params['subdominio'] !== null) {
+      $sql = 'SELECT `Empresa`.`id` AS `Empresa.id` FROM `empresas` AS `Empresa` WHERE `Empresa`.`subdominio` = ?';
+      $sqlParams = [ $campos['subdominio'] ];
+
+      $resultado = parent::executarQuery($sql, $sqlParams);
+
+      if (isset($resultado[0]['Empresa.id'])) {
+        $msgErro = [
+          'erro' => [
+            'codigo' => 400,
+            'mensagem' => 'O subdomínio <span class="font-semibold">' . $campos['subdominio'] . '</span> não está disponível',
+          ],
+        ];
+
+        return $msgErro;
+      }
+    }
+
     return parent::atualizar($campos, $id);
   }
 
@@ -140,6 +178,9 @@ class EmpresaModel extends Model
       if (strlen($campos['subdominio']) > $subdominioCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('subdominio', 'caracteres', $subdominioCaracteres);
       }
+
+      $campos['cnpj'] = trim($campos['cnpj']);
+      $campos['subdominio'] = trim($campos['subdominio']);
     }
 
     if ($msgErro['erro']['mensagem']) {
@@ -164,6 +205,10 @@ class EmpresaModel extends Model
 
     if (isset($camposValidados['cnpj']) and empty($camposValidados['cnpj'])) {
       $camposValidados['cnpj'] = null;
+    }
+
+    if (isset($camposValidados['subdominio']) and empty($camposValidados['subdominio'])) {
+      $camposValidados['subdominio'] = null;
     }
 
     if (empty($camposValidados)) {
