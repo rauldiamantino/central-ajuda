@@ -5,6 +5,7 @@ use app\Controllers\ViewRenderer;
 use app\Models\CategoriaModel;
 use app\Models\ArtigoModel;
 use app\Models\ConteudoModel;
+use app\Models\EmpresaModel;
 
 class PublicoController extends Controller
 {
@@ -13,6 +14,7 @@ class PublicoController extends Controller
   protected $categoriaModel;
   protected $artigoModel;
   protected $conteudoModel;
+  protected $empresaModel;
   protected $visao;
 
   public function __construct()
@@ -21,7 +23,20 @@ class PublicoController extends Controller
     $this->categoriaModel = new CategoriaModel();
     $this->artigoModel = new ArtigoModel();
     $this->conteudoModel = new ConteudoModel();
+    $this->empresaModel = new EmpresaModel();
     $this->visao = new ViewRenderer('/publico');
+
+    // Botão do WhatsApp
+    $telefoneEmpresa = intval($_SESSION['empresaTelefone'] ?? 0);
+
+    if ($telefoneEmpresa == 0) {
+      $resultado = $this->empresaModel->buscar(['Empresa.telefone']);
+      $telefoneEmpresa = intval($resultado[0]['Empresa.telefone'] ?? 0);
+
+      $_SESSION['empresaTelefone'] = $telefoneEmpresa;
+    }
+
+    $this->visao->variavel('telefoneEmpresa', $telefoneEmpresa);
   }
 
   public function publicoCategoriasVer()
