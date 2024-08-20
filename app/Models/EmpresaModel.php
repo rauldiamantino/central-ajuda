@@ -48,8 +48,12 @@ class EmpresaModel extends Model
 
     // CNPJ duplicado
     if (isset($campos['cnpj']) and $campos['cnpj'] !== null) {
-      $sql = 'SELECT `Empresa`.`id` AS `Empresa.id` FROM `empresas` AS `Empresa` WHERE `Empresa`.`cnpj` = ?';
-      $sqlParams = [ $campos['cnpj'] ];
+      $sql = 'SELECT `Empresa`.`id` AS `Empresa.id` FROM `empresas` AS `Empresa` WHERE `Empresa`.`id` != ? AND `Empresa`.`cnpj` = ?';
+
+      $sqlParams = [ 
+        0 => $id,
+        1 => $campos['cnpj'],
+      ];
 
       $resultado = parent::executarQuery($sql, $sqlParams);
 
@@ -67,8 +71,11 @@ class EmpresaModel extends Model
 
     // Subdomínio duplicado
     if (isset($campos['subdominio']) and $params['subdominio'] !== null) {
-      $sql = 'SELECT `Empresa`.`id` AS `Empresa.id` FROM `empresas` AS `Empresa` WHERE `Empresa`.`subdominio` = ?';
-      $sqlParams = [ $campos['subdominio'] ];
+      $sql = 'SELECT `Empresa`.`id` AS `Empresa.id` FROM `empresas` AS `Empresa` WHERE `Empresa`.`id` != ? AND `Empresa`.`subdominio` = ?';
+      $sqlParams = [ 
+        0 => $id,
+        1 => $campos['subdominio'],
+      ];
 
       $resultado = parent::executarQuery($sql, $sqlParams);
 
@@ -84,7 +91,11 @@ class EmpresaModel extends Model
       }
     }
 
-    return parent::atualizar($campos, $id);
+    $retorno = parent::atualizar($campos, $id);
+    
+    $_SESSION['usuario']['subdominio'] = $campos['subdominio'] ?? '';
+
+    return $retorno;
   }
 
   public function apagar(int $id): array

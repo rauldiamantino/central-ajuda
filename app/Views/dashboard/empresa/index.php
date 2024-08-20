@@ -9,6 +9,9 @@
   <div class="w-full flex gap-4">
     <div class="w-full flex flex-col gap-2">
       <?php require_once 'formulario.php' ?>
+      <?php if ($empresa['Empresa.subdominio']) { ?>
+        <div class="p-4 w-full border-b border-slate-200 text-gray-900 text-center text-sm">Divulgue o endereço <span class="text-xl text-red-700"><?php echo $empresa['Empresa.subdominio'] ?? ''?>.luminaon.com.br</span></div>
+      <?php } ?>
     </div>
     <div class="w-full"></div>
   </div>

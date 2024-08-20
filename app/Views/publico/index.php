@@ -19,7 +19,6 @@
     </div>
   </main>
   <?php require_once 'template/rodape.php' ?>
-
   <script src="/js/publico/index.js"></script>
 </body>
 </html>
