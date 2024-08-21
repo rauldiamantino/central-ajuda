@@ -1,4 +1,4 @@
-<form action="/publico/buscar" method="GET" class="w-full flex justify-center">
+<form action="/p/<?php echo $subdominio ?>/buscar" method="GET" class="w-full flex justify-center">
   <div class="w-full relative">
     <input type="text" name="texto_busca" id="texto_busca" placeholder="Descreva sua dúvida..." class="w-full border border-gray-300 py-2 px-6 text-sm rounded outline-0">
     <button type="submit" class="p-1 flex items-center justify-center absolute top-0 bottom-0 right-3 text-gray-400 border-gray-200">

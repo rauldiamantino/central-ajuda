@@ -25,6 +25,6 @@
     </div>
   </main>
   <?php require_once 'template/rodape.php' ?>
-  <script src="/js/publico/index.js"></script>
+  <script src="/public/js/publico/index.js"></script>
 </body>
 </html>

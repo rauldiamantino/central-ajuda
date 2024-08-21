@@ -14,6 +14,7 @@ class PublicoController extends Controller
   protected $artigoModel;
   protected $conteudoModel;
   protected $empresaModel;
+  protected $subdominio;
   protected $visao;
 
   public function __construct()
@@ -34,7 +35,9 @@ class PublicoController extends Controller
 
       $_SESSION['empresaTelefone'] = $telefoneEmpresa;
     }
-
+    
+    $this->subdominio = $_SESSION['subdominio'] ?? null;
+    $this->visao->variavel('subdominio', $this->subdominio);
     $this->visao->variavel('telefoneEmpresa', $telefoneEmpresa);
   }
 
@@ -47,9 +50,9 @@ class PublicoController extends Controller
 
     $resultado = $this->categoriaModel->ordem(['Categoria.ordem' => 'ASC'])
                                       ->buscar($colunas);
-    
-    if (isset($resultado[0]['Categoria.id'])) {
-      header('Location: /publico/categoria/' . $resultado[0]['Categoria.id']);
+
+    if (isset($resultado[0]['Categoria.id']) and isset($this->subdominio)) {
+      header('Location: /p/' . $this->subdominio . '/categoria/' . $resultado[0]['Categoria.id']);
       exit;
     }
 
@@ -71,7 +74,7 @@ class PublicoController extends Controller
     if (! isset($categorias[0]['Categoria.id'])) {
       $categorias = [];
     }
-    
+
     $condicoes = [
       'Artigo.categoria_id' => (int) $id,
     ];

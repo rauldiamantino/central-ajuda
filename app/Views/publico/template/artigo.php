@@ -1,9 +1,9 @@
 <div class="w-full flex flex-col px-12 py-14">
   <div class="pb-6 border-b border-slate-200 flex gap-2 font-light text-sm publico-migalhas">
-    <a href="/publico" class="hover:underline">Início</a>
+    <a href="/p/<?php echo $subdominio ?>" class="hover:underline">Início</a>
     <?php if (isset($artigo['Categoria.nome'])) { ?>
       <span>></span>
-      <a href="/publico/categoria/<?php echo $artigo['Artigo.categoria_id'] ?>" class="hover:underline"><?php echo $artigo['Categoria.nome'] ?></a>
+      <a href="/p/<?php echo $subdominio ?>/categoria/<?php echo $artigo['Artigo.categoria_id'] ?>" class="hover:underline"><?php echo $artigo['Categoria.nome'] ?></a>
     <?php } ?>
     <span>></span>
     <span class="underline"><?php echo $artigo['Artigo.titulo'] ?></span>
@@ -44,7 +44,7 @@
             <?php if ($linha['Conteudo.titulo_ocultar'] == 0) { ?>
               <h2><?php echo $linha['Conteudo.titulo'] ?></h2>
             <?php } ?>
-            <img src="/<?php echo $linha['Conteudo.url'] ?>" alt="">
+            <img src="/public/<?php echo $linha['Conteudo.url'] ?>" alt="">
           </div>
         <?php } ?>
 
@@ -59,12 +59,3 @@
       <?php endforeach; ?>
     <?php } ?>
   </div>
-  <!-- <div id="player"></div>
-    <div class="w-full p-10 flex flex-col gap-4 items-center justify-center publico-artigo-feedback">
-      <h3>Este artigo foi útil?</h3>
-      <div class="w-full flex justify-center gap-5">
-        <span class="publico-artigo-feedback-sim">Sim</span>
-        <span class="publico-artigo-feedback-nao">Não</span>
-      </div>
-    </div>
-  </div> -->

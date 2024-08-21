@@ -9,7 +9,8 @@ class BuscaController extends Controller
   protected $visao;
   protected $artigoModel;
   protected $empresaModel;
-  
+  protected $subdominio;
+
   public function __construct()
   {
     $this->visao = new ViewRenderer('/publico');;
@@ -26,6 +27,8 @@ class BuscaController extends Controller
       $_SESSION['empresaTelefone'] = $telefoneEmpresa;
     }
 
+    $this->subdominio = $_SESSION['subdominio'] ?? null;
+    $this->visao->variavel('subdominio', $this->subdominio);
     $this->visao->variavel('telefoneEmpresa', $telefoneEmpresa);
   }
 

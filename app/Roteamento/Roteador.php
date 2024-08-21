@@ -44,11 +44,11 @@ class Roteador
       'GET:/dashboard/usuario/adicionar' => [UsuarioController::class, 'usuarioAdicionarVer'],
       'GET:/dashboard/empresa/editar' => [EmpresaController::class, 'empresaEditarVer'],
       
-      'GET:/publico' => [PublicoController::class, 'publicoCategoriasVer'],
-      'GET:/publico/categoria/{id}' => [PublicoController::class, 'publicoCategoriaVer'],
-      'GET:/publico/artigo/{id}' => [PublicoController::class, 'publicoArtigoVer'],
-      'POST:/publico/buscar' => [BuscaController::class, 'buscarArtigos'],
-      'GET:/publico/buscar' => [BuscaController::class, 'buscarArtigos'],
+      'GET:/p/{subdominio}' => [PublicoController::class, 'publicoCategoriasVer'],
+      'GET:/p/{subdominio}/categoria/{id}' => [PublicoController::class, 'publicoCategoriaVer'],
+      'GET:/p/{subdominio}/artigo/{id}' => [PublicoController::class, 'publicoArtigoVer'],
+      'POST:/p/{subdominio}/buscar' => [BuscaController::class, 'buscarArtigos'],
+      'GET:/p/{subdominio}/buscar' => [BuscaController::class, 'buscarArtigos'],
 
       'GET:/login' => [LoginController::class, 'loginVer'],
       'GET:/cadastro' => [CadastroController::class, 'cadastroVer'],
@@ -99,17 +99,27 @@ class Roteador
       $metodo = strtoupper($metodoOculto);
     }
 
+    // Subdomínio
+    $partesUrl = explode('/', $url);
+    $subdominio = '';
+    $subdominioLigado = false;
+
+    if (count($partesUrl) >= 3 and $partesUrl[1] == 'p') {
+      $subdominioLigado = true;
+      $subdominio = $partesUrl[2];
+    }
+
     $chaveRota = $metodo . ':' . $url;
     $id = (int) basename($url);
     $chaveRota = str_replace($id, '{id}', $chaveRota);
 
-    // Subdomínio
-    $host = $_SERVER['HTTP_HOST'] ?? '';
-    $partes = explode('.', $host);
-    $subdominio = $partes[0] ?? '';
+    if ($subdominioLigado) {
+      $chaveRota = str_replace($subdominio, '{subdominio}', $chaveRota);
+    }
+
     $empresa_id = 0;
 
-    if (count($partes) == 2 and strpos($chaveRota, '/publico')) {
+    if ($subdominioLigado) {
       $sql = 'SELECT
                 `Empresa`.`id` 
               FROM
@@ -143,11 +153,11 @@ class Roteador
     }
 
     // Demais rotas apenas se for para a mesma empresa ID do usuário
-    if (isset($_SESSION['usuario']['empresa_id']) and isset($_SESSION['empresa_id'])) {
+    $sessaoUsuarioEmpresaId = intval($_SESSION['usuario']['empresa_id'] ?? 0);
+    $sessaoEmpresaId = intval($_SESSION['empresa_id'] ?? 0);
 
-      if (intval($_SESSION['usuario']['empresa_id']) > 0 and intval($_SESSION['empresa_id']) > 0) {
-        $empresa_id = intval($_SESSION['empresa_id']);
-      }
+    if ($subdominioLigado == false or $subdominio == 'ver' and $sessaoUsuarioEmpresaId > 0 and $sessaoEmpresaId > 0) {
+      $empresa_id = $sessaoUsuarioEmpresaId;
     }
 
     if ($empresa_id == 0) {
@@ -165,6 +175,7 @@ class Roteador
     }
 
     $_SESSION['empresa_id'] = $empresa_id;
+    $_SESSION['subdominio'] = $subdominio;
 
     if (isset($this->rotas[ $chaveRota ])) {
       $rota = $this->rotas[ $chaveRota ];

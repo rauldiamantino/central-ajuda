@@ -1,7 +1,7 @@
 <?php $categoriaNome = $artigos[0]['Categoria.nome'] ?? ''; ?>
 <div class="w-full flex flex-col px-12 py-14">
   <div class="pb-6 border-b border-slate-200 flex gap-2 font-light text-sm publico-migalhas">
-    <a href="/publico" class="hover:underline">Início</a>
+    <a href="/p/<?php echo $subdominio ?>" class="hover:underline">Início</a>
     <span>></span>
     <span class="underline"><?php echo $categoriaNome ?></span>
   </div>
@@ -15,7 +15,7 @@
       <ul class="leading-9">
         <?php foreach ($artigos as $chave => $linha) : ?>
           <li class="ml-4 list-disc">
-            <a href="/publico/artigo/<?php echo $linha['Artigo.id'] ?>" class="hover:underline"><?php echo $linha['Artigo.titulo'] ?></a>
+            <a href="/p/<?php echo $subdominio ?>/artigo/<?php echo $linha['Artigo.id'] ?>" class="hover:underline"><?php echo $linha['Artigo.titulo'] ?></a>
           </li>
         <?php endforeach; ?>
       </ul>

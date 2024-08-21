@@ -30,7 +30,7 @@
       <a href="/dashboard/artigos" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Cancelar</a>
       <button type="submit" class="flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg">Gravar</button>
     </div>
-    <a href="/publico/artigo/<?php echo $artigo['Artigo.id'] ?>" target="_blank" class="w-max flex gap-2 items-center justify-center py-2 px-4 border border-blue-800 hover:border-blue-600 text-blue-800 text-xs rounded-lg">
+    <a href="/p/ver/artigo/<?php echo $artigo['Artigo.id'] ?>" target="_blank" class="w-max flex gap-2 items-center justify-center py-2 px-4 border border-blue-800 hover:border-blue-600 text-blue-800 text-xs rounded-lg">
       Visualizar
     </a>
   </div>
