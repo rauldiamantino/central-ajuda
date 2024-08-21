@@ -71,6 +71,7 @@ class BuscaController extends Controller
 
     $ordem = [
       'Artigo.modificado' => 'DESC',
+      'Categoria.nome' => 'DESC',
       'Artigo.criado' => 'DESC',
       'Artigo.ordem' => 'ASC',
     ];
