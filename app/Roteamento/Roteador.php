@@ -1,7 +1,6 @@
 <?php
 namespace app\Roteamento;
 use app\Controllers\TesteController;
-use app\Controllers\BuscaController;
 use app\Controllers\AjusteController;
 use app\Controllers\LoginController;
 use app\Controllers\CadastroController;
@@ -13,6 +12,9 @@ use app\Controllers\ArtigoController;
 use app\Controllers\ConteudoController;
 use app\Controllers\CategoriaController;
 use app\Controllers\PublicoController;
+use app\Controllers\PublicoCategoriaController;
+use app\Controllers\PublicoBuscaController;
+use app\Controllers\PublicoArtigoController;
 use app\Controllers\PaginaErroController;
 use app\Models\Model;
 
@@ -44,11 +46,11 @@ class Roteador
       'GET:/dashboard/usuario/adicionar' => [UsuarioController::class, 'usuarioAdicionarVer'],
       'GET:/dashboard/empresa/editar' => [EmpresaController::class, 'empresaEditarVer'],
       
-      'GET:/p/{subdominio}' => [PublicoController::class, 'publicoCategoriasVer'],
-      'GET:/p/{subdominio}/categoria/{id}' => [PublicoController::class, 'publicoCategoriaVer'],
-      'GET:/p/{subdominio}/artigo/{id}' => [PublicoController::class, 'publicoArtigoVer'],
-      'POST:/p/{subdominio}/buscar' => [BuscaController::class, 'buscarArtigos'],
-      'GET:/p/{subdominio}/buscar' => [BuscaController::class, 'buscarArtigos'],
+      'GET:/p/{subdominio}' => [PublicoController::class, 'publicoVer'],
+      'GET:/p/{subdominio}/categoria/{id}' => [PublicoCategoriaController::class, 'categoriaVer'],
+      'GET:/p/{subdominio}/artigo/{id}' => [PublicoArtigoController::class, 'artigoVer'],
+      'POST:/p/{subdominio}/buscar' => [PublicoBuscaController::class, 'buscarArtigos'],
+      'GET:/p/{subdominio}/buscar' => [PublicoBuscaController::class, 'buscarArtigos'],
 
       'GET:/login' => [LoginController::class, 'loginVer'],
       'GET:/cadastro' => [CadastroController::class, 'cadastroVer'],

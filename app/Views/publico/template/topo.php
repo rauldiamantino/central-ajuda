@@ -5,7 +5,7 @@
       <h2 class="text-xl font-light tracking-tighter">central de ajuda</h2>
     </div>
     <div class="w-6/12 h-20 flex flex-col justify-center">
-      <?php require_once 'busca.php' ?>
+      <?php require_once 'formulario-busca.php' ?>
     </div>
   </div>
 </header>

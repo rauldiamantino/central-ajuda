@@ -4,7 +4,7 @@ use app\Controllers\ViewRenderer;
 use app\Models\ArtigoModel;
 use app\Models\EmpresaModel;
 
-class BuscaController extends Controller
+class PublicoBuscaController extends PublicoController
 {
   protected $visao;
   protected $artigoModel;
@@ -13,23 +13,11 @@ class BuscaController extends Controller
 
   public function __construct()
   {
-    $this->visao = new ViewRenderer('/publico');;
+    parent::__construct();
+    
     $this->artigoModel = new ArtigoModel();
     $this->empresaModel = new EmpresaModel();
 
-    // Botão do WhatsApp
-    $telefoneEmpresa = intval($_SESSION['empresaTelefone'] ?? 0);
-
-    if ($telefoneEmpresa == 0) {
-      $resultado = $this->empresaModel->buscar(['Empresa.telefone']);
-      $telefoneEmpresa = intval($resultado[0]['Empresa.telefone'] ?? 0);
-
-      $_SESSION['empresaTelefone'] = $telefoneEmpresa;
-    }
-
-    $this->subdominio = $_SESSION['subdominio'] ?? null;
-    $this->visao->variavel('subdominio', $this->subdominio);
-    $this->visao->variavel('telefoneEmpresa', $telefoneEmpresa);
   }
 
   public function buscarArtigos()
@@ -110,7 +98,7 @@ class BuscaController extends Controller
     $this->visao->variavel('textoBusca', $textoBusca);
     $this->visao->variavel('resultadoBuscar', $resultadoBuscar);
     $this->visao->variavel('titulo', 'Buscar');
-    $this->visao->renderizar('/index');
+    $this->visao->renderizar('/busca/index');
   }
 
   public function atualizar()
