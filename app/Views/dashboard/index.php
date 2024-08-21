@@ -111,6 +111,7 @@
               <?php } ?>
               <?php // Limpa notificações ?>
               <?php $_SESSION['erro'] = null; ?>
+              <?php $_SESSION['ok'] = null; ?>
             </div>
           </div>
         </div>

@@ -1,6 +1,7 @@
 <?php
 namespace app\Roteamento;
 use app\Controllers\TesteController;
+use app\Controllers\AjusteController;
 use app\Controllers\LoginController;
 use app\Controllers\CadastroController;
 use app\Controllers\UsuarioController;
@@ -29,6 +30,7 @@ class Roteador
       'GET:/teste' => [TesteController::class, 'testar'],
       'GET:/erro' => [PaginaErroController::class, 'erroVer'],
       'GET:/dashboard' => [DashboardController::class, 'dashboardVer'],
+      'GET:/dashboard/ajustes' => [AjusteController::class, 'ajustesVer'],
       'GET:/dashboard/artigos' => [ArtigoController::class, 'artigosVer'],
       'GET:/dashboard/artigo/editar/{id}' => [ArtigoController::class, 'artigoEditarVer'],
       'GET:/dashboard/artigo/adicionar' => [ArtigoController::class, 'artigoAdicionarVer'],
@@ -86,6 +88,8 @@ class Roteador
 
       'GET:/empresas/cadastro/{id}' => [EmpresaCadastroController::class, 'buscar'],
       'POST:/empresas/cadastro' => [EmpresaCadastroController::class, 'adicionar'],
+      
+      'PUT:/ajustes' => [AjusteController::class, 'atualizar'],
     ];
   }
 

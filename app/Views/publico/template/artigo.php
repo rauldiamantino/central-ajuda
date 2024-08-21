@@ -1,8 +1,9 @@
 <?php 
-$textoAutor = '';
-
-if(buscarAjuste('artigo_autor') == 1) {
+if ($this->ajustes('artigo_autor') == 1) {
   $textoAutor = 'por <span class="font-semibold">' . $artigo['Usuario.nome'] . '</span>';
+}
+else {
+  $textoAutor = '';
 }
 ?>
 

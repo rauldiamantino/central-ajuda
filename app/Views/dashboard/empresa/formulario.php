@@ -27,7 +27,7 @@
       <input type="text" id="empresa-editar-telefone" name="telefone" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" placeholder="00 00000 0000" value="<?php echo $empresa['Empresa.telefone']; ?>">
     </div>
   </div>
-  <div class="flex gap-4">
+  <div class="flex gap-2">
     <a href="/dashboard" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Cancelar</a>
     <button type="submit" class="flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg">Gravar</button>
   </div>

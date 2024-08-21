@@ -85,5 +85,6 @@ CREATE TABLE `ajustes` (
   `empresa_id` int NOT NULL,
   `criado` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `modificado` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_nome_empresa` (`nome`,`empresa_id`)
 )

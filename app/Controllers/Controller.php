@@ -67,6 +67,6 @@ class Controller
     $resultado = $ajusteModel->condicao($condicoes)
                              ->buscar($colunas);
 
-    return $resultado;
+    return intval($resultado[0]['Ajuste.ativo'] ?? 0);
   }
 }
