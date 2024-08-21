@@ -52,7 +52,7 @@ class Controller
     exit;
   }
 
-  public function ajustes(string $nome)
+  public function buscarAjuste(string $nome)
   {
     $ajusteModel = new Model('Ajuste');
 
