@@ -9,7 +9,6 @@ use app\Models\EmpresaModel;
 
 class PublicoController extends Controller
 {
-  protected $middleware;
   protected $publicoModel;
   protected $categoriaModel;
   protected $artigoModel;

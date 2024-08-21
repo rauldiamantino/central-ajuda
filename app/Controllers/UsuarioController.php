@@ -5,8 +5,8 @@ use app\Controllers\ViewRenderer;
 
 class UsuarioController extends Controller
 {
-  protected $usuarioModel;
   protected $visao;
+  protected $usuarioModel;
 
   public function __construct()
   {
@@ -63,67 +63,6 @@ class UsuarioController extends Controller
     $this->visao->renderizar('/index');
   }
 
-  public function adicionar(array $params = []): array
-  {
-    $dados = $params;
-
-    if (empty($params)) {
-      $dados = $this->receberJson();
-    }
-
-    // Adiciona usuário
-    $resultado = $this->usuarioModel->adicionar($dados);
-
-    // Requisição interna
-    if ($params and isset($resultado['erro'])) {
-      return $resultado;
-    }
-    elseif ($params and isset($resultado['id'])) {
-      $condicao = [
-        'Usuario.id' => $resultado['id'],
-      ];
-
-      $colunas = [
-        'Usuario.id',
-        'Usuario.ativo',
-        'Usuario.nivel',
-        'Usuario.empresa_id',
-        'Usuario.padrao',
-        'Usuario.nome',
-        'Usuario.email',
-        'Usuario.criado',
-        'Usuario.modificado',
-      ];
-
-      $usuario = $this->usuarioModel->condicao($condicao)
-                                    ->buscar($colunas);
-      
-      return reset($usuario);
-    }
-
-    // Formulário via POST
-    if ($_POST and isset($resultado['erro'])) {
-      $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
-
-     header('Location: /dashboard/usuario/adicionar');
-      exit();
-    }
-    elseif ($_POST and isset($resultado['id'])) { 
-      $_SESSION['ok'] = 'Usuário criado com sucesso';
-
-      header('Location: /dashboard/usuarios');
-      exit();
-    }
-    
-    // Formulário via Fetch
-    if (isset($resultado['erro'])) {
-      $codigo = $resultado['erro']['codigo'] ?? 500;
-      $this->responderJson($resultado, $codigo);
-    }
-
-    $this->responderJson($resultado);
-  }
-
   public function usuarioEditarVer(int $id)
   {
     $id = (int) $id;
@@ -165,90 +104,53 @@ class UsuarioController extends Controller
     $this->visao->renderizar('/adicionar/index');
   }
 
-  public function buscar(int $id = 0)
+  public function adicionar(): array
   {
-    $condicao = [];
-
-    if ($id) {
-      $condicao = [
-        'Usuario.id' => $id,
-      ];
-    }
-
-    $colunas = [
-      'Usuario.id',
-      'Usuario.ativo',
-      'Usuario.nivel',
-      'Usuario.empresa_id',
-      'Usuario.padrao',
-      'Usuario.nome',
-      'Usuario.email',
-      'Usuario.criado',
-      'Usuario.modificado',
-    ];
-
-    $resultado = $this->usuarioModel->condicao($condicao)
-                                    ->buscar($colunas);
+    $dados = $this->receberJson();
+    $resultado = $this->usuarioModel->adicionar($dados);
 
     if (isset($resultado['erro'])) {
-      $codigo = $resultado['erro']['codigo'] ?? 500;
-      $this->responderJson($resultado, $codigo);
-    }
+      $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
-    if ($id and count($resultado) == 1) {
-      $resultado = reset($resultado);
+      header('Location: /dashboard/usuario/adicionar');
+      exit();
     }
-
-    $this->responderJson($resultado);
+    
+    $_SESSION['ok'] = 'Usuário criado com sucesso';
+    header('Location: /dashboard/usuarios');
+    exit();
   }
 
   public function atualizar(int $id)
   {
     $json = $this->receberJson();
-
     $resultado = $this->usuarioModel->atualizar($json, $id);
 
-    if ($_POST and isset($resultado['erro'])) { 
+    if (isset($resultado['erro'])) { 
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
      header('Location: /dashboard/usuario/editar/' . $id);
       exit();
     }
-    elseif ($_POST) { 
-      $_SESSION['ok'] = 'Registro alterado com sucesso';
 
-      header('Location: /dashboard/usuarios');
-      exit();
-    }
+    $_SESSION['ok'] = 'Registro alterado com sucesso';
 
-    if (isset($resultado['erro'])) {
-      $codigo = $resultado['erro']['codigo'] ?? 500;
-      $this->responderJson($resultado, $codigo);
-    }
-
-    $this->responderJson($resultado);
+    header('Location: /dashboard/usuarios');
+    exit();
   }
 
-  public function apagar(int $id, bool $rollback = false)
+  public function apagar(int $id)
   {
     $resultado = $this->usuarioModel->apagarUsuario($id);
 
-    if ($rollback and isset($resultado['erro'])) {
-      return $resultado;
-    }
-    elseif (isset($resultado['erro'])) {
+    if (isset($resultado['erro'])) {
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
       $codigo = $resultado['erro']['codigo'] ?? 500;
       $this->responderJson($resultado, $codigo);
     }
 
-    if ($rollback) {
-      return $resultado;
-    }
-
     $_SESSION['ok'] = 'Usuário excluído com sucesso';
-
     $this->responderJson($resultado);
   }
 }

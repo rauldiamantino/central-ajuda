@@ -237,6 +237,10 @@ class EmpresaModel extends Model
       $camposValidados['subdominio'] = null;
     }
 
+    if (isset($camposValidados['ativo'])) {
+      unset($camposValidados['ativo']);
+    }
+
     if (empty($camposValidados)) {
       $msgErro['erro']['mensagem'][] = 'Nenhum campo informado';
 

@@ -272,42 +272,9 @@ class ArtigoController extends Controller
 
   public function adicionar(array $params = []): array
   {
-    $dados = $params;
-
-    if (empty($params)) {
-      $dados = $this->receberJson();
-    }
-
-    // Adiciona artigo
+    $dados = $this->receberJson();
     $resultado = $this->artigoModel->adicionar($dados);
 
-    // Requisição interna
-    if ($params and isset($resultado['erro'])) {
-      return $resultado;
-    }
-    elseif ($params and isset($resultado['id'])) {
-      $condicao = [
-        'Artigo.id' => $resultado['id'],
-      ];
-
-      $colunas = [
-        'Artigo.id',
-        'Artigo.ativo',
-        'Artigo.titulo',
-        'Artigo.usuario_id',
-        'Artigo.categoria_id',
-        'Artigo.visualizacoes',
-        'Artigo.criado',
-        'Artigo.modificado',
-      ];
-
-      $artigo = $this->artigoModel->condicao($condicao)
-                                  ->buscar($colunas);
-      
-      return reset($artigo);
-    }
-
-    // Formulário via POST
     if ($_POST and isset($resultado['erro'])) { 
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
@@ -320,14 +287,6 @@ class ArtigoController extends Controller
       header('Location: /dashboard/artigo/editar/' . $resultado['id']);
       exit();
     }
-    
-    // Formulário via Fetch
-    if (isset($resultado['erro'])) {
-      $codigo = $resultado['erro']['codigo'] ?? 500;
-      $this->responderJson($resultado, $codigo);
-    }
-
-    $this->responderJson($resultado);
   }
 
   public function buscar(int $id = 0)
@@ -378,29 +337,18 @@ class ArtigoController extends Controller
   public function atualizar(int $id)
   {
     $json = $this->receberJson();
-
-    // Atualiza artigo
     $resultado = $this->artigoModel->atualizar($json, $id);
 
-    if ($_POST and isset($resultado['erro'])) { 
+    if (isset($resultado['erro'])) { 
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
       header('Location: /dashboard/artigos');
       exit();
     }
-    elseif ($_POST) { 
-      $_SESSION['ok'] = 'Registro alterado com sucesso';
 
-      header('Location: /dashboard/artigo/editar/' . $id);
-      exit();
-    }
-
-    if (isset($resultado['erro'])) {
-      $codigo = $resultado['erro']['codigo'] ?? 500;
-      $this->responderJson($resultado, $codigo);
-    }
-
-    $this->responderJson($resultado);
+    $_SESSION['ok'] = 'Registro alterado com sucesso';
+    header('Location: /dashboard/artigo/editar/' . $id);
+    exit();
   }
 
   public function atualizarOrdem()
@@ -418,26 +366,18 @@ class ArtigoController extends Controller
     $this->responderJson($resultado);
   }
 
-  public function apagar(int $id, bool $rollback = false)
+  public function apagar(int $id)
   {
     $resultado = $this->artigoModel->apagar($id);
 
-    if ($rollback and isset($resultado['erro'])) {
-      return $resultado;
-    }
-    elseif (isset($resultado['erro'])) {
+    if (isset($resultado['erro'])) {
       $_SESSION['erro'] = $resultado['erro'];
 
       $codigo = $resultado['erro']['codigo'] ?? 500;
       $this->responderJson($resultado, $codigo);
     }
 
-    if ($rollback) {
-      return $resultado;
-    }
-
     $_SESSION['ok'] = 'Artigo excluído com sucesso';
-
     $this->responderJson($resultado);
   }
 }

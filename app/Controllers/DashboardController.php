@@ -5,7 +5,6 @@ use app\Controllers\ViewRenderer;
 
 class DashboardController extends Controller
 {
-  protected $middleware;
   protected $dashboardModel;
   protected $visao;
 

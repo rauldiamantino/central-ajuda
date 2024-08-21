@@ -128,62 +128,20 @@ class CategoriaController extends Controller
 
   public function adicionar(array $params = []): array
   {
-    $dados = $params;
-
-    if (empty($params)) {
-      $dados = $this->receberJson();
-    }
-
-    // Adicionar categoria
+    $dados = $this->receberJson();
     $resultado = $this->categoriaModel->adicionar($dados);
 
-    // Requisição interna
-    if ($params and isset($resultado['erro'])) {
-      return $resultado;
-    }
-    elseif ($params and isset($resultado['id'])) {
-      $condicao = [
-        'Categoria.id' => $resultado['id'],
-      ];
-  
-      $colunas = [
-        'Categoria.id',
-        'Categoria.ativo',
-        'Categoria.nome',
-        'Categoria.descricao',
-        'Categoria.criado',
-        'Categoria.modificado',
-      ];
-
-      $categoria = $this->categoriaModel->condicao($condicao)
-                                        ->buscar($colunas);
-
-      if ($params) {
-        return reset($categoria);
-      }
-    }
-
-    // Formulário via POST
-    if ($_POST and isset($resultado['erro'])) { 
+    if (isset($resultado['erro'])) { 
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
      header('Location: /dashboard/categorias');
       exit();
     }
-    elseif ($_POST and isset($resultado['id'])) { 
-      $_SESSION['ok'] = 'Categoria criada com sucesso';
+    
+    $_SESSION['ok'] = 'Categoria criada com sucesso';
 
-     header('Location: /dashboard/categorias');
-      exit();
-    }
-
-    // Formulário via Fetch
-    if (isset($resultado['erro'])) {
-      $codigo = $resultado['erro']['codigo'] ?? 500;
-      $this->responderJson($resultado, $codigo);
-    }
-
-    $this->responderJson($resultado);
+    header('Location: /dashboard/categorias');
+    exit();
   }
 
   public function buscar(int $id = 0)
@@ -214,29 +172,18 @@ class CategoriaController extends Controller
   public function atualizar(int $id)
   {
     $json = $this->receberJson();
-
-    // Adicionar categoria
     $resultado = $this->categoriaModel->atualizar($json, $id);
 
-    if ($_POST and isset($resultado['erro'])) {
+    if (isset($resultado['erro'])) {
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
      header('Location: /dashboard/categorias');
       exit();
     }
-    elseif ($_POST) { 
-      $_SESSION['ok'] = 'Registro alterado com sucesso';
 
-     header('Location: /dashboard/categorias');
-      exit();
-    }
-
-    if (isset($resultado['erro'])) {
-      $codigo = $resultado['erro']['codigo'] ?? 500;
-      $this->responderJson($resultado, $codigo);
-    }
-
-    $this->responderJson($resultado);
+    $_SESSION['ok'] = 'Registro alterado com sucesso';
+    header('Location: /dashboard/categorias');
+    exit();
   }
 
   public function atualizarOrdem()
@@ -254,26 +201,18 @@ class CategoriaController extends Controller
     $this->responderJson($resultado);
   }
 
-  public function apagar(int $id, bool $rollback = false)
+  public function apagar(int $id)
   {
     $resultado = $this->categoriaModel->apagarCategoria($id);
 
-    if ($rollback and isset($resultado['erro'])) {
-      return $resultado;
-    }
-    elseif (isset($resultado['erro'])) {
+    if (isset($resultado['erro'])) {
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
       $codigo = $resultado['erro']['codigo'] ?? 500;
       $this->responderJson($resultado, $codigo);
     }
 
-    if ($rollback) {
-      return $resultado;
-    }
-
     $_SESSION['ok'] = 'Categoria excluída com sucesso';
-
     $this->responderJson($resultado);
   }
 }
