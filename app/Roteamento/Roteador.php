@@ -1,6 +1,7 @@
 <?php
 namespace app\Roteamento;
 use app\Controllers\TesteController;
+use app\Controllers\BuscaController;
 use app\Controllers\AjusteController;
 use app\Controllers\LoginController;
 use app\Controllers\CadastroController;
@@ -90,6 +91,8 @@ class Roteador
       'POST:/empresas/cadastro' => [EmpresaCadastroController::class, 'adicionar'],
       
       'PUT:/ajustes' => [AjusteController::class, 'atualizar'],
+      'POST:/publico/buscar' => [BuscaController::class, 'buscarArtigos'],
+      'GET:/publico/buscar' => [BuscaController::class, 'buscarArtigos'],
     ];
   }
 
