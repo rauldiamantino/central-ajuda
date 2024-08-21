@@ -88,6 +88,11 @@ class ArtigoController extends Controller
                                    ->ordem($ordem)
                                    ->buscar($colunas);
 
+    // Evita ocultar tabela no filtro vazio
+    if (! isset($resultado[0]) and isset($_GET['categoria_id'])) {
+      $resultado['filtro'] = true;
+    }
+
     // Calcular início e fim do intervalo
     $intervaloInicio = 0;
     $intervaloFim = 0;
