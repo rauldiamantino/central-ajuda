@@ -5,11 +5,9 @@
             "app\\": "app/"
         },
         "files": [
-          [
-            "app/Config/app.php",
-            "app/Helpers/funcoes.php",
-            "app/Helpers/constantes.php"
-          ]
+          "app/Config/app.php",
+          "app/Helpers/funcoes.php",
+          "app/Helpers/constantes.php"
         ]
     },
     "authors": [
