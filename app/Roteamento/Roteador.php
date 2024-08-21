@@ -28,6 +28,7 @@ class Roteador
     $this->paginaErro = new PaginaErroController();
 
     $this->rotas = [
+      'PUT:/ajustes' => [AjusteController::class, 'atualizar'],
       'GET:/teste' => [TesteController::class, 'testar'],
       'GET:/erro' => [PaginaErroController::class, 'erroVer'],
       'GET:/dashboard' => [DashboardController::class, 'dashboardVer'],
@@ -46,6 +47,8 @@ class Roteador
       'GET:/publico' => [PublicoController::class, 'publicoCategoriasVer'],
       'GET:/publico/categoria/{id}' => [PublicoController::class, 'publicoCategoriaVer'],
       'GET:/publico/artigo/{id}' => [PublicoController::class, 'publicoArtigoVer'],
+      'POST:/publico/buscar' => [BuscaController::class, 'buscarArtigos'],
+      'GET:/publico/buscar' => [BuscaController::class, 'buscarArtigos'],
 
       'GET:/login' => [LoginController::class, 'loginVer'],
       'GET:/cadastro' => [CadastroController::class, 'cadastroVer'],
@@ -79,20 +82,10 @@ class Roteador
       'PUT:/usuario/{id}' => [UsuarioController::class, 'atualizar'],
       'DELETE:/usuario/{id}' => [UsuarioController::class, 'apagar'],
 
-      'GET:/empresas' => [EmpresaController::class, 'buscar'],
-      'GET:/empresa/{id}' => [EmpresaController::class, 'buscar'],
-      'POST:/empresa' => [EmpresaController::class, 'adicionar'],
-      'PUT:/empresa/{id}' => [EmpresaController::class, 'atualizar'],
-      'DELETE:/empresa/{id}' => [EmpresaController::class, 'apagar'],
-
-      'POST:/cadastro' => [CadastroController::class, 'adicionar'],
-
       'GET:/empresas/cadastro/{id}' => [EmpresaCadastroController::class, 'buscar'],
       'POST:/empresas/cadastro' => [EmpresaCadastroController::class, 'adicionar'],
-      
-      'PUT:/ajustes' => [AjusteController::class, 'atualizar'],
-      'POST:/publico/buscar' => [BuscaController::class, 'buscarArtigos'],
-      'GET:/publico/buscar' => [BuscaController::class, 'buscarArtigos'],
+      'POST:/cadastro' => [CadastroController::class, 'adicionar'],
+      'PUT:/empresa/{id}' => [EmpresaController::class, 'atualizar'],
     ];
   }
 
