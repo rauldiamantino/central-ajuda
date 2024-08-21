@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<?php
-
-use app\Controllers\ViewRenderer;
-
- require_once 'template/cabecalho.php' ?>
+<?php require_once 'template/cabecalho.php' ?>
 <body class="min-h-screen max-w-screen flex flex-col gap-4 font-normal">
   <?php require_once 'template/topo.php' ?>
   <main class="w-full min-h-screen flex flex-col gap-4 items-center">

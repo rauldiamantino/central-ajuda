@@ -9,5 +9,3 @@
     </a>
     <?php } ?>
   </footer>
-
-  <?php debug($this::ajuste('artigo_autor')); ?>
