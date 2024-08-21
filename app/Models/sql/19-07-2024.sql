@@ -39,14 +39,14 @@ CREATE TABLE `artigos` (
   `visualizacoes` int DEFAULT '0',
   `ordem` int NOT NULL,
   `criado` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `modificado` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `modificado` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `usuario_id` (`usuario_id`),
   KEY `categoria_id` (`categoria_id`),
+  KEY `titulo` (`titulo`),
   CONSTRAINT `artigos_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`),
   CONSTRAINT `artigos_ibfk_2` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`)
 )
-
 CREATE TABLE `conteudos` (
   `id` int NOT NULL AUTO_INCREMENT,
   `ativo` int DEFAULT '0',
