@@ -8,7 +8,7 @@ use app\Controllers\UsuarioController;
 use app\Controllers\EmpresaController;
 use app\Controllers\EmpresaCadastroController;
 use app\Controllers\DashboardController;
-use app\Controllers\ArtigoController;
+use app\Controllers\DashboardArtigoController;
 use app\Controllers\ConteudoController;
 use app\Controllers\CategoriaController;
 use app\Controllers\PublicoController;
@@ -35,9 +35,9 @@ class Roteador
       'GET:/erro' => [PaginaErroController::class, 'erroVer'],
       'GET:/dashboard' => [DashboardController::class, 'dashboardVer'],
       'GET:/dashboard/ajustes' => [AjusteController::class, 'ajustesVer'],
-      'GET:/dashboard/artigos' => [ArtigoController::class, 'artigosVer'],
-      'GET:/dashboard/artigo/editar/{id}' => [ArtigoController::class, 'artigoEditarVer'],
-      'GET:/dashboard/artigo/adicionar' => [ArtigoController::class, 'artigoAdicionarVer'],
+      'GET:/dashboard/artigos' => [DashboardArtigoController::class, 'artigosVer'],
+      'GET:/dashboard/artigo/editar/{id}' => [DashboardArtigoController::class, 'artigoEditarVer'],
+      'GET:/dashboard/artigo/adicionar' => [DashboardArtigoController::class, 'artigoAdicionarVer'],
       'GET:/dashboard/categorias' => [CategoriaController::class, 'categoriasVer'],
       'GET:/dashboard/categoria/editar/{id}' => [CategoriaController::class, 'categoriaEditarVer'],
       'GET:/dashboard/categoria/adicionar' => [CategoriaController::class, 'categoriaAdicionarVer'],
@@ -57,12 +57,12 @@ class Roteador
       'POST:/login' => [LoginController::class, 'login'],
       'GET:/logout' => [LoginController::class, 'logout'],
 
-      'GET:/artigos' => [ArtigoController::class, 'buscar'],
-      'GET:/artigo/{id}' => [ArtigoController::class, 'buscar'],
-      'POST:/artigo' => [ArtigoController::class, 'adicionar'],
-      'PUT:/artigo/{id}' => [ArtigoController::class, 'atualizar'],
-      'PUT:/artigo/ordem' => [ArtigoController::class, 'atualizarOrdem'],
-      'DELETE:/artigo/{id}' => [ArtigoController::class, 'apagar'],
+      'GET:/artigos' => [DashboardArtigoController::class, 'buscar'],
+      'GET:/artigo/{id}' => [DashboardArtigoController::class, 'buscar'],
+      'POST:/artigo' => [DashboardArtigoController::class, 'adicionar'],
+      'PUT:/artigo/{id}' => [DashboardArtigoController::class, 'atualizar'],
+      'PUT:/artigo/ordem' => [DashboardArtigoController::class, 'atualizarOrdem'],
+      'DELETE:/artigo/{id}' => [DashboardArtigoController::class, 'apagar'],
 
       'GET:/conteudos' => [ConteudoController::class, 'buscar'],
       'GET:/conteudos/{id}' => [ConteudoController::class, 'buscar'],

@@ -3,19 +3,17 @@ namespace app\Controllers;
 use app\Models\ArtigoModel;
 use app\Models\ConteudoModel;
 use app\Models\CategoriaModel;
-use app\Controllers\ViewRenderer;
 
-class ArtigoController extends Controller
+class DashboardArtigoController extends DashboardController
 {
-  protected $middleware;
   protected $artigoModel;
   protected $conteudoModel;
   protected $categoriaModel;
-  protected $visao;
   
   public function __construct()
   {
-    $this->visao = new ViewRenderer('/dashboard/artigo');
+    parent::__construct();
+
     $this->artigoModel = new ArtigoModel();
     $this->conteudoModel = new ConteudoModel();
     $this->categoriaModel = new CategoriaModel();
@@ -24,9 +22,12 @@ class ArtigoController extends Controller
   public function artigosVer()
   {
     $limite = 10;
-    $pagina = intval($_GET['pagina'] ?? 0);
+    $paginasTotal = 0;
+    $intervaloInicio = 0;
+    $intervaloFim = 0;
+    $paginaAtual = intval($_GET['pagina'] ?? 0);
     $categoriaId = $_GET['categoria_id'] ?? '';
-
+    $resultado = [];
     $condicoes = [];
 
     // Filtrar por categoria
@@ -40,85 +41,79 @@ class ArtigoController extends Controller
       }
     }
 
-    // Recupera quantidade de páginas
     $artigosTotal = $this->artigoModel->condicao($condicoes)
                                       ->contar('Artigo.id');
     
     $artigosTotal = intval($artigosTotal['total'] ?? 0);
-    $paginasTotal = 0;
 
     if ($artigosTotal > 0) {
       $paginasTotal = ceil($artigosTotal / $limite);
-    }
+      $paginaAtual = abs($paginaAtual);
+      $paginaAtual = max($paginaAtual, 1);
+      $paginaAtual = min($paginaAtual, $paginasTotal);
 
-    $pagina = abs($pagina);
-    $pagina = max($pagina, 1);
-    $pagina = min($pagina, $paginasTotal);
+      $colunas = [
+        'Artigo.id',
+        'Artigo.titulo',
+        'Artigo.usuario_id',
+        'Artigo.categoria_id',
+        'Artigo.visualizacoes',
+        'Categoria.nome',
+        'Usuario.nome',
+        'Artigo.ordem',
+        'Artigo.criado',
+        'Artigo.ativo',
+      ];
 
-    $colunas = [
-      'Artigo.id',
-      'Artigo.titulo',
-      'Artigo.usuario_id',
-      'Artigo.categoria_id',
-      'Artigo.visualizacoes',
-      'Categoria.nome',
-      'Usuario.nome',
-      'Artigo.ordem',
-      'Artigo.criado',
-      'Artigo.ativo',
-    ];
+      $uniaoCategoria = [
+        'Categoria',
+      ];
 
-    $uniaoCategoria = [
-      'Categoria',
-    ];
+      $uniaoUsuario = [
+        'Usuario',
+      ];
 
-    $uniaoUsuario = [
-      'Usuario',
-    ];
+      $ordem = [
+        'Categoria.nome' => 'ASC',
+        'Artigo.ordem' => 'ASC',
+      ];
 
-    $ordem = [
-      'Categoria.nome' => 'ASC',
-      'Artigo.ordem' => 'ASC',
-    ];
+      $resultado = $this->artigoModel->condicao($condicoes)
+                                     ->uniao2($uniaoCategoria, 'LEFT')
+                                     ->uniao2($uniaoUsuario)
+                                     ->pagina($limite, $paginaAtual)
+                                     ->ordem($ordem)
+                                     ->buscar($colunas);
 
-    $resultado = $this->artigoModel->condicao($condicoes)
-                                   ->uniao2($uniaoCategoria, 'LEFT')
-                                   ->uniao2($uniaoUsuario)
-                                   ->pagina($limite, $pagina)
-                                   ->ordem($ordem)
-                                   ->buscar($colunas);
+      if (! isset($resultado[0]) and isset($_GET['categoria_id'])) {
+        $resultado['filtro'] = true;
+      }
 
-    // Evita ocultar tabela no filtro vazio
-    if (! isset($resultado[0]) and isset($_GET['categoria_id'])) {
-      $resultado['filtro'] = true;
-    }
-
-    // Calcular início e fim do intervalo
-    $intervaloInicio = 0;
-    $intervaloFim = 0;
-
-    if ($artigosTotal) {
-      $intervaloInicio = ($pagina - 1) * $limite + 1;
-      $intervaloFim = min($pagina * $limite, $artigosTotal);
+      $intervaloInicio = ($paginaAtual - 1) * $limite + 1;
+      $intervaloFim = min($paginaAtual * $limite, $artigosTotal);
     }
 
     $this->visao->variavel('artigos', $resultado);
-    $this->visao->variavel('pagina', $pagina);
+    $this->visao->variavel('pagina', $paginaAtual);
     $this->visao->variavel('artigosTotal', $artigosTotal);
     $this->visao->variavel('limite', $limite);
     $this->visao->variavel('paginasTotal', $paginasTotal);
     $this->visao->variavel('intervaloInicio', $intervaloInicio);
     $this->visao->variavel('intervaloFim', $intervaloFim);
     $this->visao->variavel('titulo', 'Artigos');
-    $this->visao->renderizar('/index');
+    $this->visao->renderizar('/artigo/index');
   }
 
   public function artigoEditarVer(int $id)
   {
-    $id = (int) $id;
+
+    $artigo = [];
+    $categorias = [];
+    $conteudos = [];
+    $ordem = [];
 
     $condicao = [
-      'Artigo.id' => $id,
+      'Artigo.id' => (int) $id,
     ];
 
     $colunas = [
@@ -142,16 +137,19 @@ class ArtigoController extends Controller
       'Usuario',
     ];
 
-    $artigo = $this->artigoModel->condicao($condicao)
-                                ->uniao2($uniaoCategoria, 'LEFT')
-                                ->uniao2($uniaoUsuario)
-                                ->buscar($colunas);
+    $resultado = $this->artigoModel->condicao($condicao)
+                                   ->uniao2($uniaoCategoria, 'LEFT')
+                                   ->uniao2($uniaoUsuario)
+                                   ->buscar($colunas);
     
-    if (isset($artigo['erro']) and $artigo['erro']) {
-      $_SESSION['erro'] = $artigo['erro']['mensagem'] ?? '';
+    if (isset($resultado['erro']) and $resultado['erro']) {
+      $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
      header('Location: /dashboard/artigos');
       exit();
+    }
+    else {
+      $artigo = $resultado;
     }
 
     $colCategoria = [
@@ -159,17 +157,17 @@ class ArtigoController extends Controller
       'Categoria.nome',
     ];
 
-    $categorias = $this->categoriaModel->buscar($colCategoria);
+    $resultado = $this->categoriaModel->buscar($colCategoria);
 
-    if (! isset($categorias[0]['Categoria.nome'])) {
-      $categorias = [];
+    if (isset($resultado[0]['Categoria.nome'])) {
+      $categorias = $resultado;
     }
 
-    $condConteudo = [
+    $condicao = [
       'Conteudo.artigo_id' => $id,
     ];
     
-    $colConteudo = [
+    $colunas = [
       'Conteudo.id',
       'Conteudo.ativo',
       'Conteudo.tipo',
@@ -182,45 +180,44 @@ class ArtigoController extends Controller
       'Conteudo.modificado',
     ];
 
-    $ordConteudo = [
+    $ordem = [
       'Conteudo.ordem' => 'ASC',
     ];
 
-    $conteudos = $this->conteudoModel->condicao($condConteudo)
-                                     ->ordem($ordConteudo)
-                                     ->buscar($colConteudo);
+    $resultado = $this->conteudoModel->condicao($condicao)
+                                     ->ordem($ordem)
+                                     ->buscar($colunas);
 
-    if (! isset($conteudos[0]['Conteudo.id'])) {
-      $conteudos = [];
-    }
+    if (isset($resultado[0]['Conteudo.id'])) {
+      $conteudos = $resultado;
 
-    $condConteudoOrdem = [
-      'Conteudo.artigo_id' => $id,
-    ];
-    
-    $colConteudoOrdem = [
-      'Conteudo.id',
-      'Conteudo.ordem',
-    ];
-
-    $ordConteudoOrdem = [
-      'Conteudo.ordem' => 'DESC',
-    ];
-
-    $limiteConteudoOrdem = 1;
-
-    $resultadoOrdem = $this->conteudoModel->condicao($condConteudoOrdem)
-                                          ->ordem($ordConteudoOrdem)
-                                          ->limite($limiteConteudoOrdem)
-                                          ->buscar($colConteudoOrdem);
-
-    $ordem = [];
-    $ordemAtual = intval($resultadoOrdem[0]['Conteudo.ordem'] ?? 0);
-
-    if ($resultadoOrdem) {
-      $ordem = [
-        'prox' => $ordemAtual + 1,
+      $condicao = [
+        'Conteudo.artigo_id' => $id,
       ];
+      
+      $colunas = [
+        'Conteudo.id',
+        'Conteudo.ordem',
+      ];
+
+      $ordem = [
+        'Conteudo.ordem' => 'DESC',
+      ];
+
+      $limite = 1;
+
+      $resultadoOrdem = $this->conteudoModel->condicao($condicao)
+                                            ->ordem($ordem)
+                                            ->limite($limite)
+                                            ->buscar($colunas);
+
+      $ordemAtual = intval($resultadoOrdem[0]['Conteudo.ordem'] ?? 0);
+
+      if ($resultadoOrdem) {
+        $ordem = [
+          'prox' => $ordemAtual + 1,
+        ];
+      }
     }
 
     $this->visao->variavel('artigo', reset($artigo));
@@ -228,7 +225,7 @@ class ArtigoController extends Controller
     $this->visao->variavel('conteudos', $conteudos);
     $this->visao->variavel('categorias', $categorias);
     $this->visao->variavel('titulo', 'Editar artigo');
-    $this->visao->renderizar('/editar/index');
+    $this->visao->renderizar('/artigo/editar/index');
   }
 
   public function artigoAdicionarVer()
@@ -272,7 +269,7 @@ class ArtigoController extends Controller
     $this->visao->variavel('usuarioId', intval($_SESSION['usuario']['id'] ?? 0));
     $this->visao->variavel('categorias', $categorias);
     $this->visao->variavel('titulo', 'Adicionar artigo');
-    $this->visao->renderizar('/adicionar');
+    $this->visao->renderizar('/artigo/adicionar');
   }
 
   public function adicionar(array $params = []): array
