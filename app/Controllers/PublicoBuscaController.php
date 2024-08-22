@@ -1,6 +1,5 @@
 <?php
 namespace app\Controllers;
-use app\Controllers\ViewRenderer;
 use app\Models\ArtigoModel;
 use app\Models\EmpresaModel;
 
@@ -14,7 +13,7 @@ class PublicoBuscaController extends PublicoController
   public function __construct()
   {
     parent::__construct();
-    
+
     $this->artigoModel = new ArtigoModel();
     $this->empresaModel = new EmpresaModel();
   }

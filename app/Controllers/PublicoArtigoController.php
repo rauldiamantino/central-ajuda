@@ -11,7 +11,7 @@ class PublicoArtigoController extends PublicoController
   public function __construct()
   {
     parent::__construct();
-    
+
     $this->artigoModel = new ArtigoModel();
     $this->conteudoModel = new ConteudoModel();
   }
