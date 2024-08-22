@@ -2,7 +2,7 @@
 namespace app\Controllers;
 use app\Models\ConteudoModel;
 
-class ConteudoController extends Controller
+class DashboardConteudoController extends DashboardController
 {
   protected $conteudoModel;
 
@@ -11,7 +11,7 @@ class ConteudoController extends Controller
     $this->conteudoModel = new ConteudoModel();
   }
 
-  public function adicionar(array $params = []): array
+  public function adicionar(): array
   {
     $dados = $this->receberJson();
     $resultado = $this->conteudoModel->adicionar($dados);

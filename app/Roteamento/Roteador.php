@@ -9,7 +9,7 @@ use app\Controllers\EmpresaController;
 use app\Controllers\EmpresaCadastroController;
 use app\Controllers\DashboardController;
 use app\Controllers\DashboardArtigoController;
-use app\Controllers\ConteudoController;
+use app\Controllers\DashboardConteudoController;
 use app\Controllers\CategoriaController;
 use app\Controllers\PublicoController;
 use app\Controllers\PublicoCategoriaController;
@@ -64,12 +64,12 @@ class Roteador
       'PUT:/artigo/ordem' => [DashboardArtigoController::class, 'atualizarOrdem'],
       'DELETE:/artigo/{id}' => [DashboardArtigoController::class, 'apagar'],
 
-      'GET:/conteudos' => [ConteudoController::class, 'buscar'],
-      'GET:/conteudos/{id}' => [ConteudoController::class, 'buscar'],
-      'POST:/conteudo' => [ConteudoController::class, 'adicionar'],
-      'PUT:/conteudo/{id}' => [ConteudoController::class, 'atualizar'],
-      'PUT:/conteudo/ordem' => [ConteudoController::class, 'atualizarOrdem'],
-      'DELETE:/conteudo/{id}' => [ConteudoController::class, 'apagar'],
+      'GET:/conteudos' => [DashboardConteudoController::class, 'buscar'],
+      'GET:/conteudos/{id}' => [DashboardConteudoController::class, 'buscar'],
+      'POST:/conteudo' => [DashboardConteudoController::class, 'adicionar'],
+      'PUT:/conteudo/{id}' => [DashboardConteudoController::class, 'atualizar'],
+      'PUT:/conteudo/ordem' => [DashboardConteudoController::class, 'atualizarOrdem'],
+      'DELETE:/conteudo/{id}' => [DashboardConteudoController::class, 'apagar'],
 
       'GET:/categorias' => [CategoriaController::class, 'buscar'],
       'GET:/categoria/{id}' => [CategoriaController::class, 'buscar'],
