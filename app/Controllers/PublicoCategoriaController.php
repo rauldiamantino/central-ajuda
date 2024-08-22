@@ -5,58 +5,71 @@ use app\Models\CategoriaModel;
 
 class PublicoCategoriaController extends PublicoController
 {
-  protected $publicoModel;
+  protected $artigoModel;
   protected $categoriaModel;
-  protected $conteudoModel;
-  protected $empresaModel;
 
   public function __construct()
   {
     parent::__construct();
+
     $this->categoriaModel = new CategoriaModel();
+    $this->artigoModel = new ArtigoModel();
   }
 
   public function categoriaVer(int $id)
   {
+    $categorias = [];
+    $artigos = [];
+
     $colunas = [
       'Categoria.id',
       'Categoria.nome',
     ];
 
-    $categorias = $this->categoriaModel->ordem(['Categoria.ordem' => 'ASC'])
+    $ordem = [
+      'Categoria.ordem' => 'ASC',
+    ];
+
+    $resultado = $this->categoriaModel->ordem($ordem)
                                        ->buscar($colunas);
     
-    if (! isset($categorias[0]['Categoria.id'])) {
-      $categorias = [];
+    if (isset($resultado[0]['Categoria.id'])) {
+      $categorias = $resultado;
     }
 
-    $condicoes = [
-      'Artigo.categoria_id' => (int) $id,
-    ];
+    if ($categorias) {
+      $condArtigos = [
+        'Artigo.categoria_id' => (int) $id,
+      ];
 
-    $colunas = [
-      'Artigo.id',
-      'Artigo.ativo',
-      'Artigo.titulo',
-      'Artigo.usuario_id',
-      'Artigo.empresa_id',
-      'Artigo.categoria_id',
-      'Artigo.criado',
-      'Artigo.modificado',
-      'Categoria.nome',
-    ];
+      $colArtigos = [
+        'Artigo.id',
+        'Artigo.ativo',
+        'Artigo.titulo',
+        'Artigo.usuario_id',
+        'Artigo.empresa_id',
+        'Artigo.categoria_id',
+        'Artigo.criado',
+        'Artigo.modificado',
+        'Categoria.nome',
+      ];
 
-    $uniao = [
-      'Categoria',
-    ];
+      $uniArtigos = [
+        'Categoria',
+      ];
 
-    $artigos = $this->artigoModel->condicao($condicoes)
-                                 ->uniao2($uniao, 'LEFT')
-                                 ->ordem(['Artigo.ordem' => 'ASC'])
-                                 ->buscar($colunas);
+      $ordArtigos = [
+        'Artigo.ordem' => 'ASC',
+      ];
 
-    if (! isset($artigos[0]['Artigo.id'])) {
-      $artigos = [];
+      $resultado = $this->artigoModel->condicao($condArtigos)
+                                     ->uniao2($uniArtigos, 'LEFT')
+                                     ->ordem($ordArtigos)
+                                     ->buscar($colArtigos);
+
+      if (isset($resultado[0]['Artigo.id'])) {
+        $artigos = $resultado;
+      }
     }
 
     $this->visao->variavel('categorias', $categorias);

@@ -1,44 +1,25 @@
 <?php
 namespace app\Controllers;
-use app\Models\PublicoModel;
-use app\Controllers\ViewRenderer;
 use app\Models\CategoriaModel;
-use app\Models\ArtigoModel;
-use app\Models\ConteudoModel;
 use app\Models\EmpresaModel;
+use app\Controllers\ViewRenderer;
 
 class PublicoController extends Controller
 {
   protected $publicoModel;
   protected $categoriaModel;
-  protected $artigoModel;
-  protected $conteudoModel;
-  protected $empresaModel;
   protected $subdominio;
   protected $visao;
 
   public function __construct()
   {
-    $this->publicoModel = new PublicoModel();
+    $this->obterSubdominio();
     $this->categoriaModel = new CategoriaModel();
-    $this->artigoModel = new ArtigoModel();
-    $this->conteudoModel = new ConteudoModel();
-    $this->empresaModel = new EmpresaModel();
+
     $this->visao = new ViewRenderer('/publico');
-
-    // Botão do WhatsApp
-    $telefoneEmpresa = intval($_SESSION['empresaTelefone'] ?? 0);
-
-    if ($telefoneEmpresa == 0) {
-      $resultado = $this->empresaModel->buscar(['Empresa.telefone']);
-      $telefoneEmpresa = intval($resultado[0]['Empresa.telefone'] ?? 0);
-
-      $_SESSION['empresaTelefone'] = $telefoneEmpresa;
-    }
-    
-    $this->subdominio = $_SESSION['subdominio'] ?? null;
     $this->visao->variavel('subdominio', $this->subdominio);
-    $this->visao->variavel('telefoneEmpresa', $telefoneEmpresa);
+    $this->visao->variavel('telefoneEmpresa', $this->obterTelefone());
+
   }
 
   public function publicoVer()
@@ -51,7 +32,7 @@ class PublicoController extends Controller
     $resultado = $this->categoriaModel->ordem(['Categoria.ordem' => 'ASC'])
                                       ->buscar($colunas);
 
-    if (isset($resultado[0]['Categoria.id']) and isset($this->subdominio)) {
+    if (isset($resultado[0]['Categoria.id']) and $this->subdominio) {
       header('Location: /p/' . $this->subdominio . '/categoria/' . $resultado[0]['Categoria.id']);
       exit;
     }
@@ -59,5 +40,24 @@ class PublicoController extends Controller
     $this->visao->variavel('categorias', $resultado);
     $this->visao->variavel('titulo', 'Público');
     $this->visao->renderizar('/index');
+  }
+
+  private function obterTelefone(): int
+  {
+    $telefone = intval($_SESSION['empresaTelefone'] ?? 0);
+
+    if ($telefone == 0) {
+      $this->empresaModel = new EmpresaModel();
+      $resultado = $this->empresaModel->buscar(['Empresa.telefone']);
+      $telefone = intval($resultado[0]['Empresa.telefone'] ?? 0);
+      $_SESSION['empresaTelefone'] = $telefone;
+    }
+
+    return $telefone;
+  }
+
+  private function obterSubdominio(): void
+  {
+    $this->subdominio = $_SESSION['subdominio'] ?? null;
   }
 }

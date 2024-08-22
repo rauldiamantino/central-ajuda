@@ -49,8 +49,8 @@ class Roteador
       'GET:/p/{subdominio}' => [PublicoController::class, 'publicoVer'],
       'GET:/p/{subdominio}/categoria/{id}' => [PublicoCategoriaController::class, 'categoriaVer'],
       'GET:/p/{subdominio}/artigo/{id}' => [PublicoArtigoController::class, 'artigoVer'],
-      'POST:/p/{subdominio}/buscar' => [PublicoBuscaController::class, 'buscarArtigos'],
-      'GET:/p/{subdominio}/buscar' => [PublicoBuscaController::class, 'buscarArtigos'],
+      'POST:/p/{subdominio}/buscar' => [PublicoBuscaController::class, 'buscar'],
+      'GET:/p/{subdominio}/buscar' => [PublicoBuscaController::class, 'buscar'],
 
       'GET:/login' => [LoginController::class, 'loginVer'],
       'GET:/cadastro' => [CadastroController::class, 'cadastroVer'],

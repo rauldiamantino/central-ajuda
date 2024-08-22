@@ -1,23 +1,27 @@
 <?php
 namespace app\Controllers;
-use app\Models\CategoriaModel;
+use app\Models\ArtigoModel;
+use app\Models\ConteudoModel;
 
 class PublicoArtigoController extends PublicoController
 {
-  protected $publicoModel;
-  protected $categoriaModel;
+  protected $artigoModel;
   protected $conteudoModel;
-  protected $empresaModel;
 
   public function __construct()
   {
     parent::__construct();
-    $this->categoriaModel = new CategoriaModel();
+    
+    $this->artigoModel = new ArtigoModel();
+    $this->conteudoModel = new ConteudoModel();
   }
 
   public function artigoVer(int $id)
   {
-    // Artigo selecionado
+    $artigo = [];
+    $conteudos = [];
+    $demaisArtigos = [];
+
     $condicoes = [
       'Artigo.id' => (int) $id,
     ];
@@ -40,67 +44,67 @@ class PublicoArtigoController extends PublicoController
       'Usuario',
     ];
     
-    $artigo = $this->artigoModel->condicao($condicoes)
+    $resultado = $this->artigoModel->condicao($condicoes)
                                 ->uniao2($uniao, 'LEFT')
                                 ->ordem(['Artigo.ordem' => 'ASC'])
                                 ->buscar($colunas);
 
-    if (! isset($artigo[0]['Artigo.id'])) {
-      $artigo = [];
+    if (isset($resultado[0]['Artigo.id'])) {
+      $artigo = $resultado;
     }
 
-    // Conteúdos do artigo selecionado
-    $condConteudo = [
-      'Conteudo.artigo_id' => $id,
-    ];
-    
-    $colConteudo = [
-      'Conteudo.id',
-      'Conteudo.ativo',
-      'Conteudo.tipo',
-      'Conteudo.titulo',
-      'Conteudo.titulo_ocultar',
-      'Conteudo.conteudo',
-      'Conteudo.url',
-      'Conteudo.ordem',
-      'Conteudo.criado',
-      'Conteudo.modificado',
-    ];
+    if ($artigo) {
+      $condConteudo = [
+        'Conteudo.artigo_id' => $id,
+      ];
+      
+      $colConteudo = [
+        'Conteudo.id',
+        'Conteudo.ativo',
+        'Conteudo.tipo',
+        'Conteudo.titulo',
+        'Conteudo.titulo_ocultar',
+        'Conteudo.conteudo',
+        'Conteudo.url',
+        'Conteudo.ordem',
+        'Conteudo.criado',
+        'Conteudo.modificado',
+      ];
 
-    $ordConteudo = [
-      'Conteudo.ordem' => 'ASC',
-    ];
+      $ordConteudo = [
+        'Conteudo.ordem' => 'ASC',
+      ];
 
-    $conteudos = $this->conteudoModel->condicao($condConteudo)
-                                     ->ordem($ordConteudo)
-                                     ->buscar($colConteudo);
+      $resultado = $this->conteudoModel->condicao($condConteudo)
+                                       ->ordem($ordConteudo)
+                                       ->buscar($colConteudo);
 
-    if (! isset($conteudos[0]['Conteudo.id'])) {
-      $conteudos = [];
-    }
+      if (isset($resultado[0]['Conteudo.id'])) {
+        $conteudos = $resultado;
+      }
 
-    // Demais artigos da categoria
-    $condicoes = [
-      'Artigo.categoria_id' => intval($artigo[0]['Artigo.categoria_id'] ?? 0),
-    ];
+      $condDemaisArtigos = [
+        'Artigo.categoria_id' => intval($artigo[0]['Artigo.categoria_id'] ?? 0),
+      ];
 
-    $colunas = [
-      'Artigo.id',
-      'Artigo.titulo',
-      'Categoria.nome',
-    ];
+      $colDemaisArtigos = [
+        'Artigo.id',
+        'Artigo.titulo',
+        'Categoria.nome',
+      ];
 
-    $uniao = [
-      'Categoria',
-    ];
+      $uniDemaisArtigos = [
+        'Categoria',
+      ];
 
-    $demaisArtigos = $this->artigoModel->condicao($condicoes)
-                                       ->uniao2($uniao, 'LEFT')
-                                       ->ordem(['Artigo.ordem' => 'ASC'])
-                                       ->buscar($colunas);
+      $resultado = $this->artigoModel->condicao($condDemaisArtigos)
+                                     ->uniao2($uniDemaisArtigos, 'LEFT')
+                                     ->ordem(['Artigo.ordem' => 'ASC'])
+                                     ->buscar($colDemaisArtigos);
 
-    if (! isset($demaisArtigos[0]['Artigo.id'])) {
-      $demaisArtigos = [];
+      if (isset($resultado[0]['Artigo.id'])) {
+        $demaisArtigos = $resultado;
+      }
     }
 
     $this->visao->variavel('demaisArtigos', $demaisArtigos);
