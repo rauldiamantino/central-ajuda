@@ -1,16 +1,15 @@
 <?php
 namespace app\Controllers;
 use app\Models\EmpresaModel;
-use app\Controllers\ViewRenderer;
 
-class EmpresaController extends Controller
+class DashboardEmpresaController extends DashboardController
 {
   protected $empresaModel;
-  protected $visao;
 
   public function __construct()
   {
-    $this->visao = new ViewRenderer('/dashboard/empresa');
+    parent::__construct();
+    
     $this->empresaModel = new EmpresaModel();
   }
 
@@ -38,7 +37,7 @@ class EmpresaController extends Controller
 
     $this->visao->variavel('empresa', reset($empresa));
     $this->visao->variavel('titulo', 'Editar empresa');
-    $this->visao->renderizar('/index');
+    $this->visao->renderizar('/empresa/index');
   }
 
   public function atualizar(int $id)

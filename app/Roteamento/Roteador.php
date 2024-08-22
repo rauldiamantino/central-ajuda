@@ -5,8 +5,7 @@ use app\Controllers\AjusteController;
 use app\Controllers\LoginController;
 use app\Controllers\CadastroController;
 use app\Controllers\UsuarioController;
-use app\Controllers\EmpresaController;
-use app\Controllers\EmpresaCadastroController;
+use app\Controllers\DashboardEmpresaController;
 use app\Controllers\DashboardController;
 use app\Controllers\DashboardArtigoController;
 use app\Controllers\DashboardConteudoController;
@@ -44,7 +43,7 @@ class Roteador
       'GET:/dashboard/usuarios' => [UsuarioController::class, 'UsuariosVer'],
       'GET:/dashboard/usuario/editar/{id}' => [UsuarioController::class, 'usuarioEditarVer'],
       'GET:/dashboard/usuario/adicionar' => [UsuarioController::class, 'usuarioAdicionarVer'],
-      'GET:/dashboard/empresa/editar' => [EmpresaController::class, 'empresaEditarVer'],
+      'GET:/dashboard/empresa/editar' => [DashboardEmpresaController::class, 'empresaEditarVer'],
       
       'GET:/p/{subdominio}' => [PublicoController::class, 'publicoVer'],
       'GET:/p/{subdominio}/categoria/{id}' => [PublicoCategoriaController::class, 'categoriaVer'],
@@ -84,10 +83,8 @@ class Roteador
       'PUT:/usuario/{id}' => [UsuarioController::class, 'atualizar'],
       'DELETE:/usuario/{id}' => [UsuarioController::class, 'apagar'],
 
-      'GET:/empresas/cadastro/{id}' => [EmpresaCadastroController::class, 'buscar'],
-      'POST:/empresas/cadastro' => [EmpresaCadastroController::class, 'adicionar'],
       'POST:/cadastro' => [CadastroController::class, 'adicionar'],
-      'PUT:/empresa/{id}' => [EmpresaController::class, 'atualizar'],
+      'PUT:/empresa/{id}' => [DashboardEmpresaController::class, 'atualizar'],
     ];
   }
 
