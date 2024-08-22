@@ -10,7 +10,7 @@ use app\Controllers\EmpresaCadastroController;
 use app\Controllers\DashboardController;
 use app\Controllers\DashboardArtigoController;
 use app\Controllers\DashboardConteudoController;
-use app\Controllers\CategoriaController;
+use app\Controllers\DashboardCategoriaController;
 use app\Controllers\PublicoController;
 use app\Controllers\PublicoCategoriaController;
 use app\Controllers\PublicoBuscaController;
@@ -38,9 +38,9 @@ class Roteador
       'GET:/dashboard/artigos' => [DashboardArtigoController::class, 'artigosVer'],
       'GET:/dashboard/artigo/editar/{id}' => [DashboardArtigoController::class, 'artigoEditarVer'],
       'GET:/dashboard/artigo/adicionar' => [DashboardArtigoController::class, 'artigoAdicionarVer'],
-      'GET:/dashboard/categorias' => [CategoriaController::class, 'categoriasVer'],
-      'GET:/dashboard/categoria/editar/{id}' => [CategoriaController::class, 'categoriaEditarVer'],
-      'GET:/dashboard/categoria/adicionar' => [CategoriaController::class, 'categoriaAdicionarVer'],
+      'GET:/dashboard/categorias' => [DashboardCategoriaController::class, 'categoriasVer'],
+      'GET:/dashboard/categoria/editar/{id}' => [DashboardCategoriaController::class, 'categoriaEditarVer'],
+      'GET:/dashboard/categoria/adicionar' => [DashboardCategoriaController::class, 'categoriaAdicionarVer'],
       'GET:/dashboard/usuarios' => [UsuarioController::class, 'UsuariosVer'],
       'GET:/dashboard/usuario/editar/{id}' => [UsuarioController::class, 'usuarioEditarVer'],
       'GET:/dashboard/usuario/adicionar' => [UsuarioController::class, 'usuarioAdicionarVer'],
@@ -71,12 +71,12 @@ class Roteador
       'PUT:/conteudo/ordem' => [DashboardConteudoController::class, 'atualizarOrdem'],
       'DELETE:/conteudo/{id}' => [DashboardConteudoController::class, 'apagar'],
 
-      'GET:/categorias' => [CategoriaController::class, 'buscar'],
-      'GET:/categoria/{id}' => [CategoriaController::class, 'buscar'],
-      'POST:/categoria' => [CategoriaController::class, 'adicionar'],
-      'PUT:/categoria/{id}' => [CategoriaController::class, 'atualizar'],
-      'PUT:/categoria/ordem' => [CategoriaController::class, 'atualizarOrdem'],
-      'DELETE:/categoria/{id}' => [CategoriaController::class, 'apagar'],
+      'GET:/categorias' => [DashboardCategoriaController::class, 'buscar'],
+      'GET:/categoria/{id}' => [DashboardCategoriaController::class, 'buscar'],
+      'POST:/categoria' => [DashboardCategoriaController::class, 'adicionar'],
+      'PUT:/categoria/{id}' => [DashboardCategoriaController::class, 'atualizar'],
+      'PUT:/categoria/ordem' => [DashboardCategoriaController::class, 'atualizarOrdem'],
+      'DELETE:/categoria/{id}' => [DashboardCategoriaController::class, 'apagar'],
 
       'GET:/usuarios' => [UsuarioController::class, 'buscar'],
       'GET:/usuario/{id}' => [UsuarioController::class, 'buscar'],

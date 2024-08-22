@@ -1,24 +1,22 @@
 <?php
 namespace app\Controllers;
 use app\Models\CategoriaModel;
-use app\Controllers\ViewRenderer;
 
-class CategoriaController extends Controller
+class DashboardCategoriaController extends DashboardController
 {
-  protected $middleware;
   protected $categoriaModel;
-  protected $visao;
 
   public function __construct()
   {
-    $this->visao = new ViewRenderer('/dashboard/categoria');
+    parent::__construct();
+
     $this->categoriaModel = new categoriaModel();
   }
 
   public function categoriasVer()
   {
     $limite = 10;
-    $pagina = intval($_GET['pagina'] ?? 0);
+    $paginaAtual = intval($_GET['pagina'] ?? 0);
 
     // Recupera quantidade de páginas
     $categoriasTotal = $this->categoriaModel->contar('Categoria.id');
@@ -26,9 +24,9 @@ class CategoriaController extends Controller
     $categoriasTotal = $categoriasTotal['total'] ?? 0;
     $paginasTotal = ceil($categoriasTotal / $limite);
 
-    $pagina = abs($pagina);
-    $pagina = max($pagina, 1);
-    $pagina = min($pagina, $paginasTotal);
+    $paginaAtual = abs($paginaAtual);
+    $paginaAtual = max($paginaAtual, 1);
+    $paginaAtual = min($paginaAtual, $paginasTotal);
 
     $colunas = [
       'Categoria.id',
@@ -39,7 +37,7 @@ class CategoriaController extends Controller
       'Categoria.modificado',
     ];
 
-    $resultado = $this->categoriaModel->pagina($limite, $pagina)
+    $resultado = $this->categoriaModel->pagina($limite, $paginaAtual)
                                       ->ordem(['Categoria.ordem' => 'ASC'])
                                       ->buscar($colunas);
 
@@ -48,19 +46,19 @@ class CategoriaController extends Controller
     $intervaloFim = 0;
 
     if ($categoriasTotal) {
-      $intervaloInicio = ($pagina - 1) * $limite + 1;
-      $intervaloFim = min($pagina * $limite, $categoriasTotal);
+      $intervaloInicio = ($paginaAtual - 1) * $limite + 1;
+      $intervaloFim = min($paginaAtual * $limite, $categoriasTotal);
     }
 
     $this->visao->variavel('categorias', $resultado);
-    $this->visao->variavel('pagina', $pagina);
+    $this->visao->variavel('pagina', $paginaAtual);
     $this->visao->variavel('categoriasTotal', $categoriasTotal);
     $this->visao->variavel('limite', $limite);
     $this->visao->variavel('paginasTotal', $paginasTotal);
     $this->visao->variavel('intervaloInicio', $intervaloInicio);
     $this->visao->variavel('intervaloFim', $intervaloFim);
     $this->visao->variavel('titulo', 'Categorias');
-    $this->visao->renderizar('/index');
+    $this->visao->renderizar('/categoria/index');
   }
 
   public function categoriaEditarVer(int $id)
@@ -92,7 +90,7 @@ class CategoriaController extends Controller
 
     $this->visao->variavel('categoria', reset($categoria));
     $this->visao->variavel('titulo', 'Editar categoria');
-    $this->visao->renderizar('/editar/index');
+    $this->visao->renderizar('/categoria/editar/index');
   }
 
   public function categoriaAdicionarVer()
@@ -123,7 +121,7 @@ class CategoriaController extends Controller
 
     $this->visao->variavel('ordem', $ordem);
     $this->visao->variavel('titulo', 'Adicionar categoria');
-    $this->visao->renderizar('/adicionar');
+    $this->visao->renderizar('/categoria/adicionar');
   }
 
   public function adicionar(array $params = []): array
