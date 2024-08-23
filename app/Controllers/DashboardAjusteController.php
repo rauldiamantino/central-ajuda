@@ -1,16 +1,15 @@
 <?php
 namespace app\Controllers;
 use app\Models\AjusteModel;
-use app\Controllers\ViewRenderer;
 
-class AjusteController extends Controller
+class DashboardAjusteController extends DashboardController
 {
-  protected $visao;
   protected $ajusteModel;
   
   public function __construct()
   {
-    $this->visao = new ViewRenderer('/dashboard');
+    parent::__construct();
+
     $this->ajusteModel = new AjusteModel();
   }
 

@@ -1,25 +1,21 @@
 <?php
 namespace app\Controllers;
 use app\Models\LoginModel;
-use app\Controllers\ViewRenderer;
 
-class LoginController extends Controller
+class DashboardLoginController extends DashboardController
 {
-  protected $middleware;
   protected $loginModel;
   protected $visao;
 
   public function __construct()
   {
+    parent::__construct();
     $this->loginModel = new LoginModel();
-    $this->visao = new ViewRenderer('/dashboard');
   }
 
   public function loginVer()
   {
-    $usuarioLogadoId = intval($_SESSION['usuario']['id'] ?? 0);
-
-    if ($usuarioLogadoId > 0) {
+    if ($this->usuarioLogadoId > 0) {
       header('Location: /dashboard/artigos');
       exit();
     }
@@ -32,7 +28,6 @@ class LoginController extends Controller
   public function login()
   {
     $json = $this->receberJson();
-
     $resultado = $this->loginModel->login($json);
 
     if (isset($resultado['ok'])) { 

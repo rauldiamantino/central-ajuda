@@ -1,20 +1,20 @@
 <?php
 namespace app\Roteamento;
-use app\Controllers\TesteController;
-use app\Controllers\AjusteController;
-use app\Controllers\LoginController;
-use app\Controllers\CadastroController;
-use app\Controllers\UsuarioController;
-use app\Controllers\DashboardEmpresaController;
-use app\Controllers\DashboardController;
+use app\Controllers\DashboardAjusteController;
 use app\Controllers\DashboardArtigoController;
-use app\Controllers\DashboardConteudoController;
+use app\Controllers\DashboardCadastroController;
 use app\Controllers\DashboardCategoriaController;
-use app\Controllers\PublicoController;
-use app\Controllers\PublicoCategoriaController;
-use app\Controllers\PublicoBuscaController;
-use app\Controllers\PublicoArtigoController;
+use app\Controllers\DashboardConteudoController;
+use app\Controllers\DashboardController;
+use app\Controllers\DashboardEmpresaController;
+use app\Controllers\DashboardLoginController;
+use app\Controllers\DashboardUsuarioController;
 use app\Controllers\PaginaErroController;
+use app\Controllers\PublicoArtigoController;
+use app\Controllers\PublicoBuscaController;
+use app\Controllers\PublicoCategoriaController;
+use app\Controllers\PublicoController;
+use app\Controllers\TesteController;
 use app\Models\Model;
 
 class Roteador
@@ -29,20 +29,20 @@ class Roteador
     $this->paginaErro = new PaginaErroController();
 
     $this->rotas = [
-      'PUT:/ajustes' => [AjusteController::class, 'atualizar'],
+      'PUT:/ajustes' => [DashboardAjusteController::class, 'atualizar'],
       'GET:/teste' => [TesteController::class, 'testar'],
       'GET:/erro' => [PaginaErroController::class, 'erroVer'],
       'GET:/dashboard' => [DashboardController::class, 'dashboardVer'],
-      'GET:/dashboard/ajustes' => [AjusteController::class, 'ajustesVer'],
+      'GET:/dashboard/ajustes' => [DashboardAjusteController::class, 'ajustesVer'],
       'GET:/dashboard/artigos' => [DashboardArtigoController::class, 'artigosVer'],
       'GET:/dashboard/artigo/editar/{id}' => [DashboardArtigoController::class, 'artigoEditarVer'],
       'GET:/dashboard/artigo/adicionar' => [DashboardArtigoController::class, 'artigoAdicionarVer'],
       'GET:/dashboard/categorias' => [DashboardCategoriaController::class, 'categoriasVer'],
       'GET:/dashboard/categoria/editar/{id}' => [DashboardCategoriaController::class, 'categoriaEditarVer'],
       'GET:/dashboard/categoria/adicionar' => [DashboardCategoriaController::class, 'categoriaAdicionarVer'],
-      'GET:/dashboard/usuarios' => [UsuarioController::class, 'UsuariosVer'],
-      'GET:/dashboard/usuario/editar/{id}' => [UsuarioController::class, 'usuarioEditarVer'],
-      'GET:/dashboard/usuario/adicionar' => [UsuarioController::class, 'usuarioAdicionarVer'],
+      'GET:/dashboard/usuarios' => [DashboardUsuarioController::class, 'UsuariosVer'],
+      'GET:/dashboard/usuario/editar/{id}' => [DashboardUsuarioController::class, 'usuarioEditarVer'],
+      'GET:/dashboard/usuario/adicionar' => [DashboardUsuarioController::class, 'usuarioAdicionarVer'],
       'GET:/dashboard/empresa/editar' => [DashboardEmpresaController::class, 'empresaEditarVer'],
       
       'GET:/p/{subdominio}' => [PublicoController::class, 'publicoVer'],
@@ -51,10 +51,10 @@ class Roteador
       'POST:/p/{subdominio}/buscar' => [PublicoBuscaController::class, 'buscar'],
       'GET:/p/{subdominio}/buscar' => [PublicoBuscaController::class, 'buscar'],
 
-      'GET:/login' => [LoginController::class, 'loginVer'],
-      'GET:/cadastro' => [CadastroController::class, 'cadastroVer'],
-      'POST:/login' => [LoginController::class, 'login'],
-      'GET:/logout' => [LoginController::class, 'logout'],
+      'GET:/login' => [DashboardLoginController::class, 'loginVer'],
+      'GET:/cadastro' => [DashboardCadastroController::class, 'cadastroVer'],
+      'POST:/login' => [DashboardLoginController::class, 'login'],
+      'GET:/logout' => [DashboardLoginController::class, 'logout'],
 
       'GET:/artigos' => [DashboardArtigoController::class, 'buscar'],
       'GET:/artigo/{id}' => [DashboardArtigoController::class, 'buscar'],
@@ -77,13 +77,13 @@ class Roteador
       'PUT:/categoria/ordem' => [DashboardCategoriaController::class, 'atualizarOrdem'],
       'DELETE:/categoria/{id}' => [DashboardCategoriaController::class, 'apagar'],
 
-      'GET:/usuarios' => [UsuarioController::class, 'buscar'],
-      'GET:/usuario/{id}' => [UsuarioController::class, 'buscar'],
-      'POST:/usuario' => [UsuarioController::class, 'adicionar'],
-      'PUT:/usuario/{id}' => [UsuarioController::class, 'atualizar'],
-      'DELETE:/usuario/{id}' => [UsuarioController::class, 'apagar'],
+      'GET:/usuarios' => [DashboardUsuarioController::class, 'buscar'],
+      'GET:/usuario/{id}' => [DashboardUsuarioController::class, 'buscar'],
+      'POST:/usuario' => [DashboardUsuarioController::class, 'adicionar'],
+      'PUT:/usuario/{id}' => [DashboardUsuarioController::class, 'atualizar'],
+      'DELETE:/usuario/{id}' => [DashboardUsuarioController::class, 'apagar'],
 
-      'POST:/cadastro' => [CadastroController::class, 'adicionar'],
+      'POST:/cadastro' => [DashboardCadastroController::class, 'adicionar'],
       'PUT:/empresa/{id}' => [DashboardEmpresaController::class, 'atualizar'],
     ];
   }

@@ -1,24 +1,21 @@
 <?php
 namespace app\Controllers;
-
 use app\Models\CadastroModel;
 
-class CadastroController extends Controller
+class DashboardCadastroController extends DashboardController
 {
   private $cadastroModel;
-  protected $visao;
 
   public function __construct()
   {
+    parent::__construct();
+
     $this->cadastroModel = new CadastroModel();
-    $this->visao = new ViewRenderer('/dashboard');
   }
 
   public function cadastroVer()
   {
-    $usuarioLogadoId = intval($_SESSION['usuario']['id'] ?? 0);
-
-    if ($usuarioLogadoId > 0) {
+    if ($this->usuarioLogadoId > 0) {
       header('Location: /dashboard/artigos');
       exit();
     }
@@ -31,8 +28,6 @@ class CadastroController extends Controller
   public function adicionar()
   {
     $dados = $this->receberJson();
-
-    // Adiciona usuário padrão
     $resultado = $this->cadastroModel->validarCampos($dados);
 
     if (isset($resultado['erro'])) {

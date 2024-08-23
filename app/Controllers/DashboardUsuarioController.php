@@ -1,16 +1,15 @@
 <?php
 namespace app\Controllers;
 use app\Models\UsuarioModel;
-use app\Controllers\ViewRenderer;
 
-class UsuarioController extends Controller
+class DashboardUsuarioController extends DashboardController
 {
-  protected $visao;
   protected $usuarioModel;
 
   public function __construct()
   {
-    $this->visao = new ViewRenderer('/dashboard/usuario');
+    parent::__construct();
+
     $this->usuarioModel = new UsuarioModel();
   }
 
@@ -60,7 +59,7 @@ class UsuarioController extends Controller
     $this->visao->variavel('intervaloInicio', $intervaloInicio);
     $this->visao->variavel('intervaloFim', $intervaloFim);
     $this->visao->variavel('titulo', 'Usuários');
-    $this->visao->renderizar('/index');
+    $this->visao->renderizar('/usuario/index');
   }
 
   public function usuarioEditarVer(int $id)
@@ -95,13 +94,13 @@ class UsuarioController extends Controller
 
     $this->visao->variavel('usuario', reset($usuario));
     $this->visao->variavel('titulo', 'Editar usuario');
-    $this->visao->renderizar('/editar/index');
+    $this->visao->renderizar('/usuario/editar/index');
   }
 
   public function usuarioAdicionarVer()
   {
     $this->visao->variavel('titulo', 'Adicionar usuário');
-    $this->visao->renderizar('/adicionar/index');
+    $this->visao->renderizar('/usuario/adicionar/index');
   }
 
   public function adicionar(): array

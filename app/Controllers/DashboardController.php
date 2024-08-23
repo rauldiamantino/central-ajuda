@@ -6,10 +6,12 @@ use app\Controllers\ViewRenderer;
 class DashboardController extends Controller
 {
   protected $dashboardModel;
+  protected $usuarioLogadoId;
   protected $visao;
 
   public function __construct()
   {
+    $this->usuarioLogadoId = intval($_SESSION['usuario']['id'] ?? 0);
     $this->dashboardModel = new DashboardModel();
     $this->visao = new ViewRenderer('/dashboard');
   }
