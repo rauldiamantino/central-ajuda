@@ -85,12 +85,13 @@ class DashboardArtigoController extends DashboardController
                                      ->ordem($ordem)
                                      ->buscar($colunas);
 
-      if (! isset($resultado[0]) and isset($_GET['categoria_id'])) {
-        $resultado['filtro'] = true;
-      }
-
       $intervaloInicio = ($paginaAtual - 1) * $limite + 1;
       $intervaloFim = min($paginaAtual * $limite, $artigosTotal);
+    }
+
+    // Exibe menu ao filtrar sem resultados
+    if (! isset($resultado[0]) and isset($_GET['categoria_id'])) {
+      $resultado['filtro'] = true;
     }
 
     $this->visao->variavel('artigos', $resultado);
