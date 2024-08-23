@@ -23,7 +23,7 @@ const buscarConteudos = () => {
           const span = document.createElement('span')
 
           span.className = 'py-1 px-4 border border-slate-200 selected-none truncate rounded-md modal-conteudos-organizar-bloco'
-          span.textContent = conteudo['Conteudo.titulo']
+          span.textContent = conteudo['Conteudo.titulo'] ? conteudo['Conteudo.titulo'] : '** Sem título **'
           span.setAttribute('data-conteudo-id', conteudo['Conteudo.id'])
 
           modalOrganizarBlocos.appendChild(span)
