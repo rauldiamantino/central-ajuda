@@ -1,0 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+body { margin: 0 !important; font-family: 'Inter', sans-serif; }
+.ck-content { min-height: 300px; line-height: 1.6; word-break: break-word; }
+.ck-content h1 { font-size: 2rem; font-weight: 700; margin-top: 1rem; margin-bottom: 0.5rem; }
+.ck-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 0.75rem; margin-bottom: 0.25rem; }
+.ck-content h3 { font-size: 1.25rem; font-weight: 500; margin-top: 0.5rem; margin-bottom: 0.25rem; }
+.ck-content ul, .ck-content ol { padding-left: 1.5rem; margin-bottom: 1rem; } 
+.ck-content ul li, .ck-content ol li { margin-bottom: 0.5rem; line-height: 1.6; }
+.ck-content a { color: #1E40AF; cursor: pointer; text-decoration: underline; }
+.editor-container_classic-editor { width: 100%; }

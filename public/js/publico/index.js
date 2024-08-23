@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
   const topoPublico = document.querySelector('.topo-publico')
   const topoPublicoInverter = document.querySelector('.inverter')
-console.log(topoPublicoInverter)
+
   function checarScroll() {
     const posicaoScroll = window.scrollY
 

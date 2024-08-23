@@ -1,0 +1,1 @@
+<script src="/public/js/publico/index.js"></script>
