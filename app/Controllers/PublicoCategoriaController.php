@@ -1,7 +1,7 @@
 <?php
 namespace app\Controllers;
-use app\Models\ArtigoModel;
-use app\Models\CategoriaModel;
+use app\Models\DashboardArtigoModel;
+use app\Models\DashboardCategoriaModel;
 
 class PublicoCategoriaController extends PublicoController
 {
@@ -12,8 +12,8 @@ class PublicoCategoriaController extends PublicoController
   {
     parent::__construct();
 
-    $this->categoriaModel = new CategoriaModel();
-    $this->artigoModel = new ArtigoModel();
+    $this->categoriaModel = new DashboardCategoriaModel();
+    $this->artigoModel = new DashboardArtigoModel();
   }
 
   public function categoriaVer(int $id)
@@ -31,7 +31,7 @@ class PublicoCategoriaController extends PublicoController
     ];
 
     $resultado = $this->categoriaModel->ordem($ordem)
-                                       ->buscar($colunas);
+                                      ->buscar($colunas);
     
     if (isset($resultado[0]['Categoria.id'])) {
       $categorias = $resultado;

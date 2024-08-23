@@ -1,6 +1,6 @@
 <?php
 namespace app\Controllers;
-use app\Models\CategoriaModel;
+use app\Models\DashboardCategoriaModel;
 
 class DashboardCategoriaController extends DashboardController
 {
@@ -10,7 +10,7 @@ class DashboardCategoriaController extends DashboardController
   {
     parent::__construct();
 
-    $this->categoriaModel = new categoriaModel();
+    $this->categoriaModel = new DashboardCategoriaModel();
   }
 
   public function categoriasVer()

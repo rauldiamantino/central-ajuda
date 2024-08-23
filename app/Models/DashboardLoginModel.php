@@ -2,7 +2,7 @@
 namespace app\Models;
 use app\Models\Model;
 
-class LoginModel extends Model
+class DashboardLoginModel extends Model
 {
   public $empresaPadraoId;
   public $usuarioLogadoId;

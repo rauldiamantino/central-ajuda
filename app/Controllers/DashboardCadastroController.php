@@ -1,6 +1,6 @@
 <?php
 namespace app\Controllers;
-use app\Models\CadastroModel;
+use app\Models\DashboardCadastroModel;
 
 class DashboardCadastroController extends DashboardController
 {
@@ -10,7 +10,7 @@ class DashboardCadastroController extends DashboardController
   {
     parent::__construct();
 
-    $this->cadastroModel = new CadastroModel();
+    $this->cadastroModel = new DashboardCadastroModel();
   }
 
   public function cadastroVer()

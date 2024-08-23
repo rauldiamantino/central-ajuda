@@ -1,6 +1,6 @@
 <?php
 namespace app\Controllers;
-use app\Models\UsuarioModel;
+use app\Models\DashboardUsuarioModel;
 
 class DashboardUsuarioController extends DashboardController
 {
@@ -10,7 +10,7 @@ class DashboardUsuarioController extends DashboardController
   {
     parent::__construct();
 
-    $this->usuarioModel = new UsuarioModel();
+    $this->usuarioModel = new DashboardUsuarioModel();
   }
 
   public function usuariosVer()

@@ -2,7 +2,7 @@
 namespace app\Models;
 use app\Models\Model;
 
-class EmpresaModel extends Model
+class DashboardEmpresaModel extends Model
 {
   public function __construct()
   {

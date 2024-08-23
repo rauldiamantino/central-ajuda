@@ -2,7 +2,7 @@
 namespace app\Models;
 use app\Models\Model;
 
-class ConteudoModel extends Model
+class DashboardConteudoModel extends Model
 {
   public function __construct()
   {

@@ -1,6 +1,6 @@
 <?php
 namespace app\Controllers;
-use app\Models\EmpresaModel;
+use app\Models\DashboardEmpresaModel;
 
 class DashboardEmpresaController extends DashboardController
 {
@@ -10,7 +10,7 @@ class DashboardEmpresaController extends DashboardController
   {
     parent::__construct();
     
-    $this->empresaModel = new EmpresaModel();
+    $this->empresaModel = new DashboardEmpresaModel();
   }
 
   public function empresaEditarVer()

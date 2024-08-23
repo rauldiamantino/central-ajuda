@@ -1,7 +1,7 @@
 <?php
 namespace app\Controllers;
-use app\Models\CategoriaModel;
-use app\Models\EmpresaModel;
+use app\Models\DashboardCategoriaModel;
+use app\Models\DashboardEmpresaModel;
 use app\Controllers\ViewRenderer;
 
 class PublicoController extends Controller
@@ -14,7 +14,7 @@ class PublicoController extends Controller
   public function __construct()
   {
     $this->obterSubdominio();
-    $this->categoriaModel = new CategoriaModel();
+    $this->categoriaModel = new DashboardCategoriaModel();
 
     $this->visao = new ViewRenderer('/publico');
     $this->visao->variavel('subdominio', $this->subdominio);
@@ -47,7 +47,7 @@ class PublicoController extends Controller
     $telefone = intval($_SESSION['empresaTelefone'] ?? 0);
 
     if ($telefone == 0) {
-      $this->empresaModel = new EmpresaModel();
+      $this->empresaModel = new DashboardEmpresaModel();
       $resultado = $this->empresaModel->buscar(['Empresa.telefone']);
       $telefone = intval($resultado[0]['Empresa.telefone'] ?? 0);
       $_SESSION['empresaTelefone'] = $telefone;

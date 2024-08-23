@@ -1,6 +1,6 @@
 <?php
 namespace app\Controllers;
-use app\Models\AjusteModel;
+use app\Models\DashboardAjusteModel;
 
 class DashboardAjusteController extends DashboardController
 {
@@ -10,7 +10,7 @@ class DashboardAjusteController extends DashboardController
   {
     parent::__construct();
 
-    $this->ajusteModel = new AjusteModel();
+    $this->ajusteModel = new DashboardAjusteModel();
   }
 
   public function ajustesVer()

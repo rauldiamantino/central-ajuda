@@ -2,7 +2,7 @@
 namespace app\Models;
 use app\Models\Model;
 
-class CategoriaModel extends Model
+class DashboardCategoriaModel extends Model
 {
   public function __construct()
   {

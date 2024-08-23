@@ -1,6 +1,6 @@
 <?php
 namespace app\Controllers;
-use app\Models\LoginModel;
+use app\Models\DashboardLoginModel;
 
 class DashboardLoginController extends DashboardController
 {
@@ -10,7 +10,7 @@ class DashboardLoginController extends DashboardController
   public function __construct()
   {
     parent::__construct();
-    $this->loginModel = new LoginModel();
+    $this->loginModel = new DashboardLoginModel();
   }
 
   public function loginVer()

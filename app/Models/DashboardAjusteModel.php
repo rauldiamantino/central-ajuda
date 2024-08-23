@@ -2,7 +2,7 @@
 namespace app\Models;
 use app\Models\Model;
 
-class AjusteModel extends Model
+class DashboardAjusteModel extends Model
 {
   public function __construct()
   {

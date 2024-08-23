@@ -1,7 +1,7 @@
 <?php
 namespace app\Controllers;
-use app\Models\ArtigoModel;
-use app\Models\EmpresaModel;
+use app\Models\DashboardEmpresaModel;
+use app\Models\DashboardArtigoModel;
 
 class PublicoBuscaController extends PublicoController
 {
@@ -14,8 +14,8 @@ class PublicoBuscaController extends PublicoController
   {
     parent::__construct();
 
-    $this->artigoModel = new ArtigoModel();
-    $this->empresaModel = new EmpresaModel();
+    $this->artigoModel = new DashboardArtigoModel();
+    $this->empresaModel = new DashboardEmpresaModel();
   }
 
   public function buscar()

@@ -1,8 +1,8 @@
 <?php
 namespace app\Controllers;
-use app\Models\ArtigoModel;
-use app\Models\ConteudoModel;
-use app\Models\CategoriaModel;
+use app\Models\DashboardArtigoModel;
+use app\Models\DashboardConteudoModel;
+use app\Models\DashboardCategoriaModel;
 
 class DashboardArtigoController extends DashboardController
 {
@@ -14,9 +14,9 @@ class DashboardArtigoController extends DashboardController
   {
     parent::__construct();
 
-    $this->artigoModel = new ArtigoModel();
-    $this->conteudoModel = new ConteudoModel();
-    $this->categoriaModel = new CategoriaModel();
+    $this->artigoModel = new DashboardArtigoModel();
+    $this->conteudoModel = new DashboardConteudoModel();
+    $this->categoriaModel = new DashboardCategoriaModel();
   }
 
   public function artigosVer()

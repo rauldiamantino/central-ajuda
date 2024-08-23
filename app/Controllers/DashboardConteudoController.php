@@ -1,6 +1,6 @@
 <?php
 namespace app\Controllers;
-use app\Models\ConteudoModel;
+use app\Models\DashboardConteudoModel;
 
 class DashboardConteudoController extends DashboardController
 {
@@ -8,7 +8,7 @@ class DashboardConteudoController extends DashboardController
 
   public function __construct()
   {
-    $this->conteudoModel = new ConteudoModel();
+    $this->conteudoModel = new DashboardConteudoModel();
   }
 
   public function adicionar(): array

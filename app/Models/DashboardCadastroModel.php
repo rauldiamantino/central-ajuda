@@ -2,7 +2,7 @@
 namespace app\Models;
 use app\Models\Model;
 
-class CadastroModel extends Model
+class DashboardCadastroModel extends Model
 {
   public function validarCampos(array $params, bool $atualizar = false): array
   {

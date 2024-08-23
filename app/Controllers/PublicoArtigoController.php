@@ -1,7 +1,7 @@
 <?php
 namespace app\Controllers;
-use app\Models\ArtigoModel;
-use app\Models\ConteudoModel;
+use app\Models\DashboardConteudoModel;
+use app\Models\DashboardArtigoModel;
 
 class PublicoArtigoController extends PublicoController
 {
@@ -12,8 +12,8 @@ class PublicoArtigoController extends PublicoController
   {
     parent::__construct();
 
-    $this->artigoModel = new ArtigoModel();
-    $this->conteudoModel = new ConteudoModel();
+    $this->artigoModel = new DashboardArtigoModel();
+    $this->conteudoModel = new DashboardConteudoModel();
   }
 
   public function artigoVer(int $id)
@@ -45,9 +45,9 @@ class PublicoArtigoController extends PublicoController
     ];
     
     $resultado = $this->artigoModel->condicao($condicoes)
-                                ->uniao2($uniao, 'LEFT')
-                                ->ordem(['Artigo.ordem' => 'ASC'])
-                                ->buscar($colunas);
+                                   ->uniao2($uniao, 'LEFT')
+                                   ->ordem(['Artigo.ordem' => 'ASC'])
+                                   ->buscar($colunas);
 
     if (isset($resultado[0]['Artigo.id'])) {
       $artigo = $resultado;
