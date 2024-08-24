@@ -1,4 +1,5 @@
-import { editorInstances } from '../../ckeditor.js';
+import { editorInstances } from '../../ckeditor.js'
+import { uploadImageToFirebase  } from '../../firebase.js'
 
 const btnsConteudoEditar = document.querySelectorAll('.js-dashboard-conteudo-editar')
 const modalConteudoTextoEditar = document.querySelector('.modal-conteudo-texto-editar')
@@ -49,8 +50,9 @@ if (btnsConteudoEditar) {
         formularioEditarImagem.action = `/conteudo/${conteudo.dataset.conteudoId}`
         
         const imgElemento = modalConteudoImagemEditar.querySelector('img')
+        const inputUrlImagem = modalConteudoImagemEditar.querySelector('.url-imagem')
 
-        imgElemento.src = `/${conteudo.dataset.conteudoUrl}`
+        imgElemento.src = `${conteudo.dataset.conteudoUrl}`
         imgElemento.classList.add('opacity-100')
         imgElemento.classList.remove('opacity-0')
         modalConteudoImagemEditar.showModal()
@@ -61,7 +63,7 @@ if (btnsConteudoEditar) {
           })
         }
 
-        editarImagemEscolher.addEventListener('change', (event) => {
+        editarImagemEscolher.addEventListener('change', async (event) => {
           const anexo = event.target.files[0]
 
           if (anexo) {
@@ -75,6 +77,16 @@ if (btnsConteudoEditar) {
 
             editarTextoImagemEscolher.textContent = anexo.name
             objetoReader.readAsDataURL(anexo)
+
+            try {
+              const downloadURL = await uploadImageToFirebase(anexo)
+
+              inputUrlImagem.value = downloadURL
+              console.log('URL da imagem:', downloadURL)
+            } 
+            catch (error) {
+              console.error('Erro ao obter a URL da imagem:', error)
+            }
           }
         })
 

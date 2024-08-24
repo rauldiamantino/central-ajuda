@@ -1,5 +1,5 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js'
-import { getStorage, ref, uploadBytes } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-storage.js'
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-storage.js'
 
 const firebaseConfig = {
   apiKey: "AIzaSyBXAg4u_hFmkaEaqifkknJaD4Lnx42EvHE",
@@ -13,8 +13,16 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 const storage = getStorage()
 
-// const mountainImagesRef = ref(storage, 'images/mountains.jpg');
-
-// uploadBytes(mountainImagesRef, file).then((snapshot) => {
-//   console.log('Uploaded a blob or file!');
-// });
+export async function uploadImageToFirebase(file) {
+  try {
+    const storageRef = ref(storage, `images/${file.name}`)
+    const snapshot = await uploadBytes(storageRef, file)
+    const downloadURL = await getDownloadURL(snapshot.ref)
+  
+    return downloadURL
+  } 
+  catch (error) {
+    console.error('Erro ao fazer upload da imagem para o Firebase:', error)
+    throw error
+  }
+}

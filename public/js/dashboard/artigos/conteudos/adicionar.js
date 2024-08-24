@@ -1,3 +1,5 @@
+import { uploadImageToFirebase  } from '../../firebase.js'
+
 const btnTextoAdicionar = document.querySelector('.conteudo-btn-texto-adicionar')
 const btnImagemAdicionar = document.querySelector('.conteudo-btn-imagem-adicionar')
 const btnVideoAdicionar = document.querySelector('.conteudo-btn-video-adicionar')
@@ -23,6 +25,7 @@ if (btnTextoAdicionar) {
 if (btnImagemAdicionar) {
   btnImagemAdicionar.addEventListener('click', () => {
     const imgElemento = modalConteudoImagemAdicionar.querySelector('img')
+    const inputUrlImagem = modalConteudoImagemAdicionar.querySelector('.url-imagem')
 
     imgElemento.classList.add('opacity-100')
     imgElemento.classList.remove('opacity-0')
@@ -34,7 +37,7 @@ if (btnImagemAdicionar) {
       })
     }
 
-    adicionarImagemEscolher.addEventListener('change', (event) => {
+    adicionarImagemEscolher.addEventListener('change', async (event) => {
       const anexo = event.target.files[0]
       const blocoImagem = modalConteudoImagemAdicionar.querySelector('.bloco-imagem')
 
@@ -48,6 +51,16 @@ if (btnImagemAdicionar) {
 
         adicionarTextoImagemEscolher.textContent = anexo.name
         objetoReader.readAsDataURL(anexo)
+
+        try {
+          const downloadURL = await uploadImageToFirebase(anexo)
+
+          inputUrlImagem.value = downloadURL
+          console.log('URL da imagem:', downloadURL)
+        } 
+        catch (error) {
+          console.error('Erro ao obter a URL da imagem:', error)
+        }
       }
     })
 

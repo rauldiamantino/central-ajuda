@@ -35,13 +35,14 @@
     <input type="hidden" name="_method" value="PUT">
     <input type="hidden" name="artigo_id" value="<?php echo $artigo['Artigo.id'] ?>">
     <input type="hidden" name="tipo" value="2">
+    <input type="hidden" name="url" value="" class="url-imagem">
 
     <div class="w-full">
       <label for="conteudo-editar-imagem-titulo" class="block text-sm font-medium text-gray-700">Título</label>
       <input type="text" id="conteudo-editar-imagem-titulo" name="titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="">
     </div>
     <div class="w-full items-start flex flex-col gap-2">
-      <input type="file" accept="image/*" name="url" id="conteudo-editar-imagem" class="hidden conteudo-editar-imagem-escolher">
+      <input type="file" accept="image/*" id="conteudo-editar-imagem" class="hidden conteudo-editar-imagem-escolher">
       <button type="button" for="conteudo-editar-imagem" class="w-full flex items-center justify-center cursor-pointer border border-gray-300 bg-gray-50 p-4 rounded-lg hover:bg-gray-100 conteudo-btn-imagem-editar-escolher">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-image text-gray-500" viewBox="0 0 16 16">
           <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />

@@ -17,5 +17,5 @@
 <script src="/public/js/dashboard/artigos/organizar.js"></script>
 <script src="/public/js/dashboard/artigos/conteudos/remover.js"></script>
 <script src="/public/js/dashboard/artigos/conteudos/organizar.js"></script>
-<script src="/public/js/dashboard/artigos/conteudos/adicionar.js"></script>
+<script src="/public/js/dashboard/artigos/conteudos/adicionar.js" type="module"></script>
 <script src="/public/js/dashboard/artigos/conteudos/editar.js" type="module"></script>
