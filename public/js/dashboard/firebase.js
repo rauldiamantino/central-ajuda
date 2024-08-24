@@ -1,5 +1,5 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js'
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-storage.js'
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-storage.js'
 
 const firebaseConfig = {
   apiKey: "AIzaSyBXAg4u_hFmkaEaqifkknJaD4Lnx42EvHE",
@@ -15,7 +15,7 @@ const storage = getStorage()
 
 export async function uploadImageToFirebase(file) {
   try {
-    const storageRef = ref(storage, `images/${file.name}`)
+    const storageRef = ref(storage, `images/${Date.now() % 100000}`)
     const snapshot = await uploadBytes(storageRef, file)
     const downloadURL = await getDownloadURL(snapshot.ref)
   
@@ -24,5 +24,30 @@ export async function uploadImageToFirebase(file) {
   catch (error) {
     console.error('Erro ao fazer upload da imagem para o Firebase:', error)
     throw error
+  }
+}
+
+export async function handleImageUploadAndReplace(file, existingImagePath) {
+  try {
+    if (existingImagePath) {
+      const oldImageRef = ref(storage, existingImagePath);
+      await deleteObject(oldImageRef);
+      console.log('Imagem antiga excluída com sucesso.');
+    }
+
+    const newImagePath = `images/${Date.now() % 100000}`;
+    let newImageRef = ref(storage, newImagePath);
+
+    await uploadBytes(newImageRef, file);
+    console.log('Nova imagem enviada com sucesso.');
+
+    const downloadURL = await getDownloadURL(newImageRef);
+    console.log('URL da nova imagem:', downloadURL);
+
+    return downloadURL;
+  } 
+  catch (error) {
+    console.error('Erro ao processar a imagem:', error);
+    throw error;
   }
 }

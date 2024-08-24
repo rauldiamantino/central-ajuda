@@ -44,7 +44,7 @@
             <?php if ($linha['Conteudo.titulo_ocultar'] == 0) { ?>
               <h2><?php echo $linha['Conteudo.titulo'] ?></h2>
             <?php } ?>
-            <img src="/public/<?php echo $linha['Conteudo.url'] ?>" alt="">
+            <img src="<?php echo $linha['Conteudo.url'] ?>" alt="">
           </div>
         <?php } ?>
 

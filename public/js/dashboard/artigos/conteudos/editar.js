@@ -1,5 +1,5 @@
 import { editorInstances } from '../../ckeditor.js'
-import { uploadImageToFirebase  } from '../../firebase.js'
+import { handleImageUploadAndReplace  } from '../../firebase.js'
 
 const btnsConteudoEditar = document.querySelectorAll('.js-dashboard-conteudo-editar')
 const modalConteudoTextoEditar = document.querySelector('.modal-conteudo-texto-editar')
@@ -57,6 +57,8 @@ if (btnsConteudoEditar) {
         imgElemento.classList.remove('opacity-0')
         modalConteudoImagemEditar.showModal()
 
+        const imagemAtual = imgElemento.src
+console.log(imagemAtual)
         if (btnEditarImagemEscolher) {
           btnEditarImagemEscolher.addEventListener('click', () => {
             editarImagemEscolher.click()
@@ -79,7 +81,7 @@ if (btnsConteudoEditar) {
             objetoReader.readAsDataURL(anexo)
 
             try {
-              const downloadURL = await uploadImageToFirebase(anexo)
+              const downloadURL = await handleImageUploadAndReplace(anexo, imagemAtual)
 
               inputUrlImagem.value = downloadURL
               console.log('URL da imagem:', downloadURL)
