@@ -13,9 +13,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 const storage = getStorage()
 
-export async function uploadImagem(file) {
+export async function uploadImagem(empresaId, artigoId, file) {
   try {
-    const storageRef = ref(storage, `images/${Date.now() % 100000}`)
+    const storageRef = ref(storage, `images/empresa-${empresaId}/artigo-${artigoId}/${Date.now() % 100000}`)
     const snapshot = await uploadBytes(storageRef, file)
 
     return await getDownloadURL(snapshot.ref)
@@ -26,29 +26,29 @@ export async function uploadImagem(file) {
   }
 }
 
-export async function substituirImagem(file, existingImagePath) {
+export async function substituirImagem(empresaId, artigoId, file, existingImagePath) {
   try {
     if (existingImagePath) {
-      const oldImageRef = ref(storage, existingImagePath);
-      await deleteObject(oldImageRef);
-      console.log('Imagem antiga excluída com sucesso.');
+      const oldImageRef = ref(storage, existingImagePath)
+      await deleteObject(oldImageRef)
+      console.log('Imagem antiga excluída com sucesso.')
     }
 
-    const newImagePath = `images/${Date.now() % 100000}`;
-    let newImageRef = ref(storage, newImagePath);
+    const newImagePath = `images/empresa-${empresaId}/artigo-${artigoId}/${Date.now() % 100000}`
+    let newImageRef = ref(storage, newImagePath)
 
-    await uploadBytes(newImageRef, file);
-    console.log('Nova imagem enviada com sucesso.');
+    await uploadBytes(newImageRef, file)
+    console.log('Nova imagem enviada com sucesso.')
 
-    return await getDownloadURL(newImageRef);
+    return await getDownloadURL(newImageRef)
   } 
   catch (error) {
-    console.error('Erro ao processar a imagem:', error);
-    throw error;
+    console.error('Erro ao processar a imagem:', error)
+    throw error
   }
 }
 
 export async function apagarImagem($caminhoImagem) {
-  const $imagem = ref(storage, $caminhoImagem);
-  await deleteObject($imagem);
+  const $imagem = ref(storage, $caminhoImagem)
+  await deleteObject($imagem)
 }

@@ -32,7 +32,7 @@
 
 <?php // Adicionar imagem ?>
 <dialog class="p-4 w-full sm:w-[600px] rounded-lg shadow modal-conteudo-imagem-adicionar">
-  <form method="POST" action="/conteudo" class="flex flex-col items-end gap-2" enctype="multipart/form-data">
+  <form method="POST" action="/conteudo" class="flex flex-col items-end gap-2 form-conteudo-imagem-adicionar" enctype="multipart/form-data" data-artigo-id=<?php echo $artigo['Artigo.id'] ?> data-empresa-id=<?php echo $artigo['Artigo.empresa_id'] ?>>
     <input type="hidden" name="artigo_id" value="<?php echo $artigo['Artigo.id'] ?>">
     <input type="hidden" name="tipo" value="2">
     <input type="hidden" name="url" value="" class="url-imagem">

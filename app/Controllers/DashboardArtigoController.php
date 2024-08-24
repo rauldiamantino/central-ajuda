@@ -128,6 +128,7 @@ class DashboardArtigoController extends DashboardController
       'Artigo.criado',
       'Artigo.modificado',
       'Artigo.ativo',
+      'Artigo.empresa_id',
     ];
 
     $uniaoCategoria = [

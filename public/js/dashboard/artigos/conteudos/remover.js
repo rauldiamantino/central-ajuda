@@ -1,4 +1,8 @@
+import { apagarImagem } from '../../firebase.js'
+
 let conteudoId = null
+let conteudoTipo = null
+let conteudoUrl = null
 const btnsConteudoRemover = document.querySelectorAll('.js-dashboard-conteudo-remover')
 const modalConteudoRemover = document.querySelector('.modal-conteudo-remover')
 const btnModalConteudoRemover = document.querySelector('.modal-conteudo-btn-remover')
@@ -8,6 +12,9 @@ if (btnsConteudoRemover) {
   btnsConteudoRemover.forEach(conteudo => {
     conteudo.addEventListener('click', () => {
       conteudoId = conteudo.dataset.conteudoId
+      conteudoTipo = conteudo.dataset.conteudoTipo
+      conteudoUrl = conteudo.dataset.conteudoUrl
+
       abrirModalConteudoRemover()
     })
   })
@@ -45,6 +52,11 @@ const requisicaoConteudoRemover = (conteudoId) => {
     .then(resposta => {
 
       if (resposta.linhasAfetadas == 1) {
+
+        if (conteudoTipo !== undefined && conteudoTipo == 2 && conteudoUrl != undefined) {
+          apagarImagem(conteudoUrl)
+        }
+
         location.reload()
       }
       else if (resposta.erro) {

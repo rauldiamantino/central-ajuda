@@ -1,4 +1,4 @@
-import { uploadImagem  } from '../../firebase.js'
+import { uploadImagem } from '../../firebase.js'
 
 const btnTextoAdicionar = document.querySelector('.conteudo-btn-texto-adicionar')
 const btnImagemAdicionar = document.querySelector('.conteudo-btn-imagem-adicionar')
@@ -16,6 +16,8 @@ const btnCancelarModalAdicionarImagem = document.querySelector('.modal-conteudo-
 const modalConteudoVideoAdicionar = document.querySelector('.modal-conteudo-video-adicionar')
 const btnCancelarModalAdicionarVideo = document.querySelector('.modal-conteudo-video-btn-cancelar-adicionar')
 
+let imagemEscolhida = null
+
 if (btnTextoAdicionar) {
   btnTextoAdicionar.addEventListener('click', () => {
     modalConteudoTextoAdicionar.showModal()
@@ -25,7 +27,6 @@ if (btnTextoAdicionar) {
 if (btnImagemAdicionar) {
   btnImagemAdicionar.addEventListener('click', () => {
     const imgElemento = modalConteudoImagemAdicionar.querySelector('img')
-    const inputUrlImagem = modalConteudoImagemAdicionar.querySelector('.url-imagem')
 
     imgElemento.classList.add('opacity-100')
     imgElemento.classList.remove('opacity-0')
@@ -37,7 +38,7 @@ if (btnImagemAdicionar) {
       })
     }
 
-    adicionarImagemEscolher.addEventListener('change', async (event) => {
+    adicionarImagemEscolher.addEventListener('change', (event) => {
       const anexo = event.target.files[0]
       const blocoImagem = modalConteudoImagemAdicionar.querySelector('.bloco-imagem')
 
@@ -52,15 +53,7 @@ if (btnImagemAdicionar) {
         adicionarTextoImagemEscolher.textContent = anexo.name
         objetoReader.readAsDataURL(anexo)
 
-        try {
-          const downloadURL = await uploadImagem(anexo)
-
-          inputUrlImagem.value = downloadURL
-          console.log('URL da imagem:', downloadURL)
-        } 
-        catch (error) {
-          console.error('Erro ao obter a URL da imagem:', error)
-        }
+        imagemEscolhida = anexo // Armazena a imagem escolhida
       }
     })
 
@@ -91,18 +84,47 @@ if (btnCancelarModalAdicionarImagem) {
 }
 
 document.addEventListener('keydown', (event) => {
-  
-  if (event.key === 'Escape' || event.keyCode === 27 && modalConteudoImagemAdicionar.open) {
+  if ((event.key === 'Escape' || event.keyCode === 27) && modalConteudoImagemAdicionar.open) {
     fecharModalAdicionarImagem()
   }
 })
 
 function fecharModalAdicionarImagem() {
-
-  if (! modalConteudoImagemAdicionar) {
+  if (!modalConteudoImagemAdicionar) {
     return
   }
-  
+
   modalConteudoImagemAdicionar.querySelector('img').src = ''
   modalConteudoImagemAdicionar.close()
+}
+
+const form = document.querySelector('.form-conteudo-imagem-adicionar') // Supondo que o formulário tenha este ID
+
+if (form) {
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault()
+
+    const empresaId = form.dataset.empresaId
+    const artigoId = form.dataset.artigoId
+
+    if (empresaId == undefined || artigoId == undefined || imagemEscolhida == null) {
+      return
+    }
+
+    if (imagemEscolhida) {
+      try {
+        const downloadURL = await uploadImagem(empresaId, artigoId, imagemEscolhida)
+        const inputUrlImagem = form.querySelector('.url-imagem')
+      
+        inputUrlImagem.value = downloadURL
+        console.log('URL da imagem:', downloadURL)
+      } 
+      catch (error) {
+        console.error('Erro ao carregar a imagem:', error)
+        return
+      }
+    }
+
+    form.submit()
+  })
 }

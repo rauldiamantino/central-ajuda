@@ -121,6 +121,7 @@ class DashboardConteudoModel extends Model
     $permitidos = [
       'ativo',
       'conteudo',
+      'titulo',
       'titulo_ocultar',
     ];
 

@@ -1,5 +1,5 @@
 import { editorInstances } from '../../ckeditor.js'
-import { substituirImagem  } from '../../firebase.js'
+import { substituirImagem } from '../../firebase.js'
 
 const btnsConteudoEditar = document.querySelectorAll('.js-dashboard-conteudo-editar')
 const modalConteudoTextoEditar = document.querySelector('.modal-conteudo-texto-editar')
@@ -24,10 +24,12 @@ const editarVideoUrl = document.querySelector('#conteudo-editar-video-url')
 const btnCancelarModalEditarVideo = document.querySelector('.modal-conteudo-video-btn-cancelar')
 const formularioEditarVideo = document.querySelector('.modal-conteudo-video-editar > form')
 
+let imagemParaUpload = null
+
 if (btnsConteudoEditar) {
   btnsConteudoEditar.forEach(conteudo => {
     conteudo.addEventListener('click', () => {
-      
+
       if (conteudo.dataset.conteudoTipo == 1) {
         editarTextoTitulo.value = conteudo.dataset.conteudoTitulo
         conteudo.dataset.conteudoTituloOcultar == 1 ? editarTextoTituloOcultar.checked = true : editarTextoTituloOcultar.checked = false
@@ -40,17 +42,16 @@ if (btnsConteudoEditar) {
         else {
           console.error('CKEditor instance not found for the specified textarea.')
         }
-        
+
         formularioEditarTexto.action = `/conteudo/${conteudo.dataset.conteudoId}`
         modalConteudoTextoEditar.showModal()
-      }
+      } 
       else if (conteudo.dataset.conteudoTipo == 2) {
         editarImagemTitulo.value = conteudo.dataset.conteudoTitulo
         conteudo.dataset.conteudoTituloOcultar == 1 ? editarImagemTituloOcultar.checked = true : editarImagemTituloOcultar.checked = false
         formularioEditarImagem.action = `/conteudo/${conteudo.dataset.conteudoId}`
-        
+
         const imgElemento = modalConteudoImagemEditar.querySelector('img')
-        const inputUrlImagem = modalConteudoImagemEditar.querySelector('.url-imagem')
 
         imgElemento.src = `${conteudo.dataset.conteudoUrl}`
         imgElemento.classList.add('opacity-100')
@@ -65,7 +66,7 @@ if (btnsConteudoEditar) {
           })
         }
 
-        editarImagemEscolher.addEventListener('change', async (event) => {
+        editarImagemEscolher.addEventListener('change', (event) => {
           const anexo = event.target.files[0]
 
           if (anexo) {
@@ -79,30 +80,48 @@ if (btnsConteudoEditar) {
 
             editarTextoImagemEscolher.textContent = anexo.name
             objetoReader.readAsDataURL(anexo)
-
-            try {
-              const downloadURL = await substituirImagem(anexo, imagemAtual)
-
-              inputUrlImagem.value = downloadURL
-            } 
-            catch (error) {
-              console.error('Erro ao obter a URL da imagem:', error)
-            }
+            imagemParaUpload = { anexo, imagemAtual }
           }
         })
 
         editarTextoImagemEscolher.textContent = 'Alterar imagem'
-      }
+      } 
       else if (conteudo.dataset.conteudoTipo == 3) {
         editarVideoTitulo.value = conteudo.dataset.conteudoTitulo
         conteudo.dataset.conteudoTituloOcultar == 1 ? editarVideoTituloOcultar.checked = true : editarVideoTituloOcultar.checked = false
         editarVideoUrl.value = conteudo.dataset.conteudoUrl
         formularioEditarVideo.action = `/conteudo/${conteudo.dataset.conteudoId}`
+
         modalConteudoVideoEditar.showModal()
       }
     })
   })
 }
+
+formularioEditarImagem.addEventListener('submit', async (event) => {
+  event.preventDefault()
+
+  const empresaId = formularioEditarImagem.dataset.empresaId
+  const artigoId = formularioEditarImagem.dataset.artigoId
+
+  if (empresaId == undefined || artigoId == undefined || imagemParaUpload == null) {
+    return
+  }
+
+  if (imagemParaUpload) {
+    try {
+      const downloadURL = await substituirImagem(empresaId, artigoId, imagemParaUpload.anexo, imagemParaUpload.imagemAtual)
+      const inputUrlImagem = formularioEditarImagem.querySelector('.url-imagem')
+
+      inputUrlImagem.value = downloadURL
+    } 
+    catch (error) {
+      console.error('Erro ao fazer upload da imagem:', error)
+    }
+  }
+
+  formularioEditarImagem.submit()
+})
 
 if (btnCancelarModalEditarTexto) {
   btnCancelarModalEditarTexto.addEventListener('click', () => {
@@ -121,18 +140,16 @@ if (btnCancelarModalEditarImagem) {
 }
 
 document.addEventListener('keydown', (event) => {
-  
   if (event.key === 'Escape' || event.keyCode === 27 && modalConteudoImagemEditar.open) {
     fecharModalImagem()
   }
 })
 
 function fecharModalImagem() {
-
-  if (! modalConteudoImagemEditar) {
+  if (!modalConteudoImagemEditar) {
     return
   }
-  
+
   modalConteudoImagemEditar.querySelector('img').src = ''
   modalConteudoImagemEditar.close()
 }
