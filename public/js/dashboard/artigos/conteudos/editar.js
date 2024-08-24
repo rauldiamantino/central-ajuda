@@ -58,7 +58,7 @@ if (btnsConteudoEditar) {
         imgElemento.classList.remove('opacity-0')
         modalConteudoImagemEditar.showModal()
 
-        const imagemAtual = imgElemento.src
+        const imagemAtual = conteudo.dataset.conteudoUrl
 
         if (btnEditarImagemEscolher) {
           btnEditarImagemEscolher.addEventListener('click', () => {
@@ -98,30 +98,32 @@ if (btnsConteudoEditar) {
   })
 }
 
-formularioEditarImagem.addEventListener('submit', async (event) => {
-  event.preventDefault()
+if (formularioEditarImagem) {
+  formularioEditarImagem.addEventListener('submit', async (event) => {
+    event.preventDefault()
 
-  const empresaId = formularioEditarImagem.dataset.empresaId
-  const artigoId = formularioEditarImagem.dataset.artigoId
+    const empresaId = formularioEditarImagem.dataset.empresaId
+    const artigoId = formularioEditarImagem.dataset.artigoId
 
-  if (empresaId == undefined || artigoId == undefined || imagemParaUpload == null) {
-    return
-  }
-
-  if (imagemParaUpload) {
-    try {
-      const downloadURL = await substituirImagem(empresaId, artigoId, imagemParaUpload.anexo, imagemParaUpload.imagemAtual)
-      const inputUrlImagem = formularioEditarImagem.querySelector('.url-imagem')
-
-      inputUrlImagem.value = downloadURL
-    } 
-    catch (error) {
-      console.error('Erro ao fazer upload da imagem:', error)
+    if (empresaId == undefined || artigoId == undefined || imagemParaUpload == null) {
+      return
     }
-  }
 
-  formularioEditarImagem.submit()
-})
+    if (imagemParaUpload) {
+      try {
+        const downloadURL = await substituirImagem(empresaId, artigoId, imagemParaUpload.anexo, imagemParaUpload.imagemAtual)
+        const inputUrlImagem = formularioEditarImagem.querySelector('.url-imagem')
+
+        inputUrlImagem.value = downloadURL
+      } 
+      catch (error) {
+        console.error('Erro ao fazer upload da imagem:', error)
+      }
+    }
+
+    formularioEditarImagem.submit()
+  })
+}
 
 if (btnCancelarModalEditarTexto) {
   btnCancelarModalEditarTexto.addEventListener('click', () => {
