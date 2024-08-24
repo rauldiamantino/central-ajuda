@@ -1,4 +1,4 @@
-import { uploadImageToFirebase  } from '../../firebase.js'
+import { uploadImagem  } from '../../firebase.js'
 
 const btnTextoAdicionar = document.querySelector('.conteudo-btn-texto-adicionar')
 const btnImagemAdicionar = document.querySelector('.conteudo-btn-imagem-adicionar')
@@ -53,7 +53,7 @@ if (btnImagemAdicionar) {
         objetoReader.readAsDataURL(anexo)
 
         try {
-          const downloadURL = await uploadImageToFirebase(anexo)
+          const downloadURL = await uploadImagem(anexo)
 
           inputUrlImagem.value = downloadURL
           console.log('URL da imagem:', downloadURL)

@@ -13,13 +13,12 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 const storage = getStorage()
 
-export async function uploadImageToFirebase(file) {
+export async function uploadImagem(file) {
   try {
     const storageRef = ref(storage, `images/${Date.now() % 100000}`)
     const snapshot = await uploadBytes(storageRef, file)
-    const downloadURL = await getDownloadURL(snapshot.ref)
-  
-    return downloadURL
+
+    return await getDownloadURL(snapshot.ref)
   } 
   catch (error) {
     console.error('Erro ao fazer upload da imagem para o Firebase:', error)
@@ -27,7 +26,7 @@ export async function uploadImageToFirebase(file) {
   }
 }
 
-export async function handleImageUploadAndReplace(file, existingImagePath) {
+export async function substituirImagem(file, existingImagePath) {
   try {
     if (existingImagePath) {
       const oldImageRef = ref(storage, existingImagePath);
@@ -41,13 +40,15 @@ export async function handleImageUploadAndReplace(file, existingImagePath) {
     await uploadBytes(newImageRef, file);
     console.log('Nova imagem enviada com sucesso.');
 
-    const downloadURL = await getDownloadURL(newImageRef);
-    console.log('URL da nova imagem:', downloadURL);
-
-    return downloadURL;
+    return await getDownloadURL(newImageRef);
   } 
   catch (error) {
     console.error('Erro ao processar a imagem:', error);
     throw error;
   }
+}
+
+export async function apagarImagem($caminhoImagem) {
+  const $imagem = ref(storage, $caminhoImagem);
+  await deleteObject($imagem);
 }

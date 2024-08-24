@@ -1,5 +1,5 @@
 import { editorInstances } from '../../ckeditor.js'
-import { handleImageUploadAndReplace  } from '../../firebase.js'
+import { substituirImagem  } from '../../firebase.js'
 
 const btnsConteudoEditar = document.querySelectorAll('.js-dashboard-conteudo-editar')
 const modalConteudoTextoEditar = document.querySelector('.modal-conteudo-texto-editar')
@@ -58,7 +58,7 @@ if (btnsConteudoEditar) {
         modalConteudoImagemEditar.showModal()
 
         const imagemAtual = imgElemento.src
-console.log(imagemAtual)
+
         if (btnEditarImagemEscolher) {
           btnEditarImagemEscolher.addEventListener('click', () => {
             editarImagemEscolher.click()
@@ -81,10 +81,9 @@ console.log(imagemAtual)
             objetoReader.readAsDataURL(anexo)
 
             try {
-              const downloadURL = await handleImageUploadAndReplace(anexo, imagemAtual)
+              const downloadURL = await substituirImagem(anexo, imagemAtual)
 
               inputUrlImagem.value = downloadURL
-              console.log('URL da imagem:', downloadURL)
             } 
             catch (error) {
               console.error('Erro ao obter a URL da imagem:', error)
