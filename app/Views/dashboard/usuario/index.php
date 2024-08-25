@@ -2,10 +2,17 @@
   <div class="relative p-4 w-full min-h-full flex flex-col bg-white">
     <div class="pb-4 md:pb-0 w-full flex flex-col justify-center items-start md:flex-row md:justify-between md:items-center">
       <h2 class="py-4 text-2xl font-semibold">Usuários</h2>
-      <div class="w-full flex flex-wrap sm:flex-nowrap justify-between md:justify-end items-center gap-2">
-        <a href="/dashboard/usuario/adicionar" class="w-full md:w-max flex gap-2 items-center justify-center py-2 px-4 bg-green-800 hover:bg-green-600 text-white text-sm text-xs rounded-lg">
-          Adicionar
-        </a>
+      <div class="pt-4 md:pt-0 w-full flex justify-end">
+        <div class="py-3 w-full md:w-max flex justify-end items-center gap-6 rounded-md">
+          <span class="w-full md:hidden"></span>
+          <span class="w-full md:hidden"></span>
+          <a href="/dashboard/usuario/adicionar" class="w-full flex gap-2 items-center justify-end text-black text-sm text-sm hover:underline">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+            </svg>
+            Adicionar
+          </a>
+        </div>
       </div>
     </div>
     <?php require_once 'tabela-usuarios.php' ?>
