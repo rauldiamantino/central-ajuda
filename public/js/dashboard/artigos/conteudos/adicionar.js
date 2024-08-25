@@ -114,19 +114,15 @@ if (form) {
 
     btnAdicionar.disabled = true
 
-    try {
-      const downloadURL = await uploadImagem(empresaId, artigoId, imagemEscolhida)
+    const downloadURL = await uploadImagem(empresaId, artigoId, imagemEscolhida)
+
+    if (downloadURL !== false) {
       const inputUrlImagem = form.querySelector('.url-imagem')
-      
+
       inputUrlImagem.value = downloadURL
       console.log('URL da imagem:', downloadURL)
 
       form.submit()
-    } 
-    catch (error) {
-      btnAdicionar.disabled = false
-      console.error('Erro ao carregar a imagem:', error)
-      return
     }
 
     btnAdicionar.disabled = false

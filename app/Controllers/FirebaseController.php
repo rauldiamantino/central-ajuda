@@ -3,7 +3,6 @@ namespace app\Controllers;
 
 class FirebaseController extends Controller
 {
-
   public function credenciais()
   {
     $credenciais = [
@@ -17,8 +16,28 @@ class FirebaseController extends Controller
       ],
     ];
 
+    if ($this->acessoPermitido() == false) {
+      header('Content-Type: application/json');
+      http_response_code(403);
+      echo json_encode(['erro' => 'Acesso negado']);
+      exit;
+    }
+
     header('Content-Type: application/json');
     echo json_encode($credenciais);
-    exit();
+    exit;
+  }
+
+  private function acessoPermitido()
+  {
+    if (! isset($_SERVER['HTTP_REFERER'])) {
+      return false;
+    }
+
+    if (parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST) !== DB_HOST) {
+      return false;
+    }
+
+    return true;
   }
 }

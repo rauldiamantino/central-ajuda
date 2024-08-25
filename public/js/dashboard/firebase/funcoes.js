@@ -9,8 +9,8 @@ async function uploadImagem(empresaId, artigoId, file) {
     return await getDownloadURL(snapshot.ref)
   } 
   catch (error) {
-    console.error('Erro ao fazer upload da imagem para o Firebase:', error)
-    throw error
+    console.error('Erro ao fazer upload da imagem para o Firebase: ', error)
+    return false
   }
 }
 
@@ -47,6 +47,11 @@ async function apagarImagem(caminhoImagem) {
     return true
   }
   catch (error) {
+    
+    if (error.code == 'storage/object-not-found') {
+      return true
+    }
+
     console.error('Erro ao tentar apagar o arquivo:', error)
     return false
   }
