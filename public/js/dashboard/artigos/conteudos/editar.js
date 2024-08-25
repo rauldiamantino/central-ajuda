@@ -104,10 +104,13 @@ if (formularioEditarImagem) {
 
     const empresaId = formularioEditarImagem.dataset.empresaId
     const artigoId = formularioEditarImagem.dataset.artigoId
+    const btnEditar = formularioEditarImagem.querySelector('.modal-conteudo-imagem-btn-enviar')
 
-    if (empresaId == undefined || artigoId == undefined || imagemParaUpload == null) {
+    if (empresaId == undefined || artigoId == undefined || imagemParaUpload == null || btnEditar == undefined) {
       return
     }
+
+    btnEditar.disabled = true
 
     if (imagemParaUpload) {
       try {
@@ -117,8 +120,11 @@ if (formularioEditarImagem) {
         inputUrlImagem.value = downloadURL
       } 
       catch (error) {
+        btnEditar.disabled = false
         console.error('Erro ao fazer upload da imagem:', error)
       }
+
+      btnEditar.disabled = false
     }
 
     formularioEditarImagem.submit()

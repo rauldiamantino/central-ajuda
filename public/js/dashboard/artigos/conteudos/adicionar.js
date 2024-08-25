@@ -106,10 +106,13 @@ if (form) {
 
     const empresaId = form.dataset.empresaId
     const artigoId = form.dataset.artigoId
+    const btnAdicionar = form.querySelector('.modal-conteudo-imagem-btn-enviar')
 
-    if (empresaId == undefined || artigoId == undefined || imagemEscolhida == null) {
+    if (empresaId == undefined || artigoId == undefined || imagemEscolhida == null || btnAdicionar == undefined) {
       return
     }
+
+    btnAdicionar.disabled = true
 
     try {
       const downloadURL = await uploadImagem(empresaId, artigoId, imagemEscolhida)
@@ -121,8 +124,11 @@ if (form) {
       form.submit()
     } 
     catch (error) {
+      btnAdicionar.disabled = false
       console.error('Erro ao carregar a imagem:', error)
       return
     }
+
+    btnAdicionar.disabled = false
   })
 }
