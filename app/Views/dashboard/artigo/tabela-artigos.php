@@ -73,7 +73,6 @@
                       </div>
                     <?php } ?>
                   </td>
-
                   <?php // Ação ?>
                   <?php if (isset($linha['Artigo.id'])) { ?>
                     <td class="py-5 px-4 text-center">

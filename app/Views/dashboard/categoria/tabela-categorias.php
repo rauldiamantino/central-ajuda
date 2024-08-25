@@ -63,7 +63,7 @@
                       </div>
                     <?php } ?>
                     <?php if ($subLinha == 0) { ?>
-                      <div class="py-5 px-4 flex items-center gap-2">
+                      <div class="flex items-center gap-2">
                         <span class="text-red-800">
                           <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 16 16">
                             <circle cx="8" cy="8" r="8"/>
