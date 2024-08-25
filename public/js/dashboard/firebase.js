@@ -27,15 +27,15 @@ export async function uploadImagem(empresaId, artigoId, file) {
 }
 
 export async function substituirImagem(empresaId, artigoId, file, existingImagePath) {
-  try {
-    if (existingImagePath) {
-      const oldImageRef = ref(storage, existingImagePath)
-      await deleteObject(oldImageRef)
-      console.log('Imagem antiga excluída com sucesso.')
-    }
+  
+  if (existingImagePath) {
+    const oldImageRef = ref(storage, existingImagePath)
+    deleteObject(oldImageRef)
+  }
 
+  try {
     const newImagePath = `imagens/empresa-${empresaId}/artigo-${artigoId}/${Date.now() % 100000}`
-    let newImageRef = ref(storage, newImagePath)
+    const newImageRef = ref(storage, newImagePath)
 
     await uploadBytes(newImageRef, file)
     console.log('Nova imagem enviada com sucesso.')
@@ -44,7 +44,6 @@ export async function substituirImagem(empresaId, artigoId, file, existingImageP
   } 
   catch (error) {
     console.error('Erro ao processar a imagem:', error)
-    throw error
   }
 }
 

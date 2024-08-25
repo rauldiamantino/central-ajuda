@@ -113,21 +113,17 @@ if (formularioEditarImagem) {
     btnEditar.disabled = true
 
     if (imagemParaUpload) {
-      try {
-        const downloadURL = await substituirImagem(empresaId, artigoId, imagemParaUpload.anexo, imagemParaUpload.imagemAtual)
+      const downloadURL = await substituirImagem(empresaId, artigoId, imagemParaUpload.anexo, imagemParaUpload.imagemAtual)
+
+      if (downloadURL) {
         const inputUrlImagem = formularioEditarImagem.querySelector('.url-imagem')
 
         inputUrlImagem.value = downloadURL
-      } 
-      catch (error) {
-        btnEditar.disabled = false
-        console.error('Erro ao fazer upload da imagem:', error)
+        formularioEditarImagem.submit()
       }
-
-      btnEditar.disabled = false
     }
 
-    formularioEditarImagem.submit()
+    btnEditar.disabled = false
   })
 }
 
