@@ -31,9 +31,9 @@
     <?php require_once 'template/topo.php' ?>
     <div class="flex">
       <?php require_once 'template/menu_lateral.php' ?>
-      <main class="ml-64 pt-16 flex w-screen h-screen flex-col">
+      <main class="md:ml-64 pt-16 flex w-screen h-screen flex-col">
         <?php require_once 'notificacoes.php' ?>
-        <div class="w-full max-w-screen h-full h-max-screen flex gap-6">
+        <div class="w-full max-w-screen h-full h-max-full flex gap-6">
           <?php require_once $visao ?>
         </div>
       </main>

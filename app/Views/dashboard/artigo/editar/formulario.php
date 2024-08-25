@@ -1,4 +1,4 @@
-<form method="POST" action="/artigo/<?php echo $artigo['Artigo.id'] ?>" class="border border-slate-200 w-full min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow">
+<form method="POST" action="/artigo/<?php echo $artigo['Artigo.id'] ?>" class="border border-slate-200 w-full md:min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow">
   <input type="hidden" name="_method" value="PUT">
   <div class="w-full flex gap-4">
     <div>
@@ -25,13 +25,8 @@
       <?php endforeach; ?>
     </select>
   </div>
-  <div class="w-full flex justify-between">
-    <div class="flex gap-2">
-      <a href="/dashboard/artigos" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Cancelar</a>
-      <button type="submit" class="flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg">Gravar</button>
-    </div>
-    <a href="/p/ver/artigo/<?php echo $artigo['Artigo.id'] ?>" target="_blank" class="w-max flex gap-2 items-center justify-center py-2 px-4 border border-blue-800 hover:border-blue-600 text-blue-800 text-xs rounded-lg">
-      Visualizar
-    </a>
+  <div class="w-full flex justify-start gap-2">
+    <a href="/dashboard/artigos" class="w-full md:w-max border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Cancelar</a>
+    <button type="submit" class="w-full md:w-max flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg">Gravar</button>
   </div>
 </form>

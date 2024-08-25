@@ -1,5 +1,5 @@
 
-<asside class="pt-16 fixed top-0 left-0 z-10 border-r border-slate-200 flex flex-col justify-between bg-white w-64 h-screen overflow-hidden">
+<asside class="pt-16 fixed top-0 left-0 z-10 transform -translate-x-full transition-transform duration-150 md:translate-x-0 border-r border-slate-200 flex flex-col justify-between bg-white w-80 md:w-64 h-screen overflow-hidden dashboard-menu-lateral">
   <ul class="flex flex-col gap-3 text-gray-500 px-4 py-6">
     <li class="hover:bg-slate-100 rounded-lg cursor-pointer flex justify-between group">
       <a href="/dashboard" class="w-full p-2">

@@ -1,4 +1,4 @@
-<dialog class="relative px-4 pt-4 sm:w-[440px] rounded-lg shadow modal-artigos-organizar">
+<dialog class="relative px-4 pt-4 w-full sm:w-[440px] rounded-lg shadow modal-artigos-organizar">
   <h3 class="flex p-2 pb-4 font-semibold">Reorganizar</h3>
   <div class="w-full flex flex-col gap-1 text-sm handle modal-artigos-organizar-blocos">
   </div>
