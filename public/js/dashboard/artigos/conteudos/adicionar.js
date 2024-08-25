@@ -84,7 +84,7 @@ if (btnCancelarModalAdicionarImagem) {
 }
 
 document.addEventListener('keydown', (event) => {
-  if ((event.key === 'Escape' || event.keyCode === 27) && modalConteudoImagemAdicionar.open) {
+  if ((event.key === 'Escape' || event.keyCode === 27) && modalConteudoImagemAdicionar && modalConteudoImagemAdicionar.open) {
     fecharModalAdicionarImagem()
   }
 })
