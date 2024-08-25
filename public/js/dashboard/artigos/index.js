@@ -1,4 +1,7 @@
+import { apagarImgsArtigo } from '../firebase.js'
+
 let artigoId = null
+let empresaId = null
 const btnsArtigoEditar = document.querySelectorAll('.js-dashboard-artigos-editar')
 const btnsArtigoRemover = document.querySelectorAll('.js-dashboard-artigos-remover')
 const modalRemover = document.querySelector('.modal-artigo-remover')
@@ -17,6 +20,7 @@ if (btnsArtigoRemover) {
   btnsArtigoRemover.forEach(artigo => {
     artigo.addEventListener('click', () => {
       artigoId = artigo.dataset.artigoId
+      empresaId = artigo.dataset.empresaId
       abrirModalRemover()
     })
   })
@@ -43,9 +47,15 @@ const fecharModalRemover = () => {
   modalRemover.close()
 }
 
-const requisicaoRemover = (artigoId) => {
+const requisicaoRemover = async (artigoId) => {
 
-  if (! artigoId) {
+  if (artigoId === undefined || empresaId === undefined) {
+    return
+  }
+
+  const apagar = await apagarImgsArtigo(`imagens/empresa-${empresaId}/artigo-${artigoId}`)
+
+  if (apagar == false) {
     return
   }
 

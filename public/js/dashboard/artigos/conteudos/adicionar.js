@@ -98,7 +98,7 @@ function fecharModalAdicionarImagem() {
   modalConteudoImagemAdicionar.close()
 }
 
-const form = document.querySelector('.form-conteudo-imagem-adicionar') // Supondo que o formulário tenha este ID
+const form = document.querySelector('.form-conteudo-imagem-adicionar')
 
 if (form) {
   form.addEventListener('submit', async (event) => {
@@ -111,20 +111,18 @@ if (form) {
       return
     }
 
-    if (imagemEscolhida) {
-      try {
-        const downloadURL = await uploadImagem(empresaId, artigoId, imagemEscolhida)
-        const inputUrlImagem = form.querySelector('.url-imagem')
+    try {
+      const downloadURL = await uploadImagem(empresaId, artigoId, imagemEscolhida)
+      const inputUrlImagem = form.querySelector('.url-imagem')
       
-        inputUrlImagem.value = downloadURL
-        console.log('URL da imagem:', downloadURL)
-      } 
-      catch (error) {
-        console.error('Erro ao carregar a imagem:', error)
-        return
-      }
-    }
+      inputUrlImagem.value = downloadURL
+      console.log('URL da imagem:', downloadURL)
 
-    form.submit()
+      form.submit()
+    } 
+    catch (error) {
+      console.error('Erro ao carregar a imagem:', error)
+      return
+    }
   })
 }

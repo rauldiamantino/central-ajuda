@@ -41,10 +41,18 @@ const fecharModalConteudoRemover = () => {
   modalConteudoRemover.close()
 }
 
-const requisicaoConteudoRemover = (conteudoId) => {
+const requisicaoConteudoRemover = async (conteudoId) => {
 
   if (! conteudoId) {
     return
+  }
+
+  if (conteudoUrl) {
+    const apagar = await apagarImagem(conteudoUrl);
+
+    if (apagar == false) {
+      return;
+    }
   }
 
   fetch(`/conteudo/${conteudoId}`, { method: 'DELETE' })
@@ -52,11 +60,6 @@ const requisicaoConteudoRemover = (conteudoId) => {
     .then(resposta => {
 
       if (resposta.linhasAfetadas == 1) {
-
-        if (conteudoTipo !== undefined && conteudoTipo == 2 && conteudoUrl != undefined) {
-          apagarImagem(conteudoUrl)
-        }
-
         location.reload()
       }
       else if (resposta.erro) {

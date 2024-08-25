@@ -1,5 +1,5 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js'
-import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-storage.js'
+import { getStorage, ref, uploadBytes, getDownloadURL, getMetadata, deleteObject, listAll } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-storage.js'
 
 const firebaseConfig = {
   apiKey: "AIzaSyBXAg4u_hFmkaEaqifkknJaD4Lnx42EvHE",
@@ -15,7 +15,7 @@ const storage = getStorage()
 
 export async function uploadImagem(empresaId, artigoId, file) {
   try {
-    const storageRef = ref(storage, `images/empresa-${empresaId}/artigo-${artigoId}/${Date.now() % 100000}`)
+    const storageRef = ref(storage, `imagens/empresa-${empresaId}/artigo-${artigoId}/${Date.now() % 100000}`)
     const snapshot = await uploadBytes(storageRef, file)
 
     return await getDownloadURL(snapshot.ref)
@@ -34,7 +34,7 @@ export async function substituirImagem(empresaId, artigoId, file, existingImageP
       console.log('Imagem antiga excluída com sucesso.')
     }
 
-    const newImagePath = `images/empresa-${empresaId}/artigo-${artigoId}/${Date.now() % 100000}`
+    const newImagePath = `imagens/empresa-${empresaId}/artigo-${artigoId}/${Date.now() % 100000}`
     let newImageRef = ref(storage, newImagePath)
 
     await uploadBytes(newImageRef, file)
@@ -48,7 +48,49 @@ export async function substituirImagem(empresaId, artigoId, file, existingImageP
   }
 }
 
-export async function apagarImagem($caminhoImagem) {
-  const $imagem = ref(storage, $caminhoImagem)
-  await deleteObject($imagem)
+export async function apagarImagem(caminhoImagem) {
+  const imagemRef = ref(storage, caminhoImagem)
+  
+  try {
+    await getMetadata(imagemRef)
+    await deleteObject(imagemRef)
+
+    return true
+  } 
+  catch (error) {
+    console.error('Erro ao tentar apagar o arquivo:', error)
+    return false
+  }
+}
+
+export async function apagarImgsArtigo(caminhoPasta) {
+  const pastaRef = ref(storage, caminhoPasta)
+  
+  try {
+    const listaDeArquivos = await listAll(pastaRef)
+
+    if (listaDeArquivos.items.length === 0) {
+      return true
+    }
+
+    const promessasDeDelecao = listaDeArquivos.items.map(async (arquivoRef) => {
+      try {
+        await deleteObject(arquivoRef)
+        return true
+      }
+      catch (error) {
+        console.error('Erro ao remover arquivo:', arquivoRef.fullPath, error)
+        return false
+      }
+    })
+
+    const resultados = await Promise.all(promessasDeDelecao)
+    const todasDeletadas = resultados.every(result => result === true)
+
+    return todasDeletadas
+  } 
+  catch (error) {
+    console.error('Erro ao remover pasta no Firebase:', error)
+    return false
+  }
 }
