@@ -32,7 +32,7 @@ $nivelAcesso = [
           <th class="p-6">Tipo de usuário</th>
           <th class="p-6">Nível</th>
           <th class="p-6">Status</th>
-          <th class="p-6">Ações</th>
+          <th class="p-6">Remover</th>
         </tr>
       </thead>
       <tbody class="divide-y">
