@@ -3,7 +3,7 @@
   <div class="border border-slate-200 p-4 w-full flex gap-5 rounded-md">
     <div class="flex flex-col gap-6 w-full form-conteudo">
       <input type="hidden" name="artigo.id" value="<?php echo $artigo['Artigo.id'] ?>">
-      <div class="px-2 flex gap-5 flex-col md:flex-row conteudo-botoes-adicionar">
+      <div class="w-full px-2 flex gap-5 flex-col md:flex-row conteudo-botoes-adicionar">
         <div class="w-full flex justify-between md:justify-start gap-5 md:gap-8">
           <button type="button" class="w-max flex gap-2 items-center justify-center text-black text-xs hover:underline conteudo-btn-texto-adicionar">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
