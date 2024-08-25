@@ -1,0 +1,32 @@
+let firebaseInicializado = false
+let firebaseModulos = {}
+
+async function inicializarFirebase() {
+
+  if (firebaseInicializado) {
+    return firebaseModulos
+  }
+
+  try {
+    const response = await fetch('/firebase')
+    const data = await response.json()
+    const firebaseConfig = data.firebase
+
+    const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js')
+    const { getStorage, ref, uploadBytes, getDownloadURL, getMetadata, deleteObject, listAll } = await import('https://www.gstatic.com/firebasejs/10.13.0/firebase-storage.js')
+
+    const app = initializeApp(firebaseConfig)
+    const storage = getStorage()
+
+    firebaseInicializado = true
+    console.log('Firebase inicializado com sucesso.')
+
+    return { app, storage, ref, uploadBytes, getDownloadURL, getMetadata, deleteObject, listAll }
+  } 
+  catch (error) {
+    console.error('Erro ao inicializar o Firebase:', error)
+    throw error
+  }
+}
+
+export { inicializarFirebase }

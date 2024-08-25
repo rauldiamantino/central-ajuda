@@ -15,6 +15,7 @@ use app\Controllers\PublicoBuscaController;
 use app\Controllers\PublicoCategoriaController;
 use app\Controllers\PublicoController;
 use app\Controllers\TesteController;
+use app\Controllers\FirebaseController;
 use app\Models\Model;
 
 class Roteador
@@ -85,6 +86,8 @@ class Roteador
 
       'POST:/cadastro' => [DashboardCadastroController::class, 'adicionar'],
       'PUT:/empresa/{id}' => [DashboardEmpresaController::class, 'atualizar'],
+
+      'GET:/firebase' => [FirebaseController::class, 'credenciais'],
     ];
   }
 

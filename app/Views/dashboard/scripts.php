@@ -4,7 +4,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
 <script type="importmap">{ "imports": { "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.0.0/ckeditor5.js", "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.0.0/" }}</script>
 <script src="/public/js/dashboard/ckeditor.js" type="module"></script>
-<script src="/public/js/dashboard/firebase.js" type="module"></script>
+<script src="/public/js/dashboard/firebase/inicializar.js" type="module"></script>
 
 <!------------------- scripts ------------------->
 <script src="/public/js/dashboard/index.js"></script>

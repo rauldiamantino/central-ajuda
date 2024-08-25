@@ -1,4 +1,4 @@
-import { uploadImagem } from '../../firebase.js'
+import { uploadImagem } from '../../firebase/funcoes.js'
 
 const btnTextoAdicionar = document.querySelector('.conteudo-btn-texto-adicionar')
 const btnImagemAdicionar = document.querySelector('.conteudo-btn-imagem-adicionar')

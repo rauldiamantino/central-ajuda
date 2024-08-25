@@ -1,20 +1,8 @@
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js'
-import { getStorage, ref, uploadBytes, getDownloadURL, getMetadata, deleteObject, listAll } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-storage.js'
+import { inicializarFirebase } from './inicializar.js'
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBXAg4u_hFmkaEaqifkknJaD4Lnx42EvHE",
-  authDomain: "central-ajuda-5f40a.firebaseapp.com",
-  projectId: "central-ajuda-5f40a",
-  storageBucket: "central-ajuda-5f40a.appspot.com",
-  messagingSenderId: "83629854813",
-  appId: "1:83629854813:web:3c99764aef3aba36a27db4"
-}
-
-const app = initializeApp(firebaseConfig)
-const storage = getStorage()
-
-export async function uploadImagem(empresaId, artigoId, file) {
+async function uploadImagem(empresaId, artigoId, file) {
   try {
+    const { storage, ref, uploadBytes, getDownloadURL } = await inicializarFirebase()
     const storageRef = ref(storage, `imagens/empresa-${empresaId}/artigo-${artigoId}/${Date.now() % 100000}`)
     const snapshot = await uploadBytes(storageRef, file)
 
@@ -26,14 +14,15 @@ export async function uploadImagem(empresaId, artigoId, file) {
   }
 }
 
-export async function substituirImagem(empresaId, artigoId, file, existingImagePath) {
-  
-  if (existingImagePath) {
-    const oldImageRef = ref(storage, existingImagePath)
-    deleteObject(oldImageRef)
-  }
-
+async function substituirImagem(empresaId, artigoId, file, existingImagePath) {
   try {
+    const { storage, ref, uploadBytes, getDownloadURL, deleteObject } = await inicializarFirebase()
+
+    if (existingImagePath) {
+      const oldImageRef = ref(storage, existingImagePath)
+      await deleteObject(oldImageRef)
+    }
+
     const newImagePath = `imagens/empresa-${empresaId}/artigo-${artigoId}/${Date.now() % 100000}`
     const newImageRef = ref(storage, newImagePath)
 
@@ -41,31 +30,32 @@ export async function substituirImagem(empresaId, artigoId, file, existingImageP
     console.log('Nova imagem enviada com sucesso.')
 
     return await getDownloadURL(newImageRef)
-  } 
+  }
   catch (error) {
     console.error('Erro ao processar a imagem:', error)
   }
 }
 
-export async function apagarImagem(caminhoImagem) {
-  const imagemRef = ref(storage, caminhoImagem)
-  
+async function apagarImagem(caminhoImagem) {
   try {
+    const { storage, ref, getMetadata, deleteObject } = await inicializarFirebase()
+    const imagemRef = ref(storage, caminhoImagem)
+    
     await getMetadata(imagemRef)
     await deleteObject(imagemRef)
 
     return true
-  } 
+  }
   catch (error) {
     console.error('Erro ao tentar apagar o arquivo:', error)
     return false
   }
 }
 
-export async function apagarImgsArtigo(caminhoPasta) {
-  const pastaRef = ref(storage, caminhoPasta)
-  
+async function apagarImgsArtigo(caminhoPasta) {
   try {
+    const { storage, ref, listAll, deleteObject } = await inicializarFirebase()
+    const pastaRef = ref(storage, caminhoPasta)
     const listaDeArquivos = await listAll(pastaRef)
 
     if (listaDeArquivos.items.length === 0) {
@@ -84,12 +74,12 @@ export async function apagarImgsArtigo(caminhoPasta) {
     })
 
     const resultados = await Promise.all(promessasDeDelecao)
-    const todasDeletadas = resultados.every(result => result === true)
-
-    return todasDeletadas
+    return resultados.every(result => result === true)
   } 
   catch (error) {
     console.error('Erro ao remover pasta no Firebase:', error)
     return false
   }
 }
+
+export { uploadImagem, substituirImagem, apagarImagem, apagarImgsArtigo }

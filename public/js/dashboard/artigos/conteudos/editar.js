@@ -1,5 +1,5 @@
 import { editorInstances } from '../../ckeditor.js'
-import { substituirImagem } from '../../firebase.js'
+import { substituirImagem } from '../../firebase/funcoes.js'
 
 const btnsConteudoEditar = document.querySelectorAll('.js-dashboard-conteudo-editar')
 const modalConteudoTextoEditar = document.querySelector('.modal-conteudo-texto-editar')
@@ -25,6 +25,7 @@ const btnCancelarModalEditarVideo = document.querySelector('.modal-conteudo-vide
 const formularioEditarVideo = document.querySelector('.modal-conteudo-video-editar > form')
 
 let imagemParaUpload = null
+let imagemAtual = null
 
 if (btnsConteudoEditar) {
   btnsConteudoEditar.forEach(conteudo => {
@@ -57,8 +58,7 @@ if (btnsConteudoEditar) {
         imgElemento.classList.add('opacity-100')
         imgElemento.classList.remove('opacity-0')
         modalConteudoImagemEditar.showModal()
-
-        const imagemAtual = conteudo.dataset.conteudoUrl
+        imagemAtual = conteudo.dataset.conteudoUrl
 
         if (btnEditarImagemEscolher) {
           btnEditarImagemEscolher.addEventListener('click', () => {
@@ -80,7 +80,7 @@ if (btnsConteudoEditar) {
 
             editarTextoImagemEscolher.textContent = anexo.name
             objetoReader.readAsDataURL(anexo)
-            imagemParaUpload = { anexo, imagemAtual }
+            imagemParaUpload = anexo
           }
         })
 
@@ -105,25 +105,28 @@ if (formularioEditarImagem) {
     const empresaId = formularioEditarImagem.dataset.empresaId
     const artigoId = formularioEditarImagem.dataset.artigoId
     const btnEditar = formularioEditarImagem.querySelector('.modal-conteudo-imagem-btn-enviar')
+    const inputUrlImagem = formularioEditarImagem.querySelector('.url-imagem')
 
-    if (empresaId == undefined || artigoId == undefined || imagemParaUpload == null || btnEditar == undefined) {
+    if (empresaId == undefined || artigoId == undefined || btnEditar == undefined || imagemAtual == undefined) {
       return
     }
 
-    btnEditar.disabled = true
+    if (imagemParaUpload && imagemAtual) {
+      btnEditar.disabled = true
 
-    if (imagemParaUpload) {
-      const downloadURL = await substituirImagem(empresaId, artigoId, imagemParaUpload.anexo, imagemParaUpload.imagemAtual)
+      const downloadURL = await substituirImagem(empresaId, artigoId, imagemParaUpload, imagemAtual)
 
       if (downloadURL) {
-        const inputUrlImagem = formularioEditarImagem.querySelector('.url-imagem')
-
         inputUrlImagem.value = downloadURL
         formularioEditarImagem.submit()
       }
-    }
 
-    btnEditar.disabled = false
+      btnEditar.disabled = false
+    }
+    else {
+      inputUrlImagem.value = imagemAtual
+      formularioEditarImagem.submit()
+    }
   })
 }
 

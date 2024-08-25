@@ -1,4 +1,4 @@
-import { apagarImagem } from '../../firebase.js'
+import { apagarImagem } from '../../firebase/funcoes.js'
 
 let conteudoId = null
 let conteudoTipo = null
