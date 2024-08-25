@@ -9,6 +9,10 @@ if ($usuario['Usuario.nivel'] == 0) {
   unset($nivelAcesso[1]);
   unset($nivelAcesso[2]);
 }
+elseif ($usuario['Usuario.nivel'] == 1) {
+  unset($nivelAcesso[0]);
+  unset($nivelAcesso[2]);
+}
 else {
   unset($nivelAcesso[0]);
 }

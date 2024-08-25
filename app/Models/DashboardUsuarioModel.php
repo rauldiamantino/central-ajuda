@@ -121,8 +121,14 @@ class DashboardUsuarioModel extends Model
       }
     }
 
-    if ($campos['padrao'] == 1 and isset($campos['ativo'])) {
+    // Evita alterar ativo de usuário Suporte e Padrão
+    if (in_array($campos['padrao'], [0, 1]) and isset($campos['ativo'])) {
       unset($campos['ativo']);
+    }
+
+    // Evita alterar nível de usuário Suporte e Padrão
+    if (in_array($campos['padrao'], [0, 1]) and isset($campos['nivel'])) {
+      unset($campos['nivel']);
     }
 
     // Revisar para tornar dinâmico
@@ -147,6 +153,17 @@ class DashboardUsuarioModel extends Model
         'erro' => [
           'codigo' => 400,
           'mensagem' => 'ID não informado',
+        ],
+      ];
+
+      return $msgErro;
+    }
+
+    if ($this->usuarioLogadoId == $id) {
+      $msgErro = [
+        'erro' => [
+          'codigo' => 400,
+          'mensagem' => 'Não é possível remover o próprio usuário',
         ],
       ];
 
