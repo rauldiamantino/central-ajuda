@@ -47,7 +47,7 @@ const requisicaoConteudoRemover = async (conteudoId) => {
     return
   }
 
-  if (conteudoUrl) {
+  if (conteudoUrl && conteudoTipo == 2) {
     const apagar = await apagarImagem(conteudoUrl);
 
     if (apagar == false) {
