@@ -3,8 +3,10 @@
     <div class="pb-4 md:pb-0 w-full flex flex-col justify-center items-start md:flex-row md:justify-between md:items-center">
       <h2 class="py-4 text-2xl font-semibold">Artigos</h2>
       <div class="w-full flex flex-wrap sm:flex-nowrap justify-between md:justify-end items-center gap-2">
-        <button type="button" class="w-full min-w-max md:w-max flex gap-2 items-center justify-center py-2 px-4 border border-yellow-800 hover:border-yellow-600 text-yellow-800 text-sm text-xs rounded-lg" onclick="filtrarArtigos()">Filtrar por categoria</button>
-        <button type="button" class="w-full md:w-max flex gap-2 items-center justify-center py-2 px-4 border border-yellow-800 hover:border-yellow-600 text-yellow-800 text-sm text-xs rounded-lg" onclick="buscarArtigos()">Reorganizar</button>
+        <div class="w-full md:w-max flex gap-2">
+          <button type="button" class="w-full min-w-max md:w-max flex gap-2 items-center justify-center py-2 px-4 border border-yellow-800 hover:border-yellow-600 text-yellow-800 text-sm text-xs rounded-lg" onclick="filtrarArtigos()">Filtrar por categoria</button>
+          <button type="button" class="w-full md:w-max flex gap-2 items-center justify-center py-2 px-4 border border-yellow-800 hover:border-yellow-600 text-yellow-800 text-sm text-xs rounded-lg" onclick="buscarArtigos()">Reorganizar</button>
+        </div>
         <a href="/dashboard/artigo/adicionar" class="w-full md:w-max flex gap-2 items-center justify-center py-2 px-4 border border-green-800 bg-green-800 hover:bg-green-600 text-white text-xs rounded-lg">Adicionar</a>
       </div>
     </div>

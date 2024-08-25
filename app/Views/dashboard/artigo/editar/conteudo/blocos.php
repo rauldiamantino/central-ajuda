@@ -1,7 +1,10 @@
-<div class="w-full select-none flex flex-col gap-4">
+<div class="mb-4 border border-slate-200 p-4 w-full select-none flex flex-col gap-2 bg-gray-100 rounded-md">
+  <?php if (count($conteudos) == 0) { ?>
+    <span class="text-xs w-full flex justify-center">Ops! Nenhum conteúdo adicionado</span>
+  <?php } ?>
   <?php foreach ($conteudos as $linha): ?>
     <div class="flex gap-1 w-full" data-conteudo-ordem="<?php echo $linha['Conteudo.ordem'] ?>" data-conteudo-id="<?php echo $linha['Conteudo.id'] ?>">
-      <div class="border border-slate-200 p-4 w-full flex items-center justify-between gap-4 hover:bg-slate-50 rounded-lg shadow">
+      <div class="border border-slate-200 p-4 w-full flex items-center justify-between gap-4 hover:bg-slate-50 rounded-lg shadow bg-white">
         <div class="w-max">
           <?php if ($linha['Conteudo.tipo'] == 1) { ?>
             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 16 16">

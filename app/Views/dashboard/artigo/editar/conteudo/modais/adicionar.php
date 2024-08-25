@@ -13,7 +13,7 @@
     <div class="editor-container_classic-editor">
       <textarea name="conteudo" id="conteudo-adicionar-texto-conteudo" class="border border-gray-300 w-full p-2 h-56 rounded-lg ckeditor"></textarea>
     </div>
-    <div class="sticky bottom-0 py-4 w-full h-max flex justify-between gap-4 bg-white">
+    <div class="sticky bottom-0 py-4 w-full h-max flex flex-col md:flex-row justify-between gap-4 bg-white">
       <div class="w-full">
         <label class="flex items-start gap-2 cursor-pointer">
           <input type="hidden" name="titulo_ocultar" value="0">
@@ -23,8 +23,8 @@
         </label>
       </div>
       <div class="flex gap-4">
-        <button type="button" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-texto-adicionar-btn-cancelar w-full">Cancelar</button>
-        <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-green-800 hover:bg-green-600 text-white text-xs rounded-lg modal-conteudo-texto-btn-enviar">Adicionar</button>
+        <button type="button" class="w-full md:w-max border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-texto-adicionar-btn-cancelar">Cancelar</button>
+        <button type="submit" class="w-full md:w-max flex gap-2 items-center justify-center py-2 px-4 bg-green-800 hover:bg-green-600 text-white text-xs rounded-lg modal-conteudo-texto-btn-enviar">Adicionar</button>
       </div>
     </div>
   </form>
@@ -56,7 +56,7 @@
         <img src="" class="object-cover w-full h-full">
       </div>
     </div>
-    <div class="w-full flex justify-between gap-4">
+    <div class="pt-2 w-full flex flex-col md:flex-row justify-between gap-4">
       <div class="w-full">
         <label class="flex items-start gap-2 cursor-pointer">
           <input type="hidden" name="titulo_ocultar" value="0">
@@ -66,8 +66,8 @@
         </label>
       </div>
       <div class="flex gap-4">
-        <button type="button" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-conteudo-imagem-btn-cancelar-adicionar w-full">Cancelar</button>
-        <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg modal-conteudo-imagem-btn-enviar">Adicionar</button>
+        <button type="button" class="w-full md:w-max border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-conteudo-imagem-btn-cancelar-adicionar">Cancelar</button>
+        <button type="submit" class="w-full md:w-max flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg modal-conteudo-imagem-btn-enviar">Adicionar</button>
       </div>
     </div>
   </form>
@@ -86,7 +86,7 @@
       <input type="text" id="conteudo-adicionar-video-titulo" name="titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="">
     </div>
     <input type="text" name="url" id="conteudo-adicionar-video-url" class="border border-gray-300 w-full p-2 rounded-lg text-sm" placeholder="https://www.youtube.com/watch?v=00000000000">
-    <div class="w-full flex justify-between gap-4">
+    <div class="pt-2 w-full flex flex-col md:flex-row justify-between gap-4">
       <div class="w-full">
         <label class="flex items-start gap-2 cursor-pointer">
           <input type="hidden" name="titulo_ocultar" value="0">
@@ -96,8 +96,8 @@
         </label>
       </div>
       <div class="flex gap-4">
-        <button type="button" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-conteudo-video-btn-cancelar-adicionar w-full">Cancelar</button>
-        <button type="submit" class="w-max flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg modal-conteudo-video-btn-enviar">Adicionar</button>
+        <button type="button" class="w-full md:w-max border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-conteudo-video-btn-cancelar-adicionar">Cancelar</button>
+        <button type="submit" class="w-full md:w-max flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg modal-conteudo-video-btn-enviar">Adicionar</button>
       </div>
     </div>
   </form>
