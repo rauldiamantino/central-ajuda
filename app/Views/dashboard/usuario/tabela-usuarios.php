@@ -14,7 +14,7 @@ $nivelAcesso = [
 
 <div class="max-w-screen overflow-x-auto">
   <div class="inline-block min-w-full align-middle">
-    <table class="table-fixed text-sm text-left text-gray-500">
+    <table class="table-fixed min-w-full text-sm text-left text-gray-500">
       <thead class="p-6 text-xs font-light text-gray-500 uppercase bg-slate-100">
         <tr class="w-full border-b divide-x">
           <th class="p-6 w-20">ID</th>
