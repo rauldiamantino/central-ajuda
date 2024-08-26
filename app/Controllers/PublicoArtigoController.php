@@ -24,6 +24,7 @@ class PublicoArtigoController extends PublicoController
 
     $condicoes = [
       'Artigo.id' => (int) $id,
+      'Artigo.ativo' => 1,
     ];
 
     $colunas = [
@@ -105,6 +106,10 @@ class PublicoArtigoController extends PublicoController
       if (isset($resultado[0]['Artigo.id'])) {
         $demaisArtigos = $resultado;
       }
+    }
+    else {
+      header('Location: /erro');
+      exit;
     }
 
     $this->visao->variavel('demaisArtigos', $demaisArtigos);

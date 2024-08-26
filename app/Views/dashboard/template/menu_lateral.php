@@ -1,5 +1,4 @@
-
-<asside class="pt-16 fixed top-0 left-0 z-10 transform -translate-x-full transition-transform duration-150 md:translate-x-0 border-r border-slate-200 flex flex-col justify-between bg-white w-80 md:w-64 h-screen overflow-hidden dashboard-menu-lateral">
+<asside class="pt-16 fixed top-0 left-0 z-10 transform -translate-x-full transition-transform duration-100 md:translate-x-0 border-r border-slate-200 flex flex-col justify-between bg-white w-80 md:w-64 h-screen overflow-hidden dashboard-menu-lateral">
   <ul class="flex flex-col gap-3 text-gray-500 px-4 py-6">
     <li class="hover:bg-slate-100 rounded-lg cursor-pointer flex justify-between group">
       <a href="/dashboard" class="w-full p-2">
@@ -78,6 +77,16 @@
       </a>
     </li>
     <li class="hover:bg-slate-100 rounded-lg cursor-pointer flex justify-between group">
+      <a href="" class="w-full p-2">
+        <div class="flex items-center gap-3">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-headset" viewBox="0 0 16 16">
+            <path d="M8 1a5 5 0 0 0-5 5v1h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a6 6 0 1 1 12 0v6a2.5 2.5 0 0 1-2.5 2.5H9.366a1 1 0 0 1-.866.5h-1a1 1 0 1 1 0-2h1a1 1 0 0 1 .866.5H11.5A1.5 1.5 0 0 0 13 12h-1a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h1V6a5 5 0 0 0-5-5"/>
+          </svg>
+          <span>Suporte</span>
+        </div>
+      </a>
+    </li>
+    <li class="hover:bg-slate-100 rounded-lg cursor-pointer flex justify-between group">
       <a href="/logout" class="w-full p-2">
         <div class="flex items-center gap-3 text-red-800">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-box-arrow-left" viewBox="0 0 16 16">
@@ -90,12 +99,16 @@
     </li>
   </ul>
 
-  <div class="p-4 text-gray-500 text-sm">
-    <div class="flex items-center gap-3">
-      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
-        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
-      </svg>
-      <span>suporte@luminaon.com.br</span>
-    </div>
+  <div class="p-4 text-gray-500 flex flex-col gap-4 text-sm">
+
+    <?php if (isset($_SESSION['usuario']['email'])) { ?>
+      <div class="flex items-center gap-3">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-person-check" viewBox="0 0 16 16">
+          <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m1.679-4.493-1.335 2.226a.75.75 0 0 1-1.174.144l-.774-.773a.5.5 0 0 1 .708-.708l.547.548 1.17-1.951a.5.5 0 1 1 .858.514M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
+          <path d="M8.256 14a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1z"/>
+        </svg>
+        <?php echo $_SESSION['usuario']['email'] ?>
+      </div>
+    <?php } ?>
   </div>
 </asside>

@@ -1,4 +1,4 @@
-<div class="w-full flex flex-col px-12 py-14">
+<div class="w-full flex flex-col px-6 md:px-12 py-14">
   <div class="border-b border-slate-200 flex flex-col justify-between items-start gap-4 py-5 mb-10 publico-artigo-topo">
     <?php if ($textoBusca) { ?>
       <h2 class="text-4xl publico-artigo-titulo"> Exibindo resultados para "<?php echo $textoBusca ?>"</h2>

@@ -1,12 +1,12 @@
-<div class="w-full flex flex-col px-12 py-14">
-  <div class="pb-6 border-b border-slate-200 flex gap-2 font-light text-sm publico-migalhas">
-    <a href="/p/<?php echo $subdominio ?>" class="hover:underline">Início</a>
+<div class="w-full flex flex-col px-6 md:px-12 py-14">
+  <div class="pb-6 border-b border-slate-200 flex flex-wrap gap-2 font-light text-sm publico-migalhas">
+    <a href="/p/<?php echo $subdominio ?>" class="hover:underline whitespace-nowrap">Início</a>
     <?php if (isset($artigo['Categoria.nome'])) { ?>
       <span>></span>
-      <a href="/p/<?php echo $subdominio ?>/categoria/<?php echo $artigo['Artigo.categoria_id'] ?>" class="hover:underline"><?php echo $artigo['Categoria.nome'] ?></a>
+      <a href="/p/<?php echo $subdominio ?>/categoria/<?php echo $artigo['Artigo.categoria_id'] ?>" class="hover:underline whitespace-nowrap"><?php echo $artigo['Categoria.nome'] ?></a>
     <?php } ?>
     <span>></span>
-    <span class="underline"><?php echo $artigo['Artigo.titulo'] ?></span>
+    <span class="underline whitespace-nowrap truncate"><?php echo $artigo['Artigo.titulo'] ?></span>
   </div>
 
   <div class="flex flex-col justify-between items-start gap-4 pt-10 publico-artigo-topo">

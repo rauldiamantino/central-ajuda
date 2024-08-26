@@ -25,12 +25,17 @@ class PublicoController extends Controller
 
   public function publicoVer()
   {
+    $condicoes = [
+      'Categoria.ativo' => 1,
+    ];
+
     $colunas = [
       'Categoria.id',
       'Categoria.nome',
     ];
 
-    $resultado = $this->dashboardDategoriaModel->ordem(['Categoria.ordem' => 'ASC'])
+    $resultado = $this->dashboardDategoriaModel->condicao($condicoes)
+                                               ->ordem(['Categoria.ordem' => 'ASC'])
                                                ->buscar($colunas);
 
     if (isset($resultado[0]['Categoria.id']) and $this->subdominio) {

@@ -1,5 +1,5 @@
 <?php $categoriaNome = $artigos[0]['Categoria.nome'] ?? ''; ?>
-<div class="w-full flex flex-col px-12 py-14">
+<div class="w-full flex flex-col px-6 md:px-12 py-14">
   <div class="pb-6 border-b border-slate-200 flex gap-2 font-light text-sm publico-migalhas">
     <a href="/p/<?php echo $subdominio ?>" class="hover:underline">Início</a>
     <span>></span>

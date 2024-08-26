@@ -21,6 +21,10 @@ class PublicoCategoriaController extends PublicoController
     $categorias = [];
     $artigos = [];
 
+    $condicoes = [
+      'Categoria.ativo' => 1,
+    ];
+
     $colunas = [
       'Categoria.id',
       'Categoria.nome',
@@ -30,9 +34,10 @@ class PublicoCategoriaController extends PublicoController
       'Categoria.ordem' => 'ASC',
     ];
 
-    $resultado = $this->categoriaModel->ordem($ordem)
+    $resultado = $this->categoriaModel->condicao($condicoes)
+                                      ->ordem($ordem)
                                       ->buscar($colunas);
-    
+
     if (isset($resultado[0]['Categoria.id'])) {
       $categorias = $resultado;
     }
@@ -40,6 +45,7 @@ class PublicoCategoriaController extends PublicoController
     if ($categorias) {
       $condArtigos = [
         'Artigo.categoria_id' => (int) $id,
+        'Categoria.ativo' => 1,
       ];
 
       $colArtigos = [
@@ -69,6 +75,10 @@ class PublicoCategoriaController extends PublicoController
 
       if (isset($resultado[0]['Artigo.id'])) {
         $artigos = $resultado;
+      }
+      else {
+        header('Location: /erro');
+        exit;
       }
     }
 
