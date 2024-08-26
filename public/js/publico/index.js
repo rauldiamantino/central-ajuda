@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
     })
   }
 
-  window.addEventListener('scroll', checarScroll)
+  // window.addEventListener('scroll', checarScroll)
 })
 
 const menuLateralToggle = (menuLateral) => {

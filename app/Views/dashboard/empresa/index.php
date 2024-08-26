@@ -10,7 +10,7 @@
     <div class="w-full flex flex-col gap-2">
       <?php require_once 'formulario.php' ?>
       <?php if ($empresa['Empresa.subdominio'] and isset($_SERVER['SERVER_NAME']) and $_SERVER['SERVER_NAME']) { ?>
-        <div class="p-4 flex flex-col md:flex-row md:gap-2 justify-center items-center w-full border-b border-slate-200 text-gray-900 text-center text-sm">
+        <div class="p-4 flex flex-col flex-wrap md:flex-row md:gap-2 justify-center items-center w-full border-b border-slate-200 text-gray-900 text-center text-sm">
           Divulgue o endereço:
           <a href="/p/<?php echo $empresa['Empresa.subdominio'] ?>" target="_blank" class="text-xl text-red-700"><?php echo  $_SERVER['SERVER_NAME'] . '/p/' . $empresa['Empresa.subdominio']?></a>
         </div>
