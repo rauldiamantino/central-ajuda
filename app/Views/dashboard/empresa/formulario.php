@@ -1,4 +1,4 @@
-<form method="POST" action="/empresa/<?php echo $empresa['Empresa.id'] ?>" class="border border-slate-200 w-full min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow form-editar-empresa" data-empresa-id="<?php echo $empresa['Empresa.id'] ?>" data-imagem-atual="<?php echo $empresa['Empresa.logo']; ?>">
+<form method="POST" action="/empresa/<?php echo $empresa['Empresa.id'] ?>" class="border border-slate-200 w-full md:min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow form-editar-empresa" data-empresa-id="<?php echo $empresa['Empresa.id'] ?>" data-imagem-atual="<?php echo $empresa['Empresa.logo']; ?>">
   <input type="hidden" name="_method" value="PUT">
   <div class="w-full flex flex-col gap-4">
     <div class="w-full flex justify-start gap-4">
@@ -36,9 +36,9 @@
         </svg>
         <span class="ml-2 text-gray-700 h-max w-max empresa-txt-imagem-editar-escolher">Alterar Imagem</span>
       </button>
-      <div class="flex flex-col gap-2 w-full justify-center items-center opacity-50">
+      <h3 class="whitespace-pre-line text-red-800 erro-empresa-imagem"></h3>
+      <div class="border border-slate-200 p-4 flex flex-col gap-4 w-full justify-center items-center opacity-50 rounded-md">
         <img src="<?php echo $empresa['Empresa.logo']; ?>" class="object-cover w-max h-max empresa-alterar-logo <?php echo $empresa['Empresa.logo'] ? '' : 'hidden' ?>">
-        <h3 class="whitespace-pre-line text-red-800 erro-empresa-imagem"></h3>
       </div>
     </div>
   </div>

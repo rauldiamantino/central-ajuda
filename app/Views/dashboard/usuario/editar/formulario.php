@@ -61,7 +61,7 @@ else {
     <div>
       <div class="mt-4 text-red-800 text-xs">*Preencha os campos abaixo apenas para alterar a senha</div>
       <div class="px-4 p-6 flex flex-col gap-4 border border-slate-200 bg-slate-50 rounded-md">
-        <div class="flex gap-4">
+        <div class="flex flex-col md:flex-row gap-4">
           <div class="w-full">
             <label for="usuario-editar-senha-atual" class="block text-sm font-medium text-gray-700">Senha atual</label>
             <input type="password" id="usuario-editar-senha-atual" name="senha_atual" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="" autocomplete="off">

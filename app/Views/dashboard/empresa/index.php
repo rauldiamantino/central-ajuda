@@ -1,4 +1,4 @@
-<div class="relative w-full min-h-full flex flex-col bg-white p-4">
+<div class="w-full h-full flex flex-col bg-white p-4">
   <h2 class="flex gap-1 text-2xl font-semibold mb-4">
     Editar empresa
     <span class="flex items-center gap-2 text-gray-400 font-light italic">
@@ -16,6 +16,6 @@
         </div>
       <?php } ?>
     </div>
-    <div class="w-full"></div>
+    <div class="hidden md:block w-full"></div>
   </div>
 </div>

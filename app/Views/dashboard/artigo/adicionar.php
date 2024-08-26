@@ -41,6 +41,6 @@
         </div>
       </form>
     </div>
-    <div class="w-full"></div>
+    <div class="hidden md:block w-full"></div>
   </div>
 </div>

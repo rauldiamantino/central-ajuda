@@ -8,13 +8,17 @@ document.addEventListener('DOMContentLoaded', function () {
   const btnAlterarIMagem = document.querySelector('.empresa-btn-imagem-editar-escolher')
   const msgErro = document.querySelector('.erro-empresa-imagem')
 
+  if (! formularioEditarEmpresa) {
+    return
+  }
+  
   let imagemParaUpload = null
-  let imagemAtual = null
+  let imagemAtual = formularioEditarEmpresa.dataset.imagemAtual
 
   if (! btnAlterarIMagem || ! editarImagemEscolher) {
     return
   }
-
+    
   btnAlterarIMagem.addEventListener('click', () => {
     editarImagemEscolher.click()
   })
@@ -59,7 +63,6 @@ document.addEventListener('DOMContentLoaded', function () {
       const objetoReader = new FileReader()
 
       objetoReader.onload = (e) => {
-        imagemAtual = formularioEditarEmpresa.dataset.imagemAtual
         imgElemento.src = e.target.result
         imgElemento.classList.remove('hidden')
       }
