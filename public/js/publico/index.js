@@ -8,14 +8,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const posicaoScroll = window.scrollY
 
     if (posicaoScroll > 50) {
-      topoPublico.classList.remove('bg-slate-800')
-      topoPublico.classList.add('bg-white')
-      topoPublicoInverter.classList.remove('invert')
+      // topoPublico.classList.remove('bg-slate-800')
+      // topoPublico.classList.add('bg-white')
+      // topoPublicoInverter.classList.remove('invert')
     } 
     else {
-      topoPublico.classList.remove('bg-white')
-      topoPublico.classList.add('bg-slate-800')
-      topoPublicoInverter.classList.add('invert')
+      // topoPublico.classList.remove('bg-white')
+      // topoPublico.classList.add('bg-slate-800')
+      // topoPublicoInverter.classList.add('invert')
     }
   }
 
