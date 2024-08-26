@@ -21,15 +21,24 @@ class DashboardLoginModel extends Model
     }
 
     $sql = 'SELECT 
-              `Usuario`.`id`, `Usuario`.`nome`, `Usuario`.`email`, `Usuario`.`senha`, `Usuario`.`empresa_id` 
-            FROM 
-              `usuarios` AS `Usuario` 
-            WHERE `Usuario`.`email` = "' . $campos['email'] . '"
-            ORDER BY 
+              `Usuario`.`id`, `Usuario`.`nome`, `Usuario`.`email`, `Usuario`.`senha`, `Usuario`.`empresa_id`
+            FROM
+              `usuarios` AS `Usuario`
+            WHERE
+              `Usuario`.`email` = ?
+            AND
+              `Usuario`.`ativo` = ?
+            ORDER BY
               `Usuario`.`id`ASC
             LIMIT 1';
 
-    $usuario = parent::executarQueryLogin($sql);
+    $sqlParam = [
+      0 => $campos['email'],
+      1 => 1,
+    ];
+
+    $usuario = parent::executarQueryLogin($sql, $sqlParam);
+
     $loginSucesso = true;
 
     if (! isset($usuario[0]['id']) or empty($usuario[0]['id'])) {
