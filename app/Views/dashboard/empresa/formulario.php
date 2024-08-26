@@ -38,7 +38,7 @@
       </button>
       <div class="relative flex flex-col gap-2 w-full justify-center items-center max-h-48 opacity-50">
         <?php if ($empresa['Empresa.logo']) { ?>
-          <img src="<?php echo $empresa['Empresa.logo']; ?>" class="object-cover w-max h-max empresa-alterar-logo">
+          <img src="<?php echo $empresa['Empresa.logo']; ?>" class="object-cover w-full h-full empresa-alterar-logo">
         <?php } ?>
       </div>
     </div>
