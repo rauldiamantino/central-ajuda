@@ -37,7 +37,9 @@
         <span class="ml-2 text-gray-700 empresa-txt-imagem-editar-escolher">Alterar Imagem</span>
       </button>
       <div class="relative flex flex-col gap-2 w-full max-h-48 opacity-50">
-        <img src="<?php echo $empresa['Empresa.logo']; ?>" class="object-cover w-full h-full empresa-alterar-logo">
+        <?php if ($empresa['Empresa.logo']) { ?>
+          <img src="<?php echo $empresa['Empresa.logo']; ?>" class="object-cover w-full h-full empresa-alterar-logo">
+        <?php } ?>
       </div>
     </div>
   </div>
