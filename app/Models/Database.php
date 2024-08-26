@@ -93,7 +93,7 @@ class Database
       $logMensagem .= 'Consulta: ' . $sqlFormatado . PHP_EOL . PHP_EOL;
       $logMensagem .= 'Erro: ' . $e->getMessage() . PHP_EOL . PHP_EOL;
 
-      error_log($logMensagem, 3, '../app/logs/database_' . date('Y-m-d') . '.log');
+      error_log($logMensagem, 3, './app/logs/database_' . date('Y-m-d') . '.log');
 
       $retorno = [
         'erro' => [
