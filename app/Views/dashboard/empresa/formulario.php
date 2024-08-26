@@ -34,12 +34,11 @@
           <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
           <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z" />
         </svg>
-        <span class="ml-2 text-gray-700 empresa-txt-imagem-editar-escolher">Alterar Imagem</span>
+        <span class="ml-2 text-gray-700 h-max w-max empresa-txt-imagem-editar-escolher">Alterar Imagem</span>
       </button>
-      <div class="relative flex flex-col gap-2 w-full justify-center items-center max-h-48 opacity-50">
-        <?php if ($empresa['Empresa.logo']) { ?>
-          <img src="<?php echo $empresa['Empresa.logo']; ?>" class="object-cover w-full h-full empresa-alterar-logo">
-        <?php } ?>
+      <div class="flex flex-col gap-2 w-full justify-center items-center opacity-50">
+        <img src="<?php echo $empresa['Empresa.logo']; ?>" class="object-cover w-max h-max empresa-alterar-logo <?php echo $empresa['Empresa.logo'] ? '' : 'hidden' ?>">
+        <h3 class="whitespace-pre-line text-red-800 erro-empresa-imagem"></h3>
       </div>
     </div>
   </div>

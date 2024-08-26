@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const imgElemento = document.querySelector('.empresa-alterar-logo')
   const formularioEditarEmpresa = document.querySelector('.form-editar-empresa')
   const btnAlterarIMagem = document.querySelector('.empresa-btn-imagem-editar-escolher')
+  const msgErro = document.querySelector('.erro-empresa-imagem')
 
   let imagemParaUpload = null
   let imagemAtual = null
@@ -25,13 +26,45 @@ document.addEventListener('DOMContentLoaded', function () {
     const anexo = event.target.files[0]
 
     if (anexo) {
+      const formatosPermitidos = ['image/jpeg', 'image/png']
+      msgErro.dataset.sucesso = 'true'
+      msgErro.textContent = ''
+
+      if (! formatosPermitidos.includes(anexo.type)) {
+        msgErro.textContent = 'Por favor, escolha um arquivo PNG ou JPEG.'
+        msgErro.dataset.sucesso = 'false'
+        return
+      }
+
+      const tamanhoMaximoMB = 2
+      const tamanhoMaximoBytes = tamanhoMaximoMB * 1024 * 1024
+
+      if (anexo.size > tamanhoMaximoBytes) {
+        msgErro.textContent = 'Tamanho de imagem excede o limite de 2MB.'
+        msgErro.dataset.sucesso = 'false'
+        return
+      }
+
+      const imagem = new Image()
+      imagem.src = URL.createObjectURL(anexo)
+
+      imagem.onload = () => {
+        const larguraMaxima = 200
+        const alturaMaxima = 70
+
+        if (imagem.width > larguraMaxima || imagem.height > alturaMaxima) {
+          msgErro.textContent = `Por favor, envie uma imagem com até ${larguraMaxima}px de largura e ${alturaMaxima}px de altura.`
+          msgErro.dataset.sucesso = 'false'
+          return
+        }
+      }
+      
       const objetoReader = new FileReader()
 
       objetoReader.onload = (e) => {
         imagemAtual = formularioEditarEmpresa.dataset.imagemAtual
         imgElemento.src = e.target.result
-        imgElemento.classList.remove('opacity-0')
-        imgElemento.classList.add('opacity-100')
+        imgElemento.classList.remove('hidden')
       }
 
       editarTextoImagemEscolher.textContent = anexo.name
@@ -49,8 +82,9 @@ document.addEventListener('DOMContentLoaded', function () {
       const empresaId = formularioEditarEmpresa.dataset.empresaId
       const btnEditar = formularioEditarEmpresa.querySelector('.btn-gravar-empresa')
       const inputUrlImagem = formularioEditarEmpresa.querySelector('.url-imagem')
+      const msgErroData = msgErro.dataset.sucesso
 
-      if (empresaId == undefined || btnEditar == undefined) {
+      if (empresaId == undefined || btnEditar == undefined || msgErroData == 'false') {
         return
       }
 
