@@ -8,7 +8,8 @@
 
 <!------------------- scripts ------------------->
 <script src="/public/js/dashboard/index.js"></script>
-<script src="/public/js/dashboard/empresas/index.js" type="module"></script>
+<script src="/public/js/dashboard/empresas/index.js"></script>
+<script src="/public/js/dashboard/empresas/foto.js" type="module"></script>
 <script src="/public/js/dashboard/usuarios/index.js"></script>
 <script src="/public/js/dashboard/categorias/index.js"></script>
 <script src="/public/js/dashboard/categorias/organizar.js"></script>
