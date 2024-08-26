@@ -3,7 +3,13 @@ import { inicializarFirebase } from './inicializar.js'
 async function uploadImagem(empresaId, artigoId, file) {
   try {
     const { storage, ref, uploadBytes, getDownloadURL } = await inicializarFirebase()
-    const storageRef = ref(storage, `imagens/empresa-${empresaId}/artigo-${artigoId}/${Date.now() % 100000}`)
+
+    let storageRef = ref(storage, `imagens/empresa-${empresaId}/logo`)
+
+    if (artigoId) {
+      storageRef = ref(storage, `imagens/empresa-${empresaId}/artigo-${artigoId}/${Date.now() % 100000}`)
+    }
+
     const snapshot = await uploadBytes(storageRef, file)
 
     return await getDownloadURL(snapshot.ref)
@@ -23,7 +29,12 @@ async function substituirImagem(empresaId, artigoId, file, existingImagePath) {
       await deleteObject(oldImageRef)
     }
 
-    const newImagePath = `imagens/empresa-${empresaId}/artigo-${artigoId}/${Date.now() % 100000}`
+    let newImagePath = `imagens/empresa-${empresaId}/logo`
+
+    if (artigoId) {
+      newImagePath = `imagens/empresa-${empresaId}/artigo-${artigoId}/${Date.now() % 100000}`
+    }
+
     const newImageRef = ref(storage, newImagePath)
 
     await uploadBytes(newImageRef, file)

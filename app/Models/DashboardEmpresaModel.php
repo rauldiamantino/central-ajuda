@@ -122,6 +122,7 @@ class DashboardEmpresaModel extends Model
       'nome' => $params['nome'] ?? '',
       'subdominio' => $params['subdominio'] ?? '',
       'telefone' => $params['telefone'] ?? '',
+      'logo' => $params['logo'] ?? '',
       'cnpj' => $params['cnpj'] ?? '',
     ];
 
@@ -140,6 +141,7 @@ class DashboardEmpresaModel extends Model
         'cnpj',
         'telefone',
         'subdominio',
+        'logo',
       ];
 
       if ($atualizar and ! isset($params[ $chave ])) {
@@ -165,6 +167,7 @@ class DashboardEmpresaModel extends Model
       $campos['subdominio'] = htmlspecialchars($campos['subdominio']);
       $campos['telefone'] = filter_var($campos['telefone'], FILTER_SANITIZE_NUMBER_INT);
       $cnpjValido = preg_match('/^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/', $campos['cnpj']);
+      $campos['logo'] = filter_var($campos['logo'], FILTER_SANITIZE_URL);
 
       if (isset($params['ativo']) and ! in_array($campos['ativo'], [0, 1])) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('ativo', 'valInvalido');
@@ -177,11 +180,16 @@ class DashboardEmpresaModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('cnpj', 'valInvalido');
       }
 
+      if (isset($params['logo']) and filter_var($campos['logo'], FILTER_VALIDATE_URL) == false) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('logo', 'valInvalido');
+      }
+
       $ativoCaracteres = 1;
       $nomeCaracteres = 255;
       $subdominioCaracteres = 255;
       $telefoneCaracteresMin = 10;
       $telefoneCaracteresMax = 11;
+      $logoCaracteres = 255;
 
       if (strlen($campos['ativo']) > $ativoCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('id', 'caracteres', $ativoCaracteres);
@@ -204,6 +212,10 @@ class DashboardEmpresaModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('telefone', 'caracteres', $telefoneCaracteresMin);
       }
 
+      if (strlen($campos['logo']) > $logoCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('logo', 'caracteres', $logoCaracteres);
+      }
+
       $campos['cnpj'] = trim($campos['cnpj']);
       $campos['subdominio'] = trim($campos['subdominio']);
     }
@@ -218,6 +230,7 @@ class DashboardEmpresaModel extends Model
       'subdominio' => $campos['subdominio'],
       'telefone' => $campos['telefone'],
       'cnpj' => $campos['cnpj'],
+      'logo' => $campos['logo'],
     ];
 
     if ($atualizar) {
@@ -235,6 +248,10 @@ class DashboardEmpresaModel extends Model
 
     if (isset($camposValidados['subdominio']) and empty($camposValidados['subdominio'])) {
       $camposValidados['subdominio'] = null;
+    }
+
+    if (isset($camposValidados['logo']) and empty($camposValidados['logo'])) {
+      $camposValidados['logo'] = null;
     }
 
     if (isset($camposValidados['ativo'])) {

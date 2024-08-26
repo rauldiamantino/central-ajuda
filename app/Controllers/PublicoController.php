@@ -10,16 +10,20 @@ class PublicoController extends Controller
   protected $dashboardDategoriaModel;
   protected $dashboardEmpresaModel;
   protected $subdominio;
+  protected $telefone;
+  protected $logo;
   protected $visao;
 
   public function __construct()
   {
     $this->obterSubdominio();
+    $this->obterDadosEmpresa();
     $this->dashboardDategoriaModel = new DashboardCategoriaModel();
 
     $this->visao = new ViewRenderer('/publico');
+    $this->visao->variavel('logo', $this->logo);
     $this->visao->variavel('subdominio', $this->subdominio);
-    $this->visao->variavel('telefoneEmpresa', $this->obterTelefone());
+    $this->visao->variavel('telefoneEmpresa', $this->telefone);
 
   }
 
@@ -48,9 +52,10 @@ class PublicoController extends Controller
     $this->visao->renderizar('/index');
   }
 
-  private function obterTelefone(): int
+  private function obterDadosEmpresa(): void
   {
     $telefone = intval($_SESSION['empresaTelefone'] ?? 0);
+    $logo = $_SESSION['empresaLogo'] ?? '';
 
     if ($telefone == 0) {
       $this->dashboardEmpresaModel = new DashboardEmpresaModel();
@@ -59,7 +64,15 @@ class PublicoController extends Controller
       $_SESSION['empresaTelefone'] = $telefone;
     }
 
-    return $telefone;
+    if (empty($logo)) {
+      $this->dashboardEmpresaModel = new DashboardEmpresaModel();
+      $resultado = $this->dashboardEmpresaModel->buscar(['Empresa.logo']);
+      $logo = $resultado[0]['Empresa.logo'] ?? '';
+      $_SESSION['empresaLogo'] = $logo;
+    }
+
+    $this->telefone = $telefone;
+    $this->logo = $logo;
   }
 
   private function obterSubdominio(): void

@@ -22,6 +22,7 @@ class DashboardEmpresaController extends DashboardController
       'Empresa.subdominio',
       'Empresa.cnpj',
       'Empresa.telefone',
+      'Empresa.logo',
       'Empresa.criado',
       'Empresa.modificado',
     ];

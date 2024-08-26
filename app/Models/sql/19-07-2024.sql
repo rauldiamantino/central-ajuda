@@ -5,6 +5,7 @@ CREATE TABLE `empresas` (
   `subdominio` varchar(255) DEFAULT NULL,
   `cnpj` varchar(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `telefone` varchar(11) DEFAULT NULL,
+  `empresas` varchar(255) DEFAULT NULL,
   `criado` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `modificado` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
