@@ -50,7 +50,7 @@
         </svg>
         <span class="ml-2 text-gray-700 conteudo-txt-imagem-editar-escolher">Alterar Imagem</span>
       </button>
-      <div class="relative flex flex-col gap-2 w-full h-48 opacity-50">
+      <div class="border border-slate-200 p-4 relative flex flex-col gap-2 w-full h-48 rounded-md">
         <img src="" class="object-cover w-full h-full opacity-0 transition-opacity duration-300 ease-in-out">
       </div>
     </div>
