@@ -25,10 +25,13 @@ class PublicoBuscaController extends PublicoController
     $intervaloInicio = 0;
     $intervaloFim = 0;
     $resultadoBuscar = [];
-    $condicao = [];
-
+    
     $pagina = intval($_GET['pagina'] ?? 0);
     $textoBusca = htmlspecialchars($_GET['texto_busca'] ?? '');
+
+    $condicao = [
+      'Artigo.ativo' => 1,
+    ];
 
     if ($textoBusca) {
       $condicao['Artigo.titulo LIKE'] = '%' . $textoBusca . '%';
