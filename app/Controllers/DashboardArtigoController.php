@@ -26,12 +26,17 @@ class DashboardArtigoController extends DashboardController
     $intervaloInicio = 0;
     $intervaloFim = 0;
     $paginaAtual = intval($_GET['pagina'] ?? 0);
-    $categoriaId = $_GET['categoria_id'] ?? '';
     $resultado = [];
     $condicoes = [];
 
+    // Filtros
+    $categoriaId = $_GET['categoria_id'] ?? '';
+    $artigoTitulo = $_GET['titulo'] ?? '';
+    $filtroAtual = [];
+
     // Filtrar por categoria
     if (isset($_GET['categoria_id'])) {
+      $filtroAtual['categoria_id'] = $categoriaId;
 
       if (intval($categoriaId) > 0) {
         $condicoes['Artigo.categoria_id'] = (int) $categoriaId;
@@ -39,6 +44,12 @@ class DashboardArtigoController extends DashboardController
       elseif ($categoriaId === '0') {
         $condicoes['Artigo.categoria_id IS'] = NULL;
       }
+    }
+
+    // Filtrar por nome
+    if (isset($_GET['titulo'])) {
+      $filtroAtual['titulo'] = $artigoTitulo;
+      $condicoes['Artigo.titulo LIKE'] = '%' . $artigoTitulo . '%';
     }
 
     $artigosTotal = $this->artigoModel->condicao($condicoes)
@@ -91,11 +102,9 @@ class DashboardArtigoController extends DashboardController
     }
 
     // Exibe menu ao filtrar sem resultados
-    if (! isset($resultado[0]) and isset($_GET['categoria_id'])) {
+    if (! isset($resultado[0]) and $filtroAtual) {
       $resultado['filtro'] = true;
     }
-
-    $filtroAtual = intval($_GET['categoria_id'] ?? 0);
 
     $this->visao->variavel('filtroAtual', $filtroAtual);
     $this->visao->variavel('artigos', $resultado);
