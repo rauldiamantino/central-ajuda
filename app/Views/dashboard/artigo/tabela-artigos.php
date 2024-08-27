@@ -33,7 +33,7 @@
                 <?php // Título ?>
                 <?php if ($subChave == 'Artigo.titulo') { ?>
                   <td class="py-5 px-4">
-                    <a href="/dashboard/artigo/editar/<?php echo $linha['Artigo.id'] ?>" class="font-semibold text-gray-700 underline js-dashboard-artigos-editar" data-artigo-id="<?php echo $linha['Artigo.id'] ?>">
+                    <a href="/dashboard/artigo/editar/<?php echo $linha['Artigo.id'] ?>" class="font-semibold text-gray-700 hover:underline js-dashboard-artigos-editar" data-artigo-id="<?php echo $linha['Artigo.id'] ?>">
                       <?php echo $subLinha ?>
                     </a>
                   </td>
@@ -41,7 +41,11 @@
 
                 <?php // Categoria ?>
                 <?php if ($subChave == 'Categoria.nome') { ?>
-                  <td class="py-5 px-4"><?php echo $subLinha ?></td>
+                  <td class="py-5 px-4">
+                    <a href="/dashboard/categoria/editar/<?php echo $linha['Artigo.categoria_id'] ?>" target="_blank" class="hover:underline">
+                      <?php echo $subLinha ?>
+                    </a>
+                  </td>
                 <?php } ?>
 
                 <?php // Criado ?>

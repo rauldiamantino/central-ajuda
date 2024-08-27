@@ -95,6 +95,9 @@ class DashboardArtigoController extends DashboardController
       $resultado['filtro'] = true;
     }
 
+    $filtroAtual = intval($_GET['categoria_id'] ?? 0);
+
+    $this->visao->variavel('filtroAtual', $filtroAtual);
     $this->visao->variavel('artigos', $resultado);
     $this->visao->variavel('pagina', $paginaAtual);
     $this->visao->variavel('artigosTotal', $artigosTotal);
