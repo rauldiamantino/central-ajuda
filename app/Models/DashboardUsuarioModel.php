@@ -246,6 +246,43 @@ class DashboardUsuarioModel extends Model
       return $msgErro;
     }
 
+    $condicao = [
+      'Usuario.id' => $id,
+    ];
+
+    $colunas = [
+      'Usuario.id',
+      'Usuario.nivel',
+      'Usuario.padrao',
+    ];
+
+    $usuarioAtual = parent::condicao($condicao)
+                          ->buscar($colunas);
+
+    if (! isset($usuarioAtual[0]['Usuario.id'])) {
+      $msgErro = [
+        'erro' => [
+          'codigo' => 404,
+          'mensagem' => 'Usuário não encontrado',
+        ],
+      ];
+
+      return $msgErro;
+    }
+
+    // Evita editar usuário de Suporte
+    if ($usuarioAtual[0]['Usuario.nivel'] == 0 and $this->usuarioLogadoNivel != 0) {
+      $msgErro = [
+        'erro' => [
+          'codigo' => 401,
+          'mensagem' => 'Você não tem permissão para realizar esta ação.',
+        ],
+      ];
+
+      return $msgErro;
+    }
+
+    // Evita remover o próprio usuário
     if ($this->usuarioLogadoId == $id) {
       $msgErro = [
         'erro' => [
@@ -257,16 +294,8 @@ class DashboardUsuarioModel extends Model
       return $msgErro;
     }
 
-    // Usuário padrão
-    $condicoes = [
-      'Usuario.id' => $id,
-      'Usuario.padrao' => 1,
-    ];
-
-    $usuarioPadrao = parent::condicao($condicoes)
-                           ->contar('Usuario.id');
-
-    if (isset($usuarioPadrao['total']) and (int) $usuarioPadrao['total'] > 0) {
+    // Evita remover usuário padrão
+    if (isset($usuarioAtual[0]['nivel']) == 1) {
       $msgErro = [
         'erro' => [
           'codigo' => 400,
