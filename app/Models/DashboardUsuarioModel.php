@@ -233,7 +233,7 @@ class DashboardUsuarioModel extends Model
     $resultado = parent::atualizar($campos, $id);
 
     // Atualiza sessão do usuário
-    if (! isset($resultado['erro'])) {
+    if (! isset($resultado['erro']) and $this->usuarioLogadoId == $id) {
       $condicoes = [
         'Usuario.id' => $id,
       ];
