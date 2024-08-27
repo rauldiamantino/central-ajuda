@@ -1,13 +1,13 @@
 <?php
 namespace app\Controllers;
-use app\Models\DashboardEmpresaModel;
 use app\Models\DashboardArtigoModel;
+use app\Models\DashboardCategoriaModel;
 
 class PublicoBuscaController extends PublicoController
 {
   protected $visao;
   protected $artigoModel;
-  protected $empresaModel;
+  protected $categoriaModel;
   protected $subdominio;
 
   public function __construct()
@@ -15,7 +15,7 @@ class PublicoBuscaController extends PublicoController
     parent::__construct();
 
     $this->artigoModel = new DashboardArtigoModel();
-    $this->empresaModel = new DashboardEmpresaModel();
+    $this->categoriaModel = new DashboardCategoriaModel();
   }
 
   public function buscar()
@@ -81,6 +81,32 @@ class PublicoBuscaController extends PublicoController
       $intervaloFim = min($pagina * $limite, $artigosTotal);
     }
 
+    $categorias = [];
+
+    if ((int) $this->buscarAjuste('publico_cate_busca') == 1) {
+      $condicoes = [
+        'Categoria.ativo' => 1,
+      ];
+
+      $colunas = [
+        'Categoria.id',
+        'Categoria.nome',
+      ];
+
+      $ordem = [
+        'Categoria.ordem' => 'ASC',
+      ];
+
+      $resultado = $this->categoriaModel->condicao($condicoes)
+                                        ->ordem($ordem)
+                                        ->buscar($colunas);
+
+      if (isset($resultado[0]['Categoria.id'])) {
+        $categorias = $resultado;
+      }
+    }
+
+    $this->visao->variavel('categorias', $categorias);
     $this->visao->variavel('pagina', $pagina);
     $this->visao->variavel('artigosTotal', $artigosTotal);
     $this->visao->variavel('limite', $limite);

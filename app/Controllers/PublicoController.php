@@ -71,7 +71,10 @@ class PublicoController extends Controller
       $_SESSION['empresaLogo'] = $logo;
     }
 
-    $this->telefone = $telefone;
+    if ((int) $this->buscarAjuste('botao_whatsapp') == 1) {
+      $this->telefone = $telefone;
+    }
+
     $this->logo = $logo;
   }
 

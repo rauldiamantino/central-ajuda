@@ -16,14 +16,16 @@ class DashboardAjusteModel extends Model
       'artigo_autor',
       'artigo_criado',
       'artigo_modificado',
+      'botao_whatsapp',
+      'publico_cate_busca',
     ];
 
     $total = 0;
     $campos = [];
     foreach ($permitidos as $linha) :
       
-      if (isset($json[$linha])) {
-        $campos[$linha] = (int) $json[$linha];
+      if (isset($json[ $linha ])) {
+        $campos[ $linha ] = (int) $json[ $linha ];
       }
     endforeach;
 

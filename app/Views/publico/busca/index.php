@@ -8,8 +8,8 @@
     <?php } ?>
   </div>
 
-  <div class="flex flex-col gap-5 border-b border-slate-200">
-    <?php if ($resultadoBuscar) { ?>
+  <?php if ($resultadoBuscar) { ?>
+    <div class="flex flex-col gap-5 border-b border-slate-200">
       <?php foreach ($resultadoBuscar as $chave => $linha) : ?>
           <div class="mb-10 flex flex-col gap-2 publico-artigo-bloco">
             <?php if (isset($linha['Artigo.ativo']) and $linha['Artigo.ativo'] == 1) { ?>
@@ -31,5 +31,5 @@
       <?php endforeach; ?>
 
       <?php require_once 'paginacao.php' ?>
-    <?php } ?>
-  </div>
+    </div>
+  <?php } ?>
