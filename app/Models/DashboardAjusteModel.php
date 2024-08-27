@@ -18,6 +18,7 @@ class DashboardAjusteModel extends Model
       'artigo_modificado',
       'botao_whatsapp',
       'publico_cate_busca',
+      'publico_topo_fixo',
     ];
 
     $total = 0;
