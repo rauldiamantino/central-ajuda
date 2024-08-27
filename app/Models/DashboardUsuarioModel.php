@@ -230,7 +230,39 @@ class DashboardUsuarioModel extends Model
       return $msgErro;
     }
 
-    return parent::atualizar($campos, $id);
+    $resultado = parent::atualizar($campos, $id);
+
+    // Atualiza sessão do usuário
+    if (! isset($resultado['erro'])) {
+      $condicoes = [
+        'Usuario.id' => $id,
+      ];
+
+      $colunas = [
+        'Usuario.id',
+        'Usuario.nome',
+        'Usuario.email',
+        'Usuario.empresa_id',
+        'Usuario.nivel',
+        'Usuario.padrao',
+      ];
+
+      $usuario = parent::condicao($condicoes)
+                       ->buscar($colunas);
+
+      if (isset($usuario[0]['Usuario.id'])) {
+        $_SESSION['usuario'] = [
+          'id' => $usuario[0]['Usuario.id'],
+          'nome' => $usuario[0]['Usuario.nome'],
+          'email' => $usuario[0]['Usuario.email'],
+          'empresa_id' => $usuario[0]['Usuario.empresa_id'],
+          'nivel' => $usuario[0]['Usuario.nivel'],
+          'padrao' => $usuario[0]['Usuario.padrao'],
+        ];
+      }
+    }
+
+    return $resultado;
   }
 
   public function apagarUsuario(int $id): array
