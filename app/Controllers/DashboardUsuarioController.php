@@ -15,6 +15,12 @@ class DashboardUsuarioController extends DashboardController
 
   public function usuariosVer()
   {
+    if ($this->buscarUsuarioLogado('nivel') == 2) {
+      $_SESSION['erro'] = 'Você não tem permissão para realizar esta ação.';
+      header('Location: /dashboard/artigos');
+      exit;
+    }
+
     $limite = 10;
     $pagina = intval($_GET['pagina'] ?? 0);
 
@@ -64,6 +70,12 @@ class DashboardUsuarioController extends DashboardController
 
   public function usuarioEditarVer(int $id)
   {
+    if ($this->buscarUsuarioLogado('nivel') == 2) {
+      $_SESSION['erro'] = 'Você não tem permissão para realizar esta ação.';
+      header('Location: /dashboard/artigos');
+      exit;
+    }
+
     $id = (int) $id;
 
     $condicao = [
@@ -99,12 +111,24 @@ class DashboardUsuarioController extends DashboardController
 
   public function usuarioAdicionarVer()
   {
+    if ($this->buscarUsuarioLogado('nivel') == 2) {
+      $_SESSION['erro'] = 'Você não tem permissão para realizar esta ação.';
+      header('Location: /dashboard/artigos');
+      exit;
+    }
+
     $this->visao->variavel('titulo', 'Adicionar usuário');
     $this->visao->renderizar('/usuario/adicionar/index');
   }
 
   public function adicionar(): array
   {
+    if ($this->buscarUsuarioLogado('nivel') == 2) {
+      $_SESSION['erro'] = 'Você não tem permissão para realizar esta ação.';
+      header('Location: /dashboard/artigos');
+      exit;
+    }
+
     $dados = $this->receberJson();
     $resultado = $this->usuarioModel->adicionar($dados);
 
@@ -122,6 +146,12 @@ class DashboardUsuarioController extends DashboardController
 
   public function atualizar(int $id)
   {
+    if ($this->buscarUsuarioLogado('nivel') == 2) {
+      $_SESSION['erro'] = 'Você não tem permissão para realizar esta ação.';
+      header('Location: /dashboard/artigos');
+      exit;
+    }
+
     $json = $this->receberJson();
     $resultado = $this->usuarioModel->atualizar($json, $id);
 
@@ -140,6 +170,12 @@ class DashboardUsuarioController extends DashboardController
 
   public function apagar(int $id)
   {
+    if ($this->buscarUsuarioLogado('nivel') == 2) {
+      $_SESSION['erro'] = 'Você não tem permissão para realizar esta ação.';
+      header('Location: /dashboard/artigos');
+      exit;
+    }
+
     $resultado = $this->usuarioModel->apagarUsuario($id);
 
     if (isset($resultado['erro'])) {

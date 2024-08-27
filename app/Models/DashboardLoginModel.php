@@ -21,7 +21,13 @@ class DashboardLoginModel extends Model
     }
 
     $sql = 'SELECT 
-              `Usuario`.`id`, `Usuario`.`nome`, `Usuario`.`email`, `Usuario`.`senha`, `Usuario`.`empresa_id`
+              `Usuario`.`id`,
+              `Usuario`.`nome`,
+              `Usuario`.`email`,
+              `Usuario`.`senha`,
+              `Usuario`.`empresa_id`,
+              `Usuario`.`nivel`,
+              `Usuario`.`padrao`
             FROM
               `usuarios` AS `Usuario`
             WHERE
@@ -80,6 +86,8 @@ class DashboardLoginModel extends Model
       'nome' => $usuario[0]['nome'],
       'email' => $usuario[0]['email'],
       'empresa_id' => $usuario[0]['empresa_id'],
+      'nivel' => $usuario[0]['nivel'],
+      'padrao' => $usuario[0]['padrao'],
     ];
 
     return ['ok' => true];

@@ -15,6 +15,12 @@ class DashboardEmpresaController extends DashboardController
 
   public function empresaEditarVer()
   {
+    if ($this->buscarUsuarioLogado('nivel') == 2) {
+      $_SESSION['erro'] = 'Você não tem permissão para realizar esta ação.';
+      header('Location: /dashboard/artigos');
+      exit;
+    }
+
     $colunas = [
       'Empresa.id',
       'Empresa.ativo',
@@ -43,6 +49,12 @@ class DashboardEmpresaController extends DashboardController
 
   public function atualizar(int $id)
   {
+    if ($this->buscarUsuarioLogado('nivel') == 2) {
+      $_SESSION['erro'] = 'Você não tem permissão para realizar esta ação.';
+      header('Location: /dashboard/artigos');
+      exit;
+    }
+    
     $json = $this->receberJson();
     $resultado = $this->empresaModel->atualizar($json, $id);
 

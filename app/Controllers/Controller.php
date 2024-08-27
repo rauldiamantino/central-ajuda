@@ -52,4 +52,21 @@ class Controller
 
     return intval($resultado[0]['Ajuste.ativo'] ?? 0);
   }
+
+  public function buscarUsuarioLogado(string $chave = ''): string
+  {
+    $usuario = [
+      'id' => intval($_SESSION['usuario']['id'] ?? 0),
+      'email' => $_SESSION['usuario']['email'] ?? '',
+      'nivel' => intval($_SESSION['usuario']['nivel'] ?? 0),
+      'padrao' => intval($_SESSION['usuario']['padrao'] ?? 0),
+      'empresa_id' => intval($_SESSION['usuario']['empresa_id'] ?? 0),
+    ];
+
+    if ($chave and isset($usuario[ $chave ])) {
+      return $usuario[ $chave ];
+    }
+
+    return '';
+  }
 }
