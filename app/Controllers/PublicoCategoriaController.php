@@ -46,6 +46,7 @@ class PublicoCategoriaController extends PublicoController
       $condArtigos = [
         'Artigo.categoria_id' => (int) $id,
         'Categoria.ativo' => 1,
+        'Artigo.ativo' => 1,
       ];
 
       $colArtigos = [
