@@ -40,6 +40,11 @@
     </div>
   <?php } ?>
 
+  <?php if ($this->buscarUsuarioLogado('id')) { ?>
+    <a href="/dashboard/usuario/editar/<?php echo $this->buscarUsuarioLogado('id') ?>" class="fixed bottom-0 right-0 py-1 px-2 md:px-6 flex items-center gap-2 text-xs font-extralight bg-green-800 text-white rounded-t-lg">
+      <?php echo $this->buscarUsuarioLogado('email') ?>
+    </a>
+  <?php } ?>
   <?php require_once 'scripts.php' ?>
 </body>
 </html>

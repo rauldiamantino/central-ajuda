@@ -21,11 +21,19 @@ class DashboardUsuarioController extends DashboardController
       exit;
     }
 
+    $condicoes = [];
+
+    // Oculta usuários de suporte
+    if ($this->usuarioLogadoNivel != 0) {
+      $condicoes['Usuario.nivel !='] = 0;
+    }
+
     $limite = 10;
     $pagina = intval($_GET['pagina'] ?? 0);
 
     // Recupera quantidade de páginas
-    $usuariosTotal = $this->usuarioModel->contar('Usuario.id');
+    $usuariosTotal = $this->usuarioModel->condicao($condicoes)
+                                        ->contar('Usuario.id');
 
     $usuariosTotal = $usuariosTotal['total'] ?? 0;
     $paginasTotal = ceil($usuariosTotal / $limite);
@@ -44,7 +52,8 @@ class DashboardUsuarioController extends DashboardController
       'Usuario.ativo',
     ];
 
-    $resultado = $this->usuarioModel->pagina($limite, $pagina)
+    $resultado = $this->usuarioModel->condicao($condicoes)
+                                    ->pagina($limite, $pagina)
                                     ->ordem(['Usuario.id' => 'DESC'])
                                     ->buscar($colunas);
 
@@ -70,7 +79,7 @@ class DashboardUsuarioController extends DashboardController
 
   public function usuarioEditarVer(int $id)
   {
-    if ($this->buscarUsuarioLogado('nivel') == 2) {
+    if ($this->usuarioLogadoId == 2 and $this->usuarioLogadoId != $id) {
       $_SESSION['erro'] = 'Você não tem permissão para realizar esta ação.';
       header('Location: /dashboard/artigos');
       exit;
@@ -78,9 +87,14 @@ class DashboardUsuarioController extends DashboardController
 
     $id = (int) $id;
 
-    $condicao = [
+    $condicoes = [
       'Usuario.id' => $id,
     ];
+
+    // Impede acesso a usuário de suporte
+    if ($this->usuarioLogadoNivel != 0) {
+      $condicoes['Usuario.nivel !='] = 0;
+    }
 
     $colunas = [
       'Usuario.id',
@@ -94,7 +108,7 @@ class DashboardUsuarioController extends DashboardController
       'Usuario.modificado',
     ];
 
-    $usuario = $this->usuarioModel->condicao($condicao)
+    $usuario = $this->usuarioModel->condicao($condicoes)
                                   ->buscar($colunas);
     
     if (isset($usuario['erro']) and $usuario['erro']) {
@@ -146,7 +160,7 @@ class DashboardUsuarioController extends DashboardController
 
   public function atualizar(int $id)
   {
-    if ($this->buscarUsuarioLogado('nivel') == 2) {
+    if ($this->usuarioLogadoId == 2 and $this->usuarioLogadoId != $id) {
       $_SESSION['erro'] = 'Você não tem permissão para realizar esta ação.';
       header('Location: /dashboard/artigos');
       exit;
@@ -164,7 +178,7 @@ class DashboardUsuarioController extends DashboardController
 
     $_SESSION['ok'] = 'Registro alterado com sucesso';
 
-    header('Location: /dashboard/usuarios');
+    header('Location: /dashboard/usuario/editar/' . $id);
     exit();
   }
 

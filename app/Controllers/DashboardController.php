@@ -7,11 +7,13 @@ class DashboardController extends Controller
 {
   protected $dashboardModel;
   protected $usuarioLogadoId;
+  protected $usuarioLogadoNivel;
   protected $visao;
 
   public function __construct()
   {
     $this->usuarioLogadoId = intval($_SESSION['usuario']['id'] ?? 0);
+    $this->usuarioLogadoNivel = intval($_SESSION['usuario']['nivel'] ?? 0);
     $this->dashboardModel = new DashboardModel();
     $this->visao = new ViewRenderer('/dashboard');
   }

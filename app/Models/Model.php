@@ -17,6 +17,7 @@ class Model
   protected $colunasValores = [];
   protected $empresaPadraoId = 0;
   protected $usuarioLogadoId = 0;
+  protected $usuarioLogadoNivel = 0;
   protected $usuarioLogadoEmpresaId = 0;
   protected $url = '';
 
@@ -28,6 +29,7 @@ class Model
     $this->url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     $this->empresaPadraoId = intval($_SESSION['empresa_id'] ?? 0);
     $this->usuarioLogadoId = intval($_SESSION['usuario']['id'] ?? 0);
+    $this->usuarioLogadoNivel = intval($_SESSION['usuario']['nivel'] ?? 0);
     $this->usuarioLogadoEmpresaId = intval($_SESSION['usuario']['empresa_id'] ?? 0);
   }
 

@@ -4,18 +4,6 @@ $nivelAcesso = [
   1 => 'Acesso total',
   2 => 'Acesso restrito',
 ];
-
-if ($usuario['Usuario.nivel'] == 0) {
-  unset($nivelAcesso[1]);
-  unset($nivelAcesso[2]);
-}
-elseif ($usuario['Usuario.nivel'] == 1) {
-  unset($nivelAcesso[0]);
-  unset($nivelAcesso[2]);
-}
-else {
-  unset($nivelAcesso[0]);
-}
 ?>
 
 <form method="POST" action="/usuario/<?php echo $usuario['Usuario.id'] ?>" class="border border-slate-200 w-full min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow">
@@ -28,13 +16,7 @@ else {
         <label class="flex flex-col items-start gap-1 cursor-pointer">
           <span class="block text-sm font-medium text-gray-700">Status</span>
           <input type="hidden" name="ativo" value="0">
-          <?php if (in_array($usuario['Usuario.nivel'], [0, 1])) { ?>
-            <input type="checkbox" class="sr-only peer" <?php echo $usuario['Usuario.ativo'] ? 'checked' : '' ?> name="ativo" disabled>
-          <?php } ?>
-
-          <?php if ($usuario['Usuario.nivel'] == 2) { ?>
-            <input type="checkbox" value="1" class="sr-only peer" <?php echo $usuario['Usuario.ativo'] ? 'checked' : '' ?> name="ativo">
-          <?php } ?>
+          <input type="checkbox" value="1" class="sr-only peer" <?php echo $usuario['Usuario.ativo'] ? 'checked' : '' ?> name="ativo">
           <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
         </label>
 
