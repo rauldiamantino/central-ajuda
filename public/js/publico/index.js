@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const topoPublicoInverter = document.querySelector('.inverter')
   const menuLateral = document.querySelector('.publico-menu-lateral')
   const btnMenuLateral = document.querySelector('.btn-publico-menu-lateral')
+  const notificacaoErro = document.querySelector('.js-notificacao-erro-publico')
+  const btnNotificacaoErroFechar = document.querySelector('.js-dashboard-notificacao-erro-btn-fechar')
 
   function checarScroll() {
     const posicaoScroll = window.scrollY
@@ -25,17 +27,34 @@ document.addEventListener('DOMContentLoaded', function() {
     })
   }
 
+  if (notificacaoErro) {
+    setTimeout(() => fecharNotificacao(notificacaoErro), 5000)
+  }
+
+  if (btnNotificacaoErroFechar) {
+    btnNotificacaoErroFechar.addEventListener('click', () => {
+     fecharNotificacao(notificacaoErro)
+    })
+  }
+
   window.addEventListener('scroll', checarScroll)
+
+  const menuLateralToggle = (menuLateral) => {
+
+    if (menuLateral.classList.contains('-translate-x-full') && ! menuLateral.classList.contains('translate-x-0')) {
+      menuLateral.classList.add('translate-x-0')
+      menuLateral.classList.remove('-translate-x-full')
+    }
+    else if (! menuLateral.classList.contains('-translate-x-full') && menuLateral.classList.contains('translate-x-0')) {
+      menuLateral.classList.remove('translate-x-0')
+      menuLateral.classList.add('-translate-x-full')
+    }
+  }
+
+  const fecharNotificacao = (notificacao) => {
+
+    if (! notificacao.classList.contains('hidden')) {
+      notificacao.classList.add('hidden')
+    }
+  }
 })
-
-const menuLateralToggle = (menuLateral) => {
-
-  if (menuLateral.classList.contains('-translate-x-full') && ! menuLateral.classList.contains('translate-x-0')) {
-    menuLateral.classList.add('translate-x-0')
-    menuLateral.classList.remove('-translate-x-full')
-  }
-  else if (! menuLateral.classList.contains('-translate-x-full') && menuLateral.classList.contains('translate-x-0')) {
-    menuLateral.classList.remove('translate-x-0')
-    menuLateral.classList.add('-translate-x-full')
-  }
-}

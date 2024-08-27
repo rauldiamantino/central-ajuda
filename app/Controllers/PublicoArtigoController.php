@@ -108,7 +108,8 @@ class PublicoArtigoController extends PublicoController
       }
     }
     else {
-      header('Location: /erro');
+      $_SESSION['erro'] = 'Desculpe, este artigo não está disponível';
+      header('Location: /p/ver');
       exit;
     }
 
