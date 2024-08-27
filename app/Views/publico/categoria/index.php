@@ -10,15 +10,17 @@
     <h2 class="text-4xl publico-artigo-titulo"><?php echo $categoriaNome ?></h2>
   </div>
 
-  <div class="py-12 border-b border-slate-200 publico-artigo-blocos">
-    <div class="flex flex-col gap-2 leading-8 publico-artigo-bloco">
-      <ul class="leading-9">
-        <?php foreach ($artigos as $chave => $linha) : ?>
-          <li class="ml-4 list-disc">
-            <a href="/p/<?php echo $subdominio ?>/artigo/<?php echo $linha['Artigo.id'] ?>" class="hover:underline"><?php echo $linha['Artigo.titulo'] ?></a>
-          </li>
-        <?php endforeach; ?>
-      </ul>
+  <?php if ($artigos) { ?>
+    <div class="py-12 border-b border-slate-200 publico-artigo-blocos">
+      <div class="flex flex-col gap-2 leading-8 publico-artigo-bloco">
+        <ul class="leading-9">
+          <?php foreach ($artigos as $chave => $linha) : ?>
+            <li class="ml-4 list-disc">
+              <a href="/p/<?php echo $subdominio ?>/artigo/<?php echo $linha['Artigo.id'] ?>" class="hover:underline"><?php echo $linha['Artigo.titulo'] ?></a>
+            </li>
+          <?php endforeach; ?>
+        </ul>
+      </div>
     </div>
-  </div>
+  <?php } ?>
 </div>

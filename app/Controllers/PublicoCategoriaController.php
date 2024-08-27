@@ -76,10 +76,20 @@ class PublicoCategoriaController extends PublicoController
       if (isset($resultado[0]['Artigo.id'])) {
         $artigos = $resultado;
       }
-      else {
-        header('Location: /erro');
-        exit;
+    }
+
+    $sucesso = false;
+    foreach ($categorias as $chave => $linha):
+
+      if (isset($linha['Categoria.id']) and $linha['Categoria.id'] == $id) {
+        $sucesso = true;
       }
+    endforeach;
+
+    if (empty($categorias) or $sucesso == false) {
+      $_SESSION['erro'] = 'Desculpe, esta categoria não está disponível';
+      header('Location: /p/ver');
+      exit;
     }
 
     $this->visao->variavel('categorias', $categorias);

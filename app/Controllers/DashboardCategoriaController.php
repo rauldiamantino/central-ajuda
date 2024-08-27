@@ -84,7 +84,7 @@ class DashboardCategoriaController extends DashboardController
     if (isset($categoria['erro']) and $categoria['erro']) {
       $_SESSION['erro'] = $categoria['erro']['mensagem'] ?? '';
 
-     header('Location: /dashboard/categorias');
+      header('Location: /dashboard/categorias');
       exit();
     }
 
@@ -175,12 +175,12 @@ class DashboardCategoriaController extends DashboardController
     if (isset($resultado['erro'])) {
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
-     header('Location: /dashboard/categorias');
+      header('Location: /dashboard/categoria/editar/' . $id);
       exit();
     }
 
     $_SESSION['ok'] = 'Registro alterado com sucesso';
-    header('Location: /dashboard/categorias');
+    header('Location: /dashboard/categoria/editar/' . $id);
     exit();
   }
 
