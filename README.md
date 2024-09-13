@@ -56,4 +56,4 @@ Esta plataforma permite que sua empresa cadastre uma base de conhecimento e a di
 - CKEditor
  
 ## Próximos passos
-Atualmente, estou aprimorando o sistema de autenticação e gerenciamento de sessão dos usuários. Após concluir essa etapa, iniciarei a publicação do projeto.
+Atualmente, estou aprimorando o sistema de autenticação e gerenciamento de sessão dos usuários.
