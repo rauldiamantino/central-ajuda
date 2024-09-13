@@ -41,12 +41,12 @@ Esta plataforma permite que sua empresa cadastre uma base de conhecimento e a di
   - Busca de artigos
   - Botão de WhatsApp
 - Dashboard
- - Cadastro de usuários com níveis de acesso
- - Alteração de cadastro de usuário e senhas
- - Cadastro de artigos
- - Cadastro de conteúdo em texto, vídeo e imagem
- - Cadastro de categorias
- - Ajustes gerais de visual da página pública
+  - Cadastro de usuários com níveis de acesso
+  - Alteração de cadastro de usuário e senhas
+  - Cadastro de artigos
+  - Cadastro de conteúdo em texto, vídeo e imagem
+  - Cadastro de categorias
+  - Ajustes gerais de visual da página pública
 
 ## Tecnologias utilizadas
 - PHP 8.2
