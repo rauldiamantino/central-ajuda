@@ -1,11 +1,38 @@
-# central-ajuda
+# Central de Ajuda - LuminaOn
 
 ## Introdução
 Esta plataforma permite que sua empresa cadastre uma base de conhecimento e a disponibilize de forma profissional para seus clientes.
 
-## Conheça o projeto
-### Navegação Central de Ajuda
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/fmDR4N8zbek/0.jpg)](https://www.youtube.com/watch?v=fmDR4N8zbekE)
+![image](https://github.com/user-attachments/assets/1fbf18df-137e-4d2f-bf07-85e859e0b818)
+
+## Conheça o projeto (vídeos)
+<details>
+  <summary>Público - Central de Ajuda</summary>
+  <br>
+
+  https://github.com/user-attachments/assets/a265ff0f-b32b-4b22-8c7d-c7afda1b6c1e
+</details>
+
+<details>
+  <summary>Dashboard - Artigos e Categorias</summary>
+  <br>
+
+  https://github.com/user-attachments/assets/a9011816-ff50-46d8-88df-c272c4dcc07b
+</details>
+
+<details>
+  <summary>Dashboard - Ajustes Gerais</summary>
+  <br>
+
+  https://github.com/user-attachments/assets/d44f2479-1bf3-4de9-868a-8dec18b03919
+</details>
+
+<details>
+  <summary>Dashboard - Login e Cadastro</summary>
+  <br>
+
+  https://github.com/user-attachments/assets/fdc91a25-8829-472f-9719-3a37d7a738ca  
+</details>
 
 ## Principais funcionalidades:
 - Página pública
