@@ -25,6 +25,23 @@ class DashboardCadastroController extends DashboardController
     $this->visao->renderizar('/cadastro/index');
   }
 
+  public function cadastroSucessoVer()
+  {
+    if ($this->buscarUsuarioLogado('id') > 0 and $this->buscarUsuarioLogado('empresa_ativo') == 1) {
+      header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/artigos');
+      exit();
+    }
+
+    if (! isset($_SESSION['ok']) or $_SESSION['ok'] != 'Cadastro realizado com sucesso!') {
+      header('Location: /cadastro');
+      exit();
+    }
+
+    $this->visao->variavel('titulo', 'Cadastro');
+    $this->visao->variavel('pagCadastro', true);
+    $this->visao->renderizar('/cadastro/sucesso');
+  }
+
   public function adicionar()
   {
     $dados = $this->receberJson();
@@ -44,13 +61,16 @@ class DashboardCadastroController extends DashboardController
       exit();
     }
 
-    $empresaId = $this->cadastroModel->gerarEmpresa();
+    $empresaId = $this->cadastroModel->gerarEmpresa($resultado['subdominio']);
 
     if (intval($empresaId) < 1) {
       $_SESSION['erro'] = 'Erro ao realizar cadastro (C500#EMP)';
       header('Location: /cadastro');
       exit();
     }
+
+    // Somente para gerar empresa
+    unset($resultado['subdominio']);
 
     $resultado = array_merge($resultado, ['empresa_id' => $empresaId]);
     $usuario = $this->cadastroModel->gerarUsuarioPadrao($resultado);
@@ -68,7 +88,7 @@ class DashboardCadastroController extends DashboardController
     }
 
     $_SESSION['ok'] = 'Cadastro realizado com sucesso!';
-    header('Location: /login');
+    header('Location: /cadastro/sucesso');
     exit();
   }
 }

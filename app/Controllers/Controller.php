@@ -61,6 +61,7 @@ class Controller
       'nivel' => intval($_SESSION['usuario']['nivel'] ?? 0),
       'padrao' => intval($_SESSION['usuario']['padrao'] ?? 0),
       'empresa_id' => intval($_SESSION['usuario']['empresa_id'] ?? 0),
+      'empresa_ativo' => intval($_SESSION['usuario']['empresa_ativo'] ?? 0),
       'subdominio' => $_SESSION['usuario']['subdominio'] ?? '',
     ];
 

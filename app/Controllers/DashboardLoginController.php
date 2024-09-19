@@ -42,7 +42,7 @@ class DashboardLoginController extends DashboardController
 
   public function logout()
   {
-    $_SESSION = [];
+    $_SESSION = null;
     session_destroy();
 
     // Remove o cookie da sessão

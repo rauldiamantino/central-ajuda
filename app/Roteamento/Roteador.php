@@ -48,47 +48,47 @@ class Roteador
       'GET:/{subdominio}/dashboard/usuario/editar/{id}' => [DashboardUsuarioController::class, 'usuarioEditarVer'],
       'GET:/{subdominio}/dashboard/usuario/adicionar' => [DashboardUsuarioController::class, 'usuarioAdicionarVer'],
       'GET:/{subdominio}/dashboard/empresa/editar' => [DashboardEmpresaController::class, 'empresaEditarVer'],
-
-      // CRUD
+      //
       'PUT:/ajustes' => [DashboardAjusteController::class, 'atualizar'],
       'GET:/teste' => [TesteController::class, 'testar'],
       'GET:/erro' => [PaginaErroController::class, 'erroVer'],
-
+      //
       'GET:/login' => [DashboardLoginController::class, 'loginVer'],
       'GET:/cadastro' => [DashboardCadastroController::class, 'cadastroVer'],
+      'GET:/cadastro/sucesso' => [DashboardCadastroController::class, 'cadastroSucessoVer'],
       'POST:/login' => [DashboardLoginController::class, 'login'],
       'GET:/logout' => [DashboardLoginController::class, 'logout'],
-
+      //
       'GET:/artigos' => [DashboardArtigoController::class, 'buscar'],
       'GET:/artigo/{id}' => [DashboardArtigoController::class, 'buscar'],
       'POST:/artigo' => [DashboardArtigoController::class, 'adicionar'],
       'PUT:/artigo/{id}' => [DashboardArtigoController::class, 'atualizar'],
       'PUT:/artigo/ordem' => [DashboardArtigoController::class, 'atualizarOrdem'],
       'DELETE:/artigo/{id}' => [DashboardArtigoController::class, 'apagar'],
-
+      //
       'GET:/conteudos' => [DashboardConteudoController::class, 'buscar'],
       'GET:/conteudos/{id}' => [DashboardConteudoController::class, 'buscar'],
       'POST:/conteudo' => [DashboardConteudoController::class, 'adicionar'],
       'PUT:/conteudo/{id}' => [DashboardConteudoController::class, 'atualizar'],
       'PUT:/conteudo/ordem' => [DashboardConteudoController::class, 'atualizarOrdem'],
       'DELETE:/conteudo/{id}' => [DashboardConteudoController::class, 'apagar'],
-
+      //
       'GET:/categorias' => [DashboardCategoriaController::class, 'buscar'],
       'GET:/categoria/{id}' => [DashboardCategoriaController::class, 'buscar'],
       'POST:/categoria' => [DashboardCategoriaController::class, 'adicionar'],
       'PUT:/categoria/{id}' => [DashboardCategoriaController::class, 'atualizar'],
       'PUT:/categoria/ordem' => [DashboardCategoriaController::class, 'atualizarOrdem'],
       'DELETE:/categoria/{id}' => [DashboardCategoriaController::class, 'apagar'],
-
+      //
       'GET:/usuarios' => [DashboardUsuarioController::class, 'buscar'],
       'GET:/usuario/{id}' => [DashboardUsuarioController::class, 'buscar'],
       'POST:/usuario' => [DashboardUsuarioController::class, 'adicionar'],
       'PUT:/usuario/{id}' => [DashboardUsuarioController::class, 'atualizar'],
       'DELETE:/usuario/{id}' => [DashboardUsuarioController::class, 'apagar'],
-
+      //
       'POST:/cadastro' => [DashboardCadastroController::class, 'adicionar'],
       'PUT:/empresa/{id}' => [DashboardEmpresaController::class, 'atualizar'],
-
+      //
       'GET:/firebase' => [FirebaseController::class, 'credenciais'],
     ];
   }
@@ -106,6 +106,7 @@ class Roteador
     $subdominios = [
       'teste',
       'teste2',
+      'teste5',
       'luminaon',
     ];
 
@@ -143,14 +144,26 @@ class Roteador
     $resultado = $model->executarQuery($sql, $params);
     $empresaId = intval($resultado[0]['id'] ?? 0);
 
+    // Usuário logado
+    $usuarioLogadoEmpresaId = intval($_SESSION['usuario']['empresa_id'] ?? 0);
+    $usuarioLogadoSubdominio = $_SESSION['usuario']['subdominio'] ?? '';
+
     // Dashboard - Somente para usuário logado
     if (strpos($chaveRota, '/{subdominio}/dashboard')) {
-      $empresaId = intval($_SESSION['usuario']['empresa_id'] ?? 0);
 
-      if ($empresaId == 0) {
+      if ($usuarioLogadoSubdominio and $usuarioLogadoSubdominio !== $subdominio) {
+        return $this->paginaErro->erroVer();
+      }
+
+      if ($empresaId == 0 or (int) $usuarioLogadoEmpresaId == 0) {
+        $_SESSION = null;
+        session_destroy();
+
         header('Location: /login');
         exit;
       }
+
+      $empresaId = $usuarioLogadoEmpresaId;
     }
 
     if ($empresaId == 0) {
@@ -161,6 +174,7 @@ class Roteador
         //
         'GET:/login',
         'GET:/cadastro',
+        'GET:/cadastro/sucesso',
         'POST:/login',
         'GET:/logout',
         //

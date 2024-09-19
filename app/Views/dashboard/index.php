@@ -5,7 +5,7 @@
 <body class="font-normal h-screen max-w-screen" data-editor="ClassicEditor">
   <?php if (isset($pagLogin)) { ?>
     <main>
-      <div class="w-full h-screen flex justify-center items-center"> 
+      <div class="w-full h-screen flex justify-center items-center">
         <div class="relative w-max min-w-96 h-max bg-white">
           <?php require_once $visao ?>
           <?php require_once 'login/notificacoes.php' ?>
@@ -17,7 +17,7 @@
 
   <?php if (isset($pagCadastro)) { ?>
     <main>
-      <div class="w-full h-screen flex justify-center items-center"> 
+      <div class="w-full h-screen flex justify-center items-center">
         <div class="relative w-max min-w-96 h-max bg-white">
           <?php require_once $visao ?>
           <?php require_once 'cadastro/notificacoes.php' ?>

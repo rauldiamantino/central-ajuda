@@ -8,6 +8,7 @@ class DashboardCadastroModel extends Model
   {
     $campos = [
       'email' => $params['email'] ?? '',
+      'subdominio' => $params['subdominio'] ?? '',
       'senha' => $params['senha'] ?? '',
       'confirmar_senha' => $params['confirmar_senha'] ?? '',
     ];
@@ -32,6 +33,7 @@ class DashboardCadastroModel extends Model
     endforeach;
 
     if (empty($msgErro['erro']['mensagem'])) {
+      $campos['subdominio'] = htmlspecialchars($campos['subdominio']);
       $campos['email'] = filter_Var($campos['email'], FILTER_SANITIZE_EMAIL);
       $emailValidado = filter_Var($campos['email'], FILTER_VALIDATE_EMAIL);
 
@@ -44,7 +46,12 @@ class DashboardCadastroModel extends Model
       }
 
       $emailCaracteres = 50;
+      $subdominioCaracteres = 15;
       $senhaCaracteres = 50;
+
+      if (strlen($campos['subdominio']) > $subdominioCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('subdominio', 'caracteres', $subdominioCaracteres);
+      }
 
       if (strlen($campos['email']) > $emailCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('email', 'caracteres', $emailCaracteres);
@@ -65,6 +72,7 @@ class DashboardCadastroModel extends Model
       'ativo' => 1,
       'nivel' => 1,
       'padrao' => 1,
+      'subdominio' => $campos['subdominio'],
       'email' => $campos['email'],
       'senha' => $campos['senha'],
     ];
@@ -87,6 +95,10 @@ class DashboardCadastroModel extends Model
       $campo = 'padrão';
     }
 
+    if ($campo == 'subdominio') {
+      $campo = 'subdomínio';
+    }
+
     $msgErro = [
       'vazio' => 'O campo ' . $campo . ' não pode ser vazio',
       'invalido' => 'Campo ' . $campo . ' com formato inválido',
@@ -105,13 +117,13 @@ class DashboardCadastroModel extends Model
     return 'Campo inválido';
   }
 
-  public function gerarEmpresa(): int
+  public function gerarEmpresa(string $subdominio): int
   {
     $sql = 'INSERT INTO `empresas` (ativo, subdominio) VALUES (?, ?)';
 
     $params = [
-      0 => 1,
-      1 => substr(base_convert(bin2hex(random_bytes(3)), 16, 36), 0, 6),
+      0 => 0,
+      1 => $subdominio,
     ];
 
     $resultado = parent::executarQuery($sql, $params);
@@ -123,7 +135,7 @@ class DashboardCadastroModel extends Model
   {
     $sql = 'SELECT 1 FROM `usuarios` WHERE `email` = ? LIMIT 1';
     $params = [ $email ];
-    
+
     $resultado = parent::executarQuery($sql, $params);
 
     return boolval($resultado);
@@ -162,9 +174,9 @@ class DashboardCadastroModel extends Model
       return 0;
     }
 
-    $sql = 'INSERT INTO 
+    $sql = 'INSERT INTO
               `usuarios` (`ativo`, `nivel`, `empresa_id`, `padrao`, `email`, `senha`)
-            VALUES 
+            VALUES
               (?, ?, ?, ?, ?, ?);';
 
     $params = [
@@ -184,15 +196,15 @@ class DashboardCadastroModel extends Model
 
     $sql = 'SELECT
               `Usuario`.`id`, `Usuario`.`nome`, `Usuario`.`email`, `Usuario`.`empresa_id`
-            FROM 
+            FROM
               `usuarios` AS `Usuario`
-            WHERE 
+            WHERE
               `Usuario`.`id` = ?
             ORDER BY `Usuario`.`id` ASC
             LIMIT 1';
 
     $params = [ $resultado['id'] ];
-    
+
     $resultado = parent::executarQuery($sql, $params);
 
     return $resultado;
