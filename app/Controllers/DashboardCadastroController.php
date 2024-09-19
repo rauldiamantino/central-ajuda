@@ -32,13 +32,20 @@ class DashboardCadastroController extends DashboardController
       exit();
     }
 
-    if (! isset($_SESSION['ok']) or $_SESSION['ok'] != 'Cadastro realizado com sucesso!') {
+    $protocolo = $_SESSION['protocolo'] ?? '';
+
+    if (empty($protocolo)) {
       header('Location: /cadastro');
       exit();
     }
 
+    $this->visao->variavel('protocolo', $_SESSION['protocolo']);
     $this->visao->variavel('titulo', 'Cadastro');
     $this->visao->variavel('pagCadastro', true);
+
+    $_SESSION = null;
+    session_destroy();
+
     $this->visao->renderizar('/cadastro/sucesso');
   }
 
@@ -88,6 +95,7 @@ class DashboardCadastroController extends DashboardController
     }
 
     $_SESSION['ok'] = 'Cadastro realizado com sucesso!';
+    $_SESSION['protocolo'] = date('YmdHis') . '#' . $empresaId;
     header('Location: /cadastro/sucesso');
     exit();
   }
