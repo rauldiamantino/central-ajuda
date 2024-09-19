@@ -107,11 +107,11 @@ class DashboardUsuarioModel extends Model
         return $senhaValidada;
       }
     }
-    
+
     if (empty($novaSenha) and isset($params['senha'])) {
       unset($params['senha']);
     }
-    
+
     if (empty($senhaValidada) and isset($params['senha_atual'])) {
       unset($params['senha_atual']);
     }
@@ -245,9 +245,15 @@ class DashboardUsuarioModel extends Model
         'Usuario.empresa_id',
         'Usuario.nivel',
         'Usuario.padrao',
+        'Empresa.subdominio',
+      ];
+
+      $uniao2 = [
+        'Empresa',
       ];
 
       $usuario = parent::condicao($condicoes)
+                       ->uniao2($uniao2)
                        ->buscar($colunas);
 
       if (isset($usuario[0]['Usuario.id'])) {
@@ -256,6 +262,7 @@ class DashboardUsuarioModel extends Model
           'nome' => $usuario[0]['Usuario.nome'],
           'email' => $usuario[0]['Usuario.email'],
           'empresa_id' => $usuario[0]['Usuario.empresa_id'],
+          'subdominio' => $usuario[0]['Empresa.subdominio'],
           'nivel' => $usuario[0]['Usuario.nivel'],
           'padrao' => $usuario[0]['Usuario.padrao'],
         ];

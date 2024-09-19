@@ -151,8 +151,6 @@ class DashboardCategoriaModel extends Model
         if ($chave != 'empresa_id') {
           continue;
         }
-
-        continue;
       }
 
       if (! in_array($chave, $permitidos) and empty($linha)) {

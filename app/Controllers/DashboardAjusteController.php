@@ -5,7 +5,7 @@ use app\Models\DashboardAjusteModel;
 class DashboardAjusteController extends DashboardController
 {
   protected $ajusteModel;
-  
+
   public function __construct()
   {
     parent::__construct();
@@ -45,12 +45,12 @@ class DashboardAjusteController extends DashboardController
     if (isset($resultado['erro'])) {
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
-      header('Location: /dashboard/ajustes');
+      header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/ajustes');
       exit();
     }
 
     $_SESSION['ok'] = 'Ajuste alterado com sucesso';
-    header('Location: /dashboard/ajustes');
+    header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/ajustes');
     exit();
   }
 }

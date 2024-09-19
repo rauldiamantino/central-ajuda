@@ -15,8 +15,8 @@ class DashboardLoginController extends DashboardController
 
   public function loginVer()
   {
-    if ($this->usuarioLogadoId > 0) {
-      header('Location: /dashboard/artigos');
+    if ($this->buscarUsuarioLogado('id') > 0) {
+      header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/artigos');
       exit();
     }
 
@@ -30,8 +30,8 @@ class DashboardLoginController extends DashboardController
     $json = $this->receberJson();
     $resultado = $this->loginModel->login($json);
 
-    if (isset($resultado['ok'])) { 
-      header('Location: /dashboard/artigos');
+    if (isset($resultado['ok'])) {
+      header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/artigos');
       exit();
     }
 
@@ -42,7 +42,7 @@ class DashboardLoginController extends DashboardController
 
   public function logout()
   {
-    $_SESSION = [];
+    $_SESSION = null;
     session_destroy();
 
     // Remove o cookie da sessão

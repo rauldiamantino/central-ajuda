@@ -1,4 +1,4 @@
-<dialog class="p-4 w-full sm:w-[440px] rounded-lg shadow modal-artigos-filtrar-cate">
+<dialog class="p-4 w-full sm:w-[440px] rounded-lg shadow modal-artigos-filtrar-cate" data-subdominio="<?php echo $this->buscarUsuarioLogado('subdominio')?>">
   <h3 class="flex p-2 pb-4 font-semibold">Filtrar por categoria</h3>
   <div class="w-full mb-4 modal-artigos-filtrar-cate-blocos">
     <select name="" id="" class="w-full py-1 px-4 border border-slate-200 rounded-md modal-categorias-filtrar-select"></select>

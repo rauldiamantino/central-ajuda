@@ -20,16 +20,20 @@ class DashboardLoginModel extends Model
       return $campos;
     }
 
-    $sql = 'SELECT 
+    $sql = 'SELECT
               `Usuario`.`id`,
               `Usuario`.`nome`,
               `Usuario`.`email`,
               `Usuario`.`senha`,
               `Usuario`.`empresa_id`,
               `Usuario`.`nivel`,
-              `Usuario`.`padrao`
+              `Usuario`.`padrao`,
+              `Empresa`.`subdominio` AS `Empresa.subdominio`,
+              `Empresa`.`ativo` AS `Empresa.ativo`
             FROM
               `usuarios` AS `Usuario`
+            LEFT JOIN
+              `empresas` AS `Empresa` ON `Usuario`.`empresa_id` = `Empresa`.`id`
             WHERE
               `Usuario`.`email` = ?
             AND
@@ -63,6 +67,14 @@ class DashboardLoginModel extends Model
       $loginSucesso = false;
     }
 
+    if (! isset($usuario[0]['Empresa.ativo']) or empty($usuario[0]['Empresa.ativo'])) {
+      $loginSucesso = false;
+    }
+
+    if (! isset($usuario[0]['Empresa.subdominio']) or empty($usuario[0]['Empresa.subdominio'])) {
+      $loginSucesso = false;
+    }
+
     if ($loginSucesso == false) {
       $msgErro = [
         'erro' => [
@@ -70,6 +82,8 @@ class DashboardLoginModel extends Model
           'mensagem' => 'Usuário não encontrado',
         ],
       ];
+
+      $_SESSION['usuario'] = null;
 
       return $msgErro;
     }
@@ -86,6 +100,8 @@ class DashboardLoginModel extends Model
       'nome' => $usuario[0]['nome'],
       'email' => $usuario[0]['email'],
       'empresa_id' => $usuario[0]['empresa_id'],
+      'empresa_ativo' => $usuario[0]['Empresa.ativo'],
+      'subdominio' => $usuario[0]['Empresa.subdominio'],
       'nivel' => $usuario[0]['nivel'],
       'padrao' => $usuario[0]['padrao'],
     ];

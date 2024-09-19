@@ -9,7 +9,7 @@ class DashboardArtigoController extends DashboardController
   protected $artigoModel;
   protected $conteudoModel;
   protected $categoriaModel;
-  
+
   public function __construct()
   {
     parent::__construct();
@@ -54,7 +54,7 @@ class DashboardArtigoController extends DashboardController
 
     $artigosTotal = $this->artigoModel->condicao($condicoes)
                                       ->contar('Artigo.id');
-    
+
     $artigosTotal = intval($artigosTotal['total'] ?? 0);
 
     if ($artigosTotal > 0) {
@@ -159,11 +159,11 @@ class DashboardArtigoController extends DashboardController
                                    ->uniao2($uniaoCategoria, 'LEFT')
                                    ->uniao2($uniaoUsuario)
                                    ->buscar($colunas);
-    
+
     if (isset($resultado['erro']) and $resultado['erro']) {
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
-     header('Location: /dashboard/artigos');
+      header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/artigos');
       exit();
     }
     else {
@@ -184,7 +184,7 @@ class DashboardArtigoController extends DashboardController
     $condicao = [
       'Conteudo.artigo_id' => $id,
     ];
-    
+
     $colunas = [
       'Conteudo.id',
       'Conteudo.ativo',
@@ -212,7 +212,7 @@ class DashboardArtigoController extends DashboardController
       $condicao = [
         'Conteudo.artigo_id' => $id,
       ];
-      
+
       $colunas = [
         'Conteudo.id',
         'Conteudo.ordem',
@@ -256,7 +256,7 @@ class DashboardArtigoController extends DashboardController
     if (! isset($categorias[0]['Categoria.nome'])) {
       $categorias = [];
     }
-    
+
     $colArtigoOrdem = [
       'Artigo.id',
       'Artigo.ordem',
@@ -293,16 +293,16 @@ class DashboardArtigoController extends DashboardController
     $dados = $this->receberJson();
     $resultado = $this->artigoModel->adicionar($dados);
 
-    if ($_POST and isset($resultado['erro'])) { 
+    if ($_POST and isset($resultado['erro'])) {
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
-      header('Location: /dashboard/artigos');
+      header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/artigos');
       exit();
     }
-    elseif ($_POST and isset($resultado['id'])) { 
+    elseif ($_POST and isset($resultado['id'])) {
       $_SESSION['ok'] = 'Artigo criado com sucesso';
 
-      header('Location: /dashboard/artigo/editar/' . $resultado['id']);
+      header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/artigo/editar/' . $resultado['id']);
       exit();
     }
   }
@@ -317,7 +317,7 @@ class DashboardArtigoController extends DashboardController
 
     // Filtrar por categoria
     $categoriaId = $_GET['categoria_id'] ?? '';
-    
+
     if (isset($_GET['categoria_id'])) {
 
       if (intval($categoriaId) > 0) {
@@ -357,15 +357,15 @@ class DashboardArtigoController extends DashboardController
     $json = $this->receberJson();
     $resultado = $this->artigoModel->atualizar($json, $id);
 
-    if (isset($resultado['erro'])) { 
+    if (isset($resultado['erro'])) {
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
-      header('Location: /dashboard/artigos');
+      header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/artigos');
       exit();
     }
 
     $_SESSION['ok'] = 'Registro alterado com sucesso';
-    header('Location: /dashboard/artigo/editar/' . $id);
+    header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/artigo/editar/' . $id);
     exit();
   }
 

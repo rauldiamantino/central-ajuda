@@ -43,7 +43,7 @@ class PublicoController extends Controller
                                                ->buscar($colunas);
 
     if (isset($resultado[0]['Categoria.id']) and $this->subdominio) {
-      header('Location: /p/' . $this->subdominio . '/categoria/' . $resultado[0]['Categoria.id']);
+      header('Location: /' . $this->subdominio . '/categoria/' . $resultado[0]['Categoria.id']);
       exit;
     }
 

@@ -50,7 +50,7 @@ class DashboardEmpresaModel extends Model
     if (isset($campos['cnpj']) and $campos['cnpj'] !== null) {
       $sql = 'SELECT `Empresa`.`id` AS `Empresa.id` FROM `empresas` AS `Empresa` WHERE `Empresa`.`id` != ? AND `Empresa`.`cnpj` = ?';
 
-      $sqlParams = [ 
+      $sqlParams = [
         0 => $id,
         1 => $campos['cnpj'],
       ];
@@ -69,10 +69,15 @@ class DashboardEmpresaModel extends Model
       }
     }
 
+    // Revisar para permitir editar subdomínio
+    if (isset($campos['subdominio'])) {
+      unset($campos['subdominio']);
+    }
+
     // Subdomínio duplicado
     if (isset($campos['subdominio']) and $params['subdominio'] !== null) {
       $sql = 'SELECT `Empresa`.`id` AS `Empresa.id` FROM `empresas` AS `Empresa` WHERE `Empresa`.`id` != ? AND `Empresa`.`subdominio` = ?';
-      $sqlParams = [ 
+      $sqlParams = [
         0 => $id,
         1 => $campos['subdominio'],
       ];
@@ -92,8 +97,10 @@ class DashboardEmpresaModel extends Model
     }
 
     $retorno = parent::atualizar($campos, $id);
-    
-    $_SESSION['usuario']['subdominio'] = $campos['subdominio'] ?? '';
+
+    if (isset($campos['subdominio']) and $campos['subdominio']) {
+      $_SESSION['usuario']['subdominio'] = $campos['subdominio'];
+    }
 
     return $retorno;
   }

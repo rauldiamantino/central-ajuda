@@ -21,72 +21,74 @@ use app\Models\Model;
 class Roteador
 {
   protected $rotas;
-  protected $subdominios;
   protected $paginaErro;
-  protected $empresaId;
 
   public function __construct()
   {
     $this->paginaErro = new PaginaErroController();
 
     $this->rotas = [
+      // Público
+      'GET:/{subdominio}' => [PublicoController::class, 'publicoVer'],
+      'GET:/{subdominio}/categoria/{id}' => [PublicoCategoriaController::class, 'categoriaVer'],
+      'GET:/{subdominio}/artigo/{id}' => [PublicoArtigoController::class, 'artigoVer'],
+      'POST:/{subdominio}/buscar' => [PublicoBuscaController::class, 'buscar'],
+      'GET:/{subdominio}/buscar' => [PublicoBuscaController::class, 'buscar'],
+
+      // Dashboard
+      'GET:/{subdominio}/dashboard' => [DashboardController::class, 'dashboardVer'],
+      'GET:/{subdominio}/dashboard/ajustes' => [DashboardAjusteController::class, 'ajustesVer'],
+      'GET:/{subdominio}/dashboard/artigos' => [DashboardArtigoController::class, 'artigosVer'],
+      'GET:/{subdominio}/dashboard/artigo/editar/{id}' => [DashboardArtigoController::class, 'artigoEditarVer'],
+      'GET:/{subdominio}/dashboard/artigo/adicionar' => [DashboardArtigoController::class, 'artigoAdicionarVer'],
+      'GET:/{subdominio}/dashboard/categorias' => [DashboardCategoriaController::class, 'categoriasVer'],
+      'GET:/{subdominio}/dashboard/categoria/editar/{id}' => [DashboardCategoriaController::class, 'categoriaEditarVer'],
+      'GET:/{subdominio}/dashboard/categoria/adicionar' => [DashboardCategoriaController::class, 'categoriaAdicionarVer'],
+      'GET:/{subdominio}/dashboard/usuarios' => [DashboardUsuarioController::class, 'UsuariosVer'],
+      'GET:/{subdominio}/dashboard/usuario/editar/{id}' => [DashboardUsuarioController::class, 'usuarioEditarVer'],
+      'GET:/{subdominio}/dashboard/usuario/adicionar' => [DashboardUsuarioController::class, 'usuarioAdicionarVer'],
+      'GET:/{subdominio}/dashboard/empresa/editar' => [DashboardEmpresaController::class, 'empresaEditarVer'],
+      //
       'PUT:/ajustes' => [DashboardAjusteController::class, 'atualizar'],
       'GET:/teste' => [TesteController::class, 'testar'],
       'GET:/erro' => [PaginaErroController::class, 'erroVer'],
-      'GET:/dashboard' => [DashboardController::class, 'dashboardVer'],
-      'GET:/dashboard/ajustes' => [DashboardAjusteController::class, 'ajustesVer'],
-      'GET:/dashboard/artigos' => [DashboardArtigoController::class, 'artigosVer'],
-      'GET:/dashboard/artigo/editar/{id}' => [DashboardArtigoController::class, 'artigoEditarVer'],
-      'GET:/dashboard/artigo/adicionar' => [DashboardArtigoController::class, 'artigoAdicionarVer'],
-      'GET:/dashboard/categorias' => [DashboardCategoriaController::class, 'categoriasVer'],
-      'GET:/dashboard/categoria/editar/{id}' => [DashboardCategoriaController::class, 'categoriaEditarVer'],
-      'GET:/dashboard/categoria/adicionar' => [DashboardCategoriaController::class, 'categoriaAdicionarVer'],
-      'GET:/dashboard/usuarios' => [DashboardUsuarioController::class, 'UsuariosVer'],
-      'GET:/dashboard/usuario/editar/{id}' => [DashboardUsuarioController::class, 'usuarioEditarVer'],
-      'GET:/dashboard/usuario/adicionar' => [DashboardUsuarioController::class, 'usuarioAdicionarVer'],
-      'GET:/dashboard/empresa/editar' => [DashboardEmpresaController::class, 'empresaEditarVer'],
-      
-      'GET:/p/{subdominio}' => [PublicoController::class, 'publicoVer'],
-      'GET:/p/{subdominio}/categoria/{id}' => [PublicoCategoriaController::class, 'categoriaVer'],
-      'GET:/p/{subdominio}/artigo/{id}' => [PublicoArtigoController::class, 'artigoVer'],
-      'POST:/p/{subdominio}/buscar' => [PublicoBuscaController::class, 'buscar'],
-      'GET:/p/{subdominio}/buscar' => [PublicoBuscaController::class, 'buscar'],
-
+      //
       'GET:/login' => [DashboardLoginController::class, 'loginVer'],
       'GET:/cadastro' => [DashboardCadastroController::class, 'cadastroVer'],
+      'GET:/cadastro/sucesso' => [DashboardCadastroController::class, 'cadastroSucessoVer'],
       'POST:/login' => [DashboardLoginController::class, 'login'],
       'GET:/logout' => [DashboardLoginController::class, 'logout'],
-
+      //
       'GET:/artigos' => [DashboardArtigoController::class, 'buscar'],
       'GET:/artigo/{id}' => [DashboardArtigoController::class, 'buscar'],
       'POST:/artigo' => [DashboardArtigoController::class, 'adicionar'],
       'PUT:/artigo/{id}' => [DashboardArtigoController::class, 'atualizar'],
       'PUT:/artigo/ordem' => [DashboardArtigoController::class, 'atualizarOrdem'],
       'DELETE:/artigo/{id}' => [DashboardArtigoController::class, 'apagar'],
-
+      //
       'GET:/conteudos' => [DashboardConteudoController::class, 'buscar'],
       'GET:/conteudos/{id}' => [DashboardConteudoController::class, 'buscar'],
       'POST:/conteudo' => [DashboardConteudoController::class, 'adicionar'],
       'PUT:/conteudo/{id}' => [DashboardConteudoController::class, 'atualizar'],
       'PUT:/conteudo/ordem' => [DashboardConteudoController::class, 'atualizarOrdem'],
       'DELETE:/conteudo/{id}' => [DashboardConteudoController::class, 'apagar'],
-
+      //
       'GET:/categorias' => [DashboardCategoriaController::class, 'buscar'],
       'GET:/categoria/{id}' => [DashboardCategoriaController::class, 'buscar'],
       'POST:/categoria' => [DashboardCategoriaController::class, 'adicionar'],
       'PUT:/categoria/{id}' => [DashboardCategoriaController::class, 'atualizar'],
       'PUT:/categoria/ordem' => [DashboardCategoriaController::class, 'atualizarOrdem'],
       'DELETE:/categoria/{id}' => [DashboardCategoriaController::class, 'apagar'],
-
+      //
       'GET:/usuarios' => [DashboardUsuarioController::class, 'buscar'],
       'GET:/usuario/{id}' => [DashboardUsuarioController::class, 'buscar'],
       'POST:/usuario' => [DashboardUsuarioController::class, 'adicionar'],
       'PUT:/usuario/{id}' => [DashboardUsuarioController::class, 'atualizar'],
       'DELETE:/usuario/{id}' => [DashboardUsuarioController::class, 'apagar'],
-
+      //
       'POST:/cadastro' => [DashboardCadastroController::class, 'adicionar'],
       'PUT:/empresa/{id}' => [DashboardEmpresaController::class, 'atualizar'],
-
+      //
       'GET:/firebase' => [FirebaseController::class, 'credenciais'],
     ];
   }
@@ -101,82 +103,124 @@ class Roteador
       $metodo = strtoupper($metodoOculto);
     }
 
+    $subdominios = [
+      'teste',
+      'teste2',
+      'teste5',
+      'luminaon',
+    ];
+
     // Subdomínio
     $partesUrl = explode('/', $url);
-    $subdominio = '';
-    $subdominioLigado = false;
+    $subdominio = $partesUrl[1] ?? '';
 
-    if (count($partesUrl) >= 3 and $partesUrl[1] == 'p') {
-      $subdominioLigado = true;
-      $subdominio = $partesUrl[2];
+    if (! in_array($subdominio, $subdominios)) {
+      $subdominio = '';
     }
 
     $chaveRota = $metodo . ':' . $url;
     $id = (int) basename($url);
     $chaveRota = str_replace($id, '{id}', $chaveRota);
+    $chaveRota = str_replace($subdominio, '{subdominio}', $chaveRota);
 
-    if ($subdominioLigado) {
-      $chaveRota = str_replace($subdominio, '{subdominio}', $chaveRota);
-    }
+    // Público - Recupera EmpresaID
+    $sql = 'SELECT
+              `Empresa`.`id`
+            FROM
+              `empresas` AS `Empresa`
+            WHERE
+              `Empresa`.`subdominio` = ?
+              AND `Empresa`.`ativo` = 1
+            ORDER BY
+              `Empresa`.`id` ASC
+            LIMIT
+              1';
 
-    $empresa_id = 0;
+    $params = [
+      0 => $subdominio,
+    ];
 
-    if ($subdominioLigado) {
-      $sql = 'SELECT
-                `Empresa`.`id` 
-              FROM
-                `empresas` AS `Empresa`
-              WHERE
-                `Empresa`.`subdominio` = ?
-                AND `Empresa`.`ativo` = 1
-              ORDER BY
-                `Empresa`.`id` ASC
-              LIMIT
-                1';
+    $model = new Model('Empresa');
+    $resultado = $model->executarQuery($sql, $params);
+    $empresaId = intval($resultado[0]['id'] ?? 0);
 
-      $params = [
-        0 => $subdominio,
-      ];
+    // Usuário logado
+    $usuarioLogadoEmpresaId = intval($_SESSION['usuario']['empresa_id'] ?? 0);
+    $usuarioLogadoSubdominio = $_SESSION['usuario']['subdominio'] ?? '';
 
-      $model = new Model('Empresa');
-      $resultado = $model->executarQuery($sql, $params);
+    // Dashboard - Somente para usuário logado
+    if (strpos($chaveRota, '/{subdominio}/dashboard')) {
 
-      // Empresa encontrada no banco de dados
-      if (isset($resultado[0]['id']) and $resultado[0]['id']) {
-        $empresa_id = intval($resultado[0]['id']);
-      }
-    }
-    elseif (strpos($chaveRota, '/dashboard') and isset($_SESSION['usuario']['empresa_id'])) {
-      $empresa_id = intval($_SESSION['usuario']['empresa_id'] ?? 0);
-    }
-    elseif (strpos($chaveRota, '/dashboard') and ! isset($_SESSION['usuario']['empresa_id'])) {
-      header('Location: /login');
-      exit;
-    }
-
-    // Demais rotas apenas se for para a mesma empresa ID do usuário
-    $sessaoUsuarioEmpresaId = intval($_SESSION['usuario']['empresa_id'] ?? 0);
-    $sessaoEmpresaId = intval($_SESSION['empresa_id'] ?? 0);
-
-    if ($subdominioLigado == false or $subdominio == 'ver' and $sessaoUsuarioEmpresaId > 0 and $sessaoEmpresaId > 0) {
-      $empresa_id = $sessaoUsuarioEmpresaId;
-    }
-
-    if ($empresa_id == 0) {
-      $rotasPermitidas = [
-        'GET:/login',
-        'POST:/login',
-        'GET:/logout',
-        'GET:/cadastro',
-        'POST:/cadastro',
-      ];
-
-      if (! in_array($chaveRota, $rotasPermitidas)) {
+      if ($usuarioLogadoSubdominio and $usuarioLogadoSubdominio !== $subdominio) {
         return $this->paginaErro->erroVer();
       }
+
+      if ($empresaId == 0 or (int) $usuarioLogadoEmpresaId == 0) {
+        $_SESSION = null;
+        session_destroy();
+
+        header('Location: /login');
+        exit;
+      }
+
+      $empresaId = $usuarioLogadoEmpresaId;
     }
 
-    $_SESSION['empresa_id'] = $empresa_id;
+    if ($empresaId == 0) {
+      $rotasPermitidasCrud = [
+        'PUT:/ajustes',
+        'GET:/teste',
+        'GET:/erro',
+        //
+        'GET:/login',
+        'GET:/cadastro',
+        'GET:/cadastro/sucesso',
+        'POST:/login',
+        'GET:/logout',
+        //
+        'GET:/artigos',
+        'GET:/artigo/{id}',
+        'POST:/artigo',
+        'PUT:/artigo/{id}',
+        'PUT:/artigo/ordem',
+        'DELETE:/artigo/{id}',
+        //
+        'GET:/conteudos',
+        'GET:/conteudos/{id}',
+        'POST:/conteudo',
+        'PUT:/conteudo/{id}',
+        'PUT:/conteudo/ordem',
+        'DELETE:/conteudo/{id}',
+        //
+        'GET:/categorias',
+        'GET:/categoria/{id}',
+        'POST:/categoria',
+        'PUT:/categoria/{id}',
+        'PUT:/categoria/ordem',
+        'DELETE:/categoria/{id}',
+        //
+        'GET:/usuarios',
+        'GET:/usuario/{id}',
+        'POST:/usuario',
+        'PUT:/usuario/{id}',
+        'DELETE:/usuario/{id}',
+        //
+        'POST:/cadastro',
+        'PUT:/empresa/{id}',
+        //
+        'GET:/firebase',
+      ];
+
+      if (! in_array($chaveRota, $rotasPermitidasCrud)) {
+        return $this->paginaErro->erroVer();
+      }
+
+      // Usuário logado
+      $empresaId = intval($_SESSION['usuario']['empresa_id'] ?? 0);
+    }
+
+    // Grava EmpresaID na sessão
+    $_SESSION['empresa_id'] = $empresaId;
     $_SESSION['subdominio'] = $subdominio;
 
     if (isset($this->rotas[ $chaveRota ])) {

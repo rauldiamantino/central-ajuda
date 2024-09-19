@@ -1,4 +1,4 @@
-<?php 
+<?php
 $nivelAcesso = [
   0 => 'Suporte',
   1 => 'Acesso total',
@@ -57,7 +57,7 @@ $nivelAcesso = [
     </div>
   </div>
   <div class="flex gap-4">
-    <a href="/dashboard/usuarios" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Cancelar</a>
+    <a href="/<?php echo $this->buscarUsuarioLogado('subdominio') ?>/dashboard/usuarios" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Cancelar</a>
     <button type="submit" class="flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg">Gravar</button>
   </div>
 </form>

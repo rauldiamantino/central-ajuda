@@ -18,7 +18,6 @@ class Model
   protected $empresaPadraoId = 0;
   protected $usuarioLogadoId = 0;
   protected $usuarioLogadoNivel = 0;
-  protected $usuarioLogadoEmpresaId = 0;
   protected $url = '';
 
   public function __construct(string $tabela = '')
@@ -30,7 +29,6 @@ class Model
     $this->empresaPadraoId = intval($_SESSION['empresa_id'] ?? 0);
     $this->usuarioLogadoId = intval($_SESSION['usuario']['id'] ?? 0);
     $this->usuarioLogadoNivel = intval($_SESSION['usuario']['nivel'] ?? 0);
-    $this->usuarioLogadoEmpresaId = intval($_SESSION['usuario']['empresa_id'] ?? 0);
   }
 
   // --- CRUD ---
@@ -175,7 +173,7 @@ class Model
     if (isset($this->condicoes['erro'])) {
       return [];
     }
-    
+
     if ($this->condicoes) {
       $sql .= ' WHERE ' . implode(' ', $this->condicoes);
 
@@ -185,7 +183,7 @@ class Model
       else {
         $sql .= ' AND ' . $this->gerarBackticks($this->tabela, 'empresa_id') . ' = ?';
       }
-      
+
       $this->parametros[] = $this->empresaPadraoId;
     }
     elseif ($this->tabela == 'Empresa') {
@@ -253,7 +251,7 @@ class Model
       else {
         $sql .= ' AND ' . $this->gerarBackticks($this->tabela, 'empresa_id') . ' = ?';
       }
-      
+
       $this->parametros[] = $this->empresaPadraoId;
     }
     elseif ($this->tabela == 'Empresa') {
@@ -373,7 +371,7 @@ class Model
     if ($offset < 0) {
       $offset = 0;
     }
-    
+
     $this->paginacao = ' LIMIT ' . $limite . ' OFFSET ' . $offset;
 
     return $this;
