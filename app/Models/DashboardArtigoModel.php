@@ -211,7 +211,7 @@ class DashboardArtigoModel extends Model
         elseif (! isset($params[ $chave ])) {
           unset($camposValidados[ $chave ]);
         }
-        
+
       endforeach;
     }
 

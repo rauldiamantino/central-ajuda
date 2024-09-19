@@ -80,11 +80,11 @@ class DashboardCategoriaController extends DashboardController
 
     $categoria = $this->categoriaModel->condicao($condicao)
                                       ->buscar($colunas);
-    
+
     if (isset($categoria['erro']) and $categoria['erro']) {
       $_SESSION['erro'] = $categoria['erro']['mensagem'] ?? '';
 
-      header('Location: /dashboard/categorias');
+      header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/categorias');
       exit();
     }
 
@@ -129,16 +129,16 @@ class DashboardCategoriaController extends DashboardController
     $dados = $this->receberJson();
     $resultado = $this->categoriaModel->adicionar($dados);
 
-    if (isset($resultado['erro'])) { 
+    if (isset($resultado['erro'])) {
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
-     header('Location: /dashboard/categorias');
+     header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/categorias');
       exit();
     }
-    
+
     $_SESSION['ok'] = 'Categoria criada com sucesso';
 
-    header('Location: /dashboard/categorias');
+    header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/categorias');
     exit();
   }
 
@@ -152,7 +152,7 @@ class DashboardCategoriaController extends DashboardController
       'Categoria.id',
       'Categoria.nome',
     ];
-    
+
     $limite = 100;
 
     $resultado = $this->categoriaModel->ordem(['Categoria.ordem' => 'ASC'])
@@ -175,12 +175,12 @@ class DashboardCategoriaController extends DashboardController
     if (isset($resultado['erro'])) {
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
-      header('Location: /dashboard/categoria/editar/' . $id);
+      header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/categoria/editar/' . $id);
       exit();
     }
 
     $_SESSION['ok'] = 'Registro alterado com sucesso';
-    header('Location: /dashboard/categoria/editar/' . $id);
+    header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/categoria/editar/' . $id);
     exit();
   }
 

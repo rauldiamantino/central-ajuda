@@ -20,16 +20,19 @@ class DashboardLoginModel extends Model
       return $campos;
     }
 
-    $sql = 'SELECT 
+    $sql = 'SELECT
               `Usuario`.`id`,
               `Usuario`.`nome`,
               `Usuario`.`email`,
               `Usuario`.`senha`,
               `Usuario`.`empresa_id`,
               `Usuario`.`nivel`,
-              `Usuario`.`padrao`
+              `Usuario`.`padrao`,
+              `Empresa`.`subdominio`
             FROM
               `usuarios` AS `Usuario`
+            LEFT JOIN
+              `empresas` AS `Empresa` ON `Usuario`.`empresa_id` = `Empresa`.`id`
             WHERE
               `Usuario`.`email` = ?
             AND
@@ -63,6 +66,10 @@ class DashboardLoginModel extends Model
       $loginSucesso = false;
     }
 
+    if (! isset($usuario[0]['subdominio']) or empty($usuario[0]['subdominio'])) {
+      $loginSucesso = false;
+    }
+
     if ($loginSucesso == false) {
       $msgErro = [
         'erro' => [
@@ -86,6 +93,7 @@ class DashboardLoginModel extends Model
       'nome' => $usuario[0]['nome'],
       'email' => $usuario[0]['email'],
       'empresa_id' => $usuario[0]['empresa_id'],
+      'subdominio' => $usuario[0]['subdominio'],
       'nivel' => $usuario[0]['nivel'],
       'padrao' => $usuario[0]['padrao'],
     ];

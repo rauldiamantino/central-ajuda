@@ -15,8 +15,8 @@ class DashboardCadastroController extends DashboardController
 
   public function cadastroVer()
   {
-    if ($this->usuarioLogadoId > 0) {
-      header('Location: /dashboard/artigos');
+    if ($this->buscarUsuarioLogado('id') > 0) {
+      header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/artigos');
       exit();
     }
 
@@ -60,7 +60,7 @@ class DashboardCadastroController extends DashboardController
       header('Location: /cadastro');
       exit();
     }
-    
+
     if (intval($usuario) < 1) {
       $_SESSION['erro'] = 'Erro ao cadastrar usuário (C500#USR)';
       header('Location: /cadastro');

@@ -5,14 +5,14 @@
       <?php if (isset($categorias[0]) and is_array($categorias[0])) { ?>
         <h3 class="w-full text-start mb-2 px-6 py-4 text-lg">Categorias</h3>
         <?php foreach ($categorias as $chave => $linha) : ?>
-          <li class="w-full flex hover:underline hover:bg-slate-100"><a href="/p/<?php echo $subdominio ?>/categoria/<?php echo $linha['Categoria.id'] ?>" class="w-full px-6 py-4"><?php echo $linha['Categoria.nome'] ?></a></li>
+          <li class="w-full flex hover:underline hover:bg-slate-100"><a href="/<?php echo $subdominio ?>/categoria/<?php echo $linha['Categoria.id'] ?>" class="w-full px-6 py-4"><?php echo $linha['Categoria.nome'] ?></a></li>
         <?php endforeach; ?>
       <?php } ?>
-      
+
       <?php if (isset($demaisArtigos) and $demaisArtigos) { ?>
         <h3 class="w-full text-start mb-2 px-6 py-4 text-lg">Artigos relacionados</h3>
         <?php foreach ($demaisArtigos as $chave => $linha) : ?>
-          <li class="w-full flex hover:underline hover:bg-slate-100"><a href="/p/<?php echo $subdominio ?>/artigo/<?php echo $linha['Artigo.id'] ?>" class="w-full px-6 py-4"><?php echo $linha['Artigo.titulo'] ?></a></li>
+          <li class="w-full flex hover:underline hover:bg-slate-100"><a href="/<?php echo $subdominio ?>/artigo/<?php echo $linha['Artigo.id'] ?>" class="w-full px-6 py-4"><?php echo $linha['Artigo.titulo'] ?></a></li>
         <?php endforeach; ?>
       <?php } ?>
     </ul>

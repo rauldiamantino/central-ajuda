@@ -19,10 +19,6 @@
       <input type="text" id="empresa-editar-cnpj" name="cnpj" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="<?php echo $empresa['Empresa.cnpj']; ?>">
     </div>
     <div class="w-full">
-      <label for="empresa-editar-subdominio" class="block text-sm font-medium text-gray-700">Subdomínio</label>
-      <input type="text" id="empresa-editar-subdominio" name="subdominio" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="<?php echo $empresa['Empresa.subdominio']; ?>">
-    </div>
-    <div class="w-full">
       <label for="empresa-editar-telefone" class="block text-sm font-medium text-gray-700">Telefone</label>
       <input type="text" id="empresa-editar-telefone" name="telefone" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" placeholder="00 00000 0000" value="<?php echo $empresa['Empresa.telefone']; ?>">
     </div>
@@ -43,7 +39,7 @@
     </div>
   </div>
   <div class="flex gap-2">
-    <a href="/dashboard" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Cancelar</a>
+    <a href="/<?php echo $this->buscarUsuarioLogado('subdominio') ?>/dashboard" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Cancelar</a>
     <button type="submit" class="flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg btn-gravar-empresa">Gravar</button>
   </div>
 </form>

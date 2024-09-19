@@ -44,7 +44,7 @@ class PublicoArtigoController extends PublicoController
       'Categoria',
       'Usuario',
     ];
-    
+
     $resultado = $this->artigoModel->condicao($condicoes)
                                    ->uniao2($uniao, 'LEFT')
                                    ->ordem(['Artigo.ordem' => 'ASC'])
@@ -58,7 +58,7 @@ class PublicoArtigoController extends PublicoController
       $condConteudo = [
         'Conteudo.artigo_id' => $id,
       ];
-      
+
       $colConteudo = [
         'Conteudo.id',
         'Conteudo.ativo',
@@ -110,7 +110,7 @@ class PublicoArtigoController extends PublicoController
     }
     else {
       $_SESSION['erro'] = 'Desculpe, este artigo não está disponível';
-      header('Location: /p/ver');
+      header('Location: /' . $this->subdominio);
       exit;
     }
 

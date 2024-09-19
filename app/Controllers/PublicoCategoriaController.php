@@ -89,7 +89,7 @@ class PublicoCategoriaController extends PublicoController
 
     if (empty($categorias) or $sucesso == false) {
       $_SESSION['erro'] = 'Desculpe, esta categoria não está disponível';
-      header('Location: /p/ver');
+      header('Location: /' . $this->subdominio);
       exit;
     }
 

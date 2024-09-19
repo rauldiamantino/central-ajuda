@@ -6,7 +6,7 @@
       </svg>
     </button>
     <div class="p-4 flex items-center justify-between">
-      <a href="/dashboard/artigos"><img src="/public/img/luminaOn.png" alt="luminaOn" class="w-40"></a>
+      <a href="/<?php echo $this->buscarUsuarioLogado('subdominio') ?>/dashboard/artigos"><img src="/public/img/luminaOn.png" alt="luminaOn" class="w-40"></a>
     </div>
   </nav>
 </header>

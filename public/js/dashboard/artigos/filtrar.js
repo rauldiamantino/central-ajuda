@@ -11,6 +11,11 @@ const filtrarArtigos = () => {
   const urlParams = new URLSearchParams(window.location.search)
   const categoriaSelecionadaId = urlParams.get('categoria_id')
   const select = modalFiltrarBlocos.querySelector('select')
+  const subdominio = modalFiltrar.dataset.subdominio
+
+  if (! subdominio) {
+    return
+  }
 
   // Sempre limpa
   select.innerHTML = ''
@@ -31,7 +36,7 @@ const filtrarArtigos = () => {
         // Funções
         function gerarOption(nome, valor) {
           const option = document.createElement('option')
-          
+
           option.value = valor
           option.textContent = nome
 
@@ -50,7 +55,7 @@ const filtrarArtigos = () => {
             const categoriaId = select.value
 
             if (categoriaId !== undefined) {
-              window.location.href = `/dashboard/artigos?categoria_id=${categoriaId}`
+              window.location.href = `/${subdominio}/dashboard/artigos?categoria_id=${categoriaId}`
             }
           })
         }
@@ -58,7 +63,7 @@ const filtrarArtigos = () => {
         function clicouCancelar() {
           modalFiltrarCancelar.addEventListener('click', () => modalFiltrar.close())
         }
-      } 
+      }
       else {
         throw new Error('Erro ao buscar categorias')
       }

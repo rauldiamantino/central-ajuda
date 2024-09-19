@@ -17,14 +17,14 @@ class DashboardUsuarioController extends DashboardController
   {
     if ($this->buscarUsuarioLogado('nivel') == 2) {
       $_SESSION['erro'] = 'Você não tem permissão para realizar esta ação.';
-      header('Location: /dashboard/artigos');
+      header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/artigos');
       exit;
     }
 
     $condicoes = [];
 
     // Oculta usuários de suporte
-    if ($this->usuarioLogadoNivel != 0) {
+    if ($this->buscarUsuarioLogado('nivel') != 0) {
       $condicoes['Usuario.nivel !='] = 0;
     }
 
@@ -79,9 +79,9 @@ class DashboardUsuarioController extends DashboardController
 
   public function usuarioEditarVer(int $id)
   {
-    if ($this->usuarioLogadoId == 2 and $this->usuarioLogadoId != $id) {
+    if ($this->buscarUsuarioLogado('id') == 2 and $this->buscarUsuarioLogado('id') != $id) {
       $_SESSION['erro'] = 'Você não tem permissão para realizar esta ação.';
-      header('Location: /dashboard/artigos');
+      header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/artigos');
       exit;
     }
 
@@ -92,7 +92,7 @@ class DashboardUsuarioController extends DashboardController
     ];
 
     // Impede acesso a usuário de suporte
-    if ($this->usuarioLogadoNivel != 0) {
+    if ($this->buscarUsuarioLogado('nivel') != 0) {
       $condicoes['Usuario.nivel !='] = 0;
     }
 
@@ -110,11 +110,11 @@ class DashboardUsuarioController extends DashboardController
 
     $usuario = $this->usuarioModel->condicao($condicoes)
                                   ->buscar($colunas);
-    
+
     if (isset($usuario['erro']) and $usuario['erro']) {
       $_SESSION['erro'] = $usuario['erro']['mensagem'] ?? '';
 
-     header('Location: /dashboard/usuarios');
+     header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/usuarios');
       exit();
     }
 
@@ -127,7 +127,7 @@ class DashboardUsuarioController extends DashboardController
   {
     if ($this->buscarUsuarioLogado('nivel') == 2) {
       $_SESSION['erro'] = 'Você não tem permissão para realizar esta ação.';
-      header('Location: /dashboard/artigos');
+      header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/artigos');
       exit;
     }
 
@@ -139,7 +139,7 @@ class DashboardUsuarioController extends DashboardController
   {
     if ($this->buscarUsuarioLogado('nivel') == 2) {
       $_SESSION['erro'] = 'Você não tem permissão para realizar esta ação.';
-      header('Location: /dashboard/artigos');
+      header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/artigos');
       exit;
     }
 
@@ -149,36 +149,36 @@ class DashboardUsuarioController extends DashboardController
     if (isset($resultado['erro'])) {
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
-      header('Location: /dashboard/usuario/adicionar');
+      header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/usuario/adicionar');
       exit();
     }
-    
+
     $_SESSION['ok'] = 'Usuário criado com sucesso';
-    header('Location: /dashboard/usuarios');
+    header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/usuarios');
     exit();
   }
 
   public function atualizar(int $id)
   {
-    if ($this->usuarioLogadoId == 2 and $this->usuarioLogadoId != $id) {
+    if ($this->buscarUsuarioLogado('id') == 2 and $this->buscarUsuarioLogado('id') != $id) {
       $_SESSION['erro'] = 'Você não tem permissão para realizar esta ação.';
-      header('Location: /dashboard/artigos');
+      header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/artigos');
       exit;
     }
 
     $json = $this->receberJson();
     $resultado = $this->usuarioModel->atualizar($json, $id);
 
-    if (isset($resultado['erro'])) { 
+    if (isset($resultado['erro'])) {
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
-     header('Location: /dashboard/usuario/editar/' . $id);
+     header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/usuario/editar/' . $id);
       exit();
     }
 
     $_SESSION['ok'] = 'Registro alterado com sucesso';
 
-    header('Location: /dashboard/usuario/editar/' . $id);
+    header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/usuario/editar/' . $id);
     exit();
   }
 
@@ -186,7 +186,7 @@ class DashboardUsuarioController extends DashboardController
   {
     if ($this->buscarUsuarioLogado('nivel') == 2) {
       $_SESSION['erro'] = 'Você não tem permissão para realizar esta ação.';
-      header('Location: /dashboard/artigos');
+      header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/artigos');
       exit;
     }
 

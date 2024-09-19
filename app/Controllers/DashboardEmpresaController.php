@@ -9,7 +9,7 @@ class DashboardEmpresaController extends DashboardController
   public function __construct()
   {
     parent::__construct();
-    
+
     $this->empresaModel = new DashboardEmpresaModel();
   }
 
@@ -17,7 +17,7 @@ class DashboardEmpresaController extends DashboardController
   {
     if ($this->buscarUsuarioLogado('nivel') == 2) {
       $_SESSION['erro'] = 'Você não tem permissão para realizar esta ação.';
-      header('Location: /dashboard/artigos');
+      header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/artigos');
       exit;
     }
 
@@ -38,7 +38,7 @@ class DashboardEmpresaController extends DashboardController
     if (isset($empresa['erro']) and $empresa['erro']) {
       $_SESSION['erro'] = $empresa['erro']['mensagem'] ?? '';
 
-     header('Location: /dashboard/artigos');
+     header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/artigos');
       exit();
     }
 
@@ -51,22 +51,22 @@ class DashboardEmpresaController extends DashboardController
   {
     if ($this->buscarUsuarioLogado('nivel') == 2) {
       $_SESSION['erro'] = 'Você não tem permissão para realizar esta ação.';
-      header('Location: /dashboard/artigos');
+      header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/artigos');
       exit;
     }
-    
+
     $json = $this->receberJson();
     $resultado = $this->empresaModel->atualizar($json, $id);
 
-    if (isset($resultado['erro'])) { 
+    if (isset($resultado['erro'])) {
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
-      header('Location: /dashboard/empresa/editar');
+      header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/empresa/editar');
       exit();
     }
-    
+
     $_SESSION['ok'] = 'Registro alterado com sucesso';
-    header('Location: /dashboard/empresa/editar');
+    header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/empresa/editar');
     exit();
   }
 }

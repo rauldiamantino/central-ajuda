@@ -16,26 +16,26 @@ class DashboardConteudoController extends DashboardController
     $dados = $this->receberJson();
     $resultado = $this->conteudoModel->adicionar($dados);
 
-    $urlRetorno = '/dashboard/artigos';
+    $urlRetorno = '/' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/artigos';
 
     if (isset($dados['artigo_id'])) {
-      $urlRetorno = '/dashboard/artigo/editar/' . $dados['artigo_id'];
+      $urlRetorno = '/' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/artigo/editar/' . $dados['artigo_id'];
     }
 
     // Formulário via POST
-    if ($_POST and isset($resultado['erro'])) { 
+    if ($_POST and isset($resultado['erro'])) {
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
       header('Location: ' . $urlRetorno);
       exit();
     }
-    elseif ($_POST and isset($resultado['id'])) { 
+    elseif ($_POST and isset($resultado['id'])) {
       $_SESSION['ok'] = 'Conteúdo adicionado com sucesso';
 
       header('Location: ' . $urlRetorno);
       exit();
     }
-    
+
     // Formulário via Fetch
     if (isset($resultado['erro'])) {
       $codigo = $resultado['erro']['codigo'] ?? 500;
@@ -76,14 +76,14 @@ class DashboardConteudoController extends DashboardController
     $json = $this->receberJson();
     $resultado = $this->conteudoModel->atualizar($json, $id);
 
-    $urlRetorno = '/dashboard/artigos';
+    $urlRetorno = '/' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/artigos';
     $artigoId = intval($json['artigo_id'] ?? 0);
 
     if ($artigoId) {
-      $urlRetorno = '/dashboard/artigo/editar/' . $artigoId;
+      $urlRetorno = '/' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/artigo/editar/' . $artigoId;
     }
 
-    if ($_POST and isset($resultado['erro'])) { 
+    if ($_POST and isset($resultado['erro'])) {
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
       header('Location: ' . $urlRetorno);
