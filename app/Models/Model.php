@@ -19,9 +19,13 @@ class Model
   protected $usuarioLogadoId = 0;
   protected $usuarioLogadoNivel = 0;
   protected $url = '';
+  protected $sessaoUsuario;
 
   public function __construct(string $tabela = '')
   {
+    global $sessaoUsuario;
+    $this->sessaoUsuario = $sessaoUsuario;
+
     $this->tabela = $tabela;
     $this->database = new Database();
 

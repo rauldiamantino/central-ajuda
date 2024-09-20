@@ -21,6 +21,8 @@ class Roteador
 {
   public function rotear()
   {
+    global $sessaoUsuario;
+
     $paginaErro = new PaginaErroController();
 
     $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -52,21 +54,21 @@ class Roteador
     $empresaId = intval($buscarEmpresa[0]['Empresa.id'] ?? 0);
 
     // Usuário logado
-    $usuarioLogadoSubdominio = $_SESSION['usuario']['subdominio'] ?? '';
-    $usuarioLogadoEmpresaId = intval($_SESSION['usuario']['empresa_id'] ?? 0);
+    $usuarioLogado = $sessaoUsuario->buscar('usuario');
+    $usuarioLogadoSubdominio = $usuarioLogado['subdominio'] ?? '';
+    $usuarioLogadoEmpresaId = intval($usuarioLogado['empresa_id'] ?? 0);
 
     // Dashboard
     if (strpos($chaveRota, '/{subdominio}/dashboard')) {
 
-      // Impede acesso a empresa diferente da que estã logada
+      // Impede acesso a empresa diferente da que está logada
       if ($usuarioLogadoSubdominio and $usuarioLogadoSubdominio !== $subdominio) {
         return $paginaErro->erroVer();
       }
 
       // Impede acesso para usuário deslogado
       if ($empresaId == 0 or (int) $usuarioLogadoEmpresaId == 0) {
-        $_SESSION = null;
-        session_destroy();
+        $sessaoUsuario->apagar('usuario');
 
         header('Location: /login');
         exit;
@@ -84,8 +86,8 @@ class Roteador
     }
 
     // Grava EmpresaID na sessão
-    $_SESSION['empresa_id'] = $empresaId;
-    $_SESSION['subdominio'] = $subdominio;
+    $sessaoUsuario->definir('empresa_id', $empresaId);
+    $sessaoUsuario->definir('subdominio', $subdominio);
 
     $rotaRequisitada = $this->acessarRota($chaveRota);
 
@@ -142,7 +144,7 @@ class Roteador
     return false;
   }
 
-  private function acessarRota(string $rotaRequisitada = '')
+  private function acessarRota(string $rotaRequisitada = ''): array
   {
     $rotas = [
       // Acesso sem domínio
@@ -213,6 +215,6 @@ class Roteador
       'DELETE:/{subdominio}/d/usuario/{id}' => [DashboardUsuarioController::class, 'apagar'],
     ];
 
-    return $rotas[ $rotaRequisitada ] ?? '';
+    return $rotas[ $rotaRequisitada ] ?? [];
   }
 }

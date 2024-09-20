@@ -10,13 +10,14 @@ class DashboardLoginController extends DashboardController
   public function __construct()
   {
     parent::__construct();
+
     $this->loginModel = new DashboardLoginModel();
   }
 
   public function loginVer()
   {
-    if ($this->buscarUsuarioLogado('id') > 0) {
-      header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/artigos');
+    if ($this->usuarioLogadoId > 0) {
+      header('Location: /' . $this->usuarioLogadoSubdominio . '/dashboard/artigos');
       exit();
     }
 
@@ -30,30 +31,45 @@ class DashboardLoginController extends DashboardController
     $json = $this->receberJson();
     $resultado = $this->loginModel->login($json);
 
-    if (isset($resultado['ok'])) {
-      header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/artigos');
+    if (isset($resultado['erro'])) {
+      $this->sessaoUsuario->apagar('usuario');
+
+      $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
+      header('Location: /login');
       exit();
     }
 
-    $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
-    header('Location: /login');
+    // Aplica login
+    $usuarioLogin = [
+      'id' => $resultado['ok']['id'],
+      'nome' => $resultado['ok']['nome'],
+      'email' => $resultado['ok']['email'],
+      'empresa_id' => $resultado['ok']['empresa_id'],
+      'empresa_ativo' => $resultado['ok']['Empresa.ativo'],
+      'subdominio' => $resultado['ok']['Empresa.subdominio'],
+      'nivel' => $resultado['ok']['nivel'],
+      'padrao' => $resultado['ok']['padrao'],
+    ];
+
+    $this->sessaoUsuario->definir('usuario', $usuarioLogin);
+
+    // Uso imediato
+    $this->usuarioLogadoId = $resultado['ok']['id'];
+    $this->usuarioLogadoEmail = $resultado['ok']['email'];
+    $this->usuarioLogadoNivel = $resultado['ok']['nivel'];
+    $this->usuarioLogadoPadrao = $resultado['ok']['padrao'];
+    $this->usuarioLogadoEmpresaId = $resultado['ok']['empresa_id'];
+    $this->usuarioLogadoEmpresaAtivo = $resultado['ok']['Empresa.ativo'];
+    $this->usuarioLogadoSubdominio = $resultado['ok']['Empresa.subdominio'];
+
+
+    header('Location: /' . $this->usuarioLogadoSubdominio . '/dashboard/artigos');
     exit();
   }
 
   public function logout()
   {
-    $_SESSION = null;
-    session_destroy();
-
-    // Remove o cookie da sessão
-    if (ini_get("session.use_cookies")) {
-      $params = session_get_cookie_params();
-
-      setcookie(session_name(), '', time() - 42000,
-        $params["path"], $params["domain"],
-        $params["secure"], $params["httponly"]
-      );
-    }
+    $this->sessaoUsuario->apagar('usuario');
 
     header('Location: /login');
     exit();

@@ -16,10 +16,10 @@ class DashboardConteudoController extends DashboardController
     $dados = $this->receberJson();
     $resultado = $this->conteudoModel->adicionar($dados);
 
-    $urlRetorno = '/' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/artigos';
+    $urlRetorno = '/' . $this->usuarioLogadoSubdominio . '/dashboard/artigos';
 
     if (isset($dados['artigo_id'])) {
-      $urlRetorno = '/' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/artigo/editar/' . $dados['artigo_id'];
+      $urlRetorno = '/' . $this->usuarioLogadoSubdominio . '/dashboard/artigo/editar/' . $dados['artigo_id'];
     }
 
     // Formulário via POST
@@ -76,11 +76,11 @@ class DashboardConteudoController extends DashboardController
     $json = $this->receberJson();
     $resultado = $this->conteudoModel->atualizar($json, $id);
 
-    $urlRetorno = '/' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/artigos';
+    $urlRetorno = '/' . $this->usuarioLogadoSubdominio . '/dashboard/artigos';
     $artigoId = intval($json['artigo_id'] ?? 0);
 
     if ($artigoId) {
-      $urlRetorno = '/' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/artigo/editar/' . $artigoId;
+      $urlRetorno = '/' . $this->usuarioLogadoSubdominio . '/dashboard/artigo/editar/' . $artigoId;
     }
 
     if ($_POST and isset($resultado['erro'])) {

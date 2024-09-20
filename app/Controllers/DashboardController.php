@@ -6,12 +6,12 @@ use app\Controllers\ViewRenderer;
 class DashboardController extends Controller
 {
   protected $dashboardModel;
-  protected $usuarioLogadoId;
-  protected $usuarioLogadoNivel;
   protected $visao;
 
   public function __construct()
   {
+    parent::__construct();
+
     $this->dashboardModel = new DashboardModel();
     $this->visao = new ViewRenderer('/dashboard');
   }

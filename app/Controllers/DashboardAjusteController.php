@@ -45,12 +45,12 @@ class DashboardAjusteController extends DashboardController
     if (isset($resultado['erro'])) {
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
-      header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/ajustes');
+      header('Location: /' . $this->usuarioLogadoSubdominio . '/dashboard/ajustes');
       exit();
     }
 
     $_SESSION['ok'] = 'Ajuste alterado com sucesso';
-    header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/ajustes');
+    header('Location: /' . $this->usuarioLogadoSubdominio . '/dashboard/ajustes');
     exit();
   }
 }

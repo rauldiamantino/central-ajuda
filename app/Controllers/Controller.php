@@ -1,9 +1,37 @@
 <?php
 namespace app\Controllers;
+
+use app\Core\SessaoUsuario;
 use app\Models\Model;
 
 class Controller
 {
+  protected $usuarioLogado;
+  protected $dashboardModel;
+  protected $sessaoUsuario;
+  protected $usuarioLogadoId;
+  protected $usuarioLogadoEmail;
+  protected $usuarioLogadoNivel;
+  protected $usuarioLogadoPadrao;
+  protected $usuarioLogadoEmpresaId;
+  protected $usuarioLogadoEmpresaAtivo;
+  protected $usuarioLogadoSubdominio;
+
+  public function __construct()
+  {
+    global $sessaoUsuario;
+    $this->sessaoUsuario = $sessaoUsuario;
+
+    $this->usuarioLogado = $this->sessaoUsuario->buscar('usuario');
+    $this->usuarioLogadoId = $this->usuarioLogado['id'] ?? 0;
+    $this->usuarioLogadoEmail = $this->usuarioLogado['email'] ?? '';
+    $this->usuarioLogadoNivel = $this->usuarioLogado['nivel'] ?? 0;
+    $this->usuarioLogadoPadrao = $this->usuarioLogado['padrao'] ?? 0;
+    $this->usuarioLogadoEmpresaId = $this->usuarioLogado['empresa_id'] ?? 0;
+    $this->usuarioLogadoEmpresaAtivo = $this->usuarioLogado['empresa_ativo'] ?? 0;
+    $this->usuarioLogadoSubdominio = $this->usuarioLogado['subdominio'] ?? '';
+  }
+
   protected function receberJson(): array
   {
     $dados = $_POST;
@@ -51,24 +79,5 @@ class Controller
                              ->buscar($colunas);
 
     return intval($resultado[0]['Ajuste.ativo'] ?? 0);
-  }
-
-  public function buscarUsuarioLogado(string $chave = ''): string
-  {
-    $usuario = [
-      'id' => intval($_SESSION['usuario']['id'] ?? 0),
-      'email' => $_SESSION['usuario']['email'] ?? '',
-      'nivel' => intval($_SESSION['usuario']['nivel'] ?? 0),
-      'padrao' => intval($_SESSION['usuario']['padrao'] ?? 0),
-      'empresa_id' => intval($_SESSION['usuario']['empresa_id'] ?? 0),
-      'empresa_ativo' => intval($_SESSION['usuario']['empresa_ativo'] ?? 0),
-      'subdominio' => $_SESSION['usuario']['subdominio'] ?? '',
-    ];
-
-    if ($chave and isset($usuario[ $chave ])) {
-      return $usuario[ $chave ];
-    }
-
-    return '';
   }
 }

@@ -6,7 +6,7 @@ $nivelAcesso = [
 ];
 ?>
 
-<form method="POST" action="/<?php echo $this->buscarUsuarioLogado('subdominio') ?>/d/usuario/<?php echo $usuario['Usuario.id'] ?>" class="border border-slate-200 w-full min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow">
+<form method="POST" action="/<?php echo $this->usuarioLogadoSubdominio ?>/d/usuario/<?php echo $usuario['Usuario.id'] ?>" class="border border-slate-200 w-full min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow">
   <input type="hidden" name="_method" value="PUT">
   <input type="hidden" name="padrao" value="<?php echo $usuario['Usuario.padrao']; ?>">
   <input type="hidden" name="empresa_id" value="<?php echo $usuario['Usuario.empresa_id']; ?>">
@@ -57,7 +57,7 @@ $nivelAcesso = [
     </div>
   </div>
   <div class="flex gap-4">
-    <a href="/<?php echo $this->buscarUsuarioLogado('subdominio') ?>/dashboard/usuarios" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Cancelar</a>
+    <a href="/<?php echo $this->usuarioLogadoSubdominio ?>/dashboard/usuarios" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Cancelar</a>
     <button type="submit" class="flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg">Gravar</button>
   </div>
 </form>

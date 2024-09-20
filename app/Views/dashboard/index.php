@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <?php require_once 'template/cabecalho.php' ?>
 
-<body class="font-normal h-screen max-w-screen" data-editor="ClassicEditor" data-subdominio="<?php echo $this->buscarUsuarioLogado('subdominio') ?>">
+<body class="font-normal h-screen max-w-screen" data-editor="ClassicEditor" data-subdominio="<?php echo $this->usuarioLogadoSubdominio ?>">
   <?php if (isset($pagLogin)) { ?>
     <main>
       <div class="w-full h-screen flex justify-center items-center">
@@ -40,9 +40,9 @@
     </div>
   <?php } ?>
 
-  <?php if ($this->buscarUsuarioLogado('id')) { ?>
-    <a href="/<?php echo $this->buscarUsuarioLogado('subdominio') ?>/dashboard/usuario/editar/<?php echo $this->buscarUsuarioLogado('id') ?>" class="fixed bottom-0 right-0 py-1 px-2 md:px-6 flex items-center gap-2 text-xs font-extralight bg-green-800 text-white rounded-t-lg">
-      <?php echo $this->buscarUsuarioLogado('email') ?>
+  <?php if ($this->usuarioLogadoId) { ?>
+    <a href="/<?php echo $this->usuarioLogadoSubdominio ?>/dashboard/usuario/editar/<?php echo $this->usuarioLogadoId ?>" class="fixed bottom-0 right-0 py-1 px-2 md:px-6 flex items-center gap-2 text-xs font-extralight bg-green-800 text-white rounded-t-lg">
+      <?php echo $this->usuarioLogadoEmail ?>
     </a>
   <?php } ?>
   <?php require_once 'scripts.php' ?>

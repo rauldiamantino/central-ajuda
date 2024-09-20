@@ -83,8 +83,6 @@ class DashboardLoginModel extends Model
         ],
       ];
 
-      $_SESSION['usuario'] = null;
-
       return $msgErro;
     }
 
@@ -94,19 +92,7 @@ class DashboardLoginModel extends Model
       return $validarSenha;
     }
 
-    // Aplica login
-    $_SESSION['usuario'] = [
-      'id' => $usuario[0]['id'],
-      'nome' => $usuario[0]['nome'],
-      'email' => $usuario[0]['email'],
-      'empresa_id' => $usuario[0]['empresa_id'],
-      'empresa_ativo' => $usuario[0]['Empresa.ativo'],
-      'subdominio' => $usuario[0]['Empresa.subdominio'],
-      'nivel' => $usuario[0]['nivel'],
-      'padrao' => $usuario[0]['padrao'],
-    ];
-
-    return ['ok' => true];
+    return ['ok' => $usuario[0]];
   }
 
   // --- Métodos auxiliares

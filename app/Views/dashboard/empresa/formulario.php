@@ -39,7 +39,7 @@
     </div>
   </div>
   <div class="flex gap-2">
-    <a href="/<?php echo $this->buscarUsuarioLogado('subdominio') ?>/dashboard" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Cancelar</a>
+    <a href="/<?php echo $this->usuarioLogadoSubdominio ?>/dashboard" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Cancelar</a>
     <button type="submit" class="flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg btn-gravar-empresa">Gravar</button>
   </div>
 </form>

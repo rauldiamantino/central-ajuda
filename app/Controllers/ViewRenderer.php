@@ -8,6 +8,8 @@ class ViewRenderer extends Controller
 
   public function __construct($caminho = '')
   {
+    parent::__construct();
+
     $this->caminho = $caminho;
   }
 

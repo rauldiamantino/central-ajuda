@@ -49,7 +49,7 @@ $nivelAcesso = [
                 <?php // Nome ?>
                 <?php if ($subChave == 'Usuario.nome') { ?>
                   <td class="py-5 px-4">
-                    <a href="/<?php echo $this->buscarUsuarioLogado('subdominio') ?>/dashboard/usuario/editar/<?php echo $linha['Usuario.id'] ?>" class="font-semibold text-gray-700 underline js-dashboard-usuarios-editar" data-usuario-id="<?php echo $linha['Usuario.id'] ?>">
+                    <a href="/<?php echo $this->usuarioLogadoSubdominio ?>/dashboard/usuario/editar/<?php echo $linha['Usuario.id'] ?>" class="font-semibold text-gray-700 underline js-dashboard-usuarios-editar" data-usuario-id="<?php echo $linha['Usuario.id'] ?>">
                       <?php echo $subLinha ? $subLinha : '** Sem nome **' ?>
                     </a>
                   </td>
