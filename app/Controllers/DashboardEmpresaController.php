@@ -69,4 +69,27 @@ class DashboardEmpresaController extends DashboardController
     header('Location: /' . $this->buscarUsuarioLogado('subdominio') . '/dashboard/empresa/editar');
     exit();
   }
+
+  public function buscarEmpresa(string $subdominio = ''): array
+  {
+    $sql = 'SELECT
+              `Empresa`.`id` AS `Empresa.id`
+            FROM
+              `empresas` AS `Empresa`
+            WHERE
+              `Empresa`.`subdominio` = ?
+              AND `Empresa`.`ativo` = 1
+            ORDER BY
+              `Empresa`.`id` ASC
+            LIMIT
+              1';
+
+    $params = [
+      0 => $subdominio,
+    ];
+
+    $resultado = $this->empresaModel->executarQuery($sql, $params);
+
+    return $resultado;
+  }
 }

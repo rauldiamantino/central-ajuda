@@ -16,18 +16,166 @@ use app\Controllers\PublicoCategoriaController;
 use app\Controllers\PublicoController;
 use app\Controllers\TesteController;
 use app\Controllers\FirebaseController;
-use app\Models\Model;
 
 class Roteador
 {
-  protected $rotas;
-  protected $paginaErro;
-
-  public function __construct()
+  public function rotear()
   {
-    $this->paginaErro = new PaginaErroController();
+    $paginaErro = new PaginaErroController();
 
-    $this->rotas = [
+    $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    $metodo = $_SERVER['REQUEST_METHOD'];
+    $metodoOculto = $_POST['_method'] ?? null;
+
+    // Formulário HTML
+    if ($metodoOculto and in_array(strtoupper($metodoOculto), ['PUT', 'DELETE'])) {
+      $metodo = strtoupper($metodoOculto);
+    }
+
+    // Subdomínio
+    $partesUrl = explode('/', $url);
+    $subdominio = $partesUrl[1] ?? '';
+
+    if ($this->subdominioPermitido($subdominio) == false) {
+      $subdominio = '';
+    }
+
+    $chaveRota = $metodo . ':' . $url;
+    $id = (int) basename($url);
+    $chaveRota = str_replace($id, '{id}', $chaveRota);
+    $chaveRota = str_replace($subdominio, '{subdominio}', $chaveRota);
+
+    $dashboardEmpresa = new DashboardEmpresaController();
+    $buscarEmpresa = $dashboardEmpresa->buscarEmpresa($subdominio);
+
+    // Público
+    $empresaId = intval($buscarEmpresa[0]['Empresa.id'] ?? 0);
+
+    // Usuário logado
+    $usuarioLogadoSubdominio = $_SESSION['usuario']['subdominio'] ?? '';
+    $usuarioLogadoEmpresaId = intval($_SESSION['usuario']['empresa_id'] ?? 0);
+
+    // Dashboard
+    if (strpos($chaveRota, '/{subdominio}/dashboard')) {
+
+      // Impede acesso a empresa diferente da que estã logada
+      if ($usuarioLogadoSubdominio and $usuarioLogadoSubdominio !== $subdominio) {
+        return $paginaErro->erroVer();
+      }
+
+      // Impede acesso para usuário deslogado
+      if ($empresaId == 0 or (int) $usuarioLogadoEmpresaId == 0) {
+        $_SESSION = null;
+        session_destroy();
+
+        header('Location: /login');
+        exit;
+      }
+
+      $empresaId = $usuarioLogadoEmpresaId;
+    }
+
+    // Acesso sem subdomínio
+    if ($empresaId == 0 and $this->rotaPermitida($chaveRota)) {
+      $empresaId = $usuarioLogadoEmpresaId;
+    }
+    elseif ($empresaId == 0) {
+      return $paginaErro->erroVer();
+    }
+
+    // Grava EmpresaID na sessão
+    $_SESSION['empresa_id'] = $empresaId;
+    $_SESSION['subdominio'] = $subdominio;
+
+    $rotaRequisitada = $this->acessarRota($chaveRota);
+
+    if ($rotaRequisitada) {
+      $controlador = new $rotaRequisitada[0]();
+      $metodo = $rotaRequisitada[1];
+
+      if ($id) {
+        $controlador->$metodo($id);
+      }
+      else {
+        $controlador->$metodo();
+      }
+    }
+    else {
+      $paginaErro->erroVer();
+    }
+  }
+
+  private function subdominioPermitido(string $subdominio = ''): bool
+  {
+    $subdominios = [
+      'teste',
+      'teste2',
+      'teste5',
+      'luminaon',
+    ];
+
+    if (in_array($subdominio, $subdominios)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  private function rotaPermitida(string $rota = ''): bool
+  {
+    $rotasPermitidas = [
+      'PUT:/ajustes',
+      'GET:/teste',
+      'GET:/erro',
+      //
+      'GET:/artigos',
+      'GET:/artigo/{id}',
+      'POST:/artigo',
+      'PUT:/artigo/{id}',
+      'PUT:/artigo/ordem',
+      'DELETE:/artigo/{id}',
+      //
+      'GET:/conteudos',
+      'GET:/conteudos/{id}',
+      'POST:/conteudo',
+      'PUT:/conteudo/{id}',
+      'PUT:/conteudo/ordem',
+      'DELETE:/conteudo/{id}',
+      //
+      'GET:/categorias',
+      'GET:/categoria/{id}',
+      'POST:/categoria',
+      'PUT:/categoria/{id}',
+      'PUT:/categoria/ordem',
+      'DELETE:/categoria/{id}',
+      //
+      'GET:/usuarios',
+      'GET:/usuario/{id}',
+      'POST:/usuario',
+      'PUT:/usuario/{id}',
+      'DELETE:/usuario/{id}',
+      //
+      'POST:/cadastro',
+      'PUT:/empresa/{id}',
+      'GET:/login',
+      'GET:/cadastro',
+      'GET:/cadastro/sucesso',
+      'POST:/login',
+      'GET:/logout',
+      //
+      'GET:/firebase',
+    ];
+
+    if (in_array($rota, $rotasPermitidas)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  private function acessarRota(string $rotaRequisitada = '')
+  {
+    $rotas = [
       // Público
       'GET:/{subdominio}' => [PublicoController::class, 'publicoVer'],
       'GET:/{subdominio}/categoria/{id}' => [PublicoCategoriaController::class, 'categoriaVer'],
@@ -91,152 +239,11 @@ class Roteador
       //
       'GET:/firebase' => [FirebaseController::class, 'credenciais'],
     ];
-  }
 
-  public function rotear()
-  {
-    $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-    $metodo = $_SERVER['REQUEST_METHOD'];
-    $metodoOculto = $_POST['_method'] ?? null;
-
-    if ($metodoOculto and in_array(strtoupper($metodoOculto), ['PUT', 'DELETE'])) {
-      $metodo = strtoupper($metodoOculto);
+    if (isset($rotas[ $rotaRequisitada ])) {
+      return $rotas[ $rotaRequisitada ];
     }
 
-    $subdominios = [
-      'teste',
-      'teste2',
-      'teste5',
-      'luminaon',
-    ];
-
-    // Subdomínio
-    $partesUrl = explode('/', $url);
-    $subdominio = $partesUrl[1] ?? '';
-
-    if (! in_array($subdominio, $subdominios)) {
-      $subdominio = '';
-    }
-
-    $chaveRota = $metodo . ':' . $url;
-    $id = (int) basename($url);
-    $chaveRota = str_replace($id, '{id}', $chaveRota);
-    $chaveRota = str_replace($subdominio, '{subdominio}', $chaveRota);
-
-    // Público - Recupera EmpresaID
-    $sql = 'SELECT
-              `Empresa`.`id`
-            FROM
-              `empresas` AS `Empresa`
-            WHERE
-              `Empresa`.`subdominio` = ?
-              AND `Empresa`.`ativo` = 1
-            ORDER BY
-              `Empresa`.`id` ASC
-            LIMIT
-              1';
-
-    $params = [
-      0 => $subdominio,
-    ];
-
-    $model = new Model('Empresa');
-    $resultado = $model->executarQuery($sql, $params);
-    $empresaId = intval($resultado[0]['id'] ?? 0);
-
-    // Usuário logado
-    $usuarioLogadoEmpresaId = intval($_SESSION['usuario']['empresa_id'] ?? 0);
-    $usuarioLogadoSubdominio = $_SESSION['usuario']['subdominio'] ?? '';
-
-    // Dashboard - Somente para usuário logado
-    if (strpos($chaveRota, '/{subdominio}/dashboard')) {
-
-      if ($usuarioLogadoSubdominio and $usuarioLogadoSubdominio !== $subdominio) {
-        return $this->paginaErro->erroVer();
-      }
-
-      if ($empresaId == 0 or (int) $usuarioLogadoEmpresaId == 0) {
-        $_SESSION = null;
-        session_destroy();
-
-        header('Location: /login');
-        exit;
-      }
-
-      $empresaId = $usuarioLogadoEmpresaId;
-    }
-
-    if ($empresaId == 0) {
-      $rotasPermitidasCrud = [
-        'PUT:/ajustes',
-        'GET:/teste',
-        'GET:/erro',
-        //
-        'GET:/login',
-        'GET:/cadastro',
-        'GET:/cadastro/sucesso',
-        'POST:/login',
-        'GET:/logout',
-        //
-        'GET:/artigos',
-        'GET:/artigo/{id}',
-        'POST:/artigo',
-        'PUT:/artigo/{id}',
-        'PUT:/artigo/ordem',
-        'DELETE:/artigo/{id}',
-        //
-        'GET:/conteudos',
-        'GET:/conteudos/{id}',
-        'POST:/conteudo',
-        'PUT:/conteudo/{id}',
-        'PUT:/conteudo/ordem',
-        'DELETE:/conteudo/{id}',
-        //
-        'GET:/categorias',
-        'GET:/categoria/{id}',
-        'POST:/categoria',
-        'PUT:/categoria/{id}',
-        'PUT:/categoria/ordem',
-        'DELETE:/categoria/{id}',
-        //
-        'GET:/usuarios',
-        'GET:/usuario/{id}',
-        'POST:/usuario',
-        'PUT:/usuario/{id}',
-        'DELETE:/usuario/{id}',
-        //
-        'POST:/cadastro',
-        'PUT:/empresa/{id}',
-        //
-        'GET:/firebase',
-      ];
-
-      if (! in_array($chaveRota, $rotasPermitidasCrud)) {
-        return $this->paginaErro->erroVer();
-      }
-
-      // Usuário logado
-      $empresaId = intval($_SESSION['usuario']['empresa_id'] ?? 0);
-    }
-
-    // Grava EmpresaID na sessão
-    $_SESSION['empresa_id'] = $empresaId;
-    $_SESSION['subdominio'] = $subdominio;
-
-    if (isset($this->rotas[ $chaveRota ])) {
-      $rota = $this->rotas[ $chaveRota ];
-      $controlador = new $rota[0]();
-      $metodo = $rota[1];
-
-      if ($id) {
-        $controlador->$metodo($id);
-      }
-      else {
-        $controlador->$metodo();
-      }
-    }
-    else {
-      $this->paginaErro->erroVer();
-    }
+    return '';
   }
 }
