@@ -5,7 +5,7 @@
   <div class="w-full flex gap-4">
     <?php // Artigo e Inserção de Conteúdos ?>
     <div class="w-full flex flex-col gap-10">
-      <form method="POST" action="/artigo" class="border border-slate-200 w-full min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow">
+      <form method="POST" action="/<?php echo $this->buscarUsuarioLogado('subdominio') ?>/d/artigo" class="border border-slate-200 w-full min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow">
         <input type="hidden" name="usuario_id" value="<?php echo $usuarioId ?>">
         <?php if (isset($ordem['prox'])) { ?>
           <input type="hidden" name="ordem" value="<?php echo $ordem['prox'] ?>">

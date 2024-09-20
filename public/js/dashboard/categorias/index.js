@@ -1,4 +1,5 @@
 let categoriaId = null
+
 const btnsCategoriaEditar = document.querySelectorAll('.js-dashboard-categorias-editar')
 const btnsCategoriaRemover = document.querySelectorAll('.js-dashboard-categorias-remover')
 const modalCateRemover = document.querySelector('.modal-categoria-remover')
@@ -49,7 +50,11 @@ const requisicaoCateRemover = (categoriaId) => {
     return
   }
 
-  fetch(`/categoria/${categoriaId}`, { method: 'DELETE' })
+  if (! subdominio) {
+    return
+  }
+
+  fetch(`/${subdominio}/d/categoria/${categoriaId}`, { method: 'DELETE' })
     .then(resposta => resposta.json())
     .then(resposta => {
 

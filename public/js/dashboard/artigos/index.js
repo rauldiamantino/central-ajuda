@@ -2,6 +2,7 @@ import { apagarImgsArtigo } from '../firebase/funcoes.js'
 
 let artigoId = null
 let empresaId = null
+
 const btnsArtigoEditar = document.querySelectorAll('.js-dashboard-artigos-editar')
 const btnsArtigoRemover = document.querySelectorAll('.js-dashboard-artigos-remover')
 const modalRemover = document.querySelector('.modal-artigo-remover')
@@ -11,7 +12,7 @@ const btnModalCancelar = document.querySelector('.modal-artigo-btn-cancelar')
 if (btnsArtigoEditar) {
   btnsArtigoEditar.forEach(artigo => {
     artigo.addEventListener('click', () => {
-      console.log(artigo)
+
     })
   })
 }
@@ -21,6 +22,7 @@ if (btnsArtigoRemover) {
     artigo.addEventListener('click', () => {
       artigoId = artigo.dataset.artigoId
       empresaId = artigo.dataset.empresaId
+
       abrirModalRemover()
     })
   })
@@ -49,7 +51,7 @@ const fecharModalRemover = () => {
 
 const requisicaoRemover = async (artigoId) => {
 
-  if (artigoId === undefined || empresaId === undefined) {
+  if (artigoId === undefined || empresaId === undefined || subdominio === undefined) {
     return
   }
 
@@ -59,7 +61,7 @@ const requisicaoRemover = async (artigoId) => {
     return
   }
 
-  fetch(`/artigo/${artigoId}`, { method: 'DELETE' })
+  fetch(`/${subdominio}/d/artigo/${artigoId}`, { method: 'DELETE' })
     .then(resposta => resposta.json())
     .then(resposta => {
 

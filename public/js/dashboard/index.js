@@ -1,3 +1,5 @@
+const subdominio = document.querySelector('body').dataset.subdominio
+
 const fecharNotificacao = (notificacao) => {
 
   if (! notificacao.classList.contains('hidden')) {
@@ -50,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
       menuLateralToggle(menuLateral)
     })
   }
-  
+
   removerAutocomplete()
   setTimeout(() => window.scrollTo({top: 0, left: 0, behavior: 'smooth'}), 60)
 })
@@ -81,4 +83,5 @@ const removerAutocomplete = () => {
       input.removeAttribute('disabled')
     }, 1000)
   })
+
 }

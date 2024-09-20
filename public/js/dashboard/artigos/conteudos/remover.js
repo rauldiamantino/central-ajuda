@@ -3,6 +3,7 @@ import { apagarImagem } from '../../firebase/funcoes.js'
 let conteudoId = null
 let conteudoTipo = null
 let conteudoUrl = null
+
 const btnsConteudoRemover = document.querySelectorAll('.js-dashboard-conteudo-remover')
 const modalConteudoRemover = document.querySelector('.modal-conteudo-remover')
 const btnModalConteudoRemover = document.querySelector('.modal-conteudo-btn-remover')
@@ -47,6 +48,10 @@ const requisicaoConteudoRemover = async (conteudoId) => {
     return
   }
 
+  if (! subdominio) {
+    return
+  }
+
   if (conteudoUrl && conteudoTipo == 2) {
     const apagar = await apagarImagem(conteudoUrl);
 
@@ -55,7 +60,7 @@ const requisicaoConteudoRemover = async (conteudoId) => {
     }
   }
 
-  fetch(`/conteudo/${conteudoId}`, { method: 'DELETE' })
+  fetch(`/${subdominio}/d/conteudo/${conteudoId}`, { method: 'DELETE' })
     .then(resposta => resposta.json())
     .then(resposta => {
 

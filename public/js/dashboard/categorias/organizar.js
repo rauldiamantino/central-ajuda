@@ -8,9 +8,13 @@ const buscarCategorias = () => {
     return
   }
 
+  if (! subdominio) {
+    return
+  }
+
   modalOrganizarCancelar.addEventListener('click', () => modalOrganizar.close())
 
-  fetch(`/categorias`, { method: 'GET' })
+  fetch(`/${subdominio}/d/categorias`, { method: 'GET' })
     .then(resposta => resposta.json())
     .then(resposta => {
 
@@ -34,26 +38,26 @@ const buscarCategorias = () => {
           handle: '.handle',
           onEnd: function () {
             const ordem = []
-        
+
             document.querySelectorAll('.modal-categorias-organizar-bloco').forEach(function (item, index) {
               ordem.push({
                 id: item.dataset.categoriaId,
                 ordem: index
               })
             })
-        
+
             if (! ordem) {
               return
             }
 
             modalOrganizarConfirmar.addEventListener('click', () => {
-              fetch(`/categoria/ordem`, {
+              fetch(`/${subdominio}/d/categoria/ordem`, {
                 method: 'PUT',
                 body: JSON.stringify(ordem)
                 })
                 .then(resposta => resposta.json())
                 .then(resposta => {
-                  
+
                   if (resposta.linhasAfetadas > 0) {
                     location.reload()
                   }
@@ -72,7 +76,7 @@ const buscarCategorias = () => {
 
           }
         })
-      } 
+      }
       else {
         throw new Error('Erro ao buscar categorias')
       }

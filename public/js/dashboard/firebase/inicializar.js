@@ -3,12 +3,16 @@ let firebaseModulos = {}
 
 async function inicializarFirebase() {
 
+  if (! subdominio) {
+    return
+  }
+
   if (firebaseInicializado) {
     return firebaseModulos
   }
 
   try {
-    const response = await fetch('/firebase')
+    const response = await fetch(`/${subdominio}/d/firebase`)
     const data = await response.json()
     const firebaseConfig = data.firebase
 
@@ -26,7 +30,7 @@ async function inicializarFirebase() {
     }
 
     throw data
-  } 
+  }
   catch (error) {
     console.error('Erro ao inicializar o Firebase:', error)
     throw error

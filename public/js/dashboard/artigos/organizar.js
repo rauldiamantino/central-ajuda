@@ -3,17 +3,20 @@ const buscarArtigos = () => {
   const modalOrganizarCancelar = document.querySelector('.modal-artigos-organizar-btn-cancelar')
   const modalOrganizarConfirmar = document.querySelector('.modal-artigos-organizar-btn-confirmar')
   const modalOrganizarBlocos = document.querySelector('.modal-artigos-organizar-blocos')
-  
   const modalAlertaFiltro = document.querySelector('.modal-artigos-alerta-filtro')
   const modalAlertaFiltroOk = modalAlertaFiltro.querySelector('.modal-artigo-btn-alerta-ok')
 
+  if (! subdominio) {
+    return
+  }
+
   const urlParams = new URLSearchParams(window.location.search)
   const categoriaSelecionadaId = urlParams.get('categoria_id')
-  const urlBuscar = `/artigos?categoria_id=${categoriaSelecionadaId}`
+  const urlBuscar = `/${subdominio}/d/artigos?categoria_id=${categoriaSelecionadaId}`
 
   if (! categoriaSelecionadaId) {
     modalAlertaFiltroOk.addEventListener('click', () => modalAlertaFiltro.close())
-    
+
     return modalAlertaFiltro.showModal()
   }
 
@@ -47,26 +50,26 @@ const buscarArtigos = () => {
           handle: '.handle',
           onEnd: function () {
             const ordem = []
-        
+
             document.querySelectorAll('.modal-artigos-organizar-bloco').forEach(function (item, index) {
               ordem.push({
                 id: item.dataset.artigoId,
                 ordem: index
               })
             })
-        
+
             if (! ordem) {
               return
             }
 
             modalOrganizarConfirmar.addEventListener('click', () => {
-              fetch(`/artigo/ordem`, {
+              fetch(`/${subdominio}/d/artigo/ordem`, {
                 method: 'PUT',
                 body: JSON.stringify(ordem)
                 })
                 .then(resposta => resposta.json())
                 .then(resposta => {
-                  
+
                   if (resposta.linhasAfetadas > 0) {
                     location.reload()
                   }
@@ -85,7 +88,7 @@ const buscarArtigos = () => {
 
           }
         })
-      } 
+      }
       else {
         throw new Error('Erro ao buscar artigos')
       }

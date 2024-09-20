@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <?php require_once 'template/cabecalho.php' ?>
 
-<body class="font-normal h-screen max-w-screen" data-editor="ClassicEditor">
+<body class="font-normal h-screen max-w-screen" data-editor="ClassicEditor" data-subdominio="<?php echo $this->buscarUsuarioLogado('subdominio') ?>">
   <?php if (isset($pagLogin)) { ?>
     <main>
       <div class="w-full h-screen flex justify-center items-center">

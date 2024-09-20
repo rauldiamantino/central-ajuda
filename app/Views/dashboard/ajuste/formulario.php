@@ -1,4 +1,4 @@
-<form method="POST" action="/ajustes" class="border border-slate-200 w-full min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow">
+<form method="POST" action="/<?php echo $this->buscarUsuarioLogado('subdominio') ?>/d/ajustes" class="border border-slate-200 w-full min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow">
   <input type="hidden" name="_method" value="PUT">
   <div class="w-full flex">
     <div class="flex flex-col gap-6">

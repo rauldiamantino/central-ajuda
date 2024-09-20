@@ -12,7 +12,7 @@ $tipoUsuario = [
 ];
 ?>
 
-<form method="POST" action="/usuario" class="border border-slate-200 w-full min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow">
+<form method="POST" action="/<?php echo $this->buscarUsuarioLogado('subdominio') ?>/d/usuario" class="border border-slate-200 w-full min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow">
   <div class="w-full flex flex-col gap-4">
     <div class="flex gap-10">
       <div class="w-full flex gap-4">

@@ -124,37 +124,8 @@ class Roteador
   private function rotaPermitida(string $rota = ''): bool
   {
     $rotasPermitidas = [
-      'PUT:/ajustes',
       'GET:/teste',
       'GET:/erro',
-      //
-      'GET:/artigos',
-      'GET:/artigo/{id}',
-      'POST:/artigo',
-      'PUT:/artigo/{id}',
-      'PUT:/artigo/ordem',
-      'DELETE:/artigo/{id}',
-      //
-      'GET:/conteudos',
-      'GET:/conteudos/{id}',
-      'POST:/conteudo',
-      'PUT:/conteudo/{id}',
-      'PUT:/conteudo/ordem',
-      'DELETE:/conteudo/{id}',
-      //
-      'GET:/categorias',
-      'GET:/categoria/{id}',
-      'POST:/categoria',
-      'PUT:/categoria/{id}',
-      'PUT:/categoria/ordem',
-      'DELETE:/categoria/{id}',
-      //
-      'GET:/usuarios',
-      'GET:/usuario/{id}',
-      'POST:/usuario',
-      'PUT:/usuario/{id}',
-      'DELETE:/usuario/{id}',
-      //
       'POST:/cadastro',
       'PUT:/empresa/{id}',
       'GET:/login',
@@ -162,8 +133,6 @@ class Roteador
       'GET:/cadastro/sucesso',
       'POST:/login',
       'GET:/logout',
-      //
-      'GET:/firebase',
     ];
 
     if (in_array($rota, $rotasPermitidas)) {
@@ -176,6 +145,17 @@ class Roteador
   private function acessarRota(string $rotaRequisitada = '')
   {
     $rotas = [
+      // Acesso sem domínio
+      'POST:/cadastro' => [DashboardCadastroController::class, 'adicionar'],
+      'PUT:/empresa/{id}' => [DashboardEmpresaController::class, 'atualizar'],
+      'GET:/teste' => [TesteController::class, 'testar'],
+      'GET:/erro' => [PaginaErroController::class, 'erroVer'],
+      'GET:/login' => [DashboardLoginController::class, 'loginVer'],
+      'GET:/cadastro' => [DashboardCadastroController::class, 'cadastroVer'],
+      'GET:/cadastro/sucesso' => [DashboardCadastroController::class, 'cadastroSucessoVer'],
+      'POST:/login' => [DashboardLoginController::class, 'login'],
+      'GET:/logout' => [DashboardLoginController::class, 'logout'],
+
       // Público
       'GET:/{subdominio}' => [PublicoController::class, 'publicoVer'],
       'GET:/{subdominio}/categoria/{id}' => [PublicoCategoriaController::class, 'categoriaVer'],
@@ -196,54 +176,43 @@ class Roteador
       'GET:/{subdominio}/dashboard/usuario/editar/{id}' => [DashboardUsuarioController::class, 'usuarioEditarVer'],
       'GET:/{subdominio}/dashboard/usuario/adicionar' => [DashboardUsuarioController::class, 'usuarioAdicionarVer'],
       'GET:/{subdominio}/dashboard/empresa/editar' => [DashboardEmpresaController::class, 'empresaEditarVer'],
-      //
-      'PUT:/ajustes' => [DashboardAjusteController::class, 'atualizar'],
-      'GET:/teste' => [TesteController::class, 'testar'],
-      'GET:/erro' => [PaginaErroController::class, 'erroVer'],
-      //
-      'GET:/login' => [DashboardLoginController::class, 'loginVer'],
-      'GET:/cadastro' => [DashboardCadastroController::class, 'cadastroVer'],
-      'GET:/cadastro/sucesso' => [DashboardCadastroController::class, 'cadastroSucessoVer'],
-      'POST:/login' => [DashboardLoginController::class, 'login'],
-      'GET:/logout' => [DashboardLoginController::class, 'logout'],
-      //
-      'GET:/artigos' => [DashboardArtigoController::class, 'buscar'],
-      'GET:/artigo/{id}' => [DashboardArtigoController::class, 'buscar'],
-      'POST:/artigo' => [DashboardArtigoController::class, 'adicionar'],
-      'PUT:/artigo/{id}' => [DashboardArtigoController::class, 'atualizar'],
-      'PUT:/artigo/ordem' => [DashboardArtigoController::class, 'atualizarOrdem'],
-      'DELETE:/artigo/{id}' => [DashboardArtigoController::class, 'apagar'],
-      //
-      'GET:/conteudos' => [DashboardConteudoController::class, 'buscar'],
-      'GET:/conteudos/{id}' => [DashboardConteudoController::class, 'buscar'],
-      'POST:/conteudo' => [DashboardConteudoController::class, 'adicionar'],
-      'PUT:/conteudo/{id}' => [DashboardConteudoController::class, 'atualizar'],
-      'PUT:/conteudo/ordem' => [DashboardConteudoController::class, 'atualizarOrdem'],
-      'DELETE:/conteudo/{id}' => [DashboardConteudoController::class, 'apagar'],
-      //
-      'GET:/categorias' => [DashboardCategoriaController::class, 'buscar'],
-      'GET:/categoria/{id}' => [DashboardCategoriaController::class, 'buscar'],
-      'POST:/categoria' => [DashboardCategoriaController::class, 'adicionar'],
-      'PUT:/categoria/{id}' => [DashboardCategoriaController::class, 'atualizar'],
-      'PUT:/categoria/ordem' => [DashboardCategoriaController::class, 'atualizarOrdem'],
-      'DELETE:/categoria/{id}' => [DashboardCategoriaController::class, 'apagar'],
-      //
-      'GET:/usuarios' => [DashboardUsuarioController::class, 'buscar'],
-      'GET:/usuario/{id}' => [DashboardUsuarioController::class, 'buscar'],
-      'POST:/usuario' => [DashboardUsuarioController::class, 'adicionar'],
-      'PUT:/usuario/{id}' => [DashboardUsuarioController::class, 'atualizar'],
-      'DELETE:/usuario/{id}' => [DashboardUsuarioController::class, 'apagar'],
-      //
-      'POST:/cadastro' => [DashboardCadastroController::class, 'adicionar'],
-      'PUT:/empresa/{id}' => [DashboardEmpresaController::class, 'atualizar'],
-      //
-      'GET:/firebase' => [FirebaseController::class, 'credenciais'],
+
+      // Dashboard - Ajustes
+      'PUT:/{subdominio}/d/ajustes' => [DashboardAjusteController::class, 'atualizar'],
+      'GET:/{subdominio}/d/firebase' => [FirebaseController::class, 'credenciais'],
+
+      // Dashboard - Artigos
+      'GET:/{subdominio}/d/artigos' => [DashboardArtigoController::class, 'buscar'],
+      'GET:/{subdominio}/d/artigo/{id}' => [DashboardArtigoController::class, 'buscar'],
+      'POST:/{subdominio}/d/artigo' => [DashboardArtigoController::class, 'adicionar'],
+      'PUT:/{subdominio}/d/artigo/{id}' => [DashboardArtigoController::class, 'atualizar'],
+      'PUT:/{subdominio}/d/artigo/ordem' => [DashboardArtigoController::class, 'atualizarOrdem'],
+      'DELETE:/{subdominio}/d/artigo/{id}' => [DashboardArtigoController::class, 'apagar'],
+
+      // Dashboard - Conteúdos
+      'GET:/{subdominio}/d/conteudos' => [DashboardConteudoController::class, 'buscar'],
+      'GET:/{subdominio}/d/conteudos/{id}' => [DashboardConteudoController::class, 'buscar'],
+      'POST:/{subdominio}/d/conteudo' => [DashboardConteudoController::class, 'adicionar'],
+      'PUT:/{subdominio}/d/conteudo/{id}' => [DashboardConteudoController::class, 'atualizar'],
+      'PUT:/{subdominio}/d/conteudo/ordem' => [DashboardConteudoController::class, 'atualizarOrdem'],
+      'DELETE:/{subdominio}/d/conteudo/{id}' => [DashboardConteudoController::class, 'apagar'],
+
+      // Dashboard - Categorias
+      'GET:/{subdominio}/d/categorias' => [DashboardCategoriaController::class, 'buscar'],
+      'GET:/{subdominio}d/categoria/{id}' => [DashboardCategoriaController::class, 'buscar'],
+      'POST:/{subdominio}/d/categoria' => [DashboardCategoriaController::class, 'adicionar'],
+      'PUT:/{subdominio}/d/categoria/{id}' => [DashboardCategoriaController::class, 'atualizar'],
+      'PUT:/{subdominio}/d/categoria/ordem' => [DashboardCategoriaController::class, 'atualizarOrdem'],
+      'DELETE:/{subdominio}/d/categoria/{id}' => [DashboardCategoriaController::class, 'apagar'],
+
+      // Dashboard - Usuários
+      'GET:/{subdominio}/d/usuarios' => [DashboardUsuarioController::class, 'buscar'],
+      'GET:/{subdominio}/d/usuario/{id}' => [DashboardUsuarioController::class, 'buscar'],
+      'POST:/{subdominio}/d/usuario' => [DashboardUsuarioController::class, 'adicionar'],
+      'PUT:/{subdominio}/d/usuario/{id}' => [DashboardUsuarioController::class, 'atualizar'],
+      'DELETE:/{subdominio}/d/usuario/{id}' => [DashboardUsuarioController::class, 'apagar'],
     ];
 
-    if (isset($rotas[ $rotaRequisitada ])) {
-      return $rotas[ $rotaRequisitada ];
-    }
-
-    return '';
+    return $rotas[ $rotaRequisitada ] ?? '';
   }
 }

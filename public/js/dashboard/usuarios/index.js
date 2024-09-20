@@ -1,4 +1,5 @@
 let usuarioId = null
+
 const btnsUsuarioEditar = document.querySelectorAll('.js-dashboard-usuarios-editar')
 const btnsUsuarioRemover = document.querySelectorAll('.js-dashboard-usuarios-remover')
 const modalUsuarioRemover = document.querySelector('.modal-usuario-remover')
@@ -8,7 +9,7 @@ const btnModalUsuarioCancelar = document.querySelector('.modal-usuario-btn-cance
 if (btnsUsuarioEditar) {
   btnsUsuarioEditar.forEach(usuario => {
     usuario.addEventListener('click', () => {
-      console.log(usuario)
+
     })
   })
 }
@@ -49,7 +50,11 @@ const requisicaoUsuarioRemover = (usuarioId) => {
     return
   }
 
-  fetch(`/usuario/${usuarioId}`, { method: 'DELETE' })
+  if (! subdominio) {
+    return
+  }
+
+  fetch(`/${subdominio}/d/usuario/${usuarioId}`, { method: 'DELETE' })
     .then(resposta => resposta.json())
     .then(resposta => {
 

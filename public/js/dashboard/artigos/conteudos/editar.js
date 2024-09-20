@@ -31,6 +31,10 @@ if (btnsConteudoEditar) {
   btnsConteudoEditar.forEach(conteudo => {
     conteudo.addEventListener('click', () => {
 
+      if (! subdominio) {
+        return
+      }
+
       if (conteudo.dataset.conteudoTipo == 1) {
         editarTextoTitulo.value = conteudo.dataset.conteudoTitulo
         conteudo.dataset.conteudoTituloOcultar == 1 ? editarTextoTituloOcultar.checked = true : editarTextoTituloOcultar.checked = false
@@ -44,13 +48,13 @@ if (btnsConteudoEditar) {
           console.error('CKEditor instance not found for the specified textarea.')
         }
 
-        formularioEditarTexto.action = `/conteudo/${conteudo.dataset.conteudoId}`
+        formularioEditarTexto.action = `/${subdominio}/d/conteudo/${conteudo.dataset.conteudoId}`
         modalConteudoTextoEditar.showModal()
-      } 
+      }
       else if (conteudo.dataset.conteudoTipo == 2) {
         editarImagemTitulo.value = conteudo.dataset.conteudoTitulo
         conteudo.dataset.conteudoTituloOcultar == 1 ? editarImagemTituloOcultar.checked = true : editarImagemTituloOcultar.checked = false
-        formularioEditarImagem.action = `/conteudo/${conteudo.dataset.conteudoId}`
+        formularioEditarImagem.action = `/${subdominio}/d/conteudo/${conteudo.dataset.conteudoId}`
 
         const imgElemento = modalConteudoImagemEditar.querySelector('img')
 
@@ -85,12 +89,12 @@ if (btnsConteudoEditar) {
         })
 
         editarTextoImagemEscolher.textContent = 'Alterar imagem'
-      } 
+      }
       else if (conteudo.dataset.conteudoTipo == 3) {
         editarVideoTitulo.value = conteudo.dataset.conteudoTitulo
         conteudo.dataset.conteudoTituloOcultar == 1 ? editarVideoTituloOcultar.checked = true : editarVideoTituloOcultar.checked = false
         editarVideoUrl.value = conteudo.dataset.conteudoUrl
-        formularioEditarVideo.action = `/conteudo/${conteudo.dataset.conteudoId}`
+        formularioEditarVideo.action = `/${subdominio}/d/conteudo/${conteudo.dataset.conteudoId}`
 
         modalConteudoVideoEditar.showModal()
       }

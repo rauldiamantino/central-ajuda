@@ -9,10 +9,14 @@ const buscarConteudos = () => {
     return
   }
 
+  if (! subdominio) {
+    return
+  }
+
   modalOrganizarCancelar.addEventListener('click', () => modalOrganizar.close())
   artigoId = modalOrganizar.dataset.artigoId
 
-  fetch(`/conteudos/${artigoId}`, { method: 'GET' })
+  fetch(`/${subdominio}/d/conteudos/${artigoId}`, { method: 'GET' })
     .then(resposta => resposta.json())
     .then(resposta => {
 
@@ -36,26 +40,26 @@ const buscarConteudos = () => {
           handle: '.handle',
           onEnd: function () {
             const ordem = []
-        
+
             document.querySelectorAll('.modal-conteudos-organizar-bloco').forEach(function (item, index) {
               ordem.push({
                 id: item.dataset.conteudoId,
                 ordem: index
               })
             })
-        
+
             if (! ordem) {
               return
             }
 
             modalOrganizarConfirmar.addEventListener('click', () => {
-              fetch(`/conteudo/ordem`, {
+              fetch(`/${subdominio}/d/conteudo/ordem`, {
                 method: 'PUT',
                 body: JSON.stringify(ordem)
                 })
                 .then(resposta => resposta.json())
                 .then(resposta => {
-                  
+
                   if (resposta.linhasAfetadas > 0) {
                     location.reload()
                   }
@@ -74,7 +78,7 @@ const buscarConteudos = () => {
 
           }
         })
-      } 
+      }
       else {
         throw new Error('Erro ao buscar conteúdos')
       }

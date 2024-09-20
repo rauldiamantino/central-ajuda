@@ -11,7 +11,6 @@ const filtrarArtigos = () => {
   const urlParams = new URLSearchParams(window.location.search)
   const categoriaSelecionadaId = urlParams.get('categoria_id')
   const select = modalFiltrarBlocos.querySelector('select')
-  const subdominio = modalFiltrar.dataset.subdominio
 
   if (! subdominio) {
     return
@@ -20,7 +19,7 @@ const filtrarArtigos = () => {
   // Sempre limpa
   select.innerHTML = ''
 
-  fetch(`/categorias`, { method: 'GET' })
+  fetch(`/${subdominio}/d/categorias`, { method: 'GET' })
     .then(resposta => resposta.json())
     .then(resposta => {
 

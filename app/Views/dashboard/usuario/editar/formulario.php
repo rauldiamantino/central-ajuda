@@ -6,7 +6,7 @@ $nivelAcesso = [
 ];
 ?>
 
-<form method="POST" action="/usuario/<?php echo $usuario['Usuario.id'] ?>" class="border border-slate-200 w-full min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow">
+<form method="POST" action="/<?php echo $this->buscarUsuarioLogado('subdominio') ?>/d/usuario/<?php echo $usuario['Usuario.id'] ?>" class="border border-slate-200 w-full min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow">
   <input type="hidden" name="_method" value="PUT">
   <input type="hidden" name="padrao" value="<?php echo $usuario['Usuario.padrao']; ?>">
   <input type="hidden" name="empresa_id" value="<?php echo $usuario['Usuario.empresa_id']; ?>">
