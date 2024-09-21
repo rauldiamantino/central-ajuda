@@ -187,19 +187,13 @@ class Roteador
       $novoBloqueio = $tempoAgora + $segundosBloqueio;
       $desbloqueio = (new DateTime())->setTimestamp($novoBloqueio)->format('Y-m-d H:i:s');
 
-      // Log
       $acesso = [
         'url' => $_SERVER['REQUEST_URI'],
         'referer' => $_SERVER['HTTP_REFERER'] ?? '',
         'protocolo' => isset($_SERVER['HTTPS']) ? 'HTTPS' : 'HTTP',
       ];
 
-      $acesso = array_merge($acesso, $_SESSION);
-      $logMensagem = str_repeat("-", 150) . PHP_EOL . PHP_EOL;
-      $logMensagem .= date('Y-m-d H:i:s') . PHP_EOL . PHP_EOL;
-      $logMensagem .= 'Acesso: ' . json_encode($acesso, JSON_UNESCAPED_SLASHES) . PHP_EOL . PHP_EOL;
-      error_log($logMensagem, 3, './app/logs/limite_requisicoes_' . date('Y-m-d') . '.log');
-      // Fim log
+      registrarLog('limite-requisicoes', array_merge($acesso, $_SESSION));
 
       $this->sessaoUsuario->definir('bloqueioData', $desbloqueio);
       $this->sessaoUsuario->definir('erro', 'Limite de requisições excedido. Tente novamente mais tarde.');

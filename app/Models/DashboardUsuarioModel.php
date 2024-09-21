@@ -336,7 +336,7 @@ class DashboardUsuarioModel extends Model
     }
 
     // Evita remover usuário padrão
-    if (isset($usuarioAtual[0]['nivel']) == 1) {
+    if ($usuarioAtual[0]['Usuario.padrao'] == 1) {
       $msgErro = [
         'erro' => [
           'codigo' => 400,

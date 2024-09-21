@@ -16,11 +16,7 @@ class Database
       $this->conexao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
     catch (Exception $e) {
-      $logMensagem = str_repeat("-", 150) . PHP_EOL . PHP_EOL;
-      $logMensagem .= date('Y-m-d H:i:s') . PHP_EOL . PHP_EOL;
-      $logMensagem .= 'Erro: ' . $e->getMessage() . PHP_EOL . PHP_EOL;
-
-      error_log($logMensagem, 3, '../app/logs/database_' . date('Y-m-d') . '.log');
+      registrarLog('database-conexao', ['erro' => $e->getMessage()]);
     }
   }
 
@@ -88,12 +84,7 @@ class Database
         $sqlFormatado = preg_replace('/\?/', $valorFormatado, $sqlFormatado, 1);
       endforeach;
 
-      $logMensagem = str_repeat("-", 150) . PHP_EOL . PHP_EOL;
-      $logMensagem .= date('Y-m-d H:i:s') . PHP_EOL . PHP_EOL;
-      $logMensagem .= 'Consulta: ' . $sqlFormatado . PHP_EOL . PHP_EOL;
-      $logMensagem .= 'Erro: ' . $e->getMessage() . PHP_EOL . PHP_EOL;
-
-      error_log($logMensagem, 3, './app/logs/database_' . date('Y-m-d') . '.log');
+      registrarLog('database', ['consulta' => $sqlFormatado, 'erro' => $e->getMessage()]);
 
       $retorno = [
         'erro' => [
