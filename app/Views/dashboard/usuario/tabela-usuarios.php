@@ -18,11 +18,10 @@ $nivelAcesso = [
       <thead class="text-xs font-light text-gray-500 uppercase">
         <colgroup>
           <col class="w-[60px]">
-          <col class="w-[400px]">
+          <col class="w-[500px]">
           <col class="w-[400px]">
           <col class="w-[150px]">
           <col class="w-[150px]">
-          <col class="w-[100px]">
           <col class="w-[100px]">
           <col class="w-[100px]">
         </colgroup>
@@ -33,7 +32,6 @@ $nivelAcesso = [
           <th class="p-6">Tipo de usuário</th>
           <th class="p-6">Nível</th>
           <th class="p-6">Status</th>
-          <th class="p-6">Tentativas</th>
           <th class="p-6">Remover</th>
         </tr>
       </thead>
@@ -133,13 +131,6 @@ $nivelAcesso = [
                   </td>
                 <?php } ?>
               <?php endforeach; ?>
-
-              <?php // Acesso ?>
-              <?php if ($subChave == 'Usuario.tentativas_login') { ?>
-                <td class="py-5 px-4 text-center">
-                  <?php echo $subLinha; ?>
-                </td>
-              <?php } ?>
 
               <?php // Remover ?>
               <?php if (isset($linha['Usuario.id'])) { ?>

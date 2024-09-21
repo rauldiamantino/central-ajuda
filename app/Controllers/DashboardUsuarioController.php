@@ -102,6 +102,7 @@ class DashboardUsuarioController extends DashboardController
       'Usuario.nome',
       'Usuario.email',
       'Usuario.tentativas_login',
+      'Usuario.ultimo_acesso',
       'Usuario.criado',
       'Usuario.modificado',
     ];
