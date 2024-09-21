@@ -10,7 +10,8 @@ $tipoUsuario = [
   2 => 'Comum',
 ];
 
-if ($this->usuarioLogado['padrao'] > 0) {
+// Somente usuário de suporte pode criar usuário de suporte e apenas na loja padrão
+if ($this->usuarioLogado['padrao'] > 0 or $this->sessaoUsuario->buscar('empresaId') > 1) {
   unset($tipoUsuario['0']);
 }
 ?>
@@ -36,16 +37,21 @@ if ($this->usuarioLogado['padrao'] > 0) {
             <?php endforeach; ?>
           </select>
         </div>
-        <div class="w-full flex flex-col">
-          <label for="usuario-editar-padrao" class="block text-sm font-medium text-gray-700">Tipo de usuário</label>
-          <select id="usuario-editar-padrao" name="padrao" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" required>
-            <?php foreach ($tipoUsuario as $chave => $linha) : ?>
-              <option value="<?php echo $chave; ?>">
-                <?php echo $linha; ?>
-              </option>
-            <?php endforeach; ?>
-          </select>
-        </div>
+        <?php if ($this->usuarioLogado['padrao'] == 0) { ?>
+          <div class="w-full flex flex-col">
+            <label for="usuario-editar-padrao" class="block text-sm font-medium text-gray-700">Tipo de usuário</label>
+            <select id="usuario-editar-padrao" name="padrao" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" required>
+              <?php foreach ($tipoUsuario as $chave => $linha) : ?>
+                <option value="<?php echo $chave; ?>">
+                  <?php echo $linha; ?>
+                </option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+        <?php } ?>
+        <?php if ($this->usuarioLogado['padrao'] > 0) { ?>
+          <input type="hidden" name="padrao" value="2">
+        <?php } ?>
       </div>
     </div>
     <div class="w-full">

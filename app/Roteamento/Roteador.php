@@ -165,7 +165,7 @@ class Roteador
   {
     $limite = 100;
     $segundos = 60;
-    $segundosBloqueio = 60 * 60;
+    $segundosBloqueio = 5;
 
     $tempoAgora = time();
     $requisicoes = $this->sessaoUsuario->buscar('requisicoes');
@@ -226,6 +226,7 @@ class Roteador
       'teste2',
       'teste5',
       'luminaon',
+      'diamantino',
     ];
 
     if (in_array($subdominio, $subdominios)) {

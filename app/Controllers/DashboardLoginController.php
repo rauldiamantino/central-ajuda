@@ -30,7 +30,7 @@ class DashboardLoginController extends DashboardController
 
   public function loginSuporteVer(int $id = 0)
   {
-    if ($this->usuarioLogado['nivel'] > 0) {
+    if ($this->usuarioLogado['padrao'] > 0) {
       header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos');
       exit();
     }

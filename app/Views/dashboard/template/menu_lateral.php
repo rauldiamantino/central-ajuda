@@ -89,7 +89,7 @@
     </li>
   </ul>
 
-  <?php if ($this->usuarioLogado['id'] > 0 and $this->usuarioLogado['nivel'] == 0) { ?>
+  <?php if ($this->usuarioLogado['id'] > 0 and $this->usuarioLogado['padrao'] == 0) { ?>
   <li class="border border-slate-200 hover:bg-slate-100 flex justify-center group">
     <button type="button" onclick="window.location.href='/login/suporte'" class="w-full p-2">
       <div class="flex justify-center items-center gap-3">

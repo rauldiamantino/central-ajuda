@@ -254,6 +254,18 @@ class DashboardUsuarioModel extends Model
       return $msgErro;
     }
 
+    // Evita alterar o tipo do usuário de suporte
+    if ($usuarioAtual[0]['Usuario.padrao'] == 0 and isset($campos['padrao']) and $campos['padrao'] != $usuarioAtual[0]['Usuario.padrao']) {
+      $msgErro = [
+        'erro' => [
+          'codigo' => 400,
+          'mensagem' => 'Não é possível alterar o tipo deste usuário',
+        ],
+      ];
+
+      return $msgErro;
+    }
+
     // Evita alterar o próprio nível de usuário
     if ($this->usuarioLogado['id'] == $id and isset($campos['nivel']) and $campos['nivel'] != $this->usuarioLogado['nivel']) {
       $msgErro = [

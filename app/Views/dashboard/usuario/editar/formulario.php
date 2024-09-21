@@ -3,12 +3,6 @@ $nivelAcesso = [
   1 => 'Acesso total',
   2 => 'Acesso restrito',
 ];
-
-$tipoUsuario = [
-  0 => 'Suporte',
-  1 => 'Padrão',
-  2 => 'Comum',
-];
 ?>
 
 <form method="POST" action="/<?php echo $this->usuarioLogado['subdominio'] ?>/d/usuario/<?php echo $usuario['Usuario.id'] ?>" class="border border-slate-200 w-full min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow">
@@ -35,16 +29,9 @@ $tipoUsuario = [
           </select>
         </div>
 
-        <div class="w-full flex flex-col">
-          <label for="usuario-editar-padrao" class="block text-sm font-medium text-gray-700">Tipo de usuário</label>
-          <select id="usuario-editar-padrao" name="padrao" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" required>
-            <?php foreach ($tipoUsuario as $chave => $linha) : ?>
-              <option value="<?php echo $chave; ?>" <?php echo $chave == $usuario['Usuario.padrao'] ? 'selected' : ''; ?>>
-                <?php echo $linha; ?>
-              </option>
-            <?php endforeach; ?>
-          </select>
-        </div>
+        <?php if ($this->usuarioLogado['padrao'] > 0) { ?>
+          <input type="hidden" name="padrao" value="<?php echo $usuario['Usuario.padrao']; ?>">
+        <?php } ?>
       </div>
     </div>
     <div class="w-full">
