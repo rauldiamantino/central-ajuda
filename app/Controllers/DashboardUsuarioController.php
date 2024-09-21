@@ -189,7 +189,7 @@ class DashboardUsuarioController extends DashboardController
     $resultado = $this->usuarioModel->apagarUsuario($id);
 
     if (isset($resultado['erro'])) {
-      $this->sessaoUsuario->definir('erro', $resultado['erro']);
+      $this->sessaoUsuario->definir('erro', $resultado['erro']['mensagem'] ?? $resultado['erro']);
 
       $codigo = $resultado['erro']['codigo'] ?? 500;
       $this->responderJson($resultado, $codigo);
