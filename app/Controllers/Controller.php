@@ -7,13 +7,6 @@ class Controller
   protected $usuarioLogado;
   protected $dashboardModel;
   protected $sessaoUsuario;
-  protected $usuarioLogadoId;
-  protected $usuarioLogadoEmail;
-  protected $usuarioLogadoNivel;
-  protected $usuarioLogadoPadrao;
-  protected $usuarioLogadoEmpresaId;
-  protected $usuarioLogadoEmpresaAtivo;
-  protected $usuarioLogadoSubdominio;
 
   public function __construct()
   {
@@ -36,6 +29,7 @@ class Controller
       'empresaId' => intval($resultado['empresaId'] ?? 0),
       'empresaAtivo' => intval($resultado['empresaAtivo'] ?? 0),
       'subdominio' => $resultado['subdominio'] ?? '',
+      'tentativasLogin' => intval($resultado['tentativas_login'] ?? 0),
     ];
   }
 

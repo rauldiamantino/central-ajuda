@@ -18,10 +18,11 @@ $nivelAcesso = [
       <thead class="text-xs font-light text-gray-500 uppercase">
         <colgroup>
           <col class="w-[60px]">
-          <col class="w-[500px]">
+          <col class="w-[400px]">
           <col class="w-[400px]">
           <col class="w-[150px]">
           <col class="w-[150px]">
+          <col class="w-[100px]">
           <col class="w-[100px]">
           <col class="w-[100px]">
         </colgroup>
@@ -32,6 +33,7 @@ $nivelAcesso = [
           <th class="p-6">Tipo de usuário</th>
           <th class="p-6">Nível</th>
           <th class="p-6">Status</th>
+          <th class="p-6">Tentativas</th>
           <th class="p-6">Remover</th>
         </tr>
       </thead>
@@ -98,7 +100,7 @@ $nivelAcesso = [
                 <?php // Ativo ?>
                 <?php if ($subChave == 'Usuario.ativo') { ?>
                   <td class="py-5 px-4">
-                    <?php if ($subLinha == 1) { ?>
+                    <?php if ($linha['Usuario.tentativas_login'] < 10 and $subLinha == 1) { ?>
                       <div class="flex items-center gap-2">
                         <span class="text-green-800">
                           <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 16 16">
@@ -108,7 +110,7 @@ $nivelAcesso = [
                         <span>Ativo</span>
                       </div>
                     <?php } ?>
-                    <?php if ($subLinha == 0) { ?>
+                    <?php if ($linha['Usuario.tentativas_login'] < 10 and $subLinha == 0) { ?>
                       <div class="flex items-center gap-2">
                         <span class="text-red-800">
                           <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 16 16">
@@ -118,11 +120,28 @@ $nivelAcesso = [
                         <span>Inativo</span>
                       </div>
                     <?php } ?>
+                    <?php if ($linha['Usuario.tentativas_login'] >= 10) { ?>
+                      <div class="flex items-center gap-2">
+                        <span class="text-gray-800">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 16 16">
+                            <circle cx="8" cy="8" r="8"/>
+                          </svg>
+                        </span>
+                        <span>Bloqueado</span>
+                      </div>
+                    <?php } ?>
                   </td>
                 <?php } ?>
               <?php endforeach; ?>
 
-              <?php // Ação ?>
+              <?php // Acesso ?>
+              <?php if ($subChave == 'Usuario.tentativas_login') { ?>
+                <td class="py-5 px-4 text-center">
+                  <?php echo $subLinha; ?>
+                </td>
+              <?php } ?>
+
+              <?php // Remover ?>
               <?php if (isset($linha['Usuario.id'])) { ?>
                 <td class="py-5 px-4 text-center">
                   <button type="button" class="text-red-800 js-dashboard-usuarios-remover" data-usuario-id="<?php echo $linha['Usuario.id'] ?>">

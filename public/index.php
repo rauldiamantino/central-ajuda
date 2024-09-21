@@ -8,3 +8,5 @@ $sessaoUsuario = new SessaoUsuario();
 $roteador = new Roteador();
 
 $roteador->rotear();
+
+debug($_SESSION);

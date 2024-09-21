@@ -386,6 +386,7 @@ class DashboardUsuarioModel extends Model
       'nome' => $params['nome'] ?? '',
       'email' => $params['email'] ?? '',
       'senha' => $params['senha'] ?? '',
+      'tentativas_login' => $params['tentativas_login'] ?? 0,
     ];
 
     $msgErro = [
@@ -402,6 +403,7 @@ class DashboardUsuarioModel extends Model
         'nivel',
         'nome',
         'padrao',
+        'tentativas_login',
       ];
 
       if ($atualizar and ! isset($params[ $chave ])) {
@@ -430,6 +432,7 @@ class DashboardUsuarioModel extends Model
       $campos['nivel'] = filter_var($campos['nivel'], FILTER_SANITIZE_NUMBER_INT);
       $campos['empresa_id'] = filter_var($campos['empresa_id'], FILTER_SANITIZE_NUMBER_INT);
       $campos['padrao'] = filter_var($campos['padrao'], FILTER_SANITIZE_NUMBER_INT);
+      $campos['tentativas_login'] = filter_var($campos['tentativas_login'], FILTER_SANITIZE_NUMBER_INT);
       $campos['nome'] = htmlspecialchars($campos['nome']);
       $campos['email'] = filter_Var($campos['email'], FILTER_SANITIZE_EMAIL);
       $emailValidado = filter_Var($campos['email'], FILTER_VALIDATE_EMAIL);
@@ -460,6 +463,7 @@ class DashboardUsuarioModel extends Model
       $nivelCaracteres = 1;
       $empresaIdCaracteres = 999999999;
       $padraoCaracteres = 1;
+      $tentativasCaracteres = 20;
       $nomeCaracteres = 25;
       $emailCaracteres = 50;
 
@@ -477,6 +481,10 @@ class DashboardUsuarioModel extends Model
 
       if (strlen($campos['padrao']) > $padraoCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('padrao', 'caracteres', $padraoCaracteres);
+      }
+
+      if (strlen($campos['tentativas']) > $tentativasCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('tentativas', 'caracteres', $tentativasCaracteres);
       }
 
       if (strlen($campos['nome']) > $nomeCaracteres) {
@@ -500,6 +508,7 @@ class DashboardUsuarioModel extends Model
       'nome' => $campos['nome'],
       'email' => $campos['email'],
       'senha' => $campos['senha'],
+      'tentativas_login' => $campos['tentativas_login'],
     ];
 
     if ($atualizar) {
@@ -581,6 +590,10 @@ class DashboardUsuarioModel extends Model
 
     if ($campo == 'padrao') {
       $campo = 'padrão';
+    }
+
+    if ($campo == 'tentativas_login') {
+      $campo = 'tentativas de login';
     }
 
     $msgErro = [

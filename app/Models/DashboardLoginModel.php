@@ -28,6 +28,7 @@ class DashboardLoginModel extends Model
               `Usuario`.`empresa_id`,
               `Usuario`.`nivel`,
               `Usuario`.`padrao`,
+              `Usuario`.`tentativas_login`,
               `Empresa`.`subdominio` AS `Empresa.subdominio`,
               `Empresa`.`ativo` AS `Empresa.ativo`
             FROM
@@ -67,6 +68,10 @@ class DashboardLoginModel extends Model
       $loginSucesso = false;
     }
 
+    if (! isset($usuario[0]['tentativas_login'])) {
+      $loginSucesso = false;
+    }
+
     if (! isset($usuario[0]['Empresa.ativo']) or empty($usuario[0]['Empresa.ativo'])) {
       $loginSucesso = false;
     }
@@ -86,13 +91,74 @@ class DashboardLoginModel extends Model
       return $msgErro;
     }
 
+    if ($usuario[0]['tentativas_login'] >= 10) {
+      $msgErro = [
+        'erro' => [
+          'codigo' => 403,
+          'mensagem' => 'Para garantir a segurança das suas informações, sua conta foi bloqueada após você atingir o limite de tentativas de login.',
+        ],
+      ];
+
+      // Acesso será liberado somente via suporte
+      $this->sessaoUsuario->definir('acessoBloqueado-' . $usuario[0]['id'], true);
+
+      return $msgErro;
+    }
+
     $validarSenha = $this->validarSenha($campos['senha'], $usuario);
 
     if (isset($validarSenha['erro'])) {
+      $this->registrarTentativas($usuario[0]['id']);
+
       return $validarSenha;
     }
 
+    $this->registrarUltimoLogin($usuario[0]['id']);
+
     return ['ok' => $usuario[0]];
+  }
+
+  private function registrarUltimoLogin(int $id)
+  {
+    $acesso = [
+      'ip' => $_SERVER['REMOTE_ADDR'],
+      'url' => $_SERVER['REQUEST_URI'],
+      'dataHora' => date('Y-m-d H:i:s'),
+      'referer' => $_SERVER['HTTP_REFERER'] ?? '',
+      'navegador' => $_SERVER['HTTP_USER_AGENT'],
+      'protocolo' => isset($_SERVER['HTTPS']) ? 'HTTPS' : 'HTTP',
+      'idSessao' => session_id(),
+    ];
+
+    $sql = 'UPDATE
+              `usuarios`
+            SET
+              `ultimo_acesso` = ?
+            WHERE id = ?';
+
+    $sqlParams = [
+      0 => json_encode($acesso),
+      1 => (int) $id,
+    ];
+
+    $this->executarQuery($sql, $sqlParams);
+  }
+
+  private function registrarTentativas(int $id)
+  {
+    $sql = 'UPDATE
+              `usuarios`
+            SET
+              `tentativas_login` = `tentativas_login` + ?
+            WHERE
+              `id` = ?';
+
+    $sqlParams = [
+      0 => 1,
+      1 => $id,
+    ];
+
+    $this->executarQuery($sql, $sqlParams);
   }
 
   // --- Métodos auxiliares

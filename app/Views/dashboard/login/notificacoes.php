@@ -3,7 +3,7 @@ $notificacaoSucesso = $this->sessaoUsuario->buscar('ok');
 $notificacaoErro = $this->sessaoUsuario->buscar('erro');
 ?>
 
-<div class="w-full flex justify-center absolute inset-x-0 -bottom-10">
+<div class="w-full flex justify-center absolute inset-x-0 -bottom-8">
   <div class="w-max">
     <?php // Notificação Sucesso ?>
     <?php if (isset($notificacaoSucesso)) { ?>

@@ -50,7 +50,7 @@ class SessaoUsuario
 
   private function verificarUserAgent()
   {
-    if (!isset($_SESSION['user_agent'])) {
+    if (! isset($_SESSION['user_agent'])) {
       $_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
     }
     elseif ($_SESSION['user_agent'] !== $_SERVER['HTTP_USER_AGENT']) {

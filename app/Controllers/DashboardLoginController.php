@@ -46,6 +46,7 @@ class DashboardLoginController extends DashboardController
       'subdominio' => $resultado['ok']['Empresa.subdominio'],
       'nivel' => $resultado['ok']['nivel'],
       'padrao' => $resultado['ok']['padrao'],
+      'tentativasLogin' => $resultado['ok']['tentativas_login'],
     ];
 
     $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);

@@ -74,6 +74,19 @@ class Roteador
         exit;
       }
 
+      if ($sessaoUsuario->buscar('acessoBloqueado-' . $usuarioLogado['id'])) {
+        $sessaoUsuario->apagar('usuario');
+        $sessaoUsuario->definir('erro', 'Acesso bloqueado.');
+        header('Location: /login');
+        exit;
+      }
+
+      if ($usuarioLogado['nivel'] == 2 and $this->rotaRestritaNivel2($chaveRota, $usuarioLogado['id'], $id)) {
+        $sessaoUsuario->definir('erro', 'Você não tem permissão para realizar esta ação.');
+        header('Location: /login');
+        exit;
+      }
+
       $empresaId = $usuarioLogadoEmpresaId;
     }
 
@@ -142,6 +155,32 @@ class Roteador
     }
 
     return false;
+  }
+
+  private function rotaRestritaNivel2(string $rota, int $usuarioLogadoId, int $id = 0): bool
+  {
+    $rotasRestritas = [
+      0 => 'GET:/{subdominio}/dashboard/usuario/editar/{id}',
+      1 => 'GET:/{subdominio}/dashboard/usuario/adicionar',
+      2 => 'GET:/{subdominio}/dashboard/empresa/editar',
+      3 => 'GET:/{subdominio}/d/usuarios',
+      4 => 'GET:/{subdominio}/d/usuario/{id}',
+      5 => 'POST:/{subdominio}/d/usuario',
+      6 => 'PUT:/{subdominio}/d/usuario/{id}',
+      7 => 'DELETE:/{subdominio}/d/usuario/{id}',
+      8 => 'GET:/{subdominio}/d/usuario/desbloquear/{id}',
+    ];
+
+    if (! in_array($rota, $rotasRestritas)) {
+      return false;
+    }
+
+    // Permite apenas visualizar e editar o próprio cadastro
+    if (in_array($rota, [$rotasRestritas[0], $rotasRestritas[6]]) and $usuarioLogadoId == $id) {
+      return false;
+    }
+
+    return true;
   }
 
   private function acessarRota(string $rotaRequisitada = ''): array
@@ -213,6 +252,7 @@ class Roteador
       'POST:/{subdominio}/d/usuario' => [DashboardUsuarioController::class, 'adicionar'],
       'PUT:/{subdominio}/d/usuario/{id}' => [DashboardUsuarioController::class, 'atualizar'],
       'DELETE:/{subdominio}/d/usuario/{id}' => [DashboardUsuarioController::class, 'apagar'],
+      'GET:/{subdominio}/d/usuario/desbloquear/{id}' => [DashboardUsuarioController::class, 'desbloquear'],
     ];
 
     return $rotas[ $rotaRequisitada ] ?? [];
