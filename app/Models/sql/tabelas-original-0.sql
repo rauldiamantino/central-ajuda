@@ -5,7 +5,7 @@ CREATE TABLE `empresas` (
   `subdominio` varchar(255) DEFAULT NULL,
   `cnpj` varchar(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `telefone` varchar(11) DEFAULT NULL,
-  `empresas` varchar(255) DEFAULT NULL,
+  `logo` varchar(255) DEFAULT NULL,
   `criado` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `modificado` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -42,19 +42,20 @@ CREATE TABLE `artigos` (
   `criado` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `modificado` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  KEY `usuario_id` (`usuario_id`),
   KEY `categoria_id` (`categoria_id`),
-  KEY `titulo` (`titulo`),
+  KEY `titulo` (`titulo`) USING BTREE,
+  KEY `usuario_id` (`usuario_id`) USING BTREE,
   CONSTRAINT `artigos_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`),
   CONSTRAINT `artigos_ibfk_2` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`)
 )
+
 CREATE TABLE `conteudos` (
   `id` int NOT NULL AUTO_INCREMENT,
   `ativo` int DEFAULT '0',
   `artigo_id` int NOT NULL,
   `empresa_id` int NOT NULL,
   `tipo` int NOT NULL,
-  `titulo` varchar(255) DEFAULT NULL,
+  `titulo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `titulo_ocultar` int DEFAULT '0',
   `conteudo` text,
   `url` varchar(255) DEFAULT NULL,
@@ -65,7 +66,6 @@ CREATE TABLE `conteudos` (
   KEY `artigo_id` (`artigo_id`),
   CONSTRAINT `conteudos_ibfk_1` FOREIGN KEY (`artigo_id`) REFERENCES `artigos` (`id`) ON DELETE CASCADE
 )
-
 
 CREATE TABLE `categorias` (
   `id` int NOT NULL AUTO_INCREMENT,
