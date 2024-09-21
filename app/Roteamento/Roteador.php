@@ -16,15 +16,24 @@ use app\Controllers\PublicoCategoriaController;
 use app\Controllers\PublicoController;
 use app\Controllers\TesteController;
 use app\Controllers\FirebaseController;
+use DateTime;
 
 class Roteador
 {
-  public function rotear()
+  protected $sessaoUsuario;
+  protected $paginaErro;
+
+  public function __construct()
   {
     global $sessaoUsuario;
+    $this->sessaoUsuario = $sessaoUsuario;
+    $this->paginaErro = new PaginaErroController();
 
-    $paginaErro = new PaginaErroController();
+    $this->limiteRequisicoes();
+  }
 
+  public function rotear()
+  {
     $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     $metodo = $_SERVER['REQUEST_METHOD'];
     $metodoOculto = $_POST['_method'] ?? null;
@@ -49,58 +58,78 @@ class Roteador
 
     $dashboardEmpresa = new DashboardEmpresaController();
     $buscarEmpresa = $dashboardEmpresa->buscarEmpresa($subdominio);
-
-    // Público
     $empresaId = intval($buscarEmpresa[0]['Empresa.id'] ?? 0);
 
-    // Usuário logado
-    $usuarioLogado = $sessaoUsuario->buscar('usuario');
-    $usuarioLogadoSubdominio = $usuarioLogado['subdominio'] ?? '';
-    $usuarioLogadoEmpresaId = intval($usuarioLogado['empresaId'] ?? 0);
+    $usuarioLogado = $this->sessaoUsuario->buscar('usuario');
+
+    // Sempre prioriza Empresa ID logada
+    if (isset($usuarioLogado['empresaId'])) {
+      $empresaId = (int) $usuarioLogado['empresaId'];
+    }
 
     // Dashboard
     if (strpos($chaveRota, '/{subdominio}/dashboard')) {
+      $sucesso = true;
 
-      // Impede acesso a empresa diferente da que está logada
-      if ($usuarioLogadoSubdominio and $usuarioLogadoSubdominio !== $subdominio) {
-        return $paginaErro->erroVer();
+      if (! isset($usuarioLogado['nivel'])) {
+        $sucesso = false;
       }
 
-      // Impede acesso para usuário deslogado
-      if ($empresaId == 0 or (int) $usuarioLogadoEmpresaId == 0) {
-        $sessaoUsuario->apagar('usuario');
+      if (! isset($usuarioLogado['id']) or (int) $usuarioLogado['id'] == 0) {
+        $sucesso = false;
+      }
+
+      if (! isset($usuarioLogado['subdominio']) or empty($usuarioLogado['subdominio'])) {
+        $sucesso = false;
+      }
+
+      // Usuário deslogado
+      if ($sucesso == false) {
+        $this->sessaoUsuario->apagar('usuario');
 
         header('Location: /login');
         exit;
       }
 
-      if ($sessaoUsuario->buscar('acessoBloqueado-' . $usuarioLogado['id'])) {
-        $sessaoUsuario->apagar('usuario');
-        $sessaoUsuario->definir('erro', 'Acesso bloqueado.');
+      if ($this->sessaoUsuario->buscar('acessoBloqueado-' . $usuarioLogado['id'])) {
+        $this->sessaoUsuario->definir('erro', 'Acesso bloqueado.');
+        $this->sessaoUsuario->apagar('usuario');
+        $sucesso = false;
+      }
+
+      // Restrições de acesso por nível
+      if ($sucesso and $usuarioLogado['nivel'] > 0 and $this->rotaRestritaSuporte($chaveRota)) {
+        $this->sessaoUsuario->definir('erro', 'Você não tem permissão para realizar esta ação.');
+        $sucesso = false;
+      }
+
+      if ($sucesso and $usuarioLogado['nivel'] == 2 and $this->rotaRestritaNivel2($chaveRota, $usuarioLogado['id'], $id)) {
+        $this->sessaoUsuario->definir('erro', 'Você não tem permissão para realizar esta ação.');
+        $sucesso = false;
+      }
+
+      if ($sucesso == false) {
         header('Location: /login');
         exit;
       }
 
-      if ($usuarioLogado['nivel'] == 2 and $this->rotaRestritaNivel2($chaveRota, $usuarioLogado['id'], $id)) {
-        $sessaoUsuario->definir('erro', 'Você não tem permissão para realizar esta ação.');
-        header('Location: /login');
-        exit;
+      // Limita o acesso à empresa correta
+      if ($usuarioLogado['subdominio'] !== $subdominio) {
+        return $this->paginaErro->erroVer();
       }
 
-      $empresaId = $usuarioLogadoEmpresaId;
+      // Define Empresa ID padrão
+      $empresaId = $usuarioLogado['empresaId'];
     }
 
     // Acesso sem subdomínio
-    if ($empresaId == 0 and $this->rotaPermitida($chaveRota)) {
-      $empresaId = $usuarioLogadoEmpresaId;
-    }
-    elseif ($empresaId == 0) {
-      return $paginaErro->erroVer();
+    if ($empresaId == 0 and ! $this->rotaPermitida($chaveRota)) {
+       return $this->paginaErro->erroVer();
     }
 
     // Grava EmpresaID na sessão
-    $sessaoUsuario->definir('empresaId', $empresaId);
-    $sessaoUsuario->definir('subdominio', $subdominio);
+    $this->sessaoUsuario->definir('empresaId', $empresaId);
+    $this->sessaoUsuario->definir('subdominio', $subdominio);
 
     $rotaRequisitada = $this->acessarRota($chaveRota);
 
@@ -116,8 +145,72 @@ class Roteador
       }
     }
     else {
-      $paginaErro->erroVer();
+      $this->paginaErro->erroVer();
     }
+  }
+
+  private function limiteRequisicoes()
+  {
+    $limite = 100;
+    $segundos = 60;
+    $segundosBloqueio = 60 * 60;
+
+    $tempoAgora = time();
+    $requisicoes = $this->sessaoUsuario->buscar('requisicoes');
+    $bloqueio = (string) $this->sessaoUsuario->buscar('bloqueioData');
+
+    if (empty($requisicoes)) {
+      $requisicoes = [];
+    }
+
+    $bloqueioTimestamp = $bloqueio ? strtotime($bloqueio) : 0;
+
+    if ($bloqueioTimestamp > $tempoAgora) {
+      $this->sessaoUsuario->definir('erro', 'Limite de requisições excedido. Tente novamente mais tarde.');
+
+      $this->paginaErro->erroVer('Too Many Requests', 429);
+      exit;
+    }
+
+    $novaLista = [];
+    foreach ($requisicoes as $data):
+      // Remove requisições antigas
+      if (strtotime($data) > ($tempoAgora - $segundos)) {
+        $novaLista[] = $data;
+      }
+    endforeach;
+
+    $this->sessaoUsuario->definir('requisicoes', $novaLista);
+    $this->sessaoUsuario->apagar('bloqueioData');
+
+    if (count($novaLista) >= $limite) {
+      $novoBloqueio = $tempoAgora + $segundosBloqueio;
+      $desbloqueio = (new DateTime())->setTimestamp($novoBloqueio)->format('Y-m-d H:i:s');
+
+      // Log
+      $acesso = [
+        'url' => $_SERVER['REQUEST_URI'],
+        'referer' => $_SERVER['HTTP_REFERER'] ?? '',
+        'protocolo' => isset($_SERVER['HTTPS']) ? 'HTTPS' : 'HTTP',
+      ];
+
+      $acesso = array_merge($acesso, $_SESSION);
+      $logMensagem = str_repeat("-", 150) . PHP_EOL . PHP_EOL;
+      $logMensagem .= date('Y-m-d H:i:s') . PHP_EOL . PHP_EOL;
+      $logMensagem .= 'Acesso: ' . json_encode($acesso, JSON_UNESCAPED_SLASHES) . PHP_EOL . PHP_EOL;
+      error_log($logMensagem, 3, './app/logs/limite_requisicoes_' . date('Y-m-d') . '.log');
+      // Fim log
+
+      $this->sessaoUsuario->definir('bloqueioData', $desbloqueio);
+      $this->sessaoUsuario->definir('erro', 'Limite de requisições excedido. Tente novamente mais tarde.');
+
+      $this->paginaErro->erroVer('Too Many Requests', 429);
+      exit;
+    }
+
+    // Armazena a data atual das requisições
+    $novaLista[] = (new DateTime())->format('Y-m-d H:i:s');
+    $this->sessaoUsuario->definir('requisicoes', $novaLista);
   }
 
   private function subdominioPermitido(string $subdominio = ''): bool
@@ -177,6 +270,19 @@ class Roteador
 
     // Permite apenas visualizar e editar o próprio cadastro
     if (in_array($rota, [$rotasRestritas[0], $rotasRestritas[6]]) and $usuarioLogadoId == $id) {
+      return false;
+    }
+
+    return true;
+  }
+
+  private function rotaRestritaSuporte(string $rota): bool
+  {
+    $rotasRestritas = [
+      'GET:/{subdominio}/d/usuario/desbloquear/{id}',
+    ];
+
+    if (! in_array($rota, $rotasRestritas)) {
       return false;
     }
 

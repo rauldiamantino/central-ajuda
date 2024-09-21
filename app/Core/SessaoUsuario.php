@@ -31,9 +31,27 @@ class SessaoUsuario
     return $_SESSION[ $chave ] ?? null;
   }
 
-  public function apagar($chave)
+  public function apagar($caminho)
   {
-    unset($_SESSION[ $chave ]);
+    if (is_string($caminho)) {
+      $caminho = [ $caminho ];
+    }
+
+    $sessao = $_SESSION;
+    $ultimaChave = array_pop($caminho);
+
+    foreach ($caminho as $chave):
+
+      if (!isset($sessao[ $chave ])) {
+        return;
+      }
+
+      $sessao = $sessao[ $chave ];
+    endforeach;
+
+    if (isset($sessao) and isset($sessao[ $ultimaChave ])) {
+      unset($_SESSION[ $ultimaChave ]);
+    }
   }
 
   public function destruir()

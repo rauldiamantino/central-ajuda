@@ -12,9 +12,10 @@ class PaginaErroController extends Controller
     $this->visao = new ViewRenderer('/pagina-erro');
   }
 
-  public function erroVer()
+  public function erroVer($titulo = 'Not Found', $codigo = 404)
   {
-    $this->visao->variavel('titulo', 'Não encontrada');
+    $this->visao->variavel('titulo', $titulo);
+    $this->visao->variavel('codigoErro', $codigo);
     $this->visao->renderizar('/index');
   }
 }
