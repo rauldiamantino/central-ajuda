@@ -16,6 +16,8 @@ class PublicoController extends Controller
 
   public function __construct()
   {
+    parent::__construct();
+
     $this->obterSubdominio();
     $this->obterDadosEmpresa();
     $this->dashboardDategoriaModel = new DashboardCategoriaModel();
@@ -43,8 +45,7 @@ class PublicoController extends Controller
                                                ->buscar($colunas);
 
     if (isset($resultado[0]['Categoria.id']) and $this->subdominio) {
-      header('Location: /' . $this->subdominio . '/categoria/' . $resultado[0]['Categoria.id']);
-      exit;
+      $this->redirecionar('/' . $this->subdominio . '/categoria/' . $resultado[0]['Categoria.id']);
     }
 
     $this->visao->variavel('categorias', $resultado);
@@ -54,21 +55,21 @@ class PublicoController extends Controller
 
   private function obterDadosEmpresa(): void
   {
-    $telefone = intval($_SESSION['empresaTelefone'] ?? 0);
-    $logo = $_SESSION['empresaLogo'] ?? '';
+    $telefone = (int) $this->sessaoUsuario->buscar('empresaTelefone');
+    $logo = $this->sessaoUsuario->buscar('empresaLogo');
 
     if ($telefone == 0) {
       $this->dashboardEmpresaModel = new DashboardEmpresaModel();
       $resultado = $this->dashboardEmpresaModel->buscar(['Empresa.telefone']);
       $telefone = intval($resultado[0]['Empresa.telefone'] ?? 0);
-      $_SESSION['empresaTelefone'] = $telefone;
+      $this->sessaoUsuario->definir('empresaTelefone', $telefone);
     }
 
     if (empty($logo)) {
       $this->dashboardEmpresaModel = new DashboardEmpresaModel();
       $resultado = $this->dashboardEmpresaModel->buscar(['Empresa.logo']);
       $logo = $resultado[0]['Empresa.logo'] ?? '';
-      $_SESSION['empresaLogo'] = $logo;
+      $this->sessaoUsuario->definir('empresaLogo', $logo);
     }
 
     if ((int) $this->buscarAjuste('botao_whatsapp') == 1) {
@@ -80,6 +81,6 @@ class PublicoController extends Controller
 
   private function obterSubdominio(): void
   {
-    $this->subdominio = $_SESSION['subdominio'] ?? null;
+    $this->subdominio = $this->sessaoUsuario->buscar('subdominio');
   }
 }

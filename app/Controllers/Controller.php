@@ -29,6 +29,7 @@ class Controller
 
     $this->usuarioLogado = [
       'id' => intval($resultado['id'] ?? 0),
+      'nome' => $resultado['nome'] ?? '',
       'email' => $resultado['email'] ?? '',
       'nivel' => intval($resultado['nivel'] ?? 0),
       'padrao' => intval($resultado['padrao'] ?? 0),
@@ -36,6 +37,44 @@ class Controller
       'empresaAtivo' => intval($resultado['empresaAtivo'] ?? 0),
       'subdominio' => $resultado['subdominio'] ?? '',
     ];
+  }
+
+  protected function redirecionarErro(string $rota, $mensagem = []): void
+  {
+    if (isset($mensagem['mensagem'])) {
+      $mensagem = $mensagem['mensagem'];
+    }
+
+    $this->sessaoUsuario->definir('erro', $mensagem);
+
+    header('Location: ' . $rota);
+    exit();
+  }
+
+  protected function redirecionarSucesso(string $rota, $mensagem = []): void
+  {
+    if (isset($mensagem['mensagem'])) {
+      $mensagem = $mensagem['mensagem'];
+    }
+
+    $this->sessaoUsuario->definir('ok', $mensagem);
+
+    header('Location: ' . $rota);
+    exit();
+  }
+
+  protected function redirecionar(string $rota, $mensagem = []): void
+  {
+    if (isset($mensagem['mensagem'])) {
+      $mensagem = $mensagem['mensagem'];
+    }
+
+    if ($mensagem) {
+      $this->sessaoUsuario->definir('neutra', $mensagem);
+    }
+
+    header('Location: ' . $rota);
+    exit();
   }
 
   protected function receberJson(): array

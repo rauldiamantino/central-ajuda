@@ -246,6 +246,7 @@ class DashboardUsuarioModel extends Model
         'Usuario.nivel',
         'Usuario.padrao',
         'Empresa.subdominio',
+        'Empresa.ativo',
       ];
 
       $uniao2 = [
@@ -257,15 +258,16 @@ class DashboardUsuarioModel extends Model
                        ->buscar($colunas);
 
       if (isset($usuario[0]['Usuario.id'])) {
-        $_SESSION['usuario'] = [
+        $this->sessaoUsuario->definir('usuario', [
           'id' => $usuario[0]['Usuario.id'],
           'nome' => $usuario[0]['Usuario.nome'],
           'email' => $usuario[0]['Usuario.email'],
-          'empresa_id' => $usuario[0]['Usuario.empresa_id'],
+          'empresaId' => $usuario[0]['Usuario.empresa_id'],
+          'empresaAtivo' => $usuario[0]['Empresa.ativo'],
           'subdominio' => $usuario[0]['Empresa.subdominio'],
           'nivel' => $usuario[0]['Usuario.nivel'],
           'padrao' => $usuario[0]['Usuario.padrao'],
-        ];
+        ]);
       }
     }
 

@@ -28,24 +28,19 @@ class DashboardCadastroController extends DashboardController
   public function cadastroSucessoVer()
   {
     if ($this->usuarioLogado['id'] > 0 and $this->usuarioLogado['empresaAtivo'] == 1) {
-      header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos');
-      exit();
+      $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos');
     }
 
-    $protocolo = $_SESSION['protocolo'] ?? '';
+    $protocolo = $this->sessaoUsuario->buscar('protocolo');
+    $this->sessaoUsuario->apagar('protocolo');
 
     if (empty($protocolo)) {
-      header('Location: /cadastro');
-      exit();
+      $this->redirecionar('/cadastro');
     }
 
-    $this->visao->variavel('protocolo', $_SESSION['protocolo']);
+    $this->visao->variavel('protocolo', $protocolo);
     $this->visao->variavel('titulo', 'Cadastro');
     $this->visao->variavel('pagCadastro', true);
-
-    $_SESSION = null;
-    session_destroy();
-
     $this->visao->renderizar('/cadastro/sucesso');
   }
 
@@ -55,25 +50,19 @@ class DashboardCadastroController extends DashboardController
     $resultado = $this->cadastroModel->validarCampos($dados);
 
     if (isset($resultado['erro'])) {
-      $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
-      header('Location: /cadastro');
-      exit();
+      $this->redirecionarErro('/cadastro', $resultado['erro']);
     }
 
     $usuarioExiste = $this->cadastroModel->usuarioExiste($resultado['email']);
 
     if ($usuarioExiste) {
-      $_SESSION['erro'] = 'Email já cadastrado';
-      header('Location: /cadastro');
-      exit();
+      $this->redirecionarErro('/cadastro', 'Email já cadastrado');
     }
 
     $empresaId = $this->cadastroModel->gerarEmpresa($resultado['subdominio']);
 
     if (intval($empresaId) < 1) {
-      $_SESSION['erro'] = 'Erro ao realizar cadastro (C500#EMP)';
-      header('Location: /cadastro');
-      exit();
+      $this->redirecionarErro('/cadastro', 'Erro ao realizar cadastro (C500#EMP)');
     }
 
     // Somente para gerar empresa
@@ -83,20 +72,14 @@ class DashboardCadastroController extends DashboardController
     $usuario = $this->cadastroModel->gerarUsuarioPadrao($resultado);
 
     if (isset($usuario['erro']['mensagem'])) {
-      $_SESSION['erro'] = $usuario['erro']['mensagem'];
-      header('Location: /cadastro');
-      exit();
+      $this->redirecionarErro('/cadastro', $usuario['erro']);
     }
 
     if (intval($usuario) < 1) {
-      $_SESSION['erro'] = 'Erro ao cadastrar usuário (C500#USR)';
-      header('Location: /cadastro');
-      exit();
+      $this->redirecionarErro('/cadastro', 'Erro ao cadastrar usuário (C500#USR)');
     }
 
-    $_SESSION['ok'] = 'Cadastro realizado com sucesso!';
-    $_SESSION['protocolo'] = date('YmdHis') . '#' . $empresaId;
-    header('Location: /cadastro/sucesso');
-    exit();
+    $this->sessaoUsuario->definir('protocolo', date('YmdHis') . '#' . $empresaId);
+    $this->redirecionar('/cadastro/sucesso');
   }
 }

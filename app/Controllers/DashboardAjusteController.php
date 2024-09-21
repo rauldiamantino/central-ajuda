@@ -43,14 +43,9 @@ class DashboardAjusteController extends DashboardController
     $resultado = $this->ajusteModel->atualizarAjustes($json);
 
     if (isset($resultado['erro'])) {
-      $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
-
-      header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/ajustes');
-      exit();
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/ajustes', $resultado['erro']);
     }
 
-    $_SESSION['ok'] = 'Ajuste alterado com sucesso';
-    header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/ajustes');
-    exit();
+    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/ajustes', 'Ajuste alterado com sucesso');
   }
 }

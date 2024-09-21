@@ -8,6 +8,7 @@ class DashboardConteudoController extends DashboardController
 
   public function __construct()
   {
+    parent::__construct();
     $this->conteudoModel = new DashboardConteudoModel();
   }
 
@@ -24,16 +25,10 @@ class DashboardConteudoController extends DashboardController
 
     // Formulário via POST
     if ($_POST and isset($resultado['erro'])) {
-      $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
-
-      header('Location: ' . $urlRetorno);
-      exit();
+      $this->redirecionarErro($urlRetorno, $resultado['erro']);
     }
     elseif ($_POST and isset($resultado['id'])) {
-      $_SESSION['ok'] = 'Conteúdo adicionado com sucesso';
-
-      header('Location: ' . $urlRetorno);
-      exit();
+      $this->redirecionarSucesso($urlRetorno, 'Conteúdo adicionado com sucesso');
     }
 
     // Formulário via Fetch
@@ -84,22 +79,13 @@ class DashboardConteudoController extends DashboardController
     }
 
     if ($_POST and isset($resultado['erro'])) {
-      $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
-
-      header('Location: ' . $urlRetorno);
-      exit();
+      $this->redirecionarErro($urlRetorno, $resultado['erro']);
     }
     elseif ($_POST and $resultado) {
-      $_SESSION['ok'] = 'Conteúdo editado com sucesso';
-
-      header('Location: ' . $urlRetorno);
-      exit();
+      $this->redirecionarSucesso($urlRetorno, 'Conteúdo editado com sucesso');
     }
     elseif ($_POST) {
-      $_SESSION['neutra'] = 'Nenhuma alteração realizada';
-
-      header('Location: ' . $urlRetorno);
-      exit();
+      $this->redirecionar($urlRetorno, 'Nenhuma alteração realizada');
     }
   }
 
@@ -109,7 +95,7 @@ class DashboardConteudoController extends DashboardController
     $resultado = $this->conteudoModel->atualizarOrdem($json);
 
     if (isset($resultado['erro'])) {
-      $_SESSION['erro'] = $resultado['erro'] ?? '';
+      $this->sessaoUsuario->definir('erro', $resultado['erro']);
 
       $codigo = $resultado['erro']['codigo'] ?? 500;
       $this->responderJson($resultado, $codigo);
@@ -123,13 +109,13 @@ class DashboardConteudoController extends DashboardController
     $resultado = $this->conteudoModel->apagar($id);
 
     if (isset($resultado['erro'])) {
-      $_SESSION['erro'] = $resultado['erro'];
+      $this->sessaoUsuario->definir('erro', $resultado['erro']);
 
       $codigo = $resultado['erro']['codigo'] ?? 500;
       $this->responderJson($resultado, $codigo);
     }
 
-    $_SESSION['ok'] = 'Conteúdo excluído com sucesso';
+    $this->sessaoUsuario->definir('ok', 'Conteúdo excluído com sucesso');
     $this->responderJson($resultado);
   }
 }

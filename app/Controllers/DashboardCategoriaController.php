@@ -82,10 +82,7 @@ class DashboardCategoriaController extends DashboardController
                                       ->buscar($colunas);
 
     if (isset($categoria['erro']) and $categoria['erro']) {
-      $_SESSION['erro'] = $categoria['erro']['mensagem'] ?? '';
-
-      header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/categorias');
-      exit();
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categorias', $categoria['erro']);
     }
 
     $this->visao->variavel('categoria', reset($categoria));
@@ -130,16 +127,10 @@ class DashboardCategoriaController extends DashboardController
     $resultado = $this->categoriaModel->adicionar($dados);
 
     if (isset($resultado['erro'])) {
-      $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
-
-     header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/categorias');
-      exit();
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categorias', $resultado['erro']);
     }
 
-    $_SESSION['ok'] = 'Categoria criada com sucesso';
-
-    header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/categorias');
-    exit();
+    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categorias', 'Categoria criada com sucesso');
   }
 
   public function buscar(int $id = 0)
@@ -173,15 +164,10 @@ class DashboardCategoriaController extends DashboardController
     $resultado = $this->categoriaModel->atualizar($json, $id);
 
     if (isset($resultado['erro'])) {
-      $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
-
-      header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/categoria/editar/' . $id);
-      exit();
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categoria/editar/' . $id, $resultado['erro']);
     }
 
-    $_SESSION['ok'] = 'Registro alterado com sucesso';
-    header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/categoria/editar/' . $id);
-    exit();
+    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categoria/editar/' . $id, 'Registro alterado com sucesso');
   }
 
   public function atualizarOrdem()
@@ -190,7 +176,7 @@ class DashboardCategoriaController extends DashboardController
     $resultado = $this->categoriaModel->atualizarOrdem($json);
 
     if (isset($resultado['erro'])) {
-      $_SESSION['erro'] = $resultado['erro'] ?? '';
+      $this->sessaoUsuario->definir('erro', $resultado['erro']);
 
       $codigo = $resultado['erro']['codigo'] ?? 500;
       $this->responderJson($resultado, $codigo);
@@ -204,13 +190,14 @@ class DashboardCategoriaController extends DashboardController
     $resultado = $this->categoriaModel->apagarCategoria($id);
 
     if (isset($resultado['erro'])) {
-      $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
+      $mensagem = $resultado['erro']['mensagem'] ?? '';
+      $this->sessaoUsuario->definir('erro', $mensagem);
 
       $codigo = $resultado['erro']['codigo'] ?? 500;
       $this->responderJson($resultado, $codigo);
     }
 
-    $_SESSION['ok'] = 'Categoria excluída com sucesso';
+    $this->sessaoUsuario->definir('ok', 'Categoria excluída com sucesso');
     $this->responderJson($resultado);
   }
 }

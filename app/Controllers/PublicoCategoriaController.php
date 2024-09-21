@@ -88,9 +88,7 @@ class PublicoCategoriaController extends PublicoController
     endforeach;
 
     if (empty($categorias) or $sucesso == false) {
-      $_SESSION['erro'] = 'Desculpe, esta categoria não está disponível';
-      header('Location: /' . $this->subdominio);
-      exit;
+      $this->redirecionarErro('/' . $this->subdominio, 'Desculpe, esta categoria não está disponível');
     }
 
     $this->visao->variavel('categorias', $categorias);

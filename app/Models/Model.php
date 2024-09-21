@@ -16,6 +16,7 @@ class Model
   protected $parametros = [];
   protected $colunasValores = [];
 
+  protected $sessaoUsuario;
   protected $usuarioLogado;
   protected $empresaPadraoId;
 
@@ -30,6 +31,7 @@ class Model
   private function recuperarSessao()
   {
     global $sessaoUsuario;
+    $this->sessaoUsuario = $sessaoUsuario;
     $usuario = $sessaoUsuario->buscar('usuario');
 
     $this->usuarioLogado = [

@@ -161,10 +161,7 @@ class DashboardArtigoController extends DashboardController
                                    ->buscar($colunas);
 
     if (isset($resultado['erro']) and $resultado['erro']) {
-      $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
-
-      header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos');
-      exit();
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', $resultado['erro']);
     }
     else {
       $artigo = $resultado;
@@ -282,28 +279,22 @@ class DashboardArtigoController extends DashboardController
     }
 
     $this->visao->variavel('ordem', $ordem);
-    $this->visao->variavel('usuarioId', intval($_SESSION['usuario']['id'] ?? 0));
+    $this->visao->variavel('usuarioId', $this->usuarioLogado['id']);
     $this->visao->variavel('categorias', $categorias);
     $this->visao->variavel('titulo', 'Adicionar artigo');
     $this->visao->renderizar('/artigo/adicionar');
   }
 
-  public function adicionar(array $params = []): array
+  public function adicionar(): array
   {
     $dados = $this->receberJson();
     $resultado = $this->artigoModel->adicionar($dados);
 
     if ($_POST and isset($resultado['erro'])) {
-      $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
-
-      header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos');
-      exit();
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', $resultado['erro']);
     }
     elseif ($_POST and isset($resultado['id'])) {
-      $_SESSION['ok'] = 'Artigo criado com sucesso';
-
-      header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $resultado['id']);
-      exit();
+      $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $resultado['id'], 'Artigo criado com sucesso');
     }
   }
 
@@ -358,15 +349,10 @@ class DashboardArtigoController extends DashboardController
     $resultado = $this->artigoModel->atualizar($json, $id);
 
     if (isset($resultado['erro'])) {
-      $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
-
-      header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos');
-      exit();
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', $resultado['erro']);
     }
 
-    $_SESSION['ok'] = 'Registro alterado com sucesso';
-    header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $id);
-    exit();
+    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $id, 'Registro alterado com sucesso');
   }
 
   public function atualizarOrdem()
@@ -375,7 +361,7 @@ class DashboardArtigoController extends DashboardController
     $resultado = $this->artigoModel->atualizarOrdem($json);
 
     if (isset($resultado['erro'])) {
-      $_SESSION['erro'] = $resultado['erro'] ?? '';
+      $this->sessaoUsuario->definir('erro', $resultado['erro']);
 
       $codigo = $resultado['erro']['codigo'] ?? 500;
       $this->responderJson($resultado, $codigo);
@@ -389,13 +375,14 @@ class DashboardArtigoController extends DashboardController
     $resultado = $this->artigoModel->apagar($id);
 
     if (isset($resultado['erro'])) {
-      $_SESSION['erro'] = $resultado['erro'];
+      $this->sessaoUsuario->definir('erro', $resultado['erro']);
 
       $codigo = $resultado['erro']['codigo'] ?? 500;
       $this->responderJson($resultado, $codigo);
     }
 
-    $_SESSION['ok'] = 'Artigo excluído com sucesso';
+    $this->sessaoUsuario->definir('ok', 'Artigo excluído com sucesso');
+
     $this->responderJson($resultado);
   }
 }

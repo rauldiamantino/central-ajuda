@@ -16,9 +16,7 @@ class DashboardUsuarioController extends DashboardController
   public function usuariosVer()
   {
     if ($this->usuarioLogado['nivel'] == 2) {
-      $_SESSION['erro'] = 'Você não tem permissão para realizar esta ação.';
-      header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos');
-      exit;
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', 'Você não tem permissão para realizar esta ação.');
     }
 
     $condicoes = [];
@@ -80,9 +78,7 @@ class DashboardUsuarioController extends DashboardController
   public function usuarioEditarVer(int $id)
   {
     if ($this->usuarioLogado['id'] == 2 and $this->usuarioLogado['id'] != $id) {
-      $_SESSION['erro'] = 'Você não tem permissão para realizar esta ação.';
-      header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos');
-      exit;
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', 'Você não tem permissão para realizar esta ação.');
     }
 
     $id = (int) $id;
@@ -112,10 +108,7 @@ class DashboardUsuarioController extends DashboardController
                                   ->buscar($colunas);
 
     if (isset($usuario['erro']) and $usuario['erro']) {
-      $_SESSION['erro'] = $usuario['erro']['mensagem'] ?? '';
-
-     header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/usuarios');
-      exit();
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/usuarios', $usuario['erro']);
     }
 
     $this->visao->variavel('usuario', reset($usuario));
@@ -126,9 +119,7 @@ class DashboardUsuarioController extends DashboardController
   public function usuarioAdicionarVer()
   {
     if ($this->usuarioLogado['nivel'] == 2) {
-      $_SESSION['erro'] = 'Você não tem permissão para realizar esta ação.';
-      header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos');
-      exit;
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', 'Você não tem permissão para realizar esta ação.');
     }
 
     $this->visao->variavel('titulo', 'Adicionar usuário');
@@ -138,68 +129,51 @@ class DashboardUsuarioController extends DashboardController
   public function adicionar(): array
   {
     if ($this->usuarioLogado['nivel'] == 2) {
-      $_SESSION['erro'] = 'Você não tem permissão para realizar esta ação.';
-      header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos');
-      exit;
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', 'Você não tem permissão para realizar esta ação.');
     }
 
     $dados = $this->receberJson();
     $resultado = $this->usuarioModel->adicionar($dados);
 
     if (isset($resultado['erro'])) {
-      $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
-
-      header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/usuario/adicionar');
-      exit();
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/usuario/adicionar', $resultado['erro']);
     }
 
-    $_SESSION['ok'] = 'Usuário criado com sucesso';
-    header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/usuarios');
-    exit();
+    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/usuarios', 'Usuário criado com sucesso');
   }
 
   public function atualizar(int $id)
   {
     if ($this->usuarioLogado['id'] == 2 and $this->usuarioLogado['id'] != $id) {
-      $_SESSION['erro'] = 'Você não tem permissão para realizar esta ação.';
-      header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos');
-      exit;
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', 'Você não tem permissão para realizar esta ação.');
     }
 
     $json = $this->receberJson();
     $resultado = $this->usuarioModel->atualizar($json, $id);
 
     if (isset($resultado['erro'])) {
-      $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
-
-     header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/usuario/editar/' . $id);
-      exit();
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/usuario/editar/' . $id, $resultado['erro']);
     }
 
-    $_SESSION['ok'] = 'Registro alterado com sucesso';
-
-    header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/usuario/editar/' . $id);
-    exit();
+    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/usuario/editar/' . $id, 'Registro alterado com sucesso');
   }
 
   public function apagar(int $id)
   {
     if ($this->usuarioLogado['nivel'] == 2) {
-      $_SESSION['erro'] = 'Você não tem permissão para realizar esta ação.';
-      header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos');
-      exit;
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', 'Você não tem permissão para realizar esta ação.');
     }
 
     $resultado = $this->usuarioModel->apagarUsuario($id);
 
     if (isset($resultado['erro'])) {
-      $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
+      $this->sessaoUsuario->definir('erro', $resultado['erro']);
 
       $codigo = $resultado['erro']['codigo'] ?? 500;
       $this->responderJson($resultado, $codigo);
     }
 
-    $_SESSION['ok'] = 'Usuário excluído com sucesso';
+    $this->sessaoUsuario->definir('ok', 'Usuário excluído com sucesso');
     $this->responderJson($resultado);
   }
 }

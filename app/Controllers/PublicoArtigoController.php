@@ -109,9 +109,7 @@ class PublicoArtigoController extends PublicoController
       }
     }
     else {
-      $_SESSION['erro'] = 'Desculpe, este artigo não está disponível';
-      header('Location: /' . $this->subdominio);
-      exit;
+      $this->redirecionarErro('/' . $this->subdominio, 'Desculpe, este artigo não está disponível');
     }
 
     $this->visao->variavel('demaisArtigos', $demaisArtigos);

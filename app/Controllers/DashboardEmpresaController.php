@@ -16,9 +16,7 @@ class DashboardEmpresaController extends DashboardController
   public function empresaEditarVer()
   {
     if ($this->usuarioLogado['nivel'] == 2) {
-      $_SESSION['erro'] = 'Você não tem permissão para realizar esta ação.';
-      header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos');
-      exit;
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', 'Você não tem permissão para realizar esta ação.');
     }
 
     $colunas = [
@@ -36,10 +34,7 @@ class DashboardEmpresaController extends DashboardController
     $empresa = $this->empresaModel->buscar($colunas);
 
     if (isset($empresa['erro']) and $empresa['erro']) {
-      $_SESSION['erro'] = $empresa['erro']['mensagem'] ?? '';
-
-     header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos');
-      exit();
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', $empresa['erro']);
     }
 
     $this->visao->variavel('empresa', reset($empresa));
@@ -50,24 +45,17 @@ class DashboardEmpresaController extends DashboardController
   public function atualizar(int $id)
   {
     if ($this->usuarioLogado['nivel'] == 2) {
-      $_SESSION['erro'] = 'Você não tem permissão para realizar esta ação.';
-      header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos');
-      exit;
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', 'Você não tem permissão para realizar esta ação.');
     }
 
     $json = $this->receberJson();
     $resultado = $this->empresaModel->atualizar($json, $id);
 
     if (isset($resultado['erro'])) {
-      $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
-
-      header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar');
-      exit();
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', $resultado['erro']);
     }
 
-    $_SESSION['ok'] = 'Registro alterado com sucesso';
-    header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar');
-    exit();
+    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Registro alterado com sucesso');
   }
 
   public function buscarEmpresa(string $subdominio = ''): array

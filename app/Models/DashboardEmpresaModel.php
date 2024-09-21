@@ -69,38 +69,12 @@ class DashboardEmpresaModel extends Model
       }
     }
 
-    // Revisar para permitir editar subdomínio
+    // Não permite alterar subdominio
     if (isset($campos['subdominio'])) {
       unset($campos['subdominio']);
     }
 
-    // Subdomínio duplicado
-    if (isset($campos['subdominio']) and $params['subdominio'] !== null) {
-      $sql = 'SELECT `Empresa`.`id` AS `Empresa.id` FROM `empresas` AS `Empresa` WHERE `Empresa`.`id` != ? AND `Empresa`.`subdominio` = ?';
-      $sqlParams = [
-        0 => $id,
-        1 => $campos['subdominio'],
-      ];
-
-      $resultado = parent::executarQuery($sql, $sqlParams);
-
-      if (isset($resultado[0]['Empresa.id'])) {
-        $msgErro = [
-          'erro' => [
-            'codigo' => 400,
-            'mensagem' => 'O subdomínio <span class="font-semibold">' . $campos['subdominio'] . '</span> não está disponível',
-          ],
-        ];
-
-        return $msgErro;
-      }
-    }
-
     $retorno = parent::atualizar($campos, $id);
-
-    if (isset($campos['subdominio']) and $campos['subdominio']) {
-      $_SESSION['usuario']['subdominio'] = $campos['subdominio'];
-    }
 
     return $retorno;
   }

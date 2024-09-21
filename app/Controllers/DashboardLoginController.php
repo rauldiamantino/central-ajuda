@@ -1,4 +1,5 @@
 <?php
+
 namespace app\Controllers;
 use app\Models\DashboardLoginModel;
 
@@ -33,10 +34,7 @@ class DashboardLoginController extends DashboardController
 
     if (isset($resultado['erro'])) {
       $this->sessaoUsuario->apagar('usuario');
-
-      $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
-      header('Location: /login');
-      exit();
+      $this->redirecionarErro('/login', $resultado['erro']);
     }
 
     $this->usuarioLogado = [
@@ -53,8 +51,7 @@ class DashboardLoginController extends DashboardController
     $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
     $this->sessaoUsuario->regenerarId();
 
-    header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos');
-    exit();
+    $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos');
   }
 
   public function logout()
