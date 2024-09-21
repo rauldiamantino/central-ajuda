@@ -39,29 +39,19 @@ class DashboardLoginController extends DashboardController
       exit();
     }
 
-    // Aplica login
-    $usuarioLogin = [
+    $this->usuarioLogado = [
       'id' => $resultado['ok']['id'],
       'nome' => $resultado['ok']['nome'],
       'email' => $resultado['ok']['email'],
-      'empresa_id' => $resultado['ok']['empresa_id'],
-      'empresa_ativo' => $resultado['ok']['Empresa.ativo'],
+      'empresaId' => $resultado['ok']['empresa_id'],
+      'empresaAtivo' => $resultado['ok']['Empresa.ativo'],
       'subdominio' => $resultado['ok']['Empresa.subdominio'],
       'nivel' => $resultado['ok']['nivel'],
       'padrao' => $resultado['ok']['padrao'],
     ];
 
-    $this->sessaoUsuario->definir('usuario', $usuarioLogin);
-
-    // Uso imediato
-    $this->usuarioLogado['id'] = $resultado['ok']['id'];
-    $this->usuarioLogado['email'] = $resultado['ok']['email'];
-    $this->usuarioLogado['nivel'] = $resultado['ok']['nivel'];
-    $this->usuarioLogado['padrao'] = $resultado['ok']['padrao'];
-    $this->usuarioLogado['empresaId'] = $resultado['ok']['empresa_id'];
-    $this->usuarioLogado['empresaAtivo'] = $resultado['ok']['Empresa.ativo'];
-    $this->usuarioLogado['subdominio'] = $resultado['ok']['Empresa.subdominio'];
-
+    $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
+    $this->sessaoUsuario->regenerarId();
 
     header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos');
     exit();

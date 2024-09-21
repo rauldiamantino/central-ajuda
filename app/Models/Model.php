@@ -34,16 +34,13 @@ class Model
 
     $this->usuarioLogado = [
       'id' => intval($usuario['id'] ?? 0),
-      'email' => $usuario['email'] ?? '',
       'nivel' => intval($usuario['nivel'] ?? 0),
       'padrao' => intval($usuario['padrao'] ?? 0),
-      'empresaId' => intval($usuario['empresa_id'] ?? 0),
-      'empresaAtivo' => intval($usuario['empresa_ativo'] ?? 0),
-      'subdominio' => $usuario['subdominio'] ?? '',
+      'empresaId' => intval($usuario['empresaId'] ?? 0),
     ];
 
     // Todas as ações precisam do ID Empresa
-    $this->empresaPadraoId = (int) $sessaoUsuario->buscar('empresa_id');
+    $this->empresaPadraoId = (int) $sessaoUsuario->buscar('empresaId');
   }
 
   // --- CRUD ---

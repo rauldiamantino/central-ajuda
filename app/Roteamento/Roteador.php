@@ -56,7 +56,7 @@ class Roteador
     // Usuário logado
     $usuarioLogado = $sessaoUsuario->buscar('usuario');
     $usuarioLogadoSubdominio = $usuarioLogado['subdominio'] ?? '';
-    $usuarioLogadoEmpresaId = intval($usuarioLogado['empresa_id'] ?? 0);
+    $usuarioLogadoEmpresaId = intval($usuarioLogado['empresaId'] ?? 0);
 
     // Dashboard
     if (strpos($chaveRota, '/{subdominio}/dashboard')) {
@@ -86,7 +86,7 @@ class Roteador
     }
 
     // Grava EmpresaID na sessão
-    $sessaoUsuario->definir('empresa_id', $empresaId);
+    $sessaoUsuario->definir('empresaId', $empresaId);
     $sessaoUsuario->definir('subdominio', $subdominio);
 
     $rotaRequisitada = $this->acessarRota($chaveRota);

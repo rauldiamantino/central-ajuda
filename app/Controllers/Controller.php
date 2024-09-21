@@ -1,7 +1,5 @@
 <?php
 namespace app\Controllers;
-
-use app\Core\SessaoUsuario;
 use app\Models\Model;
 
 class Controller
@@ -34,8 +32,8 @@ class Controller
       'email' => $resultado['email'] ?? '',
       'nivel' => intval($resultado['nivel'] ?? 0),
       'padrao' => intval($resultado['padrao'] ?? 0),
-      'empresaId' => intval($resultado['empresa_id'] ?? 0),
-      'empresaAtivo' => intval($resultado['empresa_ativo'] ?? 0),
+      'empresaId' => intval($resultado['empresaId'] ?? 0),
+      'empresaAtivo' => intval($resultado['empresaAtivo'] ?? 0),
       'subdominio' => $resultado['subdominio'] ?? '',
     ];
   }

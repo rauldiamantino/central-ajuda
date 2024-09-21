@@ -21,6 +21,33 @@ class SessaoUsuario
     $this->verificarIp();
   }
 
+  public function definir($chave, $valor)
+  {
+    $_SESSION[ $chave ] = $valor;
+  }
+
+  public function buscar($chave)
+  {
+    return $_SESSION[ $chave ] ?? null;
+  }
+
+  public function apagar($chave)
+  {
+    unset($_SESSION[ $chave ]);
+  }
+
+  public function destruir()
+  {
+    session_unset();
+    session_destroy();
+    setcookie(session_name(), '', time() - 3600, '/');
+  }
+
+  public function regenerarId()
+  {
+    session_regenerate_id(true);
+  }
+
   private function verificarUserAgent()
   {
     if (!isset($_SESSION['user_agent'])) {
@@ -41,52 +68,5 @@ class SessaoUsuario
       $this->destruir();
       exit('Sessão inválida');
     }
-  }
-
-  public function definir($chave, $valor)
-  {
-    $_SESSION[ $chave ] = $valor;
-  }
-
-  public function buscar($chave)
-  {
-    return $_SESSION[ $chave ] ?? null;
-  }
-
-  public function buscarArray(array $chaves)
-  {
-    $dadosSessao = $_SESSION;
-    foreach ($chaves as $chave) {
-
-      if (! isset($dadosSessao[ $chave ])) {
-        return null;
-      }
-
-      $dadosSessao = $dadosSessao[ $chave ];
-    }
-
-    return $dadosSessao;
-  }
-
-  public function existe($chave)
-  {
-    return isset($_SESSION[ $chave ]);
-  }
-
-  public function apagar($chave)
-  {
-    unset($_SESSION[ $chave ]);
-  }
-
-  public function destruir()
-  {
-    session_unset();
-    session_destroy();
-    setcookie(session_name(), '', time() - 3600, '/');
-  }
-
-  public function regenerarId()
-  {
-    session_regenerate_id(true);
   }
 }
