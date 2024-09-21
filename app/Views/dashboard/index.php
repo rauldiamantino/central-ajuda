@@ -15,6 +15,18 @@
     </main>
   <?php } ?>
 
+  <?php if (isset($pagLoginSuporte)) { ?>
+    <main>
+      <div class="w-full h-screen flex justify-center items-center">
+        <div class="relative w-max min-w-96 h-max bg-white">
+          <?php require_once $visao ?>
+          <?php require_once 'login/notificacoes.php' ?>
+        </div>
+      </div>
+      <?php require_once 'rodape-suporte.php' ?>
+    </main>
+  <?php } ?>
+
   <?php if (isset($pagCadastro)) { ?>
     <main>
       <div class="w-full h-screen flex justify-center items-center">
@@ -27,7 +39,7 @@
     <?php require_once 'rodape-suporte.php' ?>
   <?php } ?>
 
-  <?php if (! isset($pagLogin) and ! isset($pagCadastro)) { ?>
+  <?php if (! isset($pagLogin) and ! isset($pagLoginSuporte) and ! isset($pagCadastro)) { ?>
     <?php require_once 'template/topo.php' ?>
     <div class="flex">
       <?php require_once 'template/menu_lateral.php' ?>
@@ -40,7 +52,7 @@
     </div>
   <?php } ?>
 
-  <?php if ($this->usuarioLogado['id']) { ?>
+  <?php if ($this->usuarioLogado['id'] and ! isset($pagLoginSuporte)) { ?>
     <a href="/<?php echo $this->usuarioLogado['subdominio'] ?>/dashboard/usuario/editar/<?php echo $this->usuarioLogado['id'] ?>" class="fixed bottom-0 right-0 py-1 px-2 md:px-6 flex items-center gap-2 text-xs font-extralight bg-green-800 text-white rounded-t-lg">
       <?php echo $this->usuarioLogado['email'] ?>
     </a>

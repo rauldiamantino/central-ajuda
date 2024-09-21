@@ -76,16 +76,6 @@
         </div>
       </a>
     </li>
-    <!-- <li class="hover:bg-slate-100 rounded-lg cursor-pointer flex justify-between group">
-      <a href="" class="w-full p-2">
-        <div class="flex items-center gap-3">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-headset" viewBox="0 0 16 16">
-            <path d="M8 1a5 5 0 0 0-5 5v1h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a6 6 0 1 1 12 0v6a2.5 2.5 0 0 1-2.5 2.5H9.366a1 1 0 0 1-.866.5h-1a1 1 0 1 1 0-2h1a1 1 0 0 1 .866.5H11.5A1.5 1.5 0 0 0 13 12h-1a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h1V6a5 5 0 0 0-5-5"/>
-          </svg>
-          <span>Suporte</span>
-        </div>
-      </a>
-    </li> -->
     <li class="hover:bg-slate-100 rounded-lg cursor-pointer flex justify-between group">
       <a href="/logout" class="w-full p-2">
         <div class="flex items-center gap-3 text-red-800">
@@ -98,4 +88,17 @@
       </a>
     </li>
   </ul>
+
+  <?php if ($this->usuarioLogado['id'] > 0 and $this->usuarioLogado['nivel'] == 0) { ?>
+  <li class="border border-slate-200 hover:bg-slate-100 flex justify-center group">
+    <button type="button" onclick="window.location.href='/login/suporte'" class="w-full p-2">
+      <div class="flex justify-center items-center gap-3">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-arrow-left-right" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5m14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5"/>
+        </svg>
+        <span>Trocar empresa</span>
+      </div>
+    </button>
+  </li>
+  <?php } ?>
 </asside>

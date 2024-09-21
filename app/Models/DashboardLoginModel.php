@@ -163,6 +163,19 @@ class DashboardLoginModel extends Model
     $this->executarQuery($sql, $sqlParams);
   }
 
+  public function buscarEmpresas(): array
+  {
+    $sql = 'SELECT * FROM `empresas` AS `Empresa`';
+
+    $resultado = $this->executarQuery($sql);
+
+    if (isset($resultado['erro'])) {
+      return $resultado;
+    }
+
+    return ['ok' => $resultado];
+  }
+
   // --- Métodos auxiliares
   private function validarCampos(array $params, bool $atualizar = false): array
   {

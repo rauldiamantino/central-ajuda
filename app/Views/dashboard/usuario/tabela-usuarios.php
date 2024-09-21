@@ -6,7 +6,8 @@ $tipoUsuario = [
 ];
 
 $nivelAcesso = [
-  0 => 'Suporte',
+  0 => 'Suporte N1',
+  3 => 'Suporte N2',
   1 => 'Acesso total',
   2 => 'Acesso restrito',
 ];
