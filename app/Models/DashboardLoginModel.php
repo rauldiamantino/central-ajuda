@@ -133,12 +133,14 @@ class DashboardLoginModel extends Model
     $sql = 'UPDATE
               `usuarios`
             SET
+              `tentativas_login` = ?,
               `ultimo_acesso` = ?
             WHERE id = ?';
 
     $sqlParams = [
-      0 => json_encode($acesso),
-      1 => (int) $id,
+      0 => 0,
+      1 => json_encode($acesso),
+      2 => (int) $id,
     ];
 
     $this->executarQuery($sql, $sqlParams);

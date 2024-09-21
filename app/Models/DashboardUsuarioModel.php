@@ -483,8 +483,8 @@ class DashboardUsuarioModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('padrao', 'caracteres', $padraoCaracteres);
       }
 
-      if (strlen($campos['tentativas']) > $tentativasCaracteres) {
-        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('tentativas', 'caracteres', $tentativasCaracteres);
+      if (strlen($campos['tentativas_login']) > $tentativasCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('tentativas_login', 'caracteres', $tentativasCaracteres);
       }
 
       if (strlen($campos['nome']) > $nomeCaracteres) {
