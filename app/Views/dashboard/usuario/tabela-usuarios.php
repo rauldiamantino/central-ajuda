@@ -18,11 +18,11 @@ $nivelAcesso = [
       <thead class="text-xs font-light text-gray-500 uppercase">
         <colgroup>
           <col class="w-[60px]">
-          <col class="w-[500px]">
+          <col class="w-[450px]">
           <col class="w-[400px]">
           <col class="w-[150px]">
           <col class="w-[150px]">
-          <col class="w-[100px]">
+          <col class="w-[150px]">
           <col class="w-[100px]">
         </colgroup>
         <tr class="bg-slate-100 w-full border-b divide-x">
@@ -121,8 +121,8 @@ $nivelAcesso = [
                     <?php if ($linha['Usuario.tentativas_login'] >= 10) { ?>
                       <div class="flex items-center gap-2">
                         <span class="text-gray-800">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 16 16">
-                            <circle cx="8" cy="8" r="8"/>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock-fill" viewBox="0 0 16 16">
+                            <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"/>
                           </svg>
                         </span>
                         <span>Bloqueado</span>
