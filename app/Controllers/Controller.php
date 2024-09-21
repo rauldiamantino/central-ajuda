@@ -19,17 +19,25 @@ class Controller
 
   public function __construct()
   {
+    $this->recuperarSessao();
+  }
+
+  private function recuperarSessao()
+  {
     global $sessaoUsuario;
     $this->sessaoUsuario = $sessaoUsuario;
 
-    $this->usuarioLogado = $this->sessaoUsuario->buscar('usuario');
-    $this->usuarioLogadoId = $this->usuarioLogado['id'] ?? 0;
-    $this->usuarioLogadoEmail = $this->usuarioLogado['email'] ?? '';
-    $this->usuarioLogadoNivel = $this->usuarioLogado['nivel'] ?? 0;
-    $this->usuarioLogadoPadrao = $this->usuarioLogado['padrao'] ?? 0;
-    $this->usuarioLogadoEmpresaId = $this->usuarioLogado['empresa_id'] ?? 0;
-    $this->usuarioLogadoEmpresaAtivo = $this->usuarioLogado['empresa_ativo'] ?? 0;
-    $this->usuarioLogadoSubdominio = $this->usuarioLogado['subdominio'] ?? '';
+    $resultado = $this->sessaoUsuario->buscar('usuario');
+
+    $this->usuarioLogado = [
+      'id' => intval($resultado['id'] ?? 0),
+      'email' => $resultado['email'] ?? '',
+      'nivel' => intval($resultado['nivel'] ?? 0),
+      'padrao' => intval($resultado['padrao'] ?? 0),
+      'empresaId' => intval($resultado['empresa_id'] ?? 0),
+      'empresaAtivo' => intval($resultado['empresa_ativo'] ?? 0),
+      'subdominio' => $resultado['subdominio'] ?? '',
+    ];
   }
 
   protected function receberJson(): array

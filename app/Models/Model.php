@@ -4,35 +4,46 @@ use app\Models\Database;
 
 class Model
 {
-  protected $ordem = [];
   protected $tabela = '';
   protected $colunas = '';
   protected $database = '';
   protected $paginacao = '';
   protected $contarColunas = '';
   protected $limiteRegistros = 0;
+  protected $ordem = [];
   protected $unioes = [];
   protected $condicoes = [];
   protected $parametros = [];
   protected $colunasValores = [];
-  protected $empresaPadraoId = 0;
-  protected $usuarioLogadoId = 0;
-  protected $usuarioLogadoNivel = 0;
-  protected $url = '';
-  protected $sessaoUsuario;
+
+  protected $usuarioLogado;
+  protected $empresaPadraoId;
 
   public function __construct(string $tabela = '')
   {
-    global $sessaoUsuario;
-    $this->sessaoUsuario = $sessaoUsuario;
+    $this->recuperarSessao();
 
     $this->tabela = $tabela;
     $this->database = new Database();
+  }
 
-    $this->url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-    $this->empresaPadraoId = intval($_SESSION['empresa_id'] ?? 0);
-    $this->usuarioLogadoId = intval($_SESSION['usuario']['id'] ?? 0);
-    $this->usuarioLogadoNivel = intval($_SESSION['usuario']['nivel'] ?? 0);
+  private function recuperarSessao()
+  {
+    global $sessaoUsuario;
+    $usuario = $sessaoUsuario->buscar('usuario');
+
+    $this->usuarioLogado = [
+      'id' => intval($usuario['id'] ?? 0),
+      'email' => $usuario['email'] ?? '',
+      'nivel' => intval($usuario['nivel'] ?? 0),
+      'padrao' => intval($usuario['padrao'] ?? 0),
+      'empresaId' => intval($usuario['empresa_id'] ?? 0),
+      'empresaAtivo' => intval($usuario['empresa_ativo'] ?? 0),
+      'subdominio' => $usuario['subdominio'] ?? '',
+    ];
+
+    // Todas as ações precisam do ID Empresa
+    $this->empresaPadraoId = (int) $sessaoUsuario->buscar('empresa_id');
   }
 
   // --- CRUD ---

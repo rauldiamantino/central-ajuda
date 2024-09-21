@@ -1,6 +1,6 @@
 <?php // Adicionar texto ?>
 <dialog class="relative pt-4 px-4 w-full sm:w-[1000px] rounded-lg shadow editor-container modal-conteudo-texto-adicionar">
-  <form method="POST" action="/<?php echo $this->usuarioLogadoSubdominio ?>/d/conteudo" class="flex flex-col items-end gap-2 editor-container__editor" enctype="multipart/form-data">
+  <form method="POST" action="/<?php echo $this->usuarioLogado['subdominio'] ?>/d/conteudo" class="flex flex-col items-end gap-2 editor-container__editor" enctype="multipart/form-data">
     <input type="hidden" name="tipo" value="1">
     <input type="hidden" name="artigo_id" value="<?php echo $artigo['Artigo.id'] ?>">
     <?php if (isset($ordem['prox'])) { ?>
@@ -32,7 +32,7 @@
 
 <?php // Adicionar imagem ?>
 <dialog class="p-4 w-full sm:w-[600px] rounded-lg shadow modal-conteudo-imagem-adicionar">
-  <form method="POST" action="/<?php echo $this->usuarioLogadoSubdominio ?>/d/conteudo" class="flex flex-col items-end gap-2 form-conteudo-imagem-adicionar" enctype="multipart/form-data" data-artigo-id=<?php echo $artigo['Artigo.id'] ?> data-empresa-id=<?php echo $artigo['Artigo.empresa_id'] ?>>
+  <form method="POST" action="/<?php echo $this->usuarioLogado['subdominio'] ?>/d/conteudo" class="flex flex-col items-end gap-2 form-conteudo-imagem-adicionar" enctype="multipart/form-data" data-artigo-id=<?php echo $artigo['Artigo.id'] ?> data-empresa-id=<?php echo $artigo['Artigo.empresa_id'] ?>>
     <input type="hidden" name="artigo_id" value="<?php echo $artigo['Artigo.id'] ?>">
     <input type="hidden" name="tipo" value="2">
     <input type="hidden" name="url" value="" class="url-imagem">
@@ -75,7 +75,7 @@
 
 <?php // Adicionar vídeo ?>
 <dialog class="p-4 w-full sm:w-[600px] rounded-lg shadow modal-conteudo-video-adicionar">
-  <form method="POST" action="/<?php echo $this->usuarioLogadoSubdominio ?>/d/conteudo" class="flex flex-col items-end gap-2" enctype="multipart/form-data">
+  <form method="POST" action="/<?php echo $this->usuarioLogado['subdominio'] ?>/d/conteudo" class="flex flex-col items-end gap-2" enctype="multipart/form-data">
     <input type="hidden" name="artigo_id" value="<?php echo $artigo['Artigo.id'] ?>">
     <input type="hidden" name="tipo" value="3">
     <?php if (isset($ordem['prox'])) { ?>

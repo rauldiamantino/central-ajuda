@@ -15,8 +15,8 @@ class DashboardCadastroController extends DashboardController
 
   public function cadastroVer()
   {
-    if ($this->usuarioLogadoId > 0) {
-      header('Location: /' . $this->usuarioLogadoSubdominio . '/dashboard/artigos');
+    if ($this->usuarioLogado['id'] > 0) {
+      header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos');
       exit();
     }
 
@@ -27,8 +27,8 @@ class DashboardCadastroController extends DashboardController
 
   public function cadastroSucessoVer()
   {
-    if ($this->usuarioLogadoId > 0 and $this->usuarioLogadoEmpresaAtivo == 1) {
-      header('Location: /' . $this->usuarioLogadoSubdominio . '/dashboard/artigos');
+    if ($this->usuarioLogado['id'] > 0 and $this->usuarioLogado['empresaAtivo'] == 1) {
+      header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos');
       exit();
     }
 

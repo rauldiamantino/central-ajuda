@@ -147,7 +147,7 @@ class DashboardUsuarioModel extends Model
     }
 
     // Evita editar usuário de Suporte
-    if ($usuarioAtual[0]['Usuario.nivel'] == 0 and $this->usuarioLogadoNivel != 0) {
+    if ($usuarioAtual[0]['Usuario.nivel'] == 0 and $this->usuarioLogado['nivel'] != 0) {
       $msgErro = [
         'erro' => [
           'codigo' => 401,
@@ -159,7 +159,7 @@ class DashboardUsuarioModel extends Model
     }
 
     // Evita atribuir nível de suporte
-    if ($this->usuarioLogadoNivel != 0 and isset($campos['nivel']) and $campos['nivel'] == 0) {
+    if ($this->usuarioLogado['nivel'] != 0 and isset($campos['nivel']) and $campos['nivel'] == 0) {
       $msgErro = [
         'erro' => [
           'codigo' => 401,
@@ -171,7 +171,7 @@ class DashboardUsuarioModel extends Model
     }
 
     // Evita atribuir padrão de suporte
-    if ($this->usuarioLogadoNivel != 0 and isset($campos['padrao']) and $campos['padrao'] == 0) {
+    if ($this->usuarioLogado['nivel'] != 0 and isset($campos['padrao']) and $campos['padrao'] == 0) {
       $msgErro = [
         'erro' => [
           'codigo' => 401,
@@ -183,7 +183,7 @@ class DashboardUsuarioModel extends Model
     }
 
     // Evita desativar o próprio usuário
-    if ($this->usuarioLogadoId == $id and isset($campos['ativo']) and $campos['ativo'] == 0) {
+    if ($this->usuarioLogado['id'] == $id and isset($campos['ativo']) and $campos['ativo'] == 0) {
       $msgErro = [
         'erro' => [
           'codigo' => 400,
@@ -219,7 +219,7 @@ class DashboardUsuarioModel extends Model
     }
 
     // Evita alterar o próprio nível de usuário restrio
-    if ($this->usuarioLogadoNivel == 2 and isset($campos['nivel']) and $campos['nivel'] != 2) {
+    if ($this->usuarioLogado['nivel'] == 2 and isset($campos['nivel']) and $campos['nivel'] != 2) {
       $msgErro = [
         'erro' => [
           'codigo' => 401,
@@ -233,7 +233,7 @@ class DashboardUsuarioModel extends Model
     $resultado = parent::atualizar($campos, $id);
 
     // Atualiza sessão do usuário
-    if (! isset($resultado['erro']) and $this->usuarioLogadoId == $id) {
+    if (! isset($resultado['erro']) and $this->usuarioLogado['id'] == $id) {
       $condicoes = [
         'Usuario.id' => $id,
       ];
@@ -310,7 +310,7 @@ class DashboardUsuarioModel extends Model
     }
 
     // Evita editar usuário de Suporte
-    if ($usuarioAtual[0]['Usuario.nivel'] == 0 and $this->usuarioLogadoNivel != 0) {
+    if ($usuarioAtual[0]['Usuario.nivel'] == 0 and $this->usuarioLogado['nivel'] != 0) {
       $msgErro = [
         'erro' => [
           'codigo' => 401,
@@ -322,7 +322,7 @@ class DashboardUsuarioModel extends Model
     }
 
     // Evita remover o próprio usuário
-    if ($this->usuarioLogadoId == $id) {
+    if ($this->usuarioLogado['id'] == $id) {
       $msgErro = [
         'erro' => [
           'codigo' => 400,

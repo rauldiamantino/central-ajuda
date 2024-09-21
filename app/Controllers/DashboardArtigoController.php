@@ -163,7 +163,7 @@ class DashboardArtigoController extends DashboardController
     if (isset($resultado['erro']) and $resultado['erro']) {
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
-      header('Location: /' . $this->usuarioLogadoSubdominio . '/dashboard/artigos');
+      header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos');
       exit();
     }
     else {
@@ -296,13 +296,13 @@ class DashboardArtigoController extends DashboardController
     if ($_POST and isset($resultado['erro'])) {
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
-      header('Location: /' . $this->usuarioLogadoSubdominio . '/dashboard/artigos');
+      header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos');
       exit();
     }
     elseif ($_POST and isset($resultado['id'])) {
       $_SESSION['ok'] = 'Artigo criado com sucesso';
 
-      header('Location: /' . $this->usuarioLogadoSubdominio . '/dashboard/artigo/editar/' . $resultado['id']);
+      header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $resultado['id']);
       exit();
     }
   }
@@ -360,12 +360,12 @@ class DashboardArtigoController extends DashboardController
     if (isset($resultado['erro'])) {
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
-      header('Location: /' . $this->usuarioLogadoSubdominio . '/dashboard/artigos');
+      header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos');
       exit();
     }
 
     $_SESSION['ok'] = 'Registro alterado com sucesso';
-    header('Location: /' . $this->usuarioLogadoSubdominio . '/dashboard/artigo/editar/' . $id);
+    header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $id);
     exit();
   }
 

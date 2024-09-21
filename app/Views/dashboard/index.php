@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <?php require_once 'template/cabecalho.php' ?>
 
-<body class="font-normal h-screen max-w-screen" data-editor="ClassicEditor" data-subdominio="<?php echo $this->usuarioLogadoSubdominio ?>">
+<body class="font-normal h-screen max-w-screen" data-editor="ClassicEditor" data-subdominio="<?php echo $this->usuarioLogado['subdominio'] ?>">
   <?php if (isset($pagLogin)) { ?>
     <main>
       <div class="w-full h-screen flex justify-center items-center">
@@ -40,9 +40,9 @@
     </div>
   <?php } ?>
 
-  <?php if ($this->usuarioLogadoId) { ?>
-    <a href="/<?php echo $this->usuarioLogadoSubdominio ?>/dashboard/usuario/editar/<?php echo $this->usuarioLogadoId ?>" class="fixed bottom-0 right-0 py-1 px-2 md:px-6 flex items-center gap-2 text-xs font-extralight bg-green-800 text-white rounded-t-lg">
-      <?php echo $this->usuarioLogadoEmail ?>
+  <?php if ($this->usuarioLogado['id']) { ?>
+    <a href="/<?php echo $this->usuarioLogado['subdominio'] ?>/dashboard/usuario/editar/<?php echo $this->usuarioLogado['id'] ?>" class="fixed bottom-0 right-0 py-1 px-2 md:px-6 flex items-center gap-2 text-xs font-extralight bg-green-800 text-white rounded-t-lg">
+      <?php echo $this->usuarioLogado['email'] ?>
     </a>
   <?php } ?>
   <?php require_once 'scripts.php' ?>

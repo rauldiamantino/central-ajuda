@@ -16,8 +16,8 @@ class DashboardLoginController extends DashboardController
 
   public function loginVer()
   {
-    if ($this->usuarioLogadoId > 0) {
-      header('Location: /' . $this->usuarioLogadoSubdominio . '/dashboard/artigos');
+    if ($this->usuarioLogado['id'] > 0) {
+      header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos');
       exit();
     }
 
@@ -54,16 +54,16 @@ class DashboardLoginController extends DashboardController
     $this->sessaoUsuario->definir('usuario', $usuarioLogin);
 
     // Uso imediato
-    $this->usuarioLogadoId = $resultado['ok']['id'];
-    $this->usuarioLogadoEmail = $resultado['ok']['email'];
-    $this->usuarioLogadoNivel = $resultado['ok']['nivel'];
-    $this->usuarioLogadoPadrao = $resultado['ok']['padrao'];
-    $this->usuarioLogadoEmpresaId = $resultado['ok']['empresa_id'];
-    $this->usuarioLogadoEmpresaAtivo = $resultado['ok']['Empresa.ativo'];
-    $this->usuarioLogadoSubdominio = $resultado['ok']['Empresa.subdominio'];
+    $this->usuarioLogado['id'] = $resultado['ok']['id'];
+    $this->usuarioLogado['email'] = $resultado['ok']['email'];
+    $this->usuarioLogado['nivel'] = $resultado['ok']['nivel'];
+    $this->usuarioLogado['padrao'] = $resultado['ok']['padrao'];
+    $this->usuarioLogado['empresaId'] = $resultado['ok']['empresa_id'];
+    $this->usuarioLogado['empresaAtivo'] = $resultado['ok']['Empresa.ativo'];
+    $this->usuarioLogado['subdominio'] = $resultado['ok']['Empresa.subdominio'];
 
 
-    header('Location: /' . $this->usuarioLogadoSubdominio . '/dashboard/artigos');
+    header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos');
     exit();
   }
 

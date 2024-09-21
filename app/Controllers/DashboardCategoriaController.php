@@ -84,7 +84,7 @@ class DashboardCategoriaController extends DashboardController
     if (isset($categoria['erro']) and $categoria['erro']) {
       $_SESSION['erro'] = $categoria['erro']['mensagem'] ?? '';
 
-      header('Location: /' . $this->usuarioLogadoSubdominio . '/dashboard/categorias');
+      header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/categorias');
       exit();
     }
 
@@ -132,13 +132,13 @@ class DashboardCategoriaController extends DashboardController
     if (isset($resultado['erro'])) {
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
-     header('Location: /' . $this->usuarioLogadoSubdominio . '/dashboard/categorias');
+     header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/categorias');
       exit();
     }
 
     $_SESSION['ok'] = 'Categoria criada com sucesso';
 
-    header('Location: /' . $this->usuarioLogadoSubdominio . '/dashboard/categorias');
+    header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/categorias');
     exit();
   }
 
@@ -175,12 +175,12 @@ class DashboardCategoriaController extends DashboardController
     if (isset($resultado['erro'])) {
       $_SESSION['erro'] = $resultado['erro']['mensagem'] ?? '';
 
-      header('Location: /' . $this->usuarioLogadoSubdominio . '/dashboard/categoria/editar/' . $id);
+      header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/categoria/editar/' . $id);
       exit();
     }
 
     $_SESSION['ok'] = 'Registro alterado com sucesso';
-    header('Location: /' . $this->usuarioLogadoSubdominio . '/dashboard/categoria/editar/' . $id);
+    header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/categoria/editar/' . $id);
     exit();
   }
 
