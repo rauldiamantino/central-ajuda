@@ -76,6 +76,18 @@
         </div>
       </a>
     </li>
+    <?php if ($this->usuarioLogado['id'] > 0 and $this->usuarioLogado['padrao'] == 0) { ?>
+    <li class="hover:bg-slate-100 rounded-lg cursor-pointer flex justify-between group">
+      <button type="button" onclick="window.location.href='/login/suporte'" class="w-full p-2">
+        <div class="flex justify-start items-center gap-3">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-arrow-left-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5m14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5"/>
+          </svg>
+          <span>Trocar empresa</span>
+        </div>
+      </button>
+    </li>
+    <?php } ?>
     <li class="hover:bg-slate-100 rounded-lg cursor-pointer flex justify-between group">
       <a href="/logout" class="w-full p-2">
         <div class="flex items-center gap-3 text-red-800">
@@ -88,17 +100,4 @@
       </a>
     </li>
   </ul>
-
-  <?php if ($this->usuarioLogado['id'] > 0 and $this->usuarioLogado['padrao'] == 0) { ?>
-  <li class="border border-slate-200 hover:bg-slate-100 flex justify-center group">
-    <button type="button" onclick="window.location.href='/login/suporte'" class="w-full p-2">
-      <div class="flex justify-center items-center gap-3">
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-arrow-left-right" viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5m14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5"/>
-        </svg>
-        <span>Trocar empresa</span>
-      </div>
-    </button>
-  </li>
-  <?php } ?>
 </asside>

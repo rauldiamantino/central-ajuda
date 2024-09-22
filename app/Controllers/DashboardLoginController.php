@@ -105,7 +105,7 @@ class DashboardLoginController extends DashboardController
     $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
     $this->sessaoUsuario->regenerarId();
 
-    if ($this->usuarioLogado['empresaId'] == 1 and $this->usuarioLogado['nivel'] == 0) {
+    if ($this->usuarioLogado['empresaId'] == 1 and $this->usuarioLogado['padrao'] == 0) {
       $this->redirecionar('/login/suporte');
     }
 

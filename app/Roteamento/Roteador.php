@@ -59,7 +59,6 @@ class Roteador
     $dashboardEmpresa = new DashboardEmpresaController();
     $buscarEmpresa = $dashboardEmpresa->buscarEmpresa($subdominio);
     $empresaId = intval($buscarEmpresa[0]['Empresa.id'] ?? 0);
-
     $usuarioLogado = $this->sessaoUsuario->buscar('usuario');
 
     // Sempre prioriza Empresa ID logada
@@ -225,6 +224,7 @@ class Roteador
       'padrao',
       'teste2',
       'teste5',
+      'teste1122',
       'luminaon',
       'diamantino',
     ];

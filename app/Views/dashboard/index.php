@@ -52,7 +52,16 @@
     </div>
   <?php } ?>
 
-  <?php if ($this->usuarioLogado['id'] and ! isset($pagLoginSuporte)) { ?>
+  <?php
+  // Exibe e-mail no rodapé somente na própria loja
+  $esconder = false;
+
+  if ($this->usuarioLogado['padrao'] == 0 and $this->sessaoUsuario->buscar('empresaId') > 1) {
+    $esconder = true;
+  }
+  ?>
+
+  <?php if ($this->usuarioLogado['id'] and ! isset($pagLoginSuporte) and $esconder == false) { ?>
     <a href="/<?php echo $this->usuarioLogado['subdominio'] ?>/dashboard/usuario/editar/<?php echo $this->usuarioLogado['id'] ?>" class="fixed bottom-0 right-0 py-1 px-2 md:px-6 flex items-center gap-2 text-xs font-extralight bg-green-800 text-white rounded-t-lg">
       <?php echo $this->usuarioLogado['email'] ?>
     </a>

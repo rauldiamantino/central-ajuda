@@ -106,10 +106,10 @@ class DashboardUsuarioModel extends Model
       'Usuario.padrao',
     ];
 
-    $usuarioAtual = parent::condicao($condicao)
-                          ->buscar($colunas);
+    $usuarioEditado = parent::condicao($condicao)
+                            ->buscar($colunas);
 
-    if (! isset($usuarioAtual[0]['Usuario.id'])) {
+    if (! isset($usuarioEditado[0]['Usuario.id'])) {
       $msgErro = [
         'erro' => [
           'codigo' => 404,
@@ -148,146 +148,10 @@ class DashboardUsuarioModel extends Model
       return $campos;
     }
 
-    // Apenas um usuário padrão por empresa
-    if ($campos['padrao'] == 1) {
-      $condicao = [
-        'Usuario.padrao' => 1,
-        'Usuario.id !=' => $id,
-      ];
+    $permissoes = $this->validarPermissoes($campos, $usuarioEditado, $id);
 
-      $usuarioPadrao = parent::condicao($condicao)
-                             ->contar('Usuario.id');
-
-      if (isset($usuarioPadrao['total']) and (int) $usuarioPadrao['total'] > 0) {
-        $msgErro = [
-          'erro' => [
-            'codigo' => 400,
-            'mensagem' => 'Já existe um usuário padrão',
-          ],
-        ];
-
-        return $msgErro;
-      }
-    }
-
-    // Evita editar usuário de nível superior
-    if ($usuarioAtual[0]['Usuario.nivel'] < $this->usuarioLogado['nivel']) {
-      $msgErro = [
-        'erro' => [
-          'codigo' => 400,
-          'mensagem' => 'Você não tem permissão para realizar esta ação',
-        ],
-      ];
-
-      return $msgErro;
-    }
-
-    // Evita editar usuário de Suporte
-    if ($usuarioAtual[0]['Usuario.padrao'] == 0 and $this->usuarioLogado['padrao'] > 0) {
-      $msgErro = [
-        'erro' => [
-          'codigo' => 401,
-          'mensagem' => 'Você não tem permissão para realizar esta ação.',
-        ],
-      ];
-
-      return $msgErro;
-    }
-
-    // Evita atribuir padrão de suporte
-    if ($this->usuarioLogado['padrao'] > 0 and isset($campos['padrao']) and $campos['padrao'] == 0) {
-      $msgErro = [
-        'erro' => [
-          'codigo' => 401,
-          'mensagem' => 'Você não tem permissão para realizar esta ação.',
-        ],
-      ];
-
-      return $msgErro;
-    }
-
-    // Evita desativar o próprio usuário
-    if ($this->usuarioLogado['id'] == $id and isset($campos['ativo']) and $campos['ativo'] == 0) {
-      $msgErro = [
-        'erro' => [
-          'codigo' => 400,
-          'mensagem' => 'Não é possível desativar o próprio usuário',
-        ],
-      ];
-
-      return $msgErro;
-    }
-
-    // Evita desativar usuário padrão
-    if ($usuarioAtual[0]['Usuario.padrao'] == 1 and isset($campos['ativo']) and $campos['ativo'] == 0) {
-      $msgErro = [
-        'erro' => [
-          'codigo' => 400,
-          'mensagem' => 'Não é possível desativar o usuário padrão',
-        ],
-      ];
-
-      return $msgErro;
-    }
-
-    // Evita alterar nível de usuário padrão
-    if ($usuarioAtual[0]['Usuario.padrao'] == 1 and isset($campos['nivel']) and $campos['nivel'] != $usuarioAtual[0]['Usuario.nivel']) {
-      $msgErro = [
-        'erro' => [
-          'codigo' => 400,
-          'mensagem' => 'Não é possível alterar as permissões deste usuário',
-        ],
-      ];
-
-      return $msgErro;
-    }
-
-    // Evita alterar o tipo do usuário padrão
-    if ($usuarioAtual[0]['Usuario.padrao'] == 1 and isset($campos['padrao']) and $campos['padrao'] != $usuarioAtual[0]['Usuario.padrao']) {
-      $msgErro = [
-        'erro' => [
-          'codigo' => 400,
-          'mensagem' => 'Não é possível alterar o tipo deste usuário',
-        ],
-      ];
-
-      return $msgErro;
-    }
-
-    // Evita alterar o tipo do usuário de suporte
-    if ($usuarioAtual[0]['Usuario.padrao'] == 0 and isset($campos['padrao']) and $campos['padrao'] != $usuarioAtual[0]['Usuario.padrao']) {
-      $msgErro = [
-        'erro' => [
-          'codigo' => 400,
-          'mensagem' => 'Não é possível alterar o tipo deste usuário',
-        ],
-      ];
-
-      return $msgErro;
-    }
-
-    // Evita alterar o próprio nível de usuário
-    if ($this->usuarioLogado['id'] == $id and isset($campos['nivel']) and $campos['nivel'] != $this->usuarioLogado['nivel']) {
-      $msgErro = [
-        'erro' => [
-          'codigo' => 401,
-          'mensagem' => 'Não é permitido alterar o próprio nível de acesso.',
-        ],
-      ];
-
-      return $msgErro;
-    }
-
-    // Evita alterar o próprio tipo de usuário
-    if ($this->usuarioLogado['id'] == $id and isset($campos['padrao']) and $campos['padrao'] != $this->usuarioLogado['padrao']) {
-      $msgErro = [
-        'erro' => [
-          'codigo' => 401,
-          'mensagem' => 'Não é permitido alterar o próprio tipo de usuário.',
-        ],
-      ];
-
-      return $msgErro;
+    if (isset($permissoes['erro'])) {
+      return $permissoes;
     }
 
     $resultado = parent::atualizar($campos, $id);
@@ -357,10 +221,10 @@ class DashboardUsuarioModel extends Model
       'Usuario.padrao',
     ];
 
-    $usuarioAtual = parent::condicao($condicao)
+    $usuarioEditado = parent::condicao($condicao)
                           ->buscar($colunas);
 
-    if (! isset($usuarioAtual[0]['Usuario.id'])) {
+    if (! isset($usuarioEditado[0]['Usuario.id'])) {
       $msgErro = [
         'erro' => [
           'codigo' => 404,
@@ -372,7 +236,7 @@ class DashboardUsuarioModel extends Model
     }
 
     // Evita editar usuário de Suporte
-    if ($usuarioAtual[0]['Usuario.nivel'] == 0 and $this->usuarioLogado['nivel'] != 0) {
+    if ($usuarioEditado[0]['Usuario.nivel'] == 0 and $this->usuarioLogado['nivel'] != 0) {
       $msgErro = [
         'erro' => [
           'codigo' => 401,
@@ -396,7 +260,7 @@ class DashboardUsuarioModel extends Model
     }
 
     // Evita remover usuário padrão
-    if ($usuarioAtual[0]['Usuario.padrao'] == 1) {
+    if ($usuarioEditado[0]['Usuario.padrao'] == 1) {
       $msgErro = [
         'erro' => [
           'codigo' => 400,
@@ -514,8 +378,8 @@ class DashboardUsuarioModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('padrao', 'valInvalido');
       }
 
-      // 0 - Suporte N3, 3 - Suporte N2, 1 - Total, 2 - Restrito
-      if (isset($params['nivel']) and ! in_array($campos['nivel'], [0, 1, 2, 3])) {
+      // 1 - Total, 2 - Restrito
+      if (isset($params['nivel']) and ! in_array($campos['nivel'], [1, 2])) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('nivel', 'valInvalido');
       }
 
@@ -642,7 +506,79 @@ class DashboardUsuarioModel extends Model
     return [];
   }
 
-  private function gerarMsgErro(string $campo, string $tipo, int $quantidade = 0): string
+  private function validarPermissoes(array $campos, array $usuarioEditado, int $id): array
+  {
+    $msgErro = [
+      'erro' => [
+        'codigo' => 400,
+        'mensagem' => '',
+      ],
+    ];
+
+    $resultado = [];
+
+    if (isset($campos['padrao']) and $campos['padrao'] == 1) {
+      $condicao = [
+        'Usuario.padrao' => 1,
+        'Usuario.id !=' => $id,
+      ];
+
+      $resultado = parent::condicao($condicao)
+                         ->contar('Usuario.id');
+    }
+
+    if (isset($resultado['total']) and (int) $resultado['total'] > 0) {
+      // Apenas um usuário padrão por empresa
+      $msgErro['erro']['mensagem'] = $this->gerarMsgErro('padrao', 'permissaoCampo');
+    }
+    elseif ($usuarioEditado[0]['Usuario.nivel'] < $this->usuarioLogado['nivel']) {
+      // Evita editar usuário de nível superior
+      $msgErro['erro']['mensagem'] = $this->gerarMsgErro('', 'permissao');
+    }
+    elseif ($usuarioEditado[0]['Usuario.padrao'] == 0 and $this->usuarioLogado['padrao'] > 0) {
+      // Evita editar usuário de Suporte
+      $msgErro['erro']['mensagem'] = $this->gerarMsgErro('', 'permissao');
+    }
+    elseif ($this->usuarioLogado['padrao'] > 0 and isset($campos['padrao']) and $campos['padrao'] == 0) {
+      // Evita atribuir padrão de suporte
+      $msgErro['erro']['mensagem'] = $this->gerarMsgErro('', 'permissao');
+    }
+    elseif ($this->usuarioLogado['id'] == $id and isset($campos['ativo']) and $campos['ativo'] == 0) {
+      // Evita desativar o próprio usuário
+      $msgErro['erro']['mensagem'] = $this->gerarMsgErro('', 'permissaoDesativarProprio');
+    }
+    elseif ($usuarioEditado[0]['Usuario.padrao'] == 1 and isset($campos['ativo']) and $campos['ativo'] == 0) {
+      // Evita desativar usuário padrão
+      $msgErro['erro']['mensagem'] = $this->gerarMsgErro('padrao', 'permissaoDesativar');
+    }
+    elseif ($usuarioEditado[0]['Usuario.padrao'] == 1 and isset($campos['nivel']) and $campos['nivel'] != $usuarioEditado[0]['Usuario.nivel']) {
+      // Evita alterar nível de usuário padrão
+      $msgErro['erro']['mensagem'] = $this->gerarMsgErro('nivel', 'permissaoCampo');
+    }
+    elseif ($usuarioEditado[0]['Usuario.padrao'] == 1 and isset($campos['padrao']) and $campos['padrao'] != $usuarioEditado[0]['Usuario.padrao']) {
+      // Evita alterar o tipo do usuário padrão
+      $msgErro['erro']['mensagem'] = $this->gerarMsgErro('padrao', 'permissaoCampo');
+    }
+    elseif ($usuarioEditado[0]['Usuario.padrao'] == 0 and isset($campos['padrao']) and $campos['padrao'] != $usuarioEditado[0]['Usuario.padrao']) {
+      // Evita alterar o tipo do usuário de suporte
+      $msgErro['erro']['mensagem'] = $this->gerarMsgErro('padrao', 'permissaoCampo');
+    }
+    elseif ($this->usuarioLogado['id'] == $id and isset($campos['nivel']) and $campos['nivel'] != $this->usuarioLogado['nivel']) {
+      // Evita alterar o próprio nível de usuário
+      $msgErro['erro']['mensagem'] = $this->gerarMsgErro('nivel', 'permissaoCampoProprio');
+    }
+    elseif ($this->usuarioLogado['id'] == $id and isset($campos['padrao']) and $campos['padrao'] != $this->usuarioLogado['padrao']) {
+      // Evita alterar o próprio tipo de usuário
+      $msgErro['erro']['mensagem'] = $this->gerarMsgErro('padrao', 'permissaoCampoProprio');
+    }
+    else {
+      return [];
+    }
+
+    return $msgErro;
+  }
+
+  private function gerarMsgErro(string $campo = '', string $tipo = '', int $quantidade = 0): string
   {
     if ($campo == 'empresa_id') {
       $campo = 'empresa ID';
@@ -656,11 +592,27 @@ class DashboardUsuarioModel extends Model
       $campo = 'tentativas de login';
     }
 
+    if ($campo == 'nivel') {
+      $campo = 'nível de acesso';
+    }
+
+    if ($campo == 'padrao' and $tipo == 'permissaoDesativar') {
+      $campo = 'padrão';
+    }
+    elseif ($campo == 'padrao') {
+      $campo = 'tipo';
+    }
+
     $msgErro = [
       'vazio' => 'O campo ' . $campo . ' não pode ser vazio',
       'invalido' => 'Campo ' . $campo . ' com formato inválido',
       'valInvalido' => 'Campo ' . $campo . ' com valor inválido',
       'caracteres' => 'Campo ' . $campo . ' excedeu o limite de ' . $quantidade . ' caracteres',
+      'permissao' => 'Você não tem permissão para realizar esta ação',
+      'permissaoCampo' => 'Não é permitido alterar o ' . $campo . ' deste usuário',
+      'permissaoCampoProprio' => 'Não é permitido alterar o ' . $campo . ' do próprio usuário',
+      'permissaoDesativar' => 'Não é permitido desativar o usuário ' . $campo,
+      'permissaoDesativarProprio' => 'Não é permitido desativar o próprio usuário',
     ];
 
     if (isset($msgErro[ $tipo ])) {
