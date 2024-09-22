@@ -184,7 +184,7 @@ class DashboardEmpresaModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('cnpj', 'valInvalido');
       }
 
-      if (isset($params['logo']) and filter_var($campos['logo'], FILTER_VALIDATE_URL) == false) {
+      if (isset($params['logo']) and $campos['logo'] and filter_var($campos['logo'], FILTER_VALIDATE_URL) == false) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('logo', 'valInvalido');
       }
 
@@ -258,7 +258,7 @@ class DashboardEmpresaModel extends Model
       $camposValidados['logo'] = null;
     }
 
-    if (isset($camposValidados['ativo'])) {
+    if ($this->usuarioLogado['padrao'] > 0 and isset($camposValidados['ativo'])) {
       unset($camposValidados['ativo']);
     }
 
