@@ -55,6 +55,18 @@ class DashboardEmpresaController extends DashboardController
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', $resultado['erro']);
     }
 
+
+    $colunas = [
+      'Empresa.ativo',
+    ];
+
+    $empresa = $this->empresaModel->buscar($colunas);
+
+    if (isset($empresa[0]['Empresa.ativo'])) {
+      $this->usuarioLogado['empresaAtivo'] = $empresa[0]['Empresa.ativo'];
+      $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
+    }
+
     $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Registro alterado com sucesso');
   }
 

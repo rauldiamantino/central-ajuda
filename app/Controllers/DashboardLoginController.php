@@ -64,7 +64,9 @@ class DashboardLoginController extends DashboardController
           continue;
         }
 
+        // Aplica empresa na sessão
         $this->usuarioLogado['empresaId'] = $linha['id'];
+        $this->usuarioLogado['empresaAtivo'] = $linha['ativo'];
         $this->usuarioLogado['subdominio'] = $linha['subdominio'];
         $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
 

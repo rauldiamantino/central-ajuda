@@ -10,7 +10,7 @@
     </div>
     <div class="md:block w-full">
       <?php // Somente suporte ?>
-      <?php if ($this->usuarioLogado['nivel'] == 0) { ?>
+      <?php if ($this->usuarioLogado['padrao'] == 0) { ?>
         <div class="border border-slate-200 w-full min-w-96 flex flex-col p-4 rounded-lg shadow">
           <h2 class="font-bold pb-2">Último acesso</h2>
           <?php
