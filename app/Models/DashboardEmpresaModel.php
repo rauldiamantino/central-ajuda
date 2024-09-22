@@ -26,6 +26,29 @@ class DashboardEmpresaModel extends Model
     return parent::buscar($params);
   }
 
+  public function buscarEmpresa(string $subdominio = ''): array
+  {
+    $sql = 'SELECT
+              `Empresa`.`id` AS `Empresa.id`
+            FROM
+              `empresas` AS `Empresa`
+            WHERE
+              `Empresa`.`subdominio` = ?
+              AND `Empresa`.`ativo` = 1
+            ORDER BY
+              `Empresa`.`id` ASC
+            LIMIT
+              1';
+
+    $params = [
+      0 => $subdominio,
+    ];
+
+    $resultado = $this->executarQuery($sql, $params);
+
+    return $resultado;
+  }
+
   public function atualizar(array $params, int $id): array
   {
     if (! is_int($id) or empty($id)) {
@@ -161,7 +184,7 @@ class DashboardEmpresaModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('cnpj', 'valInvalido');
       }
 
-      if (isset($params['logo']) and filter_var($campos['logo'], FILTER_VALIDATE_URL) == false) {
+      if (isset($params['logo']) and $campos['logo'] and filter_var($campos['logo'], FILTER_VALIDATE_URL) == false) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('logo', 'valInvalido');
       }
 
@@ -235,7 +258,7 @@ class DashboardEmpresaModel extends Model
       $camposValidados['logo'] = null;
     }
 
-    if (isset($camposValidados['ativo'])) {
+    if ($this->usuarioLogado['padrao'] > 0 and isset($camposValidados['ativo'])) {
       unset($camposValidados['ativo']);
     }
 

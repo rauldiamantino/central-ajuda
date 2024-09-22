@@ -131,7 +131,7 @@ class DashboardUsuarioController extends DashboardController
 
   public function desbloquear(int $id)
   {
-    if ($this->usuarioLogado['nivel'] != 0) {
+    if ($this->usuarioLogado['padrao'] > 0) {
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/usuarios', 'Você não tem permissão para realizar esta ação.');
     }
 

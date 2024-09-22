@@ -72,10 +72,6 @@ class DashboardLoginModel extends Model
       $loginSucesso = false;
     }
 
-    if (! isset($usuario[0]['Empresa.ativo']) or empty($usuario[0]['Empresa.ativo'])) {
-      $loginSucesso = false;
-    }
-
     if (! isset($usuario[0]['Empresa.subdominio']) or empty($usuario[0]['Empresa.subdominio'])) {
       $loginSucesso = false;
     }
@@ -161,6 +157,19 @@ class DashboardLoginModel extends Model
     ];
 
     $this->executarQuery($sql, $sqlParams);
+  }
+
+  public function buscarEmpresas(): array
+  {
+    $sql = 'SELECT * FROM `empresas` AS `Empresa`';
+
+    $resultado = $this->executarQuery($sql);
+
+    if (isset($resultado['erro'])) {
+      return $resultado;
+    }
+
+    return ['ok' => $resultado];
   }
 
   // --- Métodos auxiliares

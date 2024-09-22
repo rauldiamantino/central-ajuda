@@ -55,26 +55,19 @@ class PublicoController extends Controller
 
   private function obterDadosEmpresa(): void
   {
-    $telefone = (int) $this->sessaoUsuario->buscar('empresaTelefone');
-    $logo = $this->sessaoUsuario->buscar('empresaLogo');
-
-    if ($telefone == 0) {
-      $this->dashboardEmpresaModel = new DashboardEmpresaModel();
-      $resultado = $this->dashboardEmpresaModel->buscar(['Empresa.telefone']);
-      $telefone = intval($resultado[0]['Empresa.telefone'] ?? 0);
-      $this->sessaoUsuario->definir('empresaTelefone', $telefone);
-    }
-
-    if (empty($logo)) {
-      $this->dashboardEmpresaModel = new DashboardEmpresaModel();
-      $resultado = $this->dashboardEmpresaModel->buscar(['Empresa.logo']);
-      $logo = $resultado[0]['Empresa.logo'] ?? '';
-      $this->sessaoUsuario->definir('empresaLogo', $logo);
-    }
+    $this->dashboardEmpresaModel = new DashboardEmpresaModel();
+    $resultado = $this->dashboardEmpresaModel->buscar(['Empresa.telefone']);
+    $telefone = intval($resultado[0]['Empresa.telefone'] ?? 0);
+    $this->sessaoUsuario->definir('empresaTelefone', $telefone);
 
     if ((int) $this->buscarAjuste('botao_whatsapp') == 1) {
       $this->telefone = $telefone;
     }
+
+    $this->dashboardEmpresaModel = new DashboardEmpresaModel();
+    $resultado = $this->dashboardEmpresaModel->buscar(['Empresa.logo']);
+    $logo = $resultado[0]['Empresa.logo'] ?? '';
+    $this->sessaoUsuario->definir('empresaLogo', $logo);
 
     $this->logo = $logo;
   }

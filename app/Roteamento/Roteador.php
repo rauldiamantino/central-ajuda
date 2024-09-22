@@ -59,12 +59,23 @@ class Roteador
     $dashboardEmpresa = new DashboardEmpresaController();
     $buscarEmpresa = $dashboardEmpresa->buscarEmpresa($subdominio);
     $empresaId = intval($buscarEmpresa[0]['Empresa.id'] ?? 0);
-
     $usuarioLogado = $this->sessaoUsuario->buscar('usuario');
 
     // Sempre prioriza Empresa ID logada
-    if (isset($usuarioLogado['empresaId'])) {
+    if (isset($usuarioLogado['empresaId']) and substr($chaveRota, 0, 18) != 'GET:/login/suporte') {
       $empresaId = (int) $usuarioLogado['empresaId'];
+    }
+
+    // Restrições de acesso por nível
+    if ((! isset($usuarioLogado['padrao']) or $usuarioLogado['padrao'] > 0) and $this->rotaRestritaSuporte($chaveRota)) {
+      $this->sessaoUsuario->definir('erro', 'Você não tem permissão para realizar esta ação.');
+
+      if (! isset($usuarioLogado['id']) or (int) $usuarioLogado['id'] == 0) {
+        $this->sessaoUsuario->apagar('usuario');
+      }
+
+      header('Location: /login');
+      exit;
     }
 
     // Dashboard
@@ -98,7 +109,7 @@ class Roteador
       }
 
       // Restrições de acesso por nível
-      if ($sucesso and $usuarioLogado['nivel'] > 0 and $this->rotaRestritaSuporte($chaveRota)) {
+      if ($sucesso and $usuarioLogado['padrao'] > 0 and $this->rotaRestritaSuporte($chaveRota)) {
         $this->sessaoUsuario->definir('erro', 'Você não tem permissão para realizar esta ação.');
         $sucesso = false;
       }
@@ -153,7 +164,7 @@ class Roteador
   {
     $limite = 100;
     $segundos = 60;
-    $segundosBloqueio = 60 * 60;
+    $segundosBloqueio = 5;
 
     $tempoAgora = time();
     $requisicoes = $this->sessaoUsuario->buscar('requisicoes');
@@ -210,10 +221,12 @@ class Roteador
   private function subdominioPermitido(string $subdominio = ''): bool
   {
     $subdominios = [
-      'teste',
+      'padrao',
       'teste2',
       'teste5',
+      'teste1122',
       'luminaon',
+      'diamantino',
     ];
 
     if (in_array($subdominio, $subdominios)) {
@@ -231,6 +244,8 @@ class Roteador
       'POST:/cadastro',
       'PUT:/empresa/{id}',
       'GET:/login',
+      'GET:/login/suporte',
+      'GET:/login/suporte/{id}',
       'GET:/cadastro',
       'GET:/cadastro/sucesso',
       'POST:/login',
@@ -274,6 +289,8 @@ class Roteador
   {
     $rotasRestritas = [
       'GET:/{subdominio}/d/usuario/desbloquear/{id}',
+      'GET:/login/suporte/{id}',
+      'GET:/login/suporte',
     ];
 
     if (! in_array($rota, $rotasRestritas)) {
@@ -292,6 +309,8 @@ class Roteador
       'GET:/teste' => [TesteController::class, 'testar'],
       'GET:/erro' => [PaginaErroController::class, 'erroVer'],
       'GET:/login' => [DashboardLoginController::class, 'loginVer'],
+      'GET:/login/suporte' => [DashboardLoginController::class, 'loginSuporteVer'],
+      'GET:/login/suporte/{id}' => [DashboardLoginController::class, 'loginSuporteVer'],
       'GET:/cadastro' => [DashboardCadastroController::class, 'cadastroVer'],
       'GET:/cadastro/sucesso' => [DashboardCadastroController::class, 'cadastroSucessoVer'],
       'POST:/login' => [DashboardLoginController::class, 'login'],

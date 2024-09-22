@@ -1,6 +1,5 @@
 <?php
 $nivelAcesso = [
-  0 => 'Suporte',
   1 => 'Acesso total',
   2 => 'Acesso restrito',
 ];
@@ -8,7 +7,6 @@ $nivelAcesso = [
 
 <form method="POST" action="/<?php echo $this->usuarioLogado['subdominio'] ?>/d/usuario/<?php echo $usuario['Usuario.id'] ?>" class="border border-slate-200 w-full min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow">
   <input type="hidden" name="_method" value="PUT">
-  <input type="hidden" name="padrao" value="<?php echo $usuario['Usuario.padrao']; ?>">
   <input type="hidden" name="empresa_id" value="<?php echo $usuario['Usuario.empresa_id']; ?>">
   <div class="w-full flex flex-col gap-4">
     <div class="flex gap-10">
@@ -30,6 +28,10 @@ $nivelAcesso = [
             <?php endforeach; ?>
           </select>
         </div>
+
+        <?php if ($this->usuarioLogado['padrao'] > 0) { ?>
+          <input type="hidden" name="padrao" value="<?php echo $usuario['Usuario.padrao']; ?>">
+        <?php } ?>
       </div>
     </div>
     <div class="w-full">
