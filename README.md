@@ -53,7 +53,7 @@ Esta plataforma permite que sua empresa cadastre uma base de conhecimento e a di
 - Javascript
 - Tailwindcss
 - Firebase Storage para armazenamento de imagens
-- Summernote (Editor WYSIWYG)
+- EditorJs (Editor WYSIWYG)
 
 ## Próximos passos
 Atualmente, estou aprimorando o sistema de autenticação e gerenciamento de sessão dos usuários.
