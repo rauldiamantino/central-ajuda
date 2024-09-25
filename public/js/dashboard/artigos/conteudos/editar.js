@@ -1,5 +1,5 @@
-import { editorInstances } from '../../ckeditor.js'
 import { substituirImagem } from '../../firebase/funcoes.js'
+import { iniciarEditor, editor } from '../../editorjs.js'
 
 const btnsConteudoEditar = document.querySelectorAll('.js-dashboard-conteudo-editar')
 const modalConteudoTextoEditar = document.querySelector('.modal-conteudo-texto-editar')
@@ -37,19 +37,35 @@ if (btnsConteudoEditar) {
 
       if (conteudo.dataset.conteudoTipo == 1) {
         editarTextoTitulo.value = conteudo.dataset.conteudoTitulo
-        conteudo.dataset.conteudoTituloOcultar == 1 ? editarTextoTituloOcultar.checked = true : editarTextoTituloOcultar.checked = false
-
-        const editor = editorInstances['conteudo']
-
-        if (editor) {
-          editor.setData(conteudo.dataset.conteudoConteudo)
-        }
-        else {
-          console.error('CKEditor instance not found for the specified textarea.')
-        }
+        editarTextoTituloOcultar.checked = conteudo.dataset.conteudoTituloOcultar == 1
 
         formularioEditarTexto.action = `/${subdominio}/d/conteudo/${conteudo.dataset.conteudoId}`
         modalConteudoTextoEditar.showModal()
+
+        const dataConteudo = conteudo.dataset.conteudoConteudo
+        const holderConteudo = 'editorjs-conteudo-editar'
+
+        iniciarEditor(holderConteudo, dataConteudo)
+
+        formularioEditarTexto.removeEventListener('submit', enviarFormulario)
+        formularioEditarTexto.addEventListener('submit', enviarFormulario)
+
+        function enviarFormulario(event) {
+          event.preventDefault()
+
+          editor
+            .save()
+            .then((outputData) => {
+              console.log(outputData)
+              const inputConteudo = formularioEditarTexto.querySelector('.input-conteudo-editar')
+              inputConteudo.value = JSON.stringify(outputData)
+
+              formularioEditarTexto.submit()
+            })
+            .catch((error) => {
+              console.error('Erro ao salvar o conteúdo: ', error)
+            })
+        }
       }
       else if (conteudo.dataset.conteudoTipo == 2) {
         editarImagemTitulo.value = conteudo.dataset.conteudoTitulo

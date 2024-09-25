@@ -34,7 +34,7 @@
               <?php if ($linha['Conteudo.titulo_ocultar'] == 0) { ?>
                 <h2><?php echo $linha['Conteudo.titulo'] ?></h2>
               <?php } ?>
-              <?php echo htmlspecialchars_decode($linha['Conteudo.conteudo']); ?>
+              <div id="publico-editorjs" data-conteudo="<?php echo $linha['Conteudo.conteudo']; ?>"></div>
             </div>
           <?php } ?>
 

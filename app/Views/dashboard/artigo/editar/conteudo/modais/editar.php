@@ -4,13 +4,14 @@
     <input type="hidden" name="_method" value="PUT">
     <input type="hidden" name="artigo_id" value="<?php echo $artigo['Artigo.id'] ?>">
     <input type="hidden" name="tipo" value="1">
-    
+
     <div class="w-full">
       <label for="conteudo-editar-texto-titulo" class="block text-sm font-medium text-gray-700">Título</label>
       <input type="text" id="conteudo-editar-texto-titulo" name="titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="">
     </div>
-    <div class="editor-container_classic-editor">
-      <textarea name="conteudo" id="conteudo-editar-texto-conteudo" class="border border-gray-300 w-full p-2 h-56 rounded-lg ckeditor"></textarea>
+    <div class="w-full">
+      <input type="hidden" name="conteudo" class="input-conteudo-editar">
+      <div id="editorjs-conteudo-editar" class="border border-gray-300 w-full p-2 min-h-56 rounded-lg"></div>
     </div>
     <div class="sticky bottom-0 py-4 w-full h-max flex flex-col md:flex-row justify-between gap-4 bg-white">
       <div class="w-full bg-white">

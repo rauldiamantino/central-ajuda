@@ -1,0 +1,26 @@
+{
+  "name": "central-ajuda",
+  "version": "1.0.0",
+  "description": "Esta plataforma permite que sua empresa cadastre uma base de conhecimento e a disponibilize de forma profissional para seus clientes.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@editorjs/editorjs": "^2.30.6",
+    "@editorjs/header": "^2.8.7",
+    "editorjs-html": "^3.4.3",
+    "firebase": "^10.13.2",
+    "html-to-editorjs": "^1.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.4",
+    "babel-loader": "^9.2.1",
+    "webpack": "^5.94.0",
+    "webpack-cli": "^5.1.4"
+  }
+}

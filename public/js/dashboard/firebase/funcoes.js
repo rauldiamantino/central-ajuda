@@ -1,5 +1,3 @@
-import { inicializarFirebase } from './inicializar.js'
-
 async function uploadImagem(empresaId, artigoId, file) {
   try {
     const { storage, ref, uploadBytes, getDownloadURL } = await inicializarFirebase()
@@ -13,7 +11,7 @@ async function uploadImagem(empresaId, artigoId, file) {
     const snapshot = await uploadBytes(storageRef, file)
 
     return await getDownloadURL(snapshot.ref)
-  } 
+  }
   catch (error) {
     console.error('Erro ao fazer upload da imagem para o Firebase: ', error)
     return false
@@ -51,14 +49,14 @@ async function apagarImagem(caminhoImagem) {
   try {
     const { storage, ref, getMetadata, deleteObject } = await inicializarFirebase()
     const imagemRef = ref(storage, caminhoImagem)
-    
+
     await getMetadata(imagemRef)
     await deleteObject(imagemRef)
 
     return true
   }
   catch (error) {
-    
+
     if (error.code == 'storage/object-not-found') {
       return true
     }
@@ -91,7 +89,7 @@ async function apagarImgsArtigo(caminhoPasta) {
 
     const resultados = await Promise.all(promessasDeDelecao)
     return resultados.every(result => result === true)
-  } 
+  }
   catch (error) {
     console.error('Erro ao remover pasta no Firebase:', error)
     return false

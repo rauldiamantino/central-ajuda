@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // topoPublico.classList.remove('bg-slate-800')
       // topoPublico.classList.add('bg-white')
       // topoPublicoInverter.classList.remove('invert')
-    } 
+    }
     else {
       // topoPublico.classList.remove('bg-white')
       // topoPublico.classList.add('bg-slate-800')

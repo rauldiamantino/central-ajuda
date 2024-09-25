@@ -31,7 +31,7 @@ Esta plataforma permite que sua empresa cadastre uma base de conhecimento e a di
   <summary>Dashboard - Login e Cadastro</summary>
   <br>
 
-  https://github.com/user-attachments/assets/fdc91a25-8829-472f-9719-3a37d7a738ca  
+  https://github.com/user-attachments/assets/fdc91a25-8829-472f-9719-3a37d7a738ca
 </details>
 
 ## Principais funcionalidades:
@@ -53,7 +53,7 @@ Esta plataforma permite que sua empresa cadastre uma base de conhecimento e a di
 - Javascript
 - Tailwindcss
 - Firebase Storage para armazenamento de imagens
-- CKEditor
- 
+- Summernote (Editor WYSIWYG)
+
 ## Próximos passos
 Atualmente, estou aprimorando o sistema de autenticação e gerenciamento de sessão dos usuários.
