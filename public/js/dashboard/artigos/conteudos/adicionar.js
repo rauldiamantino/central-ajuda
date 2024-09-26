@@ -1,5 +1,4 @@
 import { uploadImagem } from '../../firebase/funcoes.js'
-import { iniciarEditor, editor } from '../../editorjs.js'
 
 const btnTextoAdicionar = document.querySelector('.conteudo-btn-texto-adicionar')
 const btnImagemAdicionar = document.querySelector('.conteudo-btn-imagem-adicionar')
@@ -23,13 +22,6 @@ let imagemEscolhida = null
 if (btnTextoAdicionar) {
   btnTextoAdicionar.addEventListener('click', () => {
     modalConteudoTextoAdicionar.showModal()
-
-    const holderConteudo = 'editorjs-conteudo-adicionar'
-
-    iniciarEditor(holderConteudo)
-
-    formularioAdicionarTexto.removeEventListener('submit', enviarFormulario)
-    formularioAdicionarTexto.addEventListener('submit', enviarFormulario)
   })
 }
 
@@ -98,31 +90,15 @@ document.addEventListener('keydown', (event) => {
     fecharModalAdicionarImagem()
   }
 
-  if (modalConteudoTextoAdicionar.open && (event.key === 'Escape' || event.keyCode === 27)) {
+  if (modalConteudoTextoAdicionar && modalConteudoTextoAdicionar.open && (event.key === 'Escape' || event.keyCode === 27)) {
 
     if (confirm('Deseja realmente sair? O conteúdo será salvo.') == true) {
-      enviarFormulario(event)
+      formularioAdicionarTexto.submit()
     }
 
     event.preventDefault()
   }
 })
-
-function enviarFormulario(event) {
-  event.preventDefault()
-
-  editor
-    .save()
-    .then((outputData) => {
-      const inputConteudo = formularioAdicionarTexto.querySelector('.input-conteudo-adicionar')
-      inputConteudo.value = JSON.stringify(outputData)
-
-      formularioAdicionarTexto.submit()
-    })
-    .catch((error) => {
-      console.error('Erro ao salvar o conteúdo: ', error)
-    })
-}
 
 function fecharModalAdicionarImagem() {
   if (! modalConteudoImagemAdicionar) {

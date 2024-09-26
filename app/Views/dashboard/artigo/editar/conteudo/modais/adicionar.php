@@ -10,9 +10,8 @@
       <label for="conteudo-adicionar-texto-titulo" class="block text-sm font-medium text-gray-700">Título</label>
       <input type="text" id="conteudo-adicionar-texto-titulo" name="titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="">
     </div>
-    <div class="w-full">
-      <input type="hidden" name="conteudo" class="input-conteudo-adicionar">
-      <div name="conteudo" id="editorjs-conteudo-adicionar" class="border border-gray-300 w-full p-2 min-h-56 rounded-lg"></div>
+    <div class="w-full editor-container_classic-editor">
+      <textarea name="conteudo" class="border border-gray-300 w-full p-2 min-h-56 rounded-lg ckeditor" name="conteudo"></textarea>
     </div>
     <div class="sticky bottom-0 py-4 w-full h-max flex flex-col md:flex-row justify-between gap-4 bg-white">
       <div class="w-full">

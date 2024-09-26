@@ -1,4 +1,4 @@
-<div class="relative w-full min-h-full flex flex-col bg-white p-4">
+<div class="relative w-full min-h-full flex flex-col bg-white p-4 container-fundo">
   <h2 class="text-2xl font-semibold mb-4">Editar artigo <a href="/<?php echo $this->usuarioLogado['subdominio'] ?>/artigo/<?php echo $artigo['Artigo.id'] ?>" target="_blank" class="text-gray-400 font-light italic hover:underline">#<?php echo $artigo['Artigo.id']; ?></a></h2>
   <?php require_once 'datas.php' ?>
   <div class="w-full min-w-max lg:w-3/6 flex flex-col md:items-center gap-4">
@@ -9,7 +9,7 @@
       <?php require_once 'conteudo/modais/adicionar.php' ?>
     </div>
     <?php require_once 'conteudo/blocos.php' ?>
+    <?php require_once 'conteudo/modais/editar.php' ?>
   </div>
 </div>
-<?php require_once 'conteudo/modais/editar.php' ?>
 <?php require_once 'conteudo/modais/remover.php' ?>

@@ -1,5 +1,5 @@
 import { substituirImagem } from '../../firebase/funcoes.js'
-import { iniciarEditor, editor } from '../../editorjs.js'
+import { editorInstances } from '../../ckeditor.js'
 
 const btnsConteudoEditar = document.querySelectorAll('.js-dashboard-conteudo-editar')
 const modalConteudoTextoEditar = document.querySelector('.modal-conteudo-texto-editar')
@@ -42,13 +42,16 @@ if (btnsConteudoEditar) {
         formularioEditarTexto.action = `/${subdominio}/d/conteudo/${conteudo.dataset.conteudoId}`
         modalConteudoTextoEditar.showModal()
 
-        const dataConteudo = conteudo.dataset.conteudoConteudo
-        const holderConteudo = 'editorjs-conteudo-editar'
+        conteudo.dataset.conteudoTituloOcultar == 1 ? editarTextoTituloOcultar.checked = true : editarTextoTituloOcultar.checked = false
 
-        iniciarEditor(holderConteudo, dataConteudo)
+        const editor = editorInstances['conteudo']
 
-        formularioEditarTexto.removeEventListener('submit', enviarFormulario)
-        formularioEditarTexto.addEventListener('submit', enviarFormulario)
+        if (editor) {
+          editor.setData(conteudo.dataset.conteudoConteudo)
+        }
+        else {
+          console.error('CKEditor instance not found for the specified textarea.')
+        }
       }
       else if (conteudo.dataset.conteudoTipo == 2) {
         editarImagemTitulo.value = conteudo.dataset.conteudoTitulo
@@ -151,35 +154,19 @@ if (btnCancelarModalEditarImagem) {
 
 document.addEventListener('keydown', (event) => {
 
-  if (modalConteudoImagemEditar.open && (event.key === 'Escape' || event.keyCode === 27)) {
+  if (modalConteudoImagemEditar && modalConteudoImagemEditar.open && (event.key === 'Escape' || event.keyCode === 27)) {
     fecharModalImagem()
   }
 
-  if (modalConteudoTextoEditar.open && (event.key === 'Escape' || event.keyCode === 27)) {
+  if (modalConteudoTextoEditar && modalConteudoTextoEditar.open && (event.key === 'Escape' || event.keyCode === 27)) {
 
     if (confirm('Deseja realmente sair? O conteúdo será salvo.') == true) {
-      enviarFormulario(event)
+      formularioEditarTexto.submit()
     }
 
     event.preventDefault()
   }
 })
-
-function enviarFormulario(event) {
-  event.preventDefault()
-
-  editor
-    .save()
-    .then((outputData) => {
-      const inputConteudo = formularioEditarTexto.querySelector('.input-conteudo-editar')
-      inputConteudo.value = JSON.stringify(outputData)
-
-      formularioEditarTexto.submit()
-    })
-    .catch((error) => {
-      console.error('Erro ao salvar o conteúdo: ', error)
-    })
-}
 
 function fecharModalImagem() {
   if (! modalConteudoImagemEditar) {

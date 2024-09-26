@@ -9,9 +9,8 @@
       <label for="conteudo-editar-texto-titulo" class="block text-sm font-medium text-gray-700">Título</label>
       <input type="text" id="conteudo-editar-texto-titulo" name="titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="">
     </div>
-    <div class="w-full">
-      <input type="hidden" name="conteudo" class="input-conteudo-editar">
-      <div id="editorjs-conteudo-editar" class="border border-gray-300 w-full p-2 min-h-56 rounded-lg bg-slate-50"></div>
+    <div class="w-full editor-container_classic-editor">
+      <textarea id="editorjs-conteudo-editar" name="conteudo" class="border border-gray-300 w-full p-2 min-h-56 rounded-lg bg-slate-50 ckeditor"></textarea>
     </div>
     <div class="sticky bottom-0 z-10 py-4 w-full h-max flex flex-col md:flex-row justify-between gap-4 bg-white">
       <div class="w-full bg-white">
