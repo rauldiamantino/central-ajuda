@@ -56,7 +56,6 @@ if (btnsConteudoEditar) {
           editor
             .save()
             .then((outputData) => {
-              console.log(outputData)
               const inputConteudo = formularioEditarTexto.querySelector('.input-conteudo-editar')
               inputConteudo.value = JSON.stringify(outputData)
 
@@ -168,7 +167,7 @@ if (btnCancelarModalEditarImagem) {
 
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape' || event.keyCode === 27 && modalConteudoImagemEditar.open) {
-    fecharModalImagem()
+    // fecharModalImagem()
   }
 })
 

@@ -1,5 +1,8 @@
-import EditorJS from '@editorjs/editorjs';
-import Header from '@editorjs/header';
+import EditorJS from '@editorjs/editorjs'
+import Header from '@editorjs/header'
+import List from '@editorjs/list'
+import Embed from '@editorjs/embed'
+import Quote from '@editorjs/quote'
 
 let editor
 
@@ -9,31 +12,32 @@ function iniciarEditor(holderConteudo, dataConteudo = '') {
     editor.destroy()
   }
 
-  if (verificaHtml(dataConteudo)) {
-    dataConteudo = htmlParaBlocosEditorjs(dataConteudo)
-
+  if (! dataConteudo.startsWith('{') && verificaHtml(dataConteudo)) {
     dataConteudo = {
-      'blocks': [
-        dataConteudo
-      ]
+      'blocks': htmlParaBlocosEditorjs(dataConteudo)
     }
   }
-console.log(dataConteudo)
+
   if (typeof dataConteudo === 'string') {
     dataConteudo = JSON.parse(dataConteudo)
   }
 
   editor = new EditorJS({
     holder: holderConteudo,
-
     tools: {
       header: {
         class: Header,
-        inlineToolbar: true,
+        inlineToolbar: ['link'],
         config: {
-          placeholder: 'Título'
+          placeholder: 'Título',
+          levels: [2, 3, 4],
+          defaultLevel: 3,
         }
       },
+      list: {
+        class: List,
+        inlineToolbar: true
+      }
     },
 
     onReady: () => {
@@ -51,10 +55,10 @@ function verificaHtml(elemento) {
 }
 
 function htmlParaBlocosEditorjs(html) {
-  const tempDiv = document.createElement('div');
-  tempDiv.innerHTML = html;
+  const tempDiv = document.createElement('div')
+  tempDiv.innerHTML = html
 
-  const blocos = [];
+  const blocos = []
 
   tempDiv.childNodes.forEach(node => {
     if (node.nodeType === Node.ELEMENT_NODE) {
@@ -65,8 +69,8 @@ function htmlParaBlocosEditorjs(html) {
             data: {
               text: processText(node)
             }
-          });
-          break;
+          })
+          break
         case 'h1':
         case 'h2':
         case 'h3':
@@ -76,11 +80,11 @@ function htmlParaBlocosEditorjs(html) {
               text: processText(node),
               level: parseInt(node.tagName.substring(1), 10)
             }
-          });
-          break;
+          })
+          break
         case 'ul':
         case 'ol':
-          const items = Array.from(node.querySelectorAll('li')).map(li => processText(li));
+          const items = Array.from(node.querySelectorAll('li')).map(li => processText(li))
 
           blocos.push({
             type: 'list',
@@ -88,39 +92,39 @@ function htmlParaBlocosEditorjs(html) {
               style: node.tagName.toLowerCase() === 'ul' ? 'unordered' : 'ordered',
               items: items
             }
-          });
-          break;
+          })
+          break
         default:
-          console.warn(`Elemento ${node.tagName} não suportado`);
+          console.warn(`Elemento ${node.tagName} não suportado`)
       }
     }
-  });
+  })
 
-  return blocos;
+  return blocos
 }
 
 function processText(node) {
   // Processa o texto para lidar com formatações como negrito, itálico e links
-  const childNodes = Array.from(node.childNodes);
+  const childNodes = Array.from(node.childNodes)
   const result = childNodes.map(child => {
     if (child.nodeType === Node.TEXT_NODE) {
-      return child.textContent; // Texto simples
+      return child.textContent // Texto simples
     } else if (child.nodeType === Node.ELEMENT_NODE) {
       switch (child.tagName.toLowerCase()) {
         case 'strong':
-          return `**${child.textContent}**`; // Negrito com markdown
+          return `**${child.textContent}**` // Negrito com markdown
         case 'em':
-          return `*${child.textContent}*`; // Itálico com markdown
+          return `*${child.textContent}*` // Itálico com markdown
         case 'a':
-          return `<a href="${child.href}" target="_blank">${child.textContent}</a>`; // Link
+          return `<a href="${child.href}" target="_blank">${child.textContent}</a>` // Link
         default:
-          return child.innerHTML; // Outros elementos, se necessário
+          return child.innerHTML // Outros elementos, se necessário
       }
     }
-    return '';
-  });
+    return ''
+  })
 
-  return result.join(''); // Juntar os elementos processados
+  return result.join('') // Juntar os elementos processados
 }
 
 
