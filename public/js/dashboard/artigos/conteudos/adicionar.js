@@ -6,6 +6,7 @@ const btnImagemAdicionar = document.querySelector('.conteudo-btn-imagem-adiciona
 const btnVideoAdicionar = document.querySelector('.conteudo-btn-video-adicionar')
 
 const modalConteudoTextoAdicionar = document.querySelector('.modal-conteudo-texto-adicionar')
+const formularioAdicionarTexto = document.querySelector('.modal-conteudo-texto-adicionar > form')
 const btnCancelarModalAdicionarTexto = document.querySelector('.modal-texto-adicionar-btn-cancelar')
 
 const modalConteudoImagemAdicionar = document.querySelector('.modal-conteudo-imagem-adicionar')
@@ -23,29 +24,12 @@ if (btnTextoAdicionar) {
   btnTextoAdicionar.addEventListener('click', () => {
     modalConteudoTextoAdicionar.showModal()
 
-    const formularioAdicionarTexto = document.querySelector('.modal-conteudo-texto-adicionar > form')
     const holderConteudo = 'editorjs-conteudo-adicionar'
 
     iniciarEditor(holderConteudo)
 
     formularioAdicionarTexto.removeEventListener('submit', enviarFormulario)
     formularioAdicionarTexto.addEventListener('submit', enviarFormulario)
-
-    function enviarFormulario(event) {
-      event.preventDefault()
-
-      editor
-        .save()
-        .then((outputData) => {
-          const inputConteudo = formularioAdicionarTexto.querySelector('.input-conteudo-adicionar')
-          inputConteudo.value = JSON.stringify(outputData)
-
-          formularioAdicionarTexto.submit()
-        })
-        .catch((error) => {
-          console.error('Erro ao salvar o conteúdo: ', error)
-        })
-    }
   })
 }
 
@@ -109,13 +93,39 @@ if (btnCancelarModalAdicionarImagem) {
 }
 
 document.addEventListener('keydown', (event) => {
-  if ((event.key === 'Escape' || event.keyCode === 27) && modalConteudoImagemAdicionar && modalConteudoImagemAdicionar.open) {
+
+  if (modalConteudoImagemAdicionar && modalConteudoImagemAdicionar.open && (event.key === 'Escape' || event.keyCode === 27)) {
     fecharModalAdicionarImagem()
+  }
+
+  if (modalConteudoTextoAdicionar.open && (event.key === 'Escape' || event.keyCode === 27)) {
+
+    if (confirm('Deseja realmente sair? O conteúdo será salvo.') == true) {
+      enviarFormulario(event)
+    }
+
+    event.preventDefault()
   }
 })
 
+function enviarFormulario(event) {
+  event.preventDefault()
+
+  editor
+    .save()
+    .then((outputData) => {
+      const inputConteudo = formularioAdicionarTexto.querySelector('.input-conteudo-adicionar')
+      inputConteudo.value = JSON.stringify(outputData)
+
+      formularioAdicionarTexto.submit()
+    })
+    .catch((error) => {
+      console.error('Erro ao salvar o conteúdo: ', error)
+    })
+}
+
 function fecharModalAdicionarImagem() {
-  if (!modalConteudoImagemAdicionar) {
+  if (! modalConteudoImagemAdicionar) {
     return
   }
 

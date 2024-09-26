@@ -49,22 +49,6 @@ if (btnsConteudoEditar) {
 
         formularioEditarTexto.removeEventListener('submit', enviarFormulario)
         formularioEditarTexto.addEventListener('submit', enviarFormulario)
-
-        function enviarFormulario(event) {
-          event.preventDefault()
-
-          editor
-            .save()
-            .then((outputData) => {
-              const inputConteudo = formularioEditarTexto.querySelector('.input-conteudo-editar')
-              inputConteudo.value = JSON.stringify(outputData)
-
-              formularioEditarTexto.submit()
-            })
-            .catch((error) => {
-              console.error('Erro ao salvar o conteúdo: ', error)
-            })
-        }
       }
       else if (conteudo.dataset.conteudoTipo == 2) {
         editarImagemTitulo.value = conteudo.dataset.conteudoTitulo
@@ -166,13 +150,39 @@ if (btnCancelarModalEditarImagem) {
 }
 
 document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape' || event.keyCode === 27 && modalConteudoImagemEditar.open) {
-    // fecharModalImagem()
+
+  if (modalConteudoImagemEditar.open && (event.key === 'Escape' || event.keyCode === 27)) {
+    fecharModalImagem()
+  }
+
+  if (modalConteudoTextoEditar.open && (event.key === 'Escape' || event.keyCode === 27)) {
+
+    if (confirm('Deseja realmente sair? O conteúdo será salvo.') == true) {
+      enviarFormulario(event)
+    }
+
+    event.preventDefault()
   }
 })
 
+function enviarFormulario(event) {
+  event.preventDefault()
+
+  editor
+    .save()
+    .then((outputData) => {
+      const inputConteudo = formularioEditarTexto.querySelector('.input-conteudo-editar')
+      inputConteudo.value = JSON.stringify(outputData)
+
+      formularioEditarTexto.submit()
+    })
+    .catch((error) => {
+      console.error('Erro ao salvar o conteúdo: ', error)
+    })
+}
+
 function fecharModalImagem() {
-  if (!modalConteudoImagemEditar) {
+  if (! modalConteudoImagemEditar) {
     return
   }
 

@@ -12,14 +12,14 @@ function iniciarEditor(holderConteudo, dataConteudo = '') {
     editor.destroy()
   }
 
-  if (! dataConteudo.startsWith('{') && verificaHtml(dataConteudo)) {
+  if (dataConteudo && ! dataConteudo.startsWith('{') && verificaHtml(dataConteudo)) {
     dataConteudo = {
       'blocks': htmlParaBlocosEditorjs(dataConteudo)
     }
   }
 
   if (typeof dataConteudo === 'string') {
-    dataConteudo = JSON.parse(dataConteudo)
+    dataConteudo = dataConteudo ? JSON.parse(dataConteudo) : {}
   }
 
   editor = new EditorJS({
@@ -41,7 +41,7 @@ function iniciarEditor(holderConteudo, dataConteudo = '') {
     },
 
     onReady: () => {
-      console.log('Editor.js está pronto!')
+      console.log('EditorJs iniciado')
     },
 
     data: dataConteudo
