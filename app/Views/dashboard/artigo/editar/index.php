@@ -6,10 +6,8 @@
       <?php require_once 'formulario.php' ?>
       <?php require_once 'conteudo/menu-adicionar.php' ?>
       <?php require_once 'conteudo/modais/organizar.php' ?>
-      <?php require_once 'conteudo/modais/adicionar.php' ?>
     </div>
     <?php require_once 'conteudo/blocos.php' ?>
-    <?php require_once 'conteudo/modais/editar.php' ?>
   </div>
 </div>
 <?php require_once 'conteudo/modais/remover.php' ?>

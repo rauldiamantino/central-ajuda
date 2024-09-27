@@ -12,6 +12,86 @@ class DashboardConteudoController extends DashboardController
     $this->conteudoModel = new DashboardConteudoModel();
   }
 
+  public function conteudoEditarVer(int $id)
+  {
+    $condicao = [
+      'Conteudo.id' => $id,
+    ];
+
+    $colunas = [
+      'Conteudo.id',
+      'Conteudo.ativo',
+      'Conteudo.artigo_id',
+      'Conteudo.tipo',
+      'Conteudo.titulo',
+      'Conteudo.titulo_ocultar',
+      'Conteudo.conteudo',
+      'Conteudo.empresa_id',
+      'Conteudo.url',
+    ];
+
+    $resultado = $this->conteudoModel->condicao($condicao)
+                                     ->buscar($colunas);
+
+    $this->visao->variavel('loader', true);
+    $this->visao->variavel('conteudo', reset($resultado));
+    $this->visao->variavel('titulo', 'Editar conteúdo');
+    $this->visao->renderizar('/artigo/editar/conteudo/editar/index');
+  }
+
+  public function conteudoAdicionarVer()
+  {
+    $empresaId = 0;
+
+    $ordemNum = [
+      'prox' => 1,
+    ];
+
+    $artigoId = $_GET['artigo_id'] ?? 0;
+    $artigoId = (int) $artigoId;
+
+    $tipo = $_GET['tipo'] ?? 0;
+    $tipo = (int) $tipo;
+
+    if ($artigoId) {
+      $condicao = [
+        'Conteudo.artigo_id' => $artigoId,
+      ];
+
+      $colunas = [
+        'Conteudo.id',
+        'Conteudo.ordem',
+        'Conteudo.empresa_id',
+      ];
+
+      $ordem = [
+        'Conteudo.ordem' => 'DESC',
+      ];
+
+      $limite = 1;
+
+      $resultadoOrdem = $this->conteudoModel->condicao($condicao)
+                                            ->ordem($ordem)
+                                            ->limite($limite)
+                                            ->buscar($colunas);
+
+      $empresaId = intval($resultadoOrdem[0]['Conteudo.empresa_id'] ?? 0);
+      $ordemAtual = intval($resultadoOrdem[0]['Conteudo.ordem'] ?? 0);
+
+      if ($resultadoOrdem) {
+        $ordemNum['prox'] = $ordemAtual + 1;
+      }
+    }
+
+    $this->visao->variavel('loader', true);
+    $this->visao->variavel('artigoId', $artigoId);
+    $this->visao->variavel('empresaId', $empresaId);
+    $this->visao->variavel('tipo', $tipo);
+    $this->visao->variavel('ordem', $ordemNum);
+    $this->visao->variavel('titulo', 'Adicionar conteúdo');
+    $this->visao->renderizar('/artigo/editar/conteudo/adicionar/index');
+  }
+
   public function adicionar(): array
   {
     $dados = $this->receberJson();
@@ -68,15 +148,11 @@ class DashboardConteudoController extends DashboardController
 
   public function atualizar(int $id)
   {
+    $id = (int) $id;
     $json = $this->receberJson();
     $resultado = $this->conteudoModel->atualizar($json, $id);
 
-    $urlRetorno = '/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos';
-    $artigoId = intval($json['artigo_id'] ?? 0);
-
-    if ($artigoId) {
-      $urlRetorno = '/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId;
-    }
+    $urlRetorno = '/' . $this->usuarioLogado['subdominio'] . '/dashboard/conteudo/editar/' . $id;
 
     if ($_POST and isset($resultado['erro'])) {
       $this->redirecionarErro($urlRetorno, $resultado['erro']);

@@ -1,3 +1,5 @@
+import { inicializarFirebase } from './inicializar.js'
+
 async function uploadImagem(empresaId, artigoId, file) {
   try {
     const { storage, ref, uploadBytes, getDownloadURL } = await inicializarFirebase()

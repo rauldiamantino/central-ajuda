@@ -26,17 +26,9 @@
           <?php } ?>
         </div>
         <div class="w-full group">
-          <button
-            type="button"
-            class="text-start group-hover:underline js-dashboard-conteudo-editar"
-            data-conteudo-id="<?php echo $linha['Conteudo.id'] ?>"
-            data-conteudo-titulo="<?php echo $linha['Conteudo.titulo'] ?>"
-            data-conteudo-titulo-ocultar="<?php echo $linha['Conteudo.titulo_ocultar'] ?>"
-            data-conteudo-conteudo="<?php echo $linha['Conteudo.conteudo'] ?>"
-            data-conteudo-url="<?php echo $linha['Conteudo.url'] ?>"
-            data-conteudo-tipo="<?php echo $linha['Conteudo.tipo'] ?>">
+          <a href="/<?php echo $this->usuarioLogado['subdominio'] ?>/dashboard/conteudo/editar/<?php echo $linha['Conteudo.id'] ?>"class="text-start group-hover:underline js-dashboard-conteudo-editar">
             <?php echo $linha['Conteudo.titulo'] ? $linha['Conteudo.titulo'] : '** Sem título **' ?>
-          </button>
+          </a>
         </div>
       </div>
       <button type="button" class="w-max h-max text-red-800 hover:text-red-600 text-xs rounded-lg js-dashboard-conteudo-remover" data-conteudo-id="<?php echo $linha['Conteudo.id'] ?>" data-conteudo-url="<?php echo $linha['Conteudo.url'] ?>" data-conteudo-tipo="<?php echo $linha['Conteudo.tipo'] ?>">

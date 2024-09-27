@@ -1,38 +1,40 @@
-import { initializeApp } from "firebase/app";
-import { getStorage, ref, uploadBytes, getDownloadURL, getMetadata, deleteObject, listAll } from 'firebase/storage';
-
-let firebaseInicializado = false;
-let firebaseModulos = {};
+let firebaseInicializado = false
+let firebaseModulos = {}
 
 async function inicializarFirebase() {
-  if (!subdominio) {
-    return;
+
+  if (! subdominio) {
+    return
   }
 
   if (firebaseInicializado) {
-    return firebaseModulos;
+    return firebaseModulos
   }
 
   try {
-    const response = await fetch(`/${subdominio}/d/firebase`);
-    const data = await response.json();
-    const firebaseConfig = data.firebase;
+    const response = await fetch(`/${subdominio}/d/firebase`)
+    const data = await response.json()
+    const firebaseConfig = data.firebase
 
     if (firebaseConfig) {
-      const app = initializeApp(firebaseConfig);
-      const storage = getStorage(app);
+      const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js')
+      const { getStorage, ref, uploadBytes, getDownloadURL, getMetadata, deleteObject, listAll } = await import('https://www.gstatic.com/firebasejs/10.13.0/firebase-storage.js')
 
-      firebaseInicializado = true;
-      console.log('Firebase inicializado com sucesso.');
+      const app = initializeApp(firebaseConfig)
+      const storage = getStorage()
 
-      return { app, storage, ref, uploadBytes, getDownloadURL, getMetadata, deleteObject, listAll };
+      firebaseInicializado = true
+      console.log('Firebase inicializado com sucesso.')
+
+      return { app, storage, ref, uploadBytes, getDownloadURL, getMetadata, deleteObject, listAll }
     }
 
-    throw data;
-  } catch (error) {
-    console.error('Erro ao inicializar o Firebase:', error);
-    throw error;
+    throw data
+  }
+  catch (error) {
+    console.error('Erro ao inicializar o Firebase:', error)
+    throw error
   }
 }
 
-export { inicializarFirebase };
+export { inicializarFirebase }

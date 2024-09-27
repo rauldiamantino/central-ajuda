@@ -1,1 +1,1 @@
-<script type="module" src="/dist/bundle.js"></script>
+<script src="/public/js/publico/index.js"></script>

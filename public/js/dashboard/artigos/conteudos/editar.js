@@ -1,110 +1,85 @@
 import { substituirImagem } from '../../firebase/funcoes.js'
 import { editorInstances } from '../../ckeditor.js'
 
-const btnsConteudoEditar = document.querySelectorAll('.js-dashboard-conteudo-editar')
-const modalConteudoTextoEditar = document.querySelector('.modal-conteudo-texto-editar')
-const editarTextoTitulo = document.querySelector('#conteudo-editar-texto-titulo')
-const editarTextoTituloOcultar = document.querySelector('.conteudo-editar-texto-titulo-ocultar')
-const btnCancelarModalEditarTexto = document.querySelector('.modal-texto-editar-btn-cancelar')
-const formularioEditarTexto = document.querySelector('.modal-conteudo-texto-editar > form')
+const efeitoLoader = document.querySelector('#efeito-loader')
+const editarFundo = document.querySelector('.editar-fundo')
 
-const modalConteudoImagemEditar = document.querySelector('.modal-conteudo-imagem-editar')
-const editarImagemTitulo = document.querySelector('#conteudo-editar-imagem-titulo')
-const editarImagemTituloOcultar = document.querySelector('.conteudo-editar-imagem-titulo-ocultar')
-const editarImagemEscolher = document.querySelector('.conteudo-editar-imagem-escolher')
-const editarTextoImagemEscolher = document.querySelector('.conteudo-txt-imagem-editar-escolher')
-const btnEditarImagemEscolher = document.querySelector('.conteudo-btn-imagem-editar-escolher')
-const btnCancelarModalEditarImagem = document.querySelector('.modal-conteudo-imagem-btn-cancelar')
+const formularioEditarTexto = document.querySelector('.form-conteudo-texto-editar')
 const formularioEditarImagem = document.querySelector('.modal-conteudo-imagem-editar > form')
-
-const modalConteudoVideoEditar = document.querySelector('.modal-conteudo-video-editar')
-const editarVideoTitulo = document.querySelector('#conteudo-editar-video-titulo')
-const editarVideoTituloOcultar = document.querySelector('.conteudo-editar-video-titulo-ocultar')
-const editarVideoUrl = document.querySelector('#conteudo-editar-video-url')
-const btnCancelarModalEditarVideo = document.querySelector('.modal-conteudo-video-btn-cancelar')
 const formularioEditarVideo = document.querySelector('.modal-conteudo-video-editar > form')
 
-let imagemParaUpload = null
-let imagemAtual = null
-
-if (btnsConteudoEditar) {
-  btnsConteudoEditar.forEach(conteudo => {
-    conteudo.addEventListener('click', () => {
-
-      if (! subdominio) {
-        return
-      }
-
-      if (conteudo.dataset.conteudoTipo == 1) {
-        editarTextoTitulo.value = conteudo.dataset.conteudoTitulo
-        editarTextoTituloOcultar.checked = conteudo.dataset.conteudoTituloOcultar == 1
-
-        formularioEditarTexto.action = `/${subdominio}/d/conteudo/${conteudo.dataset.conteudoId}`
-        modalConteudoTextoEditar.showModal()
-
-        conteudo.dataset.conteudoTituloOcultar == 1 ? editarTextoTituloOcultar.checked = true : editarTextoTituloOcultar.checked = false
-
-        const editor = editorInstances['conteudo']
-
-        if (editor) {
-          editor.setData(conteudo.dataset.conteudoConteudo)
-        }
-        else {
-          console.error('CKEditor instance not found for the specified textarea.')
-        }
-      }
-      else if (conteudo.dataset.conteudoTipo == 2) {
-        editarImagemTitulo.value = conteudo.dataset.conteudoTitulo
-        conteudo.dataset.conteudoTituloOcultar == 1 ? editarImagemTituloOcultar.checked = true : editarImagemTituloOcultar.checked = false
-        formularioEditarImagem.action = `/${subdominio}/d/conteudo/${conteudo.dataset.conteudoId}`
-
-        const imgElemento = modalConteudoImagemEditar.querySelector('img')
-
-        imgElemento.src = `${conteudo.dataset.conteudoUrl}`
-        imgElemento.classList.add('opacity-100')
-        imgElemento.classList.remove('opacity-0')
-        modalConteudoImagemEditar.showModal()
-        imagemAtual = conteudo.dataset.conteudoUrl
-
-        if (btnEditarImagemEscolher) {
-          btnEditarImagemEscolher.addEventListener('click', () => {
-            editarImagemEscolher.click()
-          })
-        }
-
-        editarImagemEscolher.addEventListener('change', (event) => {
-          const anexo = event.target.files[0]
-
-          if (anexo) {
-            const objetoReader = new FileReader()
-
-            objetoReader.onload = (e) => {
-              imgElemento.src = e.target.result
-              imgElemento.classList.remove('opacity-0')
-              imgElemento.classList.add('opacity-100')
-            }
-
-            editarTextoImagemEscolher.textContent = anexo.name
-            objetoReader.readAsDataURL(anexo)
-            imagemParaUpload = anexo
-          }
-        })
-
-        editarTextoImagemEscolher.textContent = 'Alterar imagem'
-      }
-      else if (conteudo.dataset.conteudoTipo == 3) {
-        editarVideoTitulo.value = conteudo.dataset.conteudoTitulo
-        conteudo.dataset.conteudoTituloOcultar == 1 ? editarVideoTituloOcultar.checked = true : editarVideoTituloOcultar.checked = false
-        editarVideoUrl.value = conteudo.dataset.conteudoUrl
-        formularioEditarVideo.action = `/${subdominio}/d/conteudo/${conteudo.dataset.conteudoId}`
-
-        modalConteudoVideoEditar.showModal()
-      }
-    })
-  })
+if (formularioEditarTexto) {
+  editarTexto()
 }
 
 if (formularioEditarImagem) {
+  editarImagem()
+}
+
+if (formularioEditarVideo) {
+  editarVideo()
+}
+
+// Funções
+function editarTexto() {
+  const conteudoEditarTexto = document.querySelector('.conteudo-texto-editar')
+  const verificarCKEditor = setInterval(() => {
+    const editor = editorInstances['conteudo']
+
+    if (editor) {
+      editor.setData(conteudoEditarTexto.dataset.conteudo)
+
+      efeitoLoader.classList.add('hidden')
+      editarFundo.classList.remove('hidden')
+
+      clearInterval(verificarCKEditor)
+    }
+  }, 100)
+
+  setTimeout(() => clearInterval(verificarCKEditor), 5000)
+}
+function editarImagem() {
+  let imagemParaUpload = null
+  let imagemAtual = null
+
+  efeitoLoader.classList.add('hidden')
+  editarFundo.classList.remove('hidden')
+
+  const editarImagemEscolher = document.querySelector('.conteudo-editar-imagem-escolher')
+  const editarTextoImagemEscolher = document.querySelector('.conteudo-txt-imagem-editar-escolher')
+  const btnEditarImagemEscolher = document.querySelector('.conteudo-btn-imagem-editar-escolher')
+  const imgElemento = formularioEditarImagem.querySelector('img')
+
+  imgElemento.classList.add('opacity-100')
+  imgElemento.classList.remove('opacity-0')
+  imagemAtual = imgElemento.src
+
+  if (btnEditarImagemEscolher) {
+    btnEditarImagemEscolher.addEventListener('click', () => {
+      editarImagemEscolher.click()
+    })
+  }
+
+  editarImagemEscolher.addEventListener('change', (event) => {
+    const anexo = event.target.files[0]
+
+    if (anexo) {
+      const objetoReader = new FileReader()
+
+      objetoReader.onload = (e) => {
+        imgElemento.src = e.target.result
+        imgElemento.classList.remove('opacity-0')
+        imgElemento.classList.add('opacity-100')
+      }
+
+      editarTextoImagemEscolher.textContent = anexo.name
+      objetoReader.readAsDataURL(anexo)
+      imagemParaUpload = anexo
+    }
+  })
+
+  editarTextoImagemEscolher.textContent = 'Alterar imagem'
+
   formularioEditarImagem.addEventListener('submit', async (event) => {
     event.preventDefault()
 
@@ -136,43 +111,7 @@ if (formularioEditarImagem) {
   })
 }
 
-if (btnCancelarModalEditarTexto) {
-  btnCancelarModalEditarTexto.addEventListener('click', () => {
-    modalConteudoTextoEditar.close()
-  })
-}
-
-if (btnCancelarModalEditarVideo) {
-  btnCancelarModalEditarVideo.addEventListener('click', () => {
-    modalConteudoVideoEditar.close()
-  })
-}
-
-if (btnCancelarModalEditarImagem) {
-  btnCancelarModalEditarImagem.addEventListener('click', () => fecharModalImagem())
-}
-
-document.addEventListener('keydown', (event) => {
-
-  if (modalConteudoImagemEditar && modalConteudoImagemEditar.open && (event.key === 'Escape' || event.keyCode === 27)) {
-    fecharModalImagem()
-  }
-
-  if (modalConteudoTextoEditar && modalConteudoTextoEditar.open && (event.key === 'Escape' || event.keyCode === 27)) {
-
-    if (confirm('Deseja realmente sair? O conteúdo será salvo.') == true) {
-      formularioEditarTexto.submit()
-    }
-
-    event.preventDefault()
-  }
-})
-
-function fecharModalImagem() {
-  if (! modalConteudoImagemEditar) {
-    return
-  }
-
-  modalConteudoImagemEditar.querySelector('img').src = ''
-  modalConteudoImagemEditar.close()
+function editarVideo() {
+  efeitoLoader.classList.add('hidden')
+  editarFundo.classList.remove('hidden')
 }
