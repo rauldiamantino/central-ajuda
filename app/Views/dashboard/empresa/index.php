@@ -1,7 +1,7 @@
 <div class="w-full h-full flex flex-col bg-white p-4">
   <h2 class="flex gap-1 text-2xl font-semibold mb-4">
-    Editar empresa
-    <span class="flex items-center gap-2 text-gray-400 font-light italic">
+    Editar
+    <span class="flex items-center gap-2 text-gray-400 font-light italic text-sm">
       #<?php echo $empresa['Empresa.id']; ?>
     </span>
   </h2>

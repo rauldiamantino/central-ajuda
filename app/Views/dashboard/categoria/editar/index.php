@@ -1,8 +1,8 @@
 <div class="relative w-full min-h-full flex flex-col bg-white p-4">
   <h2 class="text-2xl font-semibold mb-4">
-    Editar categoria
+    Editar
     <span class="text-gray-400 font-light italic">
-      <a href="/<?php echo $this->usuarioLogado['subdominio'] ?>/categoria/<?php echo $categoria['Categoria.id'] ?>" target="_blank" class="text-gray-400 font-light italic hover:underline">#<?php echo $categoria['Categoria.id']; ?></a>
+      <a href="/<?php echo $this->usuarioLogado['subdominio'] ?>/categoria/<?php echo $categoria['Categoria.id'] ?>" target="_blank" class="text-sm text-gray-400 font-light italic hover:underline">(Categoria #<?php echo $categoria['Categoria.id']; ?>)</a>
     </span>
   </h2>
   <?php require_once 'datas.php' ?>

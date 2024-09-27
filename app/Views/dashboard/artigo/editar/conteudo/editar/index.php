@@ -1,5 +1,8 @@
 <div class="w-full min-h-full flex flex-col bg-white p-4 hidden editar-fundo">
-  <h2 class="relative text-2xl font-semibold mb-4">Editar conteúdo <span class="text-gray-400 font-light italic">#<?php echo $conteudo['Conteudo.id']; ?></span></h2>
+  <h2 class="relative text-2xl font-semibold mb-4">
+    Editar <span class="text-gray-400 font-light italic text-sm">(Conteúdo #<?php echo $conteudo['Conteudo.id']; ?></span>
+    <span class="text-gray-400 font-light italic hover:underline text-sm"><a href="/<?php echo $this->usuarioLogado['subdominio'] ?>/artigo/<?php echo $conteudo['Conteudo.artigo_id'] ?>" target="_blank">- Artigo #<?php echo $conteudo['Conteudo.artigo_id']; ?>)</a></span>
+  </h2>
   <div class="w-full lg:w-1/2">
     <?php // Editar texto ?>
     <?php if ($conteudo['Conteudo.tipo'] == 1) { ?>

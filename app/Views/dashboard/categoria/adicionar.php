@@ -1,6 +1,6 @@
 <div class="relative w-full min-h-full flex flex-col bg-white p-4">
   <h2 class="text-2xl font-semibold mb-4">
-    Adicionar categoria
+    Adicionar
   </h2>
 
   <div class="w-full flex gap-4">

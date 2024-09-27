@@ -1,5 +1,8 @@
 <div class="w-full min-h-full flex flex-col bg-white p-4 hidden adicionar-fundo">
-  <h2 class="relative text-2xl font-semibold mb-4">Adicionar conteúdo</h2>
+  <h2 class="relative text-2xl font-semibold mb-4">
+    Adicionar
+    <span class="text-gray-400 font-light italic hover:underline text-sm"><a href="/<?php echo $this->usuarioLogado['subdominio'] ?>/artigo/<?php echo $artigoId ?>" target="_blank">(Artigo #<?php echo $artigoId; ?>)</a></span>
+  </h2>
   <div class="w-full lg:w-1/2">
   <?php // Adicionar texto ?>
   <?php if ($tipo == 1) { ?>

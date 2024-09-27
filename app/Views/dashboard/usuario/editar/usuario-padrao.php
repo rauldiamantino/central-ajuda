@@ -1,5 +1,5 @@
-<span class="flex items-center gap-2 text-gray-400 font-light italic">
-  #<?php echo $usuario['Usuario.id']; ?>
+<span class="flex items-center gap-2 text-gray-400 font-light italic text-sm">
+  (Usuário #<?php echo $usuario['Usuario.id']; ?>)
   <?php if ($usuario['Usuario.padrao'] == 0) { ?>
     <span class="w-max text-yellow-800">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">

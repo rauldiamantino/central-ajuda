@@ -1,6 +1,6 @@
 <div class="relative w-full min-h-full flex flex-col bg-white p-4">
   <h2 class="flex gap-1 text-2xl font-semibold mb-4">
-    Editar usuário
+    Editar
     <?php require_once 'usuario-padrao.php' ?>
   </h2>
   <?php require_once 'datas.php' ?>
