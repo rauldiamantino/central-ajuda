@@ -5,8 +5,9 @@
   </div>
 
   <div>
-    <label for="subdominio" class="block text-sm font-medium leading-6 text-gray-900">Subdomínio</label>
-    <input id="subdominio" name="subdominio" type="subdominio" autocomplete="subdominio" required class="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-900 sm:text-sm sm:leading-6">
+    <label for="subdominio" class="block text-sm font-medium leading-6 text-gray-900">Como as pessoas vão te encontrar</label>
+    <input id="subdominio" name="subdominio" type="subdominio" autocomplete="subdominio" required class="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-900 sm:text-sm sm:leading-6" placeholder="subdominio">
+    <div class="pt-1 text-xs">Exemplo: luminaon.com.br/<span class="text-sm font-bold text-red-800 underline">subdominio</span></div>
   </div>
 
   <div>
