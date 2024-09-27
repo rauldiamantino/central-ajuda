@@ -62,7 +62,7 @@ class Roteador
     $usuarioLogado = $this->sessaoUsuario->buscar('usuario');
 
     // Sempre prioriza Empresa ID logada
-    if (isset($usuarioLogado['empresaId']) and substr($chaveRota, 0, 18) != 'GET:/login/suporte') {
+    if (isset($usuarioLogado['empresaId']) and substr($chaveRota, 0, 18) != 'GET:/login/suporte' and $this->rotaPublica($chaveRota) == false) {
       $empresaId = (int) $usuarioLogado['empresaId'];
     }
 
@@ -291,6 +291,23 @@ class Roteador
       'GET:/{subdominio}/d/usuario/desbloquear/{id}',
       'GET:/login/suporte/{id}',
       'GET:/login/suporte',
+    ];
+
+    if (! in_array($rota, $rotasRestritas)) {
+      return false;
+    }
+
+    return true;
+  }
+
+  private function rotaPublica(string $rota): bool
+  {
+    $rotasRestritas = [
+      'GET:/{subdominio}',
+      'GET:/{subdominio}/categoria/{id}',
+      'GET:/{subdominio}/artigo/{id}',
+      'POST:/{subdominio}/buscar',
+      'GET:/{subdominio}/buscar',
     ];
 
     if (! in_array($rota, $rotasRestritas)) {
