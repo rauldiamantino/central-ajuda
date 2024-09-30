@@ -47,7 +47,10 @@ class Roteador
     $partesUrl = explode('/', $url);
     $subdominio = $partesUrl[1] ?? '';
 
-    if ($this->subdominioPermitido($subdominio) == false) {
+    $dashboardEmpresa = new DashboardEmpresaController();
+    $buscarEmpresa = $dashboardEmpresa->buscarEmpresa($subdominio);
+
+    if (empty($buscarEmpresa)) {
       $subdominio = '';
     }
 
@@ -56,24 +59,29 @@ class Roteador
     $chaveRota = str_replace($id, '{id}', $chaveRota);
     $chaveRota = str_replace($subdominio, '{subdominio}', $chaveRota);
 
-    $dashboardEmpresa = new DashboardEmpresaController();
-    $buscarEmpresa = $dashboardEmpresa->buscarEmpresa($subdominio);
     $empresaId = intval($buscarEmpresa[0]['Empresa.id'] ?? 0);
+    $empresaAtivo = intval($buscarEmpresa[0]['Empresa.ativo'] ?? 0);
+
+    // Acesso negado
+    if ($empresaAtivo == 0) {
+      $empresaId = 0;
+    }
+
     $usuarioLogado = $this->sessaoUsuario->buscar('usuario');
 
-    // Sempre prioriza Empresa ID logada
-    if (isset($usuarioLogado['empresaId']) and substr($chaveRota, 0, 18) != 'GET:/login/suporte' and $this->rotaPublica($chaveRota) == false) {
-      $empresaId = (int) $usuarioLogado['empresaId'];
+    // Sempre utiliza Empresa ID logada
+    if (substr($chaveRota, 0, 18) != 'GET:/login/suporte') {
+
+      if (isset($usuarioLogado['empresaId']) and $this->rotaPublica($chaveRota) == false) {
+        $empresaId = (int) $usuarioLogado['empresaId'];
+      }
     }
 
     // Restrições de acesso por nível
     if ((! isset($usuarioLogado['padrao']) or $usuarioLogado['padrao'] > 0) and $this->rotaRestritaSuporte($chaveRota)) {
       $this->sessaoUsuario->definir('erro', 'Você não tem permissão para realizar esta ação.');
 
-      if (! isset($usuarioLogado['id']) or (int) $usuarioLogado['id'] == 0) {
-        $this->sessaoUsuario->apagar('usuario');
-      }
-
+      $this->sessaoUsuario->apagar('usuario');
       header('Location: /login');
       exit;
     }
@@ -85,12 +93,14 @@ class Roteador
       if (! isset($usuarioLogado['nivel'])) {
         $sucesso = false;
       }
-
-      if (! isset($usuarioLogado['id']) or (int) $usuarioLogado['id'] == 0) {
+      elseif (! isset($usuarioLogado['id']) or (int) $usuarioLogado['id'] == 0) {
         $sucesso = false;
       }
-
-      if (! isset($usuarioLogado['subdominio']) or empty($usuarioLogado['subdominio'])) {
+      elseif (! isset($usuarioLogado['subdominio']) or empty($usuarioLogado['subdominio'])) {
+        $sucesso = false;
+      }
+      elseif ($empresaAtivo == 0 and $usuarioLogado['padrao'] > 0) {
+        $this->sessaoUsuario->definir('erro', 'Empresa desativada');
         $sucesso = false;
       }
 
@@ -104,7 +114,6 @@ class Roteador
 
       if ($this->sessaoUsuario->buscar('acessoBloqueado-' . $usuarioLogado['id'])) {
         $this->sessaoUsuario->definir('erro', 'Acesso bloqueado.');
-        $this->sessaoUsuario->apagar('usuario');
         $sucesso = false;
       }
 
@@ -162,9 +171,9 @@ class Roteador
 
   private function limiteRequisicoes()
   {
-    $limite = 100;
+    $limite = 1000;
     $segundos = 60;
-    $segundosBloqueio = 5;
+    $segundosBloqueio = $segundos * 60;
 
     $tempoAgora = time();
     $requisicoes = $this->sessaoUsuario->buscar('requisicoes');
@@ -177,7 +186,7 @@ class Roteador
     $bloqueioTimestamp = $bloqueio ? strtotime($bloqueio) : 0;
 
     if ($bloqueioTimestamp > $tempoAgora) {
-      $this->sessaoUsuario->definir('erro', 'Limite de requisições excedido. Tente novamente mais tarde.');
+      $this->sessaoUsuario->definir('erro', 'Limite de requisições excedido, tente novamente mais tarde.');
 
       $this->paginaErro->erroVer('Too Many Requests', 429);
       exit;
@@ -207,7 +216,7 @@ class Roteador
       registrarLog('limite-requisicoes', array_merge($acesso, $_SESSION));
 
       $this->sessaoUsuario->definir('bloqueioData', $desbloqueio);
-      $this->sessaoUsuario->definir('erro', 'Limite de requisições excedido. Tente novamente mais tarde.');
+      $this->sessaoUsuario->definir('erro', 'Limite de requisições excedido, tente novamente mais tarde.');
 
       $this->paginaErro->erroVer('Too Many Requests', 429);
       exit;
@@ -216,24 +225,6 @@ class Roteador
     // Armazena a data atual das requisições
     $novaLista[] = (new DateTime())->format('Y-m-d H:i:s');
     $this->sessaoUsuario->definir('requisicoes', $novaLista);
-  }
-
-  private function subdominioPermitido(string $subdominio = ''): bool
-  {
-    $subdominios = [
-      'padrao',
-      'teste2',
-      'teste5',
-      'teste1122',
-      'luminaon',
-      'diamantino',
-    ];
-
-    if (in_array($subdominio, $subdominios)) {
-      return true;
-    }
-
-    return false;
   }
 
   private function rotaPermitida(string $rota = ''): bool

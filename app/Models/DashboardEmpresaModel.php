@@ -29,12 +29,13 @@ class DashboardEmpresaModel extends Model
   public function buscarEmpresa(string $subdominio = ''): array
   {
     $sql = 'SELECT
-              `Empresa`.`id` AS `Empresa.id`
+              `Empresa`.`id` AS `Empresa.id`,
+              `Empresa`.`ativo` AS `Empresa.ativo`
             FROM
               `empresas` AS `Empresa`
             WHERE
               `Empresa`.`subdominio` = ?
-              AND `Empresa`.`ativo` = 1
+              -- AND `Empresa`.`ativo` = 1
             ORDER BY
               `Empresa`.`id` ASC
             LIMIT
