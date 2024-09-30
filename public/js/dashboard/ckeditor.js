@@ -104,12 +104,6 @@ const editorConfig = {
 				class: 'ck-heading_paragraph'
 			},
 			{
-				model: 'heading1',
-				view: 'h1',
-				title: 'Heading 1',
-				class: 'ck-heading_heading1'
-			},
-			{
 				model: 'heading2',
 				view: 'h2',
 				title: 'Heading 2',
@@ -121,23 +115,29 @@ const editorConfig = {
 				title: 'Heading 3',
 				class: 'ck-heading_heading3'
 			},
+			{
+				model: 'heading4',
+				view: 'h4',
+				title: 'Heading 4',
+				class: 'ck-heading_heading4'
+			},
 		]
 	},
 	initialData: '',
 	language: 'pt-br',
 	link: {
     forceSimpleAmpersand: true,
-		addTargetToExternalLinks: true,
+    decorators: {
+        openInNewTab: {
+            mode: 'manual',
+            label: 'Open in a new tab',
+            attributes: {
+                target: '_blank',
+                rel: 'noopener noreferrer'
+            }
+        }
+    },
 		defaultProtocol: 'https://',
-		decorators: {
-			toggleDownloadable: {
-				mode: 'manual',
-				label: 'Downloadable',
-				attributes: {
-					download: 'file'
-				}
-			}
-		}
 	},
 	list: {
 		properties: {
