@@ -42,8 +42,8 @@
   </div>
   <div class="w-full flex justify-between">
     <div class="flex gap-2">
-      <a href="/<?php echo $this->usuarioLogado['subdominio'] ?>/dashboard/artigos" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Voltar</a>
-      <button type="submit" class="flex gap-2 items-center justify-center py-2 px-4 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg">Gravar</button>
+      <a href="/<?php echo $this->usuarioLogado['subdominio'] ?>/dashboard/artigos" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-6 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Voltar</a>
+      <button type="submit" class="flex gap-2 items-center justify-center py-2 px-6 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg">Gravar</button>
     </div>
   </div>
 </form>
