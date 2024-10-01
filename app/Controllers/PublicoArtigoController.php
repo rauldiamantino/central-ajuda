@@ -24,7 +24,7 @@ class PublicoArtigoController extends PublicoController
 
     $condicoes = [
       'Artigo.id' => (int) $id,
-      'Artigo.ativo' => 1,
+      'Artigo.ativo' => ATIVO,
     ];
 
     $colunas = [
@@ -86,7 +86,7 @@ class PublicoArtigoController extends PublicoController
 
       $condDemaisArtigos = [
         'Artigo.categoria_id' => intval($artigo[0]['Artigo.categoria_id'] ?? 0),
-        'Artigo.ativo' => 1,
+        'Artigo.ativo' => ATIVO,
       ];
 
       $colDemaisArtigos = [

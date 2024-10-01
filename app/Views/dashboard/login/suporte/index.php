@@ -9,7 +9,7 @@
           <a href="/login/suporte/<?php echo $linha['id'] ?>" class="px-4 py-2 border border-slate-200 hover:bg-slate-50 flex gap-5 justify-between rounded">
             <?php echo $linha['subdominio'] ?>
 
-            <?php if ($linha['ativo'] == 1) { ?>
+            <?php if ($linha['ativo'] == ATIVO) { ?>
               <div class="flex items-center gap-2">
                 <span class="text-green-800">
                   <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 16 16">
@@ -18,7 +18,7 @@
                 </span>
               </div>
             <?php } ?>
-            <?php if ($linha['ativo'] == 0) { ?>
+            <?php if ($linha['ativo'] == INATIVO) { ?>
               <div class="flex items-center gap-2">
                 <span class="text-red-800">
                   <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 16 16">

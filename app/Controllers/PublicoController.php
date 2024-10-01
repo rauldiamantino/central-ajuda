@@ -32,7 +32,7 @@ class PublicoController extends Controller
   public function publicoVer()
   {
     $condicoes = [
-      'Categoria.ativo' => 1,
+      'Categoria.ativo' => ATIVO,
     ];
 
     $colunas = [

@@ -174,7 +174,7 @@ class DashboardEmpresaModel extends Model
       $cnpjValido = preg_match('/^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/', $campos['cnpj']);
       $campos['logo'] = filter_var($campos['logo'], FILTER_SANITIZE_URL);
 
-      if (isset($params['ativo']) and ! in_array($campos['ativo'], [0, 1])) {
+      if (isset($params['ativo']) and ! in_array($campos['ativo'], [INATIVO, ATIVO])) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('ativo', 'valInvalido');
       }
 
@@ -259,7 +259,7 @@ class DashboardEmpresaModel extends Model
       $camposValidados['logo'] = null;
     }
 
-    if ($this->usuarioLogado['padrao'] > 0 and isset($camposValidados['ativo'])) {
+    if ($this->usuarioLogado['padrao'] != USUARIO_SUPORTE and isset($camposValidados['ativo'])) {
       unset($camposValidados['ativo']);
     }
 

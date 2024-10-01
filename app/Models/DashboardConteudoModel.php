@@ -126,7 +126,7 @@ class DashboardConteudoModel extends Model
     ];
 
     foreach ($params as $chave => $linha) :
-      
+
       if ($chave == 'tipo' and $linha == 1) {
         array_push($permitidos, 'url');
         break;
@@ -137,13 +137,13 @@ class DashboardConteudoModel extends Model
     foreach ($campos as $chave => $linha):
 
       if ($atualizar and ! isset($params[ $chave ])) {
-        
+
         // Sempre precisa do ID da empresa
         if ($chave != 'empresa_id') {
           continue;
         }
       }
-      
+
       if ($linha == 'undefined') {
         $linha = '';
       }
@@ -172,7 +172,7 @@ class DashboardConteudoModel extends Model
       $campos['tipo'] = filter_var($campos['tipo'], FILTER_SANITIZE_NUMBER_INT);
       $campos['url'] = filter_var($campos['url'], FILTER_SANITIZE_URL);
 
-      if (isset($params['ativo']) and ! in_array($campos['ativo'], [0, 1])) {
+      if (isset($params['ativo']) and ! in_array($campos['ativo'], [INATIVO, ATIVO])) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('ativo', 'valInvalido');
       }
 
@@ -181,7 +181,7 @@ class DashboardConteudoModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('tipo', 'valInvalido');
       }
 
-      if (isset($params['titulo_ocultar']) and ! in_array($campos['titulo_ocultar'], [0, 1])) {
+      if (isset($params['titulo_ocultar']) and ! in_array($campos['titulo_ocultar'], [INATIVO, ATIVO])) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('titulo_ocultar', 'valInvalido');
       }
 

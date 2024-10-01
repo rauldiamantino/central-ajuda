@@ -1,2 +1,11 @@
 <?php
 define('JSON_FORMATADO', JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+
+define('USUARIO_SUPORTE', 0);
+define('USUARIO_PADRAO', 1);
+define('USUARIO_COMUM', 2);
+define('USUARIO_TOTAL', 1);
+define('USUARIO_RESTRITO', 2);
+define('ATIVO', 1);
+define('INATIVO', 0);

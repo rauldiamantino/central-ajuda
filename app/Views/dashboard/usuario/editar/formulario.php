@@ -1,7 +1,7 @@
 <?php
 $nivelAcesso = [
-  1 => 'Acesso total',
-  2 => 'Acesso restrito',
+  USUARIO_TOTAL => 'Acesso total',
+  USUARIO_RESTRITO => 'Acesso restrito',
 ];
 ?>
 
@@ -29,7 +29,7 @@ $nivelAcesso = [
           </select>
         </div>
 
-        <?php if ($this->usuarioLogado['padrao'] > 0) { ?>
+        <?php if ($this->usuarioLogado['padrao'] != USUARIO_SUPORTE) { ?>
           <input type="hidden" name="padrao" value="<?php echo $usuario['Usuario.padrao']; ?>">
         <?php } ?>
       </div>

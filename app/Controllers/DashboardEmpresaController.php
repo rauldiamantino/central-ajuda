@@ -15,7 +15,7 @@ class DashboardEmpresaController extends DashboardController
 
   public function empresaEditarVer()
   {
-    if ($this->usuarioLogado['nivel'] == 2) {
+    if ($this->usuarioLogado['nivel'] == USUARIO_RESTRITO) {
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', 'Você não tem permissão para realizar esta ação.');
     }
 
@@ -44,7 +44,7 @@ class DashboardEmpresaController extends DashboardController
 
   public function atualizar(int $id)
   {
-    if ($this->usuarioLogado['nivel'] == 2) {
+    if ($this->usuarioLogado['nivel'] == USUARIO_RESTRITO) {
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', 'Você não tem permissão para realizar esta ação.');
     }
 

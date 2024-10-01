@@ -22,7 +22,7 @@ class PublicoCategoriaController extends PublicoController
     $artigos = [];
 
     $condicoes = [
-      'Categoria.ativo' => 1,
+      'Categoria.ativo' => ATIVO,
     ];
 
     $colunas = [
@@ -45,8 +45,8 @@ class PublicoCategoriaController extends PublicoController
     if ($categorias) {
       $condArtigos = [
         'Artigo.categoria_id' => (int) $id,
-        'Categoria.ativo' => 1,
-        'Artigo.ativo' => 1,
+        'Categoria.ativo' => ATIVO,
+        'Artigo.ativo' => ATIVO,
       ];
 
       $colArtigos = [

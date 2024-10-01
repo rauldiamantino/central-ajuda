@@ -15,15 +15,15 @@ class DashboardUsuarioController extends DashboardController
 
   public function usuariosVer()
   {
-    if ($this->usuarioLogado['nivel'] == 2) {
+    if ($this->usuarioLogado['nivel'] == USUARIO_RESTRITO) {
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', 'Você não tem permissão para realizar esta ação.');
     }
 
     $condicoes = [];
 
     // Oculta usuários de suporte
-    if ($this->usuarioLogado['nivel'] != 0) {
-      $condicoes['Usuario.nivel !='] = 0;
+    if ($this->usuarioLogado['padrao'] != USUARIO_SUPORTE) {
+      $condicoes['Usuario.padrao !='] = USUARIO_SUPORTE;
     }
 
     $limite = 10;
@@ -89,8 +89,8 @@ class DashboardUsuarioController extends DashboardController
     ];
 
     // Impede acesso a usuário de suporte
-    if ($this->usuarioLogado['nivel'] != 0) {
-      $condicoes['Usuario.nivel !='] = 0;
+    if ($this->usuarioLogado['padrao'] != USUARIO_SUPORTE) {
+      $condicoes['Usuario.padrao !='] = USUARIO_SUPORTE;
     }
 
     $colunas = [
@@ -121,7 +121,7 @@ class DashboardUsuarioController extends DashboardController
 
   public function usuarioAdicionarVer()
   {
-    if ($this->usuarioLogado['nivel'] == 2) {
+    if ($this->usuarioLogado['nivel'] == USUARIO_RESTRITO) {
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', 'Você não tem permissão para realizar esta ação.');
     }
 
@@ -131,7 +131,7 @@ class DashboardUsuarioController extends DashboardController
 
   public function desbloquear(int $id)
   {
-    if ($this->usuarioLogado['padrao'] > 0) {
+    if ($this->usuarioLogado['padrao'] != USUARIO_SUPORTE) {
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/usuarios', 'Você não tem permissão para realizar esta ação.');
     }
 
@@ -151,7 +151,7 @@ class DashboardUsuarioController extends DashboardController
 
   public function adicionar(): array
   {
-    if ($this->usuarioLogado['nivel'] == 2) {
+    if ($this->usuarioLogado['nivel'] == USUARIO_RESTRITO) {
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', 'Você não tem permissão para realizar esta ação.');
     }
 
@@ -167,7 +167,7 @@ class DashboardUsuarioController extends DashboardController
 
   public function atualizar(int $id)
   {
-    if ($this->usuarioLogado['nivel'] == 2 and $this->usuarioLogado['id'] != $id) {
+    if ($this->usuarioLogado['nivel'] == USUARIO_RESTRITO and $this->usuarioLogado['id'] != $id) {
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', 'Você não tem permissão para realizar esta ação.');
     }
 
@@ -183,7 +183,7 @@ class DashboardUsuarioController extends DashboardController
 
   public function apagar(int $id)
   {
-    if ($this->usuarioLogado['nivel'] == 2) {
+    if ($this->usuarioLogado['nivel'] == USUARIO_RESTRITO) {
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', 'Você não tem permissão para realizar esta ação.');
     }
 

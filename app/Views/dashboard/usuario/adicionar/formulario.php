@@ -1,18 +1,18 @@
 <?php
 $nivelAcesso = [
-  1 => 'Acesso total',
-  2 => 'Acesso restrito',
+  USUARIO_TOTAL => 'Acesso total',
+  USUARIO_RESTRITO => 'Acesso restrito',
 ];
 
 $tipoUsuario = [
-  0 => 'Suporte',
-  // 1 => 'Padrão',
-  2 => 'Comum',
+  USUARIO_SUPORTE => 'Suporte',
+  // USUARIO_PADRAO => 'Padrão',
+  USUARIO_COMUM => 'Comum',
 ];
 
 // Somente usuário de suporte pode criar usuário de suporte e apenas na loja padrão
-if ($this->usuarioLogado['padrao'] > 0 or $this->sessaoUsuario->buscar('empresaId') > 1) {
-  unset($tipoUsuario['0']);
+if ($this->usuarioLogado['padrao'] != USUARIO_SUPORTE or $this->sessaoUsuario->buscar('empresaId') > 1) {
+  unset($tipoUsuario[ USUARIO_SUPORTE ]);
 }
 ?>
 
@@ -37,7 +37,7 @@ if ($this->usuarioLogado['padrao'] > 0 or $this->sessaoUsuario->buscar('empresaI
             <?php endforeach; ?>
           </select>
         </div>
-        <?php if ($this->usuarioLogado['padrao'] == 0) { ?>
+        <?php if ($this->usuarioLogado['padrao'] == USUARIO_SUPORTE) { ?>
           <div class="w-full flex flex-col">
             <label for="usuario-editar-padrao" class="block text-sm font-medium text-gray-700">Tipo de usuário</label>
             <select id="usuario-editar-padrao" name="padrao" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" required>
@@ -49,7 +49,7 @@ if ($this->usuarioLogado['padrao'] > 0 or $this->sessaoUsuario->buscar('empresaI
             </select>
           </div>
         <?php } ?>
-        <?php if ($this->usuarioLogado['padrao'] > 0) { ?>
+        <?php if ($this->usuarioLogado['padrao'] != USUARIO_SUPORTE) { ?>
           <input type="hidden" name="padrao" value="2">
         <?php } ?>
       </div>

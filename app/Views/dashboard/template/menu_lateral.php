@@ -40,14 +40,14 @@
           </svg>
           <div class="w-full flex gap-2 justify-between items-center">
             <span class="pl-1">Empresa</span>
-            <?php if ($this->usuarioLogado['empresaAtivo'] == 0) { ?>
+            <?php if ($this->usuarioLogado['empresaAtivo'] == INATIVO) { ?>
               <div class="text-red-800">
                 <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 16 16">
                   <circle cx="8" cy="8" r="8"/>
                 </svg>
               </div>
             <?php } ?>
-            <?php if ($this->usuarioLogado['empresaAtivo'] == 1) { ?>
+            <?php if ($this->usuarioLogado['empresaAtivo'] == ATIVO) { ?>
               <div class="text-green-800">
                 <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 16 16">
                   <circle cx="8" cy="8" r="8"/>
@@ -58,7 +58,7 @@
         </div>
       </a>
     </li>
-    <?php if ($this->usuarioLogado['id'] > 0 and $this->usuarioLogado['padrao'] == 0) { ?>
+    <?php if ($this->usuarioLogado['id'] > 0 and $this->usuarioLogado['padrao'] == USUARIO_SUPORTE) { ?>
       <li class="hover:bg-slate-100 rounded-lg cursor-pointer flex justify-between group">
         <button type="button" onclick="window.location.href='/login/suporte'" class="w-full p-2">
           <div class="flex justify-start items-center gap-3">

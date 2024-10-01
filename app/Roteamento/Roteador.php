@@ -63,7 +63,7 @@ class Roteador
     $empresaAtivo = intval($buscarEmpresa[0]['Empresa.ativo'] ?? 0);
 
     // Acesso negado
-    if ($empresaAtivo == 0) {
+    if ($empresaAtivo == INATIVO) {
       $empresaId = 0;
     }
 
@@ -78,7 +78,7 @@ class Roteador
     }
 
     // Restrições de acesso por nível
-    if ((! isset($usuarioLogado['padrao']) or $usuarioLogado['padrao'] > 0) and $this->rotaRestritaSuporte($chaveRota)) {
+    if ((! isset($usuarioLogado['padrao']) or $usuarioLogado['padrao'] != USUARIO_SUPORTE) and $this->rotaRestritaSuporte($chaveRota)) {
       $this->sessaoUsuario->definir('erro', 'Você não tem permissão para realizar esta ação.');
 
       $this->sessaoUsuario->apagar('usuario');
@@ -99,7 +99,7 @@ class Roteador
       elseif (! isset($usuarioLogado['subdominio']) or empty($usuarioLogado['subdominio'])) {
         $sucesso = false;
       }
-      elseif ($empresaAtivo == 0 and $usuarioLogado['padrao'] > 0) {
+      elseif ($empresaAtivo == INATIVO and $usuarioLogado['padrao'] != USUARIO_SUPORTE) {
         $this->sessaoUsuario->definir('erro', 'Empresa desativada');
         $sucesso = false;
       }
@@ -118,12 +118,12 @@ class Roteador
       }
 
       // Restrições de acesso por nível
-      if ($sucesso and $usuarioLogado['padrao'] > 0 and $this->rotaRestritaSuporte($chaveRota)) {
+      if ($sucesso and $usuarioLogado['padrao'] != USUARIO_SUPORTE and $this->rotaRestritaSuporte($chaveRota)) {
         $this->sessaoUsuario->definir('erro', 'Você não tem permissão para realizar esta ação.');
         $sucesso = false;
       }
 
-      if ($sucesso and $usuarioLogado['nivel'] == 2 and $this->rotaRestritaNivel2($chaveRota, $usuarioLogado['id'], $id)) {
+      if ($sucesso and $usuarioLogado['nivel'] == USUARIO_RESTRITO and $this->rotaRestritaNivel2($chaveRota, $usuarioLogado['id'], $id)) {
         $this->sessaoUsuario->definir('erro', 'Você não tem permissão para realizar esta ação.');
         $sucesso = false;
       }

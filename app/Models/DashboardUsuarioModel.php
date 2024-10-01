@@ -19,9 +19,9 @@ class DashboardUsuarioModel extends Model
     }
 
     // Apenas um usuário padrão por empresa
-    if ($campos['padrao'] == 1) {
+    if ($campos['padrao'] == USUARIO_PADRAO) {
       $condicao = [
-        'Usuario.padrao' => 1,
+        'Usuario.padrao' => USUARIO_PADRAO,
       ];
 
       $usuarioPadrao = parent::condicao($condicao)
@@ -40,7 +40,7 @@ class DashboardUsuarioModel extends Model
     }
 
     // Evita atribuir padrão de suporte
-    if (isset($campos['padrao']) and $campos['padrao'] == 0 and $this->usuarioLogado['padrao'] > 0) {
+    if (isset($campos['padrao']) and $campos['padrao'] == USUARIO_SUPORTE and $this->usuarioLogado['padrao'] != USUARIO_SUPORTE) {
       $msgErro = [
         'erro' => [
           'codigo' => 401,
@@ -64,7 +64,7 @@ class DashboardUsuarioModel extends Model
     }
 
     // Cria usuário de Suporte somente na loja 1 - padrao
-    if (isset($campos['padrao']) and $campos['padrao'] == 0 and $this->usuarioLogado['empresaId'] > 1) {
+    if (isset($campos['padrao']) and $campos['padrao'] == USUARIO_SUPORTE and $this->usuarioLogado['empresaId'] > 1) {
       $msgErro = [
         'erro' => [
           'codigo' => 401,
@@ -236,7 +236,7 @@ class DashboardUsuarioModel extends Model
     }
 
     // Evita editar usuário de Suporte
-    if ($usuarioEditado[0]['Usuario.nivel'] == 0 and $this->usuarioLogado['nivel'] != 0) {
+    if ($usuarioEditado[0]['Usuario.padrao'] == USUARIO_SUPORTE and $this->usuarioLogado['padrao'] != USUARIO_SUPORTE) {
       $msgErro = [
         'erro' => [
           'codigo' => 401,
@@ -260,7 +260,7 @@ class DashboardUsuarioModel extends Model
     }
 
     // Evita remover usuário padrão
-    if ($usuarioEditado[0]['Usuario.padrao'] == 1) {
+    if ($usuarioEditado[0]['Usuario.padrao'] == USUARIO_PADRAO) {
       $msgErro = [
         'erro' => [
           'codigo' => 400,
@@ -369,17 +369,17 @@ class DashboardUsuarioModel extends Model
         $campos['senha'] = password_hash(trim($campos['senha']), PASSWORD_DEFAULT);
       }
 
-      if (isset($params['ativo']) and ! in_array($campos['ativo'], [0, 1])) {
+      if (isset($params['ativo']) and ! in_array($campos['ativo'], [INATIVO, ATIVO])) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('ativo', 'valInvalido');
       }
 
       // 0 - Suporte, 1 - Padrão, 2 - Comum
-      if (isset($params['padrao']) and ! in_array($campos['padrao'], [0, 1, 2])) {
+      if (isset($params['padrao']) and ! in_array($campos['padrao'], [USUARIO_PADRAO, USUARIO_PADRAO, USUARIO_COMUM])) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('padrao', 'valInvalido');
       }
 
       // 1 - Total, 2 - Restrito
-      if (isset($params['nivel']) and ! in_array($campos['nivel'], [1, 2])) {
+      if (isset($params['nivel']) and ! in_array($campos['nivel'], [USUARIO_TOTAL, USUARIO_RESTRITO])) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('nivel', 'valInvalido');
       }
 
@@ -517,9 +517,9 @@ class DashboardUsuarioModel extends Model
 
     $resultado = [];
 
-    if (isset($campos['padrao']) and $campos['padrao'] == 1) {
+    if (isset($campos['padrao']) and $campos['padrao'] == USUARIO_PADRAO) {
       $condicao = [
-        'Usuario.padrao' => 1,
+        'Usuario.padrao' => USUARIO_PADRAO,
         'Usuario.id !=' => $id,
       ];
 
@@ -535,31 +535,31 @@ class DashboardUsuarioModel extends Model
       // Evita editar usuário de nível superior
       $msgErro['erro']['mensagem'] = $this->gerarMsgErro('', 'permissao');
     }
-    elseif ($usuarioEditado[0]['Usuario.padrao'] == 0 and $this->usuarioLogado['padrao'] > 0) {
+    elseif ($usuarioEditado[0]['Usuario.padrao'] == USUARIO_SUPORTE and $this->usuarioLogado['padrao'] != USUARIO_SUPORTE) {
       // Evita editar usuário de Suporte
       $msgErro['erro']['mensagem'] = $this->gerarMsgErro('', 'permissao');
     }
-    elseif ($this->usuarioLogado['padrao'] > 0 and isset($campos['padrao']) and $campos['padrao'] == 0) {
+    elseif ($this->usuarioLogado['padrao'] != USUARIO_SUPORTE and isset($campos['padrao']) and $campos['padrao'] == USUARIO_SUPORTE) {
       // Evita atribuir padrão de suporte
       $msgErro['erro']['mensagem'] = $this->gerarMsgErro('', 'permissao');
     }
-    elseif ($this->usuarioLogado['id'] == $id and isset($campos['ativo']) and $campos['ativo'] == 0) {
+    elseif ($this->usuarioLogado['id'] == $id and isset($campos['ativo']) and $campos['ativo'] == INATIVO) {
       // Evita desativar o próprio usuário
       $msgErro['erro']['mensagem'] = $this->gerarMsgErro('', 'permissaoDesativarProprio');
     }
-    elseif ($usuarioEditado[0]['Usuario.padrao'] == 1 and isset($campos['ativo']) and $campos['ativo'] == 0) {
+    elseif ($usuarioEditado[0]['Usuario.padrao'] == USUARIO_PADRAO and isset($campos['ativo']) and $campos['ativo'] == INATIVO) {
       // Evita desativar usuário padrão
       $msgErro['erro']['mensagem'] = $this->gerarMsgErro('padrao', 'permissaoDesativar');
     }
-    elseif ($usuarioEditado[0]['Usuario.padrao'] == 1 and isset($campos['nivel']) and $campos['nivel'] != $usuarioEditado[0]['Usuario.nivel']) {
+    elseif ($usuarioEditado[0]['Usuario.padrao'] == USUARIO_PADRAO and isset($campos['nivel']) and $campos['nivel'] != $usuarioEditado[0]['Usuario.nivel']) {
       // Evita alterar nível de usuário padrão
       $msgErro['erro']['mensagem'] = $this->gerarMsgErro('nivel', 'permissaoCampo');
     }
-    elseif ($usuarioEditado[0]['Usuario.padrao'] == 1 and isset($campos['padrao']) and $campos['padrao'] != $usuarioEditado[0]['Usuario.padrao']) {
+    elseif ($usuarioEditado[0]['Usuario.padrao'] == USUARIO_PADRAO and isset($campos['padrao']) and $campos['padrao'] != $usuarioEditado[0]['Usuario.padrao']) {
       // Evita alterar o tipo do usuário padrão
       $msgErro['erro']['mensagem'] = $this->gerarMsgErro('padrao', 'permissaoCampo');
     }
-    elseif ($usuarioEditado[0]['Usuario.padrao'] == 0 and isset($campos['padrao']) and $campos['padrao'] != $usuarioEditado[0]['Usuario.padrao']) {
+    elseif ($usuarioEditado[0]['Usuario.padrao'] == USUARIO_SUPORTE and isset($campos['padrao']) and $campos['padrao'] != $usuarioEditado[0]['Usuario.padrao']) {
       // Evita alterar o tipo do usuário de suporte
       $msgErro['erro']['mensagem'] = $this->gerarMsgErro('padrao', 'permissaoCampo');
     }

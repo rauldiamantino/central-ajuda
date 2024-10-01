@@ -69,9 +69,9 @@ class DashboardCadastroModel extends Model
     }
 
     $camposValidados = [
-      'ativo' => 1,
-      'nivel' => 1,
-      'padrao' => 1,
+      'ativo' => ATIVO,
+      'nivel' => USUARIO_TOTAL,
+      'padrao' => USUARIO_PADRAO,
       'subdominio' => $campos['subdominio'],
       'email' => $campos['email'],
       'senha' => $campos['senha'],

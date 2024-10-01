@@ -12,7 +12,7 @@
     <div class="flex flex-col gap-5 border-b border-slate-200">
       <?php foreach ($resultadoBuscar as $chave => $linha) : ?>
           <div class="mb-10 flex flex-col gap-2 publico-artigo-bloco">
-            <?php if (isset($linha['Artigo.ativo']) and $linha['Artigo.ativo'] == 1) { ?>
+            <?php if (isset($linha['Artigo.ativo']) and $linha['Artigo.Ativo'] == ATIVO) { ?>
                 <div class="pb-2 flex gap-2 font-light text-sm publico-migalhas">
                 <?php if (empty($linha['Categoria.nome']) or empty($linha['Artigo.categoria_id'])) { ?>
                   <a href="" class="italic hover:underline">Sem categoria</a>

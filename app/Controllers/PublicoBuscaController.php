@@ -25,12 +25,12 @@ class PublicoBuscaController extends PublicoController
     $intervaloInicio = 0;
     $intervaloFim = 0;
     $resultadoBuscar = [];
-    
+
     $pagina = intval($_GET['pagina'] ?? 0);
     $textoBusca = htmlspecialchars($_GET['texto_busca'] ?? '');
 
     $condicao = [
-      'Artigo.ativo' => 1,
+      'Artigo.ativo' => ATIVO,
     ];
 
     if ($textoBusca) {
@@ -39,7 +39,7 @@ class PublicoBuscaController extends PublicoController
 
     $resultado = $this->artigoModel->condicao($condicao)
                                    ->contar('Artigo.id');
-    
+
     $artigosTotal = intval($resultado['total'] ?? 0);
 
     if ($artigosTotal > 0) {
@@ -88,7 +88,7 @@ class PublicoBuscaController extends PublicoController
 
     if ((int) $this->buscarAjuste('publico_cate_busca') == 1) {
       $condicoes = [
-        'Categoria.ativo' => 1,
+        'Categoria.ativo' => ATIVO,
       ];
 
       $colunas = [

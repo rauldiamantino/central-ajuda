@@ -27,7 +27,7 @@ class DashboardCadastroController extends DashboardController
 
   public function cadastroSucessoVer()
   {
-    if ($this->usuarioLogado['id'] > 0 and $this->usuarioLogado['empresaAtivo'] == 1) {
+    if ($this->usuarioLogado['id'] > 0 and $this->usuarioLogado['empresaAtivo'] == ATIVO) {
       $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos');
     }
 

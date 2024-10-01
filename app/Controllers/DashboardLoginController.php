@@ -30,7 +30,7 @@ class DashboardLoginController extends DashboardController
 
   public function loginSuporteVer(int $id = 0)
   {
-    if ($this->usuarioLogado['padrao'] > 0) {
+    if ($this->usuarioLogado['padrao'] != USUARIO_SUPORTE) {
       header('Location: /' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos');
       exit();
     }
@@ -107,7 +107,7 @@ class DashboardLoginController extends DashboardController
     $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
     $this->sessaoUsuario->regenerarId();
 
-    if ($this->usuarioLogado['empresaId'] == 1 and $this->usuarioLogado['padrao'] == 0) {
+    if ($this->usuarioLogado['empresaId'] == 1 and $this->usuarioLogado['padrao'] == USUARIO_SUPORTE) {
       $this->redirecionar('/login/suporte');
     }
 
