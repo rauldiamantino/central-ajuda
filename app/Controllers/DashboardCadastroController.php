@@ -1,16 +1,19 @@
 <?php
 namespace app\Controllers;
+use app\Controllers\PagamentoStripeController;
 use app\Models\DashboardCadastroModel;
 
 class DashboardCadastroController extends DashboardController
 {
   private $cadastroModel;
+  private $pagamentoStripe;
 
   public function __construct()
   {
     parent::__construct();
 
     $this->cadastroModel = new DashboardCadastroModel();
+    $this->pagamentoStripe = new PagamentoStripeController();
   }
 
   public function cadastroVer()
@@ -41,6 +44,7 @@ class DashboardCadastroController extends DashboardController
     $this->visao->variavel('protocolo', $protocolo);
     $this->visao->variavel('titulo', 'Cadastro');
     $this->visao->variavel('pagCadastro', true);
+    $this->visao->variavel('pagCadastroSucesso', true);
     $this->visao->renderizar('/cadastro/sucesso');
   }
 
@@ -79,7 +83,19 @@ class DashboardCadastroController extends DashboardController
       $this->redirecionarErro('/cadastro', 'Erro ao cadastrar usuário (C500#USR)');
     }
 
+    $usuario = $usuario[0];
+
+    // Sessão de pagamento
+    $sessaoStripe = $this->pagamentoStripe->criarSessao($usuario);
+
+    if (empty($sessaoStripe)) {
+      $this->cadastroModel->apagarEmpresa($empresaId);
+      $this->redirecionarErro('/cadastro', 'Erro ao gerar pagamento (C500#STR)');
+    }
+
+    $this->cadastroModel->gravarSessaoStripe($empresaId, $sessaoStripe);
     $this->sessaoUsuario->definir('protocolo', date('YmdHis') . '#' . $empresaId);
-    $this->redirecionar('/cadastro/sucesso');
+
+    $this->redirecionar('https://buy.stripe.com/test_bIY2bzfXod6dfJK9AA?prefilled_email=' . $usuario['email']);
   }
 }

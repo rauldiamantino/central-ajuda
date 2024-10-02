@@ -38,7 +38,10 @@
         </div>
       </div>
     </main>
-    <?php require_once 'rodape-suporte.php' ?>
+
+    <?php if (! isset($pagCadastroSucesso)) { ?>
+      <?php require_once 'rodape-suporte.php' ?>
+    <?php } ?>
   <?php } ?>
 
   <?php if (! isset($pagLogin) and ! isset($pagLoginSuporte) and ! isset($pagCadastro)) { ?>

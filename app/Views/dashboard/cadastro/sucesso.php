@@ -1,6 +1,6 @@
-<div class="w-full h-full shadow rounded-lg">
-  <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-    <div class="sm:mx-auto sm:w-full sm:max-w-sm flex">
+<div class="p-4 w-full h-full">
+  <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 shadow rounded-lg">
+    <div class="sm:mx-auto sm:w-full w-full flex justify-center">
       <a href="/login"><img class="mx-auto h-10 w-auto" src="/public/img/luminaOn.png" alt=""></a>
     </div>
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm lg:min-w-[600px] flex flex-col gap-4">

@@ -14,7 +14,7 @@ use app\Controllers\PublicoArtigoController;
 use app\Controllers\PublicoBuscaController;
 use app\Controllers\PublicoCategoriaController;
 use app\Controllers\PublicoController;
-use app\Controllers\TesteController;
+use app\Controllers\PagamentoStripeController;
 use app\Controllers\FirebaseController;
 use DateTime;
 
@@ -314,7 +314,7 @@ class Roteador
       // Acesso sem domínio
       'POST:/cadastro' => [DashboardCadastroController::class, 'adicionar'],
       'PUT:/empresa/{id}' => [DashboardEmpresaController::class, 'atualizar'],
-      'GET:/teste' => [TesteController::class, 'testar'],
+      'GET:/teste' => [PagamentoStripeController::class, 'testar'],
       'GET:/erro' => [PaginaErroController::class, 'erroVer'],
       'GET:/login' => [DashboardLoginController::class, 'loginVer'],
       'GET:/login/suporte' => [DashboardLoginController::class, 'loginSuporteVer'],

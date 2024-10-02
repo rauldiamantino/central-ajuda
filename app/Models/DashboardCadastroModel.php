@@ -131,6 +131,29 @@ class DashboardCadastroModel extends Model
     return $resultado['id'] ?? 0;
   }
 
+  public function apagarEmpresa(int $empresaId): void
+  {
+    $sql = 'DELETE FROM `empresas` WHERE `id` = ?';
+
+    $params = [
+      0 => $empresaId,
+    ];
+
+    parent::executarQuery($sql, $params);
+  }
+
+  public function gravarSessaoStripe(int $empresaId, string $sessaoId): void
+  {
+    $sql = 'UPDATE `empresas` SET `sessao_stripe_id` = ? WHERE `id` = ?';
+
+    $params = [
+      0 => $sessaoId,
+      1 => $empresaId,
+    ];
+
+    parent::executarQuery($sql, $params);
+  }
+
   public function usuarioExiste(string $email): int
   {
     $sql = 'SELECT 1 FROM `usuarios` WHERE `email` = ? LIMIT 1';
