@@ -32,6 +32,7 @@ class PublicoCategoriaController extends PublicoController
     $colunas = [
       'Categoria.id',
       'Categoria.nome',
+      'Categoria.ativo',
     ];
 
     $ordem = [
@@ -67,6 +68,7 @@ class PublicoCategoriaController extends PublicoController
         'Artigo.categoria_id',
         'Artigo.criado',
         'Artigo.modificado',
+        'Categoria.ativo',
         'Categoria.nome',
       ];
 

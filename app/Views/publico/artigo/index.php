@@ -9,7 +9,17 @@
     <span class="underline whitespace-nowrap truncate"><?php echo $artigo['Artigo.titulo'] ?></span>
   </div>
     <div class="flex flex-col justify-between items-start gap-4 pt-10 publico-artigo-topo">
-      <h2 class="text-4xl publico-artigo-titulo"><?php echo $artigo['Artigo.titulo'] ?></h2>
+      <div class="flex gap-2 items-center">
+        <h2 class="text-4xl publico-artigo-titulo"><?php echo $artigo['Artigo.titulo'] ?></h2>
+
+        <?php if ($artigo['Artigo.ativo'] == INATIVO) { ?>
+          <div class="text-red-800">
+            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 16 16">
+              <circle cx="8" cy="8" r="8"/>
+            </svg>
+          </div>
+        <?php } ?>
+      </div>
       <div class="text-xs font-light publico-artigo-datas">
         <?php if ($this->buscarAjuste('artigo_criado') == 1 and $this->buscarAjuste('artigo_autor') == 1) { ?>
           <div>Criado por <span class="font-semibold"> <?php echo $artigo['Usuario.nome'] ?> </span> em <?php echo traduzirDataPtBr($artigo['Artigo.criado']); ?></div>

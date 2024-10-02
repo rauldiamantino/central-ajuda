@@ -61,7 +61,8 @@ class PublicoBuscaController extends PublicoController
         'Artigo.titulo',
         'Artigo.ativo',
         'Artigo.categoria_id',
-        'Categoria.nome'
+        'Categoria.nome',
+        'Categoria.ativo',
       ];
 
       $ordem = [
@@ -108,6 +109,7 @@ class PublicoBuscaController extends PublicoController
       $colunas = [
         'Categoria.id',
         'Categoria.nome',
+        'Categoria.ativo',
       ];
 
       $ordem = [

@@ -40,6 +40,7 @@ class PublicoArtigoController extends PublicoController
       'Artigo.categoria_id',
       'Artigo.criado',
       'Artigo.modificado',
+      'Categoria.ativo',
       'Categoria.nome',
       'Usuario.nome',
     ];
@@ -99,8 +100,10 @@ class PublicoArtigoController extends PublicoController
 
       $colDemaisArtigos = [
         'Artigo.id',
+        'Artigo.ativo',
         'Artigo.titulo',
         'Categoria.nome',
+        'Categoria.ativo',
       ];
 
       $uniDemaisArtigos = [

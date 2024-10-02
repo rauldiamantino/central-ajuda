@@ -42,6 +42,7 @@ class PublicoController extends Controller
     $colunas = [
       'Categoria.id',
       'Categoria.nome',
+      'Categoria.ativo',
     ];
 
     $resultado = $this->dashboardDategoriaModel->condicao($condicoes)
