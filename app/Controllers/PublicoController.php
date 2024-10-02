@@ -35,6 +35,10 @@ class PublicoController extends Controller
       'Categoria.ativo' => ATIVO,
     ];
 
+    if ($this->exibirInativos()) {
+      unset($condicoes['Categoria.ativo']);
+    }
+
     $colunas = [
       'Categoria.id',
       'Categoria.nome',
@@ -75,5 +79,18 @@ class PublicoController extends Controller
   private function obterSubdominio(): void
   {
     $this->subdominio = $this->sessaoUsuario->buscar('subdominio');
+  }
+
+  public function exibirInativos(): bool
+  {
+    if ($this->usuarioLogado['padrao'] == USUARIO_SUPORTE) {
+      return true;
+    }
+
+    if ($this->subdominio and $this->subdominio == $this->usuarioLogado['subdominio']) {
+      return true;
+    }
+
+    return false;
   }
 }

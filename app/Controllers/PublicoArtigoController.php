@@ -27,6 +27,10 @@ class PublicoArtigoController extends PublicoController
       'Artigo.ativo' => ATIVO,
     ];
 
+    if ($this->exibirInativos()) {
+      unset($condicoes['Artigo.ativo']);
+    }
+
     $colunas = [
       'Artigo.id',
       'Artigo.ativo',
@@ -88,6 +92,10 @@ class PublicoArtigoController extends PublicoController
         'Artigo.categoria_id' => intval($artigo[0]['Artigo.categoria_id'] ?? 0),
         'Artigo.ativo' => ATIVO,
       ];
+
+      if ($this->exibirInativos()) {
+        unset($condDemaisArtigos['Artigo.ativo']);
+      }
 
       $colDemaisArtigos = [
         'Artigo.id',

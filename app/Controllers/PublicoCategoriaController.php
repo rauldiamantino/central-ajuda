@@ -25,6 +25,10 @@ class PublicoCategoriaController extends PublicoController
       'Categoria.ativo' => ATIVO,
     ];
 
+    if ($this->exibirInativos()) {
+      unset($condicoes['Categoria.ativo']);
+    }
+
     $colunas = [
       'Categoria.id',
       'Categoria.nome',
@@ -48,6 +52,11 @@ class PublicoCategoriaController extends PublicoController
         'Categoria.ativo' => ATIVO,
         'Artigo.ativo' => ATIVO,
       ];
+
+      if ($this->exibirInativos()) {
+        unset($condArtigos['Categoria.ativo']);
+        unset($condArtigos['Artigo.ativo']);
+      }
 
       $colArtigos = [
         'Artigo.id',

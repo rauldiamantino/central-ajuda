@@ -33,6 +33,13 @@ class PublicoBuscaController extends PublicoController
       'Artigo.ativo' => ATIVO,
     ];
 
+    if ($this->usuarioLogado['padrao'] == USUARIO_SUPORTE) {
+      unset($condicao['Artigo.ativo']);
+    }
+    elseif ($this->subdominio and $this->subdominio == $this->usuarioLogado['subdominio']) {
+      unset($condicao['Artigo.ativo']);
+    }
+
     if ($textoBusca) {
       $condicao['Artigo.titulo LIKE'] = '%' . $textoBusca . '%';
     }
@@ -90,6 +97,13 @@ class PublicoBuscaController extends PublicoController
       $condicoes = [
         'Categoria.ativo' => ATIVO,
       ];
+
+      if ($this->usuarioLogado['padrao'] == USUARIO_SUPORTE) {
+        unset($condicoes['Categoria.ativo']);
+      }
+      elseif ($this->subdominio and $this->subdominio == $this->usuarioLogado['subdominio']) {
+        unset($condicoes['Categoria.ativo']);
+      }
 
       $colunas = [
         'Categoria.id',
