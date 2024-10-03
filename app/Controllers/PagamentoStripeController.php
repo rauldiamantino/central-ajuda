@@ -17,21 +17,21 @@ class PagamentoStripeController extends DashboardController
     $empresaId = intval($usuario['empresa_id'] ?? 0);
 
     if (empty($empresaId)) {
-      return '';
+      return [];
     }
 
     if (empty($usuarioId)) {
-      return '';
+      return [];
     }
 
     if (empty($usuarioEmail)) {
-      return '';
+      return [];
     }
 
     $campos = [
       'client_reference_id' => 'E' . $empresaId . 'U' . $usuarioId,
       'customer_email' => $usuarioEmail,
-      'success_url' => 'https://webhook.site/3abfb6c1-6849-4474-8681-e92cbfc78e86',
+      'success_url' => 'http://localhost/cadastro/sucesso',
       'line_items' => [
         [
           'price' => 'price_1Q5HXyGEvsdXh8q6qABYqPDW',
@@ -43,7 +43,7 @@ class PagamentoStripeController extends DashboardController
 
     $resposta_api = $this->stripe->checkout->sessions->create($campos);
 
-    return $resposta_api['id'] ?? '';
+    return $resposta_api;
   }
 
   public function buscarSessao(string $sessaoId): array
@@ -63,5 +63,44 @@ class PagamentoStripeController extends DashboardController
     }
 
     return $resposta_api;
+  }
+
+  public function buscarAssinaturaAtiva(string $sessaoId): string
+  {
+    if (empty($sessaoId)) {
+      return '';
+    }
+
+    $buscarSessao = $this->stripe->checkout->sessions->retrieve($sessaoId);
+    $assinaturaId = $buscarSessao['subscription'] ?? '';
+
+    if (empty($assinaturaId)) {
+      return '';
+    }
+
+    $buscarAssinatura = $this->stripe->subscriptions->retrieve($assinaturaId);
+    $status = $buscarAssinatura['status'] ?? '';
+
+    if ($status == 'active') {
+      return $assinaturaId;
+    }
+
+    return '';
+  }
+
+  public function buscarAssinatura(string $assinaturaId): array
+  {
+    if (empty($assinaturaId)) {
+      return [];
+    }
+
+    $buscarAssinatura = $this->stripe->subscriptions->retrieve($assinaturaId);
+    $buscarAssinatura = $buscarAssinatura->toArray();
+
+    if (! is_array($buscarAssinatura)) {
+      return [];
+    }
+
+    return $buscarAssinatura;
   }
 }

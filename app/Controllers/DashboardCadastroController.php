@@ -38,7 +38,7 @@ class DashboardCadastroController extends DashboardController
     $this->sessaoUsuario->apagar('protocolo');
 
     if (empty($protocolo)) {
-      $this->redirecionar('/cadastro');
+      $this->redirecionar('/login');
     }
 
     $this->visao->variavel('protocolo', $protocolo);
@@ -87,15 +87,16 @@ class DashboardCadastroController extends DashboardController
 
     // Sessão de pagamento
     $sessaoStripe = $this->pagamentoStripe->criarSessao($usuario);
+    $sessaoStripeId = $sessaoStripe['id'] ?? '';
 
-    if (empty($sessaoStripe)) {
+    if (empty($sessaoStripeId)) {
       $this->cadastroModel->apagarEmpresa($empresaId);
       $this->redirecionarErro('/cadastro', 'Erro ao gerar pagamento (C500#STR)');
     }
 
-    $this->cadastroModel->gravarSessaoStripe($empresaId, $sessaoStripe);
+    $this->cadastroModel->gravarSessaoStripe($empresaId, $sessaoStripeId);
     $this->sessaoUsuario->definir('protocolo', date('YmdHis') . '#' . $empresaId);
 
-    $this->redirecionar('https://buy.stripe.com/test_bIY2bzfXod6dfJK9AA?prefilled_email=' . $usuario['email']);
+    $this->redirecionar($sessaoStripe->url);
   }
 }

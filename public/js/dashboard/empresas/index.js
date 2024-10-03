@@ -9,7 +9,7 @@ const mascararCnpj = () => {
   if (! cnpj) {
     return
   }
-  
+
   const cleaveCNPJ = new Cleave(cnpj, {
     delimiters: ['.', '.', '/', '-'],
     blocks: [2, 3, 3, 4, 2],

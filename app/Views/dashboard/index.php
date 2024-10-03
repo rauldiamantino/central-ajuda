@@ -8,7 +8,7 @@
   <?php if (isset($pagLogin)) { ?>
     <main>
       <div class="w-full h-screen flex justify-center items-center">
-        <div class="relative w-max min-w-96 h-max bg-white">
+        <div class="relative p-4 w-full sm:w-[600px] h-max bg-white">
           <?php require_once $visao ?>
           <?php require_once 'login/notificacoes.php' ?>
         </div>
@@ -20,7 +20,7 @@
   <?php if (isset($pagLoginSuporte)) { ?>
     <main>
       <div class="w-full h-screen flex justify-center items-center">
-        <div class="relative w-max min-w-96 h-max bg-white">
+        <div class="relative p-4 w-full sm:w-[600px] h-max bg-white">
           <?php require_once $visao ?>
           <?php require_once 'login/notificacoes.php' ?>
         </div>
@@ -32,7 +32,7 @@
   <?php if (isset($pagCadastro)) { ?>
     <main>
       <div class="w-full h-screen flex justify-center items-center">
-        <div class="relative w-max min-w-96 h-max bg-white">
+        <div class="relative p-4 w-full sm:w-[600px] h-max bg-white">
           <?php require_once $visao ?>
           <?php require_once 'cadastro/notificacoes.php' ?>
         </div>
