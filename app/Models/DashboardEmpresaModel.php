@@ -129,6 +129,8 @@ class DashboardEmpresaModel extends Model
       'telefone' => $params['telefone'] ?? '',
       'logo' => $params['logo'] ?? '',
       'cnpj' => $params['cnpj'] ?? '',
+      'sessao_stripe_id' => $params['sessao_stripe_id'] ?? '',
+      'assinatura_id' => $params['assinatura_id'] ?? '',
     ];
 
     $msgErro = [
@@ -147,6 +149,8 @@ class DashboardEmpresaModel extends Model
         'telefone',
         'subdominio',
         'logo',
+        'sessao_stripe_id',
+        'assinatura_id',
       ];
 
       if ($atualizar and ! isset($params[ $chave ])) {
@@ -173,6 +177,8 @@ class DashboardEmpresaModel extends Model
       $campos['telefone'] = filter_var($campos['telefone'], FILTER_SANITIZE_NUMBER_INT);
       $cnpjValido = preg_match('/^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/', $campos['cnpj']);
       $campos['logo'] = filter_var($campos['logo'], FILTER_SANITIZE_URL);
+      $campos['sessao_stripe_id'] = htmlspecialchars($campos['sessao_stripe_id']);
+      $campos['assinatura_id'] = htmlspecialchars($campos['assinatura_id']);
 
       if (isset($params['ativo']) and ! in_array($campos['ativo'], [INATIVO, ATIVO])) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('ativo', 'valInvalido');
@@ -195,6 +201,16 @@ class DashboardEmpresaModel extends Model
       $telefoneCaracteresMin = 10;
       $telefoneCaracteresMax = 11;
       $logoCaracteres = 255;
+      $sessaoStripeCaracteres = 255;
+      $assinaturaId = 255;
+
+      if (strlen($campos['sessao_stripe_id']) > $sessaoStripeCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('id', 'caracteres', $sessaoStripeCaracteres);
+      }
+
+      if (strlen($campos['assinatura_id']) > $assinaturaId) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('id', 'caracteres', $assinaturaId);
+      }
 
       if (strlen($campos['ativo']) > $ativoCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('id', 'caracteres', $ativoCaracteres);
@@ -236,6 +252,8 @@ class DashboardEmpresaModel extends Model
       'telefone' => $campos['telefone'],
       'cnpj' => $campos['cnpj'],
       'logo' => $campos['logo'],
+      'sessao_stripe_id' => $campos['sessao_stripe_id'],
+      'assinatura_id' => $campos['assinatura_id'],
     ];
 
     if ($atualizar) {
@@ -259,6 +277,14 @@ class DashboardEmpresaModel extends Model
       $camposValidados['logo'] = null;
     }
 
+    if (isset($camposValidados['sessao_stripe_id']) and empty($camposValidados['sessao_stripe_id'])) {
+      $camposValidados['sessao_stripe_id'] = null;
+    }
+
+    if (isset($camposValidados['assinatura_id']) and empty($camposValidados['assinatura_id'])) {
+      $camposValidados['assinatura_id'] = null;
+    }
+
     if ($this->usuarioLogado['padrao'] != USUARIO_SUPORTE and isset($camposValidados['ativo'])) {
       unset($camposValidados['ativo']);
     }
@@ -276,6 +302,14 @@ class DashboardEmpresaModel extends Model
   {
     if ($campo == 'cnpj') {
       $campo = 'CNPJ';
+    }
+
+    if ($campo == 'sessao_stripe_id') {
+      $campo = 'Sessao ID do Stripe';
+    }
+
+    if ($campo == 'assinatura_id') {
+      $campo = 'Assinatura ID';
     }
 
     $msgErro = [

@@ -1,9 +1,9 @@
 <div class="border border-slate-200 w-full h-full shadow rounded-lg">
-  <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+  <div class="flex min-h-full flex-col justify-center px-6 py-12 md:px-10">
+    <div class="w-full">
       <img class="mx-auto h-10 w-auto" src="/public/img/luminaOn.png" alt="">
     </div>
-    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+    <div class="mt-10 w-full">
       <div class="flex flex-col gap-2">
         <?php foreach($empresas as $chave => $linha): ?>
           <a href="/login/suporte/<?php echo $linha['id'] ?>" class="px-4 py-2 border border-slate-200 hover:bg-slate-50 flex gap-5 justify-between rounded">
@@ -33,6 +33,6 @@
     </div>
   </div>
   <div class="p-4 w-full flex justify-center">
-    <a href="/<?php echo $this->usuarioLogado['subdominio'] ?>/dashboard/artigos" class="border border-slate-200 w-full flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-sm text-gray-700 rounded-lg">Voltar</a>
+    <a href="/<?php echo $this->usuarioLogado['subdominio'] ?>/dashboard/artigos" class="border border-slate-300 w-full flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-sm text-gray-700 rounded-lg">Voltar</a>
   </div>
 </div>

@@ -47,6 +47,10 @@ function traduzirDataPtBr($data) {
   return $formatter->format($dateTime);
 }
 
+function traduzirDataTimestamp($timestamp) {
+    return date('d/m/Y \à\s H:i', $timestamp);
+}
+
 function registrarLog($nome, $arquivo) {
   $logMensagem = str_repeat("-", 150) . PHP_EOL . PHP_EOL;
   $logMensagem .= date('Y-m-d H:i:s') . ' - ' . $nome . PHP_EOL . PHP_EOL;

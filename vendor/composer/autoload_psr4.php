@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'app\\' => array($baseDir . '/app'),
+    'Stripe\\' => array($vendorDir . '/stripe/stripe-php/lib'),
 );

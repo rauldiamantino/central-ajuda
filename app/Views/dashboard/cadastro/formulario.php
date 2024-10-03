@@ -23,4 +23,15 @@
   <div>
     <button type="submit" class="flex w-full justify-center rounded-md bg-blue-900 px-3 p-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-900">Cadastrar</button>
   </div>
+
+  <div class="border border-slate-200 p-5 rounded-md w-full flex flex-col items-center justify-center">
+    <h3 class="font-semibold">Acesso ilimitado</h3>
+    <div class="flex gap-2 items-center">
+      <h2 class="text-3xl">R$ 99</h2>
+      <span class="leading-4 text-xs">
+        por<br>
+        mês
+      </span>
+    </div>
+  </div>
 </form>

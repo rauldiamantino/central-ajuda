@@ -38,6 +38,7 @@ function editarTexto() {
 
   setTimeout(() => clearInterval(verificarCKEditor), 5000)
 }
+
 function editarImagem() {
   let imagemParaUpload = null
   let imagemAtual = null

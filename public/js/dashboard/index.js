@@ -55,6 +55,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
   removerAutocomplete()
   setTimeout(() => window.scrollTo({top: 0, left: 0, behavior: 'smooth'}), 60)
+
+  removerAutocomplete()
+  setTimeout(() => window.scrollTo({top: 0, left: 0, behavior: 'smooth'}), 60)
 })
 
 const menuLateralToggle = (menuLateral) => {

@@ -40,7 +40,7 @@
     </div>
   </div>
   <div class="flex gap-2">
-    <a href="/<?php echo $this->usuarioLogado['subdominio'] ?>/dashboard" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-6 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Voltar</a>
+    <a href="/<?php echo $this->usuarioLogado['subdominio'] ?>/dashboard/artigos" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-6 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Voltar</a>
     <button type="submit" class="flex gap-2 items-center justify-center py-2 px-6 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg btn-gravar-empresa">Gravar</button>
   </div>
 </form>

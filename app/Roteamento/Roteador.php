@@ -1,6 +1,8 @@
 <?php
 namespace app\Roteamento;
 use app\Controllers\DashboardAjusteController;
+use app\Controllers\DashboardAssinaturaController;
+use app\Controllers\DashboardPagamentoController;
 use app\Controllers\DashboardArtigoController;
 use app\Controllers\DashboardCadastroController;
 use app\Controllers\DashboardCategoriaController;
@@ -14,8 +16,9 @@ use app\Controllers\PublicoArtigoController;
 use app\Controllers\PublicoBuscaController;
 use app\Controllers\PublicoCategoriaController;
 use app\Controllers\PublicoController;
-use app\Controllers\TesteController;
+use app\Controllers\PagamentoStripeController;
 use app\Controllers\FirebaseController;
+use app\Models\DashboardAssinaturaModel;
 use DateTime;
 
 class Roteador
@@ -56,9 +59,9 @@ class Roteador
 
     $chaveRota = $metodo . ':' . $url;
     $id = (int) basename($url);
+
     $chaveRota = str_replace($id, '{id}', $chaveRota);
     $chaveRota = str_replace($subdominio, '{subdominio}', $chaveRota);
-
     $empresaId = intval($buscarEmpresa[0]['Empresa.id'] ?? 0);
     $empresaAtivo = intval($buscarEmpresa[0]['Empresa.ativo'] ?? 0);
 
@@ -80,9 +83,7 @@ class Roteador
     // Restrições de acesso por nível
     if ((! isset($usuarioLogado['padrao']) or $usuarioLogado['padrao'] != USUARIO_SUPORTE) and $this->rotaRestritaSuporte($chaveRota)) {
       $this->sessaoUsuario->definir('erro', 'Você não tem permissão para realizar esta ação.');
-
-      $this->sessaoUsuario->apagar('usuario');
-      header('Location: /login');
+      header('Location: ' . $_SERVER['HTTP_REFERER']);
       exit;
     }
 
@@ -241,6 +242,7 @@ class Roteador
       'GET:/cadastro/sucesso',
       'POST:/login',
       'GET:/logout',
+      'POST:/d/assinaturas/receber',
     ];
 
     if (in_array($rota, $rotasPermitidas)) {
@@ -282,6 +284,8 @@ class Roteador
       'GET:/{subdominio}/d/usuario/desbloquear/{id}',
       'GET:/login/suporte/{id}',
       'GET:/login/suporte',
+      'GET:/{subdominio}/dashboard/validar_assinatura',
+      'GET:/{subdominio}/dashboard/confirmar_assinatura',
     ];
 
     if (! in_array($rota, $rotasRestritas)) {
@@ -314,7 +318,7 @@ class Roteador
       // Acesso sem domínio
       'POST:/cadastro' => [DashboardCadastroController::class, 'adicionar'],
       'PUT:/empresa/{id}' => [DashboardEmpresaController::class, 'atualizar'],
-      'GET:/teste' => [TesteController::class, 'testar'],
+      'GET:/teste' => [PagamentoStripeController::class, 'testar'],
       'GET:/erro' => [PaginaErroController::class, 'erroVer'],
       'GET:/login' => [DashboardLoginController::class, 'loginVer'],
       'GET:/login/suporte' => [DashboardLoginController::class, 'loginSuporteVer'],
@@ -346,10 +350,15 @@ class Roteador
       'GET:/{subdominio}/dashboard/usuario/editar/{id}' => [DashboardUsuarioController::class, 'usuarioEditarVer'],
       'GET:/{subdominio}/dashboard/usuario/adicionar' => [DashboardUsuarioController::class, 'usuarioAdicionarVer'],
       'GET:/{subdominio}/dashboard/empresa/editar' => [DashboardEmpresaController::class, 'empresaEditarVer'],
+      'GET:/{subdominio}/dashboard/validar_assinatura' => [DashboardEmpresaController::class, 'reprocessarAssinatura'],
+      'GET:/{subdominio}/dashboard/confirmar_assinatura' => [DashboardEmpresaController::class, 'confirmarAssinatura'],
 
       // Dashboard - Ajustes
       'PUT:/{subdominio}/d/ajustes' => [DashboardAjusteController::class, 'atualizar'],
       'GET:/{subdominio}/d/firebase' => [FirebaseController::class, 'credenciais'],
+
+      // Dashboard - Assinatura
+      'POST:/d/assinaturas/receber' => [DashboardAssinaturaController::class, 'receberWebhook'],
 
       // Dashboard - Artigos
       'GET:/{subdominio}/d/artigos' => [DashboardArtigoController::class, 'buscar'],

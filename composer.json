@@ -17,6 +17,7 @@
         }
     ],
     "require": {
-        "erusev/parsedown": "^1.7"
+        "erusev/parsedown": "^1.7",
+        "stripe/stripe-php": "^16.0"
     }
 }
