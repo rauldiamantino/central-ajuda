@@ -41,7 +41,7 @@
         </div>
 
         <?php if ($usuario['Usuario.tentativas_login'] >= 10) { ?>
-          <a href="/d/usuario/desbloquear/<?php echo $this->usuarioLogado['empresaId'] ?>/<?php echo $usuario['Usuario.id']; ?>" class="mt-2 border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Desbloquear</a>
+          <a href="/d/<?php echo $this->usuarioLogado['empresaId'] ?>/usuario/desbloquear/<?php echo $usuario['Usuario.id']; ?>" class="mt-2 border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Desbloquear</a>
         <?php } ?>
       <?php } ?>
     </div>

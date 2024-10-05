@@ -68,7 +68,7 @@
 
   <?php // Email com link para edição de usuário ?>
   <?php if ($this->usuarioLogado['id'] and ! isset($pagLoginSuporte) and $usuarioSuporte == false) { ?>
-    <a href="/dashboard/usuario/editar/<?php echo $this->usuarioLogado['empresaId'] ?>/<?php echo $this->usuarioLogado['id'] ?>" class="fixed bottom-0 right-0 py-1 px-2 md:px-6 flex items-center gap-2 text-xs font-extralight bg-green-800 text-white rounded-t-lg">
+    <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/usuario/editar/<?php echo $this->usuarioLogado['id'] ?>" class="fixed bottom-0 right-0 py-1 px-2 md:px-6 flex items-center gap-2 text-xs font-extralight bg-green-800 text-white rounded-t-lg">
       <?php echo $this->usuarioLogado['email'] ?>
     </a>
   <?php } ?>

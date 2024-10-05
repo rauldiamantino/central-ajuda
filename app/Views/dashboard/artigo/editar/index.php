@@ -1,6 +1,6 @@
 <div class="relative w-full min-h-full flex flex-col bg-white p-4 container-fundo">
   <h2 class="text-2xl font-semibold mb-4">
-    Editar <a href="/artigo/<?php echo $artigo['Artigo.id'] ?>" target="_blank" class="text-sm text-gray-400 font-light italic hover:underline">(Artigo #<?php echo $artigo['Artigo.id']; ?>)</a>
+    Editar <a href="<?php echo subdominioDominio($this->usuarioLogado['subdominio']); ?>/artigo/<?php echo $artigo['Artigo.id'] ?>" target="_blank" class="text-sm text-gray-400 font-light italic hover:underline">(Artigo #<?php echo $artigo['Artigo.id']; ?>)</a>
   </h2>
   <?php require_once 'datas.php' ?>
   <div class="w-full min-w-max lg:w-3/6 flex flex-col md:items-center gap-4">

@@ -33,6 +33,6 @@
     </div>
   </div>
   <div class="p-4 w-full flex justify-center">
-    <a href="/dashboard/artigos/<?php echo $this->usuarioLogado['empresaId'] ?>" class="border border-slate-300 w-full flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-sm text-gray-700 rounded-lg">Voltar</a>
+    <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/artigos" class="border border-slate-300 w-full flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-sm text-gray-700 rounded-lg">Voltar</a>
   </div>
 </div>

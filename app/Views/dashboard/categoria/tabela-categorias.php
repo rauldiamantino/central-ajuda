@@ -33,7 +33,7 @@
                 <?php // Nome ?>
                 <?php if ($subChave == 'Categoria.nome') { ?>
                   <td class="py-5 px-4">
-                    <a href="/dashboard/categoria/editar/<?php echo $this->usuarioLogado['empresaId'] ?>/<?php echo $linha['Categoria.id'] ?>" class="font-semibold text-gray-700 hover:underline js-dashboard-categorias-editar" data-categoria-id="<?php echo $linha['Categoria.id'] ?>">
+                    <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/categoria/editar/<?php echo $linha['Categoria.id'] ?>" class="font-semibold text-gray-700 hover:underline js-dashboard-categorias-editar" data-categoria-id="<?php echo $linha['Categoria.id'] ?>">
                       <?php echo $subLinha ?>
                     </a>
                   </td>
@@ -81,7 +81,7 @@
             <?php if (isset($linha['Categoria.id'])) { ?>
               <td class="py-5 px-4">
                 <div class="flex gap-3 md:gap-1 justify-around">
-                  <a href="/dashboard/artigos/<?php echo $this->usuarioLogado['empresaId'] ?>?categoria_id=<?php echo $linha['Categoria.id'] ?>" target="_blank" class="text-slate-800" title="Filtrar artigos">
+                  <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/artigos?categoria_id=<?php echo $linha['Categoria.id'] ?>" target="_blank" class="text-slate-800" title="Filtrar artigos">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-funnel" viewBox="0 0 16 16">
                       <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z"/>
                     </svg>

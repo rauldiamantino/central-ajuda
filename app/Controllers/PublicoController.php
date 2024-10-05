@@ -50,6 +50,7 @@ class PublicoController extends Controller
     $resultado = $this->dashboardDategoriaModel->condicao($condicoes)
                                                ->ordem(['Categoria.ordem' => 'ASC'])
                                                ->buscar($colunas);
+
     if (isset($resultado[0]['Categoria.id']) and $this->subdominio) {
       $this->redirecionar('/categoria/' . $resultado[0]['Categoria.id']);
     }

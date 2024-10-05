@@ -16,7 +16,7 @@ const buscarConteudos = () => {
   modalOrganizarCancelar.addEventListener('click', () => modalOrganizar.close())
   artigoId = modalOrganizar.dataset.artigoId
 
-  fetch(`/d/conteudos/${empresaId}/${artigoId}`, { method: 'GET' })
+  fetch(`/d/${empresaId}/conteudos/${artigoId}`, { method: 'GET' })
     .then(resposta => resposta.json())
     .then(resposta => {
 
@@ -53,7 +53,7 @@ const buscarConteudos = () => {
             }
 
             modalOrganizarConfirmar.addEventListener('click', () => {
-              fetch(`/d/conteudo/ordem/${empresaId}`, {
+              fetch(`/d/${empresaId}/conteudo/ordem`, {
                 method: 'PUT',
                 body: JSON.stringify(ordem)
                 })

@@ -54,7 +54,7 @@ const requisicaoCateRemover = (categoriaId) => {
     return
   }
 
-  fetch(`/d/categoria/${empresaId}/${categoriaId}`, { method: 'DELETE' })
+  fetch(`/d/${empresaId}/categoria/${categoriaId}`, { method: 'DELETE' })
     .then(resposta => resposta.json())
     .then(resposta => {
 

@@ -374,7 +374,7 @@ class DashboardUsuarioModel extends Model
       }
 
       // 0 - Suporte, 1 - Padrão, 2 - Comum
-      if (isset($params['padrao']) and ! in_array($campos['padrao'], [USUARIO_PADRAO, USUARIO_PADRAO, USUARIO_COMUM])) {
+      if (isset($params['padrao']) and ! in_array($campos['padrao'], [USUARIO_SUPORTE, USUARIO_PADRAO, USUARIO_COMUM])) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('padrao', 'valInvalido');
       }
 
@@ -386,7 +386,7 @@ class DashboardUsuarioModel extends Model
       $ativoCaracteres = 1;
       $nivelCaracteres = 1;
       $empresaIdCaracteres = 999999999;
-      $padraoCaracteres = 1;
+      $padraoCaracteres = 2;
       $tentativasCaracteres = 20;
       $nomeCaracteres = 25;
       $emailCaracteres = 50;

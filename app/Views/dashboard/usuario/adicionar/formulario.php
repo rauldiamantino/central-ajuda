@@ -16,7 +16,7 @@ if ($this->usuarioLogado['padrao'] != USUARIO_SUPORTE or $this->sessaoUsuario->b
 }
 ?>
 
-<form method="POST" action="/d/usuario/<?php echo $this->usuarioLogado['empresaId'] ?>" class="border border-slate-200 w-full min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow">
+<form method="POST" action="/d/<?php echo $this->usuarioLogado['empresaId'] ?>/usuario" class="border border-slate-200 w-full min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow">
   <div class="w-full flex flex-col gap-4">
     <div class="flex gap-10">
       <div class="w-full flex gap-4">
@@ -68,7 +68,7 @@ if ($this->usuarioLogado['padrao'] != USUARIO_SUPORTE or $this->sessaoUsuario->b
     </div>
   </div>
   <div class="flex gap-4">
-    <a href="/dashboard/usuarios/<?php echo $this->usuarioLogado['empresaId'] ?>" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-6 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Voltar</a>
+    <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/usuarios" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-6 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Voltar</a>
     <button type="submit" class="flex gap-2 items-center justify-center py-2 px-6 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg">Gravar</button>
   </div>
 </form>

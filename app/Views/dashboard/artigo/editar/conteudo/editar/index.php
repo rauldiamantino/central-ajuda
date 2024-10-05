@@ -1,13 +1,13 @@
 <div class="w-full min-h-full flex flex-col bg-white p-4 hidden editar-fundo">
   <h2 class="relative text-2xl font-semibold mb-4">
     Editar <span class="text-gray-400 font-light italic text-sm">(Conteúdo #<?php echo $conteudo['Conteudo.id']; ?></span>
-    <span class="text-gray-400 font-light italic hover:underline text-sm"><a href="/artigo/<?php echo $conteudo['Conteudo.artigo_id'] ?>" target="_blank">- Artigo #<?php echo $conteudo['Conteudo.artigo_id']; ?>)</a></span>
+    <span class="text-gray-400 font-light italic hover:underline text-sm"><a href="<?php echo subdominioDominio($this->usuarioLogado['subdominio']); ?>/artigo/<?php echo $conteudo['Conteudo.artigo_id'] ?>" target="_blank">- Artigo #<?php echo $conteudo['Conteudo.artigo_id']; ?>)</a></span>
   </h2>
   <div class="w-full lg:w-1/2">
     <?php // Editar texto ?>
     <?php if ($conteudo['Conteudo.tipo'] == 1) { ?>
       <div class="border border-slate-200 p-4 md:w-full rounded-lg shadow editor-container">
-        <form method="POST" action="/d/conteudo/<?php echo $this->usuarioLogado['empresaId'] ?>/<?php echo $conteudo['Conteudo.id'] ?>" class="flex flex-col items-end gap-2 editor-container__editor form-conteudo-texto-editar" enctype="multipart/form-data">
+        <form method="POST" action="/d/<?php echo $this->usuarioLogado['empresaId'] ?>/conteudo/<?php echo $conteudo['Conteudo.id'] ?>" class="flex flex-col items-end gap-2 editor-container__editor form-conteudo-texto-editar" enctype="multipart/form-data">
           <input type="hidden" name="_method" value="PUT">
           <input type="hidden" name="artigo_id" value="<?php echo $conteudo['Conteudo.artigo_id'] ?>">
           <input type="hidden" name="tipo" value="1">
@@ -29,7 +29,7 @@
               </label>
             </div>
             <div class="flex gap-4 bg-white">
-              <a href="/dashboard/artigo/editar/<?php echo $this->usuarioLogado['empresaId'] ?>/<?php echo $conteudo['Conteudo.artigo_id'] ?>" class="py-2 px-6 w-full lg:w-max border border-slate-400 flex gap-2 items-center justify-center hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-texto-editar-btn-cancelar">Voltar</a>
+              <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/artigo/editar/<?php echo $conteudo['Conteudo.artigo_id'] ?>" class="py-2 px-6 w-full lg:w-max border border-slate-400 flex gap-2 items-center justify-center hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-texto-editar-btn-cancelar">Voltar</a>
               <button type="submit" class="w-full lg:w-max flex gap-2 items-center justify-center py-2 px-6 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg modal-conteudo-texto-btn-enviar">Gravar</button>
             </div>
           </div>
@@ -40,7 +40,7 @@
     <?php // Editar imagem ?>
     <?php if ($conteudo['Conteudo.tipo'] == 2) { ?>
       <div class="border border-slate-200 p-4 md:w-full rounded-lg shadow modal-conteudo-imagem-editar">
-        <form method="POST" action="/d/conteudo/<?php echo $this->usuarioLogado['empresaId'] ?>/<?php echo $conteudo['Conteudo.id'] ?>" class="flex flex-col items-end gap-2" enctype="multipart/form-data" data-artigo-id=<?php echo $conteudo['Conteudo.artigo_id'] ?> data-empresa-id=<?php echo $conteudo['Conteudo.empresa_id'] ?>>
+        <form method="POST" action="/d/<?php echo $this->usuarioLogado['empresaId'] ?>/conteudo/<?php echo $conteudo['Conteudo.id'] ?>" class="flex flex-col items-end gap-2" enctype="multipart/form-data" data-artigo-id=<?php echo $conteudo['Conteudo.artigo_id'] ?> data-empresa-id=<?php echo $conteudo['Conteudo.empresa_id'] ?>>
           <input type="hidden" name="_method" value="PUT">
           <input type="hidden" name="artigo_id" value="<?php echo $conteudo['Conteudo.artigo_id'] ?>">
           <input type="hidden" name="tipo" value="2">
@@ -73,7 +73,7 @@
               </label>
             </div>
             <div class="flex gap-4">
-              <a href="/dashboard/artigo/editar/<?php echo $this->usuarioLogado['empresaId'] ?>/<?php echo $conteudo['Conteudo.artigo_id'] ?>" class="py-2 px-6 w-full lg:w-max border border-slate-400 flex gap-2 items-center justify-center hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-conteudo-imagem-btn-cancelar">Voltar</a>
+              <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/artigo/editar/<?php echo $conteudo['Conteudo.artigo_id'] ?>" class="py-2 px-6 w-full lg:w-max border border-slate-400 flex gap-2 items-center justify-center hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-conteudo-imagem-btn-cancelar">Voltar</a>
               <button type="submit" class="w-full md-w-max flex gap-2 items-center justify-center py-2 px-6 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg modal-conteudo-imagem-btn-enviar">Gravar</button>
             </div>
           </div>
@@ -84,7 +84,7 @@
     <?php // Editar vídeo ?>
     <?php if ($conteudo['Conteudo.tipo'] == 3) { ?>
       <div class="border border-slate-200 p-4 md:w-full rounded-lg shadow modal-conteudo-video-editar">
-        <form method="POST" action="/d/conteudo/<?php echo $this->usuarioLogado['empresaId'] ?>/<?php echo $conteudo['Conteudo.id'] ?>" class="flex flex-col items-end gap-2" enctype="multipart/form-data">
+        <form method="POST" action="/d/<?php echo $this->usuarioLogado['empresaId'] ?>/conteudo/<?php echo $conteudo['Conteudo.id'] ?>" class="flex flex-col items-end gap-2" enctype="multipart/form-data">
           <input type="hidden" name="_method" value="PUT">
           <input type="hidden" name="artigo_id" value="<?php echo $conteudo['Conteudo.artigo_id'] ?>">
           <input type="hidden" name="tipo" value="3">
@@ -104,7 +104,7 @@
               </label>
             </div>
             <div class="flex gap-4">
-              <a href="/dashboard/artigo/editar/<?php echo $this->usuarioLogado['empresaId'] ?>/<?php echo $conteudo['Conteudo.artigo_id'] ?>" class="py-2 px-6 w-full lg:w-max border border-slate-400 flex gap-2 items-center justify-center hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-conteudo-video-btn-cancelar">Voltar</a>
+              <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/artigo/editar/<?php echo $conteudo['Conteudo.artigo_id'] ?>" class="py-2 px-6 w-full lg:w-max border border-slate-400 flex gap-2 items-center justify-center hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-conteudo-video-btn-cancelar">Voltar</a>
               <button type="submit" class="w-full md-w-max flex gap-2 items-center justify-center py-2 px-6 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg modal-conteudo-video-btn-enviar">Gravar</button>
             </div>
           </div>

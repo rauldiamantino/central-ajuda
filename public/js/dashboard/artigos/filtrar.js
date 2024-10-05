@@ -19,7 +19,7 @@ const filtrarArtigos = () => {
   // Sempre limpa
   select.innerHTML = ''
 
-  fetch(`/d/categorias/${empresaId}`, { method: 'GET' })
+  fetch(`/d/${empresaId}/categorias`, { method: 'GET' })
     .then(resposta => resposta.json())
     .then(resposta => {
 
@@ -54,7 +54,7 @@ const filtrarArtigos = () => {
             const categoriaId = select.value
 
             if (categoriaId !== undefined) {
-              window.location.href = `/dashboard/artigos/${empresaId}?categoria_id=${categoriaId}`
+              window.location.href = `/dashboard/${empresaId}/artigos?categoria_id=${categoriaId}`
             }
           })
         }

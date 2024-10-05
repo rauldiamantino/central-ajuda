@@ -63,3 +63,23 @@ function registrarLog($nome, $arquivo) {
   $logMensagem .= json_encode($arquivo, JSON_UNESCAPED_SLASHES) . PHP_EOL . PHP_EOL;
   error_log($logMensagem, 3, './app/logs/' . $nome . '-' . date('Y-m-d') . '.log');
 }
+
+function subdominioDominio(string $subdominio = '', $protocolo = true) {
+
+  $dominio = $_SERVER['HTTP_HOST'];
+  $http = 'https://';
+
+  if ($subdominio) {
+    $dominio = $subdominio . '.' . $dominio;
+  }
+
+  if (strpos($dominio, 'localhost')) {
+    $http = 'http://';
+  }
+
+  if ($protocolo) {
+    return $http . $dominio;
+  }
+
+  return $dominio;
+}

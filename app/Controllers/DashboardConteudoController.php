@@ -100,7 +100,7 @@ class DashboardConteudoController extends DashboardController
     $urlRetorno = '/dashboard/artigos/' . $this->usuarioLogado['empresaId'];
 
     if (isset($dados['artigo_id'])) {
-      $urlRetorno = '/dashboard/artigo/editar/' . $this->usuarioLogado['empresaId'] . '/' . $dados['artigo_id'];
+      $urlRetorno = '/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigo/editar/' . $dados['artigo_id'];
     }
 
     // Formulário via POST
@@ -152,7 +152,7 @@ class DashboardConteudoController extends DashboardController
     $json = $this->receberJson();
     $resultado = $this->conteudoModel->atualizar($json, $id);
 
-    $urlRetorno = '/dashboard/conteudo/editar/' . $this->usuarioLogado['empresaId'] . '/' . $id;
+    $urlRetorno = '/dashboard/' . $this->usuarioLogado['empresaId'] . '/conteudo/editar/' . $id;
 
     if ($_POST and isset($resultado['erro'])) {
       $this->redirecionarErro($urlRetorno, $resultado['erro']);

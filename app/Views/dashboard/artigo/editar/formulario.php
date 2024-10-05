@@ -1,4 +1,4 @@
-<form method="POST" action="/d/artigo/<?php echo $this->usuarioLogado['empresaId'] ?>/<?php echo $artigo['Artigo.id'] ?>" class="border border-slate-200 w-full md:min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow">
+<form method="POST" action="/d/<?php echo $this->usuarioLogado['empresaId'] ?>/artigo/<?php echo $artigo['Artigo.id'] ?>" class="border border-slate-200 w-full md:min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow">
   <input type="hidden" name="_method" value="PUT">
   <div class="w-full flex gap-4">
     <div>
@@ -26,7 +26,7 @@
     </select>
   </div>
   <div class="w-full flex justify-start gap-2">
-    <a href="/dashboard/artigos/<?php echo $this->usuarioLogado['empresaId'] ?>" class="w-full md:w-max border border-slate-400 flex gap-2 items-center justify-center py-2 px-6 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Voltar</a>
+    <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/artigos" class="w-full md:w-max border border-slate-400 flex gap-2 items-center justify-center py-2 px-6 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Voltar</a>
     <button type="submit" class="w-full md:w-max flex gap-2 items-center justify-center py-2 px-6 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg">Gravar</button>
   </div>
 </form>

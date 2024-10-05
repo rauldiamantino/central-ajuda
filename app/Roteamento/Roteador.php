@@ -112,17 +112,21 @@ class Roteador
     $usuarioLogado = $this->sessaoUsuario->buscar('usuario');
 
     // Sempre utiliza Empresa ID logada
-    if (substr($chaveRota, 0, 18) != 'GET:/login/suporte/{empresaId}') {
+    if (substr($chaveRota, 0, 18) != 'GET:/login/suporte/{id}') {
 
-      if (isset($usuarioLogado['empresaId']) and $this->rotaPublica($chaveRota) == false) {
+      // Resgata sessão do usuário ao acessar rota pública sem subdomínio
+      if (isset($usuarioLogado['empresaId']) and ($this->rotaPublica($chaveRota) == false or empty($subdominio))) {
         $empresaId = (int) $usuarioLogado['empresaId'];
+        $subdominio = $usuarioLogado['subdominio'];
       }
     }
+
 
     // Restrições de acesso por nível
     if ((! isset($usuarioLogado['padrao']) or $usuarioLogado['padrao'] != USUARIO_SUPORTE) and $this->rotaRestritaSuporte($chaveRota)) {
       $this->sessaoUsuario->definir('erro', 'Você não tem permissão para realizar esta ação.');
-      header('Location: ' . $_SERVER['HTTP_REFERER']);
+      $referer = $_SERVER['HTTP_REFERER'] ?? '/';
+      header('Location: ' . $referer);
       exit;
     }
 
@@ -264,10 +268,10 @@ class Roteador
       'GET:/teste',
       'GET:/erro',
       'POST:/cadastro',
-      'PUT:/empresa/{empresaId}/{id}',
+      'PUT:/empresa/{id}',
       'GET:/login',
-      'GET:/login/suporte/{empresaId}',
-      'GET:/login/suporte/{empresaId}/{id}',
+      'GET:/login/suporte',
+      'GET:/login/suporte/{id}',
       'GET:/cadastro',
       'GET:/cadastro/sucesso',
       'POST:/login',
@@ -285,15 +289,16 @@ class Roteador
   private function rotaRestritaNivel2(string $chaveRota, int $usuarioLogadoId, int $id = 0): bool
   {
     $rotasRestritas = [
-      0 => 'GET:/dashboard/usuario/editar/{empresaId}/{id}',
-      1 => 'GET:/dashboard/usuario/adicionar/{empresaId}',
-      2 => 'GET:/dashboard/empresa/editar/{empresaId}',
-      3 => 'GET:/d/usuarios/{empresaId}',
-      4 => 'GET:/d/usuario/{empresaId}/{id}',
-      5 => 'POST:/d/usuario/{empresaId}',
-      6 => 'PUT:/d/usuario/{empresaId}/{id}',
-      7 => 'DELETE:/d/usuario/{empresaId}/{id}',
-      8 => 'GET:/d/usuario/desbloquear/{empresaId}/{id}',
+      0 => 'GET:/dashboard/{empresaId}/usuario/editar/{id}',
+      1 => 'GET:/dashboard/{empresaId}/usuario/adicionar',
+      2 => 'GET:/dashboard/{empresaId}/empresa/editar',
+      3 => 'GET:/d/{empresaId}/usuarios',
+      4 => 'GET:/d/{empresaId}/usuario/{id}',
+      5 => 'POST:/d/{empresaId}/usuario',
+      6 => 'PUT:/d/{empresaId}/usuario/{id}',
+      7 => 'DELETE:/d/{empresaId}/usuario/{id}',
+      8 => 'GET:/d/{empresaId}/usuario/desbloquear/{id}',
+      9 => 'PUT:/d/{empresaId}/empresa/editar/{id}',
     ];
 
     if (! in_array($chaveRota, $rotasRestritas)) {
@@ -311,11 +316,11 @@ class Roteador
   private function rotaRestritaSuporte(string $chaveRota): bool
   {
     $rotasRestritas = [
-      'GET:/d/usuario/desbloquear/{empresaId}/{id}',
-      'GET:/login/suporte/{empresaId}/id',
-      'GET:/login/suporte/{empresaId}',
-      'GET:/dashboard/validar_assinatura/{empresaId}',
-      'GET:/dashboard/confirmar_assinatura/{empresaId}',
+      'GET:/d/{empresaId}/usuario/desbloquear/{id}',
+      'GET:/login/suporte/id',
+      'GET:/login/suporte',
+      'GET:/dashboard/{empresaId}/validar_assinatura',
+      'GET:/dashboard/{empresaId}/confirmar_assinatura',
     ];
 
     if (! in_array($chaveRota, $rotasRestritas)) {
@@ -346,7 +351,6 @@ class Roteador
   {
     $rotas = [
       // Acesso público
-      'PUT:/empresa/{empresaId}/{id}' => [DashboardEmpresaController::class, 'atualizar'],
       'GET:/erro' => [PaginaErroController::class, 'erroVer'],
       'GET:/login' => [DashboardLoginController::class, 'loginVer'],
       'GET:/login/suporte' => [DashboardLoginController::class, 'loginSuporteVer'],
@@ -366,60 +370,61 @@ class Roteador
 
       // Dashboard
       'GET:/dashboard/{empresaId}' => [DashboardController::class, 'dashboardVer'],
-      'GET:/dashboard/ajustes/{empresaId}' => [DashboardAjusteController::class, 'ajustesVer'],
-      'GET:/dashboard/artigos/{empresaId}' => [DashboardArtigoController::class, 'artigosVer'],
-      'GET:/dashboard/artigo/editar/{empresaId}/{id}' => [DashboardArtigoController::class, 'artigoEditarVer'],
-      'GET:/dashboard/artigo/adicionar/{empresaId}' => [DashboardArtigoController::class, 'artigoAdicionarVer'],
-      'GET:/dashboard/conteudo/editar/{empresaId}/{id}' => [DashboardConteudoController::class, 'conteudoEditarVer'],
-      'GET:/dashboard/conteudo/adicionar/{empresaId}' => [DashboardConteudoController::class, 'conteudoAdicionarVer'],
-      'GET:/dashboard/categorias/{empresaId}' => [DashboardCategoriaController::class, 'categoriasVer'],
-      'GET:/dashboard/categoria/editar/{empresaId}/{id}' => [DashboardCategoriaController::class, 'categoriaEditarVer'],
-      'GET:/dashboard/categoria/adicionar/{empresaId}' => [DashboardCategoriaController::class, 'categoriaAdicionarVer'],
-      'GET:/dashboard/usuarios/{empresaId}' => [DashboardUsuarioController::class, 'UsuariosVer'],
-      'GET:/dashboard/usuario/editar/{empresaId}/{id}' => [DashboardUsuarioController::class, 'usuarioEditarVer'],
-      'GET:/dashboard/usuario/adicionar/{empresaId}' => [DashboardUsuarioController::class, 'usuarioAdicionarVer'],
-      'GET:/dashboard/empresa/editar/{empresaId}' => [DashboardEmpresaController::class, 'empresaEditarVer'],
-      'GET:/dashboard/validar_assinatura/{empresaId}' => [DashboardEmpresaController::class, 'reprocessarAssinatura'],
-      'GET:/dashboard/confirmar_assinatura/{empresaId}' => [DashboardEmpresaController::class, 'confirmarAssinatura'],
+      'GET:/dashboard/{empresaId}/ajustes' => [DashboardAjusteController::class, 'ajustesVer'],
+      'GET:/dashboard/{empresaId}/artigos' => [DashboardArtigoController::class, 'artigosVer'],
+      'GET:/dashboard/{empresaId}/artigo/editar/{id}' => [DashboardArtigoController::class, 'artigoEditarVer'],
+      'GET:/dashboard/{empresaId}/artigo/adicionar' => [DashboardArtigoController::class, 'artigoAdicionarVer'],
+      'GET:/dashboard/{empresaId}/conteudo/editar/{id}' => [DashboardConteudoController::class, 'conteudoEditarVer'],
+      'GET:/dashboard/{empresaId}/conteudo/adicionar' => [DashboardConteudoController::class, 'conteudoAdicionarVer'],
+      'GET:/dashboard/{empresaId}/categorias' => [DashboardCategoriaController::class, 'categoriasVer'],
+      'GET:/dashboard/{empresaId}/categoria/editar/{id}' => [DashboardCategoriaController::class, 'categoriaEditarVer'],
+      'GET:/dashboard/{empresaId}/categoria/adicionar' => [DashboardCategoriaController::class, 'categoriaAdicionarVer'],
+      'GET:/dashboard/{empresaId}/usuarios' => [DashboardUsuarioController::class, 'UsuariosVer'],
+      'GET:/dashboard/{empresaId}/usuario/editar/{id}' => [DashboardUsuarioController::class, 'usuarioEditarVer'],
+      'GET:/dashboard/{empresaId}/usuario/adicionar' => [DashboardUsuarioController::class, 'usuarioAdicionarVer'],
+      'GET:/dashboard/{empresaId}/empresa/editar' => [DashboardEmpresaController::class, 'empresaEditarVer'],
+      'GET:/dashboard/{empresaId}/validar_assinatura' => [DashboardEmpresaController::class, 'reprocessarAssinatura'],
+      'GET:/dashboard/{empresaId}/confirmar_assinatura' => [DashboardEmpresaController::class, 'confirmarAssinatura'],
 
       // Dashboard - Ajustes
-      'PUT:/d/ajustes/{empresaId}' => [DashboardAjusteController::class, 'atualizar'],
-      'GET:/d/firebase/{empresaId}' => [DatabaseFirebaseComponent::class, 'credenciais'],
+      'PUT:/d/{empresaId}/ajustes' => [DashboardAjusteController::class, 'atualizar'],
+      'GET:/d/{empresaId}/firebase' => [DatabaseFirebaseComponent::class, 'credenciais'],
+      'PUT:/d/{empresaId}/empresa/editar/{id}' => [DashboardEmpresaController::class, 'atualizar'],
 
       // Dashboard - Assinatura
       'POST:/d/assinaturas/receber' => [AssinaturaReceberComponent::class, 'receberWebhook'],
 
       // Dashboard - Artigos
-      'GET:/d/artigos/{empresaId}' => [DashboardArtigoController::class, 'buscar'],
-      'GET:/d/artigo/{empresaId}/{id}' => [DashboardArtigoController::class, 'buscar'],
-      'POST:/d/artigo/{empresaId}' => [DashboardArtigoController::class, 'adicionar'],
-      'PUT:/d/artigo/{empresaId}/{id}' => [DashboardArtigoController::class, 'atualizar'],
-      'PUT:/d/artigo/ordem/{empresaId}' => [DashboardArtigoController::class, 'atualizarOrdem'],
-      'DELETE:/d/artigo/{empresaId}/{id}' => [DashboardArtigoController::class, 'apagar'],
+      'GET:/d/{empresaId}/artigos' => [DashboardArtigoController::class, 'buscar'],
+      'GET:/d/{empresaId}/artigo/{id}' => [DashboardArtigoController::class, 'buscar'],
+      'POST:/d/{empresaId}/artigo' => [DashboardArtigoController::class, 'adicionar'],
+      'PUT:/d/{empresaId}/artigo/{id}' => [DashboardArtigoController::class, 'atualizar'],
+      'PUT:/d/{empresaId}/artigo/ordem' => [DashboardArtigoController::class, 'atualizarOrdem'],
+      'DELETE:/d/{empresaId}/artigo/{id}' => [DashboardArtigoController::class, 'apagar'],
 
       // Dashboard - Conteúdos
-      'GET:/d/conteudos/{empresaId}' => [DashboardConteudoController::class, 'buscar'],
-      'GET:/d/conteudos/{empresaId}/{id}' => [DashboardConteudoController::class, 'buscar'],
-      'POST:/d/conteudo/{empresaId}' => [DashboardConteudoController::class, 'adicionar'],
-      'PUT:/d/conteudo/{empresaId}/{id}' => [DashboardConteudoController::class, 'atualizar'],
-      'PUT:/d/conteudo/ordem/{empresaId}' => [DashboardConteudoController::class, 'atualizarOrdem'],
-      'DELETE:/d/conteudo/{empresaId}/{id}' => [DashboardConteudoController::class, 'apagar'],
+      'GET:/d/{empresaId}/conteudos' => [DashboardConteudoController::class, 'buscar'],
+      'GET:/d/{empresaId}/conteudos/{id}' => [DashboardConteudoController::class, 'buscar'],
+      'POST:/d/{empresaId}/conteudo' => [DashboardConteudoController::class, 'adicionar'],
+      'PUT:/d/{empresaId}/conteudo/{id}' => [DashboardConteudoController::class, 'atualizar'],
+      'PUT:/d/{empresaId}/conteudo/ordem' => [DashboardConteudoController::class, 'atualizarOrdem'],
+      'DELETE:/d/{empresaId}/conteudo/{id}' => [DashboardConteudoController::class, 'apagar'],
 
       // Dashboard - Categorias
-      'GET:/d/categorias/{empresaId}' => [DashboardCategoriaController::class, 'buscar'],
-      'GET:d/categoria/{empresaId}/{id}' => [DashboardCategoriaController::class, 'buscar'],
-      'POST:/d/categoria/{empresaId}' => [DashboardCategoriaController::class, 'adicionar'],
-      'PUT:/d/categoria/{empresaId}/{id}' => [DashboardCategoriaController::class, 'atualizar'],
-      'PUT:/d/categoria/ordem/{empresaId}' => [DashboardCategoriaController::class, 'atualizarOrdem'],
-      'DELETE:/d/categoria/{empresaId}/{id}' => [DashboardCategoriaController::class, 'apagar'],
+      'GET:/d/{empresaId}/categorias' => [DashboardCategoriaController::class, 'buscar'],
+      'GET:d/categoria/{id}' => [DashboardCategoriaController::class, 'buscar'],
+      'POST:/d/{empresaId}/categoria' => [DashboardCategoriaController::class, 'adicionar'],
+      'PUT:/d/{empresaId}/categoria/{id}' => [DashboardCategoriaController::class, 'atualizar'],
+      'PUT:/d/{empresaId}/categoria/ordem' => [DashboardCategoriaController::class, 'atualizarOrdem'],
+      'DELETE:/d/{empresaId}/categoria/{id}' => [DashboardCategoriaController::class, 'apagar'],
 
       // Dashboard - Usuários
-      'GET:/d/usuarios/{empresaId}' => [DashboardUsuarioController::class, 'buscar'],
-      'GET:/d/usuario/{empresaId}/{id}' => [DashboardUsuarioController::class, 'buscar'],
-      'POST:/d/usuario/{empresaId}' => [DashboardUsuarioController::class, 'adicionar'],
-      'PUT:/d/usuario/{empresaId}/{id}' => [DashboardUsuarioController::class, 'atualizar'],
-      'DELETE:/d/usuario/{empresaId}/{id}' => [DashboardUsuarioController::class, 'apagar'],
-      'GET:/d/usuario/desbloquear/{empresaId}/{id}' => [DashboardUsuarioController::class, 'desbloquear'],
+      'GET:/d/{empresaId}/usuarios' => [DashboardUsuarioController::class, 'buscar'],
+      'GET:/d/{empresaId}/usuario/{id}' => [DashboardUsuarioController::class, 'buscar'],
+      'POST:/d/{empresaId}/usuario' => [DashboardUsuarioController::class, 'adicionar'],
+      'PUT:/d/{empresaId}/usuario/{id}' => [DashboardUsuarioController::class, 'atualizar'],
+      'DELETE:/d/{empresaId}/usuario/{id}' => [DashboardUsuarioController::class, 'apagar'],
+      'GET:/d/{empresaId}/usuario/desbloquear/{id}' => [DashboardUsuarioController::class, 'desbloquear'],
     ];
 
     return $rotas[ $rotaRequisitada ] ?? [];
