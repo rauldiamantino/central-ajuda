@@ -1,7 +1,8 @@
 <?php
-namespace app\Controllers;
+namespace app\Controllers\Components;
+use app\Controllers\DashboardController;
 
-class PagamentoStripeController extends DashboardController
+class PagamentoStripeComponent extends DashboardController
 {
   private $stripe;
 

@@ -1,7 +1,7 @@
 <?php
 namespace app\Controllers;
-use app\Controllers\PagamentoStripeController;
 use app\Models\DashboardCadastroModel;
+use app\Controllers\Components\PagamentoStripeComponent;
 
 class DashboardCadastroController extends DashboardController
 {
@@ -13,7 +13,7 @@ class DashboardCadastroController extends DashboardController
     parent::__construct();
 
     $this->cadastroModel = new DashboardCadastroModel();
-    $this->pagamentoStripe = new PagamentoStripeController();
+    $this->pagamentoStripe = new PagamentoStripeComponent();
   }
 
   public function cadastroVer()

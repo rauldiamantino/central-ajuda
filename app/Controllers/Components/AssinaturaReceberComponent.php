@@ -1,8 +1,8 @@
 <?php
 namespace app\Controllers\Components;
 use app\Controllers\DashboardController;
-use app\Controllers\PagamentoStripeController;
 use app\Controllers\DashboardEmpresaController;
+use app\Controllers\Components\PagamentoStripeComponent;
 
 class AssinaturaReceberComponent extends DashboardController
 {
@@ -13,7 +13,7 @@ class AssinaturaReceberComponent extends DashboardController
   {
     parent::__construct();
 
-    $this->pagamentoStripe = new PagamentoStripeController();
+    $this->pagamentoStripe = new PagamentoStripeComponent();
     $this->empresaController = new DashboardEmpresaController();
   }
 

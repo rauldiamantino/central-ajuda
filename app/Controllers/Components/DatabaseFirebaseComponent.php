@@ -2,7 +2,7 @@
 namespace app\Controllers\Components;
 use app\Controllers\DashboardController;
 
-class FirebaseComponent extends DashboardController
+class DatabaseFirebaseComponent extends DashboardController
 {
   public function credenciais()
   {

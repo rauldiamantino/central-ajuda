@@ -14,8 +14,7 @@ use app\Controllers\PublicoArtigoController;
 use app\Controllers\PublicoBuscaController;
 use app\Controllers\PublicoCategoriaController;
 use app\Controllers\PublicoController;
-use app\Controllers\PagamentoStripeController;
-use app\Controllers\Components\FirebaseComponent;
+use app\Controllers\Components\DatabaseFirebaseComponent;
 use app\Controllers\Components\AssinaturaReceberComponent;
 use DateTime;
 
@@ -316,7 +315,6 @@ class Roteador
       // Acesso sem domínio
       'POST:/cadastro' => [DashboardCadastroController::class, 'adicionar'],
       'PUT:/empresa/{id}' => [DashboardEmpresaController::class, 'atualizar'],
-      'GET:/teste' => [PagamentoStripeController::class, 'testar'],
       'GET:/erro' => [PaginaErroController::class, 'erroVer'],
       'GET:/login' => [DashboardLoginController::class, 'loginVer'],
       'GET:/login/suporte' => [DashboardLoginController::class, 'loginSuporteVer'],
@@ -353,7 +351,7 @@ class Roteador
 
       // Dashboard - Ajustes
       'PUT:/{subdominio}/d/ajustes' => [DashboardAjusteController::class, 'atualizar'],
-      'GET:/{subdominio}/d/firebase' => [FirebaseComponent::class, 'credenciais'],
+      'GET:/{subdominio}/d/firebase' => [DatabaseFirebaseComponent::class, 'credenciais'],
 
       // Dashboard - Assinatura
       'POST:/d/assinaturas/receber' => [AssinaturaReceberComponent::class, 'receberWebhook'],

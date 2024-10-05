@@ -8,7 +8,7 @@
     <div class="w-full flex flex-col gap-2">
       <?php require_once 'formulario.php' ?>
     </div>
-    <div class="md:block w-full">
+    <div class="mb-10 md:mb-0 md:block w-full">
       <?php // Somente suporte ?>
       <?php if ($this->usuarioLogado['padrao'] == USUARIO_SUPORTE) { ?>
         <div class="border border-slate-200 w-full min-w-96 flex flex-col p-4 rounded-lg shadow">

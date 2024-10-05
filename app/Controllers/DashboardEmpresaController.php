@@ -1,7 +1,7 @@
 <?php
 namespace app\Controllers;
 use app\Models\DashboardEmpresaModel;
-use app\Controllers\PagamentoStripeController;
+use app\Controllers\Components\PagamentoStripeComponent;
 
 class DashboardEmpresaController extends DashboardController
 {
@@ -13,7 +13,7 @@ class DashboardEmpresaController extends DashboardController
     parent::__construct();
 
     $this->empresaModel = new DashboardEmpresaModel();
-    $this->pagamentoStripe = new PagamentoStripeController();
+    $this->pagamentoStripe = new PagamentoStripeComponent();
   }
 
   public function empresaEditarVer()
