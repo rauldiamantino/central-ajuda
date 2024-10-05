@@ -438,7 +438,7 @@ class DashboardUsuarioModel extends Model
     if ($atualizar) {
       foreach ($camposValidados as $chave => $linha):
 
-        if (! isset($params[ $chave ])) {
+        if (! array_key_exists($chave, $params)) {
           unset($camposValidados[ $chave ]);
         }
       endforeach;

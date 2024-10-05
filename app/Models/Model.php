@@ -304,6 +304,7 @@ class Model
       return [];
     }
 
+    $sql = trim($sql);
     return $this->database->operacoes($sql, $params);
   }
 

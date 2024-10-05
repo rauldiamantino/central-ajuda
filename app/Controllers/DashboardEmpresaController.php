@@ -55,6 +55,11 @@ class DashboardEmpresaController extends DashboardController
     $this->visao->renderizar('/empresa/index');
   }
 
+  public function buscarEmpresaSemId(string $coluna, string $valor = ''): array
+  {
+    return $this->empresaModel->buscarEmpresaSemId($coluna, $valor);
+  }
+
   public function atualizar(int $id)
   {
     if ($this->usuarioLogado['nivel'] == USUARIO_RESTRITO) {
@@ -80,11 +85,6 @@ class DashboardEmpresaController extends DashboardController
     }
 
     $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Registro alterado com sucesso');
-  }
-
-  public function buscarEmpresa(string $subdominio = ''): array
-  {
-    return $this->empresaModel->buscarEmpresa($subdominio);
   }
 
   public function confirmarAssinatura(): void
@@ -164,5 +164,53 @@ class DashboardEmpresaController extends DashboardController
     }
 
     $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar');
+  }
+
+  public function confirmarAssinaturaWebhook(string $sessionId, string $assinaturaId): bool
+  {
+    $resultado = $this->empresaModel->buscarEmpresaSemId('sessao_stripe_id', $sessionId);
+    $empresaId = intval($resultado[0]['Empresa.id'] ?? 0);
+
+    if ($empresaId == 0) {
+      return false;
+    }
+
+    $campos = [
+      'sessao_stripe_id' => NULL,
+      'assinatura_id' => $assinaturaId,
+      'ativo' => ATIVO,
+    ];
+
+    $webhook = true;
+    $resultado = $this->empresaModel->atualizar($campos, $empresaId, $webhook);
+
+    if (! isset($resultado['linhasAfetadas']) or $resultado['linhasAfetadas'] != 1) {
+      return false;
+    }
+
+    return true;
+  }
+
+  public function cancelarAssinaturaWebhook(string $assinaturaId): bool
+  {
+    $resultado = $this->empresaModel->buscarEmpresaSemId('assinatura_id', $assinaturaId);
+    $empresaId = intval($resultado[0]['Empresa.id'] ?? 0);
+
+    if ($empresaId == 0) {
+      return false;
+    }
+
+    $campos = [
+      'ativo' => INATIVO,
+    ];
+
+    $webhook = true;
+    $resultado = $this->empresaModel->atualizar($campos, $empresaId, $webhook);
+
+    if (! isset($resultado['linhasAfetadas']) or $resultado['linhasAfetadas'] != 1) {
+      return false;
+    }
+
+    return true;
   }
 }

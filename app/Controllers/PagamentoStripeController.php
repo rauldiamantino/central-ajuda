@@ -95,11 +95,12 @@ class PagamentoStripeController extends DashboardController
     }
 
     $buscarAssinatura = $this->stripe->subscriptions->retrieve($assinaturaId);
-    $buscarAssinatura = $buscarAssinatura->toArray();
 
-    if (! is_array($buscarAssinatura)) {
+    if (! isset($buscarAssinatura['id'])) {
       return [];
     }
+
+    $buscarAssinatura = $buscarAssinatura->toArray();
 
     return $buscarAssinatura;
   }

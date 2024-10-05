@@ -32,6 +32,22 @@ class Database
 
   public function operacoes($sql, $parametros = [])
   {
+    $erro = [];
+    $resposta = [];
+    $sqlFormatado = $sql;
+
+    if ($parametros) {
+      foreach ($parametros as $valor) :
+
+        if ($valor == '') {
+          $valor = '""';
+        }
+
+        $valorFormatado = strip_tags(is_int($valor) ? $valor : $valor);
+        $sqlFormatado = preg_replace('/\?/', $valorFormatado, $sqlFormatado, 1);
+      endforeach;
+    }
+
     try {
 
       if ($this->conexao == null) {
@@ -56,44 +72,36 @@ class Database
       $stmt->execute();
 
       if (substr($sql, 0, 6) == 'SELECT') {
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-      }
-
-      $ultimoId = $this->conexao->lastInsertId();
-      $linhasAfetadas = $stmt->rowCount();
-
-      if ($ultimoId) {
-        return ['id' => $ultimoId];
-      }
-      elseif ($linhasAfetadas) {
-        return ['linhasAfetadas' => $linhasAfetadas];
+        $resposta = $stmt->fetchAll(PDO::FETCH_ASSOC);
       }
       else {
-        return [];
+        $ultimoId = $this->conexao->lastInsertId();
+        $linhasAfetadas = $stmt->rowCount();
+
+        if ($ultimoId) {
+          $resposta = ['id' => $ultimoId];
+        }
+        elseif ($linhasAfetadas) {
+          $resposta = ['linhasAfetadas' => $linhasAfetadas];
+        }
       }
     }
     catch (Exception $e){
-      $sqlFormatado = $sql;
-      foreach ($parametros as $valor) :
-
-        if ($valor == '') {
-          $valor = '""';
-        }
-
-        $valorFormatado = strip_tags(is_int($valor) ? $valor : $valor);
-        $sqlFormatado = preg_replace('/\?/', $valorFormatado, $sqlFormatado, 1);
-      endforeach;
-
-      registrarLog('database', ['consulta' => $sqlFormatado, 'erro' => $e->getMessage()]);
-
-      $retorno = [
+      $resposta = [
         'erro' => [
           'codigo' => 400,
           'mensagem' => 'Essa solicitação não pode ser atendida',
         ],
       ];
 
-      return $retorno;
+      $erro = [
+        'cod' => $e->getCode(),
+        'msg' => $e->getMessage(),
+      ];
     }
+
+    registrarLog('database', ['sql' => $sqlFormatado, 'ok' => $resposta, 'erro' => $erro]);
+
+    return $resposta;
   }
 }

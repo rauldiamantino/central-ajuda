@@ -26,23 +26,43 @@ class DashboardEmpresaModel extends Model
     return parent::buscar($params);
   }
 
-  public function buscarEmpresa(string $subdominio = ''): array
+  public function buscarEmpresaSemId(string $coluna, $valor): array
   {
-    $sql = 'SELECT
-              `Empresa`.`id` AS `Empresa.id`,
-              `Empresa`.`ativo` AS `Empresa.ativo`
-            FROM
-              `empresas` AS `Empresa`
-            WHERE
-              `Empresa`.`subdominio` = ?
-              -- AND `Empresa`.`ativo` = 1
-            ORDER BY
-              `Empresa`.`id` ASC
-            LIMIT
-              1';
+    $permitidas = [
+      'subdominio',
+      'assinatura_id',
+      'sessao_stripe_id',
+    ];
+
+    if (! in_array($coluna, $permitidas)) {
+      return [];
+    }
+
+    // Previne injection
+    $valor = htmlspecialchars($valor);
+
+    if (is_array($valor)) {
+      $valor = '';
+    }
+
+    $coluna = '`Empresa`.`' . $coluna . '`';
+
+    $sql = <<<SQL
+      SELECT
+        `Empresa`.`id` AS `Empresa.id`,
+        `Empresa`.`ativo` AS `Empresa.ativo`
+      FROM
+        `empresas` AS `Empresa`
+      WHERE
+        $coluna = ?
+      ORDER BY
+        `Empresa`.`id` ASC
+      LIMIT
+        1
+    SQL;
 
     $params = [
-      0 => $subdominio,
+      0 => $valor,
     ];
 
     $resultado = $this->executarQuery($sql, $params);
@@ -50,7 +70,7 @@ class DashboardEmpresaModel extends Model
     return $resultado;
   }
 
-  public function atualizar(array $params, int $id): array
+  public function atualizar(array $params, int $id, bool $webhook = false): array
   {
     if (! is_int($id) or empty($id)) {
       $msgErro = [
@@ -64,7 +84,7 @@ class DashboardEmpresaModel extends Model
     }
 
     $atualizar = true;
-    $campos = $this->validarCampos($params, $atualizar);
+    $campos = $this->validarCampos($params, $atualizar, $webhook);
 
     if (isset($campos['erro'])) {
       return $campos;
@@ -120,7 +140,7 @@ class DashboardEmpresaModel extends Model
   }
 
   // --- Métodos auxiliares
-  private function validarCampos(array $params, bool $atualizar = false): array
+  private function validarCampos(array $params, bool $atualizar = false, bool $webhook = false): array
   {
     $campos = [
       'ativo' => $params['ativo'] ?? 0,
@@ -259,7 +279,7 @@ class DashboardEmpresaModel extends Model
     if ($atualizar) {
       foreach ($camposValidados as $chave => $linha):
 
-        if (! isset($params[ $chave ])) {
+        if (! array_key_exists($chave, $params)) {
           unset($camposValidados[ $chave ]);
         }
       endforeach;
@@ -285,7 +305,7 @@ class DashboardEmpresaModel extends Model
       $camposValidados['assinatura_id'] = null;
     }
 
-    if ($this->usuarioLogado['padrao'] != USUARIO_SUPORTE and isset($camposValidados['ativo'])) {
+    if ($webhook == false and $this->usuarioLogado['padrao'] != USUARIO_SUPORTE and isset($camposValidados['ativo'])) {
       unset($camposValidados['ativo']);
     }
 

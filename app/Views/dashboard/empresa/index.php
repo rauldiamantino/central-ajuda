@@ -52,7 +52,7 @@ $assinatura = [
         <div class="w-full p-2 flex items-center gap-4">
           <span class="w-2/12 text-xs rounded"><?php echo strtoupper('Status') ?></span>
           <div class="w-10/12 px-4 py-2 bg-slate-50">
-            <span class="text-sm"><?php echo $assinatura['status'] ? $assinatura['status'] : '** vazio **'?></span>
+            <span class="text-sm"><?php echo $assinatura['status'] ? strtoupper($assinatura['status']) : '** vazio **'?></span>
           </div>
         </div>
 

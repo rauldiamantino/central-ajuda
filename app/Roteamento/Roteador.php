@@ -1,8 +1,6 @@
 <?php
 namespace app\Roteamento;
 use app\Controllers\DashboardAjusteController;
-use app\Controllers\DashboardAssinaturaController;
-use app\Controllers\DashboardPagamentoController;
 use app\Controllers\DashboardArtigoController;
 use app\Controllers\DashboardCadastroController;
 use app\Controllers\DashboardCategoriaController;
@@ -17,8 +15,8 @@ use app\Controllers\PublicoBuscaController;
 use app\Controllers\PublicoCategoriaController;
 use app\Controllers\PublicoController;
 use app\Controllers\PagamentoStripeController;
-use app\Controllers\FirebaseController;
-use app\Models\DashboardAssinaturaModel;
+use app\Controllers\Components\FirebaseComponent;
+use app\Controllers\Components\AssinaturaReceberComponent;
 use DateTime;
 
 class Roteador
@@ -51,7 +49,7 @@ class Roteador
     $subdominio = $partesUrl[1] ?? '';
 
     $dashboardEmpresa = new DashboardEmpresaController();
-    $buscarEmpresa = $dashboardEmpresa->buscarEmpresa($subdominio);
+    $buscarEmpresa = $dashboardEmpresa->buscarEmpresaSemId('subdominio', $subdominio);
 
     if (empty($buscarEmpresa)) {
       $subdominio = '';
@@ -355,10 +353,10 @@ class Roteador
 
       // Dashboard - Ajustes
       'PUT:/{subdominio}/d/ajustes' => [DashboardAjusteController::class, 'atualizar'],
-      'GET:/{subdominio}/d/firebase' => [FirebaseController::class, 'credenciais'],
+      'GET:/{subdominio}/d/firebase' => [FirebaseComponent::class, 'credenciais'],
 
       // Dashboard - Assinatura
-      'POST:/d/assinaturas/receber' => [DashboardAssinaturaController::class, 'receberWebhook'],
+      'POST:/d/assinaturas/receber' => [AssinaturaReceberComponent::class, 'receberWebhook'],
 
       // Dashboard - Artigos
       'GET:/{subdominio}/d/artigos' => [DashboardArtigoController::class, 'buscar'],

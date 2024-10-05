@@ -52,6 +52,12 @@ function traduzirDataTimestamp($timestamp) {
 }
 
 function registrarLog($nome, $arquivo) {
+
+  // Remove quebras de linha e espaços extras
+  if ($nome == 'database' and isset($arquivo['sql']) && is_string($arquivo['sql'])) {
+    $arquivo['sql'] = preg_replace('/\s+/', ' ', $arquivo['sql']);
+  }
+
   $logMensagem = str_repeat("-", 150) . PHP_EOL . PHP_EOL;
   $logMensagem .= date('Y-m-d H:i:s') . ' - ' . $nome . PHP_EOL . PHP_EOL;
   $logMensagem .= json_encode($arquivo, JSON_UNESCAPED_SLASHES) . PHP_EOL . PHP_EOL;

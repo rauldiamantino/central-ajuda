@@ -1,7 +1,8 @@
 <?php
-namespace app\Controllers;
+namespace app\Controllers\Components;
+use app\Controllers\DashboardController;
 
-class FirebaseController extends Controller
+class FirebaseComponent extends DashboardController
 {
   public function credenciais()
   {
