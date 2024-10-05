@@ -152,16 +152,16 @@ class DashboardConteudoController extends DashboardController
     $json = $this->receberJson();
     $resultado = $this->conteudoModel->atualizar($json, $id);
 
-    $urlRetorno = '/dashboard/' . $this->usuarioLogado['empresaId'] . '/conteudo/editar/' . $id;
+    $artigoId = intval($json['artigo_id'] ?? 0);
 
     if ($_POST and isset($resultado['erro'])) {
-      $this->redirecionarErro($urlRetorno, $resultado['erro']);
+      $this->redirecionarErro('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigo/editar/' . $id, $resultado['erro']);
     }
     elseif ($_POST and $resultado) {
-      $this->redirecionarSucesso($urlRetorno, 'Conteúdo editado com sucesso');
+      $this->redirecionarSucesso('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigo/editar/' . $artigoId, 'Conteúdo editado com sucesso');
     }
     elseif ($_POST) {
-      $this->redirecionar($urlRetorno, 'Nenhuma alteração realizada');
+      $this->redirecionar('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigo/editar/' . $artigoId, 'Nenhuma alteração realizada');
     }
   }
 
