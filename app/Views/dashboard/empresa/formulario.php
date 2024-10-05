@@ -11,10 +11,16 @@
         </label>
       </div>
       <div class="w-full">
-        <label for="empresa-editar-nome" class="w-full block text-sm font-medium text-gray-700">Nome</label>
+        <label for="empresa-editar-assinatura-id" class="w-full block text-sm font-medium text-gray-700">Nome</label>
         <input type="text" id="empresa-editar-nome" name="nome" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="<?php echo $empresa['Empresa.nome']; ?>">
       </div>
     </div>
+    <?php if ($this->usuarioLogado['padrao'] == USUARIO_SUPORTE) { ?>
+      <div class="w-full">
+        <label for="empresa-editar-assinatura-id" class="w-full block text-sm font-medium text-gray-700">ID da assinatura <span class="text-xs font-light">(Somente suporte)</span></label>
+        <input type="text" id="empresa-editar-assinatura-id" name="assinatura_id" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="<?php echo $empresa['Empresa.assinatura_id']; ?>">
+      </div>
+    <?php } ?>
     <div class="w-full">
       <label for="empresa-editar-cnpj" class="block text-sm font-medium text-gray-700">CNPJ</label>
       <input type="text" id="empresa-editar-cnpj" name="cnpj" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="<?php echo $empresa['Empresa.cnpj']; ?>">
