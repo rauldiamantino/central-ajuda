@@ -46,9 +46,11 @@ class Roteador
     // Subdomínio
     $temp = explode('.', $_SERVER['HTTP_HOST']);
     $subdominio = '';
+    $subdominioAtivo = false;
 
     if (count($temp) > 1) {
       $subdominio = $temp[0];
+      $subdominioAtivo = true;
     }
 
     $chaveRota = $metodo . ':' . $url;
@@ -88,6 +90,11 @@ class Roteador
       return $this->paginaErro->erroVer();
     }
 
+    // Subdomínio somente nas rotas públicas
+    if ($subdominioAtivo and ! $this->rotaPublica($chaveRota)) {
+      return $this->paginaErro->erroVer();
+    }
+
     $dashboardEmpresa = new DashboardEmpresaController();
 
     $coluna = 'id';
@@ -115,12 +122,10 @@ class Roteador
     if (substr($chaveRota, 0, 18) != 'GET:/login/suporte/{id}') {
 
       // Resgata sessão do usuário ao acessar rota pública sem subdomínio
-      if (isset($usuarioLogado['empresaId']) and ($this->rotaPublica($chaveRota) == false or empty($subdominio))) {
+      if (isset($usuarioLogado['empresaId']) and $this->rotaPublica($chaveRota) == false) {
         $empresaId = (int) $usuarioLogado['empresaId'];
-        $subdominio = $usuarioLogado['subdominio'];
       }
     }
-
 
     // Restrições de acesso por nível
     if ((! isset($usuarioLogado['padrao']) or $usuarioLogado['padrao'] != USUARIO_SUPORTE) and $this->rotaRestritaSuporte($chaveRota)) {
