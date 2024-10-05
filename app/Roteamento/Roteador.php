@@ -44,23 +44,72 @@ class Roteador
     }
 
     // Subdomínio
-    $partesUrl = explode('/', $url);
-    $subdominio = $partesUrl[1] ?? '';
+    $temp = explode('.', $_SERVER['HTTP_HOST']);
+    $subdominio = '';
+    $subdominioAtivo = false;
 
-    $dashboardEmpresa = new DashboardEmpresaController();
-    $buscarEmpresa = $dashboardEmpresa->buscarEmpresaSemId('subdominio', $subdominio);
-
-    if (empty($buscarEmpresa)) {
-      $subdominio = '';
+    if (count($temp) > 1) {
+      $subdominio = $temp[0];
+      $subdominioAtivo = true;
     }
 
     $chaveRota = $metodo . ':' . $url;
-    $id = (int) basename($url);
+    $partesRota = explode('/', trim($url, '/'));
 
-    $chaveRota = str_replace($id, '{id}', $chaveRota);
-    $chaveRota = str_replace($subdominio, '{subdominio}', $chaveRota);
+    $empresaId = 0;
+    $id = 0;
+
+    $ids = [];
+    foreach ($partesRota as $parte):
+
+      if (count($ids) > 2) {
+        break;
+      }
+
+      if (is_numeric($parte)) {
+        $ids[] = (int) $parte;
+      }
+    endforeach;
+
+    if (! strpos($chaveRota, '/dashboard') and ! strpos($chaveRota, '/d/') and count($ids) == 1) {
+      // Somente parâmetro
+      $id = $ids[0];
+    }
+    else {
+      // Empresa e parâmetro
+      $empresaId = intval($ids[0] ?? 0);
+      $id = intval($ids[1] ?? 0);
+    }
+
+    $chaveRota = preg_replace('/\b' . preg_quote($empresaId, '/') . '\b/', '{empresaId}', $chaveRota, 1);
+    $chaveRota = preg_replace('/\b' . preg_quote($id, '/') . '\b/', '{id}', $chaveRota, 1);
+
+    $rotaRequisitada = $this->acessarRota($chaveRota);
+
+    if (empty($rotaRequisitada)) {
+      return $this->paginaErro->erroVer();
+    }
+
+    // Subdomínio somente nas rotas públicas
+    if ($subdominioAtivo and ! $this->rotaPublica($chaveRota)) {
+      return $this->paginaErro->erroVer();
+    }
+
+    $dashboardEmpresa = new DashboardEmpresaController();
+
+    $coluna = 'id';
+    $valor = $empresaId;
+
+    if ($subdominio and $empresaId == 0) {
+      $coluna = 'subdominio';
+      $valor = $subdominio;
+    }
+
+    $buscarEmpresa = $dashboardEmpresa->buscarEmpresaSemId($coluna, $valor);
+
     $empresaId = intval($buscarEmpresa[0]['Empresa.id'] ?? 0);
     $empresaAtivo = intval($buscarEmpresa[0]['Empresa.ativo'] ?? 0);
+    $subdominio = $buscarEmpresa[0]['Empresa.subdominio'] ?? '';
 
     // Acesso negado
     if ($empresaAtivo == INATIVO) {
@@ -70,8 +119,9 @@ class Roteador
     $usuarioLogado = $this->sessaoUsuario->buscar('usuario');
 
     // Sempre utiliza Empresa ID logada
-    if (substr($chaveRota, 0, 18) != 'GET:/login/suporte') {
+    if (substr($chaveRota, 0, 18) != 'GET:/login/suporte/{id}') {
 
+      // Resgata sessão do usuário ao acessar rota pública sem subdomínio
       if (isset($usuarioLogado['empresaId']) and $this->rotaPublica($chaveRota) == false) {
         $empresaId = (int) $usuarioLogado['empresaId'];
       }
@@ -80,12 +130,13 @@ class Roteador
     // Restrições de acesso por nível
     if ((! isset($usuarioLogado['padrao']) or $usuarioLogado['padrao'] != USUARIO_SUPORTE) and $this->rotaRestritaSuporte($chaveRota)) {
       $this->sessaoUsuario->definir('erro', 'Você não tem permissão para realizar esta ação.');
-      header('Location: ' . $_SERVER['HTTP_REFERER']);
+      $referer = $_SERVER['HTTP_REFERER'] ?? '/';
+      header('Location: ' . $referer);
       exit;
     }
 
     // Dashboard
-    if (strpos($chaveRota, '/{subdominio}/dashboard')) {
+    if (strpos($chaveRota, '/dashboard')) {
       $sucesso = true;
 
       if (! isset($usuarioLogado['nivel'])) {
@@ -94,7 +145,7 @@ class Roteador
       elseif (! isset($usuarioLogado['id']) or (int) $usuarioLogado['id'] == 0) {
         $sucesso = false;
       }
-      elseif (! isset($usuarioLogado['subdominio']) or empty($usuarioLogado['subdominio'])) {
+      elseif (! isset($usuarioLogado['empresaId']) or empty($usuarioLogado['empresaId'])) {
         $sucesso = false;
       }
       elseif ($empresaAtivo == INATIVO and $usuarioLogado['padrao'] != USUARIO_SUPORTE) {
@@ -132,12 +183,9 @@ class Roteador
       }
 
       // Limita o acesso à empresa correta
-      if ($usuarioLogado['subdominio'] !== $subdominio) {
+      if ($usuarioLogado['empresaId'] !== $empresaId) {
         return $this->paginaErro->erroVer();
       }
-
-      // Define Empresa ID padrão
-      $empresaId = $usuarioLogado['empresaId'];
     }
 
     // Acesso sem subdomínio
@@ -149,21 +197,15 @@ class Roteador
     $this->sessaoUsuario->definir('empresaId', $empresaId);
     $this->sessaoUsuario->definir('subdominio', $subdominio);
 
-    $rotaRequisitada = $this->acessarRota($chaveRota);
+    // Acessa rota solicitada
+    $controlador = new $rotaRequisitada[0]();
+    $metodo = $rotaRequisitada[1];
 
-    if ($rotaRequisitada) {
-      $controlador = new $rotaRequisitada[0]();
-      $metodo = $rotaRequisitada[1];
-
-      if ($id) {
-        $controlador->$metodo($id);
-      }
-      else {
-        $controlador->$metodo();
-      }
+    if ($id) {
+      $controlador->$metodo($id);
     }
     else {
-      $this->paginaErro->erroVer();
+      $controlador->$metodo();
     }
   }
 
@@ -249,60 +291,61 @@ class Roteador
     return false;
   }
 
-  private function rotaRestritaNivel2(string $rota, int $usuarioLogadoId, int $id = 0): bool
+  private function rotaRestritaNivel2(string $chaveRota, int $usuarioLogadoId, int $id = 0): bool
   {
     $rotasRestritas = [
-      0 => 'GET:/{subdominio}/dashboard/usuario/editar/{id}',
-      1 => 'GET:/{subdominio}/dashboard/usuario/adicionar',
-      2 => 'GET:/{subdominio}/dashboard/empresa/editar',
-      3 => 'GET:/{subdominio}/d/usuarios',
-      4 => 'GET:/{subdominio}/d/usuario/{id}',
-      5 => 'POST:/{subdominio}/d/usuario',
-      6 => 'PUT:/{subdominio}/d/usuario/{id}',
-      7 => 'DELETE:/{subdominio}/d/usuario/{id}',
-      8 => 'GET:/{subdominio}/d/usuario/desbloquear/{id}',
+      0 => 'GET:/dashboard/{empresaId}/usuario/editar/{id}',
+      1 => 'GET:/dashboard/{empresaId}/usuario/adicionar',
+      2 => 'GET:/dashboard/{empresaId}/empresa/editar',
+      3 => 'GET:/d/{empresaId}/usuarios',
+      4 => 'GET:/d/{empresaId}/usuario/{id}',
+      5 => 'POST:/d/{empresaId}/usuario',
+      6 => 'PUT:/d/{empresaId}/usuario/{id}',
+      7 => 'DELETE:/d/{empresaId}/usuario/{id}',
+      8 => 'GET:/d/{empresaId}/usuario/desbloquear/{id}',
+      9 => 'PUT:/d/{empresaId}/empresa/editar/{id}',
     ];
 
-    if (! in_array($rota, $rotasRestritas)) {
+    if (! in_array($chaveRota, $rotasRestritas)) {
       return false;
     }
 
     // Permite apenas visualizar e editar o próprio cadastro
-    if (in_array($rota, [$rotasRestritas[0], $rotasRestritas[6]]) and $usuarioLogadoId == $id) {
+    if (in_array($chaveRota, [$rotasRestritas[0], $rotasRestritas[6]]) and $usuarioLogadoId == $id) {
       return false;
     }
 
     return true;
   }
 
-  private function rotaRestritaSuporte(string $rota): bool
+  private function rotaRestritaSuporte(string $chaveRota): bool
   {
     $rotasRestritas = [
-      'GET:/{subdominio}/d/usuario/desbloquear/{id}',
-      'GET:/login/suporte/{id}',
+      'GET:/d/{empresaId}/usuario/desbloquear/{id}',
+      'GET:/login/suporte/id',
       'GET:/login/suporte',
-      'GET:/{subdominio}/dashboard/validar_assinatura',
-      'GET:/{subdominio}/dashboard/confirmar_assinatura',
+      'GET:/dashboard/{empresaId}/validar_assinatura',
+      'GET:/dashboard/{empresaId}/confirmar_assinatura',
     ];
 
-    if (! in_array($rota, $rotasRestritas)) {
+    if (! in_array($chaveRota, $rotasRestritas)) {
       return false;
     }
 
     return true;
   }
 
-  private function rotaPublica(string $rota): bool
+  private function rotaPublica(string $chaveRota): bool
   {
     $rotasRestritas = [
-      'GET:/{subdominio}',
-      'GET:/{subdominio}/categoria/{id}',
-      'GET:/{subdominio}/artigo/{id}',
-      'POST:/{subdominio}/buscar',
-      'GET:/{subdominio}/buscar',
+      'GET:/',
+      'GET:/categoria/{id}',
+      'GET:/artigo/{id}',
+      'POST:/buscar',
+      'GET:/buscar',
     ];
 
-    if (! in_array($rota, $rotasRestritas)) {
+    if (! in_array($chaveRota, $rotasRestritas)) {
       return false;
     }
 
@@ -312,81 +355,81 @@ class Roteador
   private function acessarRota(string $rotaRequisitada = ''): array
   {
     $rotas = [
-      // Acesso sem domínio
-      'POST:/cadastro' => [DashboardCadastroController::class, 'adicionar'],
-      'PUT:/empresa/{id}' => [DashboardEmpresaController::class, 'atualizar'],
+      // Acesso público
       'GET:/erro' => [PaginaErroController::class, 'erroVer'],
       'GET:/login' => [DashboardLoginController::class, 'loginVer'],
       'GET:/login/suporte' => [DashboardLoginController::class, 'loginSuporteVer'],
       'GET:/login/suporte/{id}' => [DashboardLoginController::class, 'loginSuporteVer'],
+      'POST:/cadastro' => [DashboardCadastroController::class, 'adicionar'],
       'GET:/cadastro' => [DashboardCadastroController::class, 'cadastroVer'],
       'GET:/cadastro/sucesso' => [DashboardCadastroController::class, 'cadastroSucessoVer'],
       'POST:/login' => [DashboardLoginController::class, 'login'],
       'GET:/logout' => [DashboardLoginController::class, 'logout'],
 
-      // Público
-      'GET:/{subdominio}' => [PublicoController::class, 'publicoVer'],
-      'GET:/{subdominio}/categoria/{id}' => [PublicoCategoriaController::class, 'categoriaVer'],
-      'GET:/{subdominio}/artigo/{id}' => [PublicoArtigoController::class, 'artigoVer'],
-      'POST:/{subdominio}/buscar' => [PublicoBuscaController::class, 'buscar'],
-      'GET:/{subdominio}/buscar' => [PublicoBuscaController::class, 'buscar'],
+      // Subdomínio
+      'GET:/' => [PublicoController::class, 'publicoVer'],
+      'GET:/categoria/{id}' => [PublicoCategoriaController::class, 'categoriaVer'],
+      'GET:/artigo/{id}' => [PublicoArtigoController::class, 'artigoVer'],
+      'POST:/buscar' => [PublicoBuscaController::class, 'buscar'],
+      'GET:/buscar' => [PublicoBuscaController::class, 'buscar'],
 
       // Dashboard
-      'GET:/{subdominio}/dashboard' => [DashboardController::class, 'dashboardVer'],
-      'GET:/{subdominio}/dashboard/ajustes' => [DashboardAjusteController::class, 'ajustesVer'],
-      'GET:/{subdominio}/dashboard/artigos' => [DashboardArtigoController::class, 'artigosVer'],
-      'GET:/{subdominio}/dashboard/artigo/editar/{id}' => [DashboardArtigoController::class, 'artigoEditarVer'],
-      'GET:/{subdominio}/dashboard/artigo/adicionar' => [DashboardArtigoController::class, 'artigoAdicionarVer'],
-      'GET:/{subdominio}/dashboard/conteudo/editar/{id}' => [DashboardConteudoController::class, 'conteudoEditarVer'],
-      'GET:/{subdominio}/dashboard/conteudo/adicionar' => [DashboardConteudoController::class, 'conteudoAdicionarVer'],
-      'GET:/{subdominio}/dashboard/categorias' => [DashboardCategoriaController::class, 'categoriasVer'],
-      'GET:/{subdominio}/dashboard/categoria/editar/{id}' => [DashboardCategoriaController::class, 'categoriaEditarVer'],
-      'GET:/{subdominio}/dashboard/categoria/adicionar' => [DashboardCategoriaController::class, 'categoriaAdicionarVer'],
-      'GET:/{subdominio}/dashboard/usuarios' => [DashboardUsuarioController::class, 'UsuariosVer'],
-      'GET:/{subdominio}/dashboard/usuario/editar/{id}' => [DashboardUsuarioController::class, 'usuarioEditarVer'],
-      'GET:/{subdominio}/dashboard/usuario/adicionar' => [DashboardUsuarioController::class, 'usuarioAdicionarVer'],
-      'GET:/{subdominio}/dashboard/empresa/editar' => [DashboardEmpresaController::class, 'empresaEditarVer'],
-      'GET:/{subdominio}/dashboard/validar_assinatura' => [DashboardEmpresaController::class, 'reprocessarAssinatura'],
-      'GET:/{subdominio}/dashboard/confirmar_assinatura' => [DashboardEmpresaController::class, 'confirmarAssinatura'],
+      'GET:/dashboard/{empresaId}' => [DashboardController::class, 'dashboardVer'],
+      'GET:/dashboard/{empresaId}/ajustes' => [DashboardAjusteController::class, 'ajustesVer'],
+      'GET:/dashboard/{empresaId}/artigos' => [DashboardArtigoController::class, 'artigosVer'],
+      'GET:/dashboard/{empresaId}/artigo/editar/{id}' => [DashboardArtigoController::class, 'artigoEditarVer'],
+      'GET:/dashboard/{empresaId}/artigo/adicionar' => [DashboardArtigoController::class, 'artigoAdicionarVer'],
+      'GET:/dashboard/{empresaId}/conteudo/editar/{id}' => [DashboardConteudoController::class, 'conteudoEditarVer'],
+      'GET:/dashboard/{empresaId}/conteudo/adicionar' => [DashboardConteudoController::class, 'conteudoAdicionarVer'],
+      'GET:/dashboard/{empresaId}/categorias' => [DashboardCategoriaController::class, 'categoriasVer'],
+      'GET:/dashboard/{empresaId}/categoria/editar/{id}' => [DashboardCategoriaController::class, 'categoriaEditarVer'],
+      'GET:/dashboard/{empresaId}/categoria/adicionar' => [DashboardCategoriaController::class, 'categoriaAdicionarVer'],
+      'GET:/dashboard/{empresaId}/usuarios' => [DashboardUsuarioController::class, 'UsuariosVer'],
+      'GET:/dashboard/{empresaId}/usuario/editar/{id}' => [DashboardUsuarioController::class, 'usuarioEditarVer'],
+      'GET:/dashboard/{empresaId}/usuario/adicionar' => [DashboardUsuarioController::class, 'usuarioAdicionarVer'],
+      'GET:/dashboard/{empresaId}/empresa/editar' => [DashboardEmpresaController::class, 'empresaEditarVer'],
+      'GET:/dashboard/{empresaId}/validar_assinatura' => [DashboardEmpresaController::class, 'reprocessarAssinatura'],
+      'GET:/dashboard/{empresaId}/confirmar_assinatura' => [DashboardEmpresaController::class, 'confirmarAssinatura'],
 
       // Dashboard - Ajustes
-      'PUT:/{subdominio}/d/ajustes' => [DashboardAjusteController::class, 'atualizar'],
-      'GET:/{subdominio}/d/firebase' => [DatabaseFirebaseComponent::class, 'credenciais'],
+      'PUT:/d/{empresaId}/ajustes' => [DashboardAjusteController::class, 'atualizar'],
+      'GET:/d/{empresaId}/firebase' => [DatabaseFirebaseComponent::class, 'credenciais'],
+      'PUT:/d/{empresaId}/empresa/editar/{id}' => [DashboardEmpresaController::class, 'atualizar'],
 
       // Dashboard - Assinatura
       'POST:/d/assinaturas/receber' => [AssinaturaReceberComponent::class, 'receberWebhook'],
 
       // Dashboard - Artigos
-      'GET:/{subdominio}/d/artigos' => [DashboardArtigoController::class, 'buscar'],
-      'GET:/{subdominio}/d/artigo/{id}' => [DashboardArtigoController::class, 'buscar'],
-      'POST:/{subdominio}/d/artigo' => [DashboardArtigoController::class, 'adicionar'],
-      'PUT:/{subdominio}/d/artigo/{id}' => [DashboardArtigoController::class, 'atualizar'],
-      'PUT:/{subdominio}/d/artigo/ordem' => [DashboardArtigoController::class, 'atualizarOrdem'],
-      'DELETE:/{subdominio}/d/artigo/{id}' => [DashboardArtigoController::class, 'apagar'],
+      'GET:/d/{empresaId}/artigos' => [DashboardArtigoController::class, 'buscar'],
+      'GET:/d/{empresaId}/artigo/{id}' => [DashboardArtigoController::class, 'buscar'],
+      'POST:/d/{empresaId}/artigo' => [DashboardArtigoController::class, 'adicionar'],
+      'PUT:/d/{empresaId}/artigo/{id}' => [DashboardArtigoController::class, 'atualizar'],
+      'PUT:/d/{empresaId}/artigo/ordem' => [DashboardArtigoController::class, 'atualizarOrdem'],
+      'DELETE:/d/{empresaId}/artigo/{id}' => [DashboardArtigoController::class, 'apagar'],
 
       // Dashboard - Conteúdos
-      'GET:/{subdominio}/d/conteudos' => [DashboardConteudoController::class, 'buscar'],
-      'GET:/{subdominio}/d/conteudos/{id}' => [DashboardConteudoController::class, 'buscar'],
-      'POST:/{subdominio}/d/conteudo' => [DashboardConteudoController::class, 'adicionar'],
-      'PUT:/{subdominio}/d/conteudo/{id}' => [DashboardConteudoController::class, 'atualizar'],
-      'PUT:/{subdominio}/d/conteudo/ordem' => [DashboardConteudoController::class, 'atualizarOrdem'],
-      'DELETE:/{subdominio}/d/conteudo/{id}' => [DashboardConteudoController::class, 'apagar'],
+      'GET:/d/{empresaId}/conteudos' => [DashboardConteudoController::class, 'buscar'],
+      'GET:/d/{empresaId}/conteudos/{id}' => [DashboardConteudoController::class, 'buscar'],
+      'POST:/d/{empresaId}/conteudo' => [DashboardConteudoController::class, 'adicionar'],
+      'PUT:/d/{empresaId}/conteudo/{id}' => [DashboardConteudoController::class, 'atualizar'],
+      'PUT:/d/{empresaId}/conteudo/ordem' => [DashboardConteudoController::class, 'atualizarOrdem'],
+      'DELETE:/d/{empresaId}/conteudo/{id}' => [DashboardConteudoController::class, 'apagar'],
 
       // Dashboard - Categorias
-      'GET:/{subdominio}/d/categorias' => [DashboardCategoriaController::class, 'buscar'],
-      'GET:/{subdominio}d/categoria/{id}' => [DashboardCategoriaController::class, 'buscar'],
-      'POST:/{subdominio}/d/categoria' => [DashboardCategoriaController::class, 'adicionar'],
-      'PUT:/{subdominio}/d/categoria/{id}' => [DashboardCategoriaController::class, 'atualizar'],
-      'PUT:/{subdominio}/d/categoria/ordem' => [DashboardCategoriaController::class, 'atualizarOrdem'],
-      'DELETE:/{subdominio}/d/categoria/{id}' => [DashboardCategoriaController::class, 'apagar'],
+      'GET:/d/{empresaId}/categorias' => [DashboardCategoriaController::class, 'buscar'],
+      'GET:d/categoria/{id}' => [DashboardCategoriaController::class, 'buscar'],
+      'POST:/d/{empresaId}/categoria' => [DashboardCategoriaController::class, 'adicionar'],
+      'PUT:/d/{empresaId}/categoria/{id}' => [DashboardCategoriaController::class, 'atualizar'],
+      'PUT:/d/{empresaId}/categoria/ordem' => [DashboardCategoriaController::class, 'atualizarOrdem'],
+      'DELETE:/d/{empresaId}/categoria/{id}' => [DashboardCategoriaController::class, 'apagar'],
 
       // Dashboard - Usuários
-      'GET:/{subdominio}/d/usuarios' => [DashboardUsuarioController::class, 'buscar'],
-      'GET:/{subdominio}/d/usuario/{id}' => [DashboardUsuarioController::class, 'buscar'],
-      'POST:/{subdominio}/d/usuario' => [DashboardUsuarioController::class, 'adicionar'],
-      'PUT:/{subdominio}/d/usuario/{id}' => [DashboardUsuarioController::class, 'atualizar'],
-      'DELETE:/{subdominio}/d/usuario/{id}' => [DashboardUsuarioController::class, 'apagar'],
-      'GET:/{subdominio}/d/usuario/desbloquear/{id}' => [DashboardUsuarioController::class, 'desbloquear'],
+      'GET:/d/{empresaId}/usuarios' => [DashboardUsuarioController::class, 'buscar'],
+      'GET:/d/{empresaId}/usuario/{id}' => [DashboardUsuarioController::class, 'buscar'],
+      'POST:/d/{empresaId}/usuario' => [DashboardUsuarioController::class, 'adicionar'],
+      'PUT:/d/{empresaId}/usuario/{id}' => [DashboardUsuarioController::class, 'atualizar'],
+      'DELETE:/d/{empresaId}/usuario/{id}' => [DashboardUsuarioController::class, 'apagar'],
+      'GET:/d/{empresaId}/usuario/desbloquear/{id}' => [DashboardUsuarioController::class, 'desbloquear'],
     ];
 
     return $rotas[ $rotaRequisitada ] ?? [];

@@ -10,6 +10,7 @@ class PublicoController extends Controller
   protected $dashboardDategoriaModel;
   protected $dashboardEmpresaModel;
   protected $subdominio;
+  protected $empresaId;
   protected $telefone;
   protected $logo;
   protected $visao;
@@ -25,6 +26,7 @@ class PublicoController extends Controller
     $this->visao = new ViewRenderer('/publico');
     $this->visao->variavel('logo', $this->logo);
     $this->visao->variavel('subdominio', $this->subdominio);
+    $this->visao->variavel('empresaId', $this->empresaId);
     $this->visao->variavel('telefoneEmpresa', $this->telefone);
 
   }
@@ -50,7 +52,7 @@ class PublicoController extends Controller
                                                ->buscar($colunas);
 
     if (isset($resultado[0]['Categoria.id']) and $this->subdominio) {
-      $this->redirecionar('/' . $this->subdominio . '/categoria/' . $resultado[0]['Categoria.id']);
+      $this->redirecionar('/categoria/' . $resultado[0]['Categoria.id']);
     }
 
     $this->visao->variavel('categorias', $resultado);
@@ -80,6 +82,7 @@ class PublicoController extends Controller
   private function obterSubdominio(): void
   {
     $this->subdominio = $this->sessaoUsuario->buscar('subdominio');
+    $this->empresaId = $this->sessaoUsuario->buscar('empresaId');
   }
 
   public function exibirInativos(): bool
@@ -88,7 +91,7 @@ class PublicoController extends Controller
       return true;
     }
 
-    if ($this->subdominio and $this->subdominio == $this->usuarioLogado['subdominio']) {
+    if ($this->empresaId and $this->empresaId == $this->usuarioLogado['empresaId']) {
       return true;
     }
 

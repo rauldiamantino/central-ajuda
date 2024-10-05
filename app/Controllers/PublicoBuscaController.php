@@ -9,6 +9,7 @@ class PublicoBuscaController extends PublicoController
   protected $artigoModel;
   protected $categoriaModel;
   protected $subdominio;
+  protected $empresaId;
 
   public function __construct()
   {
@@ -36,7 +37,7 @@ class PublicoBuscaController extends PublicoController
     if ($this->usuarioLogado['padrao'] == USUARIO_SUPORTE) {
       unset($condicao['Artigo.ativo']);
     }
-    elseif ($this->subdominio and $this->subdominio == $this->usuarioLogado['subdominio']) {
+    elseif ($this->empresaId and $this->empresaId == $this->usuarioLogado['empresaId']) {
       unset($condicao['Artigo.ativo']);
     }
 
@@ -102,7 +103,7 @@ class PublicoBuscaController extends PublicoController
       if ($this->usuarioLogado['padrao'] == USUARIO_SUPORTE) {
         unset($condicoes['Categoria.ativo']);
       }
-      elseif ($this->subdominio and $this->subdominio == $this->usuarioLogado['subdominio']) {
+      elseif ($this->empresaId and $this->empresaId == $this->usuarioLogado['empresaId']) {
         unset($condicoes['Categoria.ativo']);
       }
 

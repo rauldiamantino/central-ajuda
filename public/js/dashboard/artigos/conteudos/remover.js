@@ -48,7 +48,7 @@ const requisicaoConteudoRemover = async (conteudoId) => {
     return
   }
 
-  if (! subdominio) {
+  if (! empresaId) {
     return
   }
 
@@ -60,7 +60,7 @@ const requisicaoConteudoRemover = async (conteudoId) => {
     }
   }
 
-  fetch(`/${subdominio}/d/conteudo/${conteudoId}`, { method: 'DELETE' })
+  fetch(`/d/${empresaId}/conteudo/${conteudoId}`, { method: 'DELETE' })
     .then(resposta => resposta.json())
     .then(resposta => {
 

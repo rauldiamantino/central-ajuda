@@ -6,7 +6,7 @@
     <div class="mt-10 w-full">
       <div class="flex flex-col gap-2">
         <?php foreach($empresas as $chave => $linha): ?>
-          <a href="/login/suporte/<?php echo $linha['id'] ?>" class="px-4 py-2 border border-slate-200 hover:bg-slate-50 flex gap-5 justify-between rounded">
+          <a href="/login/suporte/<?php echo $linha['id']; ?>" class="px-4 py-2 border border-slate-200 hover:bg-slate-50 flex gap-5 justify-between rounded">
             <?php echo $linha['subdominio'] ?>
 
             <?php if ($linha['ativo'] == ATIVO) { ?>
@@ -33,6 +33,6 @@
     </div>
   </div>
   <div class="p-4 w-full flex justify-center">
-    <a href="/<?php echo $this->usuarioLogado['subdominio'] ?>/dashboard/artigos" class="border border-slate-300 w-full flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-sm text-gray-700 rounded-lg">Voltar</a>
+    <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/artigos" class="border border-slate-300 w-full flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-sm text-gray-700 rounded-lg">Voltar</a>
   </div>
 </div>

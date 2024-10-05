@@ -19,7 +19,7 @@ class DashboardEmpresaController extends DashboardController
   public function empresaEditarVer()
   {
     if ($this->usuarioLogado['nivel'] == USUARIO_RESTRITO) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', 'Você não tem permissão para realizar esta ação.');
+      $this->redirecionarErro('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigos', 'Você não tem permissão para realizar esta ação.');
     }
 
     $colunas = [
@@ -39,7 +39,7 @@ class DashboardEmpresaController extends DashboardController
     $empresa = $this->empresaModel->buscar($colunas);
 
     if (isset($empresa['erro']) and $empresa['erro']) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', $empresa['erro']);
+      $this->redirecionarErro('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigos', $empresa['erro']);
     }
 
     $respostaApi = [];
@@ -57,20 +57,24 @@ class DashboardEmpresaController extends DashboardController
 
   public function buscarEmpresaSemId(string $coluna, string $valor = ''): array
   {
+    if (empty($valor)) {
+      return [];
+    }
+
     return $this->empresaModel->buscarEmpresaSemId($coluna, $valor);
   }
 
   public function atualizar(int $id)
   {
     if ($this->usuarioLogado['nivel'] == USUARIO_RESTRITO) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', 'Você não tem permissão para realizar esta ação.');
+      $this->redirecionarErro('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigos', 'Você não tem permissão para realizar esta ação.');
     }
 
     $json = $this->receberJson();
     $resultado = $this->empresaModel->atualizar($json, $id);
 
     if (isset($resultado['erro'])) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', $resultado['erro']);
+      $this->redirecionarErro('/dashboard/' . $this->usuarioLogado['empresaId'] . '/empresa/editar', $resultado['erro']);
     }
 
     $colunas = [
@@ -84,7 +88,7 @@ class DashboardEmpresaController extends DashboardController
       $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
     }
 
-    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Registro alterado com sucesso');
+    $this->redirecionarSucesso('/dashboard/' . $this->usuarioLogado['empresaId'] . '/empresa/editar', 'Registro alterado com sucesso');
   }
 
   public function confirmarAssinatura(): void
@@ -104,7 +108,7 @@ class DashboardEmpresaController extends DashboardController
         $resultado = $this->empresaModel->atualizar($campos, $this->usuarioLogado['empresaId']);
 
         if (isset($resultado['erro'])) {
-          $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', $resultado['erro']);
+          $this->redirecionarErro('/dashboard/' . $this->usuarioLogado['empresaId'] . '/empresa/editar', $resultado['erro']);
         }
 
         $colunas = [
@@ -119,11 +123,11 @@ class DashboardEmpresaController extends DashboardController
           $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
         }
 
-        $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Assinatura confirmada com sucesso');
+        $this->redirecionarSucesso('/dashboard/' . $this->usuarioLogado['empresaId'] . '/empresa/editar', 'Assinatura confirmada com sucesso');
       }
     }
 
-    $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar');
+    $this->redirecionar('/dashboard/' . $this->usuarioLogado['empresaId'] . '/empresa/editar');
   }
 
   public function reprocessarAssinatura(): void
@@ -144,7 +148,7 @@ class DashboardEmpresaController extends DashboardController
         $resultado = $this->empresaModel->atualizar($campos, $this->usuarioLogado['empresaId']);
 
         if (isset($resultado['erro'])) {
-          $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', $resultado['erro']);
+          $this->redirecionarErro('/dashboard/' . $this->usuarioLogado['empresaId'] . '/empresa/editar', $resultado['erro']);
         }
 
         $colunas = [
@@ -159,11 +163,11 @@ class DashboardEmpresaController extends DashboardController
           $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
         }
 
-        $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Assinatura reprocessada com sucesso<br> Status: ' . strtoupper($status));
+        $this->redirecionarSucesso('/dashboard/' . $this->usuarioLogado['empresaId'] . '/empresa/editar', 'Assinatura reprocessada com sucesso<br> Status: ' . strtoupper($status));
       }
     }
 
-    $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar');
+    $this->redirecionar('/dashboard/' . $this->usuarioLogado['empresaId'] . '/empresa/editar');
   }
 
   public function confirmarAssinaturaWebhook(string $sessionId, string $assinaturaId): bool

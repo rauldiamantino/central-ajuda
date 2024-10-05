@@ -23,7 +23,7 @@ $assinatura = [
       <?php if ($empresa['Empresa.subdominio'] and isset($_SERVER['SERVER_NAME']) and $_SERVER['SERVER_NAME']) { ?>
         <div class="p-4 flex flex-col flex-wrap md:flex-row md:gap-2 justify-center items-center w-full border-b border-slate-200 text-gray-900 text-center text-sm">
           Divulgue o endereço:
-          <a href="/<?php echo $empresa['Empresa.subdominio'] ?>" target="_blank" class="text-xl text-red-700"><?php echo  $_SERVER['SERVER_NAME'] . '/' . $empresa['Empresa.subdominio']?></a>
+          <a href="<?php echo subdominioDominio($this->usuarioLogado['subdominio']); ?>" target="_blank" class="text-xl text-red-700"><?php echo subdominioDominio($this->usuarioLogado['subdominio'], false); ?></a>
         </div>
       <?php } ?>
     </div>
@@ -86,14 +86,14 @@ $assinatura = [
       </div>
 
       <?php if (empty($sessaoStripe) and $assinaturaId) { ?>
-        <form action="/<?php echo $this->usuarioLogado['subdominio'] ?>/dashboard/validar_assinatura" method="GET">
+        <form action="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/validar_assinatura" method="GET">
           <input type="hidden" name="assinatura_id" value="<?php echo $assinaturaId; ?>">
           <button type="submit" class="w-full mt-2 border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Reprocessar assinatura</button>
         </form>
       <?php } ?>
 
       <?php if ($sessaoStripe and empty($assinaturaId)) { ?>
-        <form action="/<?php echo $this->usuarioLogado['subdominio'] ?>/dashboard/confirmar_assinatura" method="GET">
+        <form action="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/confirmar_assinatura" method="GET">
           <input type="hidden" name="sessao_stripe_id" value="<?php echo $sessaoStripe; ?>">
           <button type="submit" class="w-full mt-2 border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Confirmar assinatura</button>
         </form>

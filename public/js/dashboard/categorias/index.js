@@ -50,11 +50,11 @@ const requisicaoCateRemover = (categoriaId) => {
     return
   }
 
-  if (! subdominio) {
+  if (! empresaId) {
     return
   }
 
-  fetch(`/${subdominio}/d/categoria/${categoriaId}`, { method: 'DELETE' })
+  fetch(`/d/${empresaId}/categoria/${categoriaId}`, { method: 'DELETE' })
     .then(resposta => resposta.json())
     .then(resposta => {
 

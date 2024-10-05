@@ -35,10 +35,22 @@ class DatabaseFirebaseComponent extends DashboardController
       return false;
     }
 
-    if (parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST) !== DB_HOST) {
-      return false;
+    $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    $urlPartes = explode('/', $url);
+
+    $id = 0;
+    foreach ($urlPartes as $parte):
+
+      if (is_numeric($parte)) {
+        $id = (int) $parte;
+        break;
+      }
+    endforeach;
+
+    if ($id and $id == $this->usuarioLogado['empresaId']) {
+      return true;
     }
 
-    return true;
+    return false;
   }
 }

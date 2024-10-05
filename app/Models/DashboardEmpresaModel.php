@@ -29,6 +29,7 @@ class DashboardEmpresaModel extends Model
   public function buscarEmpresaSemId(string $coluna, $valor): array
   {
     $permitidas = [
+      'id',
       'subdominio',
       'assinatura_id',
       'sessao_stripe_id',
@@ -50,7 +51,8 @@ class DashboardEmpresaModel extends Model
     $sql = <<<SQL
       SELECT
         `Empresa`.`id` AS `Empresa.id`,
-        `Empresa`.`ativo` AS `Empresa.ativo`
+        `Empresa`.`ativo` AS `Empresa.ativo`,
+        `Empresa`.`subdominio` AS `Empresa.subdominio`
       FROM
         `empresas` AS `Empresa`
       WHERE

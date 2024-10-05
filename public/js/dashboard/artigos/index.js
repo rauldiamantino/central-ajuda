@@ -51,7 +51,7 @@ const fecharModalRemover = () => {
 
 const requisicaoRemover = async (artigoId) => {
 
-  if (artigoId === undefined || empresaId === undefined || subdominio === undefined) {
+  if (artigoId === undefined || empresaId === undefined || empresaId === undefined) {
     return
   }
 
@@ -61,7 +61,7 @@ const requisicaoRemover = async (artigoId) => {
     return
   }
 
-  fetch(`/${subdominio}/d/artigo/${artigoId}`, { method: 'DELETE' })
+  fetch(`/d/${empresaId}/artigo/${artigoId}`, { method: 'DELETE' })
     .then(resposta => resposta.json())
     .then(resposta => {
 

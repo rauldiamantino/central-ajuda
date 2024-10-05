@@ -8,13 +8,13 @@ const buscarCategorias = () => {
     return
   }
 
-  if (! subdominio) {
+  if (! empresaId) {
     return
   }
 
   modalOrganizarCancelar.addEventListener('click', () => modalOrganizar.close())
 
-  fetch(`/${subdominio}/d/categorias`, { method: 'GET' })
+  fetch(`/d/${empresaId}/categorias`, { method: 'GET' })
     .then(resposta => resposta.json())
     .then(resposta => {
 
@@ -51,7 +51,7 @@ const buscarCategorias = () => {
             }
 
             modalOrganizarConfirmar.addEventListener('click', () => {
-              fetch(`/${subdominio}/d/categoria/ordem`, {
+              fetch(`/d/${empresaId}/categoria/ordem`, {
                 method: 'PUT',
                 body: JSON.stringify(ordem)
                 })

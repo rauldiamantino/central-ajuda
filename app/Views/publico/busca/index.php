@@ -18,7 +18,7 @@
                   <a href="" class="italic hover:underline">Sem categoria</a>
                 <?php } ?>
                 <?php if ($linha['Categoria.nome'] and $linha['Artigo.categoria_id']) { ?>
-                  <a href="/<?php echo $subdominio ?>/categoria/<?php echo $linha['Artigo.categoria_id']; ?>" class="italic hover:underline"><?php echo $linha['Categoria.nome'] ?></a>
+                  <a href="/categoria/<?php echo $linha['Artigo.categoria_id']; ?>" class="italic hover:underline"><?php echo $linha['Categoria.nome'] ?></a>
                 <?php } ?>
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-tags" viewBox="0 0 16 16">
                   <path d="M3 2v4.586l7 7L14.586 9l-7-7zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586z"/>
@@ -26,7 +26,7 @@
                 </svg>
                 </div>
               <h2 class="text-2xl flex gap-2 items-center">
-                <a href="/<?php echo $subdominio ?>/artigo/<?php echo $linha['Artigo.id'] ?>" class="hover:underline"><?php echo $linha['Artigo.titulo'] ?></a>
+                <a href="/artigo/<?php echo $linha['Artigo.id'] ?>" class="hover:underline"><?php echo $linha['Artigo.titulo'] ?></a>
 
                 <?php if ($linha['Artigo.ativo'] == INATIVO) { ?>
                   <div class="text-red-800">

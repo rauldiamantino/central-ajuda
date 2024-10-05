@@ -73,7 +73,9 @@ class SessaoUsuario
     }
     elseif ($_SESSION['user_agent'] !== $_SERVER['HTTP_USER_AGENT']) {
       $this->destruir();
-      exit('Sessão inválida');
+
+      header('Location /');
+      exit();
     }
   }
 
@@ -84,7 +86,9 @@ class SessaoUsuario
     }
     elseif ($_SESSION['user_ip'] !== $_SERVER['REMOTE_ADDR']) {
       $this->destruir();
-      exit('Sessão inválida');
+
+      header('Location /');
+      exit();
     }
   }
 }

@@ -50,11 +50,11 @@ const requisicaoUsuarioRemover = (usuarioId) => {
     return
   }
 
-  if (! subdominio) {
+  if (! empresaId) {
     return
   }
 
-  fetch(`/${subdominio}/d/usuario/${usuarioId}`, { method: 'DELETE' })
+  fetch(`/d/${empresaId}/usuario/${usuarioId}`, { method: 'DELETE' })
     .then(resposta => resposta.json())
     .then(resposta => {
 

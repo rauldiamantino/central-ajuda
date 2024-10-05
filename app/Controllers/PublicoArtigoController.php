@@ -120,7 +120,7 @@ class PublicoArtigoController extends PublicoController
       }
     }
     else {
-      $this->redirecionarErro('/' . $this->subdominio, 'Desculpe, este artigo não está disponível');
+      $this->redirecionarErro('/', 'Desculpe, este artigo não está disponível');
     }
 
     $this->visao->variavel('demaisArtigos', $demaisArtigos);

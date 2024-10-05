@@ -1,4 +1,4 @@
-<form method="POST" action="/empresa/<?php echo $empresa['Empresa.id'] ?>" class="border border-slate-200 w-full md:min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow form-editar-empresa" data-empresa-id="<?php echo $empresa['Empresa.id'] ?>" data-imagem-atual="<?php echo $empresa['Empresa.logo']; ?>">
+<form method="POST" action="/d/<?php echo $this->usuarioLogado['empresaId'] ?>/empresa/editar/<?php echo $empresa['Empresa.id'] ?>" class="border border-slate-200 w-full md:min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow form-editar-empresa" data-empresa-id="<?php echo $empresa['Empresa.id'] ?>" data-imagem-atual="<?php echo $empresa['Empresa.logo']; ?>">
   <input type="hidden" name="_method" value="PUT">
   <div class="w-full flex flex-col gap-4">
     <div class="w-full flex justify-start gap-4">
@@ -40,7 +40,7 @@
     </div>
   </div>
   <div class="flex gap-2">
-    <a href="/<?php echo $this->usuarioLogado['subdominio'] ?>/dashboard/artigos" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-6 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Voltar</a>
+    <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/artigos" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-6 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Voltar</a>
     <button type="submit" class="flex gap-2 items-center justify-center py-2 px-6 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg btn-gravar-empresa">Gravar</button>
   </div>
 </form>
