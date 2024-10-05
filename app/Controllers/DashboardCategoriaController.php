@@ -82,7 +82,7 @@ class DashboardCategoriaController extends DashboardController
                                       ->buscar($colunas);
 
     if (isset($categoria['erro']) and $categoria['erro']) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categorias', $categoria['erro']);
+      $this->redirecionarErro('/dashboard/categorias/' . $this->usuarioLogado['empresaId'], $categoria['erro']);
     }
 
     $this->visao->variavel('categoria', reset($categoria));
@@ -127,10 +127,10 @@ class DashboardCategoriaController extends DashboardController
     $resultado = $this->categoriaModel->adicionar($dados);
 
     if (isset($resultado['erro'])) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categorias', $resultado['erro']);
+      $this->redirecionarErro('/dashboard/categorias/' . $this->usuarioLogado['empresaId'], $resultado['erro']);
     }
 
-    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categorias', 'Categoria criada com sucesso');
+    $this->redirecionarSucesso('/dashboard/categorias/' . $this->usuarioLogado['empresaId'], 'Categoria criada com sucesso');
   }
 
   public function buscar(int $id = 0)
@@ -164,10 +164,10 @@ class DashboardCategoriaController extends DashboardController
     $resultado = $this->categoriaModel->atualizar($json, $id);
 
     if (isset($resultado['erro'])) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categoria/editar/' . $id, $resultado['erro']);
+      $this->redirecionarErro('/dashboard/categoria/editar/' . $this->usuarioLogado['empresaId'] . '/' . $id, $resultado['erro']);
     }
 
-    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categoria/editar/' . $id, 'Registro alterado com sucesso');
+    $this->redirecionarSucesso('/dashboard/categoria/editar/' . $this->usuarioLogado['empresaId'] .  '/' . $id, 'Registro alterado com sucesso');
   }
 
   public function atualizarOrdem()

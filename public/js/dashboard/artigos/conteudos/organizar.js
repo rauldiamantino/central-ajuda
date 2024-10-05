@@ -9,14 +9,14 @@ const buscarConteudos = () => {
     return
   }
 
-  if (! subdominio) {
+  if (! empresaId) {
     return
   }
 
   modalOrganizarCancelar.addEventListener('click', () => modalOrganizar.close())
   artigoId = modalOrganizar.dataset.artigoId
 
-  fetch(`/${subdominio}/d/conteudos/${artigoId}`, { method: 'GET' })
+  fetch(`/d/conteudos/${empresaId}/${artigoId}`, { method: 'GET' })
     .then(resposta => resposta.json())
     .then(resposta => {
 
@@ -53,7 +53,7 @@ const buscarConteudos = () => {
             }
 
             modalOrganizarConfirmar.addEventListener('click', () => {
-              fetch(`/${subdominio}/d/conteudo/ordem`, {
+              fetch(`/d/conteudo/ordem/${empresaId}`, {
                 method: 'PUT',
                 body: JSON.stringify(ordem)
                 })

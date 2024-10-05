@@ -5,7 +5,7 @@
 
   <div class="w-full flex gap-4">
     <div class="w-full flex flex-col gap-10">
-      <form method="POST" action="/<?php echo $this->usuarioLogado['subdominio'] ?>/d/categoria" class="border border-slate-200 w-full min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow">
+      <form method="POST" action="/d/categoria/<?php echo $this->usuarioLogado['empresaId'] ?>" class="border border-slate-200 w-full min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow">
         <?php if (isset($ordem['prox'])) { ?>
           <input type="hidden" name="ordem" value="<?php echo $ordem['prox'] ?>">
         <?php } ?>
@@ -29,7 +29,7 @@
           </div>
         </div>
         <div class="flex gap-2">
-          <a href="/<?php echo $this->usuarioLogado['subdominio'] ?>/dashboard/categorias" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-6 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Voltar</a>
+          <a href="/dashboard/categorias/<?php echo $this->usuarioLogado['empresaId'] ?>" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-6 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Voltar</a>
           <button type="submit" class="flex gap-2 items-center justify-center py-2 px-6 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg">Gravar</button>
         </div>
       </form>

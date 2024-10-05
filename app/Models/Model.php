@@ -42,7 +42,7 @@ class Model
     ];
 
     // Todas as ações precisam do ID Empresa
-    $this->empresaPadraoId = (int) $sessaoUsuario->buscar('empresaId');
+    $this->empresaPadraoId = (int) $this->sessaoUsuario->buscar('empresaId');
   }
 
   // --- CRUD ---

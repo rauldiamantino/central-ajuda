@@ -97,10 +97,10 @@ class DashboardConteudoController extends DashboardController
     $dados = $this->receberJson();
     $resultado = $this->conteudoModel->adicionar($dados);
 
-    $urlRetorno = '/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos';
+    $urlRetorno = '/dashboard/artigos/' . $this->usuarioLogado['empresaId'];
 
     if (isset($dados['artigo_id'])) {
-      $urlRetorno = '/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $dados['artigo_id'];
+      $urlRetorno = '/dashboard/artigo/editar/' . $this->usuarioLogado['empresaId'] . '/' . $dados['artigo_id'];
     }
 
     // Formulário via POST
@@ -152,7 +152,7 @@ class DashboardConteudoController extends DashboardController
     $json = $this->receberJson();
     $resultado = $this->conteudoModel->atualizar($json, $id);
 
-    $urlRetorno = '/' . $this->usuarioLogado['subdominio'] . '/dashboard/conteudo/editar/' . $id;
+    $urlRetorno = '/dashboard/conteudo/editar/' . $this->usuarioLogado['empresaId'] . '/' . $id;
 
     if ($_POST and isset($resultado['erro'])) {
       $this->redirecionarErro($urlRetorno, $resultado['erro']);

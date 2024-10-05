@@ -1,7 +1,7 @@
 <header class="border-b border-slate-300 <?php echo (int) $this->buscarAjuste('publico_topo_fixo') == 1 ? 'sticky' : '' ?> z-20 top-0 w-full flex justify-center pb-2 pt-6 md:py-8 px-4 bg-white text-black transition duration-300 topo-publico">
   <div class="w-full md:w-8/12 flex flex-col md:flex-row gap-2 justify-between">
     <div class="w-full flex justify-between md:justify-start items-center gap-4 inverter transition-invert duration-300">
-      <a href="/<?php echo $subdominio ?>"><img src="<?php echo $logo ?>" alt="" class="w-52"></a>
+      <a href="/"><img src="<?php echo $logo ?>" alt="" class="w-52"></a>
       <h2 class="text-xl font-light tracking-tighter hidden md:flex">central de ajuda</h2>
 
       <button class="w-max md:hidden btn-publico-menu-lateral">

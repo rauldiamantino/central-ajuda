@@ -1,4 +1,4 @@
-const subdominio = document.querySelector('body').dataset.subdominio
+const empresaId = document.querySelector('body').dataset.empresaId
 
 const fecharNotificacao = (notificacao) => {
 

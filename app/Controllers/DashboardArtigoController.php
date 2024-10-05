@@ -161,7 +161,7 @@ class DashboardArtigoController extends DashboardController
                                    ->buscar($colunas);
 
     if (isset($resultado['erro']) and $resultado['erro']) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', $resultado['erro']);
+      $this->redirecionarErro('/dashboard/artigos/' . $this->usuarioLogado['empresaId'], $resultado['erro']);
     }
     else {
       $artigo = $resultado;
@@ -291,10 +291,10 @@ class DashboardArtigoController extends DashboardController
     $resultado = $this->artigoModel->adicionar($dados);
 
     if ($_POST and isset($resultado['erro'])) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', $resultado['erro']);
+      $this->redirecionarErro('/dashboard/artigos/' . $this->usuarioLogado['empresaId'], $resultado['erro']);
     }
     elseif ($_POST and isset($resultado['id'])) {
-      $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $resultado['id'], 'Artigo criado com sucesso');
+      $this->redirecionarSucesso('/dashboard/artigos/editar/' . $this->usuarioLogado['empresaId'] . '/' . $resultado['id'], 'Artigo criado com sucesso');
     }
   }
 
@@ -349,10 +349,10 @@ class DashboardArtigoController extends DashboardController
     $resultado = $this->artigoModel->atualizar($json, $id);
 
     if (isset($resultado['erro'])) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', $resultado['erro']);
+      $this->redirecionarErro('/dashboard/artigos/' . $this->usuarioLogado['empresaId'], $resultado['erro']);
     }
 
-    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $id, 'Registro alterado com sucesso');
+    $this->redirecionarSucesso('/dashboard/artigo/editar/' . $this->usuarioLogado['empresaId'] . '/' . $id, 'Registro alterado com sucesso');
   }
 
   public function atualizarOrdem()

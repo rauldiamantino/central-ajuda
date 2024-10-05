@@ -1,13 +1,13 @@
 <div class="w-full min-h-full flex flex-col bg-white p-4 hidden adicionar-fundo">
   <h2 class="relative text-2xl font-semibold mb-4">
     Adicionar
-    <span class="text-gray-400 font-light italic hover:underline text-sm"><a href="/<?php echo $this->usuarioLogado['subdominio'] ?>/artigo/<?php echo $artigoId ?>" target="_blank">(Artigo #<?php echo $artigoId; ?>)</a></span>
+    <span class="text-gray-400 font-light italic hover:underline text-sm"><a href="/artigo/<?php echo $artigoId ?>" target="_blank">(Artigo #<?php echo $artigoId; ?>)</a></span>
   </h2>
   <div class="w-full lg:w-1/2">
   <?php // Adicionar texto ?>
   <?php if ($tipo == 1) { ?>
     <div class="border border-slate-200 p-4 md:w-full rounded-lg shadow editor-container modal-conteudo-texto-adicionar">
-      <form method="POST" action="/<?php echo $this->usuarioLogado['subdominio'] ?>/d/conteudo" class="flex flex-col items-end gap-2 editor-container__editor" enctype="multipart/form-data">
+      <form method="POST" action="/d/conteudo/<?php echo $this->usuarioLogado['empresaId'] ?>" class="flex flex-col items-end gap-2 editor-container__editor" enctype="multipart/form-data">
         <input type="hidden" name="tipo" value="1">
         <input type="hidden" name="artigo_id" value="<?php echo $artigoId ?>">
         <?php if (isset($ordem['prox'])) { ?>
@@ -30,7 +30,7 @@
             </label>
           </div>
           <div class="flex gap-4">
-            <a href="/<?php echo $this->usuarioLogado['subdominio'] ?>/dashboard/artigo/editar/<?php echo $artigoId ?>" class="py-2 px-6 w-full lg:w-max border border-slate-400 flex gap-2 items-center justify-center hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-texto-adicionar-btn-cancelar">Voltar</a>
+            <a href="/dashboard/artigo/editar/<?php echo $this->usuarioLogado['empresaId'] ?>/<?php echo $artigoId ?>" class="py-2 px-6 w-full lg:w-max border border-slate-400 flex gap-2 items-center justify-center hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-texto-adicionar-btn-cancelar">Voltar</a>
             <button type="submit" class="w-full lg:w-max flex gap-2 items-center justify-center py-2 px-6 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg modal-conteudo-texto-btn-enviar">Adicionar</button>
           </div>
         </div>
@@ -41,7 +41,7 @@
   <?php // Adicionar imagem ?>
   <?php if ($tipo == 2) { ?>
     <div class="border border-slate-200 p-4 md:w-full rounded-lg shadow modal-conteudo-imagem-adicionar">
-      <form method="POST" action="/<?php echo $this->usuarioLogado['subdominio'] ?>/d/conteudo" class="flex flex-col items-end gap-2 form-conteudo-imagem-adicionar" enctype="multipart/form-data" data-artigo-id=<?php echo $artigoId ?> data-empresa-id=<?php echo $empresaId ?>>
+      <form method="POST" action="/d/conteudo/<?php echo $this->usuarioLogado['empresaId'] ?>" class="flex flex-col items-end gap-2 form-conteudo-imagem-adicionar" enctype="multipart/form-data" data-artigo-id=<?php echo $artigoId ?> data-empresa-id=<?php echo $empresaId ?>>
         <input type="hidden" name="artigo_id" value="<?php echo $artigoId ?>">
         <input type="hidden" name="tipo" value="2">
         <input type="hidden" name="url" value="" class="url-imagem">
@@ -75,7 +75,7 @@
             </label>
           </div>
           <div class="flex gap-4">
-            <a href="/<?php echo $this->usuarioLogado['subdominio'] ?>/dashboard/artigo/editar/<?php echo $artigoId ?>" class="py-2 px-6 w-full lg:w-max border border-slate-400 flex gap-2 items-center justify-center hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-conteudo-imagem-btn-cancelar-adicionar">Voltar</a>
+            <a href="/dashboard/artigo/editar/<?php echo $this->usuarioLogado['empresaId'] ?>/<?php echo $artigoId ?>" class="py-2 px-6 w-full lg:w-max border border-slate-400 flex gap-2 items-center justify-center hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-conteudo-imagem-btn-cancelar-adicionar">Voltar</a>
             <button type="submit" class="w-full lg:w-max flex gap-2 items-center justify-center py-2 px-6 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg modal-conteudo-imagem-btn-enviar">Adicionar</button>
           </div>
         </div>
@@ -86,7 +86,7 @@
   <?php // Adicionar vídeo ?>
   <?php if ($tipo == 3) { ?>
     <div class="border border-slate-200 p-4 md:w-full rounded-lg shadow modal-conteudo-video-adicionar">
-      <form method="POST" action="/<?php echo $this->usuarioLogado['subdominio'] ?>/d/conteudo" class="flex flex-col items-end gap-2" enctype="multipart/form-data">
+      <form method="POST" action="/d/conteudo/<?php echo $this->usuarioLogado['empresaId'] ?>" class="flex flex-col items-end gap-2" enctype="multipart/form-data">
         <input type="hidden" name="artigo_id" value="<?php echo $artigoId ?>">
         <input type="hidden" name="tipo" value="3">
         <?php if (isset($ordem['prox'])) { ?>
@@ -107,7 +107,7 @@
             </label>
           </div>
           <div class="flex gap-4">
-            <a href="/<?php echo $this->usuarioLogado['subdominio'] ?>/dashboard/artigo/editar/<?php echo $artigoId ?>" class="py-2 px-6 w-full lg:w-max border border-slate-400 flex gap-2 items-center justify-center hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-conteudo-video-btn-cancelar-adicionar">Voltar</a>
+            <a href="/dashboard/artigo/editar/<?php echo $this->usuarioLogado['empresaId'] ?>/<?php echo $artigoId ?>" class="py-2 px-6 w-full lg:w-max border border-slate-400 flex gap-2 items-center justify-center hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-conteudo-video-btn-cancelar-adicionar">Voltar</a>
             <button type="submit" class="w-full lg:w-max flex gap-2 items-center justify-center py-2 px-6 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg modal-conteudo-video-btn-enviar">Adicionar</button>
           </div>
         </div>

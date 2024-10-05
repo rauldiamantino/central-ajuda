@@ -11,14 +11,14 @@ document.addEventListener('DOMContentLoaded', function () {
   if (! formularioEditarEmpresa) {
     return
   }
-  
+
   let imagemParaUpload = null
   let imagemAtual = formularioEditarEmpresa.dataset.imagemAtual
 
   if (! btnAlterarIMagem || ! editarImagemEscolher) {
     return
   }
-    
+
   btnAlterarIMagem.addEventListener('click', () => {
     editarImagemEscolher.click()
   })
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
           return
         }
       }
-      
+
       const objetoReader = new FileReader()
 
       objetoReader.onload = (e) => {

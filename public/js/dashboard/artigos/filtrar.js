@@ -12,14 +12,14 @@ const filtrarArtigos = () => {
   const categoriaSelecionadaId = urlParams.get('categoria_id')
   const select = modalFiltrarBlocos.querySelector('select')
 
-  if (! subdominio) {
+  if (! empresaId) {
     return
   }
 
   // Sempre limpa
   select.innerHTML = ''
 
-  fetch(`/${subdominio}/d/categorias`, { method: 'GET' })
+  fetch(`/d/categorias/${empresaId}`, { method: 'GET' })
     .then(resposta => resposta.json())
     .then(resposta => {
 
@@ -54,7 +54,7 @@ const filtrarArtigos = () => {
             const categoriaId = select.value
 
             if (categoriaId !== undefined) {
-              window.location.href = `/${subdominio}/dashboard/artigos?categoria_id=${categoriaId}`
+              window.location.href = `/dashboard/artigos/${empresaId}?categoria_id=${categoriaId}`
             }
           })
         }
