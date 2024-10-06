@@ -87,8 +87,6 @@ class Roteador
 
     $rotaRequisitada = $this->acessarRota($chaveRota);
 
-registrarLog('rota', $chaveRota);
-
     if (empty($rotaRequisitada)) {
       return $this->paginaErro->erroVer();
     }
