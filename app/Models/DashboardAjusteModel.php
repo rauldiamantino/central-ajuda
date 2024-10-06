@@ -4,9 +4,9 @@ use app\Models\Model;
 
 class DashboardAjusteModel extends Model
 {
-  public function __construct()
+  public function __construct($usuarioLogado, $empresaPadraoId)
   {
-    parent::__construct('Ajuste');
+    parent::__construct($usuarioLogado, $empresaPadraoId, 'Ajuste');
   }
 
   // --- CRUD ---

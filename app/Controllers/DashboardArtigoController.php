@@ -14,9 +14,9 @@ class DashboardArtigoController extends DashboardController
   {
     parent::__construct();
 
-    $this->artigoModel = new DashboardArtigoModel();
-    $this->conteudoModel = new DashboardConteudoModel();
-    $this->categoriaModel = new DashboardCategoriaModel();
+    $this->artigoModel = new DashboardArtigoModel($this->usuarioLogado, $this->empresaPadraoId);
+    $this->conteudoModel = new DashboardConteudoModel($this->usuarioLogado, $this->empresaPadraoId);
+    $this->categoriaModel = new DashboardCategoriaModel($this->usuarioLogado, $this->empresaPadraoId);
   }
 
   public function artigosVer()

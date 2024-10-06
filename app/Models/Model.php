@@ -20,29 +20,13 @@ class Model
   protected $usuarioLogado;
   protected $empresaPadraoId;
 
-  public function __construct(string $tabela = '')
+  public function __construct($usuarioLogado, $empresaPadraoId, string $tabela = '')
   {
-    $this->recuperarSessao();
+    $this->usuarioLogado = $usuarioLogado;
+    $this->empresaPadraoId = $empresaPadraoId;
 
     $this->tabela = $tabela;
     $this->database = new Database();
-  }
-
-  private function recuperarSessao()
-  {
-    global $sessaoUsuario;
-    $this->sessaoUsuario = $sessaoUsuario;
-    $usuario = $sessaoUsuario->buscar('usuario');
-
-    $this->usuarioLogado = [
-      'id' => intval($usuario['id'] ?? 0),
-      'nivel' => intval($usuario['nivel'] ?? 0),
-      'padrao' => intval($usuario['padrao'] ?? 0),
-      'empresaId' => intval($usuario['empresaId'] ?? 0),
-    ];
-
-    // Todas as ações precisam do ID Empresa
-    $this->empresaPadraoId = (int) $this->sessaoUsuario->buscar('empresaId');
   }
 
   // --- CRUD ---

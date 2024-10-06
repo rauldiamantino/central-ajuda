@@ -13,7 +13,7 @@ class DashboardLoginController extends DashboardController
   {
     parent::__construct();
 
-    $this->loginModel = new DashboardLoginModel();
+    $this->loginModel = new DashboardLoginModel($this->usuarioLogado, $this->empresaPadraoId);
   }
 
   public function loginVer()

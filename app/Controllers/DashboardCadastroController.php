@@ -12,7 +12,7 @@ class DashboardCadastroController extends DashboardController
   {
     parent::__construct();
 
-    $this->cadastroModel = new DashboardCadastroModel();
+    $this->cadastroModel = new DashboardCadastroModel($this->usuarioLogado, $this->empresaPadraoId);
     $this->pagamentoStripe = new PagamentoStripeComponent();
   }
 

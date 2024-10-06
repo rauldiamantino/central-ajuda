@@ -9,7 +9,7 @@ class DashboardConteudoController extends DashboardController
   public function __construct()
   {
     parent::__construct();
-    $this->conteudoModel = new DashboardConteudoModel();
+    $this->conteudoModel = new DashboardConteudoModel($this->usuarioLogado, $this->empresaPadraoId);
   }
 
   public function conteudoEditarVer(int $id)

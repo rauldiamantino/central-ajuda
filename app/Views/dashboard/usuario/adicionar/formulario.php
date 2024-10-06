@@ -11,7 +11,7 @@ $tipoUsuario = [
 ];
 
 // Somente usuário de suporte pode criar usuário de suporte e apenas na loja padrão
-if ($this->usuarioLogado['padrao'] != USUARIO_SUPORTE or $this->sessaoUsuario->buscar('empresaId') > 1) {
+if ($this->usuarioLogado['padrao'] != USUARIO_SUPORTE or $this->sessaoUsuario->buscar('empresaPadraoId') > 1) {
   unset($tipoUsuario[ USUARIO_SUPORTE ]);
 }
 ?>

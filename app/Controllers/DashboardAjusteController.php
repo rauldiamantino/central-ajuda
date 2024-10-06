@@ -10,7 +10,7 @@ class DashboardAjusteController extends DashboardController
   {
     parent::__construct();
 
-    $this->ajusteModel = new DashboardAjusteModel();
+    $this->ajusteModel = new DashboardAjusteModel($this->usuarioLogado, $this->empresaPadraoId);
   }
 
   public function ajustesVer()

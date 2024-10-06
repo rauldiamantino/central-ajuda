@@ -4,9 +4,9 @@ use app\Models\Model;
 
 class DashboardModel extends Model
 {
-  public function __construct()
+  public function __construct($usuarioLogado, $empresaPadraoId)
   {
-    parent::__construct('Dashboard');
+    parent::__construct($usuarioLogado, $empresaPadraoId, 'Dashboard');
   }
 
   public function dashboardVer()

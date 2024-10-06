@@ -12,7 +12,7 @@ class DashboardController extends Controller
   {
     parent::__construct();
 
-    $this->dashboardModel = new DashboardModel();
+    $this->dashboardModel = new DashboardModel($this->usuarioLogado, $this->empresaPadraoId);
     $this->visao = new ViewRenderer('/dashboard');
   }
 

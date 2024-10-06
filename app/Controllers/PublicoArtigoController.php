@@ -12,8 +12,8 @@ class PublicoArtigoController extends PublicoController
   {
     parent::__construct();
 
-    $this->artigoModel = new DashboardArtigoModel();
-    $this->conteudoModel = new DashboardConteudoModel();
+    $this->artigoModel = new DashboardArtigoModel($this->usuarioLogado, $this->empresaPadraoId);
+    $this->conteudoModel = new DashboardConteudoModel($this->usuarioLogado, $this->empresaPadraoId);
   }
 
   public function artigoVer(int $id)
