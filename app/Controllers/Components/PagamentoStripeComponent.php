@@ -1,6 +1,7 @@
 <?php
 namespace app\Controllers\Components;
 use app\Controllers\DashboardController;
+use \Stripe\Exception\ApiErrorException;
 
 class PagamentoStripeComponent extends DashboardController
 {
@@ -17,15 +18,7 @@ class PagamentoStripeComponent extends DashboardController
     $usuarioEmail = $usuario['email'] ?? '';
     $empresaId = intval($usuario['empresa_id'] ?? 0);
 
-    if (empty($empresaId)) {
-      return [];
-    }
-
-    if (empty($usuarioId)) {
-      return [];
-    }
-
-    if (empty($usuarioEmail)) {
+    if (empty($empresaId) || empty($usuarioId) || empty($usuarioEmail)) {
       return [];
     }
 
@@ -42,9 +35,14 @@ class PagamentoStripeComponent extends DashboardController
       'mode' => 'subscription',
     ];
 
-    $resposta_api = $this->stripe->checkout->sessions->create($campos);
-
-    return $resposta_api;
+    try {
+      $resposta_api = $this->stripe->checkout->sessions->create($campos);
+      return $resposta_api;
+    }
+    catch (ApiErrorException $e) {
+      registrarLog('stripe', $e->getMessage());
+      return [];
+    }
   }
 
   public function buscarSessao(string $sessaoId): array
@@ -53,17 +51,14 @@ class PagamentoStripeComponent extends DashboardController
       return [];
     }
 
-    $resposta_api = $this->stripe->checkout->sessions->retrieve($sessaoId);
-
-    if (! is_array($resposta_api)) {
-      $resposta_api = [];
+    try {
+      $resposta_api = $this->stripe->checkout->sessions->retrieve($sessaoId);
+      return $resposta_api->toArray();
     }
-
-    if (! isset($resposta_api['id']) or empty($resposta_api['id'])) {
+    catch (ApiErrorException $e) {
+      registrarLog('stripe', $e->getMessage());
       return [];
     }
-
-    return $resposta_api;
   }
 
   public function buscarAssinaturaAtiva(string $sessaoId): string
@@ -72,21 +67,27 @@ class PagamentoStripeComponent extends DashboardController
       return '';
     }
 
-    $buscarSessao = $this->stripe->checkout->sessions->retrieve($sessaoId);
-    $assinaturaId = $buscarSessao['subscription'] ?? '';
+    try {
+      $buscarSessao = $this->stripe->checkout->sessions->retrieve($sessaoId);
+      $assinaturaId = $buscarSessao['subscription'] ?? '';
 
-    if (empty($assinaturaId)) {
+      if (empty($assinaturaId)) {
+        return '';
+      }
+
+      $buscarAssinatura = $this->stripe->subscriptions->retrieve($assinaturaId);
+      $status = $buscarAssinatura['status'] ?? '';
+
+      if ($status == 'active') {
+        return $assinaturaId;
+      }
+
       return '';
     }
-
-    $buscarAssinatura = $this->stripe->subscriptions->retrieve($assinaturaId);
-    $status = $buscarAssinatura['status'] ?? '';
-
-    if ($status == 'active') {
-      return $assinaturaId;
+    catch (ApiErrorException $e) {
+      registrarLog('stripe', $e->getMessage());
+      return '';
     }
-
-    return '';
   }
 
   public function buscarAssinatura(string $assinaturaId): array
@@ -95,14 +96,13 @@ class PagamentoStripeComponent extends DashboardController
       return [];
     }
 
-    $buscarAssinatura = $this->stripe->subscriptions->retrieve($assinaturaId);
-
-    if (! isset($buscarAssinatura['id'])) {
+    try {
+      $buscarAssinatura = $this->stripe->subscriptions->retrieve($assinaturaId);
+      return $buscarAssinatura->toArray();
+    }
+    catch (ApiErrorException $e) {
+      registrarLog('stripe', $e->getMessage());
       return [];
     }
-
-    $buscarAssinatura = $buscarAssinatura->toArray();
-
-    return $buscarAssinatura;
   }
 }

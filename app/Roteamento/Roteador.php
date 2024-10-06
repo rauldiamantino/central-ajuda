@@ -14,6 +14,7 @@ use app\Controllers\PublicoArtigoController;
 use app\Controllers\PublicoBuscaController;
 use app\Controllers\PublicoCategoriaController;
 use app\Controllers\PublicoController;
+use app\Controllers\Components\PagamentoStripeComponent;
 use app\Controllers\Components\DatabaseFirebaseComponent;
 use app\Controllers\Components\AssinaturaReceberComponent;
 use DateTime;
@@ -86,9 +87,12 @@ class Roteador
 
     $rotaRequisitada = $this->acessarRota($chaveRota);
 
+registrarLog('rota', $chaveRota);
+
     if (empty($rotaRequisitada)) {
       return $this->paginaErro->erroVer();
     }
+
 
     // Subdomínio somente nas rotas públicas
     if ($subdominioAtivo and ! $this->rotaPublica($chaveRota)) {
@@ -394,6 +398,7 @@ class Roteador
       // Dashboard - Ajustes
       'PUT:/d/{empresaId}/ajustes' => [DashboardAjusteController::class, 'atualizar'],
       'GET:/d/{empresaId}/firebase' => [DatabaseFirebaseComponent::class, 'credenciais'],
+      'POST:/d/{empresaId}/assinatura' => [DashboardEmpresaController::class, 'buscarAssinatura'],
       'PUT:/d/{empresaId}/empresa/editar/{id}' => [DashboardEmpresaController::class, 'atualizar'],
 
       // Dashboard - Assinatura

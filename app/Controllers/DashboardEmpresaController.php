@@ -42,14 +42,6 @@ class DashboardEmpresaController extends DashboardController
       $this->redirecionarErro('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigos', $empresa['erro']);
     }
 
-    $respostaApi = [];
-    $assinaturaId = $empresa[0]['Empresa.assinatura_id'] ?? '';
-
-    if ($assinaturaId) {
-      $respostaApi = $this->pagamentoStripe->buscarAssinatura($assinaturaId);
-    }
-
-    $this->visao->variavel('stripeAssinatura', $respostaApi);
     $this->visao->variavel('empresa', reset($empresa));
     $this->visao->variavel('titulo', 'Editar empresa');
     $this->visao->renderizar('/empresa/index');
@@ -216,5 +208,26 @@ class DashboardEmpresaController extends DashboardController
     }
 
     return true;
+  }
+
+  public function buscarAssinatura()
+  {
+    $json = $this->receberJson();
+    $assinaturaId = $json['assinatura_id'] ?? '';
+
+    header('Content-Type: application/json');
+    http_response_code(200);
+
+    if ($assinaturaId) {
+      $respostaApi = $this->pagamentoStripe->buscarAssinatura($assinaturaId);
+
+      if (isset($respostaApi['id']) and $respostaApi['id']) {
+        echo json_encode(['ok' => $respostaApi]);
+        exit;
+      }
+    }
+
+    echo json_encode(['erro' => 'Assinatura não encontrada']);
+    exit;
   }
 }
