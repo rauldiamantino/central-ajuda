@@ -15,6 +15,6 @@
     </div>
   </div>
   <div class="mt-6 w-full flex flex-col sm:flex-row gap-3 font-semibold text-xs sm:justify-end justify-center">
-    <button type="button" class="flex gap-2 items-center justify-center py-2 px-3 bg-red-800 hover:bg-red-600 text-white rounded-lg w-full modal-artigo-btn-alerta-ok">Fechar</button>
+    <button type="button" class="border border-slate-300 text-slate-900 flex gap-2 items-center justify-center py-2 px-3 hover:bg-gray-50 rounded-lg w-full modal-artigo-btn-alerta-ok">Entendi</button>
   </div>
 </dialog>
