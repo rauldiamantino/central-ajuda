@@ -1,1 +1,1 @@
-<script src="/public/js/publico/index.js"></script>
+<script src="/js/publico/index.js"></script>

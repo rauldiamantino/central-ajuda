@@ -18,13 +18,13 @@ class ViewRenderer extends Controller
     extract($this->variaveis);
 
     // Visão
-    $visao = './' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'Views' . str_replace('/', DIRECTORY_SEPARATOR, $this->caminho) . str_replace('/', DIRECTORY_SEPARATOR, $visao) . '.php';
+    $visao = '../' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'Views' . str_replace('/', DIRECTORY_SEPARATOR, $this->caminho) . str_replace('/', DIRECTORY_SEPARATOR, $visao) . '.php';
 
     $temp = explode('/', $this->caminho);
     $diretorioBase = $temp[1] ?? '';
 
     // Layout base
-    $index = './' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR . $diretorioBase . DIRECTORY_SEPARATOR . 'index.php';
+    $index = '../' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR . $diretorioBase . DIRECTORY_SEPARATOR . 'index.php';
 
     if (file_exists($index)) {
       require $index;

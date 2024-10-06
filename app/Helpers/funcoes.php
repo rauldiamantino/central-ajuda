@@ -42,7 +42,7 @@ function registrarLog($nome, $arquivo) {
   $logMensagem = str_repeat("-", 150) . PHP_EOL . PHP_EOL;
   $logMensagem .= date('Y-m-d H:i:s') . ' - ' . $nome . PHP_EOL . PHP_EOL;
   $logMensagem .= json_encode($arquivo, JSON_UNESCAPED_SLASHES) . PHP_EOL . PHP_EOL;
-  error_log($logMensagem, 3, './app/logs/' . $nome . '-' . date('Y-m-d') . '.log');
+  error_log($logMensagem, 3, '../app/logs/' . $nome . '-' . date('Y-m-d') . '.log');
 }
 
 function subdominioDominio(string $subdominio = '', $protocolo = true) {
