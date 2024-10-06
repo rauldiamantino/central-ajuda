@@ -1,23 +1,4 @@
 <?php
-use app\Models\Model;
-
-function buscarAjuste(string $nome) {
-  $ajusteModel = new Model('Ajuste');
-
-  $condicoes = [
-    'Ajuste.nome' => $nome,
-  ];
-
-  $colunas = [
-    'Ajuste.ativo',
-  ];
-
-  $resultado = $ajusteModel->condicao($condicoes)
-                            ->buscar($colunas);
-
-  return intval($resultado[0]['Ajuste.ativo'] ?? 0);
-}
-
 function debug($valor, $dump = false) {
 
   echo '<pre>';

@@ -10,7 +10,7 @@ class DashboardCategoriaController extends DashboardController
   {
     parent::__construct();
 
-    $this->categoriaModel = new DashboardCategoriaModel();
+    $this->categoriaModel = new DashboardCategoriaModel($this->usuarioLogado, $this->empresaPadraoId);
   }
 
   public function categoriasVer()

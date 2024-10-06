@@ -10,7 +10,7 @@ class DashboardUsuarioController extends DashboardController
   {
     parent::__construct();
 
-    $this->usuarioModel = new DashboardUsuarioModel();
+    $this->usuarioModel = new DashboardUsuarioModel($this->usuarioLogado, $this->empresaPadraoId);
   }
 
   public function usuariosVer()

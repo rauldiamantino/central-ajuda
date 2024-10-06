@@ -12,8 +12,8 @@ class PublicoCategoriaController extends PublicoController
   {
     parent::__construct();
 
-    $this->categoriaModel = new DashboardCategoriaModel();
-    $this->artigoModel = new DashboardArtigoModel();
+    $this->categoriaModel = new DashboardCategoriaModel($this->usuarioLogado, $this->empresaPadraoId);
+    $this->artigoModel = new DashboardArtigoModel($this->usuarioLogado, $this->empresaPadraoId);
   }
 
   public function categoriaVer(int $id)

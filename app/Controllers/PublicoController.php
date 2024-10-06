@@ -21,7 +21,7 @@ class PublicoController extends Controller
 
     $this->obterSubdominio();
     $this->obterDadosEmpresa();
-    $this->dashboardDategoriaModel = new DashboardCategoriaModel();
+    $this->dashboardDategoriaModel = new DashboardCategoriaModel($this->usuarioLogado, $this->empresaPadraoId);
 
     $this->visao = new ViewRenderer('/publico');
     $this->visao->variavel('logo', $this->logo);
@@ -62,7 +62,7 @@ class PublicoController extends Controller
 
   private function obterDadosEmpresa(): void
   {
-    $this->dashboardEmpresaModel = new DashboardEmpresaModel();
+    $this->dashboardEmpresaModel = new DashboardEmpresaModel($this->usuarioLogado, $this->empresaPadraoId);
     $resultado = $this->dashboardEmpresaModel->buscar(['Empresa.telefone']);
     $telefone = intval($resultado[0]['Empresa.telefone'] ?? 0);
     $this->sessaoUsuario->definir('empresaTelefone', $telefone);
@@ -71,7 +71,7 @@ class PublicoController extends Controller
       $this->telefone = $telefone;
     }
 
-    $this->dashboardEmpresaModel = new DashboardEmpresaModel();
+    $this->dashboardEmpresaModel = new DashboardEmpresaModel($this->usuarioLogado, $this->empresaPadraoId);
     $resultado = $this->dashboardEmpresaModel->buscar(['Empresa.logo']);
     $logo = $resultado[0]['Empresa.logo'] ?? '';
     $this->sessaoUsuario->definir('empresaLogo', $logo);
@@ -82,7 +82,7 @@ class PublicoController extends Controller
   private function obterSubdominio(): void
   {
     $this->subdominio = $this->sessaoUsuario->buscar('subdominio');
-    $this->empresaId = $this->sessaoUsuario->buscar('empresaId');
+    $this->empresaId = $this->sessaoUsuario->buscar('empresaPadraoId');
   }
 
   public function exibirInativos(): bool

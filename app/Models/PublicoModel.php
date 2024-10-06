@@ -4,8 +4,8 @@ use app\Models\Model;
 
 class PublicoModel extends Model
 {
-  public function __construct()
+  public function __construct($usuarioLogado, $empresaPadraoId)
   {
-    parent::__construct('Publico');
+    parent::__construct($usuarioLogado, $empresaPadraoId, 'Publico');
   }
 }

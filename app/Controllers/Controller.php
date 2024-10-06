@@ -4,9 +4,10 @@ use app\Models\Model;
 
 class Controller
 {
-  protected $usuarioLogado;
-  protected $dashboardModel;
+  protected $model;
   protected $sessaoUsuario;
+  protected $usuarioLogado;
+  protected $empresaPadraoId;
 
   public function __construct()
   {
@@ -31,6 +32,8 @@ class Controller
       'subdominio' => $resultado['subdominio'] ?? '',
       'tentativasLogin' => intval($resultado['tentativas_login'] ?? 0),
     ];
+
+    $this->empresaPadraoId = (int) $this->sessaoUsuario->buscar('empresaPadraoId');
   }
 
   protected function redirecionarErro(string $rota, $mensagem = []): void
@@ -104,7 +107,7 @@ class Controller
 
   public function buscarAjuste(string $nome)
   {
-    $ajusteModel = new Model('Ajuste');
+    $ajusteModel = new Model($this->usuarioLogado, $this->empresaPadraoId, 'Ajuste');
 
     $condicoes = [
       'Ajuste.nome' => $nome,

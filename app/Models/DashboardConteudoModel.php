@@ -4,9 +4,9 @@ use app\Models\Model;
 
 class DashboardConteudoModel extends Model
 {
-  public function __construct()
+  public function __construct($usuarioLogado, $empresaPadraoId)
   {
-    parent::__construct('Conteudo');
+    parent::__construct($usuarioLogado, $empresaPadraoId, 'Conteudo');
   }
 
   // --- CRUD ---

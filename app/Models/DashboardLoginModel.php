@@ -7,9 +7,9 @@ class DashboardLoginModel extends Model
   public $empresaPadraoId;
   public $usuarioLogadoId;
 
-  public function __construct()
+  public function __construct($usuarioLogado, $empresaPadraoId)
   {
-    parent::__construct('Login');
+    parent::__construct($usuarioLogado, $empresaPadraoId, 'Login');
   }
 
   public function login($params)

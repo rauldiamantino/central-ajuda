@@ -58,7 +58,7 @@
   <?php } ?>
 
   <?php
-  if ($this->usuarioLogado['padrao'] == USUARIO_SUPORTE and $this->sessaoUsuario->buscar('empresaId') > 1) {
+  if ($this->usuarioLogado['padrao'] == USUARIO_SUPORTE and $this->sessaoUsuario->buscar('empresaPadraoId') > 1) {
     $usuarioSuporte = true;
   }
   else {

@@ -12,7 +12,7 @@ class DashboardEmpresaController extends DashboardController
   {
     parent::__construct();
 
-    $this->empresaModel = new DashboardEmpresaModel();
+    $this->empresaModel = new DashboardEmpresaModel($this->usuarioLogado, $this->empresaPadraoId);
     $this->pagamentoStripe = new PagamentoStripeComponent();
   }
 

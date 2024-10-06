@@ -121,7 +121,7 @@ class Roteador
     // Sempre utiliza Empresa ID logada
     if (substr($chaveRota, 0, 18) != 'GET:/login/suporte/{id}') {
 
-      // Resgata sessão do usuário ao acessar rota pública sem subdomínio
+      // Resgata sessão do usuário e aplica empresaPadraoId
       if (isset($usuarioLogado['empresaId']) and $this->rotaPublica($chaveRota) == false) {
         $empresaId = (int) $usuarioLogado['empresaId'];
       }
@@ -194,7 +194,7 @@ class Roteador
     }
 
     // Grava EmpresaID na sessão
-    $this->sessaoUsuario->definir('empresaId', $empresaId);
+    $this->sessaoUsuario->definir('empresaPadraoId', $empresaId);
     $this->sessaoUsuario->definir('subdominio', $subdominio);
 
     // Acessa rota solicitada

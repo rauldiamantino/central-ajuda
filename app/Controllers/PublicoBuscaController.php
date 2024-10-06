@@ -15,8 +15,8 @@ class PublicoBuscaController extends PublicoController
   {
     parent::__construct();
 
-    $this->artigoModel = new DashboardArtigoModel();
-    $this->categoriaModel = new DashboardCategoriaModel();
+    $this->artigoModel = new DashboardArtigoModel($this->usuarioLogado, $this->empresaPadraoId);
+    $this->categoriaModel = new DashboardCategoriaModel($this->usuarioLogado, $this->empresaPadraoId);
   }
 
   public function buscar()
