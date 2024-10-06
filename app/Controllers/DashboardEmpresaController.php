@@ -181,7 +181,6 @@ class DashboardEmpresaController extends DashboardController
     $campos = [
       'sessao_stripe_id' => NULL,
       'assinatura_id' => $assinaturaId,
-      'ativo' => ATIVO,
     ];
 
     $webhook = true;
