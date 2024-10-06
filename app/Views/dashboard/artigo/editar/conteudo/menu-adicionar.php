@@ -1,6 +1,6 @@
 <div class="w-full flex flex-col gap-1">
   <h2>Adicionar conteúdo</h2>
-  <div class="border border-slate-200 p-4 w-full flex gap-5 rounded-md shadow">
+  <div class="border border-slate-300 p-4 w-full flex gap-5 rounded-md shadow bg-white">
     <div class="flex flex-col gap-6 w-full form-conteudo">
       <input type="hidden" name="artigo.id" value="<?php echo $artigo['Artigo.id'] ?>">
       <div class="w-full px-2 flex gap-5 flex-col md:flex-row conteudo-botoes-adicionar">

@@ -1,4 +1,4 @@
-<div class="mb-4 border border-slate-200 p-4 w-full select-none flex flex-col gap-2 bg-gray-100 rounded-md shadow">
+<div class="mb-4 border border-slate-300 p-4 w-full select-none flex flex-col gap-2 bg-white rounded-md shadow">
   <?php if (count($conteudos) == 0) { ?>
     <span class="text-xs w-full flex justify-center">Ops! Nenhum conteúdo adicionado</span>
   <?php } ?>

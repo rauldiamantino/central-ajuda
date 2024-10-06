@@ -1,4 +1,4 @@
-<div class="relative w-full min-h-full flex flex-col bg-white p-4 container-fundo">
+<div class="relative w-full min-h-full flex flex-col p-4">
   <h2 class="text-2xl font-semibold mb-4">
     Editar <a href="<?php echo subdominioDominio($this->usuarioLogado['subdominio']); ?>/artigo/<?php echo $artigo['Artigo.id'] ?>" target="_blank" class="text-sm text-gray-400 font-light italic hover:underline">(Artigo #<?php echo $artigo['Artigo.id']; ?>)</a>
   </h2>
@@ -12,7 +12,7 @@
       </div>
       <?php require_once 'conteudo/blocos.php' ?>
     </div>
-    <div class="mb-10 w-full border border-slate-200 shadow rounded-md bg-gray-100">
+    <div class="mb-10 w-full border border-slate-200 shadow rounded-md">
       <?php require_once 'conteudo/pre-visualizacao.php' ?>
     </div>
   </div>

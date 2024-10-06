@@ -1,5 +1,5 @@
 <?php if (isset($usuarios[0]) and is_array($usuarios[0])) { ?>
-  <div class="relative p-4 w-full min-h-full flex flex-col bg-white">
+  <div class="relative p-4 w-full min-h-full flex flex-col">
     <div class="pb-4 w-full flex gap-10 items-center">
       <h2 class="text-2xl font-semibold">Usuários</h2>
       <div class="w-max">

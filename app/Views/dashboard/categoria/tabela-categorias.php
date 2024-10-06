@@ -1,4 +1,4 @@
-<div class="w-full h-max overflow-x-auto border border-slate-200 rounded-md shadow">
+<div class="w-full h-max overflow-x-auto border border-slate-300 rounded-md shadow bg-white">
   <div class="inline-block min-w-full align-middle">
     <table class="table-fixed min-w-full text-sm text-left text-gray-500">
       <thead class="text-xs font-light text-gray-500 uppercase">

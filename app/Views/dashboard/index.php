@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <?php require_once 'template/cabecalho.php' ?>
 
-<body class="font-normal h-screen max-w-screen" data-editor="ClassicEditor" data-empresa-id="<?php echo $this->usuarioLogado['empresaId'] ?>">
+<body class="font-normal h-screen max-w-screen bg-slate-200" data-editor="ClassicEditor" data-empresa-id="<?php echo $this->usuarioLogado['empresaId'] ?>">
   <div id="efeito-loader" class="loader <?php echo isset($loader) ? '' : 'hidden'; ?>"></div>
 
   <?php if (isset($pagLogin)) { ?>
@@ -47,7 +47,7 @@
   <?php if (! isset($pagLogin) and ! isset($pagLoginSuporte) and ! isset($pagCadastro)) { ?>
     <div class="flex">
       <?php require_once 'template/menu_lateral.php' ?>
-      <main class="lg:ml-64 pt-24 lg:px-16 flex w-screen h-screen flex-col">
+      <main class="lg:ml-64 pt-24 lg:px-16 flex w-screen h-screen flex-col bg-slate-200">
         <?php require_once 'template/topo.php' ?>
         <?php require_once 'notificacoes.php' ?>
         <div class="w-full max-w-screen h-full h-max-full flex gap-6">
