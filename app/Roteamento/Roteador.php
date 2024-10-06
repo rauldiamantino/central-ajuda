@@ -329,7 +329,6 @@ registrarLog('rota', $chaveRota);
       'GET:/login/suporte/id',
       'GET:/login/suporte',
       'GET:/dashboard/{empresaId}/validar_assinatura',
-      'GET:/dashboard/{empresaId}/confirmar_assinatura',
     ];
 
     if (! in_array($chaveRota, $rotasRestritas)) {
@@ -393,7 +392,6 @@ registrarLog('rota', $chaveRota);
       'GET:/dashboard/{empresaId}/usuario/adicionar' => [DashboardUsuarioController::class, 'usuarioAdicionarVer'],
       'GET:/dashboard/{empresaId}/empresa/editar' => [DashboardEmpresaController::class, 'empresaEditarVer'],
       'GET:/dashboard/{empresaId}/validar_assinatura' => [DashboardEmpresaController::class, 'reprocessarAssinatura'],
-      'GET:/dashboard/{empresaId}/confirmar_assinatura' => [DashboardEmpresaController::class, 'confirmarAssinatura'],
 
       // Dashboard - Ajustes
       'PUT:/d/{empresaId}/ajustes' => [DashboardAjusteController::class, 'atualizar'],

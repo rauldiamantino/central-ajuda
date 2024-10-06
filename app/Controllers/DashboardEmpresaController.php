@@ -83,7 +83,54 @@ class DashboardEmpresaController extends DashboardController
     $this->redirecionarSucesso('/dashboard/' . $this->usuarioLogado['empresaId'] . '/empresa/editar', 'Registro alterado com sucesso');
   }
 
-  public function confirmarAssinatura(): void
+
+  public function reprocessarAssinatura(): void
+  {
+    $assinaturaId = $_GET['assinatura_id'] ?? '';
+    $sessaoStripe = $_GET['sessao_stripe_id'] ?? '';
+
+    if ($sessaoStripe) {
+      $this->confirmarAssinatura();
+      return;
+    }
+
+    if ($assinaturaId and $this->usuarioLogado['empresaId']) {
+      $assinatura = $this->pagamentoStripe->buscarAssinatura($assinaturaId);
+      $status = $assinatura['status'] ?? '';
+
+      if (in_array($status, ['canceled', 'active'])) {
+        $campos['ativo'] = INATIVO;
+
+        if ($status == 'active') {
+          $campos['ativo'] = ATIVO;
+        }
+
+        $resultado = $this->empresaModel->atualizar($campos, $this->usuarioLogado['empresaId']);
+
+        if (isset($resultado['erro'])) {
+          $this->redirecionarErro('/dashboard/' . $this->usuarioLogado['empresaId'] . '/empresa/editar', $resultado['erro']);
+        }
+
+        $colunas = [
+          'Empresa.ativo',
+        ];
+
+        $empresa = $this->empresaModel->buscar($colunas);
+
+        // Atualiza sessão
+        if (isset($empresa[0]['Empresa.ativo'])) {
+          $this->usuarioLogado['empresaAtivo'] = $empresa[0]['Empresa.ativo'];
+          $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
+        }
+
+        $this->redirecionarSucesso('/dashboard/' . $this->usuarioLogado['empresaId'] . '/empresa/editar', 'Assinatura reprocessada com sucesso<br> Status: ' . strtoupper($status));
+      }
+    }
+
+    $this->redirecionar('/dashboard/' . $this->usuarioLogado['empresaId'] . '/empresa/editar');
+  }
+
+  private function confirmarAssinatura(): void
   {
     $sessaoStripe = $_GET['sessao_stripe_id'] ?? '';
 
@@ -116,46 +163,6 @@ class DashboardEmpresaController extends DashboardController
         }
 
         $this->redirecionarSucesso('/dashboard/' . $this->usuarioLogado['empresaId'] . '/empresa/editar', 'Assinatura confirmada com sucesso');
-      }
-    }
-
-    $this->redirecionar('/dashboard/' . $this->usuarioLogado['empresaId'] . '/empresa/editar');
-  }
-
-  public function reprocessarAssinatura(): void
-  {
-    $assinaturaId = $_GET['assinatura_id'] ?? '';
-
-    if ($assinaturaId and $this->usuarioLogado['empresaId']) {
-      $assinatura = $this->pagamentoStripe->buscarAssinatura($assinaturaId);
-      $status = $assinatura['status'] ?? '';
-
-      if (in_array($status, ['canceled', 'active'])) {
-        $campos['ativo'] = INATIVO;
-
-        if ($status == 'active') {
-          $campos['ativo'] = ATIVO;
-        }
-
-        $resultado = $this->empresaModel->atualizar($campos, $this->usuarioLogado['empresaId']);
-
-        if (isset($resultado['erro'])) {
-          $this->redirecionarErro('/dashboard/' . $this->usuarioLogado['empresaId'] . '/empresa/editar', $resultado['erro']);
-        }
-
-        $colunas = [
-          'Empresa.ativo',
-        ];
-
-        $empresa = $this->empresaModel->buscar($colunas);
-
-        // Atualiza sessão
-        if (isset($empresa[0]['Empresa.ativo'])) {
-          $this->usuarioLogado['empresaAtivo'] = $empresa[0]['Empresa.ativo'];
-          $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
-        }
-
-        $this->redirecionarSucesso('/dashboard/' . $this->usuarioLogado['empresaId'] . '/empresa/editar', 'Assinatura reprocessada com sucesso<br> Status: ' . strtoupper($status));
       }
     }
 

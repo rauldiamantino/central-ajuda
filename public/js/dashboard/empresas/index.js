@@ -67,7 +67,6 @@ const buscarAssinatura = () => {
 
       if (resposta.ok) {
         aplicarAssinatura(resposta.ok)
-        desativarLoader()
       }
       else if (resposta.erro) {
         throw new Error(resposta.erro)
@@ -88,13 +87,16 @@ const buscarAssinatura = () => {
       const assinaturaPeriodoAtualInicio = document.querySelector('.empresa-assinatura-atual-inicio')
       const assinaturaPeriodoAtualFim = document.querySelector('.empresa-assinatura-atual-fim')
       const assinaturaClienteId = document.querySelector('.empresa-assinatura-cliente-id')
+      const vazio = '** vazio **'
 
-      assinaturaId.innerText = assinatura.id ? assinatura.id : '** vazio **'
-      assinaturaStatus.innerText = assinatura.status ? assinatura.status : '** vazio **'
-      assinaturaDataInicio.innerText = assinatura.start_date ? assinatura.start_date : '** vazio **'
-      assinaturaPeriodoAtualInicio.innerText = assinatura.current_period_start ? assinatura.current_period_start : '** vazio **'
-      assinaturaPeriodoAtualFim.innerText = assinatura.current_period_end ? assinatura.current_period_end : '** vazio **'
-      assinaturaClienteId.innerText = assinatura.customer ? assinatura.customer : '** vazio **'
+      assinaturaId.innerText = assinatura.id ? assinatura.id : vazio
+      assinaturaStatus.innerText = assinatura.status ? assinatura.status.toUpperCase() : vazio
+      assinaturaDataInicio.innerText = assinatura.start_date ? traduzirDataTimestamp(assinatura.start_date) : vazio
+      assinaturaPeriodoAtualInicio.innerText = assinatura.current_period_start ? traduzirDataTimestamp(assinatura.current_period_start) : vazio
+      assinaturaPeriodoAtualFim.innerText = assinatura.current_period_end ? traduzirDataTimestamp(assinatura.current_period_end) : vazio
+      assinaturaClienteId.innerText = assinatura.customer ? assinatura.customer : vazio
+
+      desativarLoader()
     }
 
     function desativarLoader() {
@@ -103,5 +105,9 @@ const buscarAssinatura = () => {
 
     function ativarLoader() {
       efeitoLoader.classList.remove('hidden')
+    }
+
+    function traduzirDataTimestamp(timestamp) {
+      return new Date(timestamp * 1000).toLocaleString('pt-BR').replace(',', ' às');
     }
 }

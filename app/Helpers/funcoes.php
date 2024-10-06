@@ -29,7 +29,7 @@ function traduzirDataPtBr($data) {
 }
 
 function traduzirDataTimestamp($timestamp) {
-    return date('d/m/Y \à\s H:i', $timestamp);
+  return date('d/m/Y \à\s H:i', $timestamp);
 }
 
 function registrarLog($nome, $arquivo) {
