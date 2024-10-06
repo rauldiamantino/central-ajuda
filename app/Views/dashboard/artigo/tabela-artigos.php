@@ -1,4 +1,4 @@
-<div class="w-full h-max overflow-x-auto border border-slate-300 rounded-md shadow bg-white">
+<div class="w-full min-h-max border border-slate-300 rounded-md shadow bg-white overflow-x-auto overflow-y-hidden">
   <div class="inline-block min-w-full align-middle">
     <table class="table-fixed min-w-full text-sm text-left text-gray-500">
       <thead class="text-xs font-light text-gray-500 uppercase">
@@ -10,7 +10,7 @@
           <col class="w-[100px]">
           <col class="w-[100px]">
         </colgroup>
-        <tr class="bg-slate-100 w-full border-b divide-x">
+        <tr class="bg-slate-100 w-full border-b">
           <th class="p-6">ID</th>
           <th class="p-6">Título</th>
           <th class="p-6">Categoria</th>
@@ -21,7 +21,7 @@
       </thead>
       <tbody class="divide-y">
         <?php foreach ($artigos as $chave => $linha) : ?>
-          <tr class="hover:bg-slate-100 divide-x">
+          <tr class="hover:bg-slate-100">
             <?php if (isset($linha['Artigo.id'])) { ?>
               <?php foreach ($linha as $subChave => $subLinha) : ?>
 

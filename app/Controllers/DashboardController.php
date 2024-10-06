@@ -23,6 +23,7 @@ class DashboardController extends Controller
     $this->visao->variavel('titulo', $dados['titulo']);
     $this->visao->variavel('artigos', $dados['dashboard']['artigos']);
     $this->visao->variavel('resumo', $dados['dashboard']['resumo']);
+    $this->visao->variavel('paginaMenuLateral', 'dashboard');
     $this->visao->renderizar('/dashboard/index');
   }
 }

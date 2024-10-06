@@ -73,6 +73,7 @@ class DashboardUsuarioController extends DashboardController
     $this->visao->variavel('intervaloInicio', $intervaloInicio);
     $this->visao->variavel('intervaloFim', $intervaloFim);
     $this->visao->variavel('titulo', 'Usuários');
+    $this->visao->variavel('paginaMenuLateral', 'usuarios');
     $this->visao->renderizar('/usuario/index');
   }
 
@@ -126,6 +127,7 @@ class DashboardUsuarioController extends DashboardController
     }
 
     $this->visao->variavel('titulo', 'Adicionar usuário');
+    $this->visao->variavel('paginaMenuLateral', 'usuarios');
     $this->visao->renderizar('/usuario/adicionar/index');
   }
 

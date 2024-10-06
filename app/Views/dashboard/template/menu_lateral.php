@@ -1,15 +1,18 @@
-<asside class="fixed top-0 left-0 z-20 transform -translate-x-full transition-transform duration-100 lg:translate-x-0 border-r border-slate-200 flex flex-col justify-between bg-sky-950 w-80 md:w-96 lg:w-72 h-screen overflow-hidden dashboard-menu-lateral">
-  <ul class="flex flex-col gap-3 text-gray-200 px-4 py-6">
-    <div class="mb-2 w-full p-4 flex justify-between items-center text-gray-400">
-      <a href="<?php echo subdominioDominio($this->usuarioLogado['subdominio']); ?>" target="_blank"><img src="/img/logo-transparente-branco.png" alt="luminaOn" class="w-40"></a>
+<?php $paginaSelecionada = $paginaMenuLateral ?? ''; ?>
 
-      <button class="lg:hidden btn-dashboard-menu-lateral-fechar">
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
-        </svg>
-      </button>
-    </div>
-    <li class="px-4 px-4 hover:bg-sky-900 rounded-lg cursor-pointer flex justify-between group">
+<asside class="fixed top-0 left-0 z-20 transform -translate-x-full transition-transform duration-100 lg:translate-x-0 border-r border-slate-200 flex flex-col justify-start bg-gray-800 w-80 md:w-96 lg:w-72 h-screen overflow-hidden dashboard-menu-lateral">
+  <div class="mb-2 w-full px-8 py-6 flex justify-between items-center text-gray-400">
+    <!-- <a href="<?php echo subdominioDominio($this->usuarioLogado['subdominio']); ?>" target="_blank"><img src="/img/logo-transparente-branco.png" alt="luminaOn" class="w-44"></a> -->
+    <a href="/login"><img src="/img/logo-transparente-branco.png" alt="luminaOn" class="w-44"></a>
+
+    <button class="h-max w-max lg:hidden btn-dashboard-menu-lateral-fechar">
+      <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="currentColor"><path d="m287-446.67 240 240L480-160 160-480l320-320 47 46.67-240 240h513v66.66H287Z"/></svg>
+    </button>
+  </div>
+
+  <ul class="flex flex-col gap-2 text-gray-200 px-4 py-6">
+    <h3 class="px-6 py-2 text-xs font-extralight text-slate-300">MENU</h3>
+    <li class="px-4 px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'categorias' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
       <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/categorias" class="w-full p-2">
         <div class="flex items-center gap-3">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="" viewBox="0 0 16 16">
@@ -20,7 +23,7 @@
         </div>
       </a>
     </li>
-    <li class="px-4 hover:bg-sky-900 rounded-lg cursor-pointer flex justify-between group">
+    <li class="px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'artigos' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
       <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/artigos" class="w-full p-2">
         <div class="flex items-center gap-3">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16" class="">
@@ -30,7 +33,7 @@
         </div>
       </a>
     </li>
-    <li class="px-4 hover:bg-sky-900 rounded-lg cursor-pointer flex justify-between group">
+    <li class="px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'ajustes' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
       <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/ajustes" class="w-full p-2">
         <div class="flex items-center gap-3">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="" viewBox="0 0 16 16">
@@ -41,7 +44,7 @@
         </div>
       </a>
     </li>
-    <li class="px-4 hover:bg-sky-900 rounded-lg cursor-pointer flex justify-between group">
+    <li class="px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'usuarios' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
       <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/usuarios" class="w-full p-2">
         <div class="flex items-center gap-3">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="" viewBox="0 0 16 16">
@@ -51,7 +54,7 @@
         </div>
       </a>
     </li>
-    <li class="px-4 hover:bg-sky-900 rounded-lg cursor-pointer flex justify-between group">
+    <li class="px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'empresa' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
       <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/empresa/editar" class="w-full p-2">
         <div class="w-full flex items-center gap-3">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="" viewBox="0 0 16 16">
@@ -79,7 +82,7 @@
       </a>
     </li>
     <?php if ($this->usuarioLogado['id'] > 0 and $this->usuarioLogado['padrao'] == USUARIO_SUPORTE) { ?>
-      <li class="px-4 hover:bg-sky-900 rounded-lg cursor-pointer flex justify-between group">
+      <li class="px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'login' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
         <button type="button" onclick="window.location.href='/login/suporte'" class="w-full p-2">
           <div class="flex justify-start items-center gap-3">
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="" viewBox="0 0 16 16">
@@ -90,7 +93,7 @@
         </button>
       </li>
     <?php } ?>
-    <li class="px-4 hover:bg-sky-900 rounded-lg cursor-pointer flex justify-between group">
+    <li class="px-4 hover:bg-gray-700 rounded-lg cursor-pointer flex justify-between group">
       <button type="button"onclick="window.location.href='/logout'" class="w-full p-2">
         <div class="flex items-center gap-3 text-red-500">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="" viewBox="0 0 16 16">

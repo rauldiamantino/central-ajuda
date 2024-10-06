@@ -16,7 +16,7 @@
       </div>
     <?php } ?>
     <form action="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/categorias" method="get">
-      <input type="number" name="pagina" value="<?php echo $pagina ?>" class="p-2 w-16 bg-slate-200 border-2 hover:border-slate-500 text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none rounded-lg categoria-numero-pagina">
+      <input type="number" name="pagina" value="<?php echo $pagina ?>" class="p-2 w-16 bg-slate-100 border-2 hover:border-slate-500 text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none rounded-lg categoria-numero-pagina">
     </form>
     <?php if ($pagina < $paginasTotal) { ?>
       <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/categorias?pagina=<?php echo $pagina + 1 ?>" class="border-2 border-slate-200 hover:border-slate-500 text-gray-500 p-3 rounded-lg">

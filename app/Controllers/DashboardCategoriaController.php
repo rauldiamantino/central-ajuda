@@ -58,6 +58,7 @@ class DashboardCategoriaController extends DashboardController
     $this->visao->variavel('intervaloInicio', $intervaloInicio);
     $this->visao->variavel('intervaloFim', $intervaloFim);
     $this->visao->variavel('titulo', 'Categorias');
+    $this->visao->variavel('paginaMenuLateral', 'categorias');
     $this->visao->renderizar('/categoria/index');
   }
 
@@ -87,6 +88,7 @@ class DashboardCategoriaController extends DashboardController
 
     $this->visao->variavel('categoria', reset($categoria));
     $this->visao->variavel('titulo', 'Editar categoria');
+    $this->visao->variavel('paginaMenuLateral', 'categorias');
     $this->visao->renderizar('/categoria/editar/index');
   }
 
@@ -118,6 +120,7 @@ class DashboardCategoriaController extends DashboardController
 
     $this->visao->variavel('ordem', $ordem);
     $this->visao->variavel('titulo', 'Adicionar categoria');
+    $this->visao->variavel('paginaMenuLateral', 'categorias');
     $this->visao->renderizar('/categoria/adicionar');
   }
 

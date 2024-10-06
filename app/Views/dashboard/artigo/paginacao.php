@@ -23,7 +23,7 @@ $filtrarCategoria = isset($filtroAtual['categoria_id']) && $filtroAtual['categor
     <?php } ?>
 
     <form action="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/artigos" method="get">
-      <input type="number" name="pagina" value="<?php echo $pagina ?>" class="p-2 w-16 bg-slate-200 border-2 hover:border-slate-500 text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none rounded-lg artigo-numero-pagina">
+      <input type="number" name="pagina" value="<?php echo $pagina ?>" class="p-2 w-16 bg-slate-100 border-2 hover:border-slate-500 text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none rounded-lg artigo-numero-pagina">
 
       <?php if ($filtrarTitulo) { ?>
         <input type="hidden" name="titulo" value="<?php echo $filtroAtual['titulo'] ?>">

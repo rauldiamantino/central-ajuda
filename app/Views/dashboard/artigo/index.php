@@ -1,6 +1,6 @@
 <?php if (isset($artigos[0]) and is_array($artigos[0]) or isset($artigos['filtro'])) { ?>
   <div class="relative p-4 w-full min-h-full flex flex-col">
-    <div class="pb-4 w-full flex gap-10 items-center">
+    <div class="pb-4 w-full flex flex-col sm:flex-row items-start gap-10 sm:items-center">
       <h2 class="text-2xl font-semibold flex gap-2">Artigos</h2>
       <div class="w-max flex gap-6 items-center rounded-md">
         <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/artigo/adicionar" class="w-full flex gap-2 items-center justify-center text-black text-sm text-sm hover:underline">

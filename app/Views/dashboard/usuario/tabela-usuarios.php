@@ -11,7 +11,7 @@ $nivelAcesso = [
 ];
 ?>
 
-<div class="w-full h-max overflow-x-auto border border-slate-300 rounded-md shadow bg-white">
+<div class="w-full min-h-max overflow-x-auto overflow-y-hidden border border-slate-300 rounded-md shadow bg-white">
   <div class="inline-block min-w-full align-middle">
     <table class="table-fixed min-w-full text-sm text-left text-gray-500">
       <thead class="text-xs font-light text-gray-500 uppercase">
@@ -24,7 +24,7 @@ $nivelAcesso = [
           <col class="w-[150px]">
           <col class="w-[100px]">
         </colgroup>
-        <tr class="bg-slate-100 w-full border-b divide-x">
+        <tr class="bg-slate-100 w-full border-b">
           <th class="p-6">ID</th>
           <th class="p-6">Nome</th>
           <th class="p-6">Email</th>
@@ -36,7 +36,7 @@ $nivelAcesso = [
       </thead>
       <tbody class="divide-y">
         <?php foreach ($usuarios as $chave => $linha) : ?>
-          <tr class="hover:bg-slate-100 divide-x">
+          <tr class="hover:bg-slate-100">
             <?php if (isset($linha['Usuario.id'])) { ?>
               <?php foreach ($linha as $subChave => $subLinha) : ?>
 
