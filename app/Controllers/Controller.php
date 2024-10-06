@@ -105,6 +105,31 @@ class Controller
     exit;
   }
 
+  protected function acessoPermitido()
+  {
+    if (! isset($_SERVER['HTTP_REFERER'])) {
+      return false;
+    }
+
+    $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    $urlPartes = explode('/', $url);
+
+    $id = 0;
+    foreach ($urlPartes as $parte):
+
+      if (is_numeric($parte)) {
+        $id = (int) $parte;
+        break;
+      }
+    endforeach;
+
+    if ($id and $id == $this->usuarioLogado['empresaId']) {
+      return true;
+    }
+
+    return false;
+  }
+
   public function buscarAjuste(string $nome)
   {
     $ajusteModel = new Model($this->usuarioLogado, $this->empresaPadraoId, 'Ajuste');

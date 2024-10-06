@@ -212,22 +212,18 @@ class DashboardEmpresaController extends DashboardController
 
   public function buscarAssinatura()
   {
-    $json = $this->receberJson();
-    $assinaturaId = $json['assinatura_id'] ?? '';
-
-    header('Content-Type: application/json');
-    http_response_code(200);
-
-    if ($assinaturaId) {
-      $respostaApi = $this->pagamentoStripe->buscarAssinatura($assinaturaId);
-
-      if (isset($respostaApi['id']) and $respostaApi['id']) {
-        echo json_encode(['ok' => $respostaApi]);
-        exit;
-      }
+    if ($this->acessoPermitido() == false) {
+      $this->responderJson('Acesso negado', 403);
     }
 
-    echo json_encode(['erro' => 'Assinatura não encontrada']);
-    exit;
+    $json = $this->receberJson();
+    $assinaturaId = $json['assinatura_id'] ?? '';
+    $respostaApi = $this->pagamentoStripe->buscarAssinatura($assinaturaId);
+
+    if (! isset($respostaApi['id']) or empty($respostaApi['id'])) {
+      $this->responderJson(['erro' => 'Assinatura não encontrada'], 404);
+    }
+
+    $this->responderJson(['ok' => $respostaApi]);
   }
 }

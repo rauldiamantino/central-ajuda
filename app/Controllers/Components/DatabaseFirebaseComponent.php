@@ -18,39 +18,9 @@ class DatabaseFirebaseComponent extends DashboardController
     ];
 
     if ($this->acessoPermitido() == false) {
-      header('Content-Type: application/json');
-      http_response_code(403);
-      echo json_encode(['erro' => 'Acesso negado']);
-      exit;
+      $this->responderJson('Acesso negado', 403);
     }
 
-    header('Content-Type: application/json');
-    echo json_encode($credenciais);
-    exit;
-  }
-
-  private function acessoPermitido()
-  {
-    if (! isset($_SERVER['HTTP_REFERER'])) {
-      return false;
-    }
-
-    $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-    $urlPartes = explode('/', $url);
-
-    $id = 0;
-    foreach ($urlPartes as $parte):
-
-      if (is_numeric($parte)) {
-        $id = (int) $parte;
-        break;
-      }
-    endforeach;
-
-    if ($id and $id == $this->usuarioLogado['empresaId']) {
-      return true;
-    }
-
-    return false;
+    $this->responderJson($credenciais);
   }
 }
