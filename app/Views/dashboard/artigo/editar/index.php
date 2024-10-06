@@ -12,7 +12,7 @@
       </div>
       <?php require_once 'conteudo/blocos.php' ?>
     </div>
-    <div class="mb-10 w-full border border-slate-200 shadow rounded-md">
+    <div class="mb-10 w-full border border-slate-300 shadow rounded-md">
       <?php require_once 'conteudo/pre-visualizacao.php' ?>
     </div>
   </div>

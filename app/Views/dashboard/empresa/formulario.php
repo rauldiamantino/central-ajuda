@@ -1,4 +1,4 @@
-<form method="POST" action="/d/<?php echo $this->usuarioLogado['empresaId'] ?>/empresa/editar/<?php echo $empresa['Empresa.id'] ?>" class="border border-slate-200 w-full md:min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow form-editar-empresa" data-empresa-id="<?php echo $empresa['Empresa.id'] ?>" data-imagem-atual="<?php echo $empresa['Empresa.logo']; ?>">
+<form method="POST" action="/d/<?php echo $this->usuarioLogado['empresaId'] ?>/empresa/editar/<?php echo $empresa['Empresa.id'] ?>" class="border border-slate-300 w-full md:min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow form-editar-empresa bg-white" data-empresa-id="<?php echo $empresa['Empresa.id'] ?>" data-imagem-atual="<?php echo $empresa['Empresa.logo']; ?>">
   <input type="hidden" name="_method" value="PUT">
   <div class="w-full flex flex-col gap-4">
     <div class="w-full flex justify-start gap-4">

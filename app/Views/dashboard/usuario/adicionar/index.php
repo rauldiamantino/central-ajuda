@@ -1,4 +1,4 @@
-<div class="relative w-full min-h-full flex flex-col bg-white p-4">
+<div class="relative w-full min-h-full flex flex-col p-4">
   <h2 class="text-2xl font-semibold mb-4">
     Adicionar
   </h2>

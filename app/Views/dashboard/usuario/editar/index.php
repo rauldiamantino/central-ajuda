@@ -1,4 +1,4 @@
-<div class="relative w-full min-h-full flex flex-col bg-white p-4">
+<div class="relative w-full min-h-full flex flex-col p-4">
   <h2 class="flex gap-1 text-2xl font-semibold mb-4">
     Editar
     <?php require_once 'usuario-padrao.php' ?>
@@ -11,7 +11,7 @@
     <div class="mb-10 md:mb-0 md:block w-full">
       <?php // Somente suporte ?>
       <?php if ($this->usuarioLogado['padrao'] == USUARIO_SUPORTE) { ?>
-        <div class="border border-slate-200 w-full min-w-96 flex flex-col p-4 rounded-lg shadow">
+        <div class="border border-slate-00 w-full min-w-96 flex flex-col p-4 rounded-lg shadow bg-white">
           <h2 class="font-bold pb-2">Último acesso</h2>
           <?php
           $ultimoAcesso = $usuario['Usuario.ultimo_acesso'] ?? '';

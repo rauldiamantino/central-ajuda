@@ -1,4 +1,4 @@
-<div class="border border-slate-200 w-full h-full shadow rounded-lg">
+<div class="border border-slate-300 w-full h-full shadow rounded-lg bg-white">
   <div class="flex min-h-full flex-col justify-center px-6 py-12 md:px-10">
     <div class="w-full">
       <img class="mx-auto h-10 w-auto" src="/img/luminaOn.png" alt="">

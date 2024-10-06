@@ -1,11 +1,10 @@
-<div class="w-full h-full flex flex-col bg-white p-4">
+<div class="w-full h-full flex flex-col p-4">
   <h2 class="flex gap-1 text-2xl font-semibold mb-4">
     Editar
     <span class="flex items-center gap-2 text-gray-400 font-light italic text-sm">
       #<?php echo $empresa['Empresa.id']; ?>
     </span>
   </h2>
-  <?php require_once 'datas.php' ?>
   <div class="w-full flex flex-col md:flex-row gap-4">
     <div class="w-full flex flex-col gap-2">
       <?php require_once 'formulario.php' ?>
@@ -17,7 +16,7 @@
       <?php } ?>
     </div>
     <div class="mb-10 md:mb-0 md:block w-full empresa-bloco-assinatura" data-empresa-assinatura="<?php echo $empresa['Empresa.assinatura_id']; ?>">
-      <div class="relative border border-slate-200 w-full min-w-96 flex flex-col p-4 rounded-lg shadow">
+      <div class="relative border border-slate-300 w-full min-w-96 flex flex-col p-4 rounded-lg shadow bg-white">
         <div id="efeito-loader-assinatura" class="hidden loader"></div>
 
         <h2 class="font-bold pb-2">Assinatura</h2>

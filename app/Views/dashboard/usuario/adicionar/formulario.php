@@ -16,7 +16,7 @@ if ($this->usuarioLogado['padrao'] != USUARIO_SUPORTE or $this->sessaoUsuario->b
 }
 ?>
 
-<form method="POST" action="/d/<?php echo $this->usuarioLogado['empresaId'] ?>/usuario" class="border border-slate-200 w-full min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow">
+<form method="POST" action="/d/<?php echo $this->usuarioLogado['empresaId'] ?>/usuario" class="border border-slate-300 w-full min-w-96 flex flex-col gap-4 p-4 rounded-lg bg-white shadow">
   <div class="w-full flex flex-col gap-4">
     <div class="flex gap-10">
       <div class="w-full flex gap-4">
