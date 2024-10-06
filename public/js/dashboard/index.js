@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const btnNotificacaoNeutraFechar = document.querySelector('.js-dashboard-notificacao-neutra-btn-fechar')
   const menuLateral = document.querySelector('.dashboard-menu-lateral')
   const btnMenuLateral = document.querySelector('.btn-dashboard-menu-lateral')
+  const btnMenuLateralFechar = document.querySelector('.btn-dashboard-menu-lateral-fechar')
 
   if (notificacaoErro) {
     setTimeout(() => fecharNotificacao(notificacaoErro), 5000)
@@ -49,6 +50,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
   if (btnMenuLateral) {
     btnMenuLateral.addEventListener('click', () => {
+      menuLateralToggle(menuLateral)
+    })
+  }
+
+  if (btnMenuLateralFechar) {
+    btnMenuLateralFechar.addEventListener('click', () => {
       menuLateralToggle(menuLateral)
     })
   }

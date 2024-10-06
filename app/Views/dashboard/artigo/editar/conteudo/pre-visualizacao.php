@@ -1,4 +1,4 @@
-<div class="border border-slate-200 w-full h-full bg-white p-5 lg:p-10 rounded-md dashboard-pre-visualizacao">
+<div class="w-full h-full bg-white p-5 lg:p-10 rounded-md dashboard-pre-visualizacao">
   <div class="w-full flex justify-center items-center gap-4">
     <span class="font-light">Pré-visualização do artigo</span>
   </div>

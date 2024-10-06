@@ -45,10 +45,10 @@
   <?php } ?>
 
   <?php if (! isset($pagLogin) and ! isset($pagLoginSuporte) and ! isset($pagCadastro)) { ?>
-    <?php require_once 'template/topo.php' ?>
     <div class="flex">
       <?php require_once 'template/menu_lateral.php' ?>
-      <main class="lg:ml-64 pt-16 flex w-screen h-screen flex-col">
+      <main class="lg:ml-64 pt-24 lg:px-16 flex w-screen h-screen flex-col">
+        <?php require_once 'template/topo.php' ?>
         <?php require_once 'notificacoes.php' ?>
         <div class="w-full max-w-screen h-full h-max-full flex gap-6">
           <?php require_once $visao ?>

@@ -1,5 +1,14 @@
-<asside class="pt-16 fixed top-0 left-0 z-10 transform -translate-x-full transition-transform duration-100 lg:translate-x-0 border-r border-slate-200 flex flex-col justify-between bg-white w-80 md:w-96 lg:w-64 h-screen overflow-hidden dashboard-menu-lateral">
+<asside class="fixed top-0 left-0 z-20 transform -translate-x-full transition-transform duration-100 lg:translate-x-0 border-r border-slate-200 flex flex-col justify-between bg-white w-80 md:w-96 lg:w-64 h-screen overflow-hidden dashboard-menu-lateral">
   <ul class="flex flex-col gap-3 text-gray-500 px-4 py-6">
+    <div class="w-full p-4 flex justify-between items-center text-gray-400">
+      <a href="<?php echo subdominioDominio($this->usuarioLogado['subdominio']); ?>" target="_blank"><img src="/img/luminaOn.png" alt="luminaOn" class="w-40"></a>
+
+      <button class="lg:hidden btn-dashboard-menu-lateral-fechar">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+        </svg>
+      </button>
+    </div>
     <li class="hover:bg-slate-100 rounded-lg cursor-pointer flex justify-between group">
       <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/categorias" class="w-full p-2">
         <div class="flex items-center gap-3">
