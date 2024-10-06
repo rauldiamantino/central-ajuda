@@ -11,8 +11,8 @@ $nivelAcesso = [
 ];
 ?>
 
-<div class="max-w-screen overflow-x-auto">
-  <div class="inline-block min-w-full align-middle">
+<div class="w-full h-full overflow-x-auto">
+  <div class="border border-slate-200 inline-block min-w-full align-middle rounded-md shadow">
     <table class="table-fixed min-w-full text-sm text-left text-gray-500">
       <thead class="text-xs font-light text-gray-500 uppercase">
         <colgroup>

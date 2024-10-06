@@ -1,5 +1,5 @@
 <?php // Paginação ?>
-<div class="sticky inset-x-0 bottom-0 border-t border-slate-200 py-2 w-full h-max flex flex-col gap-2 md:gap-1 md:flex-row md:justify-start items-center bg-white">
+<div class="mt-2 py-2 h-max flex flex-col gap-2 md:gap-1 md:flex-row justify-start items-center bg-white">
   <div class="flex justify-center items-center gap-1">
     <?php if ($pagina > 1) { ?>
       <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/usuarios?pagina=<?php echo $pagina - 1 ?>" class="border border-slate-100 bg-slate-100 hover:bg-slate-200 text-gray-500 hover:text-black p-3 rounded-lg">
