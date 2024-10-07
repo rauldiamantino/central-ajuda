@@ -4,13 +4,10 @@ $classeRestrito = $this->usuarioLogado['nivel'] == USUARIO_RESTRITO ? 'text-gray
 ?>
 
 <asside class="fixed top-0 left-0 z-20 transform -translate-x-full transition-transform duration-100 xl:translate-x-0 border-r border-slate-200 flex flex-col justify-start bg-gray-800 w-80 md:w-96 lg:w-72 h-screen overflow-hidden dashboard-menu-lateral">
-  <div class="mb-2 w-full px-8 py-5 flex justify-between items-center text-gray-400">
-    <div class="w-max justify-center flex items-center text-white">
-      <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-highlighter" viewBox="0 0 16 16">
-        <path fill-rule="evenodd" d="M11.096.644a2 2 0 0 1 2.791.036l1.433 1.433a2 2 0 0 1 .035 2.791l-.413.435-8.07 8.995a.5.5 0 0 1-.372.166h-3a.5.5 0 0 1-.234-.058l-.412.412A.5.5 0 0 1 2.5 15h-2a.5.5 0 0 1-.354-.854l1.412-1.412A.5.5 0 0 1 1.5 12.5v-3a.5.5 0 0 1 .166-.372l8.995-8.07zm-.115 1.47L2.727 9.52l3.753 3.753 7.406-8.254zm3.585 2.17.064-.068a1 1 0 0 0-.017-1.396L13.18 1.387a1 1 0 0 0-1.396-.018l-.068.065zM5.293 13.5 2.5 10.707v1.586L3.707 13.5z"/>
-      </svg>
-      <h2 class="text-3xl font-bold">360help</h2>
-    </div>
+  <div class="mb-2 w-full py-5 flex justify-center gap-8 items-center text-gray-400">
+    <a href="/login" class="w-max justify-center flex items-center">
+      <img src="./img/360help-transparente.png" class="w-44">
+    </a>
 
     <button class="h-max w-max xl:hidden btn-dashboard-menu-lateral-fechar">
       <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="currentColor"><path d="m287-446.67 240 240L480-160 160-480l320-320 47 46.67-240 240h513v66.66H287Z"/></svg>

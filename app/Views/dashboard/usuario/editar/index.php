@@ -11,7 +11,7 @@
     <div class="mb-10 md:mb-0 md:block w-full">
       <?php // Somente suporte ?>
       <?php if ($this->usuarioLogado['padrao'] == USUARIO_SUPORTE) { ?>
-        <div class="border border-slate-00 w-full min-w-96 flex flex-col p-4 rounded-lg shadow bg-white">
+        <div class="border border-slate-300 w-full min-w-96 flex flex-col p-4 rounded-lg shadow bg-white">
           <div class="px-2 w-full flex gap-4 justify-between items-center">
             <h2 class="font-bold pb-2">Último acesso</h2>
             <?php if ($usuario['Usuario.tentativas_login'] >= 10) { ?>
