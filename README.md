@@ -1,4 +1,4 @@
-# Central de Ajuda - LuminaOn
+# Central de Ajuda - 360help
 
 ## Introdução
 Esta plataforma permite que sua empresa cadastre uma base de conhecimento e a disponibilize de forma profissional para seus clientes.

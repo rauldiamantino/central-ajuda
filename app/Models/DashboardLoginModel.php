@@ -91,12 +91,10 @@ class DashboardLoginModel extends Model
       $msgErro = [
         'erro' => [
           'codigo' => 403,
-          'mensagem' => 'Para garantir a segurança das suas informações, sua conta foi bloqueada após você atingir o limite de tentativas de login.',
+          'bloqueio' => $usuario[0]['id'],
+          'mensagem' => 'Para sua segurança, sua conta foi bloqueada após exceder o número permitido de tentativas de login. Para desbloqueá-la, entre em contato com nossa equipe de suporte enviando um e-mail para suporte@360help.com.br.',
         ],
       ];
-
-      // Acesso será liberado somente via suporte
-      $this->sessaoUsuario->definir('acessoBloqueado-' . $usuario[0]['id'], true);
 
       return $msgErro;
     }

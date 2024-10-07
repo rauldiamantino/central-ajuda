@@ -19,17 +19,19 @@ document.addEventListener('DOMContentLoaded', function() {
   const btnMenuLateralFechar = document.querySelector('.btn-dashboard-menu-lateral-fechar')
   const btnMenuTopoUsuario = document.querySelector('.btn-menu-topo-usuario')
   const menuTopoUsuario = document.querySelector('.menu-topo-usuario')
+  const menuTopoUsuarioCima = document.querySelector('.perfil-usuario-cima')
+  const menuTopoUsuarioBaixo = document.querySelector('.perfil-usuario-baixo')
 
   if (notificacaoErro) {
-    setTimeout(() => fecharNotificacao(notificacaoErro), 5000)
+    setTimeout(() => fecharNotificacao(notificacaoErro), 10000)
   }
 
   if (notificacaoSucesso) {
-    setTimeout(() => fecharNotificacao(notificacaoSucesso), 5000)
+    setTimeout(() => fecharNotificacao(notificacaoSucesso), 10000)
   }
 
   if (notificacaoNeutra) {
-    setTimeout(() => fecharNotificacao(notificacaoNeutra), 5000)
+    setTimeout(() => fecharNotificacao(notificacaoNeutra), 10000)
   }
 
   if (btnNotificacaoErroFechar) {
@@ -64,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   if (btnMenuTopoUsuario) {
     btnMenuTopoUsuario.addEventListener('click', () => {
-      menuTopoUsuarioToggle(menuTopoUsuario)
+      menuTopoUsuarioToggle(menuTopoUsuario, menuTopoUsuarioCima, menuTopoUsuarioBaixo)
     })
   }
 
@@ -87,13 +89,22 @@ const menuLateralToggle = (menuLateral) => {
   }
 }
 
-const menuTopoUsuarioToggle = (menuTopoUsuario) => {
+const menuTopoUsuarioToggle = (menuTopoUsuario, menuTopoUsuarioCima, menuTopoUsuarioBaixo) => {
 
   if (menuTopoUsuario.classList.contains('hidden')) {
     menuTopoUsuario.classList.remove('hidden')
   }
   else if (! menuTopoUsuario.classList.contains('hidden')) {
     menuTopoUsuario.classList.add('hidden')
+  }
+
+  if (menuTopoUsuarioCima.classList.contains('hidden')) {
+    menuTopoUsuarioCima.classList.remove('hidden')
+    menuTopoUsuarioBaixo.classList.add('hidden')
+  }
+  else if (! menuTopoUsuarioCima.classList.contains('hidden')) {
+    menuTopoUsuarioBaixo.classList.remove('hidden')
+    menuTopoUsuarioCima.classList.add('hidden')
   }
 }
 

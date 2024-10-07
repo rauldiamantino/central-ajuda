@@ -1,8 +1,16 @@
-<?php $paginaSelecionada = $paginaMenuLateral ?? ''; ?>
+<?php
+$paginaSelecionada = $paginaMenuLateral ?? '';
+$classeRestrito = $this->usuarioLogado['nivel'] == USUARIO_RESTRITO ? 'text-gray-500' : ''
+?>
 
 <asside class="fixed top-0 left-0 z-20 transform -translate-x-full transition-transform duration-100 xl:translate-x-0 border-r border-slate-200 flex flex-col justify-start bg-gray-800 w-80 md:w-96 lg:w-72 h-screen overflow-hidden dashboard-menu-lateral">
-  <div class="mb-2 w-full px-8 py-8 flex justify-between items-center text-gray-400">
-    <a href="/login"><img src="/img/logo-transparente-branco.png" alt="luminaOn" class="w-44"></a>
+  <div class="mb-2 w-full px-8 py-5 flex justify-between items-center text-gray-400">
+    <div class="w-max justify-center flex items-center text-white">
+      <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-highlighter" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M11.096.644a2 2 0 0 1 2.791.036l1.433 1.433a2 2 0 0 1 .035 2.791l-.413.435-8.07 8.995a.5.5 0 0 1-.372.166h-3a.5.5 0 0 1-.234-.058l-.412.412A.5.5 0 0 1 2.5 15h-2a.5.5 0 0 1-.354-.854l1.412-1.412A.5.5 0 0 1 1.5 12.5v-3a.5.5 0 0 1 .166-.372l8.995-8.07zm-.115 1.47L2.727 9.52l3.753 3.753 7.406-8.254zm3.585 2.17.064-.068a1 1 0 0 0-.017-1.396L13.18 1.387a1 1 0 0 0-1.396-.018l-.068.065zM5.293 13.5 2.5 10.707v1.586L3.707 13.5z"/>
+      </svg>
+      <h2 class="text-3xl font-bold">360help</h2>
+    </div>
 
     <button class="h-max w-max xl:hidden btn-dashboard-menu-lateral-fechar">
       <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="currentColor"><path d="m287-446.67 240 240L480-160 160-480l320-320 47 46.67-240 240h513v66.66H287Z"/></svg>
@@ -43,17 +51,24 @@
         </div>
       </a>
     </li>
-    <li class="px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'usuarios' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
+    <li class="<?php echo $classeRestrito; ?> px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'usuarios' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
       <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/usuarios" class="w-full p-2">
         <div class="flex items-center gap-3">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="" viewBox="0 0 16 16">
             <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1L7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002-.014.002zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4q0 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/>
           </svg>
-          <span>Usuários</span>
+          <span class="w-full flex justify-between items-center gap-2">
+            Usuários
+            <?php if ($this->usuarioLogado['nivel'] == USUARIO_RESTRITO) { ?>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
+                <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2M5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1"/>
+              </svg>
+            <?php } ?>
+          </span>
         </div>
       </a>
     </li>
-    <li class="px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'empresa' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
+    <li class="<?php echo $classeRestrito; ?> px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'empresa' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
       <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/empresa/editar" class="w-full p-2">
         <div class="w-full flex items-center gap-3">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="" viewBox="0 0 16 16">
@@ -61,12 +76,20 @@
             <path d="M4.5 2a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-6 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-6 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm4.386 1.46c.18-.613 1.048-.613 1.229 0l.043.148a.64.64 0 0 0 .921.382l.136-.074c.561-.306 1.175.308.87.869l-.075.136a.64.64 0 0 0 .382.92l.149.045c.612.18.612 1.048 0 1.229l-.15.043a.64.64 0 0 0-.38.921l.074.136c.305.561-.309 1.175-.87.87l-.136-.075a.64.64 0 0 0-.92.382l-.045.149c-.18.612-1.048.612-1.229 0l-.043-.15a.64.64 0 0 0-.921-.38l-.136.074c-.561.305-1.175-.309-.87-.87l.075-.136a.64.64 0 0 0-.382-.92l-.148-.045c-.613-.18-.613-1.048 0-1.229l.148-.043a.64.64 0 0 0 .382-.921l-.074-.136c-.306-.561.308-1.175.869-.87l.136.075a.64.64 0 0 0 .92-.382zM14 12.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0"/>
           </svg>
           <div class="w-full flex gap-2 justify-between items-center">
-            <span class="pl-1">Empresa</span>
+            <span class="w-full flex justify-between items-center gap-2">
+              Empresa
+              <?php if ($this->usuarioLogado['nivel'] == USUARIO_RESTRITO) { ?>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
+                  <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2M5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1"/>
+                </svg>
+              <?php } ?>
+            </span>
           </div>
         </div>
       </a>
     </li>
     <?php if ($this->usuarioLogado['id'] > 0 and $this->usuarioLogado['padrao'] == USUARIO_SUPORTE) { ?>
+      <h3 class="mt-8 px-6 py-2 text-xs font-extralight text-slate-300">SUPORTE</h3>
       <li class="px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'login' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
         <button type="button" onclick="window.location.href='/login/suporte'" class="w-full p-2">
           <div class="flex justify-start items-center gap-3">
