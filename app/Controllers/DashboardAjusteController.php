@@ -33,6 +33,7 @@ class DashboardAjusteController extends DashboardController
 
     $this->visao->variavel('ajustes', $resultado);
     $this->visao->variavel('titulo', 'Ajustes');
+    $this->visao->variavel('paginaMenuLateral', 'ajustes');
     $this->visao->renderizar('/ajuste/index');
   }
 

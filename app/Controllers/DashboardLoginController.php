@@ -25,6 +25,7 @@ class DashboardLoginController extends DashboardController
 
     $this->visao->variavel('titulo', 'Login');
     $this->visao->variavel('pagLogin', true);
+    $this->visao->variavel('paginaMenuLateral', 'login');
     $this->visao->renderizar('/login/index');
   }
 
@@ -83,6 +84,7 @@ class DashboardLoginController extends DashboardController
     $this->visao->variavel('titulo', 'Login Suporte');
     $this->visao->variavel('pagLoginSuporte', true);
     $this->visao->variavel('empresas', $empresas);
+    $this->visao->variavel('paginaMenuLateral', 'login');
     $this->visao->renderizar('/login/suporte/index');
   }
 
@@ -90,6 +92,11 @@ class DashboardLoginController extends DashboardController
   {
     $json = $this->receberJson();
     $resultado = $this->loginModel->login($json);
+
+    // Acesso será liberado somente via suporte
+    if (isset($resultado['bloqueio']) and $resultado['bloqueio']) {
+      $this->sessaoUsuario->definir('acessoBloqueado-' . $resultado['bloqueio'], true);
+    }
 
     if (isset($resultado['erro'])) {
       $this->sessaoUsuario->apagar('usuario');

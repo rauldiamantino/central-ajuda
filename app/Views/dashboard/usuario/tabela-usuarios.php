@@ -11,7 +11,7 @@ $nivelAcesso = [
 ];
 ?>
 
-<div class="w-full h-max overflow-x-auto border border-slate-200 rounded-md shadow">
+<div class="w-full min-h-max overflow-x-auto overflow-y-hidden border border-slate-300 rounded-md shadow bg-white">
   <div class="inline-block min-w-full align-middle">
     <table class="table-fixed min-w-full text-sm text-left text-gray-500">
       <thead class="text-xs font-light text-gray-500 uppercase">
@@ -24,19 +24,19 @@ $nivelAcesso = [
           <col class="w-[150px]">
           <col class="w-[100px]">
         </colgroup>
-        <tr class="bg-slate-100 w-full border-b divide-x">
-          <th class="p-6">ID</th>
-          <th class="p-6">Nome</th>
-          <th class="p-6">Email</th>
-          <th class="p-6">Tipo de usuário</th>
-          <th class="p-6">Nível</th>
-          <th class="p-6">Status</th>
-          <th class="p-6">Remover</th>
+        <tr class="bg-slate-100 w-full border-b">
+          <th class="py-5 px-4">ID</th>
+          <th class="py-5 px-4">Nome</th>
+          <th class="py-5 px-4">Email</th>
+          <th class="py-5 px-4">Tipo de usuário</th>
+          <th class="py-5 px-4">Nível</th>
+          <th class="py-5 px-4">Status</th>
+          <th class="py-5 px-4">Ação</th>
         </tr>
       </thead>
       <tbody class="divide-y">
         <?php foreach ($usuarios as $chave => $linha) : ?>
-          <tr class="hover:bg-slate-100 divide-x">
+          <tr class="hover:bg-slate-100">
             <?php if (isset($linha['Usuario.id'])) { ?>
               <?php foreach ($linha as $subChave => $subLinha) : ?>
 
@@ -99,32 +99,17 @@ $nivelAcesso = [
                   <td class="py-5 px-4">
                     <?php if ($linha['Usuario.tentativas_login'] < 10 and $subLinha == ATIVO) { ?>
                       <div class="flex items-center gap-2">
-                        <span class="text-green-800">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 16 16">
-                            <circle cx="8" cy="8" r="8"/>
-                          </svg>
-                        </span>
-                        <span>Ativo</span>
+                        <span class="px-3 py-1 bg-green-50 text-green-600 text-xs rounded-full">Ativo</span>
                       </div>
                     <?php } ?>
                     <?php if ($linha['Usuario.tentativas_login'] < 10 and $subLinha == INATIVO) { ?>
                       <div class="flex items-center gap-2">
-                        <span class="text-red-800">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 16 16">
-                            <circle cx="8" cy="8" r="8"/>
-                          </svg>
-                        </span>
-                        <span>Inativo</span>
+                        <span class="px-3 py-1 bg-red-50 text-red-600 text-xs rounded-full">Inativo</span>
                       </div>
                     <?php } ?>
                     <?php if ($linha['Usuario.tentativas_login'] >= 10) { ?>
                       <div class="flex items-center gap-2">
-                        <span class="text-gray-800">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock-fill" viewBox="0 0 16 16">
-                            <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"/>
-                          </svg>
-                        </span>
-                        <span>Bloqueado</span>
+                        <span class="px-3 py-1 bg-gray-50 text-gray-600 text-xs rounded-full">Bloqueado</span>
                       </div>
                     <?php } ?>
                   </td>
@@ -134,7 +119,7 @@ $nivelAcesso = [
               <?php // Remover ?>
               <?php if (isset($linha['Usuario.id'])) { ?>
               <td class="py-5 px-4">
-                  <div class="min-h-full flex gap-3 md:gap-1 justify-around">
+                  <div class="min-h-full flex gap-3 md:gap-1 justify-start">
                     <button type="button" class="text-red-800 js-dashboard-usuarios-remover" data-usuario-id="<?php echo $linha['Usuario.id'] ?>">
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" class="min-h-full">
                         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />

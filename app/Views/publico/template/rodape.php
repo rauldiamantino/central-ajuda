@@ -1,5 +1,5 @@
 <footer class="w-full text-sm md:text-base h-24 px-4 flex justify-center items-center bg-white">
-  <span>© 2024 LuminaOn. Todos os direitos reservados.</span>
+  <span>© 2024 360help. Todos os direitos reservados.</span>
 
   <?php if (isset($telefoneEmpresa) and $telefoneEmpresa > 0) { ?>
   <a href="https://wa.me/55<?php echo $telefoneEmpresa ?>" target="_blank" class="p-3 hover:scale-110 duration-100 w-max h-max flex items-center justify-center bg-blue-200 fixed bottom-10 right-10 text-white bg-green-500 rounded-full">

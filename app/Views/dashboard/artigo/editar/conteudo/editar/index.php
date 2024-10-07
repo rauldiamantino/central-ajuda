@@ -1,4 +1,4 @@
-<div class="w-full min-h-full flex flex-col bg-white p-4 hidden editar-fundo">
+<div class="w-full min-h-full flex flex-col p-4 hidden editar-fundo">
   <h2 class="relative text-2xl font-semibold mb-4">
     Editar <span class="text-gray-400 font-light italic text-sm">(Conteúdo #<?php echo $conteudo['Conteudo.id']; ?></span>
     <span class="text-gray-400 font-light italic hover:underline text-sm"><a href="<?php echo subdominioDominio($this->usuarioLogado['subdominio']); ?>/artigo/<?php echo $conteudo['Conteudo.artigo_id'] ?>" target="_blank">- Artigo #<?php echo $conteudo['Conteudo.artigo_id']; ?>)</a></span>
@@ -6,7 +6,7 @@
   <div class="w-full lg:w-1/2">
     <?php // Editar texto ?>
     <?php if ($conteudo['Conteudo.tipo'] == 1) { ?>
-      <div class="border border-slate-200 p-4 md:w-full rounded-lg shadow editor-container">
+      <div class="border border-slate-300 p-4 md:w-full rounded-lg shadow editor-container bg-white">
         <form method="POST" action="/d/<?php echo $this->usuarioLogado['empresaId'] ?>/conteudo/<?php echo $conteudo['Conteudo.id'] ?>" class="flex flex-col items-end gap-2 editor-container__editor form-conteudo-texto-editar" enctype="multipart/form-data">
           <input type="hidden" name="_method" value="PUT">
           <input type="hidden" name="artigo_id" value="<?php echo $conteudo['Conteudo.artigo_id'] ?>">
@@ -39,7 +39,7 @@
 
     <?php // Editar imagem ?>
     <?php if ($conteudo['Conteudo.tipo'] == 2) { ?>
-      <div class="border border-slate-200 p-4 md:w-full rounded-lg shadow modal-conteudo-imagem-editar">
+      <div class="border border-slate-300 p-4 md:w-full rounded-lg shadow modal-conteudo-imagem-editar bg-white">
         <form method="POST" action="/d/<?php echo $this->usuarioLogado['empresaId'] ?>/conteudo/<?php echo $conteudo['Conteudo.id'] ?>" class="flex flex-col items-end gap-2" enctype="multipart/form-data" data-artigo-id=<?php echo $conteudo['Conteudo.artigo_id'] ?> data-empresa-id=<?php echo $conteudo['Conteudo.empresa_id'] ?>>
           <input type="hidden" name="_method" value="PUT">
           <input type="hidden" name="artigo_id" value="<?php echo $conteudo['Conteudo.artigo_id'] ?>">
@@ -59,7 +59,7 @@
               </svg>
               <span class="ml-2 text-gray-700 conteudo-txt-imagem-editar-escolher">Alterar Imagem</span>
             </button>
-            <div class="border border-slate-200 p-4 relative flex flex-col gap-2 w-full h-48 rounded-md">
+            <div class="border border-slate-300 p-4 relative flex flex-col gap-2 w-full h-48 rounded-md">
               <img src="<?php echo $conteudo['Conteudo.url'] ?>" class="object-cover w-full h-full opacity-0 transition-opacity duration-300 ease-in-out">
             </div>
           </div>
@@ -83,7 +83,7 @@
 
     <?php // Editar vídeo ?>
     <?php if ($conteudo['Conteudo.tipo'] == 3) { ?>
-      <div class="border border-slate-200 p-4 md:w-full rounded-lg shadow modal-conteudo-video-editar">
+      <div class="border border-slate-300 p-4 md:w-full rounded-lg shadow modal-conteudo-video-editar bg-white">
         <form method="POST" action="/d/<?php echo $this->usuarioLogado['empresaId'] ?>/conteudo/<?php echo $conteudo['Conteudo.id'] ?>" class="flex flex-col items-end gap-2" enctype="multipart/form-data">
           <input type="hidden" name="_method" value="PUT">
           <input type="hidden" name="artigo_id" value="<?php echo $conteudo['Conteudo.artigo_id'] ?>">

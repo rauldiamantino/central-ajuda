@@ -1,27 +1,27 @@
-<div class="w-full h-max overflow-x-auto border border-slate-200 rounded-md shadow">
+<div class="w-full min-h-max overflow-x-auto overflow-y-hidden border border-slate-300 rounded-md shadow bg-white">
   <div class="inline-block min-w-full align-middle">
     <table class="table-fixed min-w-full text-sm text-left text-gray-500">
       <thead class="text-xs font-light text-gray-500 uppercase">
         <colgroup>
           <col class="w-[60px]">
-          <col class="w-[400px]">
+          <col class="w-[350px]">
           <col class="w-[500px]">
-          <col class="w-[150px]">
+          <col class="w-[200px]">
           <col class="w-[100px]">
           <col class="w-[100px]">
         </colgroup>
-        <tr class="bg-slate-100 w-full border-b divide-x">
-          <th class="p-6">ID</th>
-          <th class="p-6">Título</th>
-          <th class="p-6">Descrição</th>
-          <th class="p-6">Criado</th>
-          <th class="p-6">Status</th>
-          <th class="p-6">Ação</th>
+        <tr class="bg-slate-100 w-full border-b">
+          <th class="py-5 px-4">ID</th>
+          <th class="py-5 px-4">Título</th>
+          <th class="py-5 px-4">Descrição</th>
+          <th class="py-5 px-4">Criado</th>
+          <th class="py-5 px-4">Status</th>
+          <th class="py-5 px-4">Ação</th>
         </tr>
       </thead>
       <tbody class="divide-y">
         <?php foreach ($categorias as $chave => $linha) : ?>
-          <tr class="hover:bg-slate-100 divide-x">
+          <tr class="hover:bg-slate-100">
             <?php if (isset($linha['Categoria.id'])) { ?>
               <?php foreach ($linha as $subChave => $subLinha) : ?>
 
@@ -54,22 +54,12 @@
                   <td class="py-5 px-4">
                     <?php if ($subLinha == 1) { ?>
                       <div class="flex items-center gap-2">
-                        <span class="text-green-800">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 16 16">
-                            <circle cx="8" cy="8" r="8"/>
-                          </svg>
-                        </span>
-                        <span>Ativo</span>
+                        <span class="px-3 py-1 bg-green-50 text-green-600 text-xs rounded-full">Ativo</span>
                       </div>
                     <?php } ?>
                     <?php if ($subLinha == 0) { ?>
                       <div class="flex items-center gap-2">
-                        <span class="text-red-800">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 16 16">
-                            <circle cx="8" cy="8" r="8"/>
-                          </svg>
-                        </span>
-                        <span>Inativo</span>
+                        <span class="px-3 py-1 bg-red-50 text-red-600 text-xs rounded-full">Ativo</span>
                       </div>
                     <?php } ?>
                   </td>
@@ -80,10 +70,10 @@
             <?php // Ação ?>
             <?php if (isset($linha['Categoria.id'])) { ?>
               <td class="py-5 px-4">
-                <div class="min-h-full flex gap-3 md:gap-1 justify-around">
+                <div class="min-h-full flex gap-3 justify-start">
                   <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/artigos?categoria_id=<?php echo $linha['Categoria.id'] ?>" target="_blank" class="text-slate-800" title="Filtrar artigos">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-funnel" viewBox="0 0 16 16" class="min-h-full">
-                      <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
+                      <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/>
                     </svg>
                   </a>
                   <button type="button" class="text-red-800 js-dashboard-categorias-remover" data-categoria-id="<?php echo $linha['Categoria.id'] ?>">

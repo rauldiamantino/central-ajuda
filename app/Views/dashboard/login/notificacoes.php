@@ -3,11 +3,11 @@ $notificacaoSucesso = $this->sessaoUsuario->buscar('ok');
 $notificacaoErro = $this->sessaoUsuario->buscar('erro');
 ?>
 
-<div class="w-full flex justify-center absolute inset-x-0 -bottom-8">
-  <div class="w-max">
+<div class="w-full flex justify-center fixed inset-x-0 bottom-0">
+  <div class="w-full">
     <?php // Notificação Sucesso ?>
     <?php if (isset($notificacaoSucesso)) { ?>
-      <div class="js-dashboard-notificacao-sucesso js-dashboard-notificacao-sucesso-btn-fechar"">
+      <div class="">
         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
           <strong class="font-bold">Ok!</strong>
           <span class="block sm:inline"><?php echo $notificacaoSucesso; ?></span>
@@ -16,7 +16,7 @@ $notificacaoErro = $this->sessaoUsuario->buscar('erro');
     <?php } ?>
     <?php // Notificação Erro ?>
     <?php if (isset($notificacaoErro)) { ?>
-      <div class="js-dashboard-notificacao-erro js-dashboard-notificacao-erro-btn-fechar">
+      <div class="">
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
           <strong class="font-bold">Erro!</strong>
           <?php if (is_array($notificacaoErro)) { ?>

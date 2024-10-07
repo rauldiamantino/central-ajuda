@@ -1,11 +1,11 @@
-<div class="relative w-full min-h-full flex flex-col bg-white p-4">
+<div class="relative w-full min-h-full flex flex-col p-4">
   <h2 class="text-2xl font-semibold mb-4">
     Adicionar artigo
   </h2>
   <div class="w-full flex gap-4">
     <?php // Artigo e Inserção de Conteúdos ?>
     <div class="w-full flex flex-col gap-10">
-      <form method="POST" action="/d/<?php echo $this->usuarioLogado['empresaId'] ?>/artigo" class="border border-slate-200 w-full min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow">
+      <form method="POST" action="/d/<?php echo $this->usuarioLogado['empresaId'] ?>/artigo" class="border border-slate-200 w-full min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow bg-white">
         <input type="hidden" name="usuario_id" value="<?php echo $usuarioId ?>">
         <?php if (isset($ordem['prox'])) { ?>
           <input type="hidden" name="ordem" value="<?php echo $ordem['prox'] ?>">

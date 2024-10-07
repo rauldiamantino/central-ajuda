@@ -44,6 +44,7 @@ class DashboardEmpresaController extends DashboardController
 
     $this->visao->variavel('empresa', reset($empresa));
     $this->visao->variavel('titulo', 'Editar empresa');
+    $this->visao->variavel('paginaMenuLateral', 'empresa');
     $this->visao->renderizar('/empresa/index');
   }
 

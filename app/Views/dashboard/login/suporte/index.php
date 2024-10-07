@@ -1,7 +1,9 @@
-<div class="border border-slate-200 w-full h-full shadow rounded-lg">
+<div class="border border-slate-300 w-full h-full shadow rounded-lg bg-white">
   <div class="flex min-h-full flex-col justify-center px-6 py-12 md:px-10">
-    <div class="w-full">
-      <img class="mx-auto h-10 w-auto" src="/img/luminaOn.png" alt="">
+    <div class="w-full justify-center flex items-center">
+      <div class="w-full justify-center flex items-center">
+        <img src="./img/360help-branco.png" class="w-44">
+      </div>
     </div>
     <div class="mt-10 w-full">
       <div class="flex flex-col gap-2">
@@ -10,22 +12,10 @@
             <?php echo $linha['subdominio'] ?>
 
             <?php if ($linha['ativo'] == ATIVO) { ?>
-              <div class="flex items-center gap-2">
-                <span class="text-green-800">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 16 16">
-                    <circle cx="8" cy="8" r="8"/>
-                  </svg>
-                </span>
-              </div>
+              <span class="px-3 py-1 bg-green-50 text-green-800 text-xs rounded-full">Ativo</span>
             <?php } ?>
             <?php if ($linha['ativo'] == INATIVO) { ?>
-              <div class="flex items-center gap-2">
-                <span class="text-red-800">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 16 16">
-                    <circle cx="8" cy="8" r="8"/>
-                  </svg>
-                </span>
-              </div>
+              <span class="px-3 py-1 bg-red-50 text-red-800 text-xs rounded-full">Inativo</span>
             <?php } ?>
           </a>
         <?php endforeach; ?>

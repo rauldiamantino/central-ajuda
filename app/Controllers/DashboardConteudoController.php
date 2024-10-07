@@ -36,6 +36,7 @@ class DashboardConteudoController extends DashboardController
     $this->visao->variavel('loader', true);
     $this->visao->variavel('conteudo', reset($resultado));
     $this->visao->variavel('titulo', 'Editar conteúdo');
+    $this->visao->variavel('paginaMenuLateral', 'artigos');
     $this->visao->renderizar('/artigo/editar/conteudo/editar/index');
   }
 
@@ -89,6 +90,7 @@ class DashboardConteudoController extends DashboardController
     $this->visao->variavel('tipo', $tipo);
     $this->visao->variavel('ordem', $ordemNum);
     $this->visao->variavel('titulo', 'Adicionar conteúdo');
+    $this->visao->variavel('paginaMenuLateral', 'artigos');
     $this->visao->renderizar('/artigo/editar/conteudo/adicionar/index');
   }
 

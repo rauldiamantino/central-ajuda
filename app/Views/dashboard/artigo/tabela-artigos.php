@@ -1,27 +1,27 @@
-<div class="w-full h-max overflow-x-auto border border-slate-200 rounded-md shadow">
+<div class="w-full min-h-max border border-slate-300 rounded-md shadow bg-white overflow-x-auto overflow-y-hidden">
   <div class="inline-block min-w-full align-middle">
     <table class="table-fixed min-w-full text-sm text-left text-gray-500">
       <thead class="text-xs font-light text-gray-500 uppercase">
         <colgroup>
           <col class="w-[60px]">
           <col class="w-[400px]">
-          <col class="w-[500px]">
-          <col class="w-[150px]">
+          <col class="w-[450px]">
+          <col class="w-[200px]">
           <col class="w-[100px]">
           <col class="w-[100px]">
         </colgroup>
-        <tr class="bg-slate-100 w-full border-b divide-x">
-          <th class="p-6">ID</th>
-          <th class="p-6">Título</th>
-          <th class="p-6">Categoria</th>
-          <th class="p-6">Criado</th>
-          <th class="p-6">Status</th>
-          <th class="p-6">Remover</th>
+        <tr class="bg-slate-100 w-full border-b">
+          <th class="py-5 px-4">ID</th>
+          <th class="py-5 px-4">Título</th>
+          <th class="py-5 px-4">Categoria</th>
+          <th class="py-5 px-4">Criado</th>
+          <th class="py-5 px-4">Status</th>
+          <th class="py-5 px-4">Ação</th>
         </tr>
       </thead>
       <tbody class="divide-y">
         <?php foreach ($artigos as $chave => $linha) : ?>
-          <tr class="hover:bg-slate-100 divide-x">
+          <tr class="hover:bg-slate-100">
             <?php if (isset($linha['Artigo.id'])) { ?>
               <?php foreach ($linha as $subChave => $subLinha) : ?>
 
@@ -58,29 +58,19 @@
                   <td class="py-5 px-4">
                     <?php if ($subLinha == 1) { ?>
                       <div class="flex items-center gap-2">
-                        <span class="text-green-800">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 16 16">
-                            <circle cx="8" cy="8" r="8"/>
-                          </svg>
-                        </span>
-                        <span>Ativo</span>
+                        <span class="px-3 py-1 bg-green-50 text-green-600 text-xs rounded-full">Ativo</span>
                       </div>
                     <?php } ?>
                     <?php if ($subLinha == 0) { ?>
                       <div class="flex items-center gap-2">
-                        <span class="text-red-800">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 16 16">
-                            <circle cx="8" cy="8" r="8"/>
-                          </svg>
-                        </span>
-                        <span>Inativo</span>
+                        <span class="px-3 py-1 bg-red-50 text-red-600 text-xs rounded-full">Inativo</span>
                       </div>
                     <?php } ?>
                   </td>
                   <?php // Ação ?>
                   <?php if (isset($linha['Artigo.id'])) { ?>
                     <td class="py-5 px-4">
-                      <div class="min-h-full flex gap-3 md:gap-1 justify-around">
+                      <div class="min-h-full flex gap-3 md:gap-1 justify-start">
                         <button type="button" class="text-red-800 js-dashboard-artigos-remover" data-artigo-id="<?php echo $linha['Artigo.id'] ?>" data-empresa-id="<?php echo $linha['Artigo.empresa_id'] ?>">
                           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" class="min-h-full">
                             <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />

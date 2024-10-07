@@ -45,6 +45,7 @@ class DashboardCadastroController extends DashboardController
     $this->visao->variavel('titulo', 'Cadastro');
     $this->visao->variavel('pagCadastro', true);
     $this->visao->variavel('pagCadastroSucesso', true);
+    $this->visao->variavel('paginaMenuLateral', 'cadastro');
     $this->visao->renderizar('/cadastro/sucesso');
   }
 

@@ -1,7 +1,9 @@
 <div class="p-4 w-full h-full">
-  <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 shadow rounded-lg">
-    <div class="sm:mx-auto sm:w-full w-full flex justify-center">
-      <a href="/login"><img class="mx-auto h-10 w-auto" src="/img/luminaOn.png" alt=""></a>
+  <div class="border border-slate-300 flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 shadow rounded-lg bg-white">
+    <div class="w-full justify-center flex items-center">
+      <a href="/login" class="w-full justify-center flex items-center">
+        <img src="./img/360help-branco.png" class="w-44">
+      </a>
     </div>
     <div class="mt-10 sm:mx-auto flex flex-col gap-4">
       <div class="my-10 w-full flex gap-4 justify-start">
@@ -21,7 +23,7 @@
       </p>
 
       <p class="break-words">
-        Caso tenha dúvidas, entre em contato com nossa equipe de suporte através do e-mail <span class="underline">suporte@luminaon.com.br</span>.
+        Caso tenha dúvidas, entre em contato com nossa equipe de suporte através do e-mail <span class="underline">suporte@360help.com.br</span>.
       </p>
     </div>
   </div>

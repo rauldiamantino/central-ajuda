@@ -1,4 +1,4 @@
-<div class="w-full min-h-full flex flex-col bg-white p-4 hidden adicionar-fundo">
+<div class="w-full min-h-full flex flex-col p-4 hidden adicionar-fundo">
   <h2 class="relative text-2xl font-semibold mb-4">
     Adicionar
     <span class="text-gray-400 font-light italic hover:underline text-sm"><a href="<?php echo subdominioDominio($this->usuarioLogado['subdominio']); ?>/artigo/<?php echo $artigoId ?>" target="_blank">(Artigo #<?php echo $artigoId; ?>)</a></span>
@@ -6,7 +6,7 @@
   <div class="w-full lg:w-1/2">
   <?php // Adicionar texto ?>
   <?php if ($tipo == 1) { ?>
-    <div class="border border-slate-200 p-4 md:w-full rounded-lg shadow editor-container modal-conteudo-texto-adicionar">
+    <div class="border border-slate-300 p-4 md:w-full rounded-lg shadow editor-container modal-conteudo-texto-adicionar bg-white">
       <form method="POST" action="/d/<?php echo $this->usuarioLogado['empresaId'] ?>/conteudo" class="flex flex-col items-end gap-2 editor-container__editor" enctype="multipart/form-data">
         <input type="hidden" name="tipo" value="1">
         <input type="hidden" name="artigo_id" value="<?php echo $artigoId ?>">
@@ -40,7 +40,7 @@
 
   <?php // Adicionar imagem ?>
   <?php if ($tipo == 2) { ?>
-    <div class="border border-slate-200 p-4 md:w-full rounded-lg shadow modal-conteudo-imagem-adicionar">
+    <div class="border border-slate-300 p-4 md:w-full rounded-lg shadow modal-conteudo-imagem-adicionar bg-white">
       <form method="POST" action="/d/<?php echo $this->usuarioLogado['empresaId'] ?>/conteudo" class="flex flex-col items-end gap-2 form-conteudo-imagem-adicionar" enctype="multipart/form-data" data-artigo-id=<?php echo $artigoId ?> data-empresa-id=<?php echo $empresaId ?>>
         <input type="hidden" name="artigo_id" value="<?php echo $artigoId ?>">
         <input type="hidden" name="tipo" value="2">
@@ -85,7 +85,7 @@
 
   <?php // Adicionar vídeo ?>
   <?php if ($tipo == 3) { ?>
-    <div class="border border-slate-200 p-4 md:w-full rounded-lg shadow modal-conteudo-video-adicionar">
+    <div class="border border-slate-300 p-4 md:w-full rounded-lg shadow modal-conteudo-video-adicionar bg-white">
       <form method="POST" action="/d/<?php echo $this->usuarioLogado['empresaId'] ?>/conteudo" class="flex flex-col items-end gap-2" enctype="multipart/form-data">
         <input type="hidden" name="artigo_id" value="<?php echo $artigoId ?>">
         <input type="hidden" name="tipo" value="3">

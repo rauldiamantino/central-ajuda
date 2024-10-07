@@ -1,10 +1,10 @@
 <?php if (isset($usuarios[0]) and is_array($usuarios[0])) { ?>
-  <div class="relative p-4 w-full min-h-full flex flex-col bg-white">
-    <div class="pb-4 w-full flex gap-10 items-center">
+  <div class="relative p-4 w-full min-h-full flex flex-col">
+    <div class="pb-4 w-full flex justify-between items-start gap-10 sm:items-center">
       <h2 class="text-2xl font-semibold">Usuários</h2>
       <div class="w-max">
-        <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/usuario/adicionar" class="w-full flex gap-2 items-center justify-end text-black text-sm text-sm hover:underline">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+        <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/usuario/adicionar" class="w-full flex gap-2 bg-green-800 py-1 px-3 rounded-md items-center justify-center font-light text-white text-sm hover:bg-green-900">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
           </svg>
           Adicionar

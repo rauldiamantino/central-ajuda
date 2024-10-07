@@ -115,6 +115,7 @@ class DashboardArtigoController extends DashboardController
     $this->visao->variavel('intervaloInicio', $intervaloInicio);
     $this->visao->variavel('intervaloFim', $intervaloFim);
     $this->visao->variavel('titulo', 'Artigos');
+    $this->visao->variavel('paginaMenuLateral', 'artigos');
     $this->visao->renderizar('/artigo/index');
   }
 
@@ -238,6 +239,7 @@ class DashboardArtigoController extends DashboardController
     $this->visao->variavel('conteudos', $conteudos);
     $this->visao->variavel('categorias', $categorias);
     $this->visao->variavel('titulo', 'Editar artigo');
+    $this->visao->variavel('paginaMenuLateral', 'artigos');
     $this->visao->renderizar('/artigo/editar/index');
   }
 
@@ -282,6 +284,7 @@ class DashboardArtigoController extends DashboardController
     $this->visao->variavel('usuarioId', $this->usuarioLogado['id']);
     $this->visao->variavel('categorias', $categorias);
     $this->visao->variavel('titulo', 'Adicionar artigo');
+    $this->visao->variavel('paginaMenuLateral', 'artigos');
     $this->visao->renderizar('/artigo/adicionar');
   }
 
