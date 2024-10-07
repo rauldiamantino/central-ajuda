@@ -151,7 +151,7 @@ class Roteador
         $sucesso = false;
       }
       elseif ($empresaAtivo == INATIVO and $usuarioLogado['padrao'] != USUARIO_SUPORTE) {
-        $this->sessaoUsuario->definir('erro', 'Empresa desativada');
+        $this->sessaoUsuario->definir('erro', 'Acesso não autorizado, por favor, entre em contato conosco através do e-mail <span class="font-bold">suporte@360help.com.br</span>');
         $sucesso = false;
       }
 
