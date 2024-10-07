@@ -1,20 +1,20 @@
 <?php if (isset($categorias[0]) and is_array($categorias[0])) { ?>
   <div class="relative p-4 w-full min-h-full flex flex-col">
-    <div class="pb-4 w-full flex flex-col sm:flex-row items-start gap-10 sm:items-center">
+    <div class="pb-4 w-full flex flex-col sm:flex-row justify-between items-start gap-10 sm:items-center">
       <h2 class="text-2xl font-semibold">Categorias</h2>
       <div class="w-max flex gap-6 items-center rounded-md">
-        <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/categoria/adicionar" class="w-full flex gap-2 items-center justify-center text-black text-sm text-sm hover:underline">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
-          </svg>
-          Adicionar
-        </a>
         <button type="button" class="w-full flex gap-2 items-center justify-end text-black text-sm text-sm hover:underline" onclick="buscarCategorias()">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M11.5 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L11 2.707V14.5a.5.5 0 0 0 .5.5m-7-14a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L4 13.293V1.5a.5.5 0 0 1 .5-.5"/>
           </svg>
           Reorganizar
         </button>
+        <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/categoria/adicionar" class="w-full flex gap-2 bg-green-800 py-1 px-3 rounded-md items-center justify-center font-light text-white text-sm hover:bg-green-900">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+          </svg>
+          Adicionar
+        </a>
       </div>
     </div>
 

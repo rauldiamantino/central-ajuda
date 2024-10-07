@@ -63,20 +63,6 @@
           </svg>
           <div class="w-full flex gap-2 justify-between items-center">
             <span class="pl-1">Empresa</span>
-            <?php if ($this->usuarioLogado['empresaAtivo'] == INATIVO) { ?>
-              <div class="text-red-800">
-                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 16 16">
-                  <circle cx="8" cy="8" r="8"/>
-                </svg>
-              </div>
-            <?php } ?>
-            <?php if ($this->usuarioLogado['empresaAtivo'] == ATIVO) { ?>
-              <div class="text-green-800">
-                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 16 16">
-                  <circle cx="8" cy="8" r="8"/>
-                </svg>
-              </div>
-            <?php } ?>
           </div>
         </div>
       </a>

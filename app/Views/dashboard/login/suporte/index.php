@@ -10,22 +10,10 @@
             <?php echo $linha['subdominio'] ?>
 
             <?php if ($linha['ativo'] == ATIVO) { ?>
-              <div class="flex items-center gap-2">
-                <span class="text-green-800">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 16 16">
-                    <circle cx="8" cy="8" r="8"/>
-                  </svg>
-                </span>
-              </div>
+              <span class="px-3 py-1 bg-green-50 text-green-800 text-xs rounded-full">Ativo</span>
             <?php } ?>
             <?php if ($linha['ativo'] == INATIVO) { ?>
-              <div class="flex items-center gap-2">
-                <span class="text-red-800">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 16 16">
-                    <circle cx="8" cy="8" r="8"/>
-                  </svg>
-                </span>
-              </div>
+              <span class="px-3 py-1 bg-red-50 text-red-800 text-xs rounded-full">Inativo</span>
             <?php } ?>
           </a>
         <?php endforeach; ?>
