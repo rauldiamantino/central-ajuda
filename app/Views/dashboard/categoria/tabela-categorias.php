@@ -59,7 +59,7 @@
                     <?php } ?>
                     <?php if ($subLinha == 0) { ?>
                       <div class="flex items-center gap-2">
-                        <span class="px-3 py-1 bg-red-50 text-red-600 text-xs rounded-full">Ativo</span>
+                        <span class="px-3 py-1 bg-red-50 text-red-600 text-xs rounded-full">Inativo</span>
                       </div>
                     <?php } ?>
                   </td>
