@@ -124,7 +124,7 @@ class DashboardEmpresaController extends DashboardController
           $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
         }
 
-        $this->redirecionarSucesso('/dashboard/' . $this->usuarioLogado['empresaId'] . '/empresa/editar', 'Assinatura reprocessada com sucesso<br> Status: ' . strtoupper($status));
+        $this->redirecionarSucesso('/dashboard/' . $this->usuarioLogado['empresaId'] . '/empresa/editar', 'Assinatura reprocessada com sucesso');
       }
     }
 
