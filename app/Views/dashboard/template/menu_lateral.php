@@ -1,11 +1,10 @@
 <?php $paginaSelecionada = $paginaMenuLateral ?? ''; ?>
 
-<asside class="fixed top-0 left-0 z-20 transform -translate-x-full transition-transform duration-100 lg:translate-x-0 border-r border-slate-200 flex flex-col justify-start bg-gray-800 w-80 md:w-96 lg:w-72 h-screen overflow-hidden dashboard-menu-lateral">
-  <div class="mb-2 w-full px-8 py-6 flex justify-between items-center text-gray-400">
-    <!-- <a href="<?php echo subdominioDominio($this->usuarioLogado['subdominio']); ?>" target="_blank"><img src="/img/logo-transparente-branco.png" alt="luminaOn" class="w-44"></a> -->
+<asside class="fixed top-0 left-0 z-20 transform -translate-x-full transition-transform duration-100 xl:translate-x-0 border-r border-slate-200 flex flex-col justify-start bg-gray-800 w-80 md:w-96 lg:w-72 h-screen overflow-hidden dashboard-menu-lateral">
+  <div class="mb-2 w-full px-8 py-8 flex justify-between items-center text-gray-400">
     <a href="/login"><img src="/img/logo-transparente-branco.png" alt="luminaOn" class="w-44"></a>
 
-    <button class="h-max w-max lg:hidden btn-dashboard-menu-lateral-fechar">
+    <button class="h-max w-max xl:hidden btn-dashboard-menu-lateral-fechar">
       <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="currentColor"><path d="m287-446.67 240 240L480-160 160-480l320-320 47 46.67-240 240h513v66.66H287Z"/></svg>
     </button>
   </div>
@@ -79,16 +78,5 @@
         </button>
       </li>
     <?php } ?>
-    <li class="px-4 hover:bg-gray-700 rounded-lg cursor-pointer flex justify-between group">
-      <button type="button"onclick="window.location.href='/logout'" class="w-full p-2">
-        <div class="flex items-center gap-3 text-red-500">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z"/>
-            <path fill-rule="evenodd" d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z"/>
-          </svg>
-          <span>Sair</span>
-        </div>
-      </button>
-    </li>
   </ul>
 </asside>

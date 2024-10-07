@@ -60,7 +60,14 @@ $nivelAcesso = [
   </div>
   <div class="w-full flex gap-4 justify-between">
     <div class="flex gap-4">
-      <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/usuarios" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-6 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Voltar</a>
+      <?php
+      $urlVoltar = '/dashboard/' . $this->usuarioLogado['empresaId'] . '/usuarios';
+
+      if ($usuario['Usuario.nivel'] == USUARIO_COMUM) {
+        $urlVoltar = '/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigos';
+      }
+      ?>
+      <a href="<?php echo $urlVoltar; ?>" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-6 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Voltar</a>
       <button type="submit" class="flex gap-2 items-center justify-center py-2 px-6 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg">Gravar</button>
     </div>
   </div>

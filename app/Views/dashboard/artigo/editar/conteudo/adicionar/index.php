@@ -1,4 +1,4 @@
-<div class="w-full min-h-full flex flex-col bg-slate-200 p-4 hidden adicionar-fundo">
+<div class="w-full min-h-full flex flex-col p-4 hidden adicionar-fundo">
   <h2 class="relative text-2xl font-semibold mb-4">
     Adicionar
     <span class="text-gray-400 font-light italic hover:underline text-sm"><a href="<?php echo subdominioDominio($this->usuarioLogado['subdominio']); ?>/artigo/<?php echo $artigoId ?>" target="_blank">(Artigo #<?php echo $artigoId; ?>)</a></span>

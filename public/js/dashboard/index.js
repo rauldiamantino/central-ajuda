@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const menuLateral = document.querySelector('.dashboard-menu-lateral')
   const btnMenuLateral = document.querySelector('.btn-dashboard-menu-lateral')
   const btnMenuLateralFechar = document.querySelector('.btn-dashboard-menu-lateral-fechar')
+  const btnMenuTopoUsuario = document.querySelector('.btn-menu-topo-usuario')
+  const menuTopoUsuario = document.querySelector('.menu-topo-usuario')
 
   if (notificacaoErro) {
     setTimeout(() => fecharNotificacao(notificacaoErro), 5000)
@@ -60,6 +62,12 @@ document.addEventListener('DOMContentLoaded', function() {
     })
   }
 
+  if (btnMenuTopoUsuario) {
+    btnMenuTopoUsuario.addEventListener('click', () => {
+      menuTopoUsuarioToggle(menuTopoUsuario)
+    })
+  }
+
   removerAutocomplete()
   setTimeout(() => window.scrollTo({top: 0, left: 0, behavior: 'smooth'}), 60)
 
@@ -76,6 +84,16 @@ const menuLateralToggle = (menuLateral) => {
   else if (! menuLateral.classList.contains('-translate-x-full') && menuLateral.classList.contains('translate-x-0')) {
     menuLateral.classList.remove('translate-x-0')
     menuLateral.classList.add('-translate-x-full')
+  }
+}
+
+const menuTopoUsuarioToggle = (menuTopoUsuario) => {
+
+  if (menuTopoUsuario.classList.contains('hidden')) {
+    menuTopoUsuario.classList.remove('hidden')
+  }
+  else if (! menuTopoUsuario.classList.contains('hidden')) {
+    menuTopoUsuario.classList.add('hidden')
   }
 }
 
