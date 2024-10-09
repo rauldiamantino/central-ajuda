@@ -14,7 +14,6 @@ use app\Controllers\PublicoArtigoController;
 use app\Controllers\PublicoBuscaController;
 use app\Controllers\PublicoCategoriaController;
 use app\Controllers\PublicoController;
-use app\Controllers\Components\PagamentoStripeComponent;
 use app\Controllers\Components\DatabaseFirebaseComponent;
 use app\Controllers\Components\AssinaturaReceberComponent;
 use DateTime;
@@ -375,7 +374,7 @@ class Roteador
       'GET:/buscar' => [PublicoBuscaController::class, 'buscar'],
 
       // Dashboard
-      'GET:/dashboard/{empresaId}' => [DashboardController::class, 'dashboardVer'],
+      // 'GET:/dashboard/{empresaId}' => [DashboardController::class, 'dashboardVer'],
       'GET:/dashboard/{empresaId}/ajustes' => [DashboardAjusteController::class, 'ajustesVer'],
       'GET:/dashboard/{empresaId}/artigos' => [DashboardArtigoController::class, 'artigosVer'],
       'GET:/dashboard/{empresaId}/artigo/editar/{id}' => [DashboardArtigoController::class, 'artigoEditarVer'],
