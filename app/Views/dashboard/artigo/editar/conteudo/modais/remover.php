@@ -15,8 +15,8 @@
       </div>
     </div>
   </div>
-  <div class="mt-4 w-full flex flex-col sm:flex-row gap-3 font-semibold text-xs sm:justify-end justify-center">
-    <button type="button" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-gray-700 rounded-lg modal-conteudo-btn-cancelar w-full">Voltar</button>
-    <button type="button" class="flex gap-2 items-center justify-center py-2 px-3 bg-red-800 hover:bg-red-600 text-white rounded-lg w-full modal-conteudo-btn-remover">Remover</button>
+  <div class="mt-4 w-full flex gap-2 justify-end">
+    <button type="button" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?> modal-conteudo-btn-cancelar">Voltar</button>
+    <button type="button" class="<?php echo CLASSES_DASH_BUTTON_REMOVER; ?> modal-conteudo-btn-remover">Remover</button>
   </div>
 </dialog>

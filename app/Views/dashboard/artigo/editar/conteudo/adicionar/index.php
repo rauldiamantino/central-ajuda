@@ -61,7 +61,7 @@
             </svg>
             <span class="ml-2 text-gray-700 conteudo-txt-imagem-adicionar-escolher">Escolher Imagem</span>
           </button>
-          <div class="relative flex flex-col gap-2 w-full h-48 hidden bloco-imagem">
+          <div class="relative flex flex-col gap-2 w-full min-h-48 hidden bloco-imagem">
             <img src="" class="object-cover w-full h-full">
           </div>
         </div>
