@@ -2,7 +2,7 @@
   <div class="border border-slate-300 flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 shadow rounded-lg bg-white">
     <div class="w-full justify-center flex items-center">
       <a href="/login" class="w-full justify-center flex items-center">
-        <img src="./img/360help-branco.png" class="w-44">
+        <img src="./img/360help-branco.svg" class="w-44">
       </a>
     </div>
     <div class="mt-10 sm:mx-auto flex flex-col gap-4">

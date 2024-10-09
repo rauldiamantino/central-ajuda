@@ -2,7 +2,7 @@
   <div class="flex min-h-full flex-col justify-center px-6 py-12 md:px-10">
     <div class="w-full justify-center flex items-center">
       <div class="w-full justify-center flex items-center">
-        <img src="./img/360help-branco.png" class="w-44">
+        <img src="./img/360help-branco.svg" class="w-44">
       </div>
     </div>
     <div class="mt-10 w-full">

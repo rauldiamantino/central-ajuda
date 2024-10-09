@@ -6,7 +6,7 @@ $classeRestrito = $this->usuarioLogado['nivel'] == USUARIO_RESTRITO ? 'text-gray
 <asside class="fixed top-0 left-0 z-20 transform -translate-x-full transition-transform duration-100 xl:translate-x-0 border-r border-slate-200 flex flex-col justify-start bg-gray-800 w-80 md:w-96 lg:w-72 h-screen overflow-hidden dashboard-menu-lateral">
   <div class="mb-2 w-full py-5 flex justify-center gap-8 items-center text-gray-400">
     <a href="/login" class="w-max justify-center flex items-center">
-      <img src="./img/360help-transparente.png" class="w-44">
+      <img src="./img/360help-preto.svg" class="w-44">
     </a>
 
     <button class="h-max w-max xl:hidden btn-dashboard-menu-lateral-fechar">
