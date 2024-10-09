@@ -105,6 +105,7 @@ class PublicoCategoriaController extends PublicoController
     $this->visao->variavel('categorias', $categorias);
     $this->visao->variavel('artigos', $artigos);
     $this->visao->variavel('titulo', 'Artigos');
+    $this->visao->variavel('menuLateral', true);
     $this->visao->renderizar('/categoria/index');
   }
 }

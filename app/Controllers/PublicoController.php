@@ -51,12 +51,13 @@ class PublicoController extends Controller
                                                ->ordem(['Categoria.ordem' => 'ASC'])
                                                ->buscar($colunas);
 
-    if (isset($resultado[0]['Categoria.id']) and $this->subdominio) {
+    if ((int) $this->buscarAjuste('publico_cate_abrir_primeira') == ATIVO and isset($resultado[0]['Categoria.id']) and $this->subdominio) {
       $this->redirecionar('/categoria/' . $resultado[0]['Categoria.id']);
     }
 
     $this->visao->variavel('categorias', $resultado);
     $this->visao->variavel('titulo', 'Público');
+    $this->visao->variavel('menuLateral', false);
     $this->visao->renderizar('/index');
   }
 
@@ -67,7 +68,7 @@ class PublicoController extends Controller
     $telefone = intval($resultado[0]['Empresa.telefone'] ?? 0);
     $this->sessaoUsuario->definir('empresaTelefone', $telefone);
 
-    if ((int) $this->buscarAjuste('botao_whatsapp') == 1) {
+    if ((int) $this->buscarAjuste('botao_whatsapp') == ATIVO) {
       $this->telefone = $telefone;
     }
 

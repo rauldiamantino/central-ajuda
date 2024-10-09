@@ -22,7 +22,7 @@
     <?php } ?>
 
     <div class="w-full md:w-8/12 min-h-screen flex bg-white rounded">
-    <?php if (! isset($resultadoBuscar) or (isset($resultadoBuscar) and (int) $this->buscarAjuste('publico_cate_busca') == 1)) { ?>
+      <?php if ($menuLateral) { ?>
         <?php require_once 'template/menu_lateral.php' ?>
       <?php } ?>
 

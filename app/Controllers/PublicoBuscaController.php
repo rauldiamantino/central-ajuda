@@ -126,6 +126,12 @@ class PublicoBuscaController extends PublicoController
       }
     }
 
+    $menuLateral = false;
+
+    if ((int) $this->buscarAjuste('publico_cate_busca') == ATIVO) {
+      $menuLateral = true;
+    }
+
     $this->visao->variavel('categorias', $categorias);
     $this->visao->variavel('pagina', $pagina);
     $this->visao->variavel('artigosTotal', $artigosTotal);
@@ -136,6 +142,7 @@ class PublicoBuscaController extends PublicoController
     $this->visao->variavel('textoBusca', $textoBusca);
     $this->visao->variavel('resultadoBuscar', $resultadoBuscar);
     $this->visao->variavel('titulo', 'Buscar');
+    $this->visao->variavel('menuLateral', $menuLateral);
     $this->visao->renderizar('/busca/index');
   }
 }
