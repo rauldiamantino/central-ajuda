@@ -29,7 +29,7 @@ if ($this->usuarioLogado['padrao'] != USUARIO_SUPORTE or $this->sessaoUsuario->b
 
         <div class="w-full flex flex-col">
           <label for="usuario-editar-nivel" class="block text-sm font-medium text-gray-700">Nível de acesso</label>
-          <select id="usuario-editar-nivel" name="nivel" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" required>
+          <select id="usuario-editar-nivel" name="nivel" class="<?php echo CLASSES_DASH_INPUT; ?>" required>
             <?php foreach ($nivelAcesso as $chave => $linha) : ?>
               <option value="<?php echo $chave; ?>">
                 <?php echo $linha; ?>
@@ -40,7 +40,7 @@ if ($this->usuarioLogado['padrao'] != USUARIO_SUPORTE or $this->sessaoUsuario->b
         <?php if ($this->usuarioLogado['padrao'] == USUARIO_SUPORTE) { ?>
           <div class="w-full flex flex-col">
             <label for="usuario-editar-padrao" class="block text-sm font-medium text-gray-700">Tipo de usuário</label>
-            <select id="usuario-editar-padrao" name="padrao" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" required>
+            <select id="usuario-editar-padrao" name="padrao" class="<?php echo CLASSES_DASH_INPUT; ?>" required>
               <?php foreach ($tipoUsuario as $chave => $linha) : ?>
                 <option value="<?php echo $chave; ?>">
                   <?php echo $linha; ?>
@@ -56,19 +56,19 @@ if ($this->usuarioLogado['padrao'] != USUARIO_SUPORTE or $this->sessaoUsuario->b
     </div>
     <div class="w-full">
       <label for="usuario-editar-nome" class="block text-sm font-medium text-gray-700">Nome</label>
-      <input type="text" id="usuario-editar-nome" name="nome" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="" autofocus>
+      <input type="text" id="usuario-editar-nome" name="nome" class="<?php echo CLASSES_DASH_INPUT; ?>" value="" autofocus>
     </div>
     <div class="w-full">
       <label for="usuario-editar-email" class="block text-sm font-medium text-gray-700">Email</label>
-      <input type="text" id="usuario-editar-email" name="email" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="" required autocomplete="off">
+      <input type="text" id="usuario-editar-email" name="email" class="<?php echo CLASSES_DASH_INPUT; ?>" value="" required autocomplete="off">
     </div>
     <div class="w-full">
       <label for="usuario-editar-senha" class="block text-sm font-medium text-gray-700">Senha</label>
-      <input type="password" id="usuario-editar-senha" name="senha" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" required autocomplete="off">
+      <input type="password" id="usuario-editar-senha" name="senha" class="<?php echo CLASSES_DASH_INPUT; ?>" required autocomplete="off">
     </div>
   </div>
-  <div class="flex gap-4">
-    <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/usuarios" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-6 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Voltar</a>
-    <button type="submit" class="flex gap-2 items-center justify-center py-2 px-6 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg">Gravar</button>
+  <div class="flex gap-2">
+    <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/usuarios" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>">Voltar</a>
+    <button type="submit" class="<?php echo CLASSES_DASH_BUTTON_GRAVAR; ?>">Gravar</button>
   </div>
 </form>

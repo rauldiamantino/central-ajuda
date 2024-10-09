@@ -1,14 +1,14 @@
 <div class="border border-slate-300 w-full h-full shadow rounded-lg bg-white">
-  <div class="flex min-h-full flex-col justify-center px-6 py-12 md:px-10">
+  <div class="flex min-h-full flex-col justify-center p-6">
     <div class="w-full justify-center flex items-center">
       <div class="w-full justify-center flex items-center">
         <img src="./img/360help-branco.svg" class="w-44">
       </div>
     </div>
     <div class="mt-10 w-full">
-      <div class="flex flex-col gap-2">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
         <?php foreach($empresas as $chave => $linha): ?>
-          <a href="/login/suporte/<?php echo $linha['id']; ?>" class="px-4 py-2 border border-slate-200 hover:bg-slate-50 flex gap-5 justify-between rounded">
+          <a href="/login/suporte/<?php echo $linha['id']; ?>" class="w-full flex gap-2 justify-between hover:bg-gray-50 <?php echo CLASSES_DASH_INPUT; ?>">
             <?php echo $linha['subdominio'] ?>
 
             <?php if ($linha['ativo'] == ATIVO) { ?>
@@ -22,7 +22,7 @@
       </div>
     </div>
   </div>
-  <div class="p-4 w-full flex justify-center">
-    <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/artigos" class="border border-slate-300 w-full flex gap-2 items-center justify-center py-2 px-3 hover:bg-slate-50 text-sm text-gray-700 rounded-lg">Voltar</a>
+  <div class="p-6 w-full flex justify-start">
+    <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/artigos" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>">Voltar</a>
   </div>
 </div>

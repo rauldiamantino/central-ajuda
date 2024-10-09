@@ -12,7 +12,7 @@
       </div>
       <div class="w-full">
         <label for="empresa-editar-assinatura-id" class="w-full block text-sm font-medium text-gray-700">Nome</label>
-        <input type="text" id="empresa-editar-nome" name="nome" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="<?php echo $empresa['Empresa.nome']; ?>">
+        <input type="text" id="empresa-editar-nome" name="nome" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $empresa['Empresa.nome']; ?>">
       </div>
     </div>
 
@@ -20,17 +20,17 @@
     <?php if ($this->usuarioLogado['padrao'] == USUARIO_SUPORTE) { ?>
       <div class="w-full">
         <label for="empresa-editar-assinatura-id" class="w-full block text-sm font-medium text-gray-700">ID da assinatura</label>
-        <input type="text" id="empresa-editar-assinatura-id" name="assinatura_id" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="<?php echo $empresa['Empresa.assinatura_id']; ?>">
+        <input type="text" id="empresa-editar-assinatura-id" name="assinatura_id" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $empresa['Empresa.assinatura_id']; ?>">
       </div>
     <?php } ?>
 
     <div class="w-full">
       <label for="empresa-editar-cnpj" class="block text-sm font-medium text-gray-700">CNPJ</label>
-      <input type="text" id="empresa-editar-cnpj" name="cnpj" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="<?php echo $empresa['Empresa.cnpj']; ?>">
+      <input type="text" id="empresa-editar-cnpj" name="cnpj" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $empresa['Empresa.cnpj']; ?>">
     </div>
     <div class="w-full">
       <label for="empresa-editar-telefone" class="block text-sm font-medium text-gray-700">Telefone</label>
-      <input type="text" id="empresa-editar-telefone" name="telefone" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" placeholder="00 00000 0000" value="<?php echo $empresa['Empresa.telefone']; ?>">
+      <input type="text" id="empresa-editar-telefone" name="telefone" class="<?php echo CLASSES_DASH_INPUT; ?>" placeholder="00 00000 0000" value="<?php echo $empresa['Empresa.telefone']; ?>">
     </div>
     <div class="w-full items-start flex flex-col gap-2">
       <input type="hidden" name="logo" value="" class="url-imagem">
@@ -49,7 +49,7 @@
     </div>
   </div>
   <div class="flex gap-2">
-    <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/artigos" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-6 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Voltar</a>
-    <button type="submit" class="flex gap-2 items-center justify-center py-2 px-6 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg btn-gravar-empresa">Gravar</button>
+    <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/artigos" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>">Voltar</a>
+    <button type="submit" class="<?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> btn-gravar-empresa">Gravar</button>
   </div>
 </form>

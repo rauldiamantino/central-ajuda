@@ -14,7 +14,7 @@
 
           <div class="w-full">
             <label for="conteudo-editar-texto-titulo" class="block text-sm font-medium text-gray-700">Título</label>
-            <input type="text" id="conteudo-editar-texto-titulo" name="titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="<?php echo $conteudo['Conteudo.titulo'] ?>">
+            <input type="text" id="conteudo-editar-texto-titulo" name="titulo" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $conteudo['Conteudo.titulo'] ?>">
           </div>
           <div class="w-full editor-container_classic-editor">
             <textarea name="conteudo" class="border border-gray-300 w-full p-2 min-h-56 rounded-lg bg-slate-50 conteudo-texto-editar ckeditor" data-conteudo="<?php echo $conteudo['Conteudo.conteudo'] ?>"></textarea>
@@ -28,9 +28,9 @@
                 <span class="block text-sm font-medium text-gray-700">Ocultar título na publicação</span>
               </label>
             </div>
-            <div class="flex gap-4 bg-white">
-              <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/artigo/editar/<?php echo $conteudo['Conteudo.artigo_id'] ?>" class="py-2 px-6 w-full lg:w-max border border-slate-400 flex gap-2 items-center justify-center hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-texto-editar-btn-cancelar">Voltar</a>
-              <button type="submit" class="w-full lg:w-max flex gap-2 items-center justify-center py-2 px-6 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg modal-conteudo-texto-btn-enviar">Gravar</button>
+            <div class="flex gap-2 bg-white">
+              <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/artigo/editar/<?php echo $conteudo['Conteudo.artigo_id'] ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>modal-texto-editar-btn-cancelar">Voltar</a>
+              <button type="submit" class="w-full lg:w-max <?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> modal-conteudo-texto-btn-enviar">Gravar</button>
             </div>
           </div>
         </form>
@@ -48,7 +48,7 @@
 
           <div class="w-full">
             <label for="conteudo-editar-imagem-titulo" class="block text-sm font-medium text-gray-700">Título</label>
-            <input type="text" id="conteudo-editar-imagem-titulo" name="titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="<?php echo $conteudo['Conteudo.titulo'] ?>">
+            <input type="text" id="conteudo-editar-imagem-titulo" name="titulo" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $conteudo['Conteudo.titulo'] ?>">
           </div>
           <div class="w-full items-start flex flex-col gap-2">
             <input type="file" accept="image/*" id="conteudo-editar-imagem" class="hidden conteudo-editar-imagem-escolher">
@@ -72,9 +72,9 @@
                 <span class="block text-sm font-medium text-gray-700">Ocultar título na publicação</span>
               </label>
             </div>
-            <div class="flex gap-4">
-              <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/artigo/editar/<?php echo $conteudo['Conteudo.artigo_id'] ?>" class="py-2 px-6 w-full lg:w-max border border-slate-400 flex gap-2 items-center justify-center hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-conteudo-imagem-btn-cancelar">Voltar</a>
-              <button type="submit" class="w-full md-w-max flex gap-2 items-center justify-center py-2 px-6 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg modal-conteudo-imagem-btn-enviar">Gravar</button>
+            <div class="flex gap-2">
+              <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/artigo/editar/<?php echo $conteudo['Conteudo.artigo_id'] ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>modal-conteudo-imagem-btn-cancelar">Voltar</a>
+              <button type="submit" class="w-full md-w-max <?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> modal-conteudo-imagem-btn-enviar">Gravar</button>
             </div>
           </div>
         </form>
@@ -91,9 +91,9 @@
 
           <div class="w-full">
             <label for="conteudo-editar-video-titulo" class="block text-sm font-medium text-gray-700">Título</label>
-            <input type="text" id="conteudo-editar-video-titulo" name="titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="<?php echo $conteudo['Conteudo.titulo'] ?>">
+            <input type="text" id="conteudo-editar-video-titulo" name="titulo" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $conteudo['Conteudo.titulo'] ?>">
           </div>
-          <input type="text" name="url" id="conteudo-editar-video-url" class="border border-gray-300 w-full p-2 rounded-lg text-sm" placeholder="https://www.youtube.com/watch?v=00000000000" value="<?php echo $conteudo['Conteudo.url'] ?>">
+          <input type="text" name="url" id="conteudo-editar-video-url" class="<?php echo CLASSES_DASH_INPUT; ?>" placeholder="https://www.youtube.com/watch?v=00000000000" value="<?php echo $conteudo['Conteudo.url'] ?>">
           <div class="sticky bottom-0 py-4 w-full h-max flex flex-col lg:flex-row justify-between gap-4 bg-white">
             <div class="flex gap-4 bg-white">
               <label class="flex items-start gap-2 cursor-pointer">
@@ -103,9 +103,9 @@
                 <span class="block text-sm font-medium text-gray-700">Ocultar título na publicação</span>
               </label>
             </div>
-            <div class="flex gap-4">
-              <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/artigo/editar/<?php echo $conteudo['Conteudo.artigo_id'] ?>" class="py-2 px-6 w-full lg:w-max border border-slate-400 flex gap-2 items-center justify-center hover:bg-slate-50 text-gray-700 text-xs rounded-lg modal-conteudo-video-btn-cancelar">Voltar</a>
-              <button type="submit" class="w-full md-w-max flex gap-2 items-center justify-center py-2 px-6 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg modal-conteudo-video-btn-enviar">Gravar</button>
+            <div class="flex gap-2">
+              <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/artigo/editar/<?php echo $conteudo['Conteudo.artigo_id'] ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>modal-conteudo-video-btn-cancelar">Voltar</a>
+              <button type="submit" class="w-full md-w-max <?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> modal-conteudo-video-btn-enviar">Gravar</button>
             </div>
           </div>
         </form>

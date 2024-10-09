@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   })
 
-  editarTextoImagemEscolher.textContent = 'Alterar imagem'
+  editarTextoImagemEscolher.textContent = 'Alterar logo'
 
   if (formularioEditarEmpresa) {
     formularioEditarEmpresa.addEventListener('submit', async (event) => {

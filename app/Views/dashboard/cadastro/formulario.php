@@ -1,27 +1,27 @@
 <form class="space-y-6" action="/cadastro" method="POST">
-  <div>
+  <div class="flex flex-col gap-2">
     <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
-    <input id="email" name="email" type="email" autocomplete="email" required class="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-900 sm:text-sm sm:leading-6">
+    <input id="email" name="email" type="email" autocomplete="off" required class="<?php echo CLASSES_LOGIN_INPUT; ?>">
   </div>
 
-  <div>
+  <div class="flex flex-col gap-2">
     <label for="subdominio" class="block text-sm font-medium leading-6 text-gray-900">Como as pessoas vão te encontrar</label>
-    <input id="subdominio" name="subdominio" type="subdominio" autocomplete="subdominio" required class="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-900 sm:text-sm sm:leading-6" placeholder="subdominio">
+    <input id="subdominio" name="subdominio" type="subdominio" autocomplete="off" required class="<?php echo CLASSES_LOGIN_INPUT; ?>" placeholder="subdominio">
     <div class="pt-1 text-xs">Exemplo: <span class="text-sm font-bold text-red-800 underline">subdominio</span>.360help.com.br</div>
   </div>
 
-  <div>
+  <div class="flex flex-col gap-2">
     <label for="senha" class="block text-sm font-medium leading-6 text-gray-900">Senha</label>
-    <input id="senha" name="senha" type="password" autocomplete="current-senha" required class="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-900 sm:text-sm sm:leading-6">
+    <input id="senha" name="senha" type="password" autocomplete="off" required class="<?php echo CLASSES_LOGIN_INPUT; ?>">
   </div>
 
-  <div>
+  <div class="flex flex-col gap-2">
     <label for="confirmar_senha" class="block text-sm font-medium leading-6 text-gray-900">Confirmar senha</label>
-    <input id="confirmar_senha" name="confirmar_senha" type="password" autocomplete="current-senha" required class="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-900 sm:text-sm sm:leading-6">
+    <input id="confirmar_senha" name="confirmar_senha" type="password" autocomplete="off" required class="<?php echo CLASSES_LOGIN_INPUT; ?>">
   </div>
 
-  <div>
-    <button type="submit" class="flex w-full justify-center rounded-md bg-blue-900 px-3 p-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-900">Cadastrar</button>
+  <div class="flex flex-col gap-2">
+    <button type="submit" class="<?php echo CLASSES_LOGIN_BUTTON; ?>">Cadastrar</button>
   </div>
 
   <div class="border border-slate-300 p-5 rounded-md w-full flex flex-col items-center justify-center">

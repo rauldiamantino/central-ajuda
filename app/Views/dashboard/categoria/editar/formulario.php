@@ -12,17 +12,17 @@
     <div class="w-full flex flex-col gap-4">
       <div class="w-full">
         <label for="categoria-editar-titulo" class="block text-sm font-medium text-gray-700">Título</label>
-        <input type="text" id="categoria-editar-titulo" name="nome" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="<?php echo $categoria['Categoria.nome']; ?>" required autofocus>
+        <input type="text" id="categoria-editar-titulo" name="nome" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $categoria['Categoria.nome']; ?>" required autofocus>
       </div>
       <div class="w-full">
-        <textarea name="descricao" id="descricao" class="border border-gray-300 w-full p-2 h-56 rounded-lg"><?php echo $categoria['Categoria.descricao']; ?></textarea>
+        <textarea name="descricao" id="descricao" class="<?php echo CLASSES_DASH_TEXTAREA; ?>"><?php echo $categoria['Categoria.descricao']; ?></textarea>
       </div>
     </div>
   </div>
   <div class="w-full flex justify-between">
     <div class="flex gap-2">
-      <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/categorias" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-6 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Voltar</a>
-      <button type="submit" class="flex gap-2 items-center justify-center py-2 px-6 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg">Gravar</button>
+      <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/categorias" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>">Voltar</a>
+      <button type="submit" class="<?php echo CLASSES_DASH_BUTTON_GRAVAR; ?>">Gravar</button>
     </div>
   </div>
 </form>

@@ -20,7 +20,7 @@ $nivelAcesso = [
 
         <div class="w-full flex flex-col">
           <label for="usuario-editar-nivel" class="block text-sm font-medium text-gray-700">Nível de acesso</label>
-          <select id="usuario-editar-nivel" name="nivel" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" required>
+          <select id="usuario-editar-nivel" name="nivel" class="<?php echo CLASSES_DASH_INPUT; ?>" required>
             <?php foreach ($nivelAcesso as $chave => $linha) : ?>
               <option value="<?php echo $chave; ?>" <?php echo $chave == $usuario['Usuario.nivel'] ? 'selected' : ''; ?>>
                 <?php echo $linha; ?>
@@ -36,11 +36,11 @@ $nivelAcesso = [
     </div>
     <div class="w-full">
       <label for="usuario-editar-nome" class="block text-sm font-medium text-gray-700">Nome</label>
-      <input type="text" id="usuario-editar-nome" name="nome" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="<?php echo $usuario['Usuario.nome']; ?>" autofocus>
+      <input type="text" id="usuario-editar-nome" name="nome" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $usuario['Usuario.nome']; ?>" autofocus>
     </div>
     <div class="w-full">
       <label for="usuario-editar-email" class="block text-sm font-medium text-gray-700">Email</label>
-      <input type="text" id="usuario-editar-email" name="email" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="<?php echo $usuario['Usuario.email']; ?>" required>
+      <input type="text" id="usuario-editar-email" name="email" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $usuario['Usuario.email']; ?>" required>
     </div>
     <div>
       <div class="mt-4 text-red-800 text-xs">*Preencha os campos abaixo apenas para alterar a senha</div>
@@ -48,27 +48,27 @@ $nivelAcesso = [
         <div class="flex flex-col md:flex-row gap-4">
           <div class="w-full">
             <label for="usuario-editar-senha-atual" class="block text-sm font-medium text-gray-700">Senha atual</label>
-            <input type="password" id="usuario-editar-senha-atual" name="senha_atual" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="" autocomplete="off">
+            <input type="password" id="usuario-editar-senha-atual" name="senha_atual" class="<?php echo CLASSES_DASH_INPUT; ?>" value="" autocomplete="off">
           </div>
           <div class="w-full">
             <label for="usuario-editar-senha" class="block text-sm font-medium text-gray-700">Nova senha</label>
-            <input type="password" id="usuario-editar-senha" name="senha" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="" autocomplete="off">
+            <input type="password" id="usuario-editar-senha" name="senha" class="<?php echo CLASSES_DASH_INPUT; ?>" value="" autocomplete="off">
           </div>
         </div>
       </div>
     </div>
   </div>
   <div class="w-full flex gap-4 justify-between">
-    <div class="flex gap-4">
+    <div class="flex gap-2">
       <?php
       $urlVoltar = '/dashboard/' . $this->usuarioLogado['empresaId'] . '/usuarios';
 
-      if ($usuario['Usuario.nivel'] == USUARIO_COMUM) {
+      if ($this->usuarioLogado['nivel'] == USUARIO_COMUM) {
         $urlVoltar = '/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigos';
       }
       ?>
-      <a href="<?php echo $urlVoltar; ?>" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-6 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Voltar</a>
-      <button type="submit" class="flex gap-2 items-center justify-center py-2 px-6 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg">Gravar</button>
+      <a href="<?php echo $urlVoltar; ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>">Voltar</a>
+      <button type="submit" class="<?php echo CLASSES_DASH_BUTTON_GRAVAR; ?>">Gravar</button>
     </div>
   </div>
 </form>

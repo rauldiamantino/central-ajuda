@@ -20,13 +20,13 @@
             </label>
           </div>
           <div class="w-full">
-            <label for="artigo-editar-titulo" class="block text-sm font-medium text-gray-700">Título</label>
-            <input type="text" id="artigo-editar-titulo" name="titulo" class="mt-1 p-2 block w-full border border-gray-300 rounded-md" value="" required autofocus>
+            <label for="artigo-editar-titulo" class="">Título</label>
+            <input type="text" id="artigo-editar-titulo" name="titulo" class="<?php echo CLASSES_DASH_INPUT; ?>" value="" required autofocus>
           </div>
         </div>
         <div class="mb-4">
-          <label for="artigo-editar-categoria" class="block text-sm font-medium text-gray-700">Categoria</label>
-          <select id="artigo-editar-categoria" name="categoria_id" class="mt-1 p-2 block w-full border border-gray-300 rounded-md">
+          <label for="artigo-editar-categoria" class="">Categoria</label>
+          <select id="artigo-editar-categoria" name="categoria_id" class="<?php echo CLASSES_DASH_INPUT; ?>">
             <option value="0">Sem categoria</option>
             <?php foreach ($categorias as $chave => $linha) : ?>
               <option value="<?php echo $linha['Categoria.id']; ?>">
@@ -35,9 +35,9 @@
             <?php endforeach; ?>
           </select>
         </div>
-        <div class="flex gap-4">
-          <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/artigos" class="border border-slate-400 flex gap-2 items-center justify-center py-2 px-6 hover:bg-slate-50 text-xs text-gray-700 rounded-lg">Voltar</a>
-          <button type="submit" class="flex gap-2 items-center justify-center py-2 px-6 bg-blue-800 hover:bg-blue-600 text-white text-xs rounded-lg">Gravar</button>
+        <div class="flex gap-2">
+          <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/artigos" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>">Voltar</a>
+          <button type="submit" class="<?php echo CLASSES_DASH_BUTTON_GRAVAR; ?>">Gravar</button>
         </div>
       </form>
     </div>

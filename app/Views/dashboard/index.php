@@ -7,7 +7,7 @@
 
   <?php if (isset($pagLogin)) { ?>
     <main>
-      <div class="w-full h-screen flex justify-center items-center">
+      <div class="w-full min-h-screen flex justify-center items-center">
         <div class="relative p-4 w-full sm:w-[600px] h-max">
           <?php require_once $visao ?>
           <?php require_once 'login/notificacoes.php' ?>
@@ -19,7 +19,7 @@
 
   <?php if (isset($pagLoginSuporte)) { ?>
     <main>
-      <div class="w-full h-screen flex justify-center items-center">
+      <div class="w-full min-h-screen flex justify-center items-center">
         <div class="relative p-4 w-full sm:w-[600px] h-max">
           <?php require_once $visao ?>
           <?php require_once 'login/notificacoes.php' ?>
@@ -31,7 +31,7 @@
 
   <?php if (isset($pagCadastro)) { ?>
     <main>
-      <div class="w-full h-screen flex justify-center items-center">
+      <div class="w-full min-h-screen flex justify-center items-center">
         <div class="relative p-4 w-full sm:w-[600px] h-max">
           <?php require_once $visao ?>
           <?php require_once 'cadastro/notificacoes.php' ?>
@@ -48,7 +48,7 @@
     <?php require_once 'template/topo.php' ?>
     <div class="flex">
       <?php require_once 'template/menu_lateral.php' ?>
-      <main class="xl:ml-72 pt-5 lg:px-10 flex w-screen h-screen flex-col">
+      <main class="xl:ml-72 pt-5 lg:px-10 flex w-full h-screen flex-col">
         <?php require_once 'notificacoes.php' ?>
         <div class="w-full max-w-screen h-full h-max-full flex gap-6">
           <?php require_once $visao ?>

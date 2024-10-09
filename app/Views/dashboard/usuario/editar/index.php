@@ -36,7 +36,7 @@
 
               <div class="w-full p-2 flex flex-col sm:flex-row items-center sm:gap-6">
                 <span class="w-full sm:w-2/12 text-xs rounded"><?php echo strtoupper($chave) ?></span>
-                <div class="w-full sm:w-10/12 px-4 py-2 bg-slate-100 border border-slate-200 rounded">
+                <div class="<?php echo CLASSES_DASH_INPUT_BLOCK; ?>">
                   <span class="text-sm"><?php echo $linha ?? '' ?></span>
                 </div>
               </div>
@@ -45,7 +45,7 @@
 
           <div class="w-full p-2 flex flex-col sm:flex-row items-center sm:gap-6">
             <span class="w-full sm:w-2/12 text-xs rounded"><?php echo strtoupper('tentativas') ?></span>
-              <div class="w-full sm:w-10/12 px-4 py-2 bg-slate-100 border border-slate-200 rounded">
+              <div class="<?php echo CLASSES_DASH_INPUT_BLOCK; ?>">
             <span class="text-sm"><?php echo $usuario['Usuario.tentativas_login'] ?></span>
           </div>
         </div>
