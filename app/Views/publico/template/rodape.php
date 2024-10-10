@@ -1,4 +1,4 @@
-<footer class="w-full text-sm md:text-base h-24 px-4 flex justify-center items-center bg-white">
+<footer class="mt-14 w-full text-sm md:text-base px-4 py-16 flex justify-center items-center bg-white">
   <span>© 2024 360help. Todos os direitos reservados.</span>
 
   <?php if (isset($telefoneEmpresa) and $telefoneEmpresa > 0) { ?>

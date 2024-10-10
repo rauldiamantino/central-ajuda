@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const topoPublicoInverter = document.querySelector('.inverter')
   const menuLateral = document.querySelector('.publico-menu-lateral')
   const btnMenuLateral = document.querySelector('.btn-publico-menu-lateral')
+  const btnMenuLateralFechar = document.querySelector('.btn-publico-menu-lateral-fechar')
   const notificacaoErro = document.querySelector('.js-notificacao-erro-publico')
   const btnNotificacaoErroFechar = document.querySelector('.js-dashboard-notificacao-erro-btn-fechar')
 
@@ -23,6 +24,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
   if (btnMenuLateral) {
     btnMenuLateral.addEventListener('click', () => {
+      menuLateralToggle(menuLateral)
+    })
+  }
+
+  if (btnMenuLateralFechar) {
+    btnMenuLateralFechar.addEventListener('click', () => {
       menuLateralToggle(menuLateral)
     })
   }

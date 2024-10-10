@@ -3,11 +3,11 @@
 
 <?php require_once 'template/cabecalho.php' ?>
 
-<body class="min-h-screen max-w-screen flex flex-col md:gap-4 font-normal">
+<body class="min-h-screen max-w-screen flex flex-col font-normal bg-slate-100">
 
   <?php require_once 'template/topo.php' ?>
 
-  <main class="w-full min-h-screen flex flex-col gap-4 items-center">
+  <main class="p-4 w-full min-h-screen flex flex-col gap-4 items-center">
     <?php $notificacaoErro = $this->sessaoUsuario->buscar('erro'); ?>
 
     <?php // Notificação de erro ?>
@@ -21,7 +21,7 @@
       <?php $this->sessaoUsuario->apagar('erro'); ?>
     <?php } ?>
 
-    <div class="w-full md:w-8/12 min-h-screen flex bg-white rounded">
+    <div class="border border-slate-300 w-full lg:w-9/12 min-h-screen flex rounded-md shadow-lg bg-white">
       <?php if ($menuLateral) { ?>
         <?php require_once 'template/menu_lateral.php' ?>
       <?php } ?>

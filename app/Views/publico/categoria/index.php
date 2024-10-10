@@ -11,12 +11,12 @@
   </div>
 
   <?php if ($artigos) { ?>
-    <div class="py-12 border-b border-slate-200 publico-artigo-blocos">
-      <div class="flex flex-col gap-2 leading-8 publico-artigo-bloco">
-        <ul class="leading-9">
+    <div class="py-12">
+      <div class="flex flex-col gap-2 leading-8">
+        <ul class="leading-9 flex flex-col gap-2">
           <?php foreach ($artigos as $chave => $linha): ?>
             <li class="flex gap-2 items-center">
-              <a href="/artigo/<?php echo $linha['Artigo.id'] ?>" class="hover:underline"><?php echo $linha['Artigo.titulo'] ?></a>
+              <a href="/artigo/<?php echo $linha['Artigo.id'] ?>" class="border border-slate-200 w-full h-full px-4 py-2 hover:bg-slate-100 rounded-md"><?php echo $linha['Artigo.titulo'] ?></a>
 
               <?php if ($linha['Artigo.ativo'] == INATIVO) { ?>
                 <div class="text-red-800">
