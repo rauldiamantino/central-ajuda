@@ -12,8 +12,8 @@
 
     <?php // Notificação de erro ?>
     <?php if (isset($notificacaoErro) and $notificacaoErro) { ?>
-      <div class="pt-6 md:pt-0 px-6 md:px-12 w-full md:w-8/12 flex justify-center text-lg js-notificacao-erro-publico js-dashboard-notificacao-erro-btn-fechar">
-        <div class="p-4 text-red-800 bg-red-50 rounded-md">
+      <div class="fixed bottom-0 w-full z-30 flex justify-center items-center text-lg js-notificacao-erro-publico js-dashboard-notificacao-erro-btn-fechar">
+        <div class="w-full bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
           <?php echo $notificacaoErro ?>
         </div>
       </div>

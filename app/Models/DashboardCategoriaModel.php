@@ -177,6 +177,7 @@ class DashboardCategoriaModel extends Model
 
       $ativoCaracteres = 1;
       $nomeCaracteres = 255;
+      $descricaoCaracteres = 255;
       $empresaIdCaracteres = 999999999;
       $ordemCaracteres = 999999999;
 
@@ -186,6 +187,10 @@ class DashboardCategoriaModel extends Model
 
       if (strlen($campos['nome']) > $nomeCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('nome', 'caracteres', $nomeCaracteres);
+      }
+
+      if (strlen($campos['descricao']) > $descricaoCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('descricao', 'caracteres', $descricaoCaracteres);
       }
 
       if (strlen($campos['empresa_id']) > $empresaIdCaracteres) {

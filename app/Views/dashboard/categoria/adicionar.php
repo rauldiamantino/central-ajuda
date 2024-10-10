@@ -24,7 +24,8 @@
               <input type="text" id="categoria-editar-titulo" name="nome" class="<?php echo CLASSES_DASH_INPUT; ?>" value="" required autofocus>
             </div>
             <div class="w-full">
-              <textarea name="descricao" id="descricao" class="<?php echo CLASSES_DASH_TEXTAREA; ?>"></textarea>
+              <label for="descricao" class="block text-sm font-medium text-gray-700">Breve descrição</label>
+              <input name="descricao" id="descricao" class="<?php echo CLASSES_DASH_INPUT; ?>"></input>
             </div>
           </div>
         </div>
