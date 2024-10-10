@@ -32,6 +32,7 @@ class PublicoCategoriaController extends PublicoController
     $colunas = [
       'Categoria.id',
       'Categoria.nome',
+      'Categoria.descricao',
       'Categoria.ativo',
     ];
 
@@ -70,6 +71,7 @@ class PublicoCategoriaController extends PublicoController
         'Artigo.modificado',
         'Categoria.ativo',
         'Categoria.nome',
+        'Categoria.descricao',
       ];
 
       $uniArtigos = [

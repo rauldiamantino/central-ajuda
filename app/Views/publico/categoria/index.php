@@ -10,6 +10,10 @@
     <h2 class="text-4xl publico-artigo-titulo"><?php echo $categoriaNome ?></h2>
   </div>
 
+  <div class="pt-4 w-full italic text-lg font-extralight">
+    <?php echo $artigos[0]['Categoria.descricao'] ?? ''; ?>
+  </div>
+
   <?php if ($artigos) { ?>
     <div class="py-12">
       <div class="flex flex-col gap-2 leading-8">
