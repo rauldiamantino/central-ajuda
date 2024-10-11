@@ -1,22 +1,23 @@
 <?php
 namespace app\Roteamento;
+use DateTime;
+use app\Core\Cache;
+use app\Controllers\PublicoController;
+use app\Controllers\DashboardController;
+use app\Controllers\PaginaErroController;
+use app\Controllers\PublicoBuscaController;
+use app\Controllers\PublicoArtigoController;
+use app\Controllers\DashboardLoginController;
 use app\Controllers\DashboardAjusteController;
 use app\Controllers\DashboardArtigoController;
-use app\Controllers\DashboardCadastroController;
-use app\Controllers\DashboardCategoriaController;
-use app\Controllers\DashboardConteudoController;
-use app\Controllers\DashboardController;
 use app\Controllers\DashboardEmpresaController;
-use app\Controllers\DashboardLoginController;
 use app\Controllers\DashboardUsuarioController;
-use app\Controllers\PaginaErroController;
-use app\Controllers\PublicoArtigoController;
-use app\Controllers\PublicoBuscaController;
 use app\Controllers\PublicoCategoriaController;
-use app\Controllers\PublicoController;
+use app\Controllers\DashboardCadastroController;
+use app\Controllers\DashboardConteudoController;
+use app\Controllers\DashboardCategoriaController;
 use app\Controllers\Components\DatabaseFirebaseComponent;
 use app\Controllers\Components\AssinaturaReceberComponent;
-use DateTime;
 
 class Roteador
 {
@@ -106,7 +107,18 @@ class Roteador
       $valor = $subdominio;
     }
 
-    $buscarEmpresa = $dashboardEmpresa->buscarEmpresaSemId($coluna, $valor);
+    $cacheTempo = 60 * 60;
+    $cacheNome = 'roteador_subdominio-' . md5($coluna . $valor);
+
+    $buscarEmpresa = Cache::buscar($cacheNome);
+
+    if ($buscarEmpresa == null) {
+      $buscarEmpresa = $dashboardEmpresa->buscarEmpresaSemId($coluna, $valor);
+
+      if ($buscarEmpresa) {
+        Cache::definir($cacheNome, $buscarEmpresa, $cacheTempo);
+      }
+    }
 
     $empresaId = intval($buscarEmpresa[0]['Empresa.id'] ?? 0);
     $empresaAtivo = intval($buscarEmpresa[0]['Empresa.ativo'] ?? 0);
@@ -119,13 +131,9 @@ class Roteador
 
     $usuarioLogado = $this->sessaoUsuario->buscar('usuario');
 
-    // Sempre utiliza Empresa ID logada
-    if (substr($chaveRota, 0, 18) != 'GET:/login/suporte/{id}') {
-
-      // Resgata sessão do usuário e aplica empresaPadraoId
-      if (isset($usuarioLogado['empresaId']) and $this->rotaPublica($chaveRota) == false) {
-        $empresaId = (int) $usuarioLogado['empresaId'];
-      }
+    // Suporte acessando empresas
+    if (isset($usuarioLogado['padrao']) and $usuarioLogado['padrao'] == USUARIO_SUPORTE and $empresaId == 0) {
+      $empresaId = $usuarioLogado['empresaId'];
     }
 
     // Restrições de acesso por nível

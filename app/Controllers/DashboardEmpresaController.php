@@ -1,5 +1,6 @@
 <?php
 namespace app\Controllers;
+use app\Core\Cache;
 use app\Models\DashboardEmpresaModel;
 use app\Controllers\Components\PagamentoStripeComponent;
 
@@ -72,6 +73,7 @@ class DashboardEmpresaController extends DashboardController
 
     $colunas = [
       'Empresa.ativo',
+      'Empresa.subdominio',
     ];
 
     $empresa = $this->empresaModel->buscar($colunas);
@@ -83,6 +85,10 @@ class DashboardEmpresaController extends DashboardController
 
     $nomesCache = ['publico'];
     $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
+
+    // Cache sem EmpresaID
+    Cache::apagar('roteador_subdominio-' . md5('id' . $this->empresaPadraoId));
+    Cache::apagar('roteador_subdominio-' . md5('subdominio' . $this->usuarioLogado['subdominio']));
 
     $this->redirecionarSucesso('/dashboard/' . $this->usuarioLogado['empresaId'] . '/empresa/editar', 'Registro alterado com sucesso');
   }
@@ -129,6 +135,10 @@ class DashboardEmpresaController extends DashboardController
 
         $nomesCache = ['publico'];
         $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
+
+        // Cache sem EmpresaID
+        Cache::apagar('roteador_subdominio-' . md5('id' . $this->empresaPadraoId));
+        Cache::apagar('roteador_subdominio-' . md5('subdominio' . $this->usuarioLogado['subdominio']));
 
         $this->redirecionarSucesso('/dashboard/' . $this->usuarioLogado['empresaId'] . '/empresa/editar', 'Assinatura reprocessada com sucesso');
       }
@@ -222,6 +232,10 @@ class DashboardEmpresaController extends DashboardController
 
     $nomesCache = ['publico'];
     $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
+
+    // Cache sem EmpresaID
+    Cache::apagar('roteador_subdominio-' . md5('id' . $this->empresaPadraoId));
+    Cache::apagar('roteador_subdominio-' . md5('subdominio' . $this->usuarioLogado['subdominio']));
 
     return true;
   }

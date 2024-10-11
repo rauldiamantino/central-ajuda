@@ -23,7 +23,6 @@ class PublicoController extends Controller
 
     $this->cacheTempo = 60 * 60;
 
-    $this->obterSubdominio();
     $this->obterDadosEmpresa();
     $this->dashboardDategoriaModel = new DashboardCategoriaModel($this->usuarioLogado, $this->empresaPadraoId);
 
@@ -75,24 +74,22 @@ class PublicoController extends Controller
   private function obterDadosEmpresa(): void
   {
     $this->dashboardEmpresaModel = new DashboardEmpresaModel($this->usuarioLogado, $this->empresaPadraoId);
-    $resultado = $this->dashboardEmpresaModel->buscar(['Empresa.telefone']);
-    $telefone = intval($resultado[0]['Empresa.telefone'] ?? 0);
-    $this->sessaoUsuario->definir('empresaTelefone', $telefone);
 
-    if ((int) $this->buscarAjuste('botao_whatsapp') == ATIVO) {
-      $this->telefone = $telefone;
+    $colunas = [
+      'Empresa.logo',
+      'Empresa.telefone',
+    ];
+
+    $cacheNome = 'publico_dados-empresa';
+    $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
+
+    if ($resultado == null) {
+      $resultado = $this->dashboardEmpresaModel->buscar($colunas);
+      Cache::definir($cacheNome, $resultado, $this->cacheTempo, $this->empresaPadraoId);
     }
 
-    $this->dashboardEmpresaModel = new DashboardEmpresaModel($this->usuarioLogado, $this->empresaPadraoId);
-    $resultado = $this->dashboardEmpresaModel->buscar(['Empresa.logo']);
-    $logo = $resultado[0]['Empresa.logo'] ?? '';
-    $this->sessaoUsuario->definir('empresaLogo', $logo);
-
-    $this->logo = $logo;
-  }
-
-  private function obterSubdominio(): void
-  {
+    $this->logo = $resultado[0]['Empresa.logo'] ?? '';
+    $this->telefone = intval($resultado[0]['Empresa.telefone'] ?? 0);
     $this->subdominio = $this->sessaoUsuario->buscar('subdominio');
     $this->empresaId = $this->sessaoUsuario->buscar('empresaPadraoId');
   }
