@@ -110,6 +110,9 @@ class DashboardConteudoController extends DashboardController
       $this->redirecionarErro($urlRetorno, $resultado['erro']);
     }
     elseif ($_POST and isset($resultado['id'])) {
+      $nomesCache = ['publico-artigo_artigo', 'publico-artigo_conteudos'];
+      $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
+
       $this->redirecionarSucesso($urlRetorno, 'Conteúdo adicionado com sucesso');
     }
 
@@ -118,6 +121,9 @@ class DashboardConteudoController extends DashboardController
       $codigo = $resultado['erro']['codigo'] ?? 500;
       $this->responderJson($resultado, $codigo);
     }
+
+    $nomesCache = ['publico-artigo_artigo', 'publico-artigo_conteudos'];
+    $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
 
     $this->responderJson($resultado);
   }
@@ -160,6 +166,9 @@ class DashboardConteudoController extends DashboardController
       $this->redirecionarErro('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigo/editar/' . $id, $resultado['erro']);
     }
     elseif ($_POST and $resultado) {
+      $nomesCache = ['publico-artigo_artigo', 'publico-artigo_conteudos'];
+      $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
+
       $this->redirecionarSucesso('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigo/editar/' . $artigoId, 'Conteúdo editado com sucesso');
     }
     elseif ($_POST) {
@@ -179,6 +188,9 @@ class DashboardConteudoController extends DashboardController
       $this->responderJson($resultado, $codigo);
     }
 
+    $nomesCache = ['publico-artigo_artigo', 'publico-artigo_conteudos'];
+    $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
+
     $this->responderJson($resultado);
   }
 
@@ -192,6 +204,9 @@ class DashboardConteudoController extends DashboardController
       $codigo = $resultado['erro']['codigo'] ?? 500;
       $this->responderJson($resultado, $codigo);
     }
+
+    $nomesCache = ['publico-artigo_artigo', 'publico-artigo_conteudos'];
+    $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
 
     $this->sessaoUsuario->definir('ok', 'Conteúdo excluído com sucesso');
     $this->responderJson($resultado);

@@ -1,5 +1,6 @@
 <?php
 namespace app\Models;
+use app\Core\Cache;
 use app\Models\Model;
 
 class DashboardCategoriaModel extends Model

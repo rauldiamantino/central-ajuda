@@ -10,7 +10,6 @@ define('USUARIO_TOTAL', 1);
 define('USUARIO_RESTRITO', 2);
 define('ATIVO', 1);
 define('INATIVO', 0);
-
 // Login
 define('CLASSES_LOGIN_INPUT', 'block w-full border-0 px-6 py-4 text-gray-900 ring-1 ring-inset ring-gray-200 focus:ring-1 focus:ring-inset focus:ring-blue-800 sm:text-sm sm:leading-6 outline-none placeholder:text-gray-400 bg-white rounded-md shadow-sm');
 define('CLASSES_LOGIN_BUTTON', 'w-full flex justify-center bg-blue-900 px-6 py-4 text-sm font-semibold leading-6 text-white hover:bg-blue-500 rounded-md shadow-sm');

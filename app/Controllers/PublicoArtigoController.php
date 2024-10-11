@@ -2,6 +2,7 @@
 namespace app\Controllers;
 use app\Models\DashboardConteudoModel;
 use app\Models\DashboardArtigoModel;
+use app\Core\Cache;
 
 class PublicoArtigoController extends PublicoController
 {
@@ -50,10 +51,17 @@ class PublicoArtigoController extends PublicoController
       'Usuario',
     ];
 
-    $resultado = $this->artigoModel->condicao($condicoes)
-                                   ->uniao2($uniao, 'LEFT')
-                                   ->ordem(['Artigo.ordem' => 'ASC'])
-                                   ->buscar($colunas);
+    $cacheNome = 'publico-artigo_artigo-' . md5(serialize($condicoes));
+    $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
+
+    if ($resultado == null) {
+      $resultado = $this->artigoModel->condicao($condicoes)
+                                     ->uniao2($uniao, 'LEFT')
+                                     ->ordem(['Artigo.ordem' => 'ASC'])
+                                     ->buscar($colunas);
+
+      Cache::definir($cacheNome, $resultado, $this->cacheTempo, $this->empresaPadraoId);
+    }
 
     if (isset($resultado[0]['Artigo.id'])) {
       $artigo = $resultado;
@@ -81,9 +89,16 @@ class PublicoArtigoController extends PublicoController
         'Conteudo.ordem' => 'ASC',
       ];
 
-      $resultado = $this->conteudoModel->condicao($condConteudo)
-                                       ->ordem($ordConteudo)
-                                       ->buscar($colConteudo);
+      $cacheNome = 'publico-artigo_conteudos-' . md5(serialize($condConteudo));
+      $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
+
+      if ($resultado == null) {
+        $resultado = $this->conteudoModel->condicao($condConteudo)
+                                         ->ordem($ordConteudo)
+                                         ->buscar($colConteudo);
+
+        Cache::definir($cacheNome, $resultado, $this->cacheTempo, $this->empresaPadraoId);
+      }
 
       if (isset($resultado[0]['Conteudo.id'])) {
         $conteudos = $resultado;
@@ -110,10 +125,18 @@ class PublicoArtigoController extends PublicoController
         'Categoria',
       ];
 
-      $resultado = $this->artigoModel->condicao($condDemaisArtigos)
-                                     ->uniao2($uniDemaisArtigos, 'LEFT')
-                                     ->ordem(['Artigo.ordem' => 'ASC'])
-                                     ->buscar($colDemaisArtigos);
+
+      $cacheNome = 'publico-artigo_demais-artigos-' . md5(serialize($condDemaisArtigos));
+      $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
+
+      if ($resultado == null) {
+        $resultado = $this->artigoModel->condicao($condDemaisArtigos)
+                                       ->uniao2($uniDemaisArtigos, 'LEFT')
+                                       ->ordem(['Artigo.ordem' => 'ASC'])
+                                       ->buscar($colDemaisArtigos);
+
+        Cache::definir($cacheNome, $resultado, $this->cacheTempo, $this->empresaPadraoId);
+      }
 
       if (isset($resultado[0]['Artigo.id'])) {
         $demaisArtigos = $resultado;

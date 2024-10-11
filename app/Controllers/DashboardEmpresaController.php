@@ -81,6 +81,9 @@ class DashboardEmpresaController extends DashboardController
       $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
     }
 
+    $nomesCache = ['publico'];
+    $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
+
     $this->redirecionarSucesso('/dashboard/' . $this->usuarioLogado['empresaId'] . '/empresa/editar', 'Registro alterado com sucesso');
   }
 
@@ -123,6 +126,9 @@ class DashboardEmpresaController extends DashboardController
           $this->usuarioLogado['empresaAtivo'] = $empresa[0]['Empresa.ativo'];
           $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
         }
+
+        $nomesCache = ['publico'];
+        $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
 
         $this->redirecionarSucesso('/dashboard/' . $this->usuarioLogado['empresaId'] . '/empresa/editar', 'Assinatura reprocessada com sucesso');
       }
@@ -213,6 +219,9 @@ class DashboardEmpresaController extends DashboardController
     if (! isset($resultado['linhasAfetadas']) or $resultado['linhasAfetadas'] != 1) {
       return false;
     }
+
+    $nomesCache = ['publico'];
+    $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
 
     return true;
   }

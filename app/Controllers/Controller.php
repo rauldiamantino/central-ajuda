@@ -1,5 +1,6 @@
 <?php
 namespace app\Controllers;
+use app\Core\Cache;
 use app\Models\Model;
 
 class Controller
@@ -105,6 +106,21 @@ class Controller
     exit;
   }
 
+  protected function limparCacheTodos(array $nomes, int $empresaId)
+  {
+    if (empty($nomes)) {
+      return;
+    }
+
+    if (empty($empresaId)) {
+      return;
+    }
+
+    foreach ($nomes as $linha):
+      Cache::apagarTodos($linha, $empresaId);
+    endforeach;
+  }
+
   protected function acessoPermitido()
   {
     if (! isset($_SERVER['HTTP_REFERER'])) {
@@ -134,17 +150,37 @@ class Controller
   {
     $ajusteModel = new Model($this->usuarioLogado, $this->empresaPadraoId, 'Ajuste');
 
-    $condicoes = [
-      'Ajuste.nome' => $nome,
-    ];
-
     $colunas = [
+      'Ajuste.nome',
       'Ajuste.ativo',
     ];
 
-    $resultado = $ajusteModel->condicao($condicoes)
-                             ->buscar($colunas);
+    $cacheTempo = 60 * 60;
+    $cacheNome = 'ajustes';
+    $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
 
-    return intval($resultado[0]['Ajuste.ativo'] ?? 0);
+    if ($resultado == null) {
+      $resultado = $ajusteModel->buscar($colunas);
+      Cache::definir($cacheNome, $resultado, $cacheTempo, $this->empresaPadraoId);
+    }
+
+    foreach ($resultado as $linha):
+
+      if (! isset($linha['Ajuste.nome'])) {
+        continue;
+      }
+
+      if (! isset($linha['Ajuste.ativo'])) {
+        continue;
+      }
+
+      if ($linha['Ajuste.nome'] != $nome) {
+        continue;
+      }
+
+      return (int) $linha['Ajuste.ativo'];
+    endforeach;
+
+    return 0;
   }
 }

@@ -297,6 +297,9 @@ class DashboardArtigoController extends DashboardController
       $this->redirecionarErro('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigos', $resultado['erro']);
     }
     elseif ($_POST and isset($resultado['id'])) {
+      $nomesCache = ['publico-categoria', 'publico-artigo_demais-artigos'];
+      $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
+
       $this->redirecionarSucesso('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigo/editar/' . $resultado['id'], 'Artigo criado com sucesso');
     }
   }
@@ -355,6 +358,9 @@ class DashboardArtigoController extends DashboardController
       $this->redirecionarErro('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigos', $resultado['erro']);
     }
 
+    $nomesCache = ['publico-categoria', 'publico-artigo'];
+    $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
+
     $this->redirecionarSucesso('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigo/editar/' . $id, 'Registro alterado com sucesso');
   }
 
@@ -370,6 +376,9 @@ class DashboardArtigoController extends DashboardController
       $this->responderJson($resultado, $codigo);
     }
 
+    $nomesCache = ['publico-categoria', 'publico-artigo'];
+    $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
+
     $this->responderJson($resultado);
   }
 
@@ -383,6 +392,9 @@ class DashboardArtigoController extends DashboardController
       $codigo = $resultado['erro']['codigo'] ?? 500;
       $this->responderJson($resultado, $codigo);
     }
+
+    $nomesCache = ['publico-categoria', 'publico-artigo'];
+    $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
 
     $this->sessaoUsuario->definir('ok', 'Artigo excluído com sucesso');
 

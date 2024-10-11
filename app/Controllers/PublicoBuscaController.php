@@ -1,5 +1,6 @@
 <?php
 namespace app\Controllers;
+use app\Core\Cache;
 use app\Models\DashboardArtigoModel;
 use app\Models\DashboardCategoriaModel;
 
@@ -45,8 +46,15 @@ class PublicoBuscaController extends PublicoController
       $condicao['Artigo.titulo LIKE'] = '%' . $textoBusca . '%';
     }
 
-    $resultado = $this->artigoModel->condicao($condicao)
-                                   ->contar('Artigo.id');
+    $cacheNome = 'publico-busca_artigos-total-' . md5(serialize($condicao));
+    $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
+
+    if ($resultado == null) {
+      $resultado = $this->artigoModel->condicao($condicao)
+                                     ->contar('Artigo.id');
+
+      Cache::definir($cacheNome, $resultado, $this->cacheTempo, $this->empresaPadraoId);
+    }
 
     $artigosTotal = intval($resultado['total'] ?? 0);
 
@@ -79,11 +87,18 @@ class PublicoBuscaController extends PublicoController
 
       $limite = 10;
 
-      $resultado = $this->artigoModel->condicao($condicao)
-                                     ->uniao2($uniao2, 'LEFT')
-                                     ->ordem($ordem)
-                                     ->pagina($limite, $pagina)
-                                     ->buscar($colunas);
+      $cacheNome = 'publico-busca_resultado-buscar-' . md5(serialize($condicao));
+      $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
+
+      if ($resultado == null) {
+        $resultado = $this->artigoModel->condicao($condicao)
+                                       ->uniao2($uniao2, 'LEFT')
+                                       ->ordem($ordem)
+                                       ->pagina($limite, $pagina)
+                                       ->buscar($colunas);
+
+        Cache::definir($cacheNome, $resultado, $this->cacheTempo, $this->empresaPadraoId);
+      }
 
       if (isset($resultado[0]['Artigo.id'])) {
         $resultadoBuscar = $resultado;
@@ -117,9 +132,16 @@ class PublicoBuscaController extends PublicoController
         'Categoria.ordem' => 'ASC',
       ];
 
-      $resultado = $this->categoriaModel->condicao($condicoes)
-                                        ->ordem($ordem)
-                                        ->buscar($colunas);
+      $cacheNome = 'publico-busca_categorias-' . md5(serialize($condicoes));
+      $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
+
+      if ($resultado == null) {
+        $resultado = $this->categoriaModel->condicao($condicoes)
+                                          ->ordem($ordem)
+                                          ->buscar($colunas);
+
+        Cache::definir($cacheNome, $resultado, $this->cacheTempo, $this->empresaPadraoId);
+      }
 
       if (isset($resultado[0]['Categoria.id'])) {
         $categorias = $resultado;

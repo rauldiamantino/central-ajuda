@@ -1,5 +1,6 @@
 <?php
 namespace app\Controllers;
+use app\Core\Cache;
 use app\Models\DashboardCategoriaModel;
 use app\Models\DashboardEmpresaModel;
 use app\Controllers\ViewRenderer;
@@ -9,6 +10,7 @@ class PublicoController extends Controller
   protected $publicoModel;
   protected $dashboardDategoriaModel;
   protected $dashboardEmpresaModel;
+  protected $cacheTempo;
   protected $subdominio;
   protected $empresaId;
   protected $telefone;
@@ -18,6 +20,8 @@ class PublicoController extends Controller
   public function __construct()
   {
     parent::__construct();
+
+    $this->cacheTempo = 60 * 60;
 
     $this->obterSubdominio();
     $this->obterDadosEmpresa();
@@ -47,9 +51,16 @@ class PublicoController extends Controller
       'Categoria.ativo',
     ];
 
-    $resultado = $this->dashboardDategoriaModel->condicao($condicoes)
-                                               ->ordem(['Categoria.ordem' => 'ASC'])
-                                               ->buscar($colunas);
+    $cacheNome = 'publico-categoria_resultado-' . md5(serialize($condicoes));
+    $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
+
+    if ($resultado == null) {
+      $resultado = $this->dashboardDategoriaModel->condicao($condicoes)
+                                                 ->ordem(['Categoria.ordem' => 'ASC'])
+                                                 ->buscar($colunas);
+
+      Cache::definir($cacheNome, $resultado, $this->cacheTempo, $this->empresaPadraoId);
+    }
 
     if ((int) $this->buscarAjuste('publico_cate_abrir_primeira') == ATIVO and isset($resultado[0]['Categoria.id']) and $this->subdominio) {
       $this->redirecionar('/categoria/' . $resultado[0]['Categoria.id']);

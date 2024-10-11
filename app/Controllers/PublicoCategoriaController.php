@@ -1,5 +1,6 @@
 <?php
 namespace app\Controllers;
+use app\Core\Cache;
 use app\Models\DashboardArtigoModel;
 use app\Models\DashboardCategoriaModel;
 
@@ -40,9 +41,16 @@ class PublicoCategoriaController extends PublicoController
       'Categoria.ordem' => 'ASC',
     ];
 
-    $resultado = $this->categoriaModel->condicao($condicoes)
-                                      ->ordem($ordem)
-                                      ->buscar($colunas);
+    $cacheNome = 'publico-categoria_categorias-' . md5(serialize($condicoes));
+    $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
+
+    if ($resultado == null) {
+      $resultado = $this->categoriaModel->condicao($condicoes)
+                                        ->ordem($ordem)
+                                        ->buscar($colunas);
+
+      Cache::definir($cacheNome, $resultado, $this->cacheTempo, $this->empresaPadraoId);
+    }
 
     if (isset($resultado[0]['Categoria.id'])) {
       $categorias = $resultado;
@@ -82,10 +90,17 @@ class PublicoCategoriaController extends PublicoController
         'Artigo.ordem' => 'ASC',
       ];
 
-      $resultado = $this->artigoModel->condicao($condArtigos)
-                                     ->uniao2($uniArtigos, 'LEFT')
-                                     ->ordem($ordArtigos)
-                                     ->buscar($colArtigos);
+      $cacheNome = 'publico-categoria_artigos-' . md5(serialize($condArtigos));
+      $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
+
+      if ($resultado == null) {
+        $resultado = $this->artigoModel->condicao($condArtigos)
+                                       ->uniao2($uniArtigos, 'LEFT')
+                                       ->ordem($ordArtigos)
+                                       ->buscar($colArtigos);
+
+        Cache::definir($cacheNome, $resultado, $this->cacheTempo, $this->empresaPadraoId);
+      }
 
       if (isset($resultado[0]['Artigo.id'])) {
         $artigos = $resultado;
