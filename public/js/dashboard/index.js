@@ -93,18 +93,39 @@ const menuTopoUsuarioToggle = (menuTopoUsuario, menuTopoUsuarioCima, menuTopoUsu
 
   if (menuTopoUsuario.classList.contains('hidden')) {
     menuTopoUsuario.classList.remove('hidden')
+    document.addEventListener('click', menuTopoUsuarioFecharCliqueFora)
   }
-  else if (! menuTopoUsuario.classList.contains('hidden')) {
+  else {
     menuTopoUsuario.classList.add('hidden')
+    document.removeEventListener('click', menuTopoUsuarioFecharCliqueFora)
   }
+
+  alternarSetas(menuTopoUsuarioCima, menuTopoUsuarioBaixo)
+}
+
+const menuTopoUsuarioFecharCliqueFora = (e) => {
+  const menuTopoUsuario = document.querySelector('.menu-topo-usuario')
+  const btnMenuTopoUsuario = document.querySelector('.btn-menu-topo-usuario')
+  const menuTopoUsuarioCima = document.querySelector('.perfil-usuario-cima')
+  const menuTopoUsuarioBaixo = document.querySelector('.perfil-usuario-baixo')
+
+  if (! menuTopoUsuario.contains(e.target) && ! btnMenuTopoUsuario.contains(e.target)) {
+    menuTopoUsuario.classList.add('hidden')
+    document.removeEventListener('click', menuTopoUsuarioFecharCliqueFora)
+
+    alternarSetas(menuTopoUsuarioCima, menuTopoUsuarioBaixo)
+  }
+}
+
+const alternarSetas = (menuTopoUsuarioCima, menuTopoUsuarioBaixo) => {
 
   if (menuTopoUsuarioCima.classList.contains('hidden')) {
     menuTopoUsuarioCima.classList.remove('hidden')
     menuTopoUsuarioBaixo.classList.add('hidden')
   }
-  else if (! menuTopoUsuarioCima.classList.contains('hidden')) {
-    menuTopoUsuarioBaixo.classList.remove('hidden')
+  else {
     menuTopoUsuarioCima.classList.add('hidden')
+    menuTopoUsuarioBaixo.classList.remove('hidden')
   }
 }
 
