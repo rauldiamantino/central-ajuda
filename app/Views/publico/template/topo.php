@@ -1,7 +1,7 @@
-<header class="<?php echo (int) $this->buscarAjuste('publico_topo_fixo') == 1 ? 'sticky' : '' ?> z-20 top-0 w-full min-h-32 flex justify-center items-center pb-2 pt-6 lg:pt-4 px-4 bg-slate-100 text-black transition duration-300 topo-publico">
-  <div class="w-full md:w-8/12 flex flex-col md:flex-row gap-2 justify-between">
-    <div class="w-full flex justify-between md:justify-start items-center gap-4 inverter transition-invert duration-300">
-      <a href="/"><img src="<?php echo $logo ?>" alt="" class="max-w-52"></a>
+<header class="border-b border-slate-100 <?php echo (int) $this->buscarAjuste('publico_topo_fixo') == 1 ? 'sticky' : '' ?> z-20 top-0 w-full h-20 flex justify-center items-center pb-2 pt-6 lg:py-4 px-4 md:px-6 md:gap-10 bg-white text-black transition duration-300 topo-publico">
+  <div class="w-full flex flex-col md:flex-row gap-6 justify-between">
+    <div class="md:w-max flex justify-between md:justify-start items-center gap-4 inverter transition-invert duration-300">
+      <a href="/"><img src="<?php echo $logo ?>" alt="" class="max-h-14"></a>
 
       <button class="w-max md:hidden btn-publico-menu-lateral">
         <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="current">
@@ -9,10 +9,13 @@
         </svg>
       </button>
     </div>
-    <div class="w-full md:w-8/12 flex gap-2">
-      <div class="w-full h-20 flex flex-col justify-center">
+    <div class="w-full lg:w-[500px] flex gap-2">
+      <div class="w-full flex flex-col justify-center">
         <?php require_once 'formulario-busca.php' ?>
       </div>
     </div>
+  </div>
+  <div class="hidden md:block w-max">
+    <?php require_once 'menu_login.php' ?>
   </div>
 </header>

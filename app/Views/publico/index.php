@@ -3,7 +3,7 @@
 
 <?php require_once 'template/cabecalho.php' ?>
 
-<body class="min-h-screen max-w-screen flex flex-col font-normal bg-slate-100">
+<body class="min-h-screen max-w-screen flex flex-col font-normal bg-white">
 
   <?php require_once 'template/topo.php' ?>
 

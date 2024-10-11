@@ -1,6 +1,6 @@
 <aside class="fixed z-40 md:z-10 inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transform-translate duration-100 md:static w-full md:max-w-80 min-h-full bg-white text-black overflow-y-auto publico-menu-lateral md:rounded-l-md">
   <nav class="relative h-full text-sm">
-    <button class="absolute right-0 pt-10 px-8 h-max w-max xl:hidden btn-publico-menu-lateral-fechar">
+    <button class="absolute right-0 pt-10 px-8 h-max w-max md:hidden btn-publico-menu-lateral-fechar">
       <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="currentColor"><path d="m287-446.67 240 240L480-160 160-480l320-320 47 46.67-240 240h513v66.66H287Z"/></svg>
     </button>
     <ul class="h-full py-10 border-r border-slate-200 px-4 flex flex-col">
