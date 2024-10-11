@@ -47,6 +47,7 @@ class PublicoController extends Controller
     $colunas = [
       'Categoria.id',
       'Categoria.nome',
+      'Categoria.descricao',
       'Categoria.ativo',
     ];
 
@@ -68,7 +69,8 @@ class PublicoController extends Controller
     $this->visao->variavel('categorias', $resultado);
     $this->visao->variavel('titulo', 'Público');
     $this->visao->variavel('menuLateral', false);
-    $this->visao->renderizar('/index');
+    $this->visao->variavel('inicio', true);
+    $this->visao->renderizar('/inicio/index');
   }
 
   private function obterDadosEmpresa(): void
