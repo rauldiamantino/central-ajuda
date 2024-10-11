@@ -1,5 +1,5 @@
 <div class="w-full flex flex-col px-6 md:px-12 py-14">
-  <div class="border-b border-slate-200 flex flex-col justify-between items-start gap-4 py-5 mb-10 publico-artigo-topo">
+  <div class="flex flex-col justify-between items-start gap-4 py-5 mb-10 publico-artigo-topo">
     <?php if ($textoBusca) { ?>
       <h2 class="text-4xl publico-artigo-titulo"> Exibindo resultados para "<?php echo $textoBusca ?>"</h2>
     <?php } ?>
@@ -9,7 +9,7 @@
   </div>
 
   <?php if ($resultadoBuscar) { ?>
-    <div class="flex flex-col gap-5 border-b border-slate-200">
+    <div class="flex flex-col gap-5">
       <?php foreach ($resultadoBuscar as $chave => $linha) : ?>
           <div class="mb-10 flex flex-col gap-2 publico-artigo-bloco">
             <?php if (isset($linha['Artigo.id']) and $linha['Artigo.id'] > 0) { ?>
