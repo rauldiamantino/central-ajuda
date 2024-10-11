@@ -10,7 +10,7 @@
     </div>
   </div>
 
-  <div class="flex flex-col gap-2">
+  <div class="w-full flex flex-col gap-2">
     <h3 class="font-light">Todas as categorias</h2>
     <div class="w-full h-max grid grid-cols-2 xl:grid-cols-3 justify-start gap-2">
       <?php foreach ($categorias as $chave => $linha): ?>
