@@ -87,7 +87,7 @@ class PublicoBuscaController extends PublicoController
 
       $limite = 10;
 
-      $cacheNome = 'publico-busca_resultado-buscar-' . md5(serialize($condicao));
+      $cacheNome = 'publico-busca_resultado-buscar-' . md5(serialize($textoBusca . $pagina));
       $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
 
       if ($resultado == null) {
