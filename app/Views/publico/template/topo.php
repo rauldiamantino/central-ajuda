@@ -19,6 +19,6 @@
     </div>
   </div>
   <div class="hidden md:block w-max">
-    <?php require_once 'menu_login.php' ?>
+    <?php require 'menu_login.php' ?>
   </div>
 </header>

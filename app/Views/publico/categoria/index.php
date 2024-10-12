@@ -1,4 +1,5 @@
 <?php $categoriaNome = $artigos[0]['Categoria.nome'] ?? ''; ?>
+
 <div class="w-full flex flex-col px-6 md:px-12 py-14">
   <div class="pb-6 border-b border-slate-200 flex gap-2 font-light text-sm publico-migalhas">
     <a href="/" class="hover:underline">Início</a>
@@ -6,7 +7,14 @@
     <span class="underline"><?php echo $categoriaNome ?></span>
   </div>
 
-  <div class="flex flex-col justify-between items-start gap-4 pt-10 publico-artigo-topo">
+  <div class="flex justify-start items-center gap-2 pt-10 publico-artigo-topo">
+
+    <?php if ($categoriaNome) { ?>
+      <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-tags" viewBox="0 0 16 16">
+        <path d="M3 2v4.586l7 7L14.586 9l-7-7zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586z"/>
+        <path d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1z"/>
+      </svg>
+    <?php } ?>
     <h2 class="text-4xl publico-artigo-titulo"><?php echo $categoriaNome ?></h2>
   </div>
 
