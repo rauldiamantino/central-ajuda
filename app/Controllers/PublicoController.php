@@ -51,12 +51,15 @@ class PublicoController extends Controller
       'Categoria.ativo',
     ];
 
+    $limite = 12;
+
     $cacheNome = 'publico-categoria_resultado-' . md5(serialize($condicoes));
     $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
 
     if ($resultado == null) {
       $resultado = $this->dashboardDategoriaModel->condicao($condicoes)
                                                  ->ordem(['Categoria.ordem' => 'ASC'])
+                                                 ->limite($limite)
                                                  ->buscar($colunas);
 
       Cache::definir($cacheNome, $resultado, $this->cacheTempo, $this->empresaPadraoId);

@@ -20,8 +20,18 @@
       <?php // Limpar erros ?>
       <?php $this->sessaoUsuario->apagar('erro'); ?>
     <?php } ?>
+    <?php
+    $bordaOk = false;
 
-    <div class="<?php echo isset($inicio) ? '' : 'border border-slate-300 shadow-lg ' ?>w-full lg:w-9/12 min-h-screen flex rounded-md bg-white">
+    if (isset($inicio) and (int) $this->buscarAjuste('publico_borda_inicio') == ATIVO) {
+      $bordaOk = true;
+    }
+
+    if (! isset($inicio) and (int) $this->buscarAjuste('publico_borda_artigo') == ATIVO) {
+      $bordaOk = true;
+    }
+    ?>
+    <div class="<?php echo $bordaOk ? 'border border-slate-300 shadow-lg ' : '' ?>w-full lg:w-9/12 min-h-screen flex rounded-md bg-white">
 
       <?php if ($menuLateral) { ?>
         <?php require_once 'template/menu_lateral.php' ?>

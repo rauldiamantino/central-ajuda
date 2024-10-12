@@ -20,6 +20,8 @@ class DashboardAjusteModel extends Model
       'publico_cate_busca',
       'publico_cate_abrir_primeira',
       'publico_topo_fixo',
+      'publico_borda_inicio',
+      'publico_borda_artigo',
     ];
 
     $total = 0;

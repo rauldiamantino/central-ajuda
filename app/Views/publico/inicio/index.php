@@ -1,4 +1,4 @@
-<div class="mx-auto w-full xl:w-8/12 flex flex-col items-center gap-20 px-6 py-12">
+<div class="mx-auto w-full xl:w-8/12 flex flex-col items-center gap-16 px-6 py-12">
 
   <div class="w-full flex flex-col items-start gap-6">
     <div class="flex flex-col gap-3">
@@ -11,13 +11,13 @@
   </div>
 
   <div class="w-full flex flex-col gap-2">
-    <h3 class="font-light">Todas as categorias</h2>
+    <h3 class="font-light">Principais tópicos...</h3>
     <div class="w-full h-max grid grid-cols-2 xl:grid-cols-3 justify-start gap-2">
       <?php foreach ($categorias as $chave => $linha): ?>
-        <a href="/categoria/<?php echo $linha['Categoria.id'] ?>">
-          <div class="border border-slate-200 hover:bg-slate-100 p-6 h-full rounded shadow">
-            <h3 class="text-lg font-semibold"><?php echo $linha['Categoria.nome'] ?></h2>
-            <div class="font-extralight"><?php echo $linha['Categoria.descricao'] ?></div>
+        <a href="/categoria/<?php echo $linha['Categoria.id'] ?>" class="group">
+          <div class="border border-slate-200 hover:bg-slate-100 p-6 h-full min-h-[200px] flex flex-col justify-between rounded shadow">
+            <h3 class="text-lg group-hover:underline"><?php echo $linha['Categoria.nome'] ?></h3>
+            <div class="font-extralight text-gray-400"><?php echo $linha['Categoria.descricao'] ?></div>
           </div>
         </a>
       <?php endforeach; ?>
