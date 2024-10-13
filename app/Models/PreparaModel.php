@@ -270,7 +270,7 @@ class PreparaModel
     $this->limparPropriedades();
 
     if (is_array($resultado) and ! isset($resultado['erro'])) {
-      return $this-> organizarResultado($resultado);
+      return $this->organizarResultado($resultado);
     }
 
     return $resultado;
@@ -292,6 +292,10 @@ class PreparaModel
         $campo = $partes[1];
         $registroAtual[ $tabela ][ $campo ] = $valor;
       endforeach;
+
+      if (empty($registroAtual)) {
+        continue;
+      }
 
       $array[] = $registroAtual;
     endforeach;
