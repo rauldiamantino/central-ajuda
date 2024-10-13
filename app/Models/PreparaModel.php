@@ -6,15 +6,15 @@ class PreparaModel
 {
   private $database;
   private $tabela;
-  private $select;
-  private $count;
-  private $joins;
-  private $ordem;
-  private $limite;
-  private $offset;
-  private $valores;
-  private $condicoesOr;
-  private $condicoesAnd;
+  private $sqlSelect;
+  private $sqlCount;
+  private $sqlJoin;
+  private $sqlOrder;
+  private $sqlLimit;
+  private $sqlOffset;
+  private $sqlValores;
+  private $sqlCondicoesOr;
+  private $sqlCondicoesAnd;
 
   public function __construct(string $tabela)
   {
@@ -51,7 +51,7 @@ class PreparaModel
     }
 
     if ($temp) {
-      $this->select = implode(', ', $temp);
+      $this->sqlSelect = implode(', ', $temp);
     }
 
     return $this;
@@ -67,12 +67,12 @@ class PreparaModel
 
     $tabela = $this->pluralizar($partes[0]);
     $tabelaCampo = $this->gerarBackticks($tabela, $partes[1]);
-    $this->count = 'SELECT COUNT(' . $tabelaCampo . ') AS `total` FROM ' .  $this->gerarBackticks($this->tabela);
+    $this->sqlCount = 'SELECT COUNT(' . $tabelaCampo . ') AS `total` FROM ' .  $this->gerarBackticks($this->tabela);
 
     return $this;
   }
 
-  public function adicionarJoin(array $params, string $tipo = 'INNER')
+  public function juntar(array $params, string $tipo = 'INNER')
   {
     $campoA = $params['campoA'] ?? '';
     $campoB = $params['campoB'] ?? '';
@@ -89,7 +89,7 @@ class PreparaModel
       return $this;
     }
 
-    $this->joins[] = $tipo . ' JOIN ' . $this->gerarBackticks($tabelaJoin) . ' ON ' . $campoA . ' = ' . $campoB;
+    $this->sqlJoin[] = $tipo . ' JOIN ' . $this->gerarBackticks($tabelaJoin) . ' ON ' . $campoA . ' = ' . $campoB;
 
     return $this;
   }
@@ -109,22 +109,22 @@ class PreparaModel
 
     if (is_array($valor)) {
       $placeholders = '(' . implode(', ', array_fill(0, count($valor), '?')) . ')';
-      $this->valores = array_merge($this->valores, $valor);
+      $this->sqlValores = array_merge($this->sqlValores, $valor);
     }
     else {
       $placeholders = '?';
-      $this->valores[] = $valor;
+      $this->sqlValores[] = $valor;
     }
 
     if ($tipo == 'AND') {
-      $this->condicoesAnd[] = $campo . $operador . $placeholders;
+      $this->sqlCondicoesAnd[] = $campo . $operador . $placeholders;
     }
     elseif ($tipo == 'OR') {
-      $this->condicoesOr[] = $campo . $operador . $placeholders;
+      $this->sqlCondicoesOr[] = $campo . $operador . $placeholders;
     }
   }
 
-  public function adicionarCondicao(array $params, string $tipo = 'AND')
+  public function condicao(array $params, string $tipo = 'AND')
   {
     if (isset($params[0]['campo'])) {
       foreach ($params as $linha):
@@ -138,7 +138,7 @@ class PreparaModel
     return $this;
   }
 
-  public function adicionarExists(array $params, string $tipo = 'AND')
+  public function exists(array $params, string $tipo = 'AND')
   {
     $tabela = $params['tabela'] ?? '';
     $tabela = $this->pluralizar($tabela);
@@ -152,16 +152,16 @@ class PreparaModel
     }
 
     if ($tipo == 'AND') {
-      $this->condicoesAnd[] = 'EXISTS (' . $subquery . ')';
+      $this->sqlCondicoesAnd[] = 'EXISTS (' . $subquery . ')';
     }
     elseif ($tipo == 'OR') {
-      $this->condicoesOr[] = 'EXISTS (' . $subquery . ')';
+      $this->sqlCondicoesOr[] = 'EXISTS (' . $subquery . ')';
     }
 
     return $this;
   }
 
-  public function adicionarNotExists(string $subquery, string $tipo = 'AND')
+  public function notExists(string $subquery, string $tipo = 'AND')
   {
     $tabela = $params['tabela'] ?? '';
     $tabela = $this->pluralizar($tabela);
@@ -175,16 +175,16 @@ class PreparaModel
     }
 
     if ($tipo === 'AND') {
-        $this->condicoesAnd[] = 'NOT EXISTS (' . $subquery . ')';
+        $this->sqlCondicoesAnd[] = 'NOT EXISTS (' . $subquery . ')';
     }
     elseif ($tipo === 'OR') {
-        $this->condicoesOr[] = 'NOT EXISTS (' . $subquery . ')';
+        $this->sqlCondicoesOr[] = 'NOT EXISTS (' . $subquery . ')';
     }
 
     return $this;
   }
 
-  public function adicionarOrdem(string $campo, string $direcao = 'ASC')
+  public function ordem(string $campo, string $direcao = 'ASC')
   {
     $temp = explode('.', $campo);
 
@@ -195,23 +195,23 @@ class PreparaModel
     $tabela = $this->pluralizar($temp[0]);
     $tabelaCampo = $this->gerarBackticks($tabela, $temp[1]);
 
-    $this->ordem = 'ORDER BY ' . $tabelaCampo . ' ' . strtoupper($direcao);
+    $this->sqlOrder = 'ORDER BY ' . $tabelaCampo . ' ' . strtoupper($direcao);
 
     return $this;
   }
 
-  public function adicionarLimite(int $quantidade)
+  public function limite(int $quantidade)
   {
-    $this->limite = 'LIMIT ?';
-    $this->valores[] = (int) $quantidade;
+    $this->sqlLimit = 'LIMIT ?';
+    $this->sqlValores[] = (int) $quantidade;
 
     return $this;
   }
 
-  public function adicionarOffset(int $quantidade)
+  public function offset(int $quantidade)
   {
-    $this->offset = 'OFFSET ?';
-    $this->valores[] = (int) $quantidade;
+    $this->sqlOffset = 'OFFSET ?';
+    $this->sqlValores[] = (int) $quantidade;
 
     return $this;
   }
@@ -220,39 +220,39 @@ class PreparaModel
   {
     $sql = '';
 
-    if ($this->select) {
-      $sql = 'SELECT ' . $this->select . ' FROM ' . $this->gerarBackticks($this->tabela);
+    if ($this->sqlSelect) {
+      $sql = 'SELECT ' . $this->sqlSelect . ' FROM ' . $this->gerarBackticks($this->tabela);
     }
-    elseif ($this->count) {
-      $sql = $this->count;
-    }
-
-    if ($this->joins) {
-      $sql .= ' ' . implode(' ', $this->joins);
+    elseif ($this->sqlCount) {
+      $sql = $this->sqlCount;
     }
 
-    if ($this->condicoesAnd or $this->condicoesOr) {
+    if ($this->sqlJoin) {
+      $sql .= ' ' . implode(' ', $this->sqlJoin);
+    }
+
+    if ($this->sqlCondicoesAnd or $this->sqlCondicoesOr) {
       $sql .= ' WHERE ';
 
-      if ($this->condicoesAnd) {
-        $sql .= implode(' AND ', $this->condicoesAnd);
+      if ($this->sqlCondicoesAnd) {
+        $sql .= implode(' AND ', $this->sqlCondicoesAnd);
       }
 
-      if ($this->condicoesAnd and $this->condicoesOr) {
-        $sql .= ' OR ' . implode(' OR ', $this->condicoesOr);
+      if ($this->sqlCondicoesAnd and $this->sqlCondicoesOr) {
+        $sql .= ' OR ' . implode(' OR ', $this->sqlCondicoesOr);
       }
     }
 
-    if ($this->ordem) {
-      $sql .= ' ' . $this->ordem;
+    if ($this->sqlOrder) {
+      $sql .= ' ' . $this->sqlOrder;
     }
 
-    if ($this->limite) {
-      $sql .= ' ' . $this->limite;
+    if ($this->sqlLimit) {
+      $sql .= ' ' . $this->sqlLimit;
     }
 
-    if ($this->offset) {
-      $sql .= ' ' . $this->offset;
+    if ($this->sqlOffset) {
+      $sql .= ' ' . $this->sqlOffset;
     }
 
     return $sql;
@@ -266,7 +266,7 @@ class PreparaModel
       return [];
     }
 
-    $resultado = $this->database->operacoes($sql, $this->valores);
+    $resultado = $this->database->operacoes($sql, $this->sqlValores);
     $this->limparPropriedades();
 
     if (is_array($resultado) and ! isset($resultado['erro'])) {
@@ -337,11 +337,11 @@ class PreparaModel
       }
       elseif (is_array($valor)) {
         $placeholders = '(' . implode(', ', array_fill(0, count($valor), '?')) . ')';
-        $this->valores = array_merge($this->valores, $valor);
+        $this->sqlValores = array_merge($this->sqlValores, $valor);
       }
       else {
         $placeholders = '?';
-        $this->valores[] = $valor;
+        $this->sqlValores[] = $valor;
       }
 
       $consultas[] = $campo . $operador . $placeholders;
@@ -367,13 +367,13 @@ class PreparaModel
 
   private function limparPropriedades()
   {
-    $this->joins = null;
-    $this->ordem = null;
-    $this->select = null;
-    $this->limite = null;
-    $this->offset = null;
-    $this->valores = null;
-    $this->condicoesOr = null;
-    $this->condicoesAnd = null;
+    $this->sqlJoin = null;
+    $this->sqlOrder = null;
+    $this->sqlSelect = null;
+    $this->sqlLimit = null;
+    $this->sqlOffset = null;
+    $this->sqlValores = null;
+    $this->sqlCondicoesOr = null;
+    $this->sqlCondicoesAnd = null;
   }
 }
