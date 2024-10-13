@@ -138,7 +138,7 @@ class PreparaModel
     return $this;
   }
 
-  public function exists(array $params, string $tipo = 'AND')
+  public function existe(array $params, string $tipo = 'AND')
   {
     $tabela = $params['tabela'] ?? '';
     $tabela = $this->pluralizar($tabela);
@@ -161,7 +161,7 @@ class PreparaModel
     return $this;
   }
 
-  public function notExists(string $subquery, string $tipo = 'AND')
+  public function naoExiste(string $subquery, string $tipo = 'AND')
   {
     $tabela = $params['tabela'] ?? '';
     $tabela = $this->pluralizar($tabela);
@@ -277,6 +277,18 @@ class PreparaModel
   }
 
   // --------------- Métodos auxiliares --------------- //
+  private function limparPropriedades()
+  {
+    $this->sqlJoin = null;
+    $this->sqlOrder = null;
+    $this->sqlSelect = null;
+    $this->sqlLimit = null;
+    $this->sqlOffset = null;
+    $this->sqlValores = null;
+    $this->sqlCondicoesOr = null;
+    $this->sqlCondicoesAnd = null;
+  }
+
   function organizarResultado(array $resultado = []) {
     $array = [];
     foreach ($resultado as $linha):
@@ -355,25 +367,8 @@ class PreparaModel
     return strtolower($texto) . 's';
   }
 
-
   private function gerarBackticks(string $a, string $b = ''): string
   {
-    if ($b) {
-      return '`' . $a . '`.`' . $b . '`';
-    }
-
-    return '`' . $a . '`';
-  }
-
-  private function limparPropriedades()
-  {
-    $this->sqlJoin = null;
-    $this->sqlOrder = null;
-    $this->sqlSelect = null;
-    $this->sqlLimit = null;
-    $this->sqlOffset = null;
-    $this->sqlValores = null;
-    $this->sqlCondicoesOr = null;
-    $this->sqlCondicoesAnd = null;
+    return $b ? '`' . $a . '`.`' . $b . '`' : '`' . $a . '`';
   }
 }
