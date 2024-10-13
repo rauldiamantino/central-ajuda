@@ -2,18 +2,19 @@
 namespace app\Models;
 use app\Models\Database;
 
-class PreparaConsultaModel
+class PreparaModel
 {
-  private $tabela;
   private $database;
+  private $tabela;
   private $select;
+  private $count;
   private $joins;
-  private $condicoesOr;
-  private $condicoesAnd;
-  private $valores;
   private $ordem;
   private $limite;
   private $offset;
+  private $valores;
+  private $condicoesOr;
+  private $condicoesAnd;
 
   public function __construct(string $tabela)
   {
@@ -56,6 +57,21 @@ class PreparaConsultaModel
     return $this;
   }
 
+  public function contar(string $campo)
+  {
+    $partes = explode('.', $campo);
+
+    if (count($partes) != 2) {
+      return $this;
+    }
+
+    $tabela = $this->pluralizar($partes[0]);
+    $tabelaCampo = $this->gerarBackticks($tabela, $partes[1]);
+    $this->count = 'SELECT COUNT(' . $tabelaCampo . ') AS `total` FROM ' .  $this->gerarBackticks($this->tabela);
+
+    return $this;
+  }
+
   public function adicionarJoin(array $params, string $tipo = 'INNER')
   {
     $campoA = $params['campoA'] ?? '';
@@ -78,7 +94,7 @@ class PreparaConsultaModel
     return $this;
   }
 
-  public function adicionarCondicao(array $params, string $tipo = 'AND')
+  private function gerarCondicao(array $params, string $tipo)
   {
     $campo = $params['campo'] ?? '';
     $valor = $params['valor'] ?? null;
@@ -106,6 +122,64 @@ class PreparaConsultaModel
     elseif ($tipo == 'OR') {
       $this->condicoesOr[] = $campo . $operador . $placeholders;
     }
+  }
+
+  public function adicionarCondicao(array $params, string $tipo = 'AND')
+  {
+    if (isset($params[0]['campo'])) {
+      foreach ($params as $linha):
+        $this->gerarCondicao($linha, $tipo);
+      endforeach;
+    }
+    else {
+      $this->gerarCondicao($params, $tipo);
+    }
+
+    return $this;
+  }
+
+  public function adicionarExists(array $params, string $tipo = 'AND')
+  {
+    $tabela = $params['tabela'] ?? '';
+    $tabela = $this->pluralizar($tabela);
+    $tabela = $this->gerarBackticks($tabela);
+    $params = $params['params'] ?? [];
+
+    $subquery = $this->gerarSubquery($tabela, $params);
+
+    if (empty($subquery)) {
+      return $this;
+    }
+
+    if ($tipo == 'AND') {
+      $this->condicoesAnd[] = 'EXISTS (' . $subquery . ')';
+    }
+    elseif ($tipo == 'OR') {
+      $this->condicoesOr[] = 'EXISTS (' . $subquery . ')';
+    }
+
+    return $this;
+  }
+
+  public function adicionarNotExists(string $subquery, string $tipo = 'AND')
+  {
+    $tabela = $params['tabela'] ?? '';
+    $tabela = $this->pluralizar($tabela);
+    $tabela = $this->gerarBackticks($tabela);
+    $params = $params['params'] ?? [];
+
+    $subquery = $this->gerarSubquery($tabela, $params);
+
+    if (empty($subquery)) {
+      return $this;
+    }
+
+    if ($tipo === 'AND') {
+        $this->condicoesAnd[] = 'NOT EXISTS (' . $subquery . ')';
+    }
+    elseif ($tipo === 'OR') {
+        $this->condicoesOr[] = 'NOT EXISTS (' . $subquery . ')';
+    }
 
     return $this;
   }
@@ -113,9 +187,15 @@ class PreparaConsultaModel
   public function adicionarOrdem(string $campo, string $direcao = 'ASC')
   {
     $temp = explode('.', $campo);
-    $campo = count($temp) == 2 ? $this->gerarBackticks($this->pluralizar($temp[0]), $temp[1] ?? '') : '';
 
-    $this->ordem = 'ORDER BY ' . $campo . ' ' . strtoupper($direcao);
+    if (count($temp) != 2) {
+      return $this;
+    }
+
+    $tabela = $this->pluralizar($temp[0]);
+    $tabelaCampo = $this->gerarBackticks($tabela, $temp[1]);
+
+    $this->ordem = 'ORDER BY ' . $tabelaCampo . ' ' . strtoupper($direcao);
 
     return $this;
   }
@@ -138,11 +218,14 @@ class PreparaConsultaModel
 
   public function montarConsulta()
   {
-    if (empty($this->select)) {
-      return '';
-    }
+    $sql = '';
 
-    $sql = 'SELECT ' . $this->select . ' FROM ' . $this->gerarBackticks($this->tabela);
+    if ($this->select) {
+      $sql = 'SELECT ' . $this->select . ' FROM ' . $this->gerarBackticks($this->tabela);
+    }
+    elseif ($this->count) {
+      $sql = $this->count;
+    }
 
     if ($this->joins) {
       $sql .= ' ' . implode(' ', $this->joins);
@@ -194,7 +277,6 @@ class PreparaConsultaModel
   }
 
   // --------------- Métodos auxiliares --------------- //
-
   function organizarResultado(array $resultado = []) {
     $array = [];
     foreach ($resultado as $linha):
@@ -214,7 +296,54 @@ class PreparaConsultaModel
       $array[] = $registroAtual;
     endforeach;
 
+    if (empty($array)) {
+      return $resultado;
+    }
+
     return $array;
+  }
+
+  private function gerarSubquery(string $tabela, array $params): string
+  {
+    $consultas = [];
+    foreach ($params as $chave => $linha):
+      $campo = $linha['campo'] ?? '';
+      $operador = $linha['operador'] ?? '';
+      $valor = $linha['valor'] ?? null;
+      $tempCampo = explode('.', $campo);
+      $tempValor = explode('.', $valor);
+
+      $campo = count($tempCampo) == 2 ? $this->gerarBackticks($this->pluralizar($tempCampo[0]), $tempCampo[1] ?? '') : '';
+
+      // tabela.campo como valor
+      if (count($tempValor) == 2) {
+        $valor = $this->gerarBackticks($this->pluralizar($tempValor[0]), $tempValor[1]);
+      }
+
+      if (empty($campo)) {
+        continue;
+      }
+
+      if (empty($operador)) {
+        continue;
+      }
+
+      if (count($tempValor) == 2) {
+        $placeholders = $valor;
+      }
+      elseif (is_array($valor)) {
+        $placeholders = '(' . implode(', ', array_fill(0, count($valor), '?')) . ')';
+        $this->valores = array_merge($this->valores, $valor);
+      }
+      else {
+        $placeholders = '?';
+        $this->valores[] = $valor;
+      }
+
+      $consultas[] = $campo . $operador . $placeholders;
+    endforeach;
+
+    return 'SELECT 1 FROM ' . $tabela . ' WHERE ' . implode(' AND ', $consultas);
   }
 
   private function pluralizar(string $texto)
@@ -234,15 +363,13 @@ class PreparaConsultaModel
 
   private function limparPropriedades()
   {
-    $this->tabela = null;
-    $this->database = null;
-    $this->select = null;
     $this->joins = null;
-    $this->condicoesOr = null;
-    $this->condicoesAnd = null;
-    $this->valores = null;
     $this->ordem = null;
+    $this->select = null;
     $this->limite = null;
     $this->offset = null;
+    $this->valores = null;
+    $this->condicoesOr = null;
+    $this->condicoesAnd = null;
   }
 }
