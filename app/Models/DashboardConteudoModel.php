@@ -21,11 +21,6 @@ class DashboardConteudoModel extends Model
     return parent::adicionar($campos, true);
   }
 
-  public function buscar(array $params = []): array
-  {
-    return parent::buscar($params);
-  }
-
   public function atualizar(array $params, int $id): array
   {
     if (! is_int($id) or empty($id)) {

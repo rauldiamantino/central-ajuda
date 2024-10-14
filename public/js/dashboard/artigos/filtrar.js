@@ -26,7 +26,8 @@ const filtrarArtigos = () => {
       if (resposta.length > 0) {
         gerarOption('Todas as categorias', '')
         gerarOption('*** Sem categoria ***', 0)
-        resposta.forEach(categoria => gerarOption(categoria['Categoria.nome'], categoria['Categoria.id']))
+
+        resposta.forEach(categoria => gerarOption(categoria['Categoria']['nome'], categoria['Categoria']['id']))
 
         clicouCancelar()
         clicouConfirmar()

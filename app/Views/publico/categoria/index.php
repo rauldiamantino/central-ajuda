@@ -1,4 +1,4 @@
-<?php $categoriaNome = $artigos[0]['Categoria.nome'] ?? ''; ?>
+<?php $categoriaNome = $artigos[0]['Categoria']['nome'] ?? ''; ?>
 
 <div class="w-full flex flex-col px-6 md:px-12 py-14">
   <div class="pb-6 border-b border-slate-200 flex gap-2 font-light text-sm publico-migalhas">
@@ -19,7 +19,7 @@
   </div>
 
   <div class="pt-4 w-full italic text-lg font-extralight">
-    <?php echo $artigos[0]['Categoria.descricao'] ?? ''; ?>
+    <?php echo $artigos[0]['Categoria']['descricao'] ?? ''; ?>
   </div>
 
   <?php if ($artigos) { ?>
@@ -28,9 +28,9 @@
         <ul class="leading-9 flex flex-col gap-2">
           <?php foreach ($artigos as $chave => $linha): ?>
             <li class="flex gap-2 items-center">
-              <a href="/artigo/<?php echo $linha['Artigo.id'] ?>" class="border border-slate-200 w-full h-full px-4 py-2 hover:bg-slate-100 rounded-md"><?php echo $linha['Artigo.titulo'] ?></a>
+              <a href="/artigo/<?php echo $linha['Artigo']['id'] ?>" class="border border-slate-200 w-full h-full px-4 py-2 hover:bg-slate-100 rounded-md"><?php echo $linha['Artigo']['titulo'] ?></a>
 
-              <?php if ($linha['Artigo.ativo'] == INATIVO) { ?>
+              <?php if ($linha['Artigo']['ativo'] == INATIVO) { ?>
                 <div class="text-red-800">
                   <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 16 16">
                     <circle cx="8" cy="8" r="8"/>

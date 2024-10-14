@@ -1,4 +1,4 @@
-<header class="border-b border-slate-100 <?php echo (int) $this->buscarAjuste('publico_topo_fixo') == 1 ? 'sticky' : '' ?> z-20 top-0 w-full h-20 flex justify-center items-center <?php echo isset($inicio) ? 'py-12' : 'py-20'; ?> md:py-4 px-4 md:px-6 md:gap-10 bg-white text-black transition duration-300 topo-publico">
+<header class="border-b border-slate-100 <?php echo (int) $this->buscarAjuste('publico_topo_fixo') == ATIVO ? 'sticky' : '' ?> z-20 top-0 w-full h-20 flex justify-center items-center <?php echo isset($inicio) ? 'py-12' : 'py-20'; ?> md:py-4 px-4 md:px-6 md:gap-10 bg-white text-black transition duration-300 topo-publico">
   <div class="w-full flex flex-col md:flex-row gap-6 justify-between">
     <div class="md:w-max flex justify-between md:justify-start items-center gap-4 inverter transition-invert duration-300">
       <a href="/"><img src="<?php echo $logo ?>" alt="" class="max-h-14"></a>

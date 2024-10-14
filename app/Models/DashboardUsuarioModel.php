@@ -78,11 +78,6 @@ class DashboardUsuarioModel extends Model
     return parent::adicionar($campos, true);
   }
 
-  public function buscar(array $params = []): array
-  {
-    return parent::buscar($params);
-  }
-
   public function atualizar(array $params, int $id): array
   {
     if (! is_int($id) or empty($id)) {
@@ -96,8 +91,10 @@ class DashboardUsuarioModel extends Model
       return $msgErro;
     }
 
-    $condicao = [
-      'Usuario.id' => $id,
+    $condicao[] = [
+      'campo' => 'Usuario.id',
+      'operador' => '=',
+      'valor' => $id,
     ];
 
     $colunas = [
@@ -106,10 +103,11 @@ class DashboardUsuarioModel extends Model
       'Usuario.padrao',
     ];
 
-    $usuarioEditado = parent::condicao($condicao)
-                            ->buscar($colunas);
+    $usuarioEditado = $this->selecionar($colunas)
+                           ->condicao($condicao)
+                           ->executarConsulta();
 
-    if (! isset($usuarioEditado[0]['Usuario.id'])) {
+    if (! isset($usuarioEditado[0]['Usuario']['id'])) {
       $msgErro = [
         'erro' => [
           'codigo' => 404,
@@ -158,8 +156,10 @@ class DashboardUsuarioModel extends Model
 
     // Atualiza sessão do usuário
     if (! isset($resultado['erro']) and $this->usuarioLogado['id'] == $id) {
-      $condicoes = [
-        'Usuario.id' => $id,
+      $condicoes[] = [
+        'campo' => 'Usuario.id',
+        'operador' => '=',
+        'valor' => $id,
       ];
 
       $colunas = [
@@ -173,24 +173,27 @@ class DashboardUsuarioModel extends Model
         'Empresa.ativo',
       ];
 
-      $uniao2 = [
-        'Empresa',
+      $juntar = [
+        'tabelaJoin' => 'Empresa',
+        'campoA' => 'Empresa.id',
+        'campoB' => 'Usuario.empresa_id',
       ];
 
-      $usuario = parent::condicao($condicoes)
-                       ->uniao2($uniao2)
-                       ->buscar($colunas);
+      $usuario = $this->selecionar($colunas)
+                      ->juntar($juntar)
+                      ->condicao($condicoes)
+                      ->executarConsulta();
 
-      if (isset($usuario[0]['Usuario.id'])) {
+      if (isset($usuario[0]['Usuario']['id'])) {
         $this->sessaoUsuario->definir('usuario', [
-          'id' => $usuario[0]['Usuario.id'],
-          'nome' => $usuario[0]['Usuario.nome'],
-          'email' => $usuario[0]['Usuario.email'],
-          'empresaId' => $usuario[0]['Usuario.empresa_id'],
-          'empresaAtivo' => $usuario[0]['Empresa.ativo'],
-          'subdominio' => $usuario[0]['Empresa.subdominio'],
-          'nivel' => $usuario[0]['Usuario.nivel'],
-          'padrao' => $usuario[0]['Usuario.padrao'],
+          'id' => $usuario[0]['Usuario']['id'],
+          'nome' => $usuario[0]['Usuario']['nome'],
+          'email' => $usuario[0]['Usuario']['email'],
+          'empresaId' => $usuario[0]['Usuario']['empresa_id'],
+          'empresaAtivo' => $usuario[0]['Empresa']['ativo'],
+          'subdominio' => $usuario[0]['Empresa']['subdominio'],
+          'nivel' => $usuario[0]['Usuario']['nivel'],
+          'padrao' => $usuario[0]['Usuario']['padrao'],
         ]);
       }
     }
@@ -211,8 +214,10 @@ class DashboardUsuarioModel extends Model
       return $msgErro;
     }
 
-    $condicao = [
-      'Usuario.id' => $id,
+    $condicao[] = [
+      'campo' => 'Usuario.id',
+      'operador' => '=',
+      'valor' => $id,
     ];
 
     $colunas = [
@@ -221,10 +226,11 @@ class DashboardUsuarioModel extends Model
       'Usuario.padrao',
     ];
 
-    $usuarioEditado = parent::condicao($condicao)
-                          ->buscar($colunas);
+    $usuarioEditado = $this->selecionar($colunas)
+                           ->condicao($condicao)
+                           ->executarConsulta();
 
-    if (! isset($usuarioEditado[0]['Usuario.id'])) {
+    if (! isset($usuarioEditado[0]['Usuario']['id'])) {
       $msgErro = [
         'erro' => [
           'codigo' => 404,
@@ -236,7 +242,7 @@ class DashboardUsuarioModel extends Model
     }
 
     // Evita editar usuário de Suporte
-    if ($usuarioEditado[0]['Usuario.padrao'] == USUARIO_SUPORTE and $this->usuarioLogado['padrao'] != USUARIO_SUPORTE) {
+    if ($usuarioEditado[0]['Usuario']['padrao'] == USUARIO_SUPORTE and $this->usuarioLogado['padrao'] != USUARIO_SUPORTE) {
       $msgErro = [
         'erro' => [
           'codigo' => 401,
@@ -260,7 +266,7 @@ class DashboardUsuarioModel extends Model
     }
 
     // Evita remover usuário padrão
-    if ($usuarioEditado[0]['Usuario.padrao'] == USUARIO_PADRAO) {
+    if ($usuarioEditado[0]['Usuario']['padrao'] == USUARIO_PADRAO) {
       $msgErro = [
         'erro' => [
           'codigo' => 400,
@@ -272,17 +278,22 @@ class DashboardUsuarioModel extends Model
     }
 
     // Usuário possui artigos
-    $condicoes = [
-      'Usuario.id' => $id,
+    $condicoes[] = [
+      'campo' => 'Usuario.id',
+      'operador' => '=',
+      'valor' => $id,
     ];
 
-    $uniao = [
-      'Artigo',
+    $juntar = [
+      'tabelaJoin' => 'Artigo',
+      'campoA' => 'Artigo.usuario_id',
+      'campoB' => 'Usuario.id',
     ];
 
-    $usuarioArtigos = parent::condicao($condicoes)
-                            ->uniao($uniao)
-                            ->contar('Usuario.id');
+    $usuarioArtigos = parent::contar('Usuario.id')
+                            ->condicao($condicoes)
+                            ->juntar($juntar)
+                            ->executarConsulta();
 
     if (isset($usuarioArtigos['total']) and (int) $usuarioArtigos['total'] > 0) {
       $msgErro = [
@@ -476,8 +487,20 @@ class DashboardUsuarioModel extends Model
       return $msgErro;
     }
 
-    $usuario = parent::condicao(['Usuario.id' => $id])
-                     ->buscar(['Usuario.id', 'Usuario.senha']);
+    $condicoes[] = [
+      'campo' => 'Usuario.id',
+      'operador' => '=',
+      'valor' => (int) $id,
+    ];
+
+    $colunas = [
+      'Usuario.id',
+      'Usuario.senha',
+    ];
+
+    $usuario = $this->selecionar($colunas)
+                    ->condicao($condicoes)
+                    ->executarConsulta();
 
     if (empty($usuario)) {
       $msgErro = [
@@ -490,7 +513,7 @@ class DashboardUsuarioModel extends Model
       return $msgErro;
     }
 
-    $senhaCadastro = $usuario[0]['Usuario.senha'] ?? '';
+    $senhaCadastro = $usuario[0]['Usuario']['senha'] ?? '';
 
     if (! password_verify(trim($senhaAtual), trim($senhaCadastro))) {
       $msgErro = [
@@ -519,23 +542,24 @@ class DashboardUsuarioModel extends Model
 
     if (isset($campos['padrao']) and $campos['padrao'] == USUARIO_PADRAO) {
       $condicao = [
-        'Usuario.padrao' => USUARIO_PADRAO,
-        'Usuario.id !=' => $id,
+        ['campo' => 'Usuario.padrao', 'operador' => '=', 'valor' => USUARIO_PADRAO],
+        ['campo' => 'Usuario.id', 'operador' => '!=', 'valor' => (int) $id],
       ];
 
-      $resultado = parent::condicao($condicao)
-                         ->contar('Usuario.id');
+      $resultado = $this->contar('Usuario.id')
+                        ->condicao($condicao)
+                        ->executarConsulta();
     }
 
     if (isset($resultado['total']) and (int) $resultado['total'] > 0) {
       // Apenas um usuário padrão por empresa
       $msgErro['erro']['mensagem'] = $this->gerarMsgErro('padrao', 'permissaoCampo');
     }
-    elseif ($usuarioEditado[0]['Usuario.nivel'] < $this->usuarioLogado['nivel']) {
+    elseif ($usuarioEditado[0]['Usuario']['nivel'] < $this->usuarioLogado['nivel']) {
       // Evita editar usuário de nível superior
       $msgErro['erro']['mensagem'] = $this->gerarMsgErro('', 'permissao');
     }
-    elseif ($usuarioEditado[0]['Usuario.padrao'] == USUARIO_SUPORTE and $this->usuarioLogado['padrao'] != USUARIO_SUPORTE) {
+    elseif ($usuarioEditado[0]['Usuario']['padrao'] == USUARIO_SUPORTE and $this->usuarioLogado['padrao'] != USUARIO_SUPORTE) {
       // Evita editar usuário de Suporte
       $msgErro['erro']['mensagem'] = $this->gerarMsgErro('', 'permissao');
     }
@@ -547,19 +571,19 @@ class DashboardUsuarioModel extends Model
       // Evita desativar o próprio usuário
       $msgErro['erro']['mensagem'] = $this->gerarMsgErro('', 'permissaoDesativarProprio');
     }
-    elseif ($usuarioEditado[0]['Usuario.padrao'] == USUARIO_PADRAO and isset($campos['ativo']) and $campos['ativo'] == INATIVO) {
+    elseif ($usuarioEditado[0]['Usuario']['padrao'] == USUARIO_PADRAO and isset($campos['ativo']) and $campos['ativo'] == INATIVO) {
       // Evita desativar usuário padrão
       $msgErro['erro']['mensagem'] = $this->gerarMsgErro('padrao', 'permissaoDesativar');
     }
-    elseif ($usuarioEditado[0]['Usuario.padrao'] == USUARIO_PADRAO and isset($campos['nivel']) and $campos['nivel'] != $usuarioEditado[0]['Usuario.nivel']) {
+    elseif ($usuarioEditado[0]['Usuario']['padrao'] == USUARIO_PADRAO and isset($campos['nivel']) and $campos['nivel'] != $usuarioEditado[0]['Usuario']['nivel']) {
       // Evita alterar nível de usuário padrão
       $msgErro['erro']['mensagem'] = $this->gerarMsgErro('nivel', 'permissaoCampo');
     }
-    elseif ($usuarioEditado[0]['Usuario.padrao'] == USUARIO_PADRAO and isset($campos['padrao']) and $campos['padrao'] != $usuarioEditado[0]['Usuario.padrao']) {
+    elseif ($usuarioEditado[0]['Usuario']['padrao'] == USUARIO_PADRAO and isset($campos['padrao']) and $campos['padrao'] != $usuarioEditado[0]['Usuario']['padrao']) {
       // Evita alterar o tipo do usuário padrão
       $msgErro['erro']['mensagem'] = $this->gerarMsgErro('padrao', 'permissaoCampo');
     }
-    elseif ($usuarioEditado[0]['Usuario.padrao'] == USUARIO_SUPORTE and isset($campos['padrao']) and $campos['padrao'] != $usuarioEditado[0]['Usuario.padrao']) {
+    elseif ($usuarioEditado[0]['Usuario']['padrao'] == USUARIO_SUPORTE and isset($campos['padrao']) and $campos['padrao'] != $usuarioEditado[0]['Usuario']['padrao']) {
       // Evita alterar o tipo do usuário de suporte
       $msgErro['erro']['mensagem'] = $this->gerarMsgErro('padrao', 'permissaoCampo');
     }

@@ -1,11 +1,10 @@
 <?php
 namespace app\Controllers;
 use app\Core\Cache;
-use app\Models\Model;
+use app\Models\DashboardAjusteModel;
 
 class Controller
 {
-  protected $model;
   protected $sessaoUsuario;
   protected $usuarioLogado;
   protected $empresaPadraoId;
@@ -148,37 +147,32 @@ class Controller
 
   public function buscarAjuste(string $nome)
   {
-    $ajusteModel = new Model($this->usuarioLogado, $this->empresaPadraoId, 'Ajuste');
-
-    $colunas = [
-      'Ajuste.nome',
-      'Ajuste.ativo',
-    ];
+    $ajusteModel = new DashboardAjusteModel($this->usuarioLogado, $this->empresaPadraoId, 'Ajuste');
 
     $cacheTempo = 60 * 60;
     $cacheNome = 'ajustes';
     $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
 
     if ($resultado == null) {
-      $resultado = $ajusteModel->buscar($colunas);
+      $resultado = $ajusteModel->buscarAjustes();
       Cache::definir($cacheNome, $resultado, $cacheTempo, $this->empresaPadraoId);
     }
 
     foreach ($resultado as $linha):
 
-      if (! isset($linha['Ajuste.nome'])) {
+      if (! isset($linha['Ajuste']['nome'])) {
         continue;
       }
 
-      if (! isset($linha['Ajuste.ativo'])) {
+      if (! isset($linha['Ajuste']['ativo'])) {
         continue;
       }
 
-      if ($linha['Ajuste.nome'] != $nome) {
+      if ($linha['Ajuste']['nome'] != $nome) {
         continue;
       }
 
-      return (int) $linha['Ajuste.ativo'];
+      return (int) $linha['Ajuste']['ativo'];
     endforeach;
 
     return 0;

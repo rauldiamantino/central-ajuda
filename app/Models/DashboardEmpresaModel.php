@@ -23,7 +23,8 @@ class DashboardEmpresaModel extends Model
 
   public function buscar(array $params = []): array
   {
-    return parent::buscar($params);
+    return parent::selecionar($params)
+                 ->executarConsulta();
   }
 
   public function buscarEmpresaSemId(string $coluna, $valor): array
@@ -46,28 +47,21 @@ class DashboardEmpresaModel extends Model
       $valor = '';
     }
 
-    $coluna = '`Empresa`.`' . $coluna . '`';
-
-    $sql = <<<SQL
-      SELECT
-        `Empresa`.`id` AS `Empresa.id`,
-        `Empresa`.`ativo` AS `Empresa.ativo`,
-        `Empresa`.`subdominio` AS `Empresa.subdominio`
-      FROM
-        `empresas` AS `Empresa`
-      WHERE
-        $coluna = ?
-      ORDER BY
-        `Empresa`.`id` ASC
-      LIMIT
-        1
-    SQL;
-
-    $params = [
-      0 => $valor,
+    $condicoes[] = [
+      'campo' => 'Empresa.' . $coluna,
+      'operador' => '=',
+      'valor' => $valor,
     ];
 
-    $resultado = $this->executarQuery($sql, $params);
+    $colunas = [
+      'Empresa.id',
+      'Empresa.ativo',
+      'Empresa.subdominio',
+    ];
+
+    $resultado = $this->selecionar($colunas)
+                      ->condicao($condicoes)
+                      ->executarConsulta();
 
     return $resultado;
   }
@@ -94,16 +88,20 @@ class DashboardEmpresaModel extends Model
 
     // CNPJ duplicado
     if (isset($campos['cnpj']) and $campos['cnpj'] !== null) {
-      $sql = 'SELECT `Empresa`.`id` AS `Empresa.id` FROM `empresas` AS `Empresa` WHERE `Empresa`.`id` != ? AND `Empresa`.`cnpj` = ?';
-
-      $sqlParams = [
-        0 => $id,
-        1 => $campos['cnpj'],
+      $condicao = [
+        ['campo' => 'Empresa.id', 'operador' => '!=', 'valor' => $id],
+        ['campo' => 'Empresa.cnpj', 'operador' => '=', 'valor' => $campos['cnpj']],
       ];
 
-      $resultado = parent::executarQuery($sql, $sqlParams);
+      $colunas = [
+        'Empresa.id',
+      ];
 
-      if (isset($resultado[0]['Empresa.id'])) {
+      $resultado = parent::selecionar($colunas)
+                         ->condicao($condicao)
+                         ->executarConsulta();
+
+      if (isset($resultado[0]['Empresa']['id'])) {
         $msgErro = [
           'erro' => [
             'codigo' => 400,

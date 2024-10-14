@@ -22,11 +22,6 @@ class DashboardCategoriaModel extends Model
     return parent::adicionar($campos, true);
   }
 
-  public function buscar(array $params = []): array
-  {
-    return parent::buscar($params);
-  }
-
   public function atualizar(array $params, int $id): array
   {
     if (! is_int($id) or empty($id)) {
@@ -96,16 +91,21 @@ class DashboardCategoriaModel extends Model
 
     // Categoria possui artigos
     $condicoes = [
-      'Categoria.id' => $id,
+      'campo' => 'Categoria.id',
+      'operador' => '=',
+      'valor' => $id,
     ];
 
-    $uniao = [
-      'Artigo',
+    $juntar = [
+      'tabelaJoin' => 'Artigo',
+      'campoA' => 'Artigo.categoria_id',
+      'campoB' => 'Categoria.id',
     ];
 
-    $categoriaArtigos = parent::condicao($condicoes)
-                              ->uniao($uniao)
-                              ->contar('Categoria.id');
+    $categoriaArtigos = parent::contar('Categoria.id')
+                              ->condicao($condicoes)
+                              ->juntar($juntar)
+                              ->executarConsulta();
 
     if (isset($categoriaArtigos['total']) and (int) $categoriaArtigos['total'] > 0) {
       $msgErro = [

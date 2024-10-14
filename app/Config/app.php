@@ -8,3 +8,4 @@ define('SEGREDO_SESSAO', '!Central@Ajuda@2024@Dev@1');
 define('APLICACAO', $_SERVER['HTTP_HOST'] . 'central-ajuda');
 define('DOMINIO', 'http://' . $_SERVER['HTTP_HOST']);
 define('HOST_LOCAL', strpos($_SERVER['HTTP_HOST'], 'localhost') !== false);
+define('GRAVAR_CACHE', 0);

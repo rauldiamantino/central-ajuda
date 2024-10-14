@@ -23,6 +23,12 @@ class DashboardEmpresaController extends DashboardController
       $this->redirecionarErro('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigos', 'Você não tem permissão para realizar esta ação.');
     }
 
+    $condicao[] = [
+      'campo' => 'Empresa.id',
+      'operador' => '=',
+      'valor' => (int) $this->empresaPadraoId,
+    ];
+
     $colunas = [
       'Empresa.id',
       'Empresa.ativo',
@@ -37,7 +43,9 @@ class DashboardEmpresaController extends DashboardController
       'Empresa.modificado',
     ];
 
-    $empresa = $this->empresaModel->buscar($colunas);
+    $empresa = $this->empresaModel->selecionar($colunas)
+                                  ->condicao($condicao)
+                                  ->executarConsulta();
 
     if (isset($empresa['erro']) and $empresa['erro']) {
       $this->redirecionarErro('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigos', $empresa['erro']);
@@ -71,20 +79,29 @@ class DashboardEmpresaController extends DashboardController
       $this->redirecionarErro('/dashboard/' . $this->usuarioLogado['empresaId'] . '/empresa/editar', $resultado['erro']);
     }
 
+    $condicao[] = [
+      'campo' => 'Empresa.id',
+      'operador' => '=',
+      'valor' => (int) $id,
+    ];
+
     $colunas = [
       'Empresa.ativo',
       'Empresa.subdominio',
     ];
 
-    $empresa = $this->empresaModel->buscar($colunas);
+    $empresa = $this->empresaModel->selecionar($colunas)
+                                  ->condicao($condicao)
+                                  ->executarConsulta();
 
-    if (isset($empresa[0]['Empresa.ativo'])) {
-      $this->usuarioLogado['empresaAtivo'] = $empresa[0]['Empresa.ativo'];
+    if (isset($empresa[0]['Empresa']['ativo'])) {
+      $this->usuarioLogado['empresaAtivo'] = $empresa[0]['Empresa']['ativo'];
       $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
     }
 
     $nomesCache = ['publico'];
     $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
+
 
     // Cache sem EmpresaID
     Cache::apagar('roteador_subdominio-' . md5('id' . $this->empresaPadraoId));
@@ -121,15 +138,23 @@ class DashboardEmpresaController extends DashboardController
           $this->redirecionarErro('/dashboard/' . $this->usuarioLogado['empresaId'] . '/empresa/editar', $resultado['erro']);
         }
 
+        $condicao[] = [
+          'campo' => 'Empresa.id',
+          'operador' => '=',
+          'valor' => $this->usuarioLogado['empresaId'],
+        ];
+
         $colunas = [
           'Empresa.ativo',
         ];
 
-        $empresa = $this->empresaModel->buscar($colunas);
+        $empresa = $this->empresaModel->selecionar($colunas)
+                                      ->condicao($condicao)
+                                      ->executarConsulta();
 
         // Atualiza sessão
-        if (isset($empresa[0]['Empresa.ativo'])) {
-          $this->usuarioLogado['empresaAtivo'] = $empresa[0]['Empresa.ativo'];
+        if (isset($empresa[0]['Empresa']['ativo'])) {
+          $this->usuarioLogado['empresaAtivo'] = $empresa[0]['Empresa']['ativo'];
           $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
         }
 
@@ -167,15 +192,23 @@ class DashboardEmpresaController extends DashboardController
           $this->redirecionarErro('/dashboard/' . $this->usuarioLogado['empresaId'] . '/empresa/editar', $resultado['erro']);
         }
 
+        $condicao[] = [
+          'campo' => 'Empresa.id',
+          'operador' => '=',
+          'valor' => $this->usuarioLogado['empresaId'],
+        ];
+
         $colunas = [
           'Empresa.ativo',
         ];
 
-        $empresa = $this->empresaModel->buscar($colunas);
+        $empresa = $this->empresaModel->selecionar($colunas)
+                                      ->condicao($condicao)
+                                      ->executarConsulta();
 
         // Atualiza sessão
-        if (isset($empresa[0]['Empresa.ativo'])) {
-          $this->usuarioLogado['empresaAtivo'] = $empresa[0]['Empresa.ativo'];
+        if (isset($empresa[0]['Empresa']['ativo'])) {
+          $this->usuarioLogado['empresaAtivo'] = $empresa[0]['Empresa']['ativo'];
           $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
         }
 
@@ -189,7 +222,7 @@ class DashboardEmpresaController extends DashboardController
   public function confirmarAssinaturaWebhook(string $sessionId, string $assinaturaId): bool
   {
     $resultado = $this->empresaModel->buscarEmpresaSemId('sessao_stripe_id', $sessionId);
-    $empresaId = intval($resultado[0]['Empresa.id'] ?? 0);
+    $empresaId = intval($resultado[0]['Empresa']['id'] ?? 0);
 
     if ($empresaId == 0) {
       return false;
@@ -213,7 +246,7 @@ class DashboardEmpresaController extends DashboardController
   public function cancelarAssinaturaWebhook(string $assinaturaId): bool
   {
     $resultado = $this->empresaModel->buscarEmpresaSemId('assinatura_id', $assinaturaId);
-    $empresaId = intval($resultado[0]['Empresa.id'] ?? 0);
+    $empresaId = intval($resultado[0]['Empresa']['id'] ?? 0);
 
     if ($empresaId == 0) {
       return false;

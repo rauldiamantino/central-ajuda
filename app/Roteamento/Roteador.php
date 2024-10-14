@@ -91,7 +91,6 @@ class Roteador
       return $this->paginaErro->erroVer();
     }
 
-
     // Subdomínio somente nas rotas públicas
     if ($subdominioAtivo and ! $this->rotaPublica($chaveRota)) {
       return $this->paginaErro->erroVer();
@@ -120,9 +119,9 @@ class Roteador
       }
     }
 
-    $empresaId = intval($buscarEmpresa[0]['Empresa.id'] ?? 0);
-    $empresaAtivo = intval($buscarEmpresa[0]['Empresa.ativo'] ?? 0);
-    $subdominio = $buscarEmpresa[0]['Empresa.subdominio'] ?? '';
+    $empresaId = intval($buscarEmpresa[0]['Empresa']['id'] ?? 0);
+    $empresaAtivo = intval($buscarEmpresa[0]['Empresa']['ativo'] ?? 0);
+    $subdominio = $buscarEmpresa[0]['Empresa']['subdominio'] ?? '';
 
     // Acesso negado
     if ($empresaAtivo == INATIVO) {

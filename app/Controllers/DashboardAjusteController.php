@@ -16,21 +16,7 @@ class DashboardAjusteController extends DashboardController
 
   public function ajustesVer()
   {
-    $colunas = [
-      'Ajuste.id',
-      'Ajuste.nome',
-      'Ajuste.ativo',
-      'Ajuste.empresa_id',
-      'Ajuste.criado',
-      'Ajuste.modificado',
-    ];
-
-    $resultado = $this->ajusteModel->condicao()
-                                   ->buscar($colunas);
-
-    if (! isset($resultado[0]['Ajuste.id'])) {
-      $resultado = [];
-    }
+    $resultado = $this->ajusteModel->buscarAjustes();
 
     $this->visao->variavel('ajustes', $resultado);
     $this->visao->variavel('titulo', 'Ajustes');

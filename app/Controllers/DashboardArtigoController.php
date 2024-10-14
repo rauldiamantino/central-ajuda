@@ -39,21 +39,23 @@ class DashboardArtigoController extends DashboardController
       $filtroAtual['categoria_id'] = $categoriaId;
 
       if (intval($categoriaId) > 0) {
-        $condicoes['Artigo.categoria_id'] = (int) $categoriaId;
+        $condicoes[] = ['campo' => 'Artigo.categoria_id', 'operador' => '=', 'valor' => (int) $categoriaId];
       }
       elseif ($categoriaId === '0') {
-        $condicoes['Artigo.categoria_id IS'] = NULL;
+        $condicoes[] = ['campo' => 'Artigo.categoria_id', 'operador' => 'IS', 'valor' => NULL];
       }
     }
 
     // Filtrar por nome
     if (isset($_GET['titulo'])) {
       $filtroAtual['titulo'] = $artigoTitulo;
-      $condicoes['Artigo.titulo LIKE'] = '%' . $artigoTitulo . '%';
+      $condicoes[] = ['campo' => 'Artigo.titulo', 'operador' => 'LIKE', 'valor' => '%' . $artigoTitulo . '%'];
     }
 
-    $artigosTotal = $this->artigoModel->condicao($condicoes)
-                                      ->contar('Artigo.id');
+    $artigosTotal = $this->artigoModel->contar('Artigo.id')
+                                      ->condicao($condicoes)
+                                      ->executarConsulta();
+
 
     $artigosTotal = intval($artigosTotal['total'] ?? 0);
 
@@ -78,11 +80,15 @@ class DashboardArtigoController extends DashboardController
       ];
 
       $uniaoCategoria = [
-        'Categoria',
+        'tabelaJoin' => 'Categoria',
+        'campoA' => 'Categoria.id',
+        'campoB' => 'Artigo.categoria_id',
       ];
 
       $uniaoUsuario = [
-        'Usuario',
+        'tabelaJoin' => 'Usuario',
+        'campoA' => 'Usuario.id',
+        'campoB' => 'Artigo.usuario_id',
       ];
 
       $ordem = [
@@ -90,12 +96,13 @@ class DashboardArtigoController extends DashboardController
         'Artigo.ordem' => 'ASC',
       ];
 
-      $resultado = $this->artigoModel->condicao($condicoes)
-                                     ->uniao2($uniaoCategoria, 'LEFT')
-                                     ->uniao2($uniaoUsuario)
+      $resultado = $this->artigoModel->selecionar($colunas)
+                                     ->condicao($condicoes)
+                                     ->juntar($uniaoCategoria, 'LEFT')
+                                     ->juntar($uniaoUsuario)
                                      ->pagina($limite, $paginaAtual)
                                      ->ordem($ordem)
-                                     ->buscar($colunas);
+                                     ->executarConsulta();
 
       $intervaloInicio = ($paginaAtual - 1) * $limite + 1;
       $intervaloFim = min($paginaAtual * $limite, $artigosTotal);
@@ -131,7 +138,7 @@ class DashboardArtigoController extends DashboardController
     ];
 
     $condicao = [
-      'Artigo.id' => (int) $id,
+      ['campo' => 'Artigo.id', 'operador' => '=', 'valor' => (int) $id],
     ];
 
     $colunas = [
@@ -149,17 +156,22 @@ class DashboardArtigoController extends DashboardController
     ];
 
     $uniaoCategoria = [
-      'Categoria',
+      'tabelaJoin' => 'Categoria',
+      'campoA' => 'Categoria.id',
+      'campoB' => 'Artigo.categoria_id',
     ];
 
     $uniaoUsuario = [
-      'Usuario',
+      'tabelaJoin' => 'Usuario',
+      'campoA' => 'Usuario.id',
+      'campoB' => 'Artigo.usuario_id',
     ];
 
-    $resultado = $this->artigoModel->condicao($condicao)
-                                   ->uniao2($uniaoCategoria, 'LEFT')
-                                   ->uniao2($uniaoUsuario)
-                                   ->buscar($colunas);
+    $resultado = $this->artigoModel->selecionar($colunas)
+                                   ->condicao($condicao)
+                                   ->juntar($uniaoCategoria, 'LEFT')
+                                   ->juntar($uniaoUsuario)
+                                   ->executarConsulta();
 
     if (isset($resultado['erro']) and $resultado['erro']) {
       $this->redirecionarErro('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigos', $resultado['erro']);
@@ -173,14 +185,15 @@ class DashboardArtigoController extends DashboardController
       'Categoria.nome',
     ];
 
-    $resultado = $this->categoriaModel->buscar($colCategoria);
+    $resultado = $this->categoriaModel->selecionar($colCategoria)
+                                      ->executarConsulta();
 
-    if (isset($resultado[0]['Categoria.nome'])) {
+    if (isset($resultado[0]['Categoria']['nome'])) {
       $categorias = $resultado;
     }
 
     $condicao = [
-      'Conteudo.artigo_id' => $id,
+      ['campo' => 'Conteudo.artigo_id', 'operador' => '=', 'valor' => (int) $id],
     ];
 
     $colunas = [
@@ -190,6 +203,7 @@ class DashboardArtigoController extends DashboardController
       'Conteudo.titulo',
       'Conteudo.titulo_ocultar',
       'Conteudo.conteudo',
+      'Conteudo.empresa_id',
       'Conteudo.url',
       'Conteudo.ordem',
       'Conteudo.criado',
@@ -200,15 +214,16 @@ class DashboardArtigoController extends DashboardController
       'Conteudo.ordem' => 'ASC',
     ];
 
-    $resultado = $this->conteudoModel->condicao($condicao)
+    $resultado = $this->conteudoModel->selecionar($colunas)
+                                     ->condicao($condicao)
                                      ->ordem($ordem)
-                                     ->buscar($colunas);
+                                     ->executarConsulta();
 
-    if (isset($resultado[0]['Conteudo.id'])) {
+    if (isset($resultado[0]['Conteudo']['id'])) {
       $conteudos = $resultado;
 
       $condicao = [
-        'Conteudo.artigo_id' => $id,
+        'campo' => 'Conteudo.artigo_id', 'operador' => '=', 'valor' => (int) $id,
       ];
 
       $colunas = [
@@ -222,12 +237,13 @@ class DashboardArtigoController extends DashboardController
 
       $limite = 1;
 
-      $resultadoOrdem = $this->conteudoModel->condicao($condicao)
+      $resultadoOrdem = $this->conteudoModel->selecionar($colunas)
+                                            ->condicao($condicao)
                                             ->ordem($ordem)
                                             ->limite($limite)
-                                            ->buscar($colunas);
+                                            ->executarConsulta();
 
-      $ordemAtual = intval($resultadoOrdem[0]['Conteudo.ordem'] ?? 0);
+      $ordemAtual = intval($resultadoOrdem[0]['Conteudo']['ordem'] ?? 0);
 
       if ($resultadoOrdem) {
         $ordemNum['prox'] = $ordemAtual + 1;
@@ -250,9 +266,10 @@ class DashboardArtigoController extends DashboardController
       'Categoria.nome',
     ];
 
-    $categorias = $this->categoriaModel->buscar($colCategoria);
+    $categorias = $this->categoriaModel->selecionar($colCategoria)
+                                       ->executarConsulta();
 
-    if (! isset($categorias[0]['Categoria.nome'])) {
+    if (! isset($categorias[0]['Categoria']['nome'])) {
       $categorias = [];
     }
 
@@ -267,18 +284,17 @@ class DashboardArtigoController extends DashboardController
 
     $limiteArtigoOrdem = 1;
 
-    $resultadoOrdem = $this->artigoModel->ordem($ordArtigoOrdem)
+    $resultadoOrdem = $this->artigoModel->selecionar($colArtigoOrdem)
+                                        ->ordem($ordArtigoOrdem)
                                         ->limite($limiteArtigoOrdem)
-                                        ->buscar($colArtigoOrdem);
+                                        ->executarConsulta();
 
     $ordem = [];
-    $ordemAtual = intval($resultadoOrdem[0]['Artigo.ordem'] ?? 0);
+    $ordemAtual = intval($resultadoOrdem[0]['Artigo']['ordem'] ?? 0);
 
-    if ($resultadoOrdem) {
-      $ordem = [
-        'prox' => $ordemAtual + 1,
-      ];
-    }
+    $ordem = [
+      'prox' => $ordemAtual + 1,
+    ];
 
     $this->visao->variavel('ordem', $ordem);
     $this->visao->variavel('usuarioId', $this->usuarioLogado['id']);
@@ -309,7 +325,11 @@ class DashboardArtigoController extends DashboardController
     $condicao = [];
 
     if ($id) {
-      $condicao['Artigo.id'] = $id;
+      $condicao[] = [
+        'campo' => 'Artigo.id',
+        'operador' => '=',
+        'valor' => (int) $id,
+      ];
     }
 
     // Filtrar por categoria
@@ -318,10 +338,18 @@ class DashboardArtigoController extends DashboardController
     if (isset($_GET['categoria_id'])) {
 
       if (intval($categoriaId) > 0) {
-        $condicao['Artigo.categoria_id'] = (int) $categoriaId;
+        $condicao[] = [
+          'campo' => 'Artigo.categoria_id',
+          'operador' => '=',
+          'valor' => (int) $categoriaId,
+        ];
       }
       elseif ($categoriaId === '0') {
-        $condicao['Artigo.categoria_id IS'] = NULL;
+        $condicao[] = [
+          'campo' => 'Artigo.categoria_id',
+          'operador' => 'IS',
+          'valor' => NULL,
+        ];
       }
     }
 
@@ -336,10 +364,11 @@ class DashboardArtigoController extends DashboardController
 
     $limite = 500;
 
-    $resultado = $this->artigoModel->condicao($condicao)
+    $resultado = $this->artigoModel->selecionar($colunas)
+                                   ->condicao($condicao)
                                    ->ordem($ordem)
                                    ->limite($limite)
-                                   ->buscar($colunas);
+                                   ->executarConsulta();
 
     if (isset($resultado['erro'])) {
       $codigo = $resultado['erro']['codigo'] ?? 500;

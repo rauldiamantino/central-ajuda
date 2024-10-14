@@ -4,6 +4,11 @@ use app\Models\Model;
 
 class DashboardCadastroModel extends Model
 {
+  public function __construct($usuarioLogado, $empresaPadraoId)
+  {
+    parent::__construct($usuarioLogado, $empresaPadraoId, '');;
+  }
+
   public function validarCampos(array $params, bool $atualizar = false): array
   {
     $campos = [
