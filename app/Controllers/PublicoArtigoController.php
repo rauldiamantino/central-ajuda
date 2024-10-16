@@ -24,8 +24,8 @@ class PublicoArtigoController extends PublicoController
     $demaisArtigos = [];
 
     $condicoes = [
-      0 => ['campo', 'Artigo.id', 'operador' => '=', 'valor' => (int) $id],
-      1 => ['campo', 'Artigo.ativo', 'operador' => '=', 'valor' => ATIVO],
+      0 => ['campo' => 'Artigo.id', 'operador' => '=', 'valor' => (int) $id],
+      1 => ['campo' => 'Artigo.ativo', 'operador' => '=', 'valor' => ATIVO],
     ];
 
     if ($this->exibirInativos()) {
@@ -67,7 +67,7 @@ class PublicoArtigoController extends PublicoController
 
     if ($resultado == null) {
       $resultado = $this->artigoModel->selecionar($colunas)
-                                      ->condicao($condicoes)
+                                     ->condicao($condicoes)
                                      ->juntar($juntarCategoria, 'LEFT')
                                      ->juntar($juntarUsuario, 'LEFT')
                                      ->ordem($ordem)
