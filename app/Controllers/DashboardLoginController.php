@@ -7,6 +7,7 @@ use app\Models\DashboardEmpresaModel;
 class DashboardLoginController extends DashboardController
 {
   protected $loginModel;
+  protected $empresaModel;
   protected $visao;
 
   public function __construct()
@@ -14,6 +15,7 @@ class DashboardLoginController extends DashboardController
     parent::__construct();
 
     $this->loginModel = new DashboardLoginModel($this->usuarioLogado, $this->empresaPadraoId);
+    $this->empresaModel = new DashboardEmpresaModel($this->usuarioLogado, $this->empresaPadraoId);
   }
 
   public function loginVer()
@@ -36,14 +38,20 @@ class DashboardLoginController extends DashboardController
       exit();
     }
 
-    $empresas = $this->loginModel->buscarEmpresas();
+    $colunas = [
+      'Empresa.id',
+      'Empresa.subdominio',
+      'Empresa.ativo',
+      'Empresa.id',
+    ];
+
+    $empresas = $this->empresaModel->selecionar($colunas)
+                                   ->executarConsulta();
 
     if (isset($empresas['erro'])) {
       $this->sessaoUsuario->apagar('usuario');
       $this->redirecionarErro('/login', $empresas['erro']);
     }
-
-    $empresas = $empresas['ok'];
 
     if (! is_array($empresas)) {
       $empresas = [];
@@ -53,26 +61,26 @@ class DashboardLoginController extends DashboardController
       // Empresa selecionada
       foreach($empresas as $linha):
 
-        if (! isset($linha['id']) or (int) $linha['id'] == 0) {
+        if (! isset($linha['Empresa']['id']) or (int) $linha['Empresa']['id'] == 0) {
           continue;
         }
 
-        if (! isset($linha['subdominio']) or empty($linha['subdominio'])) {
+        if (! isset($linha['Empresa']['subdominio']) or empty($linha['Empresa']['subdominio'])) {
           continue;
         }
 
-        if (! isset($linha['id']) or empty($linha['id'])) {
+        if (! isset($linha['Empresa']['id']) or empty($linha['Empresa']['id'])) {
           continue;
         }
 
-        if ($id != $linha['id']) {
+        if ($id != $linha['Empresa']['id']) {
           continue;
         }
 
         // Aplica empresa na sessão
-        $this->usuarioLogado['empresaId'] = $linha['id'];
-        $this->usuarioLogado['empresaAtivo'] = $linha['ativo'];
-        $this->usuarioLogado['subdominio'] = $linha['subdominio'];
+        $this->usuarioLogado['empresaId'] = $linha['Empresa']['id'];
+        $this->usuarioLogado['empresaAtivo'] = $linha['Empresa']['ativo'];
+        $this->usuarioLogado['subdominio'] = $linha['Empresa']['subdominio'];
         $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
 
         $this->redirecionar('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigos');

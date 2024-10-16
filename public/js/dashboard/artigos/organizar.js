@@ -35,10 +35,9 @@ const buscarArtigos = () => {
 
         resposta.forEach(artigo => {
           const span = document.createElement('span')
-
           span.className = 'py-1 px-4 border border-slate-200 selected-none truncate rounded-md modal-artigos-organizar-bloco'
-          span.textContent = artigo['Artigo.titulo']
-          span.setAttribute('data-artigo-id', artigo['Artigo.id'])
+          span.textContent = artigo['Artigo']['titulo']
+          span.setAttribute('data-artigo-id', artigo['Artigo']['id'])
 
           modalOrganizarBlocos.appendChild(span)
         })

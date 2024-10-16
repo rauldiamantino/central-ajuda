@@ -33,7 +33,7 @@ class DashboardAjusteModel extends Model
       }
     endforeach;
 
-    foreach ($campos as $chave => $valor) :
+    foreach ($campos as $chave => $valor):
       $camposAtualizar = [
         'nome' => $chave,
         'ativo' => $valor,
@@ -72,9 +72,39 @@ class DashboardAjusteModel extends Model
     return ['ok' => $total];
   }
 
-  public function buscar(array $colunas = []): array
+  public function buscarAjustes()
   {
-    return parent::buscar($colunas);
+    $colunas = [
+      'Ajuste.nome',
+      'Ajuste.ativo',
+    ];
+
+    $buscar = parent::selecionar($colunas)
+                    ->executarConsulta();
+
+    $resultado = [
+      0 => ['Ajuste' => ['nome' => 'artigo_autor', 'ativo' => INATIVO, ]],
+      1 => ['Ajuste' => ['nome' => 'artigo_criado', 'ativo' => INATIVO, ]],
+      2 => ['Ajuste' => ['nome' => 'artigo_modificado', 'ativo' => INATIVO, ]],
+      3 => ['Ajuste' => ['nome' => 'botao_whatsapp', 'ativo' => INATIVO, ]],
+      4 => ['Ajuste' => ['nome' => 'publico_cate_busca', 'ativo' => INATIVO, ]],
+      5 => ['Ajuste' => ['nome' => 'publico_cate_abrir_primeira', 'ativo' => INATIVO, ]],
+      6 => ['Ajuste' => ['nome' => 'publico_topo_fixo', 'ativo' => INATIVO, ]],
+      7 => ['Ajuste' => ['nome' => 'publico_borda_inicio', 'ativo' => INATIVO, ]],
+      8 => ['Ajuste' => ['nome' => 'publico_borda_artigo', 'ativo' => INATIVO, ]],
+    ];
+
+    // Substitui ajuste conforme DB
+    foreach ($buscar as $chave => $linha):
+      foreach ($resultado as $subChave => $subLinha):
+
+        if ($linha['Ajuste']['nome'] == $subLinha['Ajuste']['nome']) {
+          $resultado[ $subChave ]['Ajuste']['ativo'] = $linha['Ajuste']['ativo'];
+        }
+      endforeach;
+    endforeach;
+
+    return $resultado;
   }
 
   // --- Métodos auxiliares

@@ -4,281 +4,270 @@ use app\Models\Database;
 
 class Model
 {
-  protected $tabela = '';
-  protected $colunas = '';
-  protected $database = '';
-  protected $paginacao = '';
-  protected $contarColunas = '';
-  protected $limiteRegistros = 0;
-  protected $ordem = [];
-  protected $unioes = [];
-  protected $condicoes = [];
-  protected $parametros = [];
-  protected $colunasValores = [];
-
-  protected $sessaoUsuario;
+  private $database;
+  private $tabela;
+  private $sqlSelect;
+  private $sqlCount;
+  private $sqlJoin;
+  private $sqlOrder;
+  private $sqlLimit;
+  private $sqlPaginas;
+  private $sqlValores = [];
+  private $sqlCondicoesOr;
+  private $sqlCondicoesAnd;
   protected $usuarioLogado;
   protected $empresaPadraoId;
+  protected $sessaoUsuario;
 
-  public function __construct($usuarioLogado, $empresaPadraoId, string $tabela = '')
+  public function __construct($usuarioLogado, $empresaPadraoId, string $tabela)
   {
+    global $sessaoUsuario;
+    $this->sessaoUsuario = $sessaoUsuario;
+
     $this->usuarioLogado = $usuarioLogado;
     $this->empresaPadraoId = $empresaPadraoId;
 
-    $this->tabela = $tabela;
     $this->database = new Database();
+    $this->tabela = $tabela;
   }
 
-  // --- CRUD ---
-  public function adicionar(array $params): array
+  public function selecionar(array $campos = [])
   {
-    $temp = [];
-    foreach ($params as $chave => $linha):
-      $temp[] = $this->gerarBackticks($chave);
-      $this->parametros[] = $linha;
-    endforeach;
-
-    // Prepara
-    $colunas = implode(', ', $temp);
-    $tabelaAlias = $this->camel2Snake($this->tabela);
-    $tabelaAlias = $this->pluralizar($tabelaAlias);
-    $tabelaAlias = $this->gerarBackticks($tabelaAlias);
-    $placeholders = $this->gerarPlaceholders($this->parametros, true);
-
-    $sql = 'INSERT INTO ' . $tabelaAlias . ' (' . $colunas . ') VALUES ' . $placeholders;
-    $resultado = $this->database->operacoes($sql, $this->parametros);
-
-    $this->limparPropriedades();
-
-    return $resultado;
-  }
-
-  public function buscar(array $colunas = []): array
-  {
-
-    $tabelaColuna = [];
-    foreach ($colunas as $linha):
-      // Prepara
-      $temp = explode('.', $linha);
-      $tabela = $temp[0] ?? '';
-      $coluna = $temp[1] ?? '';
-
-      if (empty($coluna)) {
-        return [];
-      }
-
-      $tabelaColunaAlias = $this->gerarBackticks($tabela . '.' . $coluna);
-      $tabelaColuna[] = $this->gerarBackticks($tabela, $coluna) . ' AS ' . $tabelaColunaAlias;
-    endforeach;
-
-    $this->colunas = implode(', ', $tabelaColuna);
-
-    if (empty($this->colunas)) {
-      $this->colunas = '*';
+    if (empty($campos)) {
+      return $this;
     }
 
-    return $this->executarBusca();
-  }
+    $temp = [];
+    foreach ($campos as $campoAlias):
+      $partes = explode('.', $campoAlias);
 
-  public function atualizar(array $params, int $id): array
-  {
-    foreach ($params as $chave => $linha):
-      $coluna = $this->gerarBackticks($this->tabela, $chave);
-      $valor = $this->gerarPlaceholders();
+      if (count($partes) != 2) {
+        continue;
+      }
 
-      $this->colunasValores[] = $coluna . ' = ' . $valor;
-      $this->parametros[] = $linha;
+      $tabela = $this->pluralizar($partes[0]);
+      $temp[] = $this->gerarBackticks($tabela, $partes[1]) . ' AS ' . $this->gerarBackticks($campoAlias);
     endforeach;
 
-    // Prepara
-    $tabela = $this->camel2Snake($this->tabela);
-    $tabela = $this->pluralizar($tabela);
-    $tabela = $this->gerarBackticks($tabela);
-    $tabelaAlias = $this->gerarBackticks($this->tabela);
+    if (empty($temp) and is_string($campos)) {
+      $campoAlias = $campos;
+      $partes = explode('.', $campos);
 
-    $colunasValores = implode(', ', $this->colunasValores);
-    $placeholders = $this->gerarPlaceholders();
-    $this->parametros[] = $id;
+      if (count($partes) == 2) {
+        $tabela = $this->pluralizar($partes[0]);
+        $temp[] = $this->gerarBackticks($tabela, $partes[1]) . ' AS ' . $this->gerarBackticks($campoAlias);
+      }
+    }
 
-    $sql = 'UPDATE ' . $tabela . ' AS ' . $tabelaAlias . ' SET ' . $colunasValores . ' WHERE id = ' . $placeholders;
-    $resultado = $this->database->operacoes($sql, $this->parametros);
+    if ($temp) {
+      $this->sqlSelect = implode(', ', $temp);
+    }
 
-    $this->limparPropriedades();
-
-    return $resultado;
+    return $this;
   }
 
-  public function apagar(int $id): array
+  public function contar(string $campo)
   {
-    $opLogico = ' = ';
-    $coluna = $this->gerarBackticks($this->tabela, 'id');
-    $tabela = $this->gerarBackticks($this->tabela);
-    $placeholders = $this->gerarPlaceholders();
-    $this->parametros[] = $id;
+    $partes = explode('.', $campo);
 
-    // Prepara
-    $tabela = $this->camel2Snake($this->tabela);
-    $tabela = $this->pluralizar($tabela);
-    $tabela = $this->gerarBackticks($tabela);
-    $tabelaAlias = $this->gerarBackticks($this->tabela);
-    $placeholders = $this->gerarPlaceholders($this->parametros, true);
+    if (count($partes) != 2) {
+      return $this;
+    }
 
-    $sql = 'DELETE FROM ' . $tabela . ' AS ' . $tabelaAlias . ' WHERE ' . $coluna . $opLogico . $placeholders;
-    $resultado = $this->database->operacoes($sql, $this->parametros);
+    $tabela = $this->pluralizar($partes[0]);
+    $tabelaCampo = $this->gerarBackticks($tabela, $partes[1]);
+    $this->sqlCount = 'SELECT COUNT(' . $tabelaCampo . ') AS `total` FROM ' .  $this->gerarBackticks($this->pluralizar($this->tabela));
 
-    $this->limparPropriedades();
-
-    return $resultado;
+    return $this;
   }
 
-  // --- Métodos auxiliares ---
-  public function ordem(array $params = []): self
+  public function juntar(array $params, string $tipo = 'INNER')
+  {
+    $campoA = $params['campoA'] ?? '';
+    $campoB = $params['campoB'] ?? '';
+    $tabelaJoin = $params['tabelaJoin'] ?? '';
+    $tabelaJoin = $this->pluralizar($tabelaJoin);
+
+    $tempA = explode('.', $campoA);
+    $tempB = explode('.', $campoB);
+
+    $campoA = count($tempA) == 2 ? $this->gerarBackticks($tabelaJoin, $tempA[1]) : '';
+    $campoB = count($tempB) == 2 ? $this->gerarBackticks($this->pluralizar($tempB[0]), $tempB[1]) : '';
+
+    if (empty($campoA) or empty($campoB) or empty($tabelaJoin)) {
+      return $this;
+    }
+
+    $this->sqlJoin[] = $tipo . ' JOIN ' . $this->gerarBackticks($tabelaJoin) . ' ON ' . $campoA . ' = ' . $campoB;
+
+    return $this;
+  }
+
+  private function gerarCondicao(array $params, string $tipo)
+  {
+    $campo = $params['campo'] ?? '';
+    $valor = $params['valor'] ?? null;
+    $operador = $params['operador'] ?? '';
+
+    $temp = explode('.', $campo);
+    $campo = count($temp) == 2 ? $this->gerarBackticks($this->pluralizar($temp[0]), $temp[1] ?? '') : '';
+
+    if (empty($campo) or empty($operador)) {
+      return $this;
+    }
+
+    if (is_array($valor)) {
+      $placeholders = '(' . implode(', ', array_fill(0, count($valor), '?')) . ')';
+      $this->sqlValores = array_merge($this->sqlValores, $valor);
+    }
+    else {
+      $placeholders = '?';
+      $this->sqlValores[] = $valor;
+    }
+
+    if ($tipo == 'AND') {
+      $this->sqlCondicoesAnd[] = $campo . $operador . $placeholders;
+    }
+    elseif ($tipo == 'OR') {
+      $this->sqlCondicoesOr[] = $campo . $operador . $placeholders;
+    }
+  }
+
+  public function condicao(array $params, string $tipo = 'AND')
+  {
+    if (isset($params[0]['campo'])) {
+      foreach ($params as $linha):
+        $this->gerarCondicao($linha, $tipo);
+      endforeach;
+    }
+    else {
+      $this->gerarCondicao($params, $tipo);
+    }
+
+    return $this;
+  }
+
+  public function existe(array $params, string $tipo = 'AND')
+  {
+    $tabela = $params['tabela'] ?? '';
+    $tabela = $this->pluralizar($tabela);
+    $tabela = $this->gerarBackticks($tabela);
+    $params = $params['params'] ?? [];
+
+    $subquery = $this->gerarSubquery($tabela, $params);
+
+    if (empty($subquery)) {
+      return $this;
+    }
+
+    if ($tipo == 'AND') {
+      $this->sqlCondicoesAnd[] = 'EXISTS (' . $subquery . ')';
+    }
+    elseif ($tipo == 'OR') {
+      $this->sqlCondicoesOr[] = 'EXISTS (' . $subquery . ')';
+    }
+
+    return $this;
+  }
+
+  public function naoExiste(string $subquery, string $tipo = 'AND')
+  {
+    $tabela = $params['tabela'] ?? '';
+    $tabela = $this->pluralizar($tabela);
+    $tabela = $this->gerarBackticks($tabela);
+    $params = $params['params'] ?? [];
+
+    $subquery = $this->gerarSubquery($tabela, $params);
+
+    if (empty($subquery)) {
+      return $this;
+    }
+
+    if ($tipo === 'AND') {
+        $this->sqlCondicoesAnd[] = 'NOT EXISTS (' . $subquery . ')';
+    }
+    elseif ($tipo === 'OR') {
+        $this->sqlCondicoesOr[] = 'NOT EXISTS (' . $subquery . ')';
+    }
+
+    return $this;
+  }
+
+  public function ordem(array $params)
   {
     if (empty($params)) {
       return $this;
     }
 
+    $ordem = [];
     foreach($params as $chave => $linha):
       $tempTabColuna = explode('.', $chave);
-      $tabela = $tempTabColuna[0];
+      $tabela = $this->pluralizar($tempTabColuna[0]);
       $coluna = $tempTabColuna[1] ?? '';
 
       if ($coluna) {
         $tabelaColuna = $this->gerarBackticks($tabela, $coluna);
 
-        $this->ordem[] = $tabelaColuna . ' ' . $linha;
+        $ordem[] = $tabelaColuna . ' ' . $linha;
       }
     endforeach;
+
+    $this->sqlOrder = 'ORDER BY ' . implode(', ', $ordem);
 
     return $this;
   }
 
-  private function executarBusca(array $params = []): array
+  public function limite(int $quantidade)
   {
-    // Prepara
-    $tabela = $this->camel2Snake($this->tabela);
-    $tabela = $this->pluralizar($tabela);
-    $tabela = $this->gerarBackticks($tabela);
-    $tabelaAlias = $this->gerarBackticks($this->tabela);
+    $this->sqlLimit = 'LIMIT ?';
+    $this->sqlValores[] = (int) $quantidade;
 
-    $sql = 'SELECT ' . $this->colunas . ' FROM ' . $tabela . ' AS ' . $tabelaAlias;
+    return $this;
+  }
 
-    // Por enquanto não aceita SELECT *
-    if ($this->unioes and $this->colunas != '*') {
-      $sql .= ' ' . implode(' ', $this->unioes);
+  public function pagina(int $limite = 10, int $pagina = 1): self
+  {
+    $pagina = $pagina - 1;
+    $offset = $pagina * $limite;
+
+    if ($offset < 0) {
+      $offset = 0;
     }
 
-    if (isset($this->condicoes['erro'])) {
+    $this->sqlPaginas = ' LIMIT ' . $limite . ' OFFSET ' . $offset;
+
+    return $this;
+  }
+
+  public function executarConsulta()
+  {
+    // EmpresaID sempre primeiro
+    if (! in_array($this->tabela, ['Empresa', 'Login'])) {
+
+      if (empty($this->empresaPadraoId)) {
+        return [];
+      }
+
+      $tabela = $this->pluralizar($this->tabela);
+      $tabelaCampo = $this->gerarBackticks($tabela, 'empresa_id');
+      $this->sqlCondicoesAnd[] = $tabelaCampo . '=' . $this->empresaPadraoId;
+    }
+
+    $sql = $this->montarConsulta();
+
+    if (empty($sql)) {
       return [];
     }
 
-    if ($this->condicoes) {
-      $sql .= ' WHERE ' . implode(' ', $this->condicoes);
+    $resultado = $this->database->operacoes($sql, $this->sqlValores);
 
-      if ($this->tabela == 'Empresa') {
-        $sql .= ' AND ' . $this->gerarBackticks($this->tabela, 'id') . ' = ?';
-      }
-      else {
-        $sql .= ' AND ' . $this->gerarBackticks($this->tabela, 'empresa_id') . ' = ?';
-      }
-
-      $this->parametros[] = $this->empresaPadraoId;
-    }
-    elseif ($this->tabela == 'Empresa') {
-      $sql .= ' WHERE ' . $this->gerarBackticks($this->tabela, 'id') . ' = ?';
-      $this->parametros[] = $this->empresaPadraoId;
-    }
-    else {
-      $sql .= ' WHERE ' . $this->gerarBackticks($this->tabela, 'empresa_id') . ' = ?';
-      $this->parametros[] = $this->empresaPadraoId;
-    }
-
-    if ($this->ordem) {
-      $sql .= ' ORDER BY ' . implode(', ', $this->ordem);
-    }
-
-    if ($this->paginacao) {
-      $sql .= $this->paginacao;
-    }
-
-    if (empty($this->paginacao) and $this->limiteRegistros) {
-      $sql .= ' LIMIT ' . $this->limiteRegistros;
-    }
-
-    $resultado = $this->database->operacoes($sql, $this->parametros);
-
-    if (empty($resultado)) {
-      $resultado = [
-        'erro' => [
-          'codigo' => 404,
-          'mensagem' => 'Recurso não encontrado',
-        ],
-      ];
+    if (is_array($resultado) and ! isset($resultado['erro'])) {
+      $resultado = $this->organizarResultado($resultado);
     }
 
     $this->limparPropriedades();
 
     return $resultado;
-  }
-
-  private function executarContar(array $params = []): array
-  {
-    // Prepara
-    $tabela = $this->camel2Snake($this->tabela);
-    $tabela = $this->pluralizar($tabela);
-    $tabela = $this->gerarBackticks($tabela);
-    $tabelaAlias = $this->gerarBackticks($this->tabela);
-
-    $sql = 'SELECT COUNT(' . $this->contarColunas . ') AS `total` FROM ' . $tabela . ' AS ' . $tabelaAlias;
-
-    // Por enquanto não aceita SELECT *
-    if ($this->unioes and $this->colunas != '*') {
-      $sql .= ' ' . implode(' ', $this->unioes);
-    }
-
-    if (isset($this->condicoes['erro'])) {
-      return [];
-    }
-
-    if ($this->condicoes) {
-      $sql .= ' WHERE ' . implode(' ', $this->condicoes);
-
-      if ($this->tabela == 'Empresa') {
-        $sql .= ' AND ' . $this->gerarBackticks($this->tabela, 'id') . ' = ?';
-      }
-      else {
-        $sql .= ' AND ' . $this->gerarBackticks($this->tabela, 'empresa_id') . ' = ?';
-      }
-
-      $this->parametros[] = $this->empresaPadraoId;
-    }
-    elseif ($this->tabela == 'Empresa') {
-      $sql .= ' WHERE ' . $this->gerarBackticks($this->tabela, 'id') . ' = ?';
-      $this->parametros[] = $this->empresaPadraoId;
-    }
-    else {
-      $sql .= ' WHERE ' . $this->gerarBackticks($this->tabela, 'empresa_id') . ' = ?';
-      $this->parametros[] = $this->empresaPadraoId;
-    }
-
-    if ($this->paginacao) {
-      $sql .= $this->paginacao;
-    }
-
-    $resultado = $this->database->operacoes($sql, $this->parametros);
-
-    if (empty($resultado) or ! is_array($resultado)) {
-      $resultado = [
-        'erro' => [
-          'codigo' => 404,
-          'mensagem' => 'Recurso não encontrado',
-        ],
-      ];
-    }
-
-    $this->limparPropriedades();
-
-    return reset($resultado);
   }
 
   // Queries manuais
@@ -301,190 +290,217 @@ class Model
     return $this->database->operacoes($sql, $params);
   }
 
-  public function uniao(array $params = [], string $uniao = 'INNER'): self
+  // Revisar
+  public function adicionar(array $params): array
   {
-    foreach ($params as $linha):
-      // Prepara Join
-      $tabelaUniao = $this->pluralizar($linha);
-      $tabelaUniao = $this->camel2Snake($tabelaUniao);
-      $tabelaUniao = $this->gerarBackticks($tabelaUniao);
-      $tabUniaoAlias = $this->gerarBackticks($linha);
-      $tabelaAlias = $this->gerarBackticks($this->tabela, 'id');
-      $colunaRelAlias = strtolower($this->tabela) . '_id';
-      $colunaRelAlias = $this->gerarBackticks($colunaRelAlias);
-      $tabelaColunaRel = $tabUniaoAlias . '.' . $colunaRelAlias;
-
-      $this->unioes[] = $uniao . ' JOIN ' . $tabelaUniao . ' AS ' . $tabUniaoAlias . ' ON ' . $tabelaAlias . ' = ' . $tabelaColunaRel;
+    $temp = [];
+    foreach ($params as $chave => $linha):
+      $temp[] = $this->gerarBackticks($chave);
+      $this->sqlValores[] = $linha;
     endforeach;
-
-    return $this;
-  }
-
-  public function uniao2(array $params = [], string $uniao = 'INNER'): self
-  {
-    foreach ($params as $linha):
-      // Prepara Join
-      $tabelaUniao = $this->pluralizar($linha);
-      $tabelaUniao = $this->camel2Snake($tabelaUniao);
-      $tabelaUniao = $this->gerarBackticks($tabelaUniao);
-      $tabUniaoAlias = $this->gerarBackticks($linha);
-
-      $colunaUniao = strtolower($linha) . '_id';
-      $tabelaAlias = $this->gerarBackticks($this->tabela, $colunaUniao);
-      $tabelaColUniao = $this->gerarBackticks($linha, 'id');
-
-      $this->unioes[] = $uniao . ' JOIN ' . $tabelaUniao . ' AS ' . $tabUniaoAlias . ' ON ' . $tabelaAlias . ' = ' . $tabelaColUniao;
-    endforeach;
-
-    return $this;
-  }
-
-  public function contar(string $colunaContar): array
-  {
-    $temp = explode('.', $colunaContar);
-    $tabela = $temp[0] ?? '';
-    $coluna = $temp[1] ?? '';
-
-    if (empty($coluna)) {
-      return [];
-    }
 
     // Prepara
-    $this->contarColunas = $this->gerarBackticks($tabela, $coluna);
+    $colunas = implode(', ', $temp);
+    $tabelaAlias = $this->camel2Snake($this->tabela);
+    $tabelaAlias = $this->pluralizar($tabelaAlias);
+    $tabelaAlias = $this->gerarBackticks($tabelaAlias);
+    $placeholders = $this->gerarPlaceholders($this->sqlValores, true);
 
-    return $this->executarContar();
+    $sql = 'INSERT INTO ' . $tabelaAlias . ' (' . $colunas . ') VALUES ' . $placeholders;
+    $resultado = $this->database->operacoes($sql, $this->sqlValores);
+
+    $this->limparPropriedades();
+
+    return $resultado;
   }
 
-  public function limite(int $limite = 0): self
+  // Revisar
+  public function atualizar(array $params, int $id): array
   {
-    $this->limiteRegistros = $limite;
+    $tempColunasValores = [];
+    foreach ($params as $chave => $linha):
+      $coluna = $this->gerarBackticks($this->tabela, $chave);
+      $valor = $this->gerarPlaceholders();
 
-    return $this;
+      $tempColunasValores[] = $coluna . ' = ' . $valor;
+      $this->sqlValores[] = $linha;
+    endforeach;
+
+    // Prepara
+    $tabela = $this->camel2Snake($this->tabela);
+    $tabela = $this->pluralizar($tabela);
+    $tabela = $this->gerarBackticks($tabela);
+    $tabelaAlias = $this->gerarBackticks($this->tabela);
+
+    $colunasValores = implode(', ', $tempColunasValores);
+    $placeholders = $this->gerarPlaceholders();
+    $this->sqlValores[] = $id;
+
+    $sql = 'UPDATE ' . $tabela . ' AS ' . $tabelaAlias . ' SET ' . $colunasValores . ' WHERE id = ' . $placeholders;
+    $resultado = $this->database->operacoes($sql, $this->sqlValores);
+
+    $this->limparPropriedades();
+
+    return $resultado;
   }
 
-  public function pagina(int $limite = 10, int $pagina = 1): self
+  // Revisar
+  public function apagar(int $id): array
   {
-    $pagina = $pagina - 1;
-    $offset = $pagina * $limite;
+    $opLogico = ' = ';
+    $coluna = $this->gerarBackticks($this->tabela, 'id');
+    $tabela = $this->gerarBackticks($this->tabela);
+    $placeholders = $this->gerarPlaceholders();
+    $this->sqlValores[] = $id;
 
-    if ($offset < 0) {
-      $offset = 0;
+    // Prepara
+    $tabela = $this->camel2Snake($this->tabela);
+    $tabela = $this->pluralizar($tabela);
+    $tabela = $this->gerarBackticks($tabela);
+    $tabelaAlias = $this->gerarBackticks($this->tabela);
+    $placeholders = $this->gerarPlaceholders($this->sqlValores, true);
+
+    $sql = 'DELETE FROM ' . $tabela . ' AS ' . $tabelaAlias . ' WHERE ' . $coluna . $opLogico . $placeholders;
+    $resultado = $this->database->operacoes($sql, $this->sqlValores);
+
+    $this->limparPropriedades();
+
+    return $resultado;
+  }
+
+  // --------------- Métodos auxiliares --------------- //
+  public function montarConsulta()
+  {
+    $sql = '';
+
+    if ($this->sqlSelect) {
+      $sql = 'SELECT ' . $this->sqlSelect . ' FROM ' . $this->gerarBackticks($this->pluralizar($this->tabela));
+    }
+    elseif ($this->sqlCount) {
+      $sql = $this->sqlCount;
     }
 
-    $this->paginacao = ' LIMIT ' . $limite . ' OFFSET ' . $offset;
+    if ($this->sqlJoin) {
+      $sql .= ' ' . implode(' ', $this->sqlJoin);
+    }
 
-    return $this;
+    if ($this->sqlCondicoesAnd or $this->sqlCondicoesOr) {
+      $sql .= ' WHERE ';
+
+      if ($this->sqlCondicoesAnd) {
+        $sql .= implode(' AND ', $this->sqlCondicoesAnd);
+      }
+
+      if ($this->sqlCondicoesAnd and $this->sqlCondicoesOr) {
+        $sql .= ' OR ' . implode(' OR ', $this->sqlCondicoesOr);
+      }
+    }
+
+    if ($this->sqlOrder) {
+      $sql .= ' ' . $this->sqlOrder;
+    }
+
+    if ($this->sqlPaginas) {
+      $sql .= $this->sqlPaginas;
+    }
+
+    if (empty($this->sqlPaginas) and $this->sqlLimit) {
+      $sql .= ' ' . $this->sqlLimit;
+    }
+
+    return $sql;
   }
 
-  public function condicao(array $condicoes = []): self
+  private function limparPropriedades()
   {
-    if ($condicoes) {
-      foreach ($condicoes as $chave => $linha):
-        $tabelaColuna = explode('.', strtok($chave, ' '));
-        $tabela = $tabelaColuna[0];
-        $coluna = $tabelaColuna[1] ?? '';
+    $this->sqlJoin = null;
+    $this->sqlOrder = null;
+    $this->sqlCount = null;
+    $this->sqlSelect = null;
+    $this->sqlLimit = null;
+    $this->sqlValores = [];
+    $this->sqlPaginas = null;
+    $this->sqlCondicoesOr = null;
+    $this->sqlCondicoesAnd = null;
+  }
 
-        if (empty($coluna)) {
-          $this->condicoes['erro'] = 1;
-          break;
+  function organizarResultado(array $resultado = []) {
+    $array = [];
+    foreach ($resultado as $linha):
+      $registroAtual = [];
+      foreach ($linha as $chave => $valor):
+        $partes = explode('.', $chave);
+
+        if (count($partes) != 2) {
+          continue;
         }
 
-        $params = [
-          'opLogico' => '',
-          'coluna' => $this->gerarBackticks($tabela, $coluna),
-          'opComparacao' => $this->obterOpComparacao($chave),
-          'valor' => $linha,
-        ];
-
-        if (strtoupper($chave) === 'OR') {
-          $this->adicionarCondicoesOu($linha);
-        }
-        elseif ($this->condicoes and is_array($linha)) {
-          $params['opLogico'] = 'AND';
-          $this->adicionarCondicoesMultiplas($params);
-        }
-        elseif ($this->condicoes) {
-          $params['opLogico'] = 'AND';
-          $this->adicionarCondicaoUnica($params);
-        }
-        elseif (is_array($linha)) {
-          $this->adicionarCondicoesMultiplas($params);
-        }
-        else {
-          $this->adicionarCondicaoUnica($params);
-        }
+        $tabela = $partes[0];
+        $campo = $partes[1];
+        $registroAtual[ $tabela ][ $campo ] = $valor;
       endforeach;
+
+      if (empty($registroAtual)) {
+        continue;
+      }
+
+      $array[] = $registroAtual;
+    endforeach;
+
+    if (empty($array)) {
+      $array = $resultado;
     }
 
-    return $this;
+    // Retorna na raíz
+    if ($this->sqlCount) {
+      $array = reset($array);
+    }
+
+    return $array;
   }
 
-  private function adicionarCondicoesOu(array $condicao): void
+  private function gerarSubquery(string $tabela, array $params): string
   {
-    foreach ($condicao as $chave => $linha):
-      $params = [
-        'opLogico' => 'OR',
-        'coluna' => strtok($chave, ' '),
-        'opComparacao' => $this->obterOpComparacao($chave),
-        'valor' => $linha,
-      ];
+    $consultas = [];
+    foreach ($params as $chave => $linha):
+      $campo = $linha['campo'] ?? '';
+      $operador = $linha['operador'] ?? '';
+      $valor = $linha['valor'] ?? '';
 
-      if (is_array($linha)) {
+      $tempCampo = explode('.', $campo);
+      $tempValor = explode('.', $valor);
 
-        if ($params['opComparacao'] == '=') {
-          $params['opComparacao'] = 'IN';
-        }
+      $campo = count($tempCampo) == 2 ? $this->gerarBackticks($this->pluralizar($tempCampo[0]), $tempCampo[1] ?? '') : '';
 
-        $this->condicoes[] = $this->gerarCondicao($params);
+      // tabela.campo como valor
+      if (count($tempValor) == 2) {
+        $valor = $this->gerarBackticks($this->pluralizar($tempValor[0]), $tempValor[1]);
+      }
 
-        foreach ($linha as $sublinha):
-          $this->parametros[] = $sublinha;
-        endforeach;
+      if (empty($campo)) {
+        continue;
+      }
+
+      if (empty($operador)) {
+        continue;
+      }
+
+      if (count($tempValor) == 2) {
+        $placeholders = $valor;
+      }
+      elseif (is_array($valor)) {
+        $placeholders = '(' . implode(', ', array_fill(0, count($valor), '?')) . ')';
+        $this->sqlValores = array_merge($this->sqlValores, $valor);
       }
       else {
-        $this->condicoes[] = $this->gerarCondicao($params);
-        $this->parametros[] = $linha;
+        $placeholders = '?';
+        $this->sqlValores[] = $valor;
       }
+
+      $consultas[] = $campo . $operador . $placeholders;
     endforeach;
-  }
 
-  private function adicionarCondicoesMultiplas(array $params = []): void
-  {
-    if ($params['opComparacao'] == '=') {
-      $params['opComparacao'] = 'IN';
-    }
-
-    $this->condicoes[] = $this->gerarCondicao($params);
-
-    foreach ($params['valor'] as $sublinha):
-      $this->parametros[] = $sublinha;
-    endforeach;
-  }
-
-  private function adicionarCondicaoUnica(array $params = []): void
-  {
-    $this->condicoes[] = $this->gerarCondicao($params);
-    $this->parametros[] = $params['valor'];
-  }
-
-  private function obterOpComparacao(string $coluna): string
-  {
-    $opComparacao = strstr($coluna, ' ');
-    $opComparacao = trim($opComparacao);
-
-    if (empty($opComparacao)) {
-      $opComparacao = '=';
-    }
-
-    return $opComparacao;
-  }
-
-  private function gerarCondicao(array $params): string
-  {
-    $params['valor'] = $this->gerarPlaceholders($params);
-    $condicao = trim(implode(' ', $params));
-
-    return $condicao;
+    return 'SELECT 1 FROM ' . $tabela . ' WHERE ' . implode(' AND ', $consultas);
   }
 
   private function gerarPlaceholders(array $params = [], bool $multiplos = false): string
@@ -495,26 +511,8 @@ class Model
       $placeholder = str_repeat('?, ', count($params));
       $placeholder = '(' . rtrim($placeholder, ', ') . ')';
     }
-    elseif (isset($params['opComparacao']) and substr(trim($params['opComparacao']), -2) == 'IN') {
-      $placeholder = str_repeat('?, ', count($params['valor']));
-      $placeholder = '(' . rtrim($placeholder, ', ') . ')';
-    }
 
     return $placeholder;
-  }
-
-  private function gerarBackticks($a, $b = '')
-  {
-    if ($b) {
-      return '`' . $a . '`.`' . $b . '`';
-    }
-
-    return '`' . $a . '`';
-  }
-
-  private function pluralizar(string $texto)
-  {
-    return $texto . 's';
   }
 
   private function camel2Snake(string $tabela)
@@ -522,15 +520,13 @@ class Model
     return strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $tabela));
   }
 
-  private function limparPropriedades()
+  private function pluralizar(string $texto)
   {
-    $this->colunas = '';
-    $this->condicoes = [];
-    $this->parametros = [];
-    $this->colunasValores = [];
-    $this->contarColunas = '';
-    $this->paginacao = '';
-    $this->unioes = [];
-    $this->ordem = [];
+    return strtolower($texto) . 's';
+  }
+
+  private function gerarBackticks(string $a, string $b = ''): string
+  {
+    return $b ? '`' . $a . '`.`' . $b . '`' : '`' . $a . '`';
   }
 }

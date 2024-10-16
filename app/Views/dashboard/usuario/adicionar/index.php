@@ -12,5 +12,3 @@
     <div class="hidden md:block w-full"></div>
   </div>
 </div>
-
-<?php require_once 'modais/remover.php' ?>

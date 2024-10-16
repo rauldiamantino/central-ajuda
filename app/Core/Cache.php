@@ -5,6 +5,10 @@ class Cache
 {
   public static function definir(string $nome, array $dados, int $tempo, int $empresaId = 0)
   {
+    if (GRAVAR_CACHE == INATIVO) {
+      return;
+    }
+
     $diretorio = 'cache/';
 
     if ($empresaId) {
@@ -27,6 +31,10 @@ class Cache
 
   public static function buscar(string $nome, int $empresaId = 0)
   {
+    if (GRAVAR_CACHE == INATIVO) {
+      return null;
+    }
+
     $diretorio = 'cache/';
 
     if ($empresaId) {
@@ -51,6 +59,10 @@ class Cache
 
   public static function apagar(string $nome, int $empresaId = 0)
   {
+    if (GRAVAR_CACHE == INATIVO) {
+      return null;
+    }
+
     $diretorio = 'cache/';
 
     if ($empresaId) {
@@ -67,6 +79,10 @@ class Cache
   // Usar com muita atenção
   public static function apagarTodos(string $nome, int $empresaId)
   {
+    if (GRAVAR_CACHE == INATIVO) {
+      return null;
+    }
+
     if (empty($empresaId)) {
       return;
     }

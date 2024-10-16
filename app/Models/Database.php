@@ -47,6 +47,11 @@ class Database
         }
 
         $valorFormatado = strip_tags(is_int($valor) ? $valor : $valor);
+
+        if (is_string($valorFormatado)) {
+          $valorFormatado = '\'' . $valorFormatado . '\'';
+        }
+
         $sqlFormatado = preg_replace('/\?/', $valorFormatado, $sqlFormatado, 1);
       endforeach;
     }
@@ -104,7 +109,7 @@ class Database
     }
 
     if (HOST_LOCAL) {
-      registrarLog('database', ['sql' => $sqlFormatado, 'ok' => $resposta, 'erro' => $erro]);
+      registrarLog('database', ['sql' => $sqlFormatado, 'resposta' => $resposta, 'erro' => $erro]);
     }
 
     return $resposta;

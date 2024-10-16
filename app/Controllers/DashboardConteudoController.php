@@ -15,7 +15,9 @@ class DashboardConteudoController extends DashboardController
   public function conteudoEditarVer(int $id)
   {
     $condicao = [
-      'Conteudo.id' => $id,
+      'campo' => 'Conteudo.id',
+      'operador' => '=',
+      'valor' => $id,
     ];
 
     $colunas = [
@@ -30,8 +32,9 @@ class DashboardConteudoController extends DashboardController
       'Conteudo.url',
     ];
 
-    $resultado = $this->conteudoModel->condicao($condicao)
-                                     ->buscar($colunas);
+    $resultado = $this->conteudoModel->selecionar($colunas)
+                                     ->condicao($condicao)
+                                     ->executarConsulta();
 
     $this->visao->variavel('loader', true);
     $this->visao->variavel('conteudo', reset($resultado));
@@ -56,7 +59,9 @@ class DashboardConteudoController extends DashboardController
 
     if ($artigoId) {
       $condicao = [
-        'Conteudo.artigo_id' => $artigoId,
+        'campo' => 'Conteudo.artigo_id',
+        'operador' => '=',
+        'valor' => $artigoId,
       ];
 
       $colunas = [
@@ -71,13 +76,14 @@ class DashboardConteudoController extends DashboardController
 
       $limite = 1;
 
-      $resultadoOrdem = $this->conteudoModel->condicao($condicao)
+      $resultadoOrdem = $this->conteudoModel->selecionar($colunas)
+                                            ->condicao($condicao)
                                             ->ordem($ordem)
                                             ->limite($limite)
-                                            ->buscar($colunas);
+                                            ->executarConsulta();
 
-      $empresaId = intval($resultadoOrdem[0]['Conteudo.empresa_id'] ?? 0);
-      $ordemAtual = intval($resultadoOrdem[0]['Conteudo.ordem'] ?? 0);
+      $empresaId = intval($resultadoOrdem[0]['Conteudo']['empresa_id'] ?? 0);
+      $ordemAtual = intval($resultadoOrdem[0]['Conteudo']['ordem'] ?? 0);
 
       if ($resultadoOrdem) {
         $ordemNum['prox'] = $ordemAtual + 1;
@@ -131,7 +137,9 @@ class DashboardConteudoController extends DashboardController
   public function buscar(int $artigoId)
   {
     $condicao = [
-      'Conteudo.artigo_id' => $artigoId,
+      'campo' => 'Conteudo.artigo_id',
+      'operador' => '=',
+      'valor' => $artigoId,
     ];
 
     $colunas = [
@@ -139,12 +147,17 @@ class DashboardConteudoController extends DashboardController
       'Conteudo.titulo',
     ];
 
+    $ordem = [
+      'Conteudo.ordem' => 'ASC',
+    ];
+
     $limite = 100;
 
-    $resultado = $this->conteudoModel->condicao($condicao)
-                                     ->ordem(['Conteudo.ordem' => 'ASC'])
+    $resultado = $this->conteudoModel->selecionar($colunas)
+                                     ->condicao($condicao)
+                                     ->ordem($ordem)
                                      ->limite($limite)
-                                     ->buscar($colunas);
+                                     ->executarConsulta();
 
     if (isset($resultado['erro'])) {
       $codigo = $resultado['erro']['codigo'] ?? 500;

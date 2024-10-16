@@ -22,66 +22,41 @@
       <tbody class="divide-y">
         <?php foreach ($artigos as $chave => $linha) : ?>
           <tr class="hover:bg-slate-100">
-            <?php if (isset($linha['Artigo.id'])) { ?>
-              <?php foreach ($linha as $subChave => $subLinha) : ?>
-
-                <?php // ID ?>
-                <?php if ($subChave == 'Artigo.id') { ?>
-                  <td class="py-5 px-4"><?php echo $subLinha ?></td>
+            <?php if (isset($linha['Artigo']['id'])) { ?>
+              <td class="py-5 px-4"><?php echo $linha['Artigo']['id'] ?></td>
+              <td class="py-5 px-4">
+                <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/artigo/editar/<?php echo $linha['Artigo']['id'] ?>" class="font-semibold text-gray-700 hover:underline js-dashboard-artigos-editar" data-artigo-id="<?php echo $linha['Artigo']['id'] ?>">
+                  <?php echo $linha['Artigo']['titulo'] ?>
+                </a>
+              </td>
+              <td class="py-5 px-4">
+                <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/categoria/editar/<?php echo $linha['Artigo']['categoria_id'] ?>" target="_blank" class="hover:underline">
+                  <?php echo $linha['Categoria']['nome'] ?>
+                </a>
+              </td>
+              <td class="py-5 px-4"><?php echo $linha['Artigo']['criado'] ?></td>
+              <td class="py-5 px-4">
+                <?php if ($linha['Artigo']['ativo'] == 1) { ?>
+                  <div class="flex items-center gap-2">
+                    <span class="px-3 py-1 bg-green-50 text-green-600 text-xs rounded-full">Ativo</span>
+                  </div>
                 <?php } ?>
-
-                <?php // Título ?>
-                <?php if ($subChave == 'Artigo.titulo') { ?>
-                  <td class="py-5 px-4">
-                    <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/artigo/editar/<?php echo $linha['Artigo.id'] ?>" class="font-semibold text-gray-700 hover:underline js-dashboard-artigos-editar" data-artigo-id="<?php echo $linha['Artigo.id'] ?>">
-                      <?php echo $subLinha ?>
-                    </a>
-                  </td>
+                <?php if ($linha['Artigo']['ativo'] == 0) { ?>
+                  <div class="flex items-center gap-2">
+                    <span class="px-3 py-1 bg-red-50 text-red-600 text-xs rounded-full">Inativo</span>
+                  </div>
                 <?php } ?>
-
-                <?php // Categoria ?>
-                <?php if ($subChave == 'Categoria.nome') { ?>
-                  <td class="py-5 px-4">
-                    <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/categoria/editar/<?php echo $linha['Artigo.categoria_id'] ?>" target="_blank" class="hover:underline">
-                      <?php echo $subLinha ?>
-                    </a>
-                  </td>
-                <?php } ?>
-
-                <?php // Criado ?>
-                <?php if ($subChave == 'Artigo.criado') { ?>
-                  <td class="py-5 px-4"><?php echo $subLinha ?></td>
-                <?php } ?>
-
-                <?php // Ativo ?>
-                <?php if ($subChave == 'Artigo.ativo') { ?>
-                  <td class="py-5 px-4">
-                    <?php if ($subLinha == 1) { ?>
-                      <div class="flex items-center gap-2">
-                        <span class="px-3 py-1 bg-green-50 text-green-600 text-xs rounded-full">Ativo</span>
-                      </div>
-                    <?php } ?>
-                    <?php if ($subLinha == 0) { ?>
-                      <div class="flex items-center gap-2">
-                        <span class="px-3 py-1 bg-red-50 text-red-600 text-xs rounded-full">Inativo</span>
-                      </div>
-                    <?php } ?>
-                  </td>
-                  <?php // Ação ?>
-                  <?php if (isset($linha['Artigo.id'])) { ?>
-                    <td class="py-5 px-4">
-                      <div class="min-h-full flex gap-3 md:gap-1 justify-start">
-                        <button type="button" class="text-red-800 js-dashboard-artigos-remover" data-artigo-id="<?php echo $linha['Artigo.id'] ?>" data-empresa-id="<?php echo $linha['Artigo.empresa_id'] ?>">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" class="min-h-full">
-                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
-                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
-                          </svg>
-                        </button>
-                      </div>
-                    </td>
-                  <?php } ?>
-                <?php } ?>
-              <?php endforeach; ?>
+              </td>
+              <td class="py-5 px-4">
+                <div class="min-h-full flex gap-3 md:gap-1 justify-start">
+                  <button type="button" class="text-red-800 js-dashboard-artigos-remover" data-artigo-id="<?php echo $linha['Artigo']['id'] ?>" data-empresa-id="<?php echo $linha['Artigo']['empresa_id'] ?>">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" class="min-h-full">
+                      <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                      <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                    </svg>
+                  </button>
+                </div>
+              </td>
             <?php } ?>
           </tr>
         <?php endforeach; ?>

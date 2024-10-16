@@ -24,12 +24,12 @@ class PublicoArtigoController extends PublicoController
     $demaisArtigos = [];
 
     $condicoes = [
-      'Artigo.id' => (int) $id,
-      'Artigo.ativo' => ATIVO,
+      0 => ['campo' => 'Artigo.id', 'operador' => '=', 'valor' => (int) $id],
+      1 => ['campo' => 'Artigo.ativo', 'operador' => '=', 'valor' => ATIVO],
     ];
 
     if ($this->exibirInativos()) {
-      unset($condicoes['Artigo.ativo']);
+      unset($condicoes[1]);
     }
 
     $colunas = [
@@ -46,30 +46,45 @@ class PublicoArtigoController extends PublicoController
       'Usuario.nome',
     ];
 
-    $uniao = [
-      'Categoria',
-      'Usuario',
+    $juntarCategoria = [
+      'tabelaJoin' => 'Categoria',
+      'campoA' => 'Categoria.id',
+      'campoB' => 'Artigo.categoria_id',
+    ];
+
+    $juntarUsuario = [
+      'tabelaJoin' => 'Usuario',
+      'campoA' => 'Usuario.id',
+      'campoB' => 'Artigo.usuario_id',
+    ];
+
+    $ordem = [
+      'Artigo.ordem' => 'ASC',
     ];
 
     $cacheNome = 'publico-artigo_artigo-' . md5(serialize($condicoes));
     $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
 
     if ($resultado == null) {
-      $resultado = $this->artigoModel->condicao($condicoes)
-                                     ->uniao2($uniao, 'LEFT')
-                                     ->ordem(['Artigo.ordem' => 'ASC'])
-                                     ->buscar($colunas);
+      $resultado = $this->artigoModel->selecionar($colunas)
+                                     ->condicao($condicoes)
+                                     ->juntar($juntarCategoria, 'LEFT')
+                                     ->juntar($juntarUsuario, 'LEFT')
+                                     ->ordem($ordem)
+                                     ->executarConsulta();
 
       Cache::definir($cacheNome, $resultado, $this->cacheTempo, $this->empresaPadraoId);
     }
 
-    if (isset($resultado[0]['Artigo.id'])) {
+    if (isset($resultado[0]['Artigo']['id'])) {
       $artigo = $resultado;
     }
 
     if ($artigo) {
-      $condConteudo = [
-        'Conteudo.artigo_id' => $id,
+      $condConteudo[] = [
+        'campo' => 'Conteudo.artigo_id',
+        'operador' => '=',
+        'valor' => $id,
       ];
 
       $colConteudo = [
@@ -93,24 +108,25 @@ class PublicoArtigoController extends PublicoController
       $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
 
       if ($resultado == null) {
-        $resultado = $this->conteudoModel->condicao($condConteudo)
+        $resultado = $this->conteudoModel->selecionar($colConteudo)
+                                         ->condicao($condConteudo)
                                          ->ordem($ordConteudo)
-                                         ->buscar($colConteudo);
+                                         ->executarConsulta();
 
         Cache::definir($cacheNome, $resultado, $this->cacheTempo, $this->empresaPadraoId);
       }
 
-      if (isset($resultado[0]['Conteudo.id'])) {
+      if (isset($resultado[0]['Conteudo']['id'])) {
         $conteudos = $resultado;
       }
 
       $condDemaisArtigos = [
-        'Artigo.categoria_id' => intval($artigo[0]['Artigo.categoria_id'] ?? 0),
-        'Artigo.ativo' => ATIVO,
+        0 => ['campo' => 'Artigo.categoria_id', 'operador' => '=', 'valor' => intval($artigo[0]['Artigo']['categoria_id'] ?? 0)],
+        1 => ['campo' => 'Artigo.ativo', 'operador' => '=', 'valor' => ATIVO],
       ];
 
       if ($this->exibirInativos()) {
-        unset($condDemaisArtigos['Artigo.ativo']);
+        unset($condDemaisArtigos[1]);
       }
 
       $colDemaisArtigos = [
@@ -122,23 +138,29 @@ class PublicoArtigoController extends PublicoController
       ];
 
       $uniDemaisArtigos = [
-        'Categoria',
+        'tabelaJoin' => 'Categoria',
+        'campoA' => 'Categoria.id',
+        'campoB' => 'Artigo.categoria_id',
       ];
 
+      $ordem = [
+        'Artigo.ordem' => 'ASC',
+      ];
 
       $cacheNome = 'publico-artigo_demais-artigos-' . md5(serialize($condDemaisArtigos));
       $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
 
       if ($resultado == null) {
-        $resultado = $this->artigoModel->condicao($condDemaisArtigos)
-                                       ->uniao2($uniDemaisArtigos, 'LEFT')
-                                       ->ordem(['Artigo.ordem' => 'ASC'])
-                                       ->buscar($colDemaisArtigos);
+        $resultado = $this->artigoModel->selecionar($colDemaisArtigos)
+                                       ->condicao($condDemaisArtigos)
+                                       ->juntar($uniDemaisArtigos, 'LEFT')
+                                       ->ordem($ordem)
+                                       ->executarConsulta();
 
         Cache::definir($cacheNome, $resultado, $this->cacheTempo, $this->empresaPadraoId);
       }
 
-      if (isset($resultado[0]['Artigo.id'])) {
+      if (isset($resultado[0]['Artigo']['id'])) {
         $demaisArtigos = $resultado;
       }
     }

@@ -9,7 +9,7 @@ class DashboardLoginModel extends Model
 
   public function __construct($usuarioLogado, $empresaPadraoId)
   {
-    parent::__construct($usuarioLogado, $empresaPadraoId, 'Login');
+    parent::__construct($usuarioLogado, $empresaPadraoId, '');
   }
 
   public function login($params)
@@ -155,19 +155,6 @@ class DashboardLoginModel extends Model
     ];
 
     $this->executarQuery($sql, $sqlParams);
-  }
-
-  public function buscarEmpresas(): array
-  {
-    $sql = 'SELECT * FROM `empresas` AS `Empresa`';
-
-    $resultado = $this->executarQuery($sql);
-
-    if (isset($resultado['erro'])) {
-      return $resultado;
-    }
-
-    return ['ok' => $resultado];
   }
 
   // --- Métodos auxiliares

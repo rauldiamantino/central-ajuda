@@ -8,7 +8,7 @@ use app\Controllers\ViewRenderer;
 class PublicoController extends Controller
 {
   protected $publicoModel;
-  protected $dashboardDategoriaModel;
+  protected $dashboardCategoriaModel;
   protected $dashboardEmpresaModel;
   protected $cacheTempo;
   protected $subdominio;
@@ -24,7 +24,7 @@ class PublicoController extends Controller
     $this->cacheTempo = 60 * 60;
 
     $this->obterDadosEmpresa();
-    $this->dashboardDategoriaModel = new DashboardCategoriaModel($this->usuarioLogado, $this->empresaPadraoId);
+    $this->dashboardCategoriaModel = new DashboardCategoriaModel($this->usuarioLogado, $this->empresaPadraoId);
 
     $this->visao = new ViewRenderer('/publico');
     $this->visao->variavel('logo', $this->logo);
@@ -36,12 +36,14 @@ class PublicoController extends Controller
 
   public function publicoVer()
   {
-    $condicoes = [
-      'Categoria.ativo' => ATIVO,
+    $condicoes[] = [
+      'campo' => 'Categoria.ativo',
+      'operador' => '=',
+      'valor' => ATIVO,
     ];
 
     if ($this->exibirInativos()) {
-      unset($condicoes['Categoria.ativo']);
+      $condicoes = [];
     }
 
     $colunas = [
@@ -51,22 +53,36 @@ class PublicoController extends Controller
       'Categoria.ativo',
     ];
 
+    $existe = [
+      'tabela' => 'Artigo',
+      'params' => [
+        ['campo' => 'Artigo.categoria_id', 'operador' => '=', 'valor' => 'Categoria.id'],
+        ['campo' => 'Artigo.ativo', 'operador' => '=', 'valor' => (int) ATIVO],
+      ],
+    ];
+
+    $ordem = [
+      'Categoria.ordem' => 'ASC',
+    ];
+
     $limite = 12;
 
     $cacheNome = 'publico-categoria_resultado-' . md5(serialize($condicoes));
     $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
 
     if ($resultado == null) {
-      $resultado = $this->dashboardDategoriaModel->condicao($condicoes)
-                                                 ->ordem(['Categoria.ordem' => 'ASC'])
+      $resultado = $this->dashboardCategoriaModel->selecionar($colunas)
+                                                 ->condicao($condicoes)
+                                                 ->existe($existe)
+                                                 ->ordem($ordem)
                                                  ->limite($limite)
-                                                 ->buscar($colunas);
+                                                 ->executarConsulta();
 
       Cache::definir($cacheNome, $resultado, $this->cacheTempo, $this->empresaPadraoId);
     }
 
-    if ((int) $this->buscarAjuste('publico_cate_abrir_primeira') == ATIVO and isset($resultado[0]['Categoria.id']) and $this->subdominio) {
-      $this->redirecionar('/categoria/' . $resultado[0]['Categoria.id']);
+    if ((int) $this->buscarAjuste('publico_cate_abrir_primeira') == ATIVO and isset($resultado[0]['Categoria']['id']) and $this->subdominio) {
+      $this->redirecionar('/categoria/' . $resultado[0]['Categoria']['id']);
     }
 
     $this->visao->variavel('categorias', $resultado);
@@ -80,6 +96,12 @@ class PublicoController extends Controller
   {
     $this->dashboardEmpresaModel = new DashboardEmpresaModel($this->usuarioLogado, $this->empresaPadraoId);
 
+    $condicoes[] = [
+      'campo' => 'Empresa.id',
+      'operador' => '=',
+      'valor' => (int) $this->empresaPadraoId,
+    ];
+
     $colunas = [
       'Empresa.logo',
       'Empresa.telefone',
@@ -89,12 +111,15 @@ class PublicoController extends Controller
     $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
 
     if ($resultado == null) {
-      $resultado = $this->dashboardEmpresaModel->buscar($colunas);
+      $resultado = $this->dashboardEmpresaModel->selecionar($colunas)
+                                               ->condicao($condicoes)
+                                               ->executarConsulta();
+
       Cache::definir($cacheNome, $resultado, $this->cacheTempo, $this->empresaPadraoId);
     }
 
-    $this->logo = $resultado[0]['Empresa.logo'] ?? '';
-    $this->telefone = intval($resultado[0]['Empresa.telefone'] ?? 0);
+    $this->logo = $resultado[0]['Empresa']['logo'] ?? '';
+    $this->telefone = intval($resultado[0]['Empresa']['telefone'] ?? 0);
     $this->subdominio = $this->sessaoUsuario->buscar('subdominio');
     $this->empresaId = $this->sessaoUsuario->buscar('empresaPadraoId');
   }

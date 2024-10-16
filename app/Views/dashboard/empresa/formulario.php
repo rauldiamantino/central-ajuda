@@ -1,4 +1,4 @@
-<form method="POST" action="/d/<?php echo $this->usuarioLogado['empresaId'] ?>/empresa/editar/<?php echo $empresa['Empresa.id'] ?>" class="border border-slate-300 w-full md:min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow form-editar-empresa bg-white" data-empresa-id="<?php echo $empresa['Empresa.id'] ?>" data-imagem-atual="<?php echo $empresa['Empresa.logo']; ?>">
+<form method="POST" action="/d/<?php echo $this->usuarioLogado['empresaId'] ?>/empresa/editar/<?php echo $empresa['Empresa']['id'] ?>" class="border border-slate-300 w-full md:min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow form-editar-empresa bg-white" data-empresa-id="<?php echo $empresa['Empresa']['id'] ?>" data-imagem-atual="<?php echo $empresa['Empresa']['logo']; ?>">
   <input type="hidden" name="_method" value="PUT">
   <div class="w-full flex flex-col gap-4">
     <div class="w-full flex justify-start gap-4">
@@ -6,13 +6,13 @@
         <label class="flex flex-col items-start gap-1 cursor-pointer">
           <span class="block text-sm font-medium text-gray-700">Status</span>
           <input type="hidden" name="ativo" value="0">
-          <input type="checkbox" name="ativo" value="1" class="sr-only peer" <?php echo $empresa['Empresa.ativo'] ? 'checked' : '' ?> <?php echo $this->usuarioLogado['padrao'] != USUARIO_SUPORTE ? 'disabled' : '' ?>>
+          <input type="checkbox" name="ativo" value="1" class="sr-only peer" <?php echo $empresa['Empresa']['ativo'] ? 'checked' : '' ?> <?php echo $this->usuarioLogado['padrao'] != USUARIO_SUPORTE ? 'disabled' : '' ?>>
           <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
         </label>
       </div>
       <div class="w-full">
         <label for="empresa-editar-assinatura-id" class="w-full block text-sm font-medium text-gray-700">Nome</label>
-        <input type="text" id="empresa-editar-nome" name="nome" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $empresa['Empresa.nome']; ?>">
+        <input type="text" id="empresa-editar-nome" name="nome" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $empresa['Empresa']['nome']; ?>">
       </div>
     </div>
 
@@ -20,17 +20,17 @@
     <?php if ($this->usuarioLogado['padrao'] == USUARIO_SUPORTE) { ?>
       <div class="w-full">
         <label for="empresa-editar-assinatura-id" class="w-full block text-sm font-medium text-gray-700">ID da assinatura</label>
-        <input type="text" id="empresa-editar-assinatura-id" name="assinatura_id" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $empresa['Empresa.assinatura_id']; ?>">
+        <input type="text" id="empresa-editar-assinatura-id" name="assinatura_id" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $empresa['Empresa']['assinatura_id']; ?>">
       </div>
     <?php } ?>
 
     <div class="w-full">
       <label for="empresa-editar-cnpj" class="block text-sm font-medium text-gray-700">CNPJ</label>
-      <input type="text" id="empresa-editar-cnpj" name="cnpj" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $empresa['Empresa.cnpj']; ?>">
+      <input type="text" id="empresa-editar-cnpj" name="cnpj" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $empresa['Empresa']['cnpj']; ?>">
     </div>
     <div class="w-full">
       <label for="empresa-editar-telefone" class="block text-sm font-medium text-gray-700">Telefone</label>
-      <input type="text" id="empresa-editar-telefone" name="telefone" class="<?php echo CLASSES_DASH_INPUT; ?>" placeholder="00 00000 0000" value="<?php echo $empresa['Empresa.telefone']; ?>">
+      <input type="text" id="empresa-editar-telefone" name="telefone" class="<?php echo CLASSES_DASH_INPUT; ?>" placeholder="00 00000 0000" value="<?php echo $empresa['Empresa']['telefone']; ?>">
     </div>
     <div class="w-full items-start flex flex-col gap-2">
       <input type="hidden" name="logo" value="" class="url-imagem">
@@ -44,7 +44,7 @@
       </button>
       <h3 class="whitespace-pre-line text-red-800 erro-empresa-imagem"></h3>
       <div class="border border-slate-200 p-4 flex flex-col gap-4 w-full justify-center items-center opacity-50 rounded-md">
-        <img src="<?php echo $empresa['Empresa.logo']; ?>" class="object-cover w-max h-max empresa-alterar-logo <?php echo $empresa['Empresa.logo'] ? '' : 'hidden' ?>">
+        <img src="<?php echo $empresa['Empresa']['logo']; ?>" class="object-cover w-max h-max empresa-alterar-logo <?php echo $empresa['Empresa']['logo'] ? '' : 'hidden' ?>">
       </div>
     </div>
   </div>

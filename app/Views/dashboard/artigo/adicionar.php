@@ -29,8 +29,8 @@
           <select id="artigo-editar-categoria" name="categoria_id" class="<?php echo CLASSES_DASH_INPUT; ?>">
             <option value="0">Sem categoria</option>
             <?php foreach ($categorias as $chave => $linha) : ?>
-              <option value="<?php echo $linha['Categoria.id']; ?>">
-                <?php echo $linha['Categoria.nome']; ?>
+              <option value="<?php echo $linha['Categoria']['id']; ?>">
+                <?php echo $linha['Categoria']['nome']; ?>
               </option>
             <?php endforeach; ?>
           </select>

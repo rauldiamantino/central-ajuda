@@ -31,27 +31,30 @@ class PublicoBuscaController extends PublicoController
     $pagina = intval($_GET['pagina'] ?? 0);
     $textoBusca = htmlspecialchars($_GET['texto_busca'] ?? '');
 
-    $condicao = [
-      'Artigo.ativo' => ATIVO,
+    $condicao[] = [
+      'campo' => 'Artigo.ativo', 'operador' => '=', 'valor' => ATIVO,
     ];
 
     if ($this->usuarioLogado['padrao'] == USUARIO_SUPORTE) {
-      unset($condicao['Artigo.ativo']);
+      unset($condicao[0]);
     }
     elseif ($this->empresaId and $this->empresaId == $this->usuarioLogado['empresaId']) {
-      unset($condicao['Artigo.ativo']);
+      unset($condicao[0]);
     }
 
     if ($textoBusca) {
-      $condicao['Artigo.titulo LIKE'] = '%' . $textoBusca . '%';
+      $condicao[] = [
+        'campo' => 'Artigo.titulo', 'operador' => 'LIKE', 'valor' => '%' . $textoBusca . '%',
+      ];
     }
 
     $cacheNome = 'publico-busca_artigos-total-' . md5(serialize($condicao));
     $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
 
     if ($resultado == null) {
-      $resultado = $this->artigoModel->condicao($condicao)
-                                     ->contar('Artigo.id');
+      $resultado = $this->artigoModel->contar('Artigo.id')
+                                     ->condicao($condicao)
+                                     ->executarConsulta();
 
       Cache::definir($cacheNome, $resultado, $this->cacheTempo, $this->empresaPadraoId);
     }
@@ -81,8 +84,10 @@ class PublicoBuscaController extends PublicoController
         'Artigo.ordem' => 'ASC',
       ];
 
-      $uniao2 = [
-        'Categoria',
+      $juntar = [
+        'tabelaJoin' => 'Categoria',
+        'campoA' => 'Categoria.id',
+        'campoB' => 'Artigo.categoria_id',
       ];
 
       $limite = 10;
@@ -91,16 +96,17 @@ class PublicoBuscaController extends PublicoController
       $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
 
       if ($resultado == null) {
-        $resultado = $this->artigoModel->condicao($condicao)
-                                       ->uniao2($uniao2, 'LEFT')
+        $resultado = $this->artigoModel->selecionar($colunas)
+                                       ->condicao($condicao)
+                                       ->juntar($juntar, 'LEFT')
                                        ->ordem($ordem)
                                        ->pagina($limite, $pagina)
-                                       ->buscar($colunas);
+                                       ->executarConsulta();
 
         Cache::definir($cacheNome, $resultado, $this->cacheTempo, $this->empresaPadraoId);
       }
 
-      if (isset($resultado[0]['Artigo.id'])) {
+      if (isset($resultado[0]['Artigo']['id'])) {
         $resultadoBuscar = $resultado;
       }
 
@@ -111,21 +117,29 @@ class PublicoBuscaController extends PublicoController
     $categorias = [];
 
     if ((int) $this->buscarAjuste('publico_cate_busca') == 1) {
-      $condicoes = [
-        'Categoria.ativo' => ATIVO,
+      $condicoes[] = [
+        'campo' => 'Categoria.ativo', 'operador' => '=', 'valor' => ATIVO,
       ];
 
       if ($this->usuarioLogado['padrao'] == USUARIO_SUPORTE) {
-        unset($condicoes['Categoria.ativo']);
+        unset($condicoes[0]);
       }
       elseif ($this->empresaId and $this->empresaId == $this->usuarioLogado['empresaId']) {
-        unset($condicoes['Categoria.ativo']);
+        unset($condicoes[0]);
       }
 
       $colunas = [
         'Categoria.id',
         'Categoria.nome',
         'Categoria.ativo',
+      ];
+
+      $existe = [
+        'tabela' => 'Artigo',
+        'params' => [
+          ['campo' => 'Artigo.categoria_id', 'operador' => '=', 'valor' => 'Categoria.id'],
+          ['campo' => 'Artigo.ativo', 'operador' => '=', 'valor' => (int) ATIVO],
+        ],
       ];
 
       $ordem = [
@@ -136,14 +150,16 @@ class PublicoBuscaController extends PublicoController
       $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
 
       if ($resultado == null) {
-        $resultado = $this->categoriaModel->condicao($condicoes)
+        $resultado = $this->categoriaModel->selecionar($colunas)
+                                          ->condicao($condicoes)
+                                          ->existe($existe)
                                           ->ordem($ordem)
-                                          ->buscar($colunas);
+                                          ->executarConsulta();
 
         Cache::definir($cacheNome, $resultado, $this->cacheTempo, $this->empresaPadraoId);
       }
 
-      if (isset($resultado[0]['Categoria.id'])) {
+      if (isset($resultado[0]['Categoria']['id'])) {
         $categorias = $resultado;
       }
     }

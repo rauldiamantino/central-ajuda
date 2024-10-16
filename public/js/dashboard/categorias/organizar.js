@@ -25,8 +25,8 @@ const buscarCategorias = () => {
           const span = document.createElement('span')
 
           span.className = 'py-1 px-4 border border-slate-200 selected-none truncate rounded-md modal-categorias-organizar-bloco'
-          span.textContent = categoria['Categoria.nome']
-          span.setAttribute('data-categoria-id', categoria['Categoria.id'])
+          span.textContent = categoria['Categoria']['nome']
+          span.setAttribute('data-categoria-id', categoria['Categoria']['id'])
 
           modalOrganizarBlocos.appendChild(span)
         })

@@ -23,15 +23,20 @@ class DashboardUsuarioController extends DashboardController
 
     // Oculta usuários de suporte
     if ($this->usuarioLogado['padrao'] != USUARIO_SUPORTE) {
-      $condicoes['Usuario.padrao !='] = USUARIO_SUPORTE;
+      $condicoes[] = [
+        'campo' => 'Usuario.padrao',
+        'operador' => '!=',
+        'valor' => USUARIO_SUPORTE,
+      ];
     }
 
     $limite = 10;
     $pagina = intval($_GET['pagina'] ?? 0);
 
     // Recupera quantidade de páginas
-    $usuariosTotal = $this->usuarioModel->condicao($condicoes)
-                                        ->contar('Usuario.id');
+    $usuariosTotal = $this->usuarioModel->contar('Usuario.id')
+                                        ->condicao($condicoes)
+                                        ->executarConsulta();
 
     $usuariosTotal = $usuariosTotal['total'] ?? 0;
     $paginasTotal = ceil($usuariosTotal / $limite);
@@ -51,10 +56,15 @@ class DashboardUsuarioController extends DashboardController
       'Usuario.tentativas_login',
     ];
 
-    $resultado = $this->usuarioModel->condicao($condicoes)
+    $ordem = [
+      'Usuario.id' => 'DESC',
+    ];
+
+    $resultado = $this->usuarioModel->selecionar($colunas)
+                                    ->condicao($condicoes)
                                     ->pagina($limite, $pagina)
-                                    ->ordem(['Usuario.id' => 'DESC'])
-                                    ->buscar($colunas);
+                                    ->ordem($ordem)
+                                    ->executarConsulta();
 
     // Calcular início e fim do intervalo
     $intervaloInicio = 0;
@@ -85,13 +95,19 @@ class DashboardUsuarioController extends DashboardController
 
     $id = (int) $id;
 
-    $condicoes = [
-      'Usuario.id' => $id,
+    $condicoes[] = [
+      'campo' => 'Usuario.id',
+      'operador' => '=',
+      'valor' => (int) $id,
     ];
 
     // Impede acesso a usuário de suporte
     if ($this->usuarioLogado['padrao'] != USUARIO_SUPORTE) {
-      $condicoes['Usuario.padrao !='] = USUARIO_SUPORTE;
+      $condicoes[] = [
+        'campo' => 'Usuario.padrao',
+        'operador' => '!=',
+        'valor' => USUARIO_SUPORTE,
+      ];
     }
 
     $colunas = [
@@ -108,8 +124,9 @@ class DashboardUsuarioController extends DashboardController
       'Usuario.modificado',
     ];
 
-    $usuario = $this->usuarioModel->condicao($condicoes)
-                                  ->buscar($colunas);
+    $usuario = $this->usuarioModel->selecionar($colunas)
+                                  ->condicao($condicoes)
+                                  ->executarConsulta();
 
     if (isset($usuario['erro']) and $usuario['erro']) {
       $this->redirecionarErro('/dashboard/' . $this->usuarioLogado['empresaId'] . '/usuarios', $usuario['erro']);

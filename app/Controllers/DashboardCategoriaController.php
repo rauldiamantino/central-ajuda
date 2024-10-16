@@ -19,7 +19,8 @@ class DashboardCategoriaController extends DashboardController
     $paginaAtual = intval($_GET['pagina'] ?? 0);
 
     // Recupera quantidade de páginas
-    $categoriasTotal = $this->categoriaModel->contar('Categoria.id');
+    $categoriasTotal = $this->categoriaModel->contar('Categoria.id')
+                                            ->executarConsulta();
 
     $categoriasTotal = $categoriasTotal['total'] ?? 0;
     $paginasTotal = ceil($categoriasTotal / $limite);
@@ -37,9 +38,14 @@ class DashboardCategoriaController extends DashboardController
       'Categoria.modificado',
     ];
 
-    $resultado = $this->categoriaModel->pagina($limite, $paginaAtual)
-                                      ->ordem(['Categoria.ordem' => 'ASC'])
-                                      ->buscar($colunas);
+    $ordem = [
+      'Categoria.ordem' => 'ASC',
+    ];
+
+    $resultado = $this->categoriaModel->selecionar($colunas)
+                                      ->pagina($limite, $paginaAtual)
+                                      ->ordem($ordem)
+                                      ->executarConsulta();
 
     // Calcular início e fim do intervalo
     $intervaloInicio= 0;
@@ -67,7 +73,9 @@ class DashboardCategoriaController extends DashboardController
     $id = (int) $id;
 
     $condicao = [
-      'Categoria.id' => $id,
+      'campo' => 'Categoria.id',
+      'operador' => '=',
+      'valor' => $id,
     ];
 
     $colunas = [
@@ -79,8 +87,9 @@ class DashboardCategoriaController extends DashboardController
       'Categoria.modificado',
     ];
 
-    $categoria = $this->categoriaModel->condicao($condicao)
-                                      ->buscar($colunas);
+    $categoria = $this->categoriaModel->selecionar($colunas)
+                                      ->condicao($condicao)
+                                      ->executarConsulta();
 
     if (isset($categoria['erro']) and $categoria['erro']) {
       $this->redirecionarErro('/dashboard/' . $this->usuarioLogado['empresaId'] . '/categorias', $categoria['erro']);
@@ -105,18 +114,17 @@ class DashboardCategoriaController extends DashboardController
 
     $limiteCategoriaOrdem = 1;
 
-    $resultadoOrdem = $this->categoriaModel->ordem($ordCategoriaOrdem)
+    $resultadoOrdem = $this->categoriaModel->selecionar($colCategoriaOrdem)
+                                           ->ordem($ordCategoriaOrdem)
                                            ->limite($limiteCategoriaOrdem)
-                                           ->buscar($colCategoriaOrdem);
+                                           ->executarConsulta();
 
     $ordem = [];
-    $ordemAtual = intval($resultadoOrdem[0]['Categoria.ordem'] ?? 0);
+    $ordemAtual = intval($resultadoOrdem[0]['Categoria']['ordem'] ?? 0);
 
-    if ($resultadoOrdem) {
-      $ordem = [
-        'prox' => $ordemAtual + 1,
-      ];
-    }
+    $ordem = [
+      'prox' => $ordemAtual + 1,
+    ];
 
     $this->visao->variavel('ordem', $ordem);
     $this->visao->variavel('titulo', 'Adicionar categoria');
@@ -141,8 +149,14 @@ class DashboardCategoriaController extends DashboardController
 
   public function buscar(int $id = 0)
   {
+    $condicao = [];
+
     if ($id) {
-      $condicao['Categoria.id'] = $id;
+      $condicao = [
+        'campo' => 'Categoria.id',
+        'operador' => '=',
+        'valor' => $id,
+      ];
     }
 
     $colunas = [
@@ -150,11 +164,17 @@ class DashboardCategoriaController extends DashboardController
       'Categoria.nome',
     ];
 
+    $ordem = [
+      'Categoria.ordem' => 'ASC',
+    ];
+
     $limite = 100;
 
-    $resultado = $this->categoriaModel->ordem(['Categoria.ordem' => 'ASC'])
+    $resultado = $this->categoriaModel->selecionar($colunas)
+                                      ->condicao($condicao)
+                                      ->ordem($ordem)
                                       ->limite($limite)
-                                      ->buscar($colunas);
+                                      ->executarConsulta();
 
     if (isset($resultado['erro'])) {
       $codigo = $resultado['erro']['codigo'] ?? 500;
