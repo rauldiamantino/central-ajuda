@@ -34,6 +34,18 @@ CREATE TABLE `usuarios` (
   CONSTRAINT `fk_usuarios_empresa` FOREIGN KEY (`empresa_id`) REFERENCES `empresas` (`id`) ON DELETE CASCADE
 );
 
+CREATE TABLE `categorias` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `ativo` int DEFAULT '0',
+  `nome` varchar(255) NOT NULL,
+  `descricao` text,
+  `empresa_id` int NOT NULL,
+  `ordem` int NOT NULL,
+  `criado` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `modificado` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+);
+
 CREATE TABLE `artigos` (
   `id` int NOT NULL AUTO_INCREMENT,
   `ativo` int DEFAULT '0',
@@ -69,18 +81,6 @@ CREATE TABLE `conteudos` (
   PRIMARY KEY (`id`),
   KEY `artigo_id` (`artigo_id`),
   CONSTRAINT `conteudos_ibfk_1` FOREIGN KEY (`artigo_id`) REFERENCES `artigos` (`id`) ON DELETE CASCADE
-);
-
-CREATE TABLE `categorias` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `ativo` int DEFAULT '0',
-  `nome` varchar(255) NOT NULL,
-  `descricao` text,
-  `empresa_id` int NOT NULL,
-  `ordem` int NOT NULL,
-  `criado` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `modificado` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `ajustes` (
