@@ -13,7 +13,7 @@ CREATE TABLE `empresas` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `cnpj` (`cnpj`),
   UNIQUE KEY `subdominio` (`subdominio`)
-)
+);
 
 CREATE TABLE `usuarios` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -32,7 +32,7 @@ CREATE TABLE `usuarios` (
   UNIQUE KEY `email` (`email`),
   KEY `fk_usuarios_empresa` (`empresa_id`),
   CONSTRAINT `fk_usuarios_empresa` FOREIGN KEY (`empresa_id`) REFERENCES `empresas` (`id`) ON DELETE CASCADE
-)
+);
 
 CREATE TABLE `artigos` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -51,7 +51,7 @@ CREATE TABLE `artigos` (
   KEY `usuario_id` (`usuario_id`) USING BTREE,
   CONSTRAINT `artigos_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`),
   CONSTRAINT `artigos_ibfk_2` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`)
-)
+);
 
 CREATE TABLE `conteudos` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -69,7 +69,7 @@ CREATE TABLE `conteudos` (
   PRIMARY KEY (`id`),
   KEY `artigo_id` (`artigo_id`),
   CONSTRAINT `conteudos_ibfk_1` FOREIGN KEY (`artigo_id`) REFERENCES `artigos` (`id`) ON DELETE CASCADE
-)
+);
 
 CREATE TABLE `categorias` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -81,7 +81,7 @@ CREATE TABLE `categorias` (
   `criado` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `modificado` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-)
+);
 
 CREATE TABLE `ajustes` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -92,4 +92,4 @@ CREATE TABLE `ajustes` (
   `modificado` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_nome_empresa` (`nome`,`empresa_id`)
-)
+);
