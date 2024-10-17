@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <?php require_once 'template/cabecalho.php' ?>
 
-<body class="font-normal h-screen max-w-screen bg-slate-100" data-editor="ClassicEditor" data-empresa-id="<?php echo $this->usuarioLogado['empresaId'] ?>">
+<body class="font-normal h-screen max-w-screen bg-slate-100" data-editor="ClassicEditor" data-empresa-id="<?php echo $this->usuarioLogado['empresaId'] ?>" data-base-url="<?php echo RAIZ; ?>">
   <div id="efeito-loader" class="loader <?php echo isset($loader) ? '' : 'hidden'; ?>"></div>
 
   <?php if (isset($pagLogin)) { ?>

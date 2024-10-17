@@ -61,7 +61,7 @@ const requisicaoRemover = async (artigoId) => {
     return
   }
 
-  fetch(`/d/${empresaId}/artigo/${artigoId}`, { method: 'DELETE' })
+  fetch(baseUrl(`/d/${empresaId}/artigo/${artigoId}`), { method: 'DELETE' })
     .then(resposta => resposta.json())
     .then(resposta => {
 

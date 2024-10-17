@@ -12,7 +12,7 @@ const buscarArtigos = () => {
 
   const urlParams = new URLSearchParams(window.location.search)
   const categoriaSelecionadaId = urlParams.get('categoria_id')
-  const urlBuscar = `/d/${empresaId}/artigos?categoria_id=${categoriaSelecionadaId}`
+  const urlBuscar = baseUrl(`/d/${empresaId}/artigos?categoria_id=${categoriaSelecionadaId}`)
 
   if (! categoriaSelecionadaId) {
     modalAlertaFiltroOk.addEventListener('click', () => modalAlertaFiltro.close())
@@ -62,7 +62,7 @@ const buscarArtigos = () => {
             }
 
             modalOrganizarConfirmar.addEventListener('click', () => {
-              fetch(`/d/${empresaId}/artigo/ordem`, {
+              fetch(baseUrl(`/d/${empresaId}/artigo/ordem`), {
                 method: 'PUT',
                 body: JSON.stringify(ordem)
                 })

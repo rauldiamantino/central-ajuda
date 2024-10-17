@@ -1,4 +1,9 @@
 const empresaId = document.querySelector('body').dataset.empresaId
+let raiz = document.querySelector('body').dataset.baseUrl
+
+const baseUrl = (url = '') => {
+  return raiz + url.replace(/^\//, '')
+}
 
 const fecharNotificacao = (notificacao) => {
 

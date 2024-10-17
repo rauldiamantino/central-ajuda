@@ -26,7 +26,7 @@
                 <td class="py-5 px-4"><?php echo $linha['Categoria']['id'] ?></td>
 
                 <td class="py-5 px-4">
-                  <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/categoria/editar/<?php echo $linha['Categoria']['id'] ?>" class="font-semibold text-gray-700 hover:underline js-dashboard-categorias-editar" data-categoria-id="<?php echo $linha['Categoria']['id'] ?>">
+                  <a href="<?php echo baseUrl('/dashboard/' . $this->usuarioLogado['empresaId'] . '/categoria/editar/' . $linha['Categoria']['id']); ?>" class="font-semibold text-gray-700 hover:underline js-dashboard-categorias-editar" data-categoria-id="<?php echo $linha['Categoria']['id'] ?>">
                     <?php echo $linha['Categoria']['nome'] ?>
                   </a>
                 </td>
@@ -52,7 +52,7 @@
                         <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
                       </svg>
                     </button>
-                    <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/artigos?categoria_id=<?php echo $linha['Categoria']['id'] ?>" target="_blank" class="text-slate-800" title="Filtrar artigos">
+                    <a href="<?php echo baseUrl('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigos'); ?>?categoria_id=<?php echo $linha['Categoria']['id'] ?>" target="_blank" class="text-slate-800" title="Filtrar artigos">
                       <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
                         <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/>
                       </svg>

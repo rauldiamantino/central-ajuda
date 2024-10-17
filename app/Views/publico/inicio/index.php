@@ -14,7 +14,7 @@
     <h3 class="font-light">Principais tópicos...</h3>
     <div class="w-full h-max grid grid-cols-2 xl:grid-cols-3 justify-start gap-2">
       <?php foreach ($categorias as $chave => $linha): ?>
-        <a href="/categoria/<?php echo $linha['Categoria']['id'] ?>" class="hover:scale-105 transition-scale duration-150">
+        <a href="<?php echo baseUrl('/categoria/' . $linha['Categoria']['id']); ?>" class="hover:scale-105 transition-scale duration-150">
           <div class="border border-slate-200 hover:shadow-xl p-6 h-full min-h-[200px] flex flex-col justify-between rounded shadow">
             <h3 class="text-lg"><?php echo $linha['Categoria']['nome'] ?></h3>
             <div class="font-extralight text-gray-400"><?php echo $linha['Categoria']['descricao'] ?></div>

@@ -22,7 +22,7 @@
           <h2 class="font-bold pb-2">Assinatura</h2>
 
           <?php if ($this->usuarioLogado['padrao'] == USUARIO_SUPORTE) { ?>
-            <form action="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/validar_assinatura" method="GET" class="flex items-center gap-2">
+            <form action="<?php echo baseUrl('/dashboard/' . $this->usuarioLogado['empresaId'] . '/validar_assinatura'); ?>" method="GET" class="flex items-center gap-2">
               <input type="hidden" name="assinatura_id" value="<?php echo $empresa['Empresa']['assinatura_id']; ?>">
               <input type="hidden" name="sessao_stripe_id" value="<?php echo $empresa['Empresa']['sessao_stripe_id']; ?>">
               <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-cloud-arrow-down" viewBox="0 0 16 16">

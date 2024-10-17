@@ -42,7 +42,7 @@ $nivelAcesso = [
                 <?php echo $linha['Usuario']['id'] ?>
               </td>
               <td class="py-5 px-4">
-                <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/usuario/editar/<?php echo $linha['Usuario']['id'] ?>" class="font-semibold text-gray-700 underline js-dashboard-usuarios-editar" data-usuario-id="<?php echo $linha['Usuario']['id'] ?>">
+                <a href="<?php echo baseUrl('/dashboard/' . $this->usuarioLogado['empresaId'] . '/usuario/editar/' . $linha['Usuario']['id']); ?>" class="font-semibold text-gray-700 underline js-dashboard-usuarios-editar" data-usuario-id="<?php echo $linha['Usuario']['id'] ?>">
                   <?php echo $linha['Usuario']['nome'] ? $linha['Usuario']['nome'] : '** Sem nome **' ?>
                 </a>
               </td>

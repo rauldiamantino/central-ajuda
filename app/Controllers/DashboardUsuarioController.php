@@ -132,6 +132,11 @@ class DashboardUsuarioController extends DashboardController
       $this->redirecionarErro('/dashboard/' . $this->usuarioLogado['empresaId'] . '/usuarios', $usuario['erro']);
     }
 
+    if (empty($usuario)) {
+      $mensagem = 'Usuário não encontrado.';
+      $this->redirecionarErro('/dashboard/' . $this->usuarioLogado['empresaId'] . '/usuarios', $mensagem);
+    }
+
     $this->visao->variavel('usuario', reset($usuario));
     $this->visao->variavel('titulo', 'Editar usuario');
     $this->visao->renderizar('/usuario/editar/index');

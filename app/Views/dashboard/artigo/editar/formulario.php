@@ -1,4 +1,4 @@
-<form method="POST" action="/d/<?php echo $this->usuarioLogado['empresaId'] ?>/artigo/<?php echo $artigo['Artigo']['id'] ?>" class="border border-slate-300 w-full md:min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow bg-white">
+<form method="POST" action="<?php echo baseUrl('/d/' . $this->usuarioLogado['empresaId'] . '/artigo/' . $artigo['Artigo']['id']); ?>" class="border border-slate-300 w-full md:min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow bg-white">
   <input type="hidden" name="_method" value="PUT">
   <div class="w-full flex gap-4">
     <div>
@@ -26,7 +26,7 @@
     </select>
   </div>
   <div class="w-full flex justify-start gap-2">
-    <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/artigos" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>">Voltar</a>
+    <a href="<?php echo baseUrl('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigos'); ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>">Voltar</a>
     <button type="submit" class="w-full md:w-max <?php echo CLASSES_DASH_BUTTON_GRAVAR; ?>">Gravar</button>
   </div>
 </form>

@@ -9,7 +9,7 @@
           </svg>
           Reorganizar
         </button>
-        <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/categoria/adicionar" class="<?php echo CLASSES_DASH_BUTTON_ADICIONAR; ?>">
+        <a href="<?php echo baseUrl('/dashboard/' . $this->usuarioLogado['empresaId'] . '/categoria/adicionar'); ?>" class="<?php echo CLASSES_DASH_BUTTON_ADICIONAR; ?>">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
           </svg>
@@ -29,6 +29,6 @@
 <?php if (! isset($categorias[0]) or empty($categorias[0])) { ?>
   <div class="p-4 w-full flex flex-col gap-4 items-center justify-center">
     <h2 class="text-xl">Ops! Você ainda não possui categorias</h2>
-    <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/categoria/adicionar" class="<?php echo CLASSES_DASH_BUTTON_ADICIONAR; ?>">Adicionar</a>
+    <a href="<?php echo baseUrl('/dashboard/' . $this->usuarioLogado['empresaId'] . '/categoria/adicionar'); ?>" class="<?php echo CLASSES_DASH_BUTTON_ADICIONAR; ?>">Adicionar</a>
   </div>
 <?php } ?>

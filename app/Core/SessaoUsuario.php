@@ -74,7 +74,7 @@ class SessaoUsuario
     elseif ($_SESSION['user_agent'] !== $_SERVER['HTTP_USER_AGENT']) {
       $this->destruir();
 
-      header('Location /');
+      header('Location: ' . baseUrl('/'));
       exit();
     }
   }
@@ -87,7 +87,7 @@ class SessaoUsuario
     elseif ($_SESSION['user_ip'] !== $_SERVER['REMOTE_ADDR']) {
       $this->destruir();
 
-      header('Location /');
+      header('Location: ' . baseUrl('/'));
       exit();
     }
   }

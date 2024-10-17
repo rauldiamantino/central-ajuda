@@ -12,7 +12,7 @@ async function inicializarFirebase() {
   }
 
   try {
-    const response = await fetch(`/d/${empresaId}/firebase`)
+    const response = await fetch(baseUrl(`/d/${empresaId}/firebase`))
     const data = await response.json()
 
     const firebaseConfig = data.firebase

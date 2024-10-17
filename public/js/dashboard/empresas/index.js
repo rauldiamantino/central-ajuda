@@ -53,7 +53,7 @@ const buscarAssinatura = () => {
 
   ativarLoader()
 
-  fetch(`/d/${empresaId}/assinatura`, {
+  fetch(baseUrl(`/d/${empresaId}/assinatura`), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

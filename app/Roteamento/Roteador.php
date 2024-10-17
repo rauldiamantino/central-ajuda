@@ -57,6 +57,10 @@ class Roteador
     $chaveRota = $metodo . ':' . $url;
     $partesRota = explode('/', trim($url, '/'));
 
+    if (HOST_LOCAL) {
+      $chaveRota = str_replace(RAIZ, '/', $chaveRota);
+    }
+
     $empresaId = 0;
     $id = 0;
 
@@ -165,7 +169,7 @@ class Roteador
       if ($sucesso == false) {
         $this->sessaoUsuario->apagar('usuario');
 
-        header('Location: /login');
+        header('Location: ' . baseUrl('/login'));
         exit;
       }
 
@@ -186,7 +190,7 @@ class Roteador
       }
 
       if ($sucesso == false) {
-        header('Location: /login');
+        header('Location: ' . baseUrl('/login'));
         exit;
       }
 

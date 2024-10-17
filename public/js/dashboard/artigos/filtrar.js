@@ -19,7 +19,7 @@ const filtrarArtigos = () => {
   // Sempre limpa
   select.innerHTML = ''
 
-  fetch(`/d/${empresaId}/categorias`, { method: 'GET' })
+  fetch(baseUrl(`/d/${empresaId}/categorias`), { method: 'GET' })
     .then(resposta => resposta.json())
     .then(resposta => {
 

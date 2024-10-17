@@ -1,5 +1,5 @@
 <?php
-function debug($valor, $dump = false) {
+function pr($valor, $dump = false) {
 
   echo '<pre>';
 
@@ -12,6 +12,11 @@ function debug($valor, $dump = false) {
 
   echo '</pre>';
 }
+
+function baseUrl($url = '') {
+  return RAIZ . ltrim($url, '/');
+}
+
 
 function traduzirDataPtBr($data) {
   $dateTime = new DateTime($data);

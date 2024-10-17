@@ -19,7 +19,7 @@ class DashboardCadastroController extends DashboardController
   public function cadastroVer()
   {
     if ($this->usuarioLogado['id'] > 0) {
-      header('Location: /dashboard/' . $this->usuarioLogado['empresaId'] . '/artigos');
+      header('Location: ' . baseUrl('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigos'));
       exit();
     }
 
@@ -98,6 +98,6 @@ class DashboardCadastroController extends DashboardController
     $this->cadastroModel->gravarSessaoStripe($empresaId, $sessaoStripeId);
     $this->sessaoUsuario->definir('protocolo', date('YmdHis') . '#' . $empresaId);
 
-    $this->redirecionar($sessaoStripe->url);
+    $this->redirecionar($sessaoStripe->url, [], true);
   }
 }

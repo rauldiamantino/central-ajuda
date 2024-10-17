@@ -60,7 +60,7 @@ const requisicaoConteudoRemover = async (conteudoId) => {
     }
   }
 
-  fetch(`/d/${empresaId}/conteudo/${conteudoId}`, { method: 'DELETE' })
+  fetch(baseUrl(`/d/${empresaId}/conteudo/${conteudoId}`), { method: 'DELETE' })
     .then(resposta => resposta.json())
     .then(resposta => {
 

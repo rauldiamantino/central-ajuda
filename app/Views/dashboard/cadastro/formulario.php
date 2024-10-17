@@ -1,4 +1,4 @@
-<form class="space-y-6" action="/cadastro" method="POST">
+<form class="space-y-6" action="<?php echo baseUrl('/cadastro'); ?>" method="POST">
   <div class="flex flex-col gap-2">
     <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
     <input id="email" name="email" type="email" autocomplete="off" required class="<?php echo CLASSES_LOGIN_INPUT; ?>">

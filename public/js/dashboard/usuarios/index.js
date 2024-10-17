@@ -54,7 +54,7 @@ const requisicaoUsuarioRemover = (usuarioId) => {
     return
   }
 
-  fetch(`/d/${empresaId}/usuario/${usuarioId}`, { method: 'DELETE' })
+  fetch(baseUrl(`/d/${empresaId}/usuario/${usuarioId}`), { method: 'DELETE' })
     .then(resposta => resposta.json())
     .then(resposta => {
 

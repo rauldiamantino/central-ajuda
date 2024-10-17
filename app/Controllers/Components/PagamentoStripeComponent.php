@@ -25,7 +25,7 @@ class PagamentoStripeComponent extends DashboardController
     $campos = [
       'client_reference_id' => 'E' . $empresaId . 'U' . $usuarioId,
       'customer_email' => $usuarioEmail,
-      'success_url' => 'http://localhost/cadastro/sucesso',
+      'success_url' => 'http://localhost' . baseUrl('/cadastro/sucesso'),
       'line_items' => [
         [
           'price' => 'price_1Q5HXyGEvsdXh8q6qABYqPDW',

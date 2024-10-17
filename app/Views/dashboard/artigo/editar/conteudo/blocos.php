@@ -26,7 +26,7 @@
           <?php } ?>
         </div>
         <div class="w-full group">
-          <a href="/dashboard/<?php echo $this->usuarioLogado['empresaId'] ?>/conteudo/editar/<?php echo $linha['Conteudo']['id'] ?>"class="text-start group-hover:underline js-dashboard-conteudo-editar">
+          <a href="<?php echo baseUrl('/dashboard/' . $this->usuarioLogado['empresaId'] . '/conteudo/editar/' . $linha['Conteudo']['id']); ?>"class="text-start group-hover:underline js-dashboard-conteudo-editar">
             <?php echo $linha['Conteudo']['titulo'] ? $linha['Conteudo']['titulo'] : '** Sem título **' ?>
           </a>
         </div>

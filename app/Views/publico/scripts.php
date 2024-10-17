@@ -1,1 +1,1 @@
-<script src="/js/publico/index.js"></script>
+<script src="<?php echo baseUrl('/js/publico/index.js')?>"></script>

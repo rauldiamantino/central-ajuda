@@ -1,4 +1,4 @@
-<form action="/buscar" method="GET" class="w-full flex justify-center">
+<form action="<?php echo baseUrl('/buscar'); ?>" method="GET" class="w-full flex justify-center">
   <div class="w-full relative">
     <input type="text" name="texto_busca" id="texto_busca" placeholder="Descreva sua dúvida..." class="<?php echo CLASSES_DASH_INPUT_BUSCA; ?>" autocomplete="off">
     <button type="submit" class="p-1 flex items-center justify-center absolute top-0 bottom-0 right-3 text-gray-600">

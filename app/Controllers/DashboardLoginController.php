@@ -21,7 +21,7 @@ class DashboardLoginController extends DashboardController
   public function loginVer()
   {
     if ($this->usuarioLogado['id'] > 0) {
-      header('Location: /dashboard/' . $this->usuarioLogado['empresaId'] . '/artigos');
+      header('Location: ' . baseUrl('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigos'));
       exit();
     }
 
@@ -34,7 +34,7 @@ class DashboardLoginController extends DashboardController
   public function loginSuporteVer(int $id = 0)
   {
     if ($this->usuarioLogado['padrao'] != USUARIO_SUPORTE) {
-      header('Location: /dashboard/' . $this->usuarioLogado['empresaId'] . '/artigos');
+      header('Location: ' . baseUrl('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigos'));
       exit();
     }
 
@@ -137,7 +137,7 @@ class DashboardLoginController extends DashboardController
   {
     $this->sessaoUsuario->apagar('usuario');
 
-    header('Location: /login');
+    header('Location: ' . baseUrl('/login'));
     exit();
   }
 }

@@ -3,7 +3,7 @@
 
 <?php require_once 'template/cabecalho.php' ?>
 
-<body class="min-h-screen max-w-screen flex flex-col font-normal bg-white">
+<body class="min-h-screen max-w-screen flex flex-col font-normal bg-white" data-base-url="<?php echo RAIZ; ?>">
 
   <?php require_once 'template/topo.php' ?>
 
