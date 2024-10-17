@@ -63,9 +63,11 @@ function subdominioDominio(string $subdominio = '', $protocolo = true) {
     $http = 'http://';
   }
 
+  $rota = baseUrl();
+
   if ($protocolo) {
-    return $http . $dominio;
+    return $http . $dominio . $rota;
   }
 
-  return $dominio;
+  return $dominio . $rota;
 }

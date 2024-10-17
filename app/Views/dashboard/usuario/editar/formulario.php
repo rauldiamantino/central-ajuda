@@ -67,7 +67,7 @@ $nivelAcesso = [
         $urlVoltar = '/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigos';
       }
       ?>
-      <a href="<?php echo $urlVoltar; ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>">Voltar</a>
+      <a href="<?php echo baseUrl($urlVoltar); ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>">Voltar</a>
       <button type="submit" class="<?php echo CLASSES_DASH_BUTTON_GRAVAR; ?>">Gravar</button>
     </div>
   </div>
