@@ -105,12 +105,12 @@ CREATE TABLE `ajustes` (
 
 -- Empresa Padrão
 INSERT INTO
-    `empresas` (ativo, subdominio)
+    `empresas` (`ativo`, `nome`, `subdominio`)
 VALUES
-    ('1', 'padrao');
+    ('1', '360Help', 'padrao');
 
 -- Usuário padrão
 INSERT INTO
-    `usuarios` (`ativo`,`nivel`,`empresa_id`,`padrao`,`email`,`senha`)
+    `usuarios` (`ativo`,`nivel`,`empresa_id`,`padrao`,`nome`,`email`,`senha`)
 VALUES
-    ('1','1','1','99','suporte@360help.com.br','$2y$10$QBvUmfoElypn.U/nUWxDw.fP4P3yKfQSYYol5azVg1cEQZPk4Zm.O');
+    ('1','1','1','99','Suporte - 360Help','suporte@360help.com.br','$2y$10$QBvUmfoElypn.U/nUWxDw.fP4P3yKfQSYYol5azVg1cEQZPk4Zm.O');
