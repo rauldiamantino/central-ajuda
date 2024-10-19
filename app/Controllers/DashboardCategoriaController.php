@@ -141,7 +141,7 @@ class DashboardCategoriaController extends DashboardController
       $this->redirecionarErro('/dashboard/' . $this->usuarioLogado['empresaId'] . '/categorias', $resultado['erro']);
     }
 
-    $nomesCache = ['publico-categoria'];
+    $nomesCache = ['publico-categoria_'];
     $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
 
     $this->redirecionarSucesso('/dashboard/' . $this->usuarioLogado['empresaId'] . '/categorias', 'Categoria criada com sucesso');
@@ -193,7 +193,7 @@ class DashboardCategoriaController extends DashboardController
       $this->redirecionarErro('/dashboard/' . $this->usuarioLogado['empresaId'] . '/categoria/editar/'. $id, $resultado['erro']);
     }
 
-    $nomesCache = ['publico-categoria'];
+    $nomesCache = ['publico-categoria_'];
     $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
 
     $this->redirecionarSucesso('/dashboard/' . $this->usuarioLogado['empresaId'] . '/categoria/editar/' . $id, 'Registro alterado com sucesso');
@@ -211,7 +211,7 @@ class DashboardCategoriaController extends DashboardController
       $this->responderJson($resultado, $codigo);
     }
 
-    $nomesCache = ['publico-categoria'];
+    $nomesCache = ['publico-categoria_'];
     $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
 
     $this->responderJson($resultado);
@@ -229,7 +229,7 @@ class DashboardCategoriaController extends DashboardController
       $this->responderJson($resultado, $codigo);
     }
 
-    $nomesCache = ['publico-categoria'];
+    $nomesCache = ['publico-categoria_'];
     $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
 
     $this->sessaoUsuario->definir('ok', 'Categoria excluída com sucesso');

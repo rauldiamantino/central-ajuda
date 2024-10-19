@@ -1,32 +1,69 @@
 <?php
+
 namespace app\Core;
 
 class Cache
 {
+  private static $memcached;
+
+  public static function iniciarMemcached()
+  {
+    if (self::$memcached === null) {
+      self::$memcached = new \Memcached();
+      self::$memcached->addServer('memcached', 11211);
+    }
+
+    // Limpar todo o cache
+    // self::$memcached->flush();
+  }
+
   public static function definir(string $nome, array $dados, int $tempo, int $empresaId = 0)
   {
     if (GRAVAR_CACHE == INATIVO) {
       return;
     }
 
-    $diretorio = 'cache/';
+    if (HOST_LOCAL) {
+      $diretorio = 'cache/';
 
-    if ($empresaId) {
-      $diretorio .= $empresaId . '/';
+      if ($empresaId) {
+        $diretorio .= $empresaId . '/';
+      }
+
+      if (!is_dir($diretorio)) {
+        mkdir($diretorio, 0777, true);
+      }
+
+      $arquivo = $diretorio . $nome . '.txt';
+
+      $dadosComTempo = [
+        'validade' => time() + $tempo,
+        'dados' => $dados
+      ];
+
+      file_put_contents($arquivo, serialize($dadosComTempo));
+
+      return;
     }
 
-    if (! is_dir($diretorio)) {
-      mkdir($diretorio, 0777, true);
+    self::iniciarMemcached();
+
+    if (strpos($nome, '_') !== false) {
+      $temp = explode('_', $nome);
+      $prefixo = $temp[0];
+
+      $resultado = self::$memcached->get($prefixo . '-' . $empresaId);
+
+      if (! is_array($resultado)) {
+        $resultado = [];
+      }
+
+      $resultado[] = $nome;
+
+      self::$memcached->set($prefixo . '-' . $empresaId, array_unique($resultado), $tempo);
     }
 
-    $arquivo = $diretorio . $nome . '.txt';
-
-    $dadosComTempo = [
-      'validade' => time() + $tempo,
-      'dados' => $dados
-    ];
-
-    file_put_contents($arquivo, serialize($dadosComTempo));
+    self::$memcached->set($empresaId . '-' . $nome, $dados, $tempo);
   }
 
   public static function buscar(string $nome, int $empresaId = 0)
@@ -35,26 +72,37 @@ class Cache
       return null;
     }
 
-    $diretorio = 'cache/';
+    if (HOST_LOCAL) {
+      $diretorio = 'cache/';
 
-    if ($empresaId) {
-      $diretorio .= $empresaId . '/';
+      if ($empresaId) {
+        $diretorio .= $empresaId . '/';
+      }
+
+      $arquivo = $diretorio . $nome . '.txt';
+
+      if (! file_exists($arquivo)) {
+        return null;
+      }
+
+      $dados = unserialize(file_get_contents($arquivo));
+
+      if (time() > $dados['validade']) {
+        unlink($arquivo);
+        return null;
+      }
+
+      return $dados['dados'];
     }
 
-    $arquivo = $diretorio . $nome . '.txt';
+    self::iniciarMemcached();
+    $resultado = self::$memcached->get($empresaId . '-' . $nome);
 
-    if (! file_exists($arquivo)) {
-      return null;
+    if (empty($resultado)) {
+      $resultado = null;
     }
 
-    $dados = unserialize(file_get_contents($arquivo));
-
-    if (time() > $dados['validade']) {
-      unlink($arquivo);
-      return null;
-    }
-
-    return $dados['dados'];
+    return $resultado;
   }
 
   public static function apagar(string $nome, int $empresaId = 0)
@@ -63,20 +111,26 @@ class Cache
       return null;
     }
 
-    $diretorio = 'cache/';
+    if (HOST_LOCAL) {
+      $diretorio = 'cache/';
 
-    if ($empresaId) {
-      $diretorio .= $empresaId . '/';
+      if ($empresaId) {
+        $diretorio .= $empresaId . '/';
+      }
+
+      $arquivo = $diretorio . $nome . '.txt';
+
+      if (file_exists($arquivo)) {
+        unlink($arquivo);
+      }
+
+      return;
     }
 
-    $arquivo = $diretorio . $nome . '.txt';
-
-    if (file_exists($arquivo)) {
-      unlink($arquivo);
-    }
+    self::iniciarMemcached();
+    self::$memcached->delete($empresaId . '-' . $nome);
   }
 
-  // Usar com muita atenção
   public static function apagarTodos(string $nome, int $empresaId)
   {
     if (GRAVAR_CACHE == INATIVO) {
@@ -87,16 +141,38 @@ class Cache
       return;
     }
 
-    $diretorio = 'cache/' . $empresaId . '/';
-    $padrao = $diretorio . $nome . '*.txt';
-    $arquivos = glob($padrao);
+    if (HOST_LOCAL) {
+      $diretorio = 'cache/' . $empresaId . '/';
+      $padrao = $diretorio . $nome . '*.txt';
+      $arquivos = glob($padrao);
 
-    foreach ($arquivos as $arquivo) {
+      foreach ($arquivos as $arquivo):
 
-      if (file_exists($arquivo)) {
-        unlink($arquivo);
-      }
+        if (file_exists($arquivo)) {
+          unlink($arquivo);
+        }
+      endforeach;
+
+      return;
+    }
+
+    if (strpos($nome, '_') === false) {
+      return;
+    }
+
+    $temp = explode('_', $nome);
+    $prefixo = $temp[0];
+
+    self::iniciarMemcached();
+    $chave = $prefixo . '-' . $empresaId;
+    $chaves = self::$memcached->get($prefixo . '-' . $empresaId);
+
+    if ($chaves and is_array($chaves)) {
+      foreach ($chaves as $cacheNome):
+        self::$memcached->delete($empresaId . '-' . $cacheNome);
+      endforeach;
+
+      self::$memcached->delete($chave);
     }
   }
-
 }

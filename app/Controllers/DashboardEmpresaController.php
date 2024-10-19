@@ -99,7 +99,7 @@ class DashboardEmpresaController extends DashboardController
       $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
     }
 
-    $nomesCache = ['publico'];
+    $nomesCache = ['publico_'];
     $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
 
 
@@ -158,7 +158,7 @@ class DashboardEmpresaController extends DashboardController
           $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
         }
 
-        $nomesCache = ['publico'];
+        $nomesCache = ['publico_'];
         $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
 
         // Cache sem EmpresaID
@@ -263,7 +263,7 @@ class DashboardEmpresaController extends DashboardController
       return false;
     }
 
-    $nomesCache = ['publico'];
+    $nomesCache = ['publico_'];
     $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
 
     // Cache sem EmpresaID
