@@ -45,7 +45,13 @@ class Roteador
     }
 
     // Subdomínio
-    $temp = explode('.', $_SERVER['HTTP_HOST']);
+    $subPadrao = '.';
+
+    if (HOST_LOCAL) {
+      $subPadrao = '.360help.local';
+    }
+
+    $temp = explode($subPadrao, $_SERVER['HTTP_HOST']);
     $subdominio = '';
     $subdominioAtivo = false;
 
