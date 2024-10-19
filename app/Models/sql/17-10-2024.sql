@@ -1,3 +1,12 @@
+-- Database Local
+-- CREATE DATABASE `central-ajuda-teste` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+-- USE `central-ajuda-teste`;
+
+-- Database Produção
+CREATE DATABASE `central-ajuda` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE `central-ajuda`;
+
+
 CREATE TABLE `empresas` (
   `id` int NOT NULL AUTO_INCREMENT,
   `ativo` int DEFAULT '0',
@@ -93,3 +102,15 @@ CREATE TABLE `ajustes` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_nome_empresa` (`nome`,`empresa_id`)
 );
+
+-- Empresa Padrão
+INSERT INTO
+    `empresas` (ativo, subdominio)
+VALUES
+    ('1', 'padrao');
+
+-- Usuário padrão
+INSERT INTO
+    `usuarios` (`ativo`,`nivel`,`empresa_id`,`padrao`,`email`,`senha`)
+VALUES
+    ('1','1','1','99','suporte@360help.com.br','y$gNARZMaUYikGav1KOiSULu4YIoVozQvinQrW55eX4/F70Dc8zhP3e');
