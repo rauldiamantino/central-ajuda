@@ -1,7 +1,10 @@
 <?php
-define('JSON_FORMATADO', JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+// Base
+define('DOMINIO', 'http://' . $_SERVER['HTTP_HOST']);
+define('HOST_LOCAL', strpos($_SERVER['HTTP_HOST'], 'localhost') !== false);
+define('RAIZ', '/');
 
-
+// Constantes
 define('USUARIO_SUPORTE', 99);
 define('USUARIO_SISTEMA', 98);
 define('USUARIO_PADRAO', 1);
@@ -25,3 +28,5 @@ define('CLASSES_DASH_BUTTON_VOLTAR', 'border border-slate-300 w-max flex justify
 define('CLASSES_DASH_BUTTON_GRAVAR', 'border border-blue-800 hover:border-blue-600 w-max flex justify-center bg-blue-800 hover:bg-blue-600 px-6 py-2 text-sm text-white rounded-md shadow-sm');
 define('CLASSES_DASH_BUTTON_ADICIONAR', 'border border-green-800 hover:border-green-600 w-max flex justify-center items-center gap-2 bg-green-800 hover:bg-green-600 px-6 py-2 text-sm text-white rounded-md shadow-sm');
 define('CLASSES_DASH_BUTTON_REMOVER', 'border border-red-800 hover:border-red-600 w-max flex justify-center items-center gap-2 bg-red-800 hover:bg-red-600 px-6 py-2 text-sm text-white rounded-md shadow-sm');
+
+define('JSON_FORMATADO', JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
