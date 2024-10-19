@@ -113,4 +113,4 @@ VALUES
 INSERT INTO
     `usuarios` (`ativo`,`nivel`,`empresa_id`,`padrao`,`email`,`senha`)
 VALUES
-    ('1','1','1','99','suporte@360help.com.br','y$gNARZMaUYikGav1KOiSULu4YIoVozQvinQrW55eX4/F70Dc8zhP3e');
+    ('1','1','1','99','suporte@360help.com.br','$2y$10$QBvUmfoElypn.U/nUWxDw.fP4P3yKfQSYYol5azVg1cEQZPk4Zm.O');
