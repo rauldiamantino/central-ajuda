@@ -12,9 +12,6 @@ class Cache
       self::$memcached = new \Memcached();
       self::$memcached->addServer('memcached', 11211);
     }
-
-    // Limpar todo o cache
-    // self::$memcached->flush();
   }
 
   public static function definir(string $nome, array $dados, int $tempo, int $empresaId = 0)
@@ -174,5 +171,11 @@ class Cache
 
       self::$memcached->delete($chave);
     }
+  }
+
+  public static function resetarCache()
+  {
+    self::iniciarMemcached();
+    return self::$memcached->flush();
   }
 }
