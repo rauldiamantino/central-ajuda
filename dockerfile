@@ -10,4 +10,4 @@ RUN apt-get update && \
 COPY ./public /var/www/html
 COPY ./vendor /var/www/vendor
 COPY ./app /var/www/app
-COPY ./app/logs /var/log/apache2
+COPY apache.conf /etc/apache2/sites-available/000-default.conf
