@@ -4,18 +4,20 @@ services:
       dockerfile: Dockerfile
     container_name: ambiente-php
     ports:
-      - 8080:80
+      - 80:80
     volumes:
       - ./public:/var/www/html
       - ./vendor:/var/www/vendor
       - ./app:/var/www/app
       - ./app/logs:/var/log/apache2
-    command: bash -c "php -S 0.0.0.0:80 -t /var/www/html"
     links:
       - db
+      - postgres
       - memcached
     networks:
       - network
+    env_file:
+      - .env.local
 
   db:
     image: mysql:latest
@@ -29,30 +31,22 @@ services:
     networks:
       - network
 
+  postgres:
+    image: postgres:latest
+    container_name: postgres-db
+    ports:
+      - "6543:6543"
+    volumes:
+      - ./postgres-dev:/var/lib/postgresql/data
+    networks:
+      - network
+
   memcached:
     image: memcached:latest
     container_name: memcached-php
     ports:
       - "11211:11211"
     command: memcached -m 64m
-    networks:
-      - network
-
-  https-portal:
-    image: steveltn/https-portal:1
-    volumes:
-      - ./certificados-dev:/var/lib/https-portal
-    ports:
-      - '80:80'
-      - '443:443'
-    links:
-      - php
-    restart: always
-
-    environment:
-      DOMAINS: '360help.local -> http://php:80'
-      STAGE: 'local'
-      FORCE_RENEW: 'false'
     networks:
       - network
 

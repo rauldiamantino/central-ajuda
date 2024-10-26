@@ -46,7 +46,7 @@ class Roteador
 
     // Subdomínio
     if (strpos($_SERVER['HTTP_HOST'], 'localhost')) {
-      $subPadrao = '.localhost:8080';
+      $subPadrao = '.localhost';
     }
     elseif (strpos($_SERVER['HTTP_HOST'], '360help.local')) {
       $subPadrao = '.360help.local';

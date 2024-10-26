@@ -10,9 +10,21 @@ class Database
 
   public function __construct()
   {
+    $host = 'aws-0-us-east-1.pooler.supabase.com';
+    $dbname = 'postgres';
+    $user = 'postgres.lfumhydmcsrynencexrg';
+    $password = getenv('POSTGRES_PASSWORD');
+    $port = 6543;
+
     try {
+      // MySQL
       $dsn = 'mysql:host=' . DB_HOST . ';dbname=' . DB_NOME . ';charset=utf8';
       $this->conexao = new PDO($dsn, DB_USUARIO, DB_SENHA);
+
+      // Postgres
+      // $dsn = 'pgsql:host=' . $host . ';dbname=' . $dbname . ';port=' . $port . ';sslmode=require';
+      // $this->conexao = new PDO($dsn, $user, $password);
+
       $this->conexao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
     catch (Exception $e) {
