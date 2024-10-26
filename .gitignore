@@ -2,5 +2,6 @@ app/logs/
 public/cache/
 public/img/conteudo
 certificados-dev
+postgres-dev
 mysql-dev
 .vercel
