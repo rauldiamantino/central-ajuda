@@ -21,26 +21,26 @@ class DashboardLoginModel extends Model
     }
 
     $sql = 'SELECT
-              `Usuario`.`id`,
-              `Usuario`.`nome`,
-              `Usuario`.`email`,
-              `Usuario`.`senha`,
-              `Usuario`.`empresa_id`,
-              `Usuario`.`nivel`,
-              `Usuario`.`padrao`,
-              `Usuario`.`tentativas_login`,
-              `Empresa`.`subdominio` AS `Empresa.subdominio`,
-              `Empresa`.`ativo` AS `Empresa.ativo`
+              Usuario.id,
+              Usuario.nome,
+              Usuario.email,
+              Usuario.senha,
+              Usuario.empresa_id,
+              Usuario.nivel,
+              Usuario.padrao,
+              Usuario.tentativas_login,
+              Empresa.subdominio AS "Empresa.subdominio",
+              Empresa.ativo AS "Empresa.ativo"
             FROM
-              `usuarios` AS `Usuario`
+              usuarios AS Usuario
             LEFT JOIN
-              `empresas` AS `Empresa` ON `Usuario`.`empresa_id` = `Empresa`.`id`
+              empresas AS Empresa ON Usuario.empresa_id = Empresa.id
             WHERE
-              `Usuario`.`email` = ?
+              Usuario.email = ?
             AND
-              `Usuario`.`ativo` = ?
+              Usuario.ativo = ?
             ORDER BY
-              `Usuario`.`id`ASC
+              Usuario.id ASC
             LIMIT 1';
 
     $sqlParam = [
@@ -125,10 +125,10 @@ class DashboardLoginModel extends Model
     ];
 
     $sql = 'UPDATE
-              `usuarios`
+              usuarios
             SET
-              `tentativas_login` = ?,
-              `ultimo_acesso` = ?
+              tentativas_login = ?,
+              ultimo_acesso = ?
             WHERE id = ?';
 
     $sqlParams = [
@@ -143,11 +143,11 @@ class DashboardLoginModel extends Model
   private function registrarTentativas(int $id)
   {
     $sql = 'UPDATE
-              `usuarios`
+              usuarios
             SET
-              `tentativas_login` = `tentativas_login` + ?
+              tentativas_login = tentativas_login + ?
             WHERE
-              `id` = ?';
+              id = ?';
 
     $sqlParams = [
       0 => 1,

@@ -18,7 +18,7 @@ class DashboardConteudoModel extends Model
       return $campos;
     }
 
-    return parent::adicionar($campos, true);
+    return parent::adicionar($campos);
   }
 
   public function atualizar(array $params, int $id): array
@@ -70,7 +70,7 @@ class DashboardConteudoModel extends Model
       return ['erro' => 'Não foi possível processar a requisição'];
     }
 
-    $sql = 'UPDATE `conteudos` SET `ordem` = CASE `id` ' . implode(' ', $cases) . ' END WHERE `id` IN (' . implode(', ', $ids) . ')';
+    $sql = 'UPDATE conteudos SET ordem = CASE id ' . implode(' ', $cases) . ' END WHERE id IN (' . implode(', ', $ids) . ')';
 
     return parent::executarQuery($sql);
   }
@@ -157,14 +157,14 @@ class DashboardConteudoModel extends Model
     endforeach;
 
     if (empty($msgErro['erro']['mensagem'])) {
-      $campos['ativo'] = filter_var($campos['ativo'], FILTER_SANITIZE_NUMBER_INT);
-      $campos['artigo_id'] = filter_var($campos['artigo_id'], FILTER_SANITIZE_NUMBER_INT);
-      $campos['empresa_id'] = filter_var($campos['empresa_id'], FILTER_SANITIZE_NUMBER_INT);
-      $campos['tipo'] = filter_var($campos['tipo'], FILTER_SANITIZE_NUMBER_INT);
+      $campos['ativo'] = (int) $campos['ativo'];
+      $campos['artigo_id'] = (int) $campos['artigo_id'];
+      $campos['empresa_id'] = (int) $campos['empresa_id'];
+      $campos['tipo'] = (int) $campos['tipo'];
       $campos['conteudo'] = htmlspecialchars($campos['conteudo'], ENT_QUOTES, 'UTF-8');
       $campos['titulo'] = htmlspecialchars($campos['titulo']);
-      $campos['titulo_ocultar'] = filter_var($campos['titulo_ocultar'], FILTER_SANITIZE_NUMBER_INT);
-      $campos['tipo'] = filter_var($campos['tipo'], FILTER_SANITIZE_NUMBER_INT);
+      $campos['titulo_ocultar'] = (int) $campos['titulo_ocultar'];
+      $campos['tipo'] = (int) $campos['tipo'];
       $campos['url'] = filter_var($campos['url'], FILTER_SANITIZE_URL);
 
       if (isset($params['ativo']) and ! in_array($campos['ativo'], [INATIVO, ATIVO])) {

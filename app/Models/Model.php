@@ -76,7 +76,7 @@ class Model
 
     $tabela = $this->pluralizar($partes[0]);
     $tabelaCampo = $this->gerarBackticks($tabela, $partes[1]);
-    $this->sqlCount = 'SELECT COUNT(' . $tabelaCampo . ') AS `total` FROM ' .  $this->gerarBackticks($this->pluralizar($this->tabela));
+    $this->sqlCount = 'SELECT COUNT(' . $tabelaCampo . ') AS total FROM ' . $this->gerarBackticks($this->pluralizar($this->tabela));
 
     return $this;
   }
@@ -125,11 +125,15 @@ class Model
       $this->sqlValores[] = $valor;
     }
 
+    if ($operador == 'LIKE' and SGBD == POSTGRESS) {
+      $operador = 'ILIKE';
+    }
+
     if ($tipo == 'AND') {
-      $this->sqlCondicoesAnd[] = $campo . $operador . $placeholders;
+      $this->sqlCondicoesAnd[] = $campo . ' ' . $operador . ' ' . $placeholders;
     }
     elseif ($tipo == 'OR') {
-      $this->sqlCondicoesOr[] = $campo . $operador . $placeholders;
+      $this->sqlCondicoesOr[] = $campo . ' ' . $operador . ' ' . $placeholders;
     }
   }
 
@@ -295,18 +299,17 @@ class Model
   {
     $temp = [];
     foreach ($params as $chave => $linha):
-      $temp[] = $this->gerarBackticks($chave);
+      $temp[] = $chave;
       $this->sqlValores[] = $linha;
     endforeach;
 
     // Prepara
     $colunas = implode(', ', $temp);
-    $tabelaAlias = $this->camel2Snake($this->tabela);
-    $tabelaAlias = $this->pluralizar($tabelaAlias);
-    $tabelaAlias = $this->gerarBackticks($tabelaAlias);
+    $tabela = $this->camel2Snake($this->tabela);
+    $tabela = $this->pluralizar($tabela);
     $placeholders = $this->gerarPlaceholders($this->sqlValores, true);
 
-    $sql = 'INSERT INTO ' . $tabelaAlias . ' (' . $colunas . ') VALUES ' . $placeholders;
+    $sql = 'INSERT INTO ' . $tabela . ' (' . $colunas . ') VALUES ' . $placeholders;
     $resultado = $this->database->operacoes($sql, $this->sqlValores);
 
     $this->limparPropriedades();
@@ -319,24 +322,21 @@ class Model
   {
     $tempColunasValores = [];
     foreach ($params as $chave => $linha):
-      $coluna = $this->gerarBackticks($this->tabela, $chave);
       $valor = $this->gerarPlaceholders();
 
-      $tempColunasValores[] = $coluna . ' = ' . $valor;
+      $tempColunasValores[] = $chave . ' = ' . $valor;
       $this->sqlValores[] = $linha;
     endforeach;
 
     // Prepara
     $tabela = $this->camel2Snake($this->tabela);
     $tabela = $this->pluralizar($tabela);
-    $tabela = $this->gerarBackticks($tabela);
-    $tabelaAlias = $this->gerarBackticks($this->tabela);
 
     $colunasValores = implode(', ', $tempColunasValores);
     $placeholders = $this->gerarPlaceholders();
     $this->sqlValores[] = $id;
 
-    $sql = 'UPDATE ' . $tabela . ' AS ' . $tabelaAlias . ' SET ' . $colunasValores . ' WHERE id = ' . $placeholders;
+    $sql = 'UPDATE ' . $tabela . ' SET ' . $colunasValores . ' WHERE id = ' . $placeholders;
     $resultado = $this->database->operacoes($sql, $this->sqlValores);
 
     $this->limparPropriedades();
@@ -348,19 +348,16 @@ class Model
   public function apagar(int $id): array
   {
     $opLogico = ' = ';
-    $coluna = $this->gerarBackticks($this->tabela, 'id');
-    $tabela = $this->gerarBackticks($this->tabela);
+    $coluna = 'id';
     $placeholders = $this->gerarPlaceholders();
     $this->sqlValores[] = $id;
 
     // Prepara
     $tabela = $this->camel2Snake($this->tabela);
     $tabela = $this->pluralizar($tabela);
-    $tabela = $this->gerarBackticks($tabela);
-    $tabelaAlias = $this->gerarBackticks($this->tabela);
     $placeholders = $this->gerarPlaceholders($this->sqlValores, true);
 
-    $sql = 'DELETE FROM ' . $tabela . ' AS ' . $tabelaAlias . ' WHERE ' . $coluna . $opLogico . $placeholders;
+    $sql = 'DELETE FROM ' . $tabela . ' WHERE ' . $coluna . $opLogico . $placeholders;
     $resultado = $this->database->operacoes($sql, $this->sqlValores);
 
     $this->limparPropriedades();
@@ -527,6 +524,14 @@ class Model
 
   private function gerarBackticks(string $a, string $b = ''): string
   {
-    return $b ? '`' . $a . '`.`' . $b . '`' : '`' . $a . '`';
+    if (SGBD == MYSQL) {
+      return $b ? '`' . $a . '`.`' . $b . '`' : '`' . $a . '`';
+    }
+
+    if (SGBD == POSTGRESS) {
+      return $b ? $a . '.' . $b : '"' . $a . '"';
+    }
+
+    return '';
   }
 }

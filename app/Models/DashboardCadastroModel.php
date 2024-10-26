@@ -124,7 +124,7 @@ class DashboardCadastroModel extends Model
 
   public function gerarEmpresa(string $subdominio): int
   {
-    $sql = 'INSERT INTO `empresas` (ativo, subdominio) VALUES (?, ?)';
+    $sql = 'INSERT INTO empresas (ativo, subdominio) VALUES (?, ?)';
 
     $params = [
       0 => 0,
@@ -138,7 +138,7 @@ class DashboardCadastroModel extends Model
 
   public function apagarEmpresa(int $empresaId): void
   {
-    $sql = 'DELETE FROM `empresas` WHERE `id` = ?';
+    $sql = 'DELETE FROM empresas WHERE id = ?';
 
     $params = [
       0 => $empresaId,
@@ -149,7 +149,7 @@ class DashboardCadastroModel extends Model
 
   public function gravarSessaoStripe(int $empresaId, string $sessaoId): void
   {
-    $sql = 'UPDATE `empresas` SET `sessao_stripe_id` = ? WHERE `id` = ?';
+    $sql = 'UPDATE empresas SET sessao_stripe_id = ? WHERE id = ?';
 
     $params = [
       0 => $sessaoId,
@@ -161,7 +161,7 @@ class DashboardCadastroModel extends Model
 
   public function usuarioExiste(string $email): int
   {
-    $sql = 'SELECT 1 FROM `usuarios` WHERE `email` = ? LIMIT 1';
+    $sql = 'SELECT 1 FROM usuarios WHERE email = ? LIMIT 1';
     $params = [ $email ];
 
     $resultado = parent::executarQuery($sql, $params);
@@ -203,7 +203,7 @@ class DashboardCadastroModel extends Model
     }
 
     $sql = 'INSERT INTO
-              `usuarios` (`ativo`, `nivel`, `empresa_id`, `padrao`, `email`, `senha`)
+              usuarios (ativo, nivel, empresa_id, padrao, email, senha)
             VALUES
               (?, ?, ?, ?, ?, ?);';
 
@@ -223,12 +223,12 @@ class DashboardCadastroModel extends Model
     }
 
     $sql = 'SELECT
-              `Usuario`.`id`, `Usuario`.`nome`, `Usuario`.`email`, `Usuario`.`empresa_id`
+              Usuario.id, Usuario.nome, Usuario.email, Usuario.empresa_id
             FROM
-              `usuarios` AS `Usuario`
+              usuarios AS Usuario
             WHERE
-              `Usuario`.`id` = ?
-            ORDER BY `Usuario`.`id` ASC
+              Usuario.id = ?
+            ORDER BY Usuario.id ASC
             LIMIT 1';
 
     $params = [ $resultado['id'] ];

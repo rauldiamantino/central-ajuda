@@ -6,4 +6,7 @@ define('DB_USUARIO', 'root');
 define('DB_SENHA', 'root');
 define('SEGREDO_SESSAO', '!Central@Ajuda@2024@Dev@1');
 define('APLICACAO', $_SERVER['HTTP_HOST'] . 'central-ajuda');
-define('GRAVAR_CACHE', 1);
+define('GRAVAR_CACHE', 0);
+define('MYSQL', 1);
+define('POSTGRESS', 2);
+define('SGBD', POSTGRESS);

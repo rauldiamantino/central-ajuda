@@ -71,7 +71,7 @@ class DashboardCategoriaModel extends Model
       return ['erro' => 'Não foi possível processar a requisição'];
     }
 
-    $sql = 'UPDATE `categorias` SET `ordem` = CASE `id` ' . implode(' ', $cases) . ' END WHERE `id` IN (' . implode(', ', $ids) . ')';
+    $sql = 'UPDATE categorias SET ordem = CASE id ' . implode(' ', $cases) . ' END WHERE id IN (' . implode(', ', $ids) . ')';
 
     return parent::executarQuery($sql);
   }

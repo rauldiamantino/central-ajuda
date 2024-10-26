@@ -46,13 +46,13 @@ class DashboardAjusteModel extends Model
       }
 
       $sql = 'INSERT INTO
-                `ajustes` (`nome`, `ativo`, `empresa_id`)
+                ajustes (nome, ativo, empresa_id)
               VALUES
                 (?, ?, ?) ON DUPLICATE KEY
               UPDATE
-                `ativo` =
+                ativo =
               VALUES
-                (`ativo`)';
+                (ativo)';
 
       $sqlParams = [
         0 => $campos['nome'],
