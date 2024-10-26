@@ -11,19 +11,24 @@ class Database
   public function __construct()
   {
     $host = 'aws-0-us-east-1.pooler.supabase.com';
-    $dbname = 'postgres';
+    $dbname = getenv('POSTGRES_USER');
     $user = 'postgres.lfumhydmcsrynencexrg';
     $password = getenv('POSTGRES_PASSWORD');
     $port = 6543;
 
     try {
-      // MySQL
-      $dsn = 'mysql:host=' . DB_HOST . ';dbname=' . DB_NOME . ';charset=utf8';
-      $this->conexao = new PDO($dsn, DB_USUARIO, DB_SENHA);
 
-      // Postgres
-      // $dsn = 'pgsql:host=' . $host . ';dbname=' . $dbname . ';port=' . $port . ';sslmode=require';
-      // $this->conexao = new PDO($dsn, $user, $password);
+      if (SGBD == MYSQL) {
+        $dsn = 'mysql:host=' . DB_HOST . ';dbname=' . DB_NOME . ';charset=utf8';
+        $this->conexao = new PDO($dsn, DB_USUARIO, DB_SENHA);
+      }
+      elseif (SGBD == POSTGRESS) {
+        $dsn = 'pgsql:host=' . $host . ';dbname=' . $dbname . ';port=' . $port . ';sslmode=require';
+        $this->conexao = new PDO($dsn, $user, $password);
+      }
+      else {
+        throw new Exception('Banco de dados invalido');
+      }
 
       $this->conexao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
@@ -63,6 +68,9 @@ class Database
         if (is_string($valorFormatado)) {
           $valorFormatado = '\'' . $valorFormatado . '\'';
         }
+        elseif (is_int($valorFormatado)) {
+          $valorFormatado = (int) $valorFormatado;
+        }
 
         $sqlFormatado = preg_replace('/\?/', $valorFormatado, $sqlFormatado, 1);
       endforeach;
@@ -94,14 +102,17 @@ class Database
       if (substr($sql, 0, 6) == 'SELECT') {
         $resposta = $stmt->fetchAll(PDO::FETCH_ASSOC);
       }
-      else {
+      elseif (stripos($sql, 'INSERT') === 0) {
         $ultimoId = $this->conexao->lastInsertId();
-        $linhasAfetadas = $stmt->rowCount();
 
         if ($ultimoId) {
           $resposta = ['id' => $ultimoId];
         }
-        elseif ($linhasAfetadas) {
+      }
+      else {
+        $linhasAfetadas = $stmt->rowCount();
+
+        if ($linhasAfetadas) {
           $resposta = ['linhasAfetadas' => $linhasAfetadas];
         }
       }
