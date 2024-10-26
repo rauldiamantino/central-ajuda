@@ -16,8 +16,6 @@ services:
       - memcached
     networks:
       - network
-    env_file:
-      - .env.local
 
   db:
     image: mysql:latest
