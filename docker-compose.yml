@@ -16,6 +16,8 @@ services:
       - memcached
     networks:
       - network
+    env_file:
+      - .env
 
   db:
     image: mysql:latest
@@ -36,6 +38,8 @@ services:
       - "6543:6543"
     volumes:
       - ./postgres-dev:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     networks:
       - network
 
