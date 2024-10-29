@@ -48,7 +48,7 @@
       <h3 class="w-full text-start mt-10 border-t border-gray-900 mb-2 px-6 py-8 text-lg text-gray-600 font-light text-xs md:hidden">MENU</h3>
       <div class="w-full px-6 pb-10 md:hidden">
         <ul class="flex justify-start h-full gap-6">
-          <li><a href="http://localhost<?php echo baseUrl('/login'); ?>" target="_blank" class="hover:underline">Dashboard</a></li>
+          <li><a href="http://localhost<?php echo baseUrl('/' . $subdominio . '/login'); ?>" target="_blank" class="hover:underline">Dashboard</a></li>
           <li><a href="<?php echo 'https://www.google.com.br' ?>" target="_blank" class="hover:underline">Website</a></li>
         </ul>
       </div>
