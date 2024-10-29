@@ -33,7 +33,7 @@ class Database
       $this->conexao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
     catch (Exception $e) {
-
+registrarLog('log', $e);
       if (HOST_LOCAL) {
         registrarLog('database-conexao', ['erro' => $e->getMessage()]);
       }
