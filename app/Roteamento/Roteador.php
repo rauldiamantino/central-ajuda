@@ -88,11 +88,12 @@ class Roteador
     $empresaAtivo = 0;
 
     $chaveRota = preg_replace('/\b' . preg_quote($id, '/') . '\b/', '{id}', $chaveRota, 1);
-
+pr($chaveRota);
+echo '----';
     if ($empresa and ! $this->rotaLogin($chaveRota)) {
       $chaveRota = preg_replace('/\b' . preg_quote($empresa, '/') . '\b/', '{empresa}', $chaveRota, 1);
     }
-
+pr($chaveRota);
     $rotaRequisitada = $this->acessarRota($chaveRota);
 
     if (empty($rotaRequisitada)) {
