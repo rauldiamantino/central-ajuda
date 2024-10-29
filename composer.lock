@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "feff990242f83ba648d98d511f3ae9bf",
+    "content-hash": "99c3de0f8622da1337d1b78943bd3b9f",
     "packages": [
         {
             "name": "erusev/parsedown",
@@ -58,16 +58,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v16.0.0",
+            "version": "v16.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "7a0b0283d492b66474ef9aa45a7acc938662b580"
+                "reference": "524ae42483d7434dfaecb0076e32e5cb521f6bb7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/7a0b0283d492b66474ef9aa45a7acc938662b580",
-                "reference": "7a0b0283d492b66474ef9aa45a7acc938662b580",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/524ae42483d7434dfaecb0076e32e5cb521f6bb7",
+                "reference": "524ae42483d7434dfaecb0076e32e5cb521f6bb7",
                 "shasum": ""
             },
             "require": {
@@ -111,9 +111,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v16.0.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v16.1.1"
             },
-            "time": "2024-10-01T18:34:44+00:00"
+            "time": "2024-10-18T18:42:52+00:00"
         }
     ],
     "packages-dev": [],
@@ -122,7 +122,10 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "ext-pdo": "*",
+        "ext-pdo_pgsql": "*"
+    },
     "platform-dev": [],
     "plugin-api-version": "2.6.0"
 }
