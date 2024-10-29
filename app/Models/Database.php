@@ -23,7 +23,9 @@ class Database
         $this->conexao = new PDO($dsn, DB_USUARIO, DB_SENHA);
       }
       elseif (SGBD == POSTGRES) {
-        $dsn = 'pgsql:host=' . $host . ';dbname=' . $dbname . ';port=' . $port . ';sslmode=require';
+        $dsn = 'pgsql:host=' . $host . ';dbname=' . $dbname . ';port=' . $port;
+
+        pr($dsn);
         $this->conexao = new PDO($dsn, $user, $password);
       }
       else {
