@@ -10,9 +10,25 @@ class Database
 
   public function __construct()
   {
+    $host = getenv('POSTGRES_HOST');
+    $dbname = getenv('POSTGRES_DATABASE');
+    $user = getenv('POSTGRES_USER');
+    $password = getenv('POSTGRES_PASSWORD');
+    $port = getenv('POSTGRES_PORT');
+
     try {
-      $dsn = 'mysql:host=' . DB_HOST . ';dbname=' . DB_NOME . ';charset=utf8';
-      $this->conexao = new PDO($dsn, DB_USUARIO, DB_SENHA);
+
+      if (SGBD == MYSQL) {
+        $dsn = 'mysql:host=' . DB_HOST . ';dbname=' . DB_NOME . ';charset=utf8';
+        $this->conexao = new PDO($dsn, DB_USUARIO, DB_SENHA);
+      }
+      elseif (SGBD == POSTGRES) {
+        $dsn = 'pgsql:host=' . $host . ';dbname=' . $dbname . ';port=' . $port . ';sslmode=require';
+        $this->conexao = new PDO($dsn, $user, $password);
+      }
+      else {
+        throw new Exception('Banco de dados invalido');
+      }
 
       $this->conexao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }

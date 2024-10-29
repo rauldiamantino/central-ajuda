@@ -12,9 +12,12 @@ services:
       - ./app/logs:/var/log/apache2
     links:
       - db
+      - postgres
       - memcached
     networks:
       - network
+    env_file:
+      - .env
 
   db:
     image: mysql:latest
@@ -25,6 +28,18 @@ services:
       - ./mysql-dev:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - network
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres-db
+    ports:
+      - "26257:26257"
+    volumes:
+      - ./postgres-dev:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     networks:
       - network
 

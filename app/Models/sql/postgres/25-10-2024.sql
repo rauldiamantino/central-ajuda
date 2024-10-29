@@ -9,8 +9,8 @@ TEMPLATE template0;
 -- \c central_ajuda
 
 -- Tabela empresas
-CREATE TABLE empresas (
-  id SERIAL PRIMARY KEY,
+CREATE TABLE "central-ajuda".empresas (
+  id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   ativo INT DEFAULT 0,
   nome VARCHAR(255) DEFAULT NULL,
   subdominio VARCHAR(255) UNIQUE,
@@ -24,8 +24,8 @@ CREATE TABLE empresas (
 );
 
 -- Tabela usuarios
-CREATE TABLE usuarios (
-  id SERIAL PRIMARY KEY,
+CREATE TABLE "central-ajuda".usuarios (
+  id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   ativo INT DEFAULT 0,
   nivel INT NOT NULL DEFAULT 2,
   empresa_id INT NOT NULL,
@@ -41,8 +41,8 @@ CREATE TABLE usuarios (
 );
 
 -- Tabela categorias
-CREATE TABLE categorias (
-  id SERIAL PRIMARY KEY,
+CREATE TABLE "central-ajuda".categorias (
+  id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   ativo INT DEFAULT 0,
   nome VARCHAR(255) NOT NULL,
   descricao TEXT,
@@ -53,8 +53,8 @@ CREATE TABLE categorias (
 );
 
 -- Tabela artigos
-CREATE TABLE artigos (
-  id SERIAL PRIMARY KEY,
+CREATE TABLE "central-ajuda".artigos (
+  id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   ativo INT DEFAULT 0,
   titulo VARCHAR(255) NOT NULL,
   usuario_id INT DEFAULT NULL,
@@ -69,8 +69,8 @@ CREATE TABLE artigos (
 );
 
 -- Tabela conteudos
-CREATE TABLE conteudos (
-  id SERIAL PRIMARY KEY,
+CREATE TABLE "central-ajuda".conteudos (
+  id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   ativo INT DEFAULT 0,
   artigo_id INT NOT NULL,
   empresa_id INT NOT NULL,
@@ -86,8 +86,8 @@ CREATE TABLE conteudos (
 );
 
 -- Tabela ajustes
-CREATE TABLE ajustes (
-  id SERIAL PRIMARY KEY,
+CREATE TABLE "central-ajuda".ajustes (
+  id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   nome VARCHAR(255) DEFAULT NULL,
   ativo INT DEFAULT 0,
   empresa_id INT NOT NULL,
