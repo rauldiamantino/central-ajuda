@@ -1,9 +1,9 @@
 <div class="w-full flex flex-col px-6 md:px-12 py-14">
   <div class="pb-6 border-b border-slate-200 flex flex-wrap gap-2 font-light text-sm publico-migalhas">
-    <a href="<?php echo baseUrl('/'); ?>" class="hover:underline whitespace-nowrap">Início</a>
+    <a href="<?php echo baseUrl('/' . $subdominio); ?>" class="hover:underline whitespace-nowrap">Início</a>
     <?php if (isset($artigo['Categoria']['nome'])) { ?>
       <span>></span>
-      <a href="<?php echo baseUrl('/categoria/' . $artigo['Artigo']['categoria_id']); ?>" class="hover:underline whitespace-nowrap"><?php echo $artigo['Categoria']['nome'] ?></a>
+      <a href="<?php echo baseUrl('/' . $subdominio . '/categoria/' . $artigo['Artigo']['categoria_id']); ?>" class="hover:underline whitespace-nowrap"><?php echo $artigo['Categoria']['nome'] ?></a>
     <?php } ?>
     <span>></span>
     <span class="underline whitespace-nowrap truncate"><?php echo $artigo['Artigo']['titulo'] ?></span>

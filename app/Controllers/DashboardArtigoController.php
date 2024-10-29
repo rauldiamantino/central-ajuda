@@ -174,7 +174,7 @@ class DashboardArtigoController extends DashboardController
                                    ->executarConsulta();
 
     if (isset($resultado['erro']) and $resultado['erro']) {
-      $this->redirecionarErro('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigos', $resultado['erro']);
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', $resultado['erro']);
     }
     else {
       $artigo = $resultado;
@@ -310,13 +310,13 @@ class DashboardArtigoController extends DashboardController
     $resultado = $this->artigoModel->adicionar($dados);
 
     if ($_POST and isset($resultado['erro'])) {
-      $this->redirecionarErro('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigos', $resultado['erro']);
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', $resultado['erro']);
     }
     elseif ($_POST and isset($resultado['id'])) {
       $nomesCache = ['publico-categoria_', 'publico-artigo_'];
       $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
 
-      $this->redirecionarSucesso('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigo/editar/' . $resultado['id'], 'Artigo criado com sucesso');
+      $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $resultado['id'], 'Artigo criado com sucesso');
     }
   }
 
@@ -384,13 +384,13 @@ class DashboardArtigoController extends DashboardController
     $resultado = $this->artigoModel->atualizar($json, $id);
 
     if (isset($resultado['erro'])) {
-      $this->redirecionarErro('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigos', $resultado['erro']);
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', $resultado['erro']);
     }
 
     $nomesCache = ['publico-categoria_', 'publico-artigo_'];
     $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
 
-    $this->redirecionarSucesso('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigo/editar/' . $id, 'Registro alterado com sucesso');
+    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $id, 'Registro alterado com sucesso');
   }
 
   public function atualizarOrdem()

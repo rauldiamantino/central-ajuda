@@ -132,7 +132,7 @@ class PublicoCategoriaController extends PublicoController
     endforeach;
 
     if (empty($categorias) or $sucesso == false) {
-      $this->redirecionarErro('/', 'Desculpe, esta categoria não está disponível');
+      $this->redirecionarErro('/' . $this->subdominio, 'Desculpe, esta categoria não está disponível');
     }
 
     $this->visao->variavel('categorias', $categorias);

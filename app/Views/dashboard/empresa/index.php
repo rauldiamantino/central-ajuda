@@ -11,7 +11,7 @@
       <?php if ($empresa['Empresa']['subdominio'] and isset($_SERVER['SERVER_NAME']) and $_SERVER['SERVER_NAME']) { ?>
         <div class="p-4 flex flex-col flex-wrap md:flex-row md:gap-2 justify-center items-center w-full text-gray-900 text-center text-sm">
           Divulgue o endereço:
-          <a href="<?php echo subdominioDominio($this->usuarioLogado['subdominio']); ?>" target="_blank" class="text-xl text-red-700"><?php echo subdominioDominio($this->usuarioLogado['subdominio'], false); ?></a>
+          <a href="/<?php echo $this->usuarioLogado['subdominio']; ?>" target="_blank" class="text-xl text-red-700"><?php echo $_SERVER['HTTP_HOST'] . '/' . $this->usuarioLogado['subdominio']; ?></a>
         </div>
       <?php } ?>
     </div>
@@ -22,7 +22,7 @@
           <h2 class="font-bold pb-2">Assinatura</h2>
 
           <?php if ($this->usuarioLogado['padrao'] == USUARIO_SUPORTE) { ?>
-            <form action="<?php echo baseUrl('/dashboard/' . $this->usuarioLogado['empresaId'] . '/validar_assinatura'); ?>" method="GET" class="flex items-center gap-2">
+            <form action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/validar_assinatura'); ?>" method="GET" class="flex items-center gap-2">
               <input type="hidden" name="assinatura_id" value="<?php echo $empresa['Empresa']['assinatura_id']; ?>">
               <input type="hidden" name="sessao_stripe_id" value="<?php echo $empresa['Empresa']['sessao_stripe_id']; ?>">
               <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-cloud-arrow-down" viewBox="0 0 16 16">

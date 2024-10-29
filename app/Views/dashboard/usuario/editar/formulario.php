@@ -5,7 +5,7 @@ $nivelAcesso = [
 ];
 ?>
 
-<form method="POST" action="<?php echo baseUrl('/d/' . $this->usuarioLogado['empresaId'] . '/usuario/' . $usuario['Usuario']['id']); ?>" class="border border-slate-300 w-full min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow bg-white">
+<form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/usuario/' . $usuario['Usuario']['id']); ?>" class="border border-slate-300 w-full min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow bg-white">
   <input type="hidden" name="_method" value="PUT">
   <input type="hidden" name="empresa_id" value="<?php echo $usuario['Usuario']['empresa_id']; ?>">
   <div class="w-full flex flex-col gap-4">
@@ -61,10 +61,10 @@ $nivelAcesso = [
   <div class="w-full flex gap-4 justify-between">
     <div class="flex gap-2">
       <?php
-      $urlVoltar = '/dashboard/' . $this->usuarioLogado['empresaId'] . '/usuarios';
+      $urlVoltar = '/' . $this->usuarioLogado['subdominio'] . '/dashboard/usuarios';
 
       if ($this->usuarioLogado['nivel'] == USUARIO_COMUM) {
-        $urlVoltar = '/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigos';
+        $urlVoltar = '/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos';
       }
       ?>
       <a href="<?php echo baseUrl($urlVoltar); ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>">Voltar</a>

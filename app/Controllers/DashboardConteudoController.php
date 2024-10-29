@@ -105,10 +105,10 @@ class DashboardConteudoController extends DashboardController
     $dados = $this->receberJson();
     $resultado = $this->conteudoModel->adicionar($dados);
 
-    $urlRetorno = '/dashboard/artigos/' . $this->usuarioLogado['empresaId'];
+    $urlRetorno = '/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos';
 
     if (isset($dados['artigo_id'])) {
-      $urlRetorno = '/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigo/editar/' . $dados['artigo_id'];
+      $urlRetorno = '/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $dados['artigo_id'];
     }
 
     // Formulário via POST
@@ -176,16 +176,16 @@ class DashboardConteudoController extends DashboardController
     $artigoId = intval($json['artigo_id'] ?? 0);
 
     if ($_POST and isset($resultado['erro'])) {
-      $this->redirecionarErro('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigo/editar/' . $id, $resultado['erro']);
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $id, $resultado['erro']);
     }
     elseif ($_POST and $resultado) {
       $nomesCache = ['publico-artigo_artigo_', 'publico-artigo_conteudos_'];
       $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
 
-      $this->redirecionarSucesso('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigo/editar/' . $artigoId, 'Conteúdo editado com sucesso');
+      $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId, 'Conteúdo editado com sucesso');
     }
     elseif ($_POST) {
-      $this->redirecionar('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigo/editar/' . $artigoId, 'Nenhuma alteração realizada');
+      $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId, 'Nenhuma alteração realizada');
     }
   }
 
