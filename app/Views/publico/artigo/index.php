@@ -1,4 +1,4 @@
-<div class="w-full flex flex-col px-6 md:px-12 py-14">
+<div class="w-full flex flex-col md:px-12 py-14">
   <div class="pb-6 border-b border-slate-200 flex flex-wrap gap-2 font-light text-sm publico-migalhas">
     <a href="<?php echo baseUrl('/' . $subdominio); ?>" class="hover:underline whitespace-nowrap">Início</a>
     <?php if (isset($artigo['Categoria']['nome'])) { ?>

@@ -1,4 +1,4 @@
-<div class="mx-auto w-full xl:w-8/12 flex flex-col items-center gap-16 px-6 py-12">
+<div class="mx-auto w-full xl:w-8/12 flex flex-col items-center gap-16 md:px-6 py-12">
 
   <div class="w-full flex flex-col items-start gap-6">
     <div class="flex flex-col gap-3">

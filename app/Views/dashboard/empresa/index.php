@@ -16,7 +16,7 @@
       <?php } ?>
     </div>
     <div class="mb-10 md:mb-0 md:block w-full empresa-bloco-assinatura" data-empresa-assinatura="<?php echo $empresa['Empresa']['ativo'] == ATIVO ? $empresa['Empresa']['assinatura_id'] : ''; ?>">
-      <div class="relative border border-slate-300 w-full min-w-96 flex flex-col p-4 rounded-lg shadow bg-white">
+      <div class="relative border border-slate-300 w-full md:min-w-96 flex flex-col p-4 rounded-lg shadow bg-white">
         <div id="efeito-loader-assinatura" class="hidden loader"></div>
         <div class="px-2 w-full flex gap-4 justify-between items-center">
           <h2 class="font-bold pb-2">Assinatura</h2>
