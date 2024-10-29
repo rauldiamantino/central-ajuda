@@ -64,15 +64,15 @@ class Roteador
     //   $subdominioAtivo = true;
     // }
 
-    $url = str_replace('https://central-ajuda.onrender.com', '', $url);
-
+    $url = str_replace('https://central-ajuda.onrender.com', '/', $url);
+pr($url);
     $chaveRota = $metodo . ':' . $url;
     $partesRota = explode('/', trim($url, '/'));
 
     if (HOST_LOCAL) {
       $chaveRota = str_replace(RAIZ, '/', $chaveRota);
     }
-
+pr($partesRota);
     if (count($partesRota) > 1) {
       $parteFinal = end($partesRota);
       $empresa = reset($partesRota);
@@ -86,7 +86,7 @@ class Roteador
 
     $empresaId = 0;
     $empresaAtivo = 0;
-
+pr($empresa);
     $chaveRota = preg_replace('/\b' . preg_quote($id, '/') . '\b/', '{id}', $chaveRota, 1);
 
     if (! $this->rotaLogin($chaveRota)) {
