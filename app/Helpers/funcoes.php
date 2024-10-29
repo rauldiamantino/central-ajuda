@@ -37,7 +37,7 @@ function traduzirDataTimestamp($timestamp) {
   return date('d/m/Y \à\s H:i', $timestamp);
 }
 
-function registrarLog($nome, $arquivo, $servidor = false) {
+function registrarLog($nome, $arquivo) {
 
   // Remove quebras de linha e espaços extras
   if ($nome == 'database' and isset($arquivo['sql']) && is_string($arquivo['sql'])) {
@@ -47,18 +47,7 @@ function registrarLog($nome, $arquivo, $servidor = false) {
   $logMensagem = str_repeat("-", 150) . PHP_EOL . PHP_EOL;
   $logMensagem .= date('Y-m-d H:i:s') . ' - ' . $nome . PHP_EOL . PHP_EOL;
   $logMensagem .= json_encode($arquivo, JSON_UNESCAPED_SLASHES) . PHP_EOL . PHP_EOL;
-
-  $logDir = __DIR__ . '/../logs/';
-
-  if ($servidor) {
-    $logDir = __DIR__ . '/../app/logs/';
-  }
-
-  if (! file_exists($logDir)) {
-    mkdir($logDir, 0777, true);
-  }
-
-  error_log($logMensagem, 3, $logDir . $nome . '-' . date('Y-m-d') . '.log');
+  error_log($logMensagem, 3, '../app/logs/' . $nome . '-' . date('Y-m-d') . '.log');
 }
 
 function subdominioDominio(string $subdominio = '', $protocolo = true) {
