@@ -10,7 +10,16 @@ class Cache
   {
     if (self::$memcached === null) {
       self::$memcached = new \Memcached();
-      self::$memcached->addServer('memcached', 11211);
+
+      $host = getenv('MEMCACHED_HOST');
+
+      if (HOST_LOCAL) {
+        $host = getenv('MEMCACHED_HOST_DEV');
+      }
+      $port = getenv('MEMCACHED_PORT');
+
+      // Adiciona o servidor Memcached
+      self::$memcached->addServer($host, $port);
     }
   }
 
