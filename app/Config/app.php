@@ -9,4 +9,4 @@ define('APLICACAO', $_SERVER['HTTP_HOST'] . 'central-ajuda');
 define('GRAVAR_CACHE', 0);
 define('MYSQL', 1);
 define('POSTGRES', 2);
-define('SGBD', POSTGRES);
+define('SGBD', MYSQL);

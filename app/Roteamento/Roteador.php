@@ -107,10 +107,10 @@ class Roteador
       $cacheNome = 'roteador_subdominio-' . md5($coluna . $valor);
 
       $buscarEmpresa = Cache::buscar($cacheNome);
-pr($buscarEmpresa);
+
       if ($buscarEmpresa == null) {
         $buscarEmpresa = $dashboardEmpresa->buscarEmpresaSemId($coluna, $valor);
-pr($buscarEmpresa);
+
         if ($buscarEmpresa) {
           Cache::definir($cacheNome, $buscarEmpresa, $cacheTempo);
         }
