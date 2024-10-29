@@ -17,7 +17,7 @@ $classeRestrito = $this->usuarioLogado['nivel'] == USUARIO_RESTRITO ? 'text-gray
   <ul class="flex flex-col gap-2 text-gray-200 px-4 py-6">
     <h3 class="px-6 py-2 text-xs font-extralight text-slate-300">MENU</h3>
     <li class="px-4 px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'categorias' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
-      <a href="<?php echo baseUrl('/dashboard/' . $this->usuarioLogado['empresaId'] .'/categorias'); ?>" class="w-full p-2">
+      <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categorias'); ?>" class="w-full p-2">
         <div class="flex items-center gap-3">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="" viewBox="0 0 16 16">
             <path d="M3 2v4.586l7 7L14.586 9l-7-7zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586z"/>
@@ -28,7 +28,7 @@ $classeRestrito = $this->usuarioLogado['nivel'] == USUARIO_RESTRITO ? 'text-gray
       </a>
     </li>
     <li class="px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'artigos' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
-      <a href="<?php echo baseUrl('/dashboard/' . $this->usuarioLogado['empresaId'] .'/artigos'); ?>" class="w-full p-2">
+      <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos'); ?>" class="w-full p-2">
         <div class="flex items-center gap-3">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16" class="">
             <path d="M5 1v8H1V1zM1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1zm13 2v5H9V2zM9 1a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM5 13v2H3v-2zm-2-1a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1zm12-1v2H9v-2zm-6-1a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1z" />
@@ -38,7 +38,7 @@ $classeRestrito = $this->usuarioLogado['nivel'] == USUARIO_RESTRITO ? 'text-gray
       </a>
     </li>
     <li class="px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'ajustes' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
-      <a href="<?php echo baseUrl('/dashboard/' . $this->usuarioLogado['empresaId'] .'/ajustes'); ?>" class="w-full p-2">
+      <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/ajustes'); ?>" class="w-full p-2">
         <div class="flex items-center gap-3">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="" viewBox="0 0 16 16">
             <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0"/>
@@ -49,7 +49,7 @@ $classeRestrito = $this->usuarioLogado['nivel'] == USUARIO_RESTRITO ? 'text-gray
       </a>
     </li>
     <li class="<?php echo $classeRestrito; ?> px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'usuarios' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
-      <a href="<?php echo baseUrl('/dashboard/' . $this->usuarioLogado['empresaId'] .'/usuarios'); ?>" class="w-full p-2">
+      <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/usuarios'); ?>" class="w-full p-2">
         <div class="flex items-center gap-3">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="" viewBox="0 0 16 16">
             <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1L7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002-.014.002zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4q0 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/>
@@ -66,7 +66,7 @@ $classeRestrito = $this->usuarioLogado['nivel'] == USUARIO_RESTRITO ? 'text-gray
       </a>
     </li>
     <li class="<?php echo $classeRestrito; ?> px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'empresa' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
-      <a href="<?php echo baseUrl('/dashboard/' . $this->usuarioLogado['empresaId'] .'/empresa/editar'); ?>" class="w-full p-2">
+      <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar'); ?>" class="w-full p-2">
         <div class="w-full flex items-center gap-3">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="" viewBox="0 0 16 16">
             <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6.5a.5.5 0 0 1-1 0V1H3v14h3v-2.5a.5.5 0 0 1 .5-.5H8v4H3a1 1 0 0 1-1-1z"/>

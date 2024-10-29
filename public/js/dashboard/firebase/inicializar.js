@@ -3,7 +3,7 @@ let firebaseModulos = {}
 
 async function inicializarFirebase() {
 
-  if (! empresaId) {
+  if (! empresa) {
     return
   }
 
@@ -12,7 +12,7 @@ async function inicializarFirebase() {
   }
 
   try {
-    const response = await fetch(baseUrl(`/d/${empresaId}/firebase`))
+    const response = await fetch(baseUrl(`/${empresa}/d/firebase`))
     const data = await response.json()
 
     const firebaseConfig = data.firebase

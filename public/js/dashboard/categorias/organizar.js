@@ -14,7 +14,7 @@ const buscarCategorias = () => {
 
   modalOrganizarCancelar.addEventListener('click', () => modalOrganizar.close())
 
-  fetch(baseUrl(`/d/${empresaId}/categorias`), { method: 'GET' })
+  fetch(baseUrl(`/${empresa}/d/categorias`), { method: 'GET' })
     .then(resposta => resposta.json())
     .then(resposta => {
 
@@ -51,7 +51,7 @@ const buscarCategorias = () => {
             }
 
             modalOrganizarConfirmar.addEventListener('click', () => {
-              fetch(baseUrl(`/d/${empresaId}/categoria/ordem`), {
+              fetch(baseUrl(`/${empresa}/d/categoria/ordem`), {
                 method: 'PUT',
                 body: JSON.stringify(ordem)
                 })

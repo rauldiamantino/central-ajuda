@@ -55,19 +55,19 @@ function subdominioDominio(string $subdominio = '', $protocolo = true) {
   $dominio = $_SERVER['HTTP_HOST'];
   $http = 'https://';
 
-  if ($subdominio) {
-    $dominio = $subdominio . '.' . $dominio;
-  }
+  // if ($subdominio) {
+  //   $dominio = $subdominio . '.' . $dominio;
+  // }
+
+  $dominio = $subdominio;
 
   if (strpos($dominio, 'localhost')) {
     $http = 'http://';
   }
 
-  $rota = baseUrl();
-
   if ($protocolo) {
-    return $http . $dominio . $rota;
+    return $http . $dominio;
   }
 
-  return $dominio . $rota;
+  return $dominio;
 }

@@ -1,4 +1,5 @@
 const empresaId = document.querySelector('body').dataset.empresaId
+const empresa = document.querySelector('body').dataset.empresa
 let raiz = document.querySelector('body').dataset.baseUrl
 
 const baseUrl = (url = '') => {

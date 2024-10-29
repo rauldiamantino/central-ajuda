@@ -140,17 +140,9 @@ class Controller
 
     $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     $urlPartes = explode('/', $url);
+    $empresa = $urlPartes[1] ?? '';
 
-    $id = 0;
-    foreach ($urlPartes as $parte):
-
-      if (is_numeric($parte)) {
-        $id = (int) $parte;
-        break;
-      }
-    endforeach;
-
-    if ($id and $id == $this->usuarioLogado['empresaId']) {
+    if ($empresa and $empresa == $this->usuarioLogado['subdominio']) {
       return true;
     }
 

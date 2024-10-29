@@ -23,11 +23,11 @@
                     <a href="" class="italic hover:underline">Sem categoria</a>
                   <?php } ?>
                   <?php if ($linha['Categoria']['nome'] and $linha['Artigo']['categoria_id']) { ?>
-                    <a href="<?php echo baseUrl('/categoria/' . $linha['Artigo']['categoria_id']); ?>" class="italic hover:underline"><?php echo $linha['Categoria']['nome'] ?></a>
+                    <a href="<?php echo baseUrl('/' . $subdominio . '/categoria/' . $linha['Artigo']['categoria_id']); ?>" class="italic hover:underline"><?php echo $linha['Categoria']['nome'] ?></a>
                   <?php } ?>
                 </div>
               <h2 class="text-2xl flex gap-2 items-center">
-                <a href="<?php echo baseUrl('/artigo/' . $linha['Artigo']['id']); ?>" class="hover:underline"><?php echo $linha['Artigo']['titulo'] ?></a>
+                <a href="<?php echo baseUrl('/' . $subdominio . '/artigo/' . $linha['Artigo']['id']); ?>" class="hover:underline"><?php echo $linha['Artigo']['titulo'] ?></a>
 
                 <?php if ($linha['Artigo']['ativo'] == INATIVO) { ?>
                   <div class="text-red-800">

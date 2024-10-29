@@ -21,7 +21,7 @@ class DashboardLoginController extends DashboardController
   public function loginVer()
   {
     if ($this->usuarioLogado['id'] > 0) {
-      header('Location: ' . baseUrl('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigos'));
+      header('Location: ' . baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos'));
       exit();
     }
 
@@ -34,7 +34,7 @@ class DashboardLoginController extends DashboardController
   public function loginSuporteVer(int $id = 0)
   {
     if ($this->usuarioLogado['padrao'] != USUARIO_SUPORTE) {
-      header('Location: ' . baseUrl('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigos'));
+      header('Location: ' . baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos'));
       exit();
     }
 
@@ -83,7 +83,7 @@ class DashboardLoginController extends DashboardController
         $this->usuarioLogado['subdominio'] = $linha['Empresa']['subdominio'];
         $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
 
-        $this->redirecionar('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigos');
+        $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos');
       endforeach;
 
       $this->redirecionarErro('/login/suporte', 'Empresa não encontrada');
@@ -130,7 +130,7 @@ class DashboardLoginController extends DashboardController
       $this->redirecionar('/login/suporte');
     }
 
-    $this->redirecionar('/dashboard/' . $this->usuarioLogado['empresaId'] . '/artigos');
+    $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos');
   }
 
   public function logout()
