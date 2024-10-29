@@ -90,7 +90,7 @@ class Roteador
     if (! $this->rotaLogin($chaveRota)) {
       $chaveRota = preg_replace('/\b' . preg_quote($empresa, '/') . '\b/', '{empresa}', $chaveRota, 1);
     }
-
+registrarLog('rota', $chaveRota);
     $rotaRequisitada = $this->acessarRota($chaveRota);
 
     if (empty($rotaRequisitada)) {
