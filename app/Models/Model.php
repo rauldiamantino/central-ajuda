@@ -125,7 +125,7 @@ class Model
       $this->sqlValores[] = $valor;
     }
 
-    if ($operador == 'LIKE' and SGBD == POSTGRESS) {
+    if ($operador == 'LIKE' and SGBD == POSTGRES) {
       $operador = 'ILIKE';
     }
 
@@ -528,7 +528,7 @@ class Model
       return $b ? '`' . $a . '`.`' . $b . '`' : '`' . $a . '`';
     }
 
-    if (SGBD == POSTGRESS) {
+    if (SGBD == POSTGRES) {
       return $b ? $a . '.' . $b : '"' . $a . '"';
     }
 

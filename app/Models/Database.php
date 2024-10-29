@@ -22,7 +22,7 @@ class Database
         $dsn = 'mysql:host=' . DB_HOST . ';dbname=' . DB_NOME . ';charset=utf8';
         $this->conexao = new PDO($dsn, DB_USUARIO, DB_SENHA);
       }
-      elseif (SGBD == POSTGRESS) {
+      elseif (SGBD == POSTGRES) {
         $dsn = 'pgsql:host=' . $host . ';dbname=' . $dbname . ';port=' . $port . ';sslmode=require';
         $this->conexao = new PDO($dsn, $user, $password);
       }
