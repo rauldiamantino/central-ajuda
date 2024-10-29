@@ -72,15 +72,17 @@ class Roteador
     if (HOST_LOCAL) {
       $chaveRota = str_replace(RAIZ, '/', $chaveRota);
     }
-pr($partesRota);
+
     if (count($partesRota) > 1) {
-      $parteFinal = end($partesRota);
       $empresa = reset($partesRota);
+      $parteFinal = end($partesRota);
       $id = is_numeric($parteFinal) ? (int) $parteFinal : 0;
+    }
+    elseif (count($partesRota) == 1) {
+      $empresa = reset($partesRota);
     }
     else {
       $parteFinal = '';
-      $empresa = '';
       $id = 0;
     }
 
@@ -92,7 +94,7 @@ pr($partesRota);
     if (! $this->rotaLogin($chaveRota)) {
       $chaveRota = preg_replace('/\b' . preg_quote($empresa, '/') . '\b/', '{empresa}', $chaveRota, 1);
     }
-pr($chaveRota);
+
     $rotaRequisitada = $this->acessarRota($chaveRota);
 
     if (empty($rotaRequisitada)) {
