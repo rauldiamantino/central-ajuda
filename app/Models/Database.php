@@ -129,6 +129,8 @@ class Database
         'cod' => $e->getCode(),
         'msg' => $e->getMessage(),
       ];
+
+      pr(['sql' => $sqlFormatado, 'resposta' => $resposta, 'erro' => $erro]);
     }
 
     if (HOST_LOCAL) {
