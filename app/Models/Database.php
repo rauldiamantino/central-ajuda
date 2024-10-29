@@ -24,8 +24,6 @@ class Database
       }
       elseif (SGBD == POSTGRES) {
         $dsn = 'pgsql:host=' . $host . ';dbname=' . $dbname . ';port=' . $port;
-
-        pr($dsn);
         $this->conexao = new PDO($dsn, $user, $password);
       }
       else {
@@ -132,8 +130,6 @@ class Database
         'msg' => $e->getMessage(),
       ];
     }
-
-    pr(['sql' => $sqlFormatado, 'resposta' => $resposta, 'erro' => $erro], true);
 
     if (HOST_LOCAL) {
       registrarLog('database', ['sql' => $sqlFormatado, 'resposta' => $resposta, 'erro' => $erro]);
