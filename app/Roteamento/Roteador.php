@@ -71,6 +71,8 @@ class Roteador
       $chaveRota = str_replace(RAIZ, '/', $chaveRota);
     }
 
+    $chaveRota = str_replace('https://central-ajuda.onrender.com', '', $chaveRota);
+
     if (count($partesRota) > 1) {
       $parteFinal = end($partesRota);
       $empresa = reset($partesRota);
