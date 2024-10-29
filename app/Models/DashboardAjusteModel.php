@@ -45,14 +45,26 @@ class DashboardAjusteModel extends Model
         return $campos;
       }
 
-      $sql = 'INSERT INTO
-                ajustes (nome, ativo, empresa_id)
-              VALUES
-                (?, ?, ?) ON DUPLICATE KEY
-              UPDATE
-                ativo =
-              VALUES
-                (ativo)';
+      if (SGBD == MYSQL) {
+        $sql = 'INSERT INTO
+                  ajustes (nome, ativo, empresa_id)
+                VALUES
+                  (?, ?, ?) ON DUPLICATE KEY
+                UPDATE
+                  ativo =
+                VALUES
+                  (ativo)';
+      }
+      elseif (SGBD == POSTGRES) {
+        $sql = 'INSERT INTO
+                  ajustes (nome, ativo, empresa_id)
+                VALUES
+                  (?, ?, ?) ON CONFLICT (nome, empresa_id) DO UPDATE SET
+                ativo = EXCLUDED.ativo';
+      }
+      else {
+        $sql = '';
+      }
 
       $sqlParams = [
         0 => $campos['nome'],
