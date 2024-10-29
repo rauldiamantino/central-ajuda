@@ -63,15 +63,16 @@ class Roteador
     //   $subdominio = $temp[0];
     //   $subdominioAtivo = true;
     // }
+pr($url);
 
+    $url = str_replace('https://central-ajuda.onrender.com', '', $url);
+pr($url);
     $chaveRota = $metodo . ':' . $url;
     $partesRota = explode('/', trim($url, '/'));
 
     if (HOST_LOCAL) {
       $chaveRota = str_replace(RAIZ, '/', $chaveRota);
     }
-
-    $chaveRota = str_replace('https://central-ajuda.onrender.com', '', $chaveRota);
 
     if (count($partesRota) > 1) {
       $parteFinal = end($partesRota);
