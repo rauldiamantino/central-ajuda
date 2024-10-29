@@ -72,7 +72,7 @@ class Roteador
     if (HOST_LOCAL) {
       $chaveRota = str_replace(RAIZ, '/', $chaveRota);
     }
-
+pr($partesRota);
     if (count($partesRota) > 1) {
       $parteFinal = end($partesRota);
       $empresa = reset($partesRota);
@@ -88,10 +88,7 @@ class Roteador
     $empresaAtivo = 0;
 
     $chaveRota = preg_replace('/\b' . preg_quote($id, '/') . '\b/', '{id}', $chaveRota, 1);
-pr($empresa);
-echo '----';
-pr($chaveRota);
-echo '----';
+
     if (! $this->rotaLogin($chaveRota)) {
       $chaveRota = preg_replace('/\b' . preg_quote($empresa, '/') . '\b/', '{empresa}', $chaveRota, 1);
     }
