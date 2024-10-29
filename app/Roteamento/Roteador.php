@@ -80,8 +80,11 @@ class Roteador
     }
     elseif (count($partesRota) == 1) {
       $empresa = reset($partesRota);
+      $parteFinal = '';
+      $id = 0;
     }
     else {
+      $empresa = '';
       $parteFinal = '';
       $id = 0;
     }
