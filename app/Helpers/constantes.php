@@ -1,8 +1,8 @@
 <?php
 // Base
 define('DOMINIO', 'http://' . $_SERVER['HTTP_HOST']);
-define('HOST_LOCAL', strpos($_SERVER['HTTP_HOST'], 'localhost') !== false || strpos($_SERVER['HTTP_HOST'], '360help.local') !== false);
-define('RAIZ', '/');
+define('HOST_LOCAL', strpos($_SERVER['HTTP_HOST'], 'localhost') !== false or strpos($_SERVER['HTTP_HOST'], '360help.local') !== false);
+define('RAIZ', 'https://central-ajuda.onrender.com/');
 
 // Constantes
 define('USUARIO_SUPORTE', 99);
