@@ -65,14 +65,14 @@ class Roteador
     // }
 
     $url = str_replace('https://central-ajuda.onrender.com', '/', $url);
-pr($url);
+
     $chaveRota = $metodo . ':' . $url;
     $partesRota = explode('/', trim($url, '/'));
 
     if (HOST_LOCAL) {
       $chaveRota = str_replace(RAIZ, '/', $chaveRota);
     }
-pr($partesRota);
+
     if (count($partesRota) > 1) {
       $parteFinal = end($partesRota);
       $empresa = reset($partesRota);
@@ -86,13 +86,13 @@ pr($partesRota);
 
     $empresaId = 0;
     $empresaAtivo = 0;
-pr($empresa);
+
     $chaveRota = preg_replace('/\b' . preg_quote($id, '/') . '\b/', '{id}', $chaveRota, 1);
 
-    if (! $this->rotaLogin($chaveRota)) {
+    if ($empresa and ! $this->rotaLogin($chaveRota)) {
       $chaveRota = preg_replace('/\b' . preg_quote($empresa, '/') . '\b/', '{empresa}', $chaveRota, 1);
     }
-pr($chaveRota);
+
     $rotaRequisitada = $this->acessarRota($chaveRota);
 
     if (empty($rotaRequisitada)) {
