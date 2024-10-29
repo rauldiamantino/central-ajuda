@@ -90,7 +90,7 @@ class Roteador
     if (! $this->rotaLogin($chaveRota)) {
       $chaveRota = preg_replace('/\b' . preg_quote($empresa, '/') . '\b/', '{empresa}', $chaveRota, 1);
     }
-pr($chaveRota);
+
     $rotaRequisitada = $this->acessarRota($chaveRota);
 
     if (empty($rotaRequisitada)) {
@@ -107,10 +107,10 @@ pr($chaveRota);
       $cacheNome = 'roteador_subdominio-' . md5($coluna . $valor);
 
       $buscarEmpresa = Cache::buscar($cacheNome);
-
+pr($buscarEmpresa);
       if ($buscarEmpresa == null) {
         $buscarEmpresa = $dashboardEmpresa->buscarEmpresaSemId($coluna, $valor);
-
+pr($buscarEmpresa);
         if ($buscarEmpresa) {
           Cache::definir($cacheNome, $buscarEmpresa, $cacheTempo);
         }
