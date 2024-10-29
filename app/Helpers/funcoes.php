@@ -49,10 +49,10 @@ function registrarLog($nome, $arquivo, $servidor = false) {
   $logMensagem .= json_encode($arquivo, JSON_UNESCAPED_SLASHES) . PHP_EOL . PHP_EOL;
 
   if ($servidor) {
-    error_log($logMensagem, 3, '../app/logs/' . $nome . '-' . date('Y-m-d') . '.log');
+    error_log($logMensagem, 3, '../logs/' . $nome . '-' . date('Y-m-d') . '.log');
   }
   else {
-    error_log($logMensagem, 3, '../logs/' . $nome . '-' . date('Y-m-d') . '.log');
+    error_log($logMensagem, 3, '../app/logs/' . $nome . '-' . date('Y-m-d') . '.log');
   }
 }
 
