@@ -12,11 +12,12 @@ class Cache
       self::$memcached = new \Memcached();
 
       $host = getenv('MEMCACHED_HOST');
+      $port = getenv('MEMCACHED_PORT');
 
       if (HOST_LOCAL) {
         $host = getenv('MEMCACHED_HOST_DEV');
+        $port = getenv('MEMCACHED_PORT_DEV');
       }
-      $port = getenv('MEMCACHED_PORT');
 
       // Adiciona o servidor Memcached
       self::$memcached->addServer($host, $port);
