@@ -139,7 +139,7 @@ class Model
 
   public function condicao(array $params, string $tipo = 'AND')
   {
-    if (isset($params[0]['campo'])) {
+    if (isset($params[0]['campo']) or isset($params[1]['campo'])) {
       foreach ($params as $linha):
         $this->gerarCondicao($linha, $tipo);
       endforeach;
