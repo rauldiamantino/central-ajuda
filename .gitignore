@@ -5,3 +5,4 @@ certificados-dev
 postgres-dev
 mysql-dev
 .vercel
+.env

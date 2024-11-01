@@ -10,12 +10,6 @@ class Database
 
   public function __construct()
   {
-    $host = getenv('POSTGRES_HOST');
-    $dbname = getenv('POSTGRES_DATABASE');
-    $user = getenv('POSTGRES_USER');
-    $password = getenv('POSTGRES_PASSWORD');
-    $port = getenv('POSTGRES_PORT');
-
     try {
 
       if (SGBD == MYSQL) {
@@ -24,17 +18,16 @@ class Database
         $user = getenv('MYSQL_USER');
         $password = getenv('MYSQL_PASSWORD');
 
-        if (HOST_LOCAL) {
-          $host = getenv('MYSQL_HOST_DEV');
-          $dbname = getenv('MYSQL_DATABASE_DEV');
-          $user = getenv('MYSQL_USER_DEV');
-          $password = getenv('MYSQL_PASSWORD_DEV');
-        }
-
         $dsn = 'mysql:host=' . $host . ';dbname=' . $dbname . ';charset=utf8';
         $this->conexao = new PDO($dsn, $user, $password);
       }
       elseif (SGBD == POSTGRES) {
+        $host = getenv('POSTGRES_HOST');
+        $dbname = getenv('POSTGRES_DATABASE');
+        $user = getenv('POSTGRES_USER');
+        $password = getenv('POSTGRES_PASSWORD');
+        $port = getenv('POSTGRES_PORT');
+
         $dsn = 'pgsql:host=' . $host . ';dbname=' . $dbname . ';port=' . $port;
         $this->conexao = new PDO($dsn, $user, $password);
       }
