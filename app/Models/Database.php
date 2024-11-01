@@ -18,6 +18,10 @@ class Database
         $user = getenv('MYSQL_USER');
         $password = getenv('MYSQL_PASSWORD');
 
+        pr($host);
+        pr($dbname);
+        pr($user);
+
         $dsn = 'mysql:host=' . $host . ';dbname=' . $dbname . ';charset=utf8';
         $this->conexao = new PDO($dsn, $user, $password);
       }
