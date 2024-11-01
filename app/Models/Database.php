@@ -19,8 +19,20 @@ class Database
     try {
 
       if (SGBD == MYSQL) {
-        $dsn = 'mysql:host=' . DB_HOST . ';dbname=' . DB_NOME . ';charset=utf8';
-        $this->conexao = new PDO($dsn, DB_USUARIO, DB_SENHA);
+        $host = getenv('MYSQL_HOST');
+        $dbname = getenv('MYSQL_DATABASE');
+        $user = getenv('MYSQL_USER');
+        $password = getenv('MYSQL_PASSWORD');
+
+        if (HOST_LOCAL) {
+          $host = getenv('MYSQL_HOST_DEV');
+          $dbname = getenv('MYSQL_DATABASE_DEV');
+          $user = getenv('MYSQL_USER_DEV');
+          $password = getenv('MYSQL_PASSWORD_DEV');
+        }
+
+        $dsn = 'mysql:host=' . $host . ';dbname=' . $dbname . ';charset=utf8';
+        $this->conexao = new PDO($dsn, $user, $password);
       }
       elseif (SGBD == POSTGRES) {
         $dsn = 'pgsql:host=' . $host . ';dbname=' . $dbname . ';port=' . $port;
