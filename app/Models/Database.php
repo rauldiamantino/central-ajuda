@@ -11,16 +11,19 @@ class Database
   public function __construct()
   {
     try {
-pr(getenv(), true);
-      if (SGBD == MYSQL) {
-        $host = getenv('MYSQL_HOST');
-        $dbname = getenv('MYSQL_DATABASE');
-        $user = getenv('MYSQL_USER');
-        $password = getenv('MYSQL_PASSWORD');
 
-        pr($host);
-        pr($dbname);
-        pr($user);
+      if (SGBD == MYSQL) {
+        $host = MYSQL_HOST;
+        $dbname = MYSQL_DATABASE;
+        $user = MYSQL_USER;
+        $password = MYSQL_PASSWORD;
+
+        if (HOST_LOCAL) {
+          $host = getenv('MYSQL_HOST');
+          $dbname = getenv('MYSQL_DATABASE');
+          $user = getenv('MYSQL_USER');
+          $password = getenv('MYSQL_PASSWORD');
+        }
 
         $dsn = 'mysql:host=' . $host . ';dbname=' . $dbname . ';charset=utf8';
         $this->conexao = new PDO($dsn, $user, $password);

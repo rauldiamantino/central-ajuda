@@ -6,3 +6,5 @@ postgres-dev
 mysql-dev
 .vercel
 .env
+apache.conf
+app/config/app-prod.php
