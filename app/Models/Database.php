@@ -11,7 +11,7 @@ class Database
   public function __construct()
   {
     try {
-
+pr(getenv(), true);
       if (SGBD == MYSQL) {
         $host = getenv('MYSQL_HOST');
         $dbname = getenv('MYSQL_DATABASE');
