@@ -2,9 +2,7 @@ app/logs/
 public/cache/
 public/img/conteudo
 certificados-dev
-postgres-dev
 mysql-dev
-.vercel
 .env
 apache.conf
-app/config/app-prod.php
+app/config/app.php

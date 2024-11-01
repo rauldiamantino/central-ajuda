@@ -125,10 +125,6 @@ class Model
       $this->sqlValores[] = $valor;
     }
 
-    if ($operador == 'LIKE' and SGBD == POSTGRES) {
-      $operador = 'ILIKE';
-    }
-
     if ($tipo == 'AND') {
       $this->sqlCondicoesAnd[] = $campo . ' ' . $operador . ' ' . $placeholders;
     }
@@ -524,14 +520,6 @@ class Model
 
   private function gerarBackticks(string $a, string $b = ''): string
   {
-    if (SGBD == MYSQL) {
-      return $b ? '`' . $a . '`.`' . $b . '`' : '`' . $a . '`';
-    }
-
-    if (SGBD == POSTGRES) {
-      return $b ? $a . '.' . $b : '"' . $a . '"';
-    }
-
-    return '';
+    return $b ? '`' . $a . '`.`' . $b . '`' : '`' . $a . '`';
   }
 }

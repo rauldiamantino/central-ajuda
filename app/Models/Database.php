@@ -11,36 +11,13 @@ class Database
   public function __construct()
   {
     try {
+      $host = MYSQL_HOST;
+      $dbname = MYSQL_NOME;
+      $user = MYSQL_USUARIO;
+      $password = MYSQL_SENHA;
 
-      if (SGBD == MYSQL) {
-        $host = MYSQL_HOST;
-        $dbname = MYSQL_NOME;
-        $user = MYSQL_USUARIO;
-        $password = MYSQL_SENHA;
-
-        if (HOST_LOCAL) {
-          $host = getenv('MYSQL_HOST');
-          $dbname = getenv('MYSQL_NOME');
-          $user = getenv('MYSQL_USUARIO');
-          $password = getenv('MYSQL_SENHA');
-        }
-
-        $dsn = 'mysql:host=' . $host . ';dbname=' . $dbname . ';charset=utf8';
-        $this->conexao = new PDO($dsn, $user, $password);
-      }
-      elseif (SGBD == POSTGRES) {
-        $host = getenv('POSTGRES_HOST');
-        $dbname = getenv('POSTGRES_DATABASE');
-        $user = getenv('POSTGRES_USER');
-        $password = getenv('POSTGRES_PASSWORD');
-        $port = getenv('POSTGRES_PORT');
-
-        $dsn = 'pgsql:host=' . $host . ';dbname=' . $dbname . ';port=' . $port;
-        $this->conexao = new PDO($dsn, $user, $password);
-      }
-      else {
-        throw new Exception('Banco de dados invalido');
-      }
+      $dsn = 'mysql:host=' . $host . ';dbname=' . $dbname . ';charset=utf8';
+      $this->conexao = new PDO($dsn, $user, $password);
 
       $this->conexao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
