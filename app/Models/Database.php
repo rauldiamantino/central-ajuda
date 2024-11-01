@@ -14,15 +14,15 @@ class Database
 
       if (SGBD == MYSQL) {
         $host = MYSQL_HOST;
-        $dbname = MYSQL_DATABASE;
-        $user = MYSQL_USER;
-        $password = MYSQL_PASSWORD;
+        $dbname = MYSQL_NOME;
+        $user = MYSQL_USUARIO;
+        $password = MYSQL_SENHA;
 
         if (HOST_LOCAL) {
           $host = getenv('MYSQL_HOST');
-          $dbname = getenv('MYSQL_DATABASE');
-          $user = getenv('MYSQL_USER');
-          $password = getenv('MYSQL_PASSWORD');
+          $dbname = getenv('MYSQL_NOME');
+          $user = getenv('MYSQL_USUARIO');
+          $password = getenv('MYSQL_SENHA');
         }
 
         $dsn = 'mysql:host=' . $host . ';dbname=' . $dbname . ';charset=utf8';
