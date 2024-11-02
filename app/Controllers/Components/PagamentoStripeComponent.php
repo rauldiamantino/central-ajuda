@@ -22,7 +22,7 @@ class PagamentoStripeComponent extends DashboardController
       return [];
     }
 
-    $urlSucesso = baseUrl('/cadastro/sucesso');
+    $urlSucesso = '/cadastro/sucesso';
 
     if (HOST_LOCAL) {
       $urlSucesso = 'http://localhost' . baseUrl('/cadastro/sucesso');
