@@ -1,4 +1,4 @@
-<div class="relative w-screen min-h-full flex flex-col p-4">
+<div class="relative min-h-full flex flex-col p-4">
   <h2 class="flex gap-1 text-2xl font-semibold mb-4">
     Editar
     <?php require_once 'usuario-padrao.php' ?>
