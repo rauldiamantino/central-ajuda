@@ -6,8 +6,8 @@
 
   <div class="flex flex-col gap-2">
     <label for="subdominio" class="block text-sm font-medium leading-6 text-gray-900">Como as pessoas vão te encontrar</label>
-    <input id="subdominio" name="subdominio" type="subdominio" autocomplete="off" required class="<?php echo CLASSES_LOGIN_INPUT; ?>" placeholder="subdominio">
-    <div class="pt-1 text-xs">Exemplo: <span class="text-sm font-bold text-red-800 underline">subdominio</span>.360help.com.br</div>
+    <input id="subdominio" name="subdominio" type="subdominio" autocomplete="off" required class="<?php echo CLASSES_LOGIN_INPUT; ?>" placeholder="nome-empresa">
+    <div class="pt-1 text-xs">Exemplo: 360help.com.br/<span class="text-sm font-bold text-red-800 underline">nome-empresa</span></div>
   </div>
 
   <div class="flex flex-col gap-2">
