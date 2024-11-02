@@ -61,7 +61,7 @@ const requisicaoRemover = async (artigoId) => {
     return
   }
 
-  fetch(baseUrl(`/${empresa}/d//artigo/${artigoId}`), { method: 'DELETE' })
+  fetch(baseUrl(`/${empresa}/d/artigo/${artigoId}`), { method: 'DELETE' })
     .then(resposta => resposta.json())
     .then(resposta => {
 
@@ -84,18 +84,17 @@ const requisicaoRemover = async (artigoId) => {
 const inputNumeroPagina = document.querySelector('.artigo-numero-pagina')
 
 if (inputNumeroPagina) {
-  inputNumeroPagina.addEventListener('input', () => {
+  inputNumeroPagina.addEventListener('input', function() {
 
     if (this.value < 0) {
-      this.value = '';
+      this.value = ''
     }
-  });
-}
+  })
 
-if (inputNumeroPagina) {
   inputNumeroPagina.addEventListener('keypress', function(event) {
+
     if (event.key === '-' || event.key === 'e') {
-      event.preventDefault();
+      event.preventDefault()
     }
-  });
+  })
 }
