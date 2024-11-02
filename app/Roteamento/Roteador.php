@@ -39,14 +39,6 @@ class Roteador
     $metodo = $_SERVER['REQUEST_METHOD'];
     $metodoOculto = $_POST['_method'] ?? null;
 
-    if (isset($_GET['debug']) and $_GET['debug'] == 'true') {
-      $this->sessaoUsuario->definir('debugAtivo', true);
-    }
-
-    if (isset($_GET['debug']) and $_GET['debug'] == 'false') {
-      $this->sessaoUsuario->apagar('debugAtivo');
-    }
-
     // Formulário HTML
     if ($metodoOculto and in_array(strtoupper($metodoOculto), ['PUT', 'DELETE'])) {
       $metodo = strtoupper($metodoOculto);
@@ -140,6 +132,18 @@ class Roteador
     }
 
     $usuarioLogado = $this->sessaoUsuario->buscar('usuario');
+
+    // Somente suporte acessa Debug
+    if (isset($usuarioLogado['padrao']) and $usuarioLogado['padrao'] == USUARIO_SUPORTE) {
+
+      if (isset($_GET['debug']) and $_GET['debug'] == 'true') {
+        $this->sessaoUsuario->definir('debugAtivo', true);
+      }
+
+      if (isset($_GET['debug']) and $_GET['debug'] == 'false') {
+        $this->sessaoUsuario->apagar('debugAtivo');
+      }
+    }
 
     // Suporte acessando empresas
     if (isset($usuarioLogado['padrao']) and $usuarioLogado['padrao'] == USUARIO_SUPORTE and $empresaId == 0) {
