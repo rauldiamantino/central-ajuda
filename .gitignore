@@ -5,4 +5,4 @@ certificados-dev
 mysql-dev
 .env
 apache.conf
-app/config/app.php
+app/Config/app.php
