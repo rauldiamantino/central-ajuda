@@ -1,4 +1,5 @@
-logs
+logs/
+app/logs/
 public/cache/
 public/img/conteudo
 certificados-dev
