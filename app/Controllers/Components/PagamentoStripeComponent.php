@@ -22,10 +22,16 @@ class PagamentoStripeComponent extends DashboardController
       return [];
     }
 
+    $urlSucesso = baseUrl('/cadastro/sucesso');
+
+    if (HOST_LOCAL) {
+      $urlSucesso = 'http://localhost' . baseUrl('/cadastro/sucesso');
+    }
+
     $campos = [
       'client_reference_id' => 'E' . $empresaId . 'U' . $usuarioId,
       'customer_email' => $usuarioEmail,
-      'success_url' => 'http://localhost' . baseUrl('/cadastro/sucesso'),
+      'success_url' => $urlSucesso,
       'line_items' => [
         [
           'price' => 'price_1Q5HXyGEvsdXh8q6qABYqPDW',
