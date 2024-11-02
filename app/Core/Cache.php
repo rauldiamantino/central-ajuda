@@ -12,7 +12,7 @@ class Cache
       self::$memcached = new \Memcached();
 
       // Adiciona o servidor Memcached
-      self::$memcached->addServer(MEMCACHED_HOST, MEMCACHED_POST);
+      self::$memcached->addServer(MEMCACHED_HOST, MEMCACHED_PORT);
     }
   }
 
