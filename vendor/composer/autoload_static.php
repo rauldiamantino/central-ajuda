@@ -8,7 +8,6 @@ class ComposerStaticInit86860897b725342a598e52c3c04c14d5
 {
     public static $files = array (
         '172a5387b05fa8f1fa3a73686f66f501' => __DIR__ . '/../..' . '/app/Config/app.php',
-        '9620376b4001169c643d2d124e7b5341' => __DIR__ . '/../..' . '/app/Config/app-prod.php',
         '5fa037e4516a33758b29dbd644b5bea6' => __DIR__ . '/../..' . '/app/Helpers/funcoes.php',
         '773f06de496cdb9526d96959899a08b5' => __DIR__ . '/../..' . '/app/Helpers/constantes.php',
     );

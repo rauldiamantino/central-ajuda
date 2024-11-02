@@ -6,7 +6,6 @@
         },
         "files": [
           "app/Config/app.php",
-          "app/Config/app-prod.php",
           "app/Helpers/funcoes.php",
           "app/Helpers/constantes.php"
         ]
