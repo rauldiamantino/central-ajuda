@@ -46,7 +46,7 @@ class PagamentoStripeComponent extends DashboardController
       return $resposta_api;
     }
     catch (ApiErrorException $e) {
-      registrarLog('stripe', $e->getMessage());
+      registrarLog('stripe-criar-sessao', $e->getMessage());
       return [];
     }
   }
@@ -62,7 +62,7 @@ class PagamentoStripeComponent extends DashboardController
       return $resposta_api->toArray();
     }
     catch (ApiErrorException $e) {
-      registrarLog('stripe', $e->getMessage());
+      registrarLog('stripe-buscar-sessao', $e->getMessage());
       return [];
     }
   }
@@ -91,7 +91,7 @@ class PagamentoStripeComponent extends DashboardController
       return '';
     }
     catch (ApiErrorException $e) {
-      registrarLog('stripe', $e->getMessage());
+      registrarLog('stripe-buscar-assinatura-ativa', $e->getMessage());
       return '';
     }
   }
@@ -107,7 +107,7 @@ class PagamentoStripeComponent extends DashboardController
       return $buscarAssinatura->toArray();
     }
     catch (ApiErrorException $e) {
-      registrarLog('stripe', $e->getMessage());
+      registrarLog('stripe-buscar-assinatura', $e->getMessage());
       return [];
     }
   }
