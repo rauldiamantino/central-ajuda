@@ -9,6 +9,3 @@ $sessaoUsuario = new SessaoUsuario();
 $roteador = new Roteador();
 
 $roteador->rotear();
-
-// Deixar comentado
-// Cache::resetarCache();

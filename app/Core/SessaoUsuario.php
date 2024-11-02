@@ -17,9 +17,14 @@ class SessaoUsuario
     }
   }
 
-  public function definir($chave, $valor)
+  public function definir($chave, $valor, $array = false)
   {
-    $_SESSION[ $chave ] = $valor;
+    if ($array) {
+      $_SESSION[ $chave ][] = $valor;
+    }
+    else {
+      $_SESSION[ $chave ] = $valor;
+    }
   }
 
   public function buscar($chave)

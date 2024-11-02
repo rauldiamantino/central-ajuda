@@ -87,6 +87,27 @@ $classeRestrito = $this->usuarioLogado['nivel'] == USUARIO_RESTRITO ? 'text-gray
     </li>
     <?php if ($this->usuarioLogado['id'] > 0 and $this->usuarioLogado['padrao'] == USUARIO_SUPORTE) { ?>
       <h3 class="mt-8 px-6 py-2 text-xs font-extralight text-slate-300">SUPORTE</h3>
+      <li class="px-4 hover:bg-gray-700 rounded-lg cursor-pointer flex justify-between group">
+        <?php $debugAtivo = $this->sessaoUsuario->buscar('debugAtivo'); ?>
+
+        <button type="button" onclick="window.location.href='<?php echo strtok($_SERVER['REQUEST_URI'], '?') . ($debugAtivo ? '?debug=false' : '?debug=true'); ?>'" class="w-full p-2">
+          <div class="flex justify-start items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-eyeglasses" viewBox="0 0 16 16">
+              <path d="M4 6a2 2 0 1 1 0 4 2 2 0 0 1 0-4m2.625.547a3 3 0 0 0-5.584.953H.5a.5.5 0 0 0 0 1h.541A3 3 0 0 0 7 8a1 1 0 0 1 2 0 3 3 0 0 0 5.959.5h.541a.5.5 0 0 0 0-1h-.541a3 3 0 0 0-5.584-.953A2 2 0 0 0 8 6c-.532 0-1.016.208-1.375.547M14 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0"/>
+            </svg>
+            <div class="flex gap-2 items-center justify-between w-full">
+              <span>Modo debug</span>
+              <?php if ($debugAtivo) { ?>
+                <span class="text-green-900">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle-fill" viewBox="0 0 16 16">
+                    <circle cx="8" cy="8" r="8"/>
+                  </svg>
+                </span>
+              <?php } ?>
+            </div>
+          </div>
+        </button>
+      </li>
       <li class="px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'login' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
         <button type="button" onclick="window.location.href='<?php echo baseUrl('/login/suporte'); ?>'" class="w-full p-2">
           <div class="flex justify-start items-center gap-3">

@@ -26,6 +26,18 @@ class Database
       if (HOST_LOCAL) {
         registrarLog('database-conexao', ['erro' => $e->getMessage()]);
       }
+
+      $log['erro'] = $e->getMessage();
+
+      if (HOST_LOCAL or DEBUG) {
+        global $sessaoUsuario;
+        $sessaoUsuario = $sessaoUsuario;
+        $sessaoUsuario->definir('debug', $log, true);
+      }
+
+      if (HOST_LOCAL) {
+        registrarLog('database-conexao', ['erro' => $log]);
+      }
     }
   }
 
@@ -120,8 +132,23 @@ class Database
       ];
     }
 
+    $log = [
+      'sql' => $sqlFormatado,
+      'resposta' => $resposta,
+    ];
+
+    if ($erro) {
+      $log['erro'] = $erro;
+    }
+
+    if (HOST_LOCAL or DEBUG) {
+      global $sessaoUsuario;
+      $sessaoUsuario = $sessaoUsuario;
+      $sessaoUsuario->definir('debug', $log, true);
+    }
+
     if (HOST_LOCAL) {
-      registrarLog('database', ['sql' => $sqlFormatado, 'resposta' => $resposta, 'erro' => $erro]);
+      registrarLog('database', $log);
     }
 
     return $resposta;

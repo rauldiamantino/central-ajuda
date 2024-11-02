@@ -39,6 +39,14 @@ class Roteador
     $metodo = $_SERVER['REQUEST_METHOD'];
     $metodoOculto = $_POST['_method'] ?? null;
 
+    if (isset($_GET['debug']) and $_GET['debug'] == 'true') {
+      $this->sessaoUsuario->definir('debugAtivo', true);
+    }
+
+    if (isset($_GET['debug']) and $_GET['debug'] == 'false') {
+      $this->sessaoUsuario->apagar('debugAtivo');
+    }
+
     // Formulário HTML
     if ($metodoOculto and in_array(strtoupper($metodoOculto), ['PUT', 'DELETE'])) {
       $metodo = strtoupper($metodoOculto);
