@@ -73,11 +73,11 @@ class Roteador
 
     $chaveRota = $metodo . ':' . $url;
     $partesRota = explode('/', trim($url, '/'));
-
+pr($chaveRota);
     if (HOST_LOCAL) {
       $chaveRota = str_replace(RAIZ, '/', $chaveRota);
     }
-
+pr($chaveRota);
     if (count($partesRota) > 1) {
       $empresa = reset($partesRota);
       $parteFinal = end($partesRota);
