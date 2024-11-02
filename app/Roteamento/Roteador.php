@@ -71,6 +71,12 @@ class Roteador
       $chaveRota = str_replace(RAIZ, '/', $chaveRota);
     }
 
+    // Até criar a landing page
+    if ($chaveRota == 'GET:/') {
+      header('Location: /login');
+      exit;
+    }
+
     if (count($partesRota) > 1) {
       $empresa = reset($partesRota);
       $parteFinal = end($partesRota);
