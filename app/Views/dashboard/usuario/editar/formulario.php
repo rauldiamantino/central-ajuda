@@ -5,7 +5,7 @@ $nivelAcesso = [
 ];
 ?>
 
-<form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/usuario/' . $usuario['Usuario']['id']); ?>" class="border border-slate-300 w-full flex flex-col gap-4 p-4 rounded-lg shadow bg-white">
+<form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/usuario/' . $usuario['Usuario']['id']); ?>" class="border border-slate-300 w-full h-full flex flex-col gap-4 p-4 rounded-lg shadow bg-white">
   <input type="hidden" name="_method" value="PUT">
   <input type="hidden" name="empresa_id" value="<?php echo $usuario['Usuario']['empresa_id']; ?>">
   <div class="w-full flex flex-col gap-4">

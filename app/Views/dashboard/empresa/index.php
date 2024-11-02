@@ -8,15 +8,9 @@
   <div class="w-full flex flex-col md:flex-row gap-4">
     <div class="w-full flex flex-col gap-2">
       <?php require_once 'formulario.php' ?>
-      <?php if ($empresa['Empresa']['subdominio'] and isset($_SERVER['SERVER_NAME']) and $_SERVER['SERVER_NAME']) { ?>
-        <div class="p-4 flex flex-col flex-wrap md:flex-row md:gap-2 justify-center items-center w-full text-gray-900 text-center text-sm">
-          Divulgue o endereço:
-          <a href="/<?php echo $this->usuarioLogado['subdominio']; ?>" target="_blank" class="text-xl text-red-700"><?php echo $_SERVER['HTTP_HOST'] . '/' . $this->usuarioLogado['subdominio']; ?></a>
-        </div>
-      <?php } ?>
     </div>
-    <div class="mb-10 md:mb-0 md:block w-full empresa-bloco-assinatura" data-empresa-assinatura="<?php echo $empresa['Empresa']['ativo'] == ATIVO ? $empresa['Empresa']['assinatura_id'] : ''; ?>">
-      <div class="relative border border-slate-300 w-full md:min-w-96 flex flex-col p-4 rounded-lg shadow bg-white">
+    <div class="mb-10 md:mb-0 md:block w-full md:min-h-full empresa-bloco-assinatura" data-empresa-assinatura="<?php echo $empresa['Empresa']['ativo'] == ATIVO ? $empresa['Empresa']['assinatura_id'] : ''; ?>">
+      <div class="relative border border-slate-300 w-full h-full flex flex-col p-4 rounded-lg shadow bg-white">
         <div id="efeito-loader-assinatura" class="hidden loader"></div>
         <div class="px-2 w-full flex gap-4 justify-between items-center">
           <h2 class="font-bold pb-2">Assinatura</h2>
@@ -54,12 +48,12 @@
           </div>
         </div>
 
-        <div class="w-full p-2 flex flex-col sm:flex-row items-start sm:items-center md:gap-4">
+        <!-- <div class="w-full p-2 flex flex-col sm:flex-row items-start sm:items-center md:gap-4">
           <span class="w-full sm:w-2/12 text-xs rounded"><?php echo strtoupper('Data de início') ?></span>
           <div class="<?php echo CLASSES_DASH_INPUT_BLOCK; ?> sm:w-10/12">
             <span class="text-sm empresa-assinatura-data-inicio">** vazio **</span>
           </div>
-        </div>
+        </div> -->
 
         <div class="w-full p-2 flex flex-col sm:flex-row items-start sm:items-center md:gap-4">
           <span class="w-full sm:w-2/12 text-xs rounded"><?php echo strtoupper('Data de início do período atual') ?></span>

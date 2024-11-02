@@ -1,17 +1,17 @@
-<div class="relative min-h-full flex flex-col p-4">
+<div class="relative w-full min-h-full flex flex-col p-4">
   <h2 class="flex gap-1 text-2xl font-semibold mb-4">
     Editar
     <?php require_once 'usuario-padrao.php' ?>
   </h2>
   <?php require_once 'datas.php' ?>
   <div class="w-full flex flex-col md:flex-row gap-4">
-    <div class="w-full flex flex-col gap-2">
+    <div class="w-full flex flex-col gap-2 md:min-h-full">
       <?php require_once 'formulario.php' ?>
     </div>
     <div class="mb-10 md:mb-0 md:block w-full">
       <?php // Somente suporte ?>
       <?php if ($this->usuarioLogado['padrao'] == USUARIO_SUPORTE) { ?>
-        <div class="border border-slate-300 w-full md:min-w-96 flex flex-col p-4 rounded-lg shadow bg-white">
+        <div class="border border-slate-300 w-full flex flex-col p-4 rounded-lg shadow bg-white">
           <div class="px-2 w-full flex gap-4 justify-between items-center">
             <h2 class="font-bold pb-2">Último acesso</h2>
             <?php if ($usuario['Usuario']['tentativas_login'] >= 10) { ?>
@@ -32,7 +32,7 @@
           <?php if ($ultimoAcesso) {?>
             <?php foreach ($ultimoAcesso as $chave => $linha): ?>
               <?php // Sempre ocultar ?>
-              <?php if ($chave == 'idSessao') { continue; } ?>
+              <?php if (in_array($chave, ['idSessao', 'url'])) { continue; } ?>
 
               <div class="w-full p-2 flex flex-col sm:flex-row items-center sm:gap-6">
                 <span class="w-full sm:w-2/12 text-xs rounded"><?php echo strtoupper($chave) ?></span>
