@@ -15,10 +15,6 @@ class SessaoUsuario
         'use_trans_sid' => false,
       ]);
     }
-
-    // Evitar sequestro de Sessão
-    $this->verificarUserAgent();
-    $this->verificarIp();
   }
 
   public function definir($chave, $valor)
@@ -64,39 +60,5 @@ class SessaoUsuario
   public function regenerarId()
   {
     session_regenerate_id(true);
-  }
-
-  private function verificarUserAgent()
-  {
-    if (! isset($_SESSION['user_agent'])) {
-      $_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
-    }
-    elseif ($_SESSION['user_agent'] !== $_SERVER['HTTP_USER_AGENT']) {
-      $this->destruir();
-
-      echo '1';
-      pr($_SERVER);
-      pr($_SESSION);die;
-
-      header('Location: ' . baseUrl('/'));
-      exit();
-    }
-  }
-
-  private function verificarIp()
-  {
-    if (! isset($_SESSION['user_ip'])) {
-      $_SESSION['user_ip'] = $_SERVER['REMOTE_ADDR'];
-    }
-    elseif ($_SESSION['user_ip'] !== $_SERVER['REMOTE_ADDR']) {
-      $this->destruir();
-
-      echo '2';
-      pr($_SERVER);
-      pr($_SESSION);die;
-
-      header('Location: ' . baseUrl('/'));
-      exit();
-    }
   }
 }
