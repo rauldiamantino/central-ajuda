@@ -120,7 +120,7 @@ class Database
       ];
     }
 
-    if (! HOST_LOCAL) {
+    if (HOST_LOCAL) {
       registrarLog('database', ['sql' => $sqlFormatado, 'resposta' => $resposta, 'erro' => $erro]);
     }
 

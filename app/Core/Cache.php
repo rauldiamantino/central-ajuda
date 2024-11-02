@@ -177,7 +177,35 @@ class Cache
 
   public static function resetarCache()
   {
-    self::iniciarMemcached();
-    return self::$memcached->flush();
+    global $sessaoUsuario;
+    $sessaoUsuario = $sessaoUsuario;
+
+    $empresa = $sessaoUsuario->buscar('subdominio');
+
+    if (empty($empresa)) {
+      header('Location: /erro');
+      exit();
+    }
+
+    $usuarioLogado = $sessaoUsuario->buscar('usuario');
+
+    if (! isset($usuarioLogado['padrao']) or $usuarioLogado['padrao'] != 99) {
+      header('Location: /erro');
+      exit();
+    }
+
+    if (HOST_LOCAL) {
+      $diretorio = 'cache/';
+      $comando = "rm -rf " . escapeshellarg($diretorio);
+      system($comando);
+    }
+    else {
+      self::iniciarMemcached();
+      self::$memcached->flush();
+    }
+
+    $sessaoUsuario->definir('ok', 'Reset cache');
+    header('Location: /' . $empresa);
+    exit();
   }
 }

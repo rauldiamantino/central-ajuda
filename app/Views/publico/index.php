@@ -8,7 +8,17 @@
   <?php require_once 'template/topo.php' ?>
 
   <main class="p-4 w-full min-h-screen flex flex-col gap-4 items-center">
+    <?php $notificacaoSucesso = $this->sessaoUsuario->buscar('ok'); ?>
     <?php $notificacaoErro = $this->sessaoUsuario->buscar('erro'); ?>
+
+    <?php // Notificação de Sucesso ?>
+    <?php if (isset($notificacaoSucesso) and $notificacaoSucesso) { ?>
+      <div class="fixed bottom-0 w-full z-30 flex justify-center items-center text-lg js-notificacao-sucesso-publico js-dashboard-notificacao-sucesso-btn-fechar">
+        <div class="w-full bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+          <?php echo $notificacaoSucesso ?>
+        </div>
+      </div>
+    <?php } ?>
 
     <?php // Notificação de erro ?>
     <?php if (isset($notificacaoErro) and $notificacaoErro) { ?>
@@ -17,9 +27,12 @@
           <?php echo $notificacaoErro ?>
         </div>
       </div>
-      <?php // Limpar erros ?>
-      <?php $this->sessaoUsuario->apagar('erro'); ?>
     <?php } ?>
+
+    <?php // Limpar notificações ?>
+    <?php $this->sessaoUsuario->apagar('ok'); ?>
+    <?php $this->sessaoUsuario->apagar('erro'); ?>
+
     <?php
     $bordaOk = false;
 

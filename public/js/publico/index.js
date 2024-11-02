@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const btnMenuLateralFechar = document.querySelector('.btn-publico-menu-lateral-fechar')
   const notificacaoErro = document.querySelector('.js-notificacao-erro-publico')
   const btnNotificacaoErroFechar = document.querySelector('.js-dashboard-notificacao-erro-btn-fechar')
+  const notificacaoSucesso = document.querySelector('.js-notificacao-sucesso-publico')
+  const btnNotificacaoSucessoFechar = document.querySelector('.js-dashboard-notificacao-sucesso-btn-fechar')
 
   function checarScroll() {
     const posicaoScroll = window.scrollY
@@ -41,6 +43,16 @@ document.addEventListener('DOMContentLoaded', function() {
   if (btnNotificacaoErroFechar) {
     btnNotificacaoErroFechar.addEventListener('click', () => {
      fecharNotificacao(notificacaoErro)
+    })
+  }
+
+  if (notificacaoSucesso) {
+    setTimeout(() => fecharNotificacao(notificacaoSucesso), 10000)
+  }
+
+  if (btnNotificacaoSucessoFechar) {
+    btnNotificacaoSucessoFechar.addEventListener('click', () => {
+     fecharNotificacao(notificacaoSucesso)
     })
   }
 

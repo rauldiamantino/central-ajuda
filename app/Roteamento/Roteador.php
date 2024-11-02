@@ -339,6 +339,7 @@ class Roteador
       'GET:/{empresa}/d/usuario/desbloquear/{id}',
       'GET:/login/suporte/{id}',
       'GET:/login/suporte',
+      'GET:/{empresa}/cache/limpar',
       'GET:/{empresa}/dashboard/validar_assinatura',
     ];
 
@@ -433,6 +434,9 @@ class Roteador
 
       // Dashboard - Assinatura
       'POST:/d/assinaturas/receber' => [AssinaturaReceberComponent::class, 'receberWebhook'],
+
+      // Cache
+      'GET:/{empresa}/cache/limpar' => [Cache::class, 'resetarCache'],
 
       // Dashboard - Artigos
       'GET:/{empresa}/d/artigos' => [DashboardArtigoController::class, 'buscar'],
