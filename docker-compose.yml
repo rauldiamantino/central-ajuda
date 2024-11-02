@@ -9,7 +9,7 @@ services:
       - ./public:/var/www/html
       - ./vendor:/var/www/vendor
       - ./app:/var/www/app
-      - ./app/logs:/var/log/apache2
+      - ./logs:/var/log/apache2
     links:
       - db
       - memcached
