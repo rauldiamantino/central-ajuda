@@ -22,10 +22,10 @@ class PagamentoStripeComponent extends DashboardController
       return [];
     }
 
-    $urlSucesso = '/cadastro/sucesso';
+    $urlSucesso = 'https://www.360help.com.br/cadastro/sucesso';
 
     if (HOST_LOCAL) {
-      $urlSucesso = 'http://localhost' . baseUrl('/cadastro/sucesso');
+      $urlSucesso = 'http://localhost/cadastro/sucesso';
     }
 
     $campos = [
