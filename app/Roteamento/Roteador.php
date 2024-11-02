@@ -64,20 +64,13 @@ class Roteador
     //   $subdominioAtivo = true;
     // }
 
-    if (strpos($url, 'https://central-ajuda')) {
-      $url = str_replace('https://central-ajuda.onrender.com', '/', $url);
-    }
-    elseif (strpos($url, 'http://137.184.202.254')) {
-      $url = str_replace('http://137.184.202.254', '/', $url);
-    }
-
     $chaveRota = $metodo . ':' . $url;
     $partesRota = explode('/', trim($url, '/'));
-pr($chaveRota);
+
     if (HOST_LOCAL) {
       $chaveRota = str_replace(RAIZ, '/', $chaveRota);
     }
-pr($chaveRota);
+
     if (count($partesRota) > 1) {
       $empresa = reset($partesRota);
       $parteFinal = end($partesRota);
