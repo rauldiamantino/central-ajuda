@@ -46,7 +46,7 @@
 
   <?php if (! isset($pagLogin) and ! isset($pagLoginSuporte) and ! isset($pagCadastro)) { ?>
     <?php require_once 'template/topo.php' ?>
-    <div class="flex h-[90vh]">
+    <div class="flex h-full">
       <?php require_once 'template/menu_lateral.php' ?>
       <main class="xl:ml-72 pt-5 lg:px-10 flex w-full flex-col">
         <?php require_once 'notificacoes.php' ?>
