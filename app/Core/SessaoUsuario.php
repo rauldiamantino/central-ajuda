@@ -19,6 +19,8 @@ class SessaoUsuario
 
   public function definir($chave, $valor, $array = false)
   {
+    $this->regenerarId();
+
     if ($array) {
       $_SESSION[ $chave ][] = $valor;
     }
@@ -38,20 +40,20 @@ class SessaoUsuario
       $caminho = [ $caminho ];
     }
 
-    $sessao = $_SESSION;
+    $sessao = &$_SESSION;
     $ultimaChave = array_pop($caminho);
 
-    foreach ($caminho as $chave):
+    foreach ($caminho as $chave) {
 
-      if (!isset($sessao[ $chave ])) {
+      if (! isset($sessao[ $chave ])) {
         return;
       }
 
-      $sessao = $sessao[ $chave ];
-    endforeach;
+      $sessao = &$sessao[ $chave ];
+    }
 
-    if (isset($sessao) and isset($sessao[ $ultimaChave ])) {
-      unset($_SESSION[ $ultimaChave ]);
+    if (isset($sessao[ $ultimaChave ])) {
+      unset($sessao[ $ultimaChave ]);
     }
   }
 
@@ -59,11 +61,17 @@ class SessaoUsuario
   {
     session_unset();
     session_destroy();
-    setcookie(session_name(), '', time() - 3600, '/');
+
+    if (ini_get("session.use_cookies")) {
+      $params = session_get_cookie_params();
+      setcookie(session_name(), '', time() - 42000, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
+    }
   }
 
   public function regenerarId()
   {
-    session_regenerate_id(true);
+    if (session_status() === PHP_SESSION_ACTIVE) {
+      session_regenerate_id(true);
+    }
   }
 }
