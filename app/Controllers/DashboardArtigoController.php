@@ -31,8 +31,11 @@ class DashboardArtigoController extends DashboardController
     $condicoes = [];
 
     // Filtros
+    $artigoId = $_GET['id'] ?? '';
+    $artigoTitulo = urldecode($_GET['titulo'] ?? '');
+    $artigoStatus = $_GET['status'] ?? '';
     $categoriaId = $_GET['categoria_id'] ?? '';
-    $artigoTitulo = $_GET['titulo'] ?? '';
+    $categoriaNome = urldecode($_GET['categoria_nome'] ?? '');
     $filtroAtual = [];
 
     // Filtrar por categoria
@@ -47,7 +50,23 @@ class DashboardArtigoController extends DashboardController
       }
     }
 
-    // Filtrar por nome
+    if (isset($_GET['categoria_nome'])) {
+      $filtroAtual['categoria_nome'] = $categoriaNome;
+    }
+
+    // Filtrar por ID
+    if (isset($_GET['id'])) {
+      $filtroAtual['id'] = $artigoId;
+      $condicoes[] = ['campo' => 'Artigo.id', 'operador' => '=', 'valor' => (int) $artigoId];
+    }
+
+    // Filtrar por status
+    if (isset($_GET['status'])) {
+      $filtroAtual['status'] = $artigoStatus;
+      $condicoes[] = ['campo' => 'Artigo.ativo', 'operador' => '=', 'valor' => (int) $artigoStatus];
+    }
+
+    // Filtrar por título
     if (isset($_GET['titulo'])) {
       $filtroAtual['titulo'] = $artigoTitulo;
       $condicoes[] = ['campo' => 'Artigo.titulo', 'operador' => 'LIKE', 'valor' => '%' . $artigoTitulo . '%'];
@@ -56,7 +75,6 @@ class DashboardArtigoController extends DashboardController
     $artigosTotal = $this->artigoModel->contar('Artigo.id')
                                       ->condicao($condicoes)
                                       ->executarConsulta();
-
 
     $artigosTotal = intval($artigosTotal['total'] ?? 0);
 
