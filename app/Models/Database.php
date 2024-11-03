@@ -22,21 +22,12 @@ class Database
       $this->conexao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
     catch (Exception $e) {
-
-      if (HOST_LOCAL) {
-        registrarLog('database-conexao', ['erro' => $e->getMessage()]);
-      }
-
       $log['erro'] = $e->getMessage();
 
-      if (HOST_LOCAL or DEBUG) {
+      if (DEBUG) {
         global $sessaoUsuario;
         $sessaoUsuario = $sessaoUsuario;
         $sessaoUsuario->definir('debug', $log, true);
-      }
-
-      if (HOST_LOCAL) {
-        registrarLog('database-conexao', ['erro' => $log]);
       }
     }
   }
@@ -141,14 +132,10 @@ class Database
       $log['erro'] = $erro;
     }
 
-    if (HOST_LOCAL or DEBUG) {
+    if (DEBUG) {
       global $sessaoUsuario;
       $sessaoUsuario = $sessaoUsuario;
       $sessaoUsuario->definir('debug', $log, true);
-    }
-
-    if (HOST_LOCAL) {
-      registrarLog('database', $log);
     }
 
     return $resposta;
