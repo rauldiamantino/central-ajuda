@@ -17,7 +17,7 @@ $statusFiltro = $filtroAtual['status'] ?? 'null';
       </div>
     <div class="w-full flex flex-col">
       <label for="filtrar-status">Status</label>
-      <select id="filtrar-status" class="<? echo CLASSES_DASH_INPUT_BUSCA; ?> modal-categorias-filtrar-select">
+      <select id="filtrar-status" class="<?php echo CLASSES_DASH_INPUT_BUSCA; ?> modal-categorias-filtrar-select">
         <?php foreach ($status as $chave => $linha): ?>
           <option value="<?php echo $linha; ?>" <?php echo $linha == $statusFiltro ? 'selected' : ''; ?>><?php echo $chave; ?></option>
         <?php endforeach; ?>
