@@ -44,7 +44,7 @@
       $bordaOk = true;
     }
     ?>
-    <div class="<?php echo $bordaOk ? 'border border-slate-300 shadow-lg ' : '' ?>w-full lg:w-9/12 min-h-screen flex rounded-md bg-white">
+    <div class="<?php echo $bordaOk ? 'lg:border lg:border-slate-300 lg:shadow-lg ' : '' ?>w-full lg:w-9/12 min-h-screen flex rounded-md bg-white">
 
       <?php if ($menuLateral) { ?>
         <?php require_once 'template/menu_lateral.php' ?>
