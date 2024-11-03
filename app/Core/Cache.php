@@ -204,14 +204,12 @@ class Cache
       self::$memcached->flush();
     }
 
+    $referer = $_SERVER['REDIRECT_URL'] ?? '';
+    $referer = str_replace('/cache/limpar', '', $referer);
+
     $sessaoUsuario->definir('ok', 'Reset cache');
 
-    if (isset($_SERVER['HTTP_REFERER']) and $_SERVER['HTTP_REFERER']) {
-      header('Location: ' . $_SERVER['HTTP_REFERER']);
-      exit();
-    }
-
-    header('Location: /' . $empresa);
+    header('Location: ' . $referer);
     exit();
   }
 }

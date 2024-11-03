@@ -67,7 +67,7 @@ class PublicoController extends Controller
 
     $limite = 12;
 
-    $cacheNome = 'publico-categorias';
+    $cacheNome = 'publico-categorias-inicio';
     $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
 
     if ($resultado == null) {

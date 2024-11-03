@@ -51,7 +51,7 @@ class PublicoCategoriaController extends PublicoController
       'Categoria.ordem' => 'ASC',
     ];
 
-    $cacheNome = 'publico-categoria-' . $id;
+    $cacheNome = 'publico-categorias';
     $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
 
     if ($resultado == null) {

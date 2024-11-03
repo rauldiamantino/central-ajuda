@@ -163,8 +163,7 @@ class Roteador
     // Restrições de acesso por nível
     if ((! isset($usuarioLogado['padrao']) or $usuarioLogado['padrao'] != USUARIO_SUPORTE) and $this->rotaRestritaSuporte($chaveRota)) {
       $this->sessaoUsuario->definir('erro', 'Você não tem permissão para realizar esta ação.');
-      $referer = $_SERVER['HTTP_REFERER'] ?? '/';
-      header('Location: ' . $referer);
+      header('Location: ' . REFERER);
       exit;
     }
 
@@ -190,7 +189,7 @@ class Roteador
       if ($sucesso == false) {
         $this->sessaoUsuario->apagar('usuario');
 
-        header('Location: ' . baseUrl('/login'));
+        header('Location: ' . baseUrl(REFERER));
         exit;
       }
 
@@ -211,7 +210,7 @@ class Roteador
       }
 
       if ($sucesso == false) {
-        header('Location: ' . baseUrl('/login'));
+        header('Location: ' . baseUrl(REFERER));
         exit;
       }
 
@@ -357,7 +356,6 @@ class Roteador
       'GET:/{empresa}/d/usuario/desbloquear/{id}',
       'GET:/login/suporte/{id}',
       'GET:/login/suporte',
-      'GET:/{empresa}/cache/limpar',
       'GET:/{empresa}/dashboard/validar_assinatura',
     ];
 

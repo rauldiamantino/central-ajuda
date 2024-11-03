@@ -1,6 +1,7 @@
 <?php
 // Base
 define('HOST_LOCAL', strpos($_SERVER['HTTP_HOST'], 'localhost') !== false or strpos($_SERVER['HTTP_HOST'], '360help.local') !== false);
+define('REFERER', $_SERVER['HTTP_REFERER'] ?? '/login');
 define('RAIZ', '/');
 
 // Constantes

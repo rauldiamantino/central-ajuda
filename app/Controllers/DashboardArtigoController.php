@@ -315,6 +315,7 @@ class DashboardArtigoController extends DashboardController
     }
     elseif ($_POST and isset($resultado['id'])) {
       Cache::apagar('publico-categorias', $this->usuarioLogado['empresaId']);
+      Cache::apagar('publico-categorias-inicio', $this->usuarioLogado['empresaId']);
       Cache::apagar('publico-categoria-' . $dados['categoria_id'], $this->usuarioLogado['empresaId']);
       Cache::apagar('publico-categoria-' . $dados['categoria_id'] . '-artigos', $this->usuarioLogado['empresaId']);
       Cache::apagar('publico-artigos-categoria-' . $dados['categoria_id'], $this->usuarioLogado['empresaId']);
@@ -392,6 +393,7 @@ class DashboardArtigoController extends DashboardController
 
     Cache::apagar('publico-artigo-' . $id, $this->usuarioLogado['empresaId']);
     Cache::apagar('publico-categorias', $this->usuarioLogado['empresaId']);
+    Cache::apagar('publico-categorias-inicio', $this->usuarioLogado['empresaId']);
     Cache::apagar('publico-categoria-' . $json['categoria_id'] . '-artigos', $this->usuarioLogado['empresaId']);
     Cache::apagar('publico-artigos-categoria-' . $json['categoria_id'], $this->usuarioLogado['empresaId']);
 
@@ -466,6 +468,7 @@ class DashboardArtigoController extends DashboardController
     if ($categoriaId) {
       Cache::apagar('publico-artigo-' . $id, $this->usuarioLogado['empresaId']);
       Cache::apagar('publico-categorias', $this->usuarioLogado['empresaId']);
+      Cache::apagar('publico-categorias-inicio', $this->usuarioLogado['empresaId']);
       Cache::apagar('publico-categoria-' . $categoriaId . '-artigos', $this->usuarioLogado['empresaId']);
       Cache::apagar('publico-artigos-categoria-' . $categoriaId, $this->usuarioLogado['empresaId']);
     }
