@@ -19,7 +19,7 @@
     <?php // Somente suporte pode editar assinatura ?>
     <?php if ($this->usuarioLogado['padrao'] == USUARIO_SUPORTE) { ?>
       <div class="w-full">
-        <label for="empresa-editar-assinatura-id" class="w-full block text-sm font-medium text-gray-700">ID da assinatura</label>
+        <label for="empresa-editar-assinatura-id" class="w-full block text-sm font-medium text-gray-700">ID da assinatura Stripe</label>
         <input type="text" id="empresa-editar-assinatura-id" name="assinatura_id" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $empresa['Empresa']['assinatura_id']; ?>">
       </div>
     <?php } ?>

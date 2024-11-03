@@ -305,6 +305,10 @@ class DashboardEmpresaModel extends Model
       $camposValidados['assinatura_id'] = null;
     }
 
+    if (isset($camposValidados['assinatura_id']) and $camposValidados['assinatura_id']) {
+      $camposValidados['sessao_stripe_id'] = null;
+    }
+
     if ($webhook == false and $this->usuarioLogado['padrao'] != USUARIO_SUPORTE and isset($camposValidados['ativo'])) {
       unset($camposValidados['ativo']);
     }

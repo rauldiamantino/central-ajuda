@@ -1,5 +1,6 @@
 <?php
 namespace app\Controllers;
+use app\Core\Cache;
 use app\Models\DashboardCategoriaModel;
 
 class DashboardCategoriaController extends DashboardController
@@ -141,8 +142,7 @@ class DashboardCategoriaController extends DashboardController
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categorias', $resultado['erro']);
     }
 
-    $nomesCache = ['publico-categoria_'];
-    $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
+    Cache::apagar('publico-categorias', $this->usuarioLogado['empresaId']);
 
     $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categorias', 'Categoria criada com sucesso');
   }
@@ -193,8 +193,8 @@ class DashboardCategoriaController extends DashboardController
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categoria/editar/'. $id, $resultado['erro']);
     }
 
-    $nomesCache = ['publico-categoria_'];
-    $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
+    Cache::apagar('publico-categorias', $this->usuarioLogado['empresaId']);
+    Cache::apagar('publico-categoria-' . $id, $this->usuarioLogado['empresaId']);
 
     $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categoria/editar/' . $id, 'Registro alterado com sucesso');
   }
@@ -211,8 +211,7 @@ class DashboardCategoriaController extends DashboardController
       $this->responderJson($resultado, $codigo);
     }
 
-    $nomesCache = ['publico-categoria_'];
-    $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
+    Cache::apagar('publico-categorias', $this->usuarioLogado['empresaId']);
 
     $this->responderJson($resultado);
   }
@@ -229,8 +228,7 @@ class DashboardCategoriaController extends DashboardController
       $this->responderJson($resultado, $codigo);
     }
 
-    $nomesCache = ['publico-categoria_'];
-    $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
+    Cache::apagar('publico-categorias', $this->usuarioLogado['empresaId']);
 
     $this->sessaoUsuario->definir('ok', 'Categoria excluída com sucesso');
     $this->responderJson($resultado);

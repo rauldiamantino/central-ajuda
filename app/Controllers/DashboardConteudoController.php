@@ -1,5 +1,6 @@
 <?php
 namespace app\Controllers;
+use app\Core\Cache;
 use app\Models\DashboardConteudoModel;
 
 class DashboardConteudoController extends DashboardController
@@ -116,8 +117,8 @@ class DashboardConteudoController extends DashboardController
       $this->redirecionarErro($urlRetorno, $resultado['erro']);
     }
     elseif ($_POST and isset($resultado['id'])) {
-      $nomesCache = ['publico-artigo_artigo_', 'publico-artigo_conteudos_'];
-      $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
+      Cache::apagar('publico-artigo-' . $dados['artigo_id'], $this->usuarioLogado['empresaId']);
+      Cache::apagar('publico-artigo-' . $dados['artigo_id'] . '-conteudos', $this->usuarioLogado['empresaId']);
 
       $this->redirecionarSucesso($urlRetorno, 'Conteúdo adicionado com sucesso');
     }
@@ -128,8 +129,8 @@ class DashboardConteudoController extends DashboardController
       $this->responderJson($resultado, $codigo);
     }
 
-    $nomesCache = ['publico-artigo_artigo_', 'publico-artigo_conteudos_'];
-    $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
+    Cache::apagar('publico-artigo-' . $dados['artigo_id'], $this->usuarioLogado['empresaId']);
+    Cache::apagar('publico-artigo-' . $dados['artigo_id'] . '-conteudos', $this->usuarioLogado['empresaId']);
 
     $this->responderJson($resultado);
   }
@@ -179,8 +180,7 @@ class DashboardConteudoController extends DashboardController
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $id, $resultado['erro']);
     }
     elseif ($_POST and $resultado) {
-      $nomesCache = ['publico-artigo_artigo_', 'publico-artigo_conteudos_'];
-      $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
+      Cache::apagar('publico-artigo-' . $artigoId . '-conteudos', $this->usuarioLogado['empresaId']);
 
       $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId, 'Conteúdo editado com sucesso');
     }
@@ -201,14 +201,50 @@ class DashboardConteudoController extends DashboardController
       $this->responderJson($resultado, $codigo);
     }
 
-    $nomesCache = ['publico-artigo_artigo_', 'publico-artigo_conteudos_'];
-    $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
+    // Cache
+    $condicao = [
+      'campo' => 'Conteudo.id',
+      'operador' => '=',
+      'valor' => $json[0]['id'],
+    ];
+
+    $colunas = [
+      'Conteudo.artigo_id',
+    ];
+
+    $buscarConteudo = $this->conteudoModel->selecionar($colunas)
+                                          ->condicao($condicao)
+                                          ->executarConsulta();
+
+    $artigoId = $buscarConteudo[0]['Conteudo']['artigo_id'] ?? 0;
+
+    if ($artigoId) {
+      Cache::apagar('publico-artigo-' . $artigoId . '-conteudos', $this->usuarioLogado['empresaId']);
+    }
 
     $this->responderJson($resultado);
   }
 
   public function apagar(int $id)
   {
+    // Cache
+    $condicao = [
+      'campo' => 'Conteudo.id',
+      'operador' => '=',
+      'valor' => $id,
+    ];
+
+    $colunas = [
+      'Conteudo.artigo_id',
+    ];
+
+    $buscarConteudo = $this->conteudoModel->selecionar($colunas)
+                                          ->condicao($condicao)
+                                          ->executarConsulta();
+
+    $artigoId = $buscarConteudo[0]['Conteudo']['artigo_id'] ?? 0;
+
+    // Apagar
     $resultado = $this->conteudoModel->apagar($id);
 
     if (isset($resultado['erro'])) {
@@ -218,8 +254,9 @@ class DashboardConteudoController extends DashboardController
       $this->responderJson($resultado, $codigo);
     }
 
-    $nomesCache = ['publico-artigo_artigo_', 'publico-artigo_conteudos_'];
-    $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
+    if ($artigoId) {
+      Cache::apagar('publico-artigo-' . $artigoId . '-conteudos', $this->usuarioLogado['empresaId']);
+    }
 
     $this->sessaoUsuario->definir('ok', 'Conteúdo excluído com sucesso');
     $this->responderJson($resultado);
