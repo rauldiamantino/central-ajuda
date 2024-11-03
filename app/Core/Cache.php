@@ -205,6 +205,12 @@ class Cache
     }
 
     $sessaoUsuario->definir('ok', 'Reset cache');
+
+    if (isset($_SERVER['HTTP_REFERER']) and $_SERVER['HTTP_REFERER']) {
+      header('Location: ' . $_SERVER['HTTP_REFERER']);
+      exit();
+    }
+
     header('Location: /' . $empresa);
     exit();
   }

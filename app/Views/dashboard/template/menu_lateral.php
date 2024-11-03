@@ -88,11 +88,22 @@ $classeRestrito = $this->usuarioLogado['nivel'] == USUARIO_RESTRITO ? 'text-gray
     <?php if ($this->usuarioLogado['id'] > 0 and $this->usuarioLogado['padrao'] == USUARIO_SUPORTE) { ?>
       <h3 class="mt-8 px-6 py-2 text-xs font-extralight text-slate-300">SUPORTE</h3>
       <li class="px-4 hover:bg-gray-700 rounded-lg cursor-pointer flex justify-between group">
+        <button type="button" onclick="window.location.href='<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/cache/limpar'); ?>'" class="w-full p-2">
+          <div class="flex justify-start items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
+              <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41m-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9"/>
+              <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5 5 0 0 0 8 3M3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9z"/>
+            </svg>
+            <span>Reset Cache</span>
+          </div>
+        </button>
+      </li>
+      <li class="px-4 hover:bg-gray-700 rounded-lg cursor-pointer flex justify-between group">
         <?php $debugAtivo = $this->sessaoUsuario->buscar('debugAtivo'); ?>
 
         <button type="button" onclick="window.location.href='<?php echo strtok($_SERVER['REQUEST_URI'], '?') . ($debugAtivo ? '?debug=false' : '?debug=true'); ?>'" class="w-full p-2">
           <div class="flex justify-start items-center gap-3">
-            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-eyeglasses" viewBox="0 0 16 16">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-eyeglasses" viewBox="0 0 16 16">
               <path d="M4 6a2 2 0 1 1 0 4 2 2 0 0 1 0-4m2.625.547a3 3 0 0 0-5.584.953H.5a.5.5 0 0 0 0 1h.541A3 3 0 0 0 7 8a1 1 0 0 1 2 0 3 3 0 0 0 5.959.5h.541a.5.5 0 0 0 0-1h-.541a3 3 0 0 0-5.584-.953A2 2 0 0 0 8 6c-.532 0-1.016.208-1.375.547M14 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0"/>
             </svg>
             <div class="flex gap-2 items-center justify-between w-full">
@@ -111,7 +122,7 @@ $classeRestrito = $this->usuarioLogado['nivel'] == USUARIO_RESTRITO ? 'text-gray
       <li class="px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'login' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
         <button type="button" onclick="window.location.href='<?php echo baseUrl('/login/suporte'); ?>'" class="w-full p-2">
           <div class="flex justify-start items-center gap-3">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="" viewBox="0 0 16 16">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="" viewBox="0 0 16 16">
               <path fill-rule="evenodd" d="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5m14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5"/>
             </svg>
             <span>Trocar empresa</span>
