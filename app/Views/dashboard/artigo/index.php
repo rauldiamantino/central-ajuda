@@ -28,6 +28,6 @@
 </div>
 
 <?php require_once 'modais/remover.php' ?>
+<?php require_once 'modais/filtrar.php' ?>
 <?php require_once 'modais/filtrar-alerta.php' ?>
-<?php require_once 'modais/filtrar-categoria.php' ?>
 <?php require_once 'modais/organizar.php' ?>

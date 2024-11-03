@@ -2,6 +2,7 @@ const filtrarArtigos = () => {
   const modalFiltrar = document.querySelector('.modal-artigos-filtrar-cate')
   const modalFiltrarCancelar = modalFiltrar.querySelector('.modal-artigos-filtrar-cate-btn-cancelar')
   const modalFiltrarConfirmar = modalFiltrar.querySelector('.modal-artigos-filtrar-cate-btn-confirmar')
+  const modalFiltrarLimpar = modalFiltrar.querySelector('.modal-artigos-filtrar-cate-btn-limpar')
   const modalFiltrarBlocos = modalFiltrar.querySelector('.modal-artigos-filtrar-cate-blocos')
 
   if (! modalFiltrar) {
@@ -10,31 +11,49 @@ const filtrarArtigos = () => {
 
   const urlParams = new URLSearchParams(window.location.search)
   const categoriaSelecionadaId = urlParams.get('categoria_id')
-  const select = modalFiltrarBlocos.querySelector('select')
+  const inputId = modalFiltrarBlocos.querySelector('#filtrar-id')
+  const inputTitulo = modalFiltrarBlocos.querySelector('#filtrar-titulo')
+  const selectStatus = modalFiltrarBlocos.querySelector('#filtrar-status')
+  const selectCategoria = modalFiltrarBlocos.querySelector('#filtrar-categoria')
 
   if (! empresa) {
     return
   }
 
   // Sempre limpa
-  select.innerHTML = ''
+  selectCategoria.innerHTML = ''
 
   fetch(baseUrl(`/${empresa}/d/categorias`), { method: 'GET' })
     .then(resposta => resposta.json())
     .then(resposta => {
 
       if (resposta.length > 0) {
-        gerarOption('Todas as categorias', '')
-        gerarOption('*** Sem categoria ***', 0)
+        gerarOptionCategorias('Todas as categorias', '')
+        gerarOptionCategorias('*** Sem categoria ***', 0)
 
-        resposta.forEach(categoria => gerarOption(categoria['Categoria']['nome'], categoria['Categoria']['id']))
+        resposta.forEach(categoria => gerarOptionCategorias(categoria['Categoria']['nome'], categoria['Categoria']['id']))
 
+        inputId.addEventListener('keypress', (event) => {
+
+          if (event.key === 'Enter') {
+            clicouConfirmar(true)
+          }
+        })
+
+        inputTitulo.addEventListener('keypress', (event) => {
+
+          if (event.key === 'Enter') {
+            clicouConfirmar(true)
+          }
+        })
+
+        clicouLimpar()
         clicouCancelar()
         clicouConfirmar()
         modalFiltrar.showModal()
 
         // Funções
-        function gerarOption(nome, valor) {
+        function gerarOptionCategorias(nome, valor) {
           const option = document.createElement('option')
 
           option.value = valor
@@ -47,21 +66,55 @@ const filtrarArtigos = () => {
             option.selected = true
           }
 
-          select.appendChild(option)
-        }
-
-        function clicouConfirmar() {
-          modalFiltrarConfirmar.addEventListener('click', () => {
-            const categoriaId = select.value
-
-            if (categoriaId !== undefined) {
-              window.location.href = `/${empresa}/dashboard/artigos?categoria_id=${categoriaId}`
-            }
-          })
+          selectCategoria.appendChild(option)
         }
 
         function clicouCancelar() {
           modalFiltrarCancelar.addEventListener('click', () => modalFiltrar.close())
+        }
+
+        function clicouLimpar() {
+          modalFiltrarLimpar.addEventListener('click', () => window.location.href = `/${empresa}/dashboard/artigos`)
+        }
+
+        function clicouConfirmar(cliqueEnter = false) {
+          modalFiltrarConfirmar.addEventListener('click', () => {
+            const params = paramsFiltro()
+
+            if (params) {
+              window.location.href = `/${empresa}/dashboard/artigos?${params}`
+            }
+          })
+
+          if (cliqueEnter) {
+            const params = paramsFiltro()
+
+            if (params) {
+              window.location.href = `/${empresa}/dashboard/artigos?${params}`
+            }
+          }
+        }
+
+        function paramsFiltro() {
+          let params = ''
+
+          if (selectCategoria.value !== undefined) {
+            params = `categoria_id=${selectCategoria.value}`
+          }
+
+          if (inputId.value !== undefined && inputId.value != '') {
+            params += `&id=${inputId.value}`
+          }
+
+          if (inputTitulo.value !== undefined && inputTitulo.value != '') {
+            params += `&titulo=${inputTitulo.value}`
+          }
+
+          if (selectStatus.value !== undefined && selectStatus.value != 'null') {
+            params += `&status=${selectStatus.value}`
+          }
+
+          return params
         }
       }
       else {
