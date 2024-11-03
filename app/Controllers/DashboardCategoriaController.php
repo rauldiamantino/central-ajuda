@@ -197,6 +197,7 @@ class DashboardCategoriaController extends DashboardController
     Cache::apagar('publico-categorias', $this->usuarioLogado['empresaId']);
     Cache::apagar('publico-categorias-inicio', $this->usuarioLogado['empresaId']);
     Cache::apagar('publico-categoria-' . $id, $this->usuarioLogado['empresaId']);
+    Cache::apagar('publico-categoria-' . $id . '-artigos', $this->usuarioLogado['empresaId']);
 
     $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categoria/editar/' . $id, 'Registro alterado com sucesso');
   }
