@@ -48,7 +48,7 @@ class PublicoBuscaController extends PublicoController
       ];
     }
 
-    $cacheNome = 'publico-busca_artigos-total-' . md5(serialize($condicao));
+    $cacheNome = 'publico-busca-artigos-total-' . md5(serialize($condicao));
     $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
 
     if ($resultado == null) {
@@ -92,7 +92,7 @@ class PublicoBuscaController extends PublicoController
 
       $limite = 10;
 
-      $cacheNome = 'publico-busca_resultado-buscar-' . md5(serialize($textoBusca . $pagina));
+      $cacheNome = 'publico-busca-resultado-buscar-' . md5(serialize($textoBusca . $pagina));
       $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
 
       if ($resultado == null) {
@@ -146,7 +146,7 @@ class PublicoBuscaController extends PublicoController
         'Categoria.ordem' => 'ASC',
       ];
 
-      $cacheNome = 'publico-busca_categorias-' . md5(serialize($condicoes));
+      $cacheNome = 'publico-busca-categorias-' . md5(serialize($condicoes));
       $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
 
       if ($resultado == null) {

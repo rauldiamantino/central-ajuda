@@ -67,7 +67,7 @@ class PublicoController extends Controller
 
     $limite = 12;
 
-    $cacheNome = 'publico-categoria_resultado-' . md5(serialize($condicoes));
+    $cacheNome = 'publico-categorias';
     $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
 
     if ($resultado == null) {
@@ -107,7 +107,7 @@ class PublicoController extends Controller
       'Empresa.telefone',
     ];
 
-    $cacheNome = 'publico_dados-empresa';
+    $cacheNome = 'publico-dados-empresa';
     $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
 
     if ($resultado == null) {

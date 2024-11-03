@@ -51,7 +51,7 @@ class PublicoCategoriaController extends PublicoController
       'Categoria.ordem' => 'ASC',
     ];
 
-    $cacheNome = 'publico-categoria_categorias-' . md5(serialize($condicoes));
+    $cacheNome = 'publico-categoria-' . $id;
     $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
 
     if ($resultado == null) {
@@ -105,7 +105,7 @@ class PublicoCategoriaController extends PublicoController
         'Artigo.ordem' => 'ASC',
       ];
 
-      $cacheNome = 'publico-categoria_artigos-' . md5(serialize($condArtigos));
+      $cacheNome = 'publico-categoria-' . $id . '-artigos';
       $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
 
       if ($resultado == null) {

@@ -1,5 +1,6 @@
 <?php
 namespace app\Controllers;
+use app\Core\Cache;
 use app\Models\DashboardArtigoModel;
 use app\Models\DashboardConteudoModel;
 use app\Models\DashboardCategoriaModel;
@@ -313,8 +314,10 @@ class DashboardArtigoController extends DashboardController
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', $resultado['erro']);
     }
     elseif ($_POST and isset($resultado['id'])) {
-      $nomesCache = ['publico-categoria_', 'publico-artigo_'];
-      $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
+      Cache::apagar('publico-categorias', $this->usuarioLogado['empresaId']);
+      Cache::apagar('publico-categoria-' . $dados['categoria_id'], $this->usuarioLogado['empresaId']);
+      Cache::apagar('publico-categoria-' . $dados['categoria_id'] . '-artigos', $this->usuarioLogado['empresaId']);
+      Cache::apagar('publico-artigos-categoria-' . $dados['categoria_id'], $this->usuarioLogado['empresaId']);
 
       $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $resultado['id'], 'Artigo criado com sucesso');
     }
@@ -387,8 +390,10 @@ class DashboardArtigoController extends DashboardController
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', $resultado['erro']);
     }
 
-    $nomesCache = ['publico-categoria_', 'publico-artigo_'];
-    $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
+    Cache::apagar('publico-artigo-' . $id, $this->usuarioLogado['empresaId']);
+    Cache::apagar('publico-categorias', $this->usuarioLogado['empresaId']);
+    Cache::apagar('publico-categoria-' . $json['categoria_id'] . '-artigos', $this->usuarioLogado['empresaId']);
+    Cache::apagar('publico-artigos-categoria-' . $json['categoria_id'], $this->usuarioLogado['empresaId']);
 
     $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $id, 'Registro alterado com sucesso');
   }
@@ -405,14 +410,50 @@ class DashboardArtigoController extends DashboardController
       $this->responderJson($resultado, $codigo);
     }
 
-    $nomesCache = ['publico-categoria_', 'publico-artigo_'];
-    $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
+    // Cache
+    $condicao = [
+      'campo' => 'Artigo.id',
+      'operador' => '=',
+      'valor' => $json[0]['id'],
+    ];
+
+    $colunas = [
+      'Artigo.categoria_id',
+    ];
+
+    $buscarArtigo = $this->artigoModel->selecionar($colunas)
+                                      ->condicao($condicao)
+                                      ->executarConsulta();
+
+    $categoriaId = $buscarArtigo[0]['Artigo']['categoria_id'] ?? 0;
+
+    if ($categoriaId) {
+      Cache::apagar('publico-artigos-categoria-' . $categoriaId, $this->usuarioLogado['empresaId']);
+    }
 
     $this->responderJson($resultado);
   }
 
   public function apagar(int $id)
   {
+    // Cache
+    $condicao = [
+      'campo' => 'Artigo.id',
+      'operador' => '=',
+      'valor' => $id,
+    ];
+
+    $colunas = [
+      'Artigo.categoria_id',
+    ];
+
+    $buscarArtigo = $this->artigoModel->selecionar($colunas)
+                                      ->condicao($condicao)
+                                      ->executarConsulta();
+
+    $categoriaId = $buscarArtigo[0]['Artigo']['categoria_id'] ?? 0;
+
+    // Apagar
     $resultado = $this->artigoModel->apagar($id);
 
     if (isset($resultado['erro'])) {
@@ -422,8 +463,12 @@ class DashboardArtigoController extends DashboardController
       $this->responderJson($resultado, $codigo);
     }
 
-    $nomesCache = ['publico-categoria_', 'publico-artigo_'];
-    $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
+    if ($categoriaId) {
+      Cache::apagar('publico-artigo-' . $id, $this->usuarioLogado['empresaId']);
+      Cache::apagar('publico-categorias', $this->usuarioLogado['empresaId']);
+      Cache::apagar('publico-categoria-' . $categoriaId . '-artigos', $this->usuarioLogado['empresaId']);
+      Cache::apagar('publico-artigos-categoria-' . $categoriaId, $this->usuarioLogado['empresaId']);
+    }
 
     $this->sessaoUsuario->definir('ok', 'Artigo excluído com sucesso');
 

@@ -99,11 +99,7 @@ class DashboardEmpresaController extends DashboardController
       $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
     }
 
-    $nomesCache = ['publico_'];
-    $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
-
-
-    // Cache sem EmpresaID
+    Cache::apagar('publico-dados-empresa', $this->usuarioLogado['empresaId']);
     Cache::apagar('roteador_subdominio-' . md5('id' . $this->empresaPadraoId));
     Cache::apagar('roteador_subdominio-' . md5('subdominio' . $this->usuarioLogado['subdominio']));
 
@@ -158,10 +154,7 @@ class DashboardEmpresaController extends DashboardController
           $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
         }
 
-        $nomesCache = ['publico_'];
-        $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
-
-        // Cache sem EmpresaID
+        Cache::apagar('publico-dados-empresa', $this->usuarioLogado['empresaId']);
         Cache::apagar('roteador_subdominio-' . md5('id' . $this->empresaPadraoId));
         Cache::apagar('roteador_subdominio-' . md5('subdominio' . $this->usuarioLogado['subdominio']));
 
@@ -263,10 +256,7 @@ class DashboardEmpresaController extends DashboardController
       return false;
     }
 
-    $nomesCache = ['publico_'];
-    $this->limparCacheTodos($nomesCache, $this->usuarioLogado['empresaId']);
-
-    // Cache sem EmpresaID
+    Cache::apagar('publico-dados-empresa', $this->usuarioLogado['empresaId']);
     Cache::apagar('roteador_subdominio-' . md5('id' . $this->empresaPadraoId));
     Cache::apagar('roteador_subdominio-' . md5('subdominio' . $this->usuarioLogado['subdominio']));
 
