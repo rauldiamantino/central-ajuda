@@ -22,16 +22,20 @@ const filtrarArtigos = () => {
 
   // Sempre limpa
   selectCategoria.innerHTML = ''
+  let categoriaNome = ''
+  let categorias = {}
 
   fetch(baseUrl(`/${empresa}/d/categorias`), { method: 'GET' })
     .then(resposta => resposta.json())
     .then(resposta => {
 
       if (resposta.length > 0) {
-        gerarOptionCategorias('Todas as categorias', '')
+        gerarOptionCategorias('Selecione', '')
         gerarOptionCategorias('*** Sem categoria ***', 0)
 
-        resposta.forEach(categoria => gerarOptionCategorias(categoria['Categoria']['nome'], categoria['Categoria']['id']))
+        resposta.forEach(categoria => {
+          gerarOptionCategorias(categoria['Categoria']['nome'], categoria['Categoria']['id'])
+        })
 
         inputId.addEventListener('keypress', (event) => {
 
@@ -59,14 +63,12 @@ const filtrarArtigos = () => {
           option.value = valor
           option.textContent = nome
 
-          if (typeof valor == 'number' && valor == parseInt(categoriaSelecionadaId)) {
-            option.selected = true
-          }
-          else if (valor === categoriaSelecionadaId) {
+          if (valor == categoriaSelecionadaId) {
             option.selected = true
           }
 
           selectCategoria.appendChild(option)
+          categorias[ valor ] = nome
         }
 
         function clicouCancelar() {
@@ -80,26 +82,20 @@ const filtrarArtigos = () => {
         function clicouConfirmar(cliqueEnter = false) {
           modalFiltrarConfirmar.addEventListener('click', () => {
             const params = paramsFiltro()
-
-            if (params) {
-              window.location.href = `/${empresa}/dashboard/artigos?${params}`
-            }
+            window.location.href = `/${empresa}/dashboard/artigos${params ? '?' + params : ''}`
           })
 
           if (cliqueEnter) {
             const params = paramsFiltro()
-
-            if (params) {
-              window.location.href = `/${empresa}/dashboard/artigos?${params}`
-            }
+            window.location.href = `/${empresa}/dashboard/artigos${params ? '?' + params : ''}`
           }
         }
 
         function paramsFiltro() {
           let params = ''
 
-          if (selectCategoria.value !== undefined) {
-            params = `categoria_id=${selectCategoria.value}`
+          if (selectCategoria.value !== undefined && selectCategoria.value != '') {
+            params = `categoria_id=${selectCategoria.value}&categoria_nome=${encodeURI(categorias[ selectCategoria.value ])}`
           }
 
           if (inputId.value !== undefined && inputId.value != '') {
@@ -107,7 +103,7 @@ const filtrarArtigos = () => {
           }
 
           if (inputTitulo.value !== undefined && inputTitulo.value != '') {
-            params += `&titulo=${inputTitulo.value}`
+            params += `&titulo=${encodeURI(inputTitulo.value)}`
           }
 
           if (selectStatus.value !== undefined && selectStatus.value != 'null') {

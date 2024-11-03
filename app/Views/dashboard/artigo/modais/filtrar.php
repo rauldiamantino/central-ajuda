@@ -26,7 +26,7 @@ $statusFiltro = $filtroAtual['status'] ?? 'null';
     </div>
     <div>
       <label for="filtrar-titulo">Título</label>
-      <input type="text" id="filtrar-titulo" class="<?php echo CLASSES_DASH_INPUT_BUSCA; ?>" value="<?php echo $filtroAtual['titulo'] ?? ''; ?>">
+      <input type="text" id="filtrar-titulo" class="<?php echo CLASSES_DASH_INPUT_BUSCA; ?>" value="<?php echo urldecode($filtroAtual['titulo'] ?? ''); ?>">
     </div>
     <div>
       <label for="filtrar-categoria">Categoria</label>

@@ -32,9 +32,10 @@ class DashboardArtigoController extends DashboardController
 
     // Filtros
     $artigoId = $_GET['id'] ?? '';
-    $artigoTitulo = $_GET['titulo'] ?? '';
+    $artigoTitulo = urldecode($_GET['titulo'] ?? '');
     $artigoStatus = $_GET['status'] ?? '';
     $categoriaId = $_GET['categoria_id'] ?? '';
+    $categoriaNome = urldecode($_GET['categoria_nome'] ?? '');
     $filtroAtual = [];
 
     // Filtrar por categoria
@@ -47,6 +48,10 @@ class DashboardArtigoController extends DashboardController
       elseif ($categoriaId === '0') {
         $condicoes[] = ['campo' => 'Artigo.categoria_id', 'operador' => 'IS', 'valor' => NULL];
       }
+    }
+
+    if (isset($_GET['categoria_nome'])) {
+      $filtroAtual['categoria_nome'] = $categoriaNome;
     }
 
     // Filtrar por ID

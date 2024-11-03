@@ -23,6 +23,45 @@
     </div>
   </div>
 
+  <div class="flex flex-col md:flex-row gap-2 md:items-center text-blue-600 text-xs artigos-filtros-ativos">
+
+    <?php if (count($filtroAtual) >= 1) { ?>
+      <div class="md:mb-4 text-black">
+        Filtrando por:
+      </div>
+
+      <div class="mb-4 flex gap-2 flex-wrap">
+        <?php foreach ($filtroAtual as $chave => $linha): ?>
+
+          <?php if ($chave == 'id') { ?>
+            <div class="w-max border-dashed border border-blue-600 px-2 py-1 whitespace-nowrap">
+              ID: <span class="font-semibold"><?php echo $linha ?></span>
+            </div>
+          <?php } ?>
+
+          <?php if ($chave == 'categoria_id') { ?>
+            <div class="w-max border-dashed border border-blue-600 px-2 py-1 whitespace-nowrap">
+              <?php $categoriaNome = $filtroAtual['categoria_nome'] ?? ''; ?>
+              Categoria: <span class="font-semibold"><?php echo $categoriaNome ? $categoriaNome : '*** Sem Nome ***'; ?></span>
+            </div>
+          <?php } ?>
+
+          <?php if ($chave == 'status') { ?>
+            <div class="w-max border-dashed border border-blue-600 px-2 py-1 whitespace-nowrap">
+              Status: <span class="font-semibold"><?php echo $linha == ATIVO ? 'ATIVO' : 'INATIVO'; ?></span>
+            </div>
+          <?php } ?>
+
+          <?php if ($chave == 'titulo') { ?>
+            <div class="w-max border-dashed border border-blue-600 px-2 py-1 whitespace-nowrap">
+              Título: <span class="font-semibold"><?php echo $linha; ?></span>
+            </div>
+          <?php } ?>
+        <?php endforeach; ?>
+      </div>
+    <?php } ?>
+  </div>
+
   <?php require_once 'tabela-artigos.php' ?>
   <?php require_once 'paginacao.php' ?>
 </div>
