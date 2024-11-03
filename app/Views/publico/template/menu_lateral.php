@@ -1,7 +1,7 @@
 <?php $categoriaAtual = intval($artigos[0]['Artigo']['categoria_id'] ?? 0) ?>
 <?php $artigoAtual = intval($artigo['Artigo']['id'] ?? 0); ?>
 
-<aside class="fixed z-40 md:z-10 inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transform-translate duration-300 md:static w-full md:max-w-80 min-h-full h-screen bg-gray-800 text-gray-400 md:bg-white md:text-black overflow-y-auto publico-menu-lateral md:rounded-l-md">
+<aside class="fixed z-40 md:z-10 inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transform-translate duration-300 md:static w-full md:max-w-80 min-h-screen bg-gray-800 text-gray-400 md:bg-white md:text-black overflow-y-auto md:rounded-l-md overflow-estilo publico-menu-lateral">
   <nav class="relative h-full text-sm">
     <button class="absolute right-0 pt-10 px-8 h-max w-max md:hidden btn-publico-menu-lateral-fechar">
       <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="currentColor"><path d="m287-446.67 240 240L480-160 160-480l320-320 47 46.67-240 240h513v66.66H287Z"/></svg>

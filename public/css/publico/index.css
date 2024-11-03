@@ -117,3 +117,18 @@ body {
 .publico-artigo-blocos em {
   font-style: italic;
 }
+
+/* Barra de rolagem */
+.overflow-estilo::-webkit-scrollbar {
+  width: 0px;
+}
+
+.overflow-estilo::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+
+}
+
+.overflow-estilo:hover::-webkit-scrollbar-thumb {
+  width: 8px;
+}
