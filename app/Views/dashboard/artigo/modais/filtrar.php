@@ -33,13 +33,13 @@ $statusFiltro = $filtroAtual['status'] ?? 'null';
       <select id="filtrar-categoria" class="<?php echo CLASSES_DASH_INPUT_BUSCA; ?> modal-categorias-filtrar-select"></select>
     </div>
   </div>
-  <div class="w-full flex justify-between items-center">
+  <div class="w-full flex flex-wrap sm:flex-nowrap justify-between items-center">
     <div class="mt-4 w-full flex gap-2 justify-start">
       <button type="button" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?> modal-artigos-filtrar-cate-btn-cancelar">Voltar</button>
       <button type="button" class="<?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> modal-artigos-filtrar-cate-btn-confirmar">Confirmar</button>
     </div>
 
-    <div class="mt-4 w-full flex gap-2 justify-end">
+    <div class="mt-4 w-full flex gap-2 justify-start sm:justify-end">
       <button type="button" class="<?php echo CLASSES_DASH_BUTTON_LIMPAR; ?> modal-artigos-filtrar-cate-btn-limpar">Limpar</button>
     </div>
   </div>
