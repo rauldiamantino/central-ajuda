@@ -16,7 +16,7 @@ if ($this->usuarioLogado['padrao'] != USUARIO_SUPORTE or $this->sessaoUsuario->b
 }
 ?>
 
-<form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/usuario'); ?>" class="border border-slate-300 w-full min-w-96 flex flex-col gap-4 p-4 rounded-lg bg-white shadow">
+<form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/usuario'); ?>" class="border border-slate-300 w-full flex flex-col gap-4 p-4 rounded-lg bg-white shadow">
   <div class="w-full flex flex-col gap-4">
     <div class="flex gap-10">
       <div class="w-full flex gap-4">

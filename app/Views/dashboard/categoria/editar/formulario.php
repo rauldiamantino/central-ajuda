@@ -1,4 +1,4 @@
-<form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/categoria/' . $categoria['Categoria']['id']); ?>" class="border border-slate-300 w-full min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow bg-white">
+<form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/categoria/' . $categoria['Categoria']['id']); ?>" class="border border-slate-300 w-full flex flex-col gap-4 p-4 rounded-lg shadow bg-white">
   <input type="hidden" name="_method" value="PUT">
   <div class="w-full flex gap-4">
     <div>

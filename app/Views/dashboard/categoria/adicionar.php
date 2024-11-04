@@ -5,7 +5,7 @@
 
   <div class="w-full flex gap-4">
     <div class="w-full flex flex-col gap-10">
-      <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/categoria'); ?>" class="border border-slate-300 w-full min-w-96 flex flex-col gap-4 p-4 rounded-lg shadow bg-white">
+      <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/categoria'); ?>" class="border border-slate-300 w-full flex flex-col gap-4 p-4 rounded-lg shadow bg-white">
         <?php if (isset($ordem['prox'])) { ?>
           <input type="hidden" name="ordem" value="<?php echo $ordem['prox'] ?>">
         <?php } ?>
