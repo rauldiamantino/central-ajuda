@@ -71,7 +71,6 @@ const buscarConteudos = () => {
                   }
                 })
                 .catch(error => {
-                  alert('Não foi possível reorganizar')
                   window.location.href = window.location.href;
                 })
             })

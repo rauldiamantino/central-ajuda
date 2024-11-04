@@ -189,7 +189,7 @@ class Roteador
       if ($sucesso == false) {
         $this->sessaoUsuario->apagar('usuario');
 
-        header('Location: ' . baseUrl(REFERER));
+        header('Location: ' . baseUrl('/login'));
         exit;
       }
 
@@ -210,7 +210,7 @@ class Roteador
       }
 
       if ($sucesso == false) {
-        header('Location: ' . baseUrl(REFERER));
+        header('Location: ' . baseUrl('/login'));
         exit;
       }
 
