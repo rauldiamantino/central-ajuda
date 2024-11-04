@@ -81,20 +81,42 @@ const buscarAssinatura = () => {
     })
 
     function aplicarAssinatura(assinatura) {
-      const assinaturaId = document.querySelector('.empresa-assinatura-id')
       const assinaturaStatus = document.querySelector('.empresa-assinatura-status')
       const assinaturaDataInicio = document.querySelector('.empresa-assinatura-data-inicio')
-      const assinaturaPeriodoAtualInicio = document.querySelector('.empresa-assinatura-atual-inicio')
-      const assinaturaPeriodoAtualFim = document.querySelector('.empresa-assinatura-atual-fim')
-      const assinaturaClienteId = document.querySelector('.empresa-assinatura-cliente-id')
-      const vazio = '** vazio **'
+      const assinaturaPeriodoCorrente = document.querySelector('.empresa-assinatura-periodo-corrente')
+      const assinaturaPlano = document.querySelector('.empresa-assinatura-plano')
 
-      assinaturaId.innerText = assinatura.id ? assinatura.id : vazio
-      assinaturaStatus.innerText = assinatura.status ? assinatura.status.toUpperCase() : vazio
-      assinaturaDataInicio.innerText = assinatura.start_date ? traduzirDataTimestamp(assinatura.start_date) : vazio
-      assinaturaPeriodoAtualInicio.innerText = assinatura.current_period_start ? traduzirDataTimestamp(assinatura.current_period_start) : vazio
-      assinaturaPeriodoAtualFim.innerText = assinatura.current_period_end ? traduzirDataTimestamp(assinatura.current_period_end) : vazio
-      assinaturaClienteId.innerText = assinatura.customer ? assinatura.customer : vazio
+      if (! assinatura.current_period_start) {
+        return
+      }
+
+      if (! assinatura.current_period_end) {
+        return
+      }
+
+      let dataInicio = traduzirDataTimestamp(assinatura.current_period_start)
+      let dataFim = traduzirDataTimestamp(assinatura.current_period_end)
+
+      if (dataInicio && dataFim) {
+        assinaturaPeriodoCorrente.innerText = `${dataInicio} a ${dataFim}`
+      }
+      else {
+        assinaturaPeriodoCorrente.innerText = ''
+      }
+
+      let status = assinatura.status ? assinatura.status : ''
+
+      if (status == 'active') {
+        status = 'Ativa'
+      }
+
+      if (status == 'canceled') {
+        status = 'Cancelada'
+      }
+
+      assinaturaStatus.innerText = status ? status : ''
+      assinaturaDataInicio.innerText = assinatura.start_date ? traduzirDataTimestamp(assinatura.start_date) : ''
+      assinaturaPlano.innerText = 'Mensal'
 
       desativarLoader()
     }
@@ -108,6 +130,13 @@ const buscarAssinatura = () => {
     }
 
     function traduzirDataTimestamp(timestamp) {
-      return new Date(timestamp * 1000).toLocaleString('pt-BR').replace(',', ' às');
+      const data = new Date(timestamp * 1000)
+
+      const dataFormatada = data.toLocaleDateString('pt-BR', {
+        day: 'numeric',
+        month: 'short',
+      })
+
+      return dataFormatada
     }
 }
