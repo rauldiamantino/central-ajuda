@@ -33,7 +33,7 @@ $statusFiltro = $filtroAtual['status'] ?? 'null';
       <select id="filtrar-categoria" class="<?php echo CLASSES_DASH_INPUT_BUSCA; ?> modal-categorias-filtrar-select" autofocus></select>
     </div>
   </div>
-  <div class="mt-4 w-full flex flex-wrap sm:flex-nowrap gap-2 justify-start">
+  <div class="mt-4 w-full flex flex-wrap sm:flex-nowrap gap-2 justify-center sm:justify-end">
     <button type="button" class="<?php echo CLASSES_DASH_BUTTON_LIMPAR; ?> modal-artigos-filtrar-cate-btn-limpar">Limpar</button>
     <button type="button" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?> modal-artigos-filtrar-cate-btn-cancelar">Voltar</button>
     <button type="button" class="<?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> modal-artigos-filtrar-cate-btn-confirmar">Confirmar</button>
