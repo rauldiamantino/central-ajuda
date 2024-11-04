@@ -40,7 +40,7 @@ $statusFiltro = $filtroAtual['status'] ?? 'null';
     </div>
 
     <div class="mt-4 w-full flex gap-2 justify-start sm:justify-end">
-      <button type="button" class="<?php echo CLASSES_DASH_BUTTON_LIMPAR; ?> modal-artigos-filtrar-cate-btn-limpar">Limpar</button>
+      <button type="button" class="<?php echo CLASSES_DASH_BUTTON_LIMPAR; ?> modal-artigos-filtrar-cate-btn-limpar" autofocus>Limpar</button>
     </div>
   </div>
 </dialog>
