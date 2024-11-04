@@ -29,6 +29,10 @@ class Database
         $sessaoUsuario = $sessaoUsuario;
         $sessaoUsuario->definir('debug', $log, true);
       }
+
+      if (HOST_LOCAL) {
+        registrarLog('database-conexao', $log);
+      }
     }
   }
 
@@ -136,6 +140,10 @@ class Database
       global $sessaoUsuario;
       $sessaoUsuario = $sessaoUsuario;
       $sessaoUsuario->definir('debug', $log, true);
+    }
+
+    if (HOST_LOCAL) {
+      registrarLog('database-operacoes', $log);
     }
 
     return $resposta;

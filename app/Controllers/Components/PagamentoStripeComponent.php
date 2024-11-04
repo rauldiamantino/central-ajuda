@@ -12,7 +12,7 @@ class PagamentoStripeComponent extends DashboardController
     $this->stripe = new \Stripe\StripeClient('sk_test_51Q5HN6GEvsdXh8q65PqVx8njWqSmjlDkTu8h3u4b3C5j2k66MZdHaZhVv8YLK2hJdL4I4QwlfaqAS0KMvnBOi9fH00NC4yQClI');
   }
 
-  public function criarSessao(array $usuario)
+  public function criarSessao(array $usuario, string $planoNome)
   {
     $usuarioId = intval($usuario['id'] ?? 0);
     $usuarioEmail = $usuario['email'] ?? '';
@@ -22,10 +22,21 @@ class PagamentoStripeComponent extends DashboardController
       return [];
     }
 
+    if (! in_array($planoNome, ['anual', 'mensal'])) {
+      return [];
+    }
+
     $urlSucesso = 'https://www.360help.com.br/cadastro/sucesso';
 
     if (HOST_LOCAL) {
       $urlSucesso = 'http://localhost/cadastro/sucesso';
+    }
+
+    if ($planoNome == 'mensal') {
+      $plano = 'price_1Q5HXyGEvsdXh8q6qABYqPDW';
+    }
+    else {
+      $plano = 'price_1QHTfpGEvsdXh8q6JuQw8hnj';
     }
 
     $campos = [
@@ -34,7 +45,7 @@ class PagamentoStripeComponent extends DashboardController
       'success_url' => $urlSucesso,
       'line_items' => [
         [
-          'price' => 'price_1Q5HXyGEvsdXh8q6qABYqPDW',
+          'price' => $plano,
           'quantity' => 1,
         ],
       ],

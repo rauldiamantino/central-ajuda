@@ -64,7 +64,7 @@ class DashboardCadastroController extends DashboardController
       $this->redirecionarErro('/cadastro', 'Email já cadastrado');
     }
 
-    $empresaId = $this->cadastroModel->gerarEmpresa($resultado['subdominio']);
+    $empresaId = $this->cadastroModel->gerarEmpresa($resultado['subdominio'], $resultado['plano_nome']);
 
     if (intval($empresaId) < 1) {
       $this->redirecionarErro('/cadastro', 'Erro ao realizar cadastro (C500#EMP)');
@@ -87,7 +87,7 @@ class DashboardCadastroController extends DashboardController
     $usuario = $usuario[0];
 
     // Sessão de pagamento
-    $sessaoStripe = $this->pagamentoStripe->criarSessao($usuario);
+    $sessaoStripe = $this->pagamentoStripe->criarSessao($usuario, $resultado['plano_nome']);
     $sessaoStripeId = $sessaoStripe['id'] ?? '';
 
     if (empty($sessaoStripeId)) {

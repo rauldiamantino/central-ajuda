@@ -16,6 +16,7 @@ class DashboardCadastroModel extends Model
       'subdominio' => $params['subdominio'] ?? '',
       'senha' => $params['senha'] ?? '',
       'confirmar_senha' => $params['confirmar_senha'] ?? '',
+      'plano_nome' => $params['plano_nome'] ?? '',
     ];
 
     $msgErro = [
@@ -41,6 +42,7 @@ class DashboardCadastroModel extends Model
       $campos['subdominio'] = htmlspecialchars($campos['subdominio']);
       $campos['email'] = filter_Var($campos['email'], FILTER_SANITIZE_EMAIL);
       $emailValidado = filter_Var($campos['email'], FILTER_VALIDATE_EMAIL);
+      $campos['plano_nome'] = htmlspecialchars($campos['plano_nome']);
 
       if (isset($params['email']) and $emailValidado == false) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('email', 'invalido');
@@ -53,6 +55,7 @@ class DashboardCadastroModel extends Model
       $emailCaracteres = 50;
       $subdominioCaracteres = 15;
       $senhaCaracteres = 50;
+      $planoCaracteres = 6;
 
       if (strlen($campos['subdominio']) > $subdominioCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('subdominio', 'caracteres', $subdominioCaracteres);
@@ -64,6 +67,10 @@ class DashboardCadastroModel extends Model
 
       if (strlen($campos['senha']) > $senhaCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('senha', 'caracteres', $senhaCaracteres);
+      }
+
+      if (strlen($campos['plano_nome']) > $planoCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('plano', 'caracteres', $planoCaracteres);
       }
 
       $campos['senha'] = password_hash(trim($campos['senha']), PASSWORD_DEFAULT);
@@ -80,6 +87,7 @@ class DashboardCadastroModel extends Model
       'subdominio' => $campos['subdominio'],
       'email' => $campos['email'],
       'senha' => $campos['senha'],
+      'plano_nome' => $campos['plano_nome'],
     ];
 
     if (empty($camposValidados)) {
@@ -122,13 +130,15 @@ class DashboardCadastroModel extends Model
     return 'Campo inválido';
   }
 
-  public function gerarEmpresa(string $subdominio): int
+  public function gerarEmpresa(string $subdominio, string $planoNome): int
   {
-    $sql = 'INSERT INTO empresas (ativo, subdominio) VALUES (?, ?)';
+    $sql = 'INSERT INTO empresas (ativo, subdominio, plano_nome, plano_valor) VALUES (?, ?, ?, ?)';
 
     $params = [
       0 => 0,
       1 => $subdominio,
+      2 => $planoNome,
+      3 => 0.00, // plano_valor
     ];
 
     $resultado = parent::executarQuery($sql, $params);

@@ -20,18 +20,38 @@
     <input id="confirmar_senha" name="confirmar_senha" type="password" autocomplete="off" required class="<?php echo CLASSES_LOGIN_INPUT; ?>">
   </div>
 
-  <div class="flex flex-col gap-2">
-    <button type="submit" class="<?php echo CLASSES_LOGIN_BUTTON; ?>">Cadastrar</button>
+  <div class="w-full flex flex-col items-center justify-center">
+    <div class="w-full flex gap-2 sm:gap-4 justify-between">
+      <div class="w-full">
+        <input type="radio" id="cadastro-plano-mensal" name="plano_nome" class="hidden peer" checked value="mensal">
+        <label for="cadastro-plano-mensal" class="w-full flex flex-col items-center text-sm font-medium leading-6 text-gray-900 p-5 rounded-md border border-gray-200 transition duration-200 ease-in-out peer-checked:ring-2 peer-checked:ring-blue-900 peer-checked:ring-offset-2 peer-checked:ring-offset-gray-200">
+          Mensal
+          <div class="w-full flex flex-col sm:flex-row gap-2 justify-center items-center">
+            <h2 class="text-3xl whitespace-nowrap">R$ 99</h2>
+            <span class="leading-4 text-xs">
+              por<br class="hidden sm:block">
+              mês
+            </span>
+          </div>
+        </label>
+      </div>
+      <div class="w-full">
+        <input type="radio" id="cadastro-plano-anual" name="plano_nome" class="hidden peer" value="anual">
+        <label for="cadastro-plano-anual" class="w-full flex flex-col items-center text-sm font-medium leading-6 text-gray-900 p-5 rounded-md border border-gray-200 transition duration-200 ease-in-out peer-checked:ring-2 peer-checked:ring-blue-900 peer-checked:ring-offset-2 peer-checked:ring-offset-gray-200">
+          Anual
+          <div class="w-full flex flex-col sm:flex-row gap-2 justify-center items-center">
+            <h3 class="text-3xl whitespace-nowrap">R$ 64</h3>
+            <span class="leading-4 text-xs">
+              por<br class="hidden sm:block">
+              mês
+            </span>
+          </div>
+        </label>
+      </div>
+    </div>
   </div>
 
-  <div class="border border-slate-300 p-5 rounded-md w-full flex flex-col items-center justify-center">
-    <h3 class="font-semibold">Acesso ilimitado</h3>
-    <div class="flex gap-2 items-center">
-      <h2 class="text-3xl">R$ 99</h2>
-      <span class="leading-4 text-xs">
-        por<br>
-        mês
-      </span>
-    </div>
+  <div class="flex flex-col gap-2">
+    <button type="submit" class="<?php echo CLASSES_LOGIN_BUTTON; ?>">Cadastrar</button>
   </div>
 </form>
