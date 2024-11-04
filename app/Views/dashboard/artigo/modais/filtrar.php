@@ -30,17 +30,12 @@ $statusFiltro = $filtroAtual['status'] ?? 'null';
     </div>
     <div>
       <label for="filtrar-categoria">Categoria</label>
-      <select id="filtrar-categoria" class="<?php echo CLASSES_DASH_INPUT_BUSCA; ?> modal-categorias-filtrar-select"></select>
+      <select id="filtrar-categoria" class="<?php echo CLASSES_DASH_INPUT_BUSCA; ?> modal-categorias-filtrar-select" autofocus></select>
     </div>
   </div>
-  <div class="w-full flex flex-wrap sm:flex-nowrap justify-between items-center">
-    <div class="mt-4 w-full flex gap-2 justify-start">
-      <button type="button" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?> modal-artigos-filtrar-cate-btn-cancelar">Voltar</button>
-      <button type="button" class="<?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> modal-artigos-filtrar-cate-btn-confirmar">Confirmar</button>
-    </div>
-
-    <div class="mt-4 w-full flex gap-2 justify-start sm:justify-end">
-      <button type="button" class="<?php echo CLASSES_DASH_BUTTON_LIMPAR; ?> modal-artigos-filtrar-cate-btn-limpar" autofocus>Limpar</button>
-    </div>
+  <div class="mt-4 w-full flex flex-wrap sm:flex-nowrap gap-2 justify-start">
+    <button type="button" class="<?php echo CLASSES_DASH_BUTTON_LIMPAR; ?> modal-artigos-filtrar-cate-btn-limpar">Limpar</button>
+    <button type="button" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?> modal-artigos-filtrar-cate-btn-cancelar">Voltar</button>
+    <button type="button" class="<?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> modal-artigos-filtrar-cate-btn-confirmar">Confirmar</button>
   </div>
 </dialog>
