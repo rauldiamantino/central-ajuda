@@ -66,7 +66,7 @@ const requisicaoRemover = async (artigoId) => {
     .then(resposta => {
 
       if (resposta.linhasAfetadas == 1) {
-        location.reload()
+        window.location.href = window.location.href;
       }
       else if (resposta.erro) {
         throw new Error(resposta.erro)
@@ -76,7 +76,7 @@ const requisicaoRemover = async (artigoId) => {
       }
     })
     .catch(error => {
-      location.reload()
+      window.location.href = window.location.href;
       console.log(error)
     })
 }

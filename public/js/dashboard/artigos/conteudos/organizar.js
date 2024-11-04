@@ -61,7 +61,7 @@ const buscarConteudos = () => {
                 .then(resposta => {
 
                   if (resposta.linhasAfetadas > 0) {
-                    location.reload()
+                    window.location.href = window.location.href;
                   }
                   else if (resposta.erro) {
                     throw new Error(resposta.erro)
@@ -72,7 +72,7 @@ const buscarConteudos = () => {
                 })
                 .catch(error => {
                   alert('Não foi possível reorganizar')
-                  location.reload()
+                  window.location.href = window.location.href;
                 })
             })
 

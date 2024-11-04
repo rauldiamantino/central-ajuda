@@ -59,7 +59,7 @@ const requisicaoUsuarioRemover = (usuarioId) => {
     .then(resposta => {
 
       if (resposta.linhasAfetadas == 1) {
-        location.reload()
+        window.location.href = window.location.href;
       }
       else if (resposta.erro) {
         throw new Error(resposta.erro)
@@ -69,7 +69,7 @@ const requisicaoUsuarioRemover = (usuarioId) => {
       }
     })
     .catch(error => {
-      location.reload()
+      window.location.href = window.location.href;
     })
 }
 
