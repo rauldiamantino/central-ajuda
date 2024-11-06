@@ -13,8 +13,6 @@ define('HOST_LOCAL', strpos($host, 'localhost') !== false);
 define('REFERER', $_SERVER['HTTP_REFERER'] ?? '/login');
 define('RAIZ', '/');
 
-registrarLog('HOST', $host);
-
 // Constantes
 define('USUARIO_SUPORTE', 99);
 define('USUARIO_SISTEMA', 98);
