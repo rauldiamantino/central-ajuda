@@ -14,13 +14,14 @@ class PagamentoStripeComponent extends DashboardController
   public function __construct()
   {
     $token = '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';
+    $this->planoAnualId = 'price_1QI9BRGEvsdXh8q6kb49U0gI';
+    $this->planoMensalId = 'price_1QI9BVGEvsdXh8q65hENHPl3';
 
     if (HOST_LOCAL) {
       $token = 'sk_test_51Q5HN6GEvsdXh8q65PqVx8njWqSmjlDkTu8h3u4b3C5j2k66MZdHaZhVv8YLK2hJdL4I4QwlfaqAS0KMvnBOi9fH00NC4yQClI';
+      $this->planoAnualId = 'price_1QHTfpGEvsdXh8q6JuQw8hnj';
+      $this->planoMensalId = 'price_1Q5HXyGEvsdXh8q6qABYqPDW';
     }
-
-    $this->planoAnualId = 'price_1QHTfpGEvsdXh8q6JuQw8hnj';
-    $this->planoMensalId = 'price_1Q5HXyGEvsdXh8q6qABYqPDW';
 
     $this->planoAnualNome = 'Anual';
     $this->planoMensalNome = 'Mensal';
