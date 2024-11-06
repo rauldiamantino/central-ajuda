@@ -149,5 +149,14 @@ const removerAutocomplete = () => {
       input.removeAttribute('disabled')
     }, 1000)
   })
+}
 
+const converterInteiroParaDecimal = (valor = 0) => {
+  const valorConvertido = valor / 100
+
+  return valorConvertido.toFixed(2)
+}
+
+const converterParaReais = (valor = 0) => {
+  return `R$ ${valor.replace('.', ',')}`;
 }

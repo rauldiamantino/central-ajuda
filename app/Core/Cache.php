@@ -189,10 +189,10 @@ class Cache
 
     $usuarioLogado = $sessaoUsuario->buscar('usuario');
 
-    if (! isset($usuarioLogado['padrao']) or $usuarioLogado['padrao'] != 99) {
-      header('Location: /erro');
-      exit();
-    }
+    // if (! isset($usuarioLogado['padrao']) or $usuarioLogado['padrao'] != 99) {
+    //   header('Location: /erro');
+    //   exit();
+    // }
 
     if (HOST_LOCAL) {
       $diretorio = 'cache/';

@@ -2,9 +2,11 @@
 namespace app\Controllers;
 use app\Models\DashboardCadastroModel;
 use app\Controllers\Components\PagamentoStripeComponent;
+use app\Models\DashboardEmpresaModel;
 
 class DashboardCadastroController extends DashboardController
 {
+  private $empresaModel;
   private $cadastroModel;
   private $pagamentoStripe;
 
@@ -12,6 +14,7 @@ class DashboardCadastroController extends DashboardController
   {
     parent::__construct();
 
+    $this->empresaModel = new DashboardEmpresaModel($this->usuarioLogado, $this->empresaPadraoId);
     $this->cadastroModel = new DashboardCadastroModel($this->usuarioLogado, $this->empresaPadraoId);
     $this->pagamentoStripe = new PagamentoStripeComponent();
   }
@@ -64,7 +67,8 @@ class DashboardCadastroController extends DashboardController
       $this->redirecionarErro('/cadastro', 'Email já cadastrado');
     }
 
-    $empresaId = $this->cadastroModel->gerarEmpresa($resultado['subdominio'], $resultado['plano_nome']);
+    $protocolo = substr(strtoupper(uniqid(date('Ymd') . '-', serialize($resultado))), 0, 15);
+    $empresaId = $this->cadastroModel->gerarEmpresa($resultado['subdominio'], $resultado['plano_nome'], $protocolo);
 
     if (intval($empresaId) < 1) {
       $this->redirecionarErro('/cadastro', 'Erro ao realizar cadastro (C500#EMP)');
@@ -90,13 +94,17 @@ class DashboardCadastroController extends DashboardController
     $sessaoStripe = $this->pagamentoStripe->criarSessao($usuario, $resultado['plano_nome']);
     $sessaoStripeId = $sessaoStripe['id'] ?? '';
 
+    $sessaoStripeValor = $sessaoStripe['amount_total'] ?? '';
+    $sessaoStripeValor = (int) $sessaoStripeValor;
+    $sessaoStripeValor = converterInteiroParaDecimal($sessaoStripeValor);
+
     if (empty($sessaoStripeId)) {
       $this->cadastroModel->apagarEmpresa($empresaId);
       $this->redirecionarErro('/cadastro', 'Erro ao gerar pagamento (C500#STR)');
     }
 
-    $this->cadastroModel->gravarSessaoStripe($empresaId, $sessaoStripeId);
-    $this->sessaoUsuario->definir('protocolo', date('YmdHis') . '#' . $empresaId);
+    $this->sessaoUsuario->definir('protocolo', $protocolo);
+    $this->cadastroModel->gravarSessaoStripe($empresaId, $sessaoStripeId, $sessaoStripeValor);
 
     $this->redirecionar($sessaoStripe->url, [], true);
   }

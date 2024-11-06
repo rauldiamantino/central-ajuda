@@ -6,8 +6,10 @@ use \Stripe\Exception\ApiErrorException;
 class PagamentoStripeComponent extends DashboardController
 {
   private $stripe;
-  private $planoAnual;
-  private $planoMensal;
+  private $planoAnualId;
+  private $planoMensalId;
+  private $planoAnualNome;
+  private $planoMensalNome;
 
   public function __construct()
   {
@@ -19,8 +21,11 @@ class PagamentoStripeComponent extends DashboardController
 
     $token = 'sk_test_51Q5HN6GEvsdXh8q65PqVx8njWqSmjlDkTu8h3u4b3C5j2k66MZdHaZhVv8YLK2hJdL4I4QwlfaqAS0KMvnBOi9fH00NC4yQClI';
 
-    $this->planoAnual = 'price_1QHTfpGEvsdXh8q6JuQw8hnj';
-    $this->planoMensal = 'price_1Q5HXyGEvsdXh8q6qABYqPDW';
+    $this->planoAnualId = 'price_1QHTfpGEvsdXh8q6JuQw8hnj';
+    $this->planoMensalId = 'price_1Q5HXyGEvsdXh8q6qABYqPDW';
+
+    $this->planoAnualNome = 'Anual';
+    $this->planoMensalNome = 'Mensal';
 
     $this->stripe = new \Stripe\StripeClient($token);
   }
@@ -35,7 +40,7 @@ class PagamentoStripeComponent extends DashboardController
       return [];
     }
 
-    if (! in_array($planoNome, ['anual', 'mensal'])) {
+    if (! in_array($planoNome, [$this->planoAnualNome, $this->planoMensalNome])) {
       return [];
     }
 
@@ -47,11 +52,11 @@ class PagamentoStripeComponent extends DashboardController
 
     $plano = '';
 
-    if ($planoNome == 'mensal') {
-      $plano = $this->planoMensal;
+    if ($planoNome == $this->planoMensalNome) {
+      $plano = $this->planoMensalId;
     }
-    elseif ($planoNome == 'anual') {
-      $plano = $this->planoAnual;
+    elseif ($planoNome == $this->planoAnualNome) {
+      $plano = $this->planoAnualId;
     }
 
     $campos = [
@@ -69,6 +74,7 @@ class PagamentoStripeComponent extends DashboardController
 
     try {
       $resposta_api = $this->stripe->checkout->sessions->create($campos);
+
       return $resposta_api;
     }
     catch (ApiErrorException $e) {
@@ -135,15 +141,14 @@ class PagamentoStripeComponent extends DashboardController
       $planoNome = '';
       $planoAssinatura = $buscarAssinatura['plan']['id'];
 
-      if ($planoAssinatura == $this->planoMensal) {
-        $planoNome = 'Mensal';
+      if ($planoAssinatura == $this->planoMensalId) {
+        $planoNome = $this->planoMensalNome;
       }
-      elseif ($planoAssinatura == $this->planoAnual) {
-        $planoNome = 'Anual';
+      elseif ($planoAssinatura == $this->planoAnualId) {
+        $planoNome = $this->planoAnualNome;
       }
 
       $buscarAssinatura['plano_nome'] = $planoNome;
-
       return $buscarAssinatura;
     }
     catch (ApiErrorException $e) {

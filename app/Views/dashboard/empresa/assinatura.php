@@ -21,7 +21,11 @@
       </div>
       <div class="flex flex-col">
         <span class="w-full text-xs rounded">Plano</span>
-        <span class="text-sm font-bold empresa-assinatura-plano"></span>
+        <span class="text-sm font-bold empresa-assinatura-plano-nome"></span>
+      </div>
+      <div class="flex flex-col">
+        <span class="w-full text-xs rounded">Valor</span>
+        <span class="text-sm font-bold empresa-assinatura-plano-valor"></span>
       </div>
     </div>
 

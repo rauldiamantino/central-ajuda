@@ -84,7 +84,8 @@ const buscarAssinatura = () => {
       const assinaturaStatus = document.querySelector('.empresa-assinatura-status')
       const assinaturaDataInicio = document.querySelector('.empresa-assinatura-data-inicio')
       const assinaturaPeriodoCorrente = document.querySelector('.empresa-assinatura-periodo-corrente')
-      const assinaturaPlano = document.querySelector('.empresa-assinatura-plano')
+      const assinaturaPlanoNome = document.querySelector('.empresa-assinatura-plano-nome')
+      const assinaturaPlanoValor = document.querySelector('.empresa-assinatura-plano-valor')
 
       if (! assinatura.current_period_start) {
         return
@@ -116,7 +117,15 @@ const buscarAssinatura = () => {
 
       assinaturaStatus.innerText = status ? status : ''
       assinaturaDataInicio.innerText = assinatura.start_date ? traduzirDataTimestamp(assinatura.start_date) : ''
-      assinaturaPlano.innerText = assinatura.plano_nome ? assinatura.plano_nome : ''
+      assinaturaPlanoNome.innerText = assinatura.plano_nome ? assinatura.plano_nome : ''
+
+      if (! assinatura.plan.amount) {
+        assinaturaPlanoValor = ''
+      }
+      else {
+        valor = converterInteiroParaDecimal(assinatura.plan.amount)
+        assinaturaPlanoValor.innerText = converterParaReais(valor)
+      }
 
       desativarLoader()
     }

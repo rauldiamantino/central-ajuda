@@ -17,6 +17,7 @@ class DashboardCadastroModel extends Model
       'senha' => $params['senha'] ?? '',
       'confirmar_senha' => $params['confirmar_senha'] ?? '',
       'plano_nome' => $params['plano_nome'] ?? '',
+      'protocolo' => $params['protocolo'] ?? '',
     ];
 
     $msgErro = [
@@ -27,8 +28,11 @@ class DashboardCadastroModel extends Model
     ];
 
     foreach ($campos as $chave => $linha):
-      // Campos vazios
-      if (empty($linha)) {
+      $permitidos = [
+        'protocolo',
+      ];
+
+      if (! in_array($chave, $permitidos) and empty($linha)) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro($chave, 'vazio');
       }
 
@@ -43,6 +47,7 @@ class DashboardCadastroModel extends Model
       $campos['email'] = filter_Var($campos['email'], FILTER_SANITIZE_EMAIL);
       $emailValidado = filter_Var($campos['email'], FILTER_VALIDATE_EMAIL);
       $campos['plano_nome'] = htmlspecialchars($campos['plano_nome']);
+      $campos['protocolo'] = htmlspecialchars($campos['protocolo']);
 
       if (isset($params['email']) and $emailValidado == false) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('email', 'invalido');
@@ -56,10 +61,15 @@ class DashboardCadastroModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('plano_nome', 'valInvalido');
       }
 
+      if ($campos['protocolo'] and ! preg_match('/^\d{8}\d{6}#\d+$/', $campos['protocolo'])) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('protocolo', 'valInvalido');
+      }
+
       $emailCaracteres = 50;
       $subdominioCaracteres = 15;
       $senhaCaracteres = 50;
       $planoCaracteres = 6;
+      $protocoloCaracteres = 255;
 
       if (strlen($campos['subdominio']) > $subdominioCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('subdominio', 'caracteres', $subdominioCaracteres);
@@ -74,7 +84,11 @@ class DashboardCadastroModel extends Model
       }
 
       if (strlen($campos['plano_nome']) > $planoCaracteres) {
-        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('plano', 'caracteres', $planoCaracteres);
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('plano_nome', 'caracteres', $planoCaracteres);
+      }
+
+      if (strlen($campos['protocolo']) > $protocoloCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('protocolo', 'caracteres', $protocoloCaracteres);
       }
 
       $campos['senha'] = password_hash(trim($campos['senha']), PASSWORD_DEFAULT);
@@ -92,6 +106,7 @@ class DashboardCadastroModel extends Model
       'email' => $campos['email'],
       'senha' => $campos['senha'],
       'plano_nome' => $campos['plano_nome'],
+      'protocolo' => $campos['protocolo'],
     ];
 
     if (empty($camposValidados)) {
@@ -138,15 +153,16 @@ class DashboardCadastroModel extends Model
     return 'Campo inválido';
   }
 
-  public function gerarEmpresa(string $subdominio, string $planoNome): int
+  public function gerarEmpresa(string $subdominio, string $planoNome, string $procolo): int
   {
-    $sql = 'INSERT INTO empresas (ativo, subdominio, plano_nome, plano_valor) VALUES (?, ?, ?, ?)';
+    $sql = 'INSERT INTO `empresas` (`ativo`, `subdominio`, `plano_nome`, `plano_valor`, `protocolo`) VALUES (?, ?, ?, ?, ?)';
 
     $params = [
       0 => 0,
       1 => $subdominio,
       2 => $planoNome,
       3 => 0.00, // plano_valor
+      4 => $procolo,
     ];
 
     $resultado = parent::executarQuery($sql, $params);
@@ -165,13 +181,14 @@ class DashboardCadastroModel extends Model
     parent::executarQuery($sql, $params);
   }
 
-  public function gravarSessaoStripe(int $empresaId, string $sessaoId): void
+  public function gravarSessaoStripe(int $empresaId, string $sessaoId, string $sessaoValor = '0.00'): void
   {
-    $sql = 'UPDATE empresas SET sessao_stripe_id = ? WHERE id = ?';
+    $sql = 'UPDATE `empresas` SET `sessao_stripe_id` = ?, `plano_valor` = ? WHERE id = ?';
 
     $params = [
       0 => $sessaoId,
-      1 => $empresaId,
+      1 => $sessaoValor,
+      2 => $empresaId,
     ];
 
     parent::executarQuery($sql, $params);

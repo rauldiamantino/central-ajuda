@@ -151,6 +151,9 @@ class DashboardEmpresaModel extends Model
       'cnpj' => $params['cnpj'] ?? '',
       'sessao_stripe_id' => $params['sessao_stripe_id'] ?? '',
       'assinatura_id' => $params['assinatura_id'] ?? '',
+      'plano_nome' => $params['plano_nome'] ?? '',
+      'plano_valor' => $params['plano_valor'] ?? 0,
+      'protocolo' => $params['protocolo'] ?? '',
     ];
 
     $msgErro = [
@@ -171,6 +174,9 @@ class DashboardEmpresaModel extends Model
         'logo',
         'sessao_stripe_id',
         'assinatura_id',
+        'plano_nome',
+        'plano_valor',
+        'protocolo',
       ];
 
       if ($atualizar and ! isset($params[ $chave ])) {
@@ -199,6 +205,9 @@ class DashboardEmpresaModel extends Model
       $campos['logo'] = filter_var($campos['logo'], FILTER_SANITIZE_URL);
       $campos['sessao_stripe_id'] = htmlspecialchars($campos['sessao_stripe_id']);
       $campos['assinatura_id'] = htmlspecialchars($campos['assinatura_id']);
+      $campos['plano_nome'] = htmlspecialchars($campos['plano_nome']);
+      $campos['plano_valor'] = htmlspecialchars($campos['plano_valor']);
+      $campos['protocolo'] = htmlspecialchars($campos['protocolo']);
 
       if (isset($params['ativo']) and ! in_array($campos['ativo'], [INATIVO, ATIVO])) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('ativo', 'valInvalido');
@@ -215,6 +224,18 @@ class DashboardEmpresaModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('logo', 'valInvalido');
       }
 
+      if ($campos['plano_nome'] and ! in_array($campos['plano_nome'], ['Mensal', 'Anual'])) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('plano_nome', 'valInvalido');
+      }
+
+      if ($campos['plano_valor'] and ! preg_match('/^\d{1,8}(\.\d{1,2})?$/', $campos['plano_valor'])) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('plano_valor', 'valInvalido');
+      }
+
+      if ($campos['protocolo'] and ! preg_match('/^\d{8}\d{6}#\d+$/', $campos['protocolo'])) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('protocolo', 'valInvalido');
+      }
+
       $ativoCaracteres = 1;
       $nomeCaracteres = 255;
       $subdominioCaracteres = 255;
@@ -223,6 +244,9 @@ class DashboardEmpresaModel extends Model
       $logoCaracteres = 255;
       $sessaoStripeCaracteres = 255;
       $assinaturaId = 255;
+      $planoNomeCaracteres = 6;
+      $planoValorCaracteres = 12;
+      $protocoloCaracteres = 255;
 
       if (strlen($campos['sessao_stripe_id']) > $sessaoStripeCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('id', 'caracteres', $sessaoStripeCaracteres);
@@ -244,7 +268,6 @@ class DashboardEmpresaModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('subdominio', 'caracteres', $subdominioCaracteres);
       }
 
-
       if ($campos['telefone'] and strlen($campos['telefone']) > $telefoneCaracteresMax) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('telefone', 'caracteres', $telefoneCaracteresMax);
       }
@@ -255,6 +278,18 @@ class DashboardEmpresaModel extends Model
 
       if (strlen($campos['logo']) > $logoCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('logo', 'caracteres', $logoCaracteres);
+      }
+
+      if (strlen($campos['plano_nome']) > $planoNomeCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('plano_nome', 'caracteres', $planoNomeCaracteres);
+      }
+
+      if (strlen($campos['plano_valor']) > $planoValorCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('plano_valor', 'caracteres', $planoValorCaracteres);
+      }
+
+      if (strlen($campos['protocolo']) > $protocoloCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('protocolo', 'caracteres', $protocoloCaracteres);
       }
 
       $campos['cnpj'] = trim($campos['cnpj']);
@@ -274,6 +309,9 @@ class DashboardEmpresaModel extends Model
       'logo' => $campos['logo'],
       'sessao_stripe_id' => $campos['sessao_stripe_id'],
       'assinatura_id' => $campos['assinatura_id'],
+      'plano_nome' => $campos['plano_nome'],
+      'plano_valor' => $campos['plano_valor'],
+      'protocolo' => $campos['protocolo'],
     ];
 
     if ($atualizar) {
@@ -334,6 +372,14 @@ class DashboardEmpresaModel extends Model
 
     if ($campo == 'assinatura_id') {
       $campo = 'Assinatura ID';
+    }
+
+    if ($campo == 'plano_nome') {
+      $campo = 'nome do plano';
+    }
+
+    if ($campo == 'plano_valor') {
+      $campo = 'valor do plano';
     }
 
     $msgErro = [

@@ -37,6 +37,12 @@ function traduzirDataTimestamp($timestamp) {
   return date('d/m/Y \à\s H:i', $timestamp);
 }
 
+function converterInteiroParaDecimal(int $valor = 0) {
+  $valorConvertido = $valor / 100;
+
+  return number_format($valorConvertido, 2, '.', '');
+}
+
 function registrarLog($nome, $arquivo) {
 
   // Remove quebras de linha e espaços extras
