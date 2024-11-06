@@ -4,7 +4,7 @@
   </h2>
   <?php require_once 'datas.php' ?>
   <div class="w-full flex flex-col lg:flex-row lg:justify-between gap-5">
-    <div class="w-full flex flex-col md:items-center gap-4">
+    <div class="w-full lg:w-6/12 flex flex-col md:items-center gap-4">
       <div class="w-full flex flex-col gap-10">
         <?php require_once 'formulario.php' ?>
         <?php require_once 'conteudo/menu-adicionar.php' ?>
@@ -12,7 +12,16 @@
       </div>
       <?php require_once 'conteudo/blocos.php' ?>
     </div>
-    <div class="mb-10 w-full border border-slate-300 shadow rounded-md">
+    <div class="pb-10 w-full border border-slate-300 bg-white shadow rounded-md">
+
+      <?php if((int) $artigo['Artigo']['ativo'] == INATIVO) { ?>
+        <div class="w-full p-2 flex justify-end">
+          <div class="w-full md:w-max py-1 px-4 bg-red-900 text-center text-white text-xs font-light rounded">
+            Não publicado
+          </div>
+        </div>
+      <?php } ?>
+
       <?php require_once 'conteudo/pre-visualizacao.php' ?>
     </div>
   </div>
