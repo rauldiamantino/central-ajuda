@@ -170,13 +170,17 @@ class DashboardEmpresaController extends DashboardController
     $sessaoStripe = $_GET['sessao_stripe_id'] ?? '';
 
     if ($sessaoStripe and $this->usuarioLogado['empresaId']) {
-      $assinaturaId = $this->pagamentoStripe->buscarAssinaturaAtiva($sessaoStripe);
+      $buscarAssinaturaAtiva = $this->pagamentoStripe->buscarAssinaturaAtiva($sessaoStripe);
 
-      if ($assinaturaId) {
+      if (isset($buscarAssinaturaAtiva['erro'])) {
+        $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', $buscarAssinaturaAtiva['erro']);
+      }
+
+      if (isset($buscarAssinaturaAtiva['ok']) and $buscarAssinaturaAtiva['ok']) {
         $campos = [
           'ativo' => ATIVO,
           'sessao_stripe_id' => '',
-          'assinatura_id' => $assinaturaId,
+          'assinatura_id' => $buscarAssinaturaAtiva['ok'],
         ];
 
         $resultado = $this->empresaModel->atualizar($campos, $this->usuarioLogado['empresaId']);
@@ -203,13 +207,15 @@ class DashboardEmpresaController extends DashboardController
         if (isset($empresa[0]['Empresa']['ativo'])) {
           $this->usuarioLogado['empresaAtivo'] = $empresa[0]['Empresa']['ativo'];
           $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
+
+          Cache::apagar('roteador_subdominio-' . $this->usuarioLogado['empresaId']);
         }
 
         $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Assinatura confirmada com sucesso');
       }
     }
 
-    $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar');
+    $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Sem alterações');
   }
 
   public function confirmarAssinaturaWebhook(string $sessionId, string $assinaturaId): bool
@@ -231,6 +237,10 @@ class DashboardEmpresaController extends DashboardController
 
     if (! isset($resultado['linhasAfetadas']) or $resultado['linhasAfetadas'] != 1) {
       return false;
+    }
+
+    if (isset($this->usuarioLogado['empresaId'])) {
+      Cache::apagar('roteador_subdominio-' . $this->usuarioLogado['empresaId']);
     }
 
     return true;

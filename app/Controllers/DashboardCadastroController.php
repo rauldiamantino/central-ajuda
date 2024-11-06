@@ -91,7 +91,7 @@ class DashboardCadastroController extends DashboardController
     $usuario = $usuario[0];
 
     // Sessão de pagamento
-    $sessaoStripe = $this->pagamentoStripe->criarSessao($usuario, $resultado['plano_nome']);
+    $sessaoStripe = $this->pagamentoStripe->criarSessao($usuario, $resultado['plano_nome'], $protocolo);
     $sessaoStripeId = $sessaoStripe['id'] ?? '';
 
     $sessaoStripeValor = $sessaoStripe['amount_total'] ?? '';

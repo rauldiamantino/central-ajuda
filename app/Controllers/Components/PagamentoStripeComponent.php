@@ -29,7 +29,7 @@ class PagamentoStripeComponent extends DashboardController
     $this->stripe = new \Stripe\StripeClient($token);
   }
 
-  public function criarSessao(array $usuario, string $planoNome)
+  public function criarSessao(array $usuario, string $planoNome, string $procolo)
   {
     $usuarioId = intval($usuario['id'] ?? 0);
     $usuarioEmail = $usuario['email'] ?? '';
@@ -62,6 +62,7 @@ class PagamentoStripeComponent extends DashboardController
       'client_reference_id' => 'E' . $empresaId . 'U' . $usuarioId,
       'customer_email' => $usuarioEmail,
       'success_url' => $urlSucesso,
+      'cancel_url' => $urlSucesso,
       'line_items' => [
         [
           'price' => $plano,
@@ -98,32 +99,32 @@ class PagamentoStripeComponent extends DashboardController
     }
   }
 
-  public function buscarAssinaturaAtiva(string $sessaoId): string
+  public function buscarAssinaturaAtiva(string $sessaoId): array
   {
     if (empty($sessaoId)) {
-      return '';
+      return ['erro' => 'ID de Sessão não informado'];
     }
 
     try {
       $buscarSessao = $this->stripe->checkout->sessions->retrieve($sessaoId);
       $assinaturaId = $buscarSessao['subscription'] ?? '';
 
-      if (empty($assinaturaId)) {
-        return '';
+      if (! isset($buscarSessao['id']) or empty($buscarSessao['id']) or empty($assinaturaId)) {
+        return ['erro' => 'Assinatura não disponível'];
       }
 
       $buscarAssinatura = $this->stripe->subscriptions->retrieve($assinaturaId);
       $status = $buscarAssinatura['status'] ?? '';
 
       if ($status == 'active') {
-        return $assinaturaId;
+        return ['ok' => $assinaturaId];
       }
 
-      return '';
+      return ['erro' => 'Assinatura não está ativa'];
     }
     catch (ApiErrorException $e) {
       registrarLog('stripe-buscar-assinatura-ativa', $e->getMessage());
-      return '';
+      return ['erro' => $e->getMessage()];
     }
   }
 
