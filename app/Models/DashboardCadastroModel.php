@@ -52,6 +52,10 @@ class DashboardCadastroModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('confirmar_senha', 'valInvalido');
       }
 
+      if (! in_array($campos['plano_nome'], ['Mensal', 'Anual'])) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('plano_nome', 'valInvalido');
+      }
+
       $emailCaracteres = 50;
       $subdominioCaracteres = 15;
       $senhaCaracteres = 50;
@@ -110,6 +114,10 @@ class DashboardCadastroModel extends Model
 
     if ($campo == 'subdominio') {
       $campo = 'subdomínio';
+    }
+
+    if ($campo == 'plano_nome') {
+      $campo = 'nome do plano';
     }
 
     $msgErro = [

@@ -116,7 +116,7 @@ const buscarAssinatura = () => {
 
       assinaturaStatus.innerText = status ? status : ''
       assinaturaDataInicio.innerText = assinatura.start_date ? traduzirDataTimestamp(assinatura.start_date) : ''
-      assinaturaPlano.innerText = 'Mensal'
+      assinaturaPlano.innerText = assinatura.plano_nome ? assinatura.plano_nome : ''
 
       desativarLoader()
     }

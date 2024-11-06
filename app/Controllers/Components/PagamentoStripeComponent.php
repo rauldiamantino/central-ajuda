@@ -6,10 +6,21 @@ use \Stripe\Exception\ApiErrorException;
 class PagamentoStripeComponent extends DashboardController
 {
   private $stripe;
+  private $planoAnual;
+  private $planoMensal;
 
   public function __construct()
   {
-    $this->stripe = new \Stripe\StripeClient('sk_test_51Q5HN6GEvsdXh8q65PqVx8njWqSmjlDkTu8h3u4b3C5j2k66MZdHaZhVv8YLK2hJdL4I4QwlfaqAS0KMvnBOi9fH00NC4yQClI');
+    $token = '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';
+
+    if (HOST_LOCAL) {
+      $token = 'sk_test_51Q5HN6GEvsdXh8q65PqVx8njWqSmjlDkTu8h3u4b3C5j2k66MZdHaZhVv8YLK2hJdL4I4QwlfaqAS0KMvnBOi9fH00NC4yQClI';
+    }
+
+    $this->planoAnual = 'price_1QHTfpGEvsdXh8q6JuQw8hnj';
+    $this->planoMensal = 'price_1Q5HXyGEvsdXh8q6qABYqPDW';
+
+    $this->stripe = new \Stripe\StripeClient($token);
   }
 
   public function criarSessao(array $usuario, string $planoNome)
@@ -32,11 +43,13 @@ class PagamentoStripeComponent extends DashboardController
       $urlSucesso = 'http://localhost/cadastro/sucesso';
     }
 
+    $plano = '';
+
     if ($planoNome == 'mensal') {
-      $plano = 'price_1Q5HXyGEvsdXh8q6qABYqPDW';
+      $plano = $this->planoMensal;
     }
-    else {
-      $plano = 'price_1QHTfpGEvsdXh8q6JuQw8hnj';
+    elseif ($planoNome == 'anual') {
+      $plano = $this->planoAnual;
     }
 
     $campos = [
@@ -115,7 +128,21 @@ class PagamentoStripeComponent extends DashboardController
 
     try {
       $buscarAssinatura = $this->stripe->subscriptions->retrieve($assinaturaId);
-      return $buscarAssinatura->toArray();
+      $buscarAssinatura = $buscarAssinatura->toArray();
+
+      $planoNome = '';
+      $planoAssinatura = $buscarAssinatura['plan']['id'];
+
+      if ($planoAssinatura == $this->planoMensal) {
+        $planoNome = 'Mensal';
+      }
+      elseif ($planoAssinatura == $this->planoAnual) {
+        $planoNome = 'Anual';
+      }
+
+      $buscarAssinatura['plano_nome'] = $planoNome;
+
+      return $buscarAssinatura;
     }
     catch (ApiErrorException $e) {
       registrarLog('stripe-buscar-assinatura', $e->getMessage());
