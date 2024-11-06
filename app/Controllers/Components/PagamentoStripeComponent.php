@@ -17,6 +17,8 @@ class PagamentoStripeComponent extends DashboardController
       $token = 'sk_test_51Q5HN6GEvsdXh8q65PqVx8njWqSmjlDkTu8h3u4b3C5j2k66MZdHaZhVv8YLK2hJdL4I4QwlfaqAS0KMvnBOi9fH00NC4yQClI';
     }
 
+    $token = 'sk_test_51Q5HN6GEvsdXh8q65PqVx8njWqSmjlDkTu8h3u4b3C5j2k66MZdHaZhVv8YLK2hJdL4I4QwlfaqAS0KMvnBOi9fH00NC4yQClI';
+
     $this->planoAnual = 'price_1QHTfpGEvsdXh8q6JuQw8hnj';
     $this->planoMensal = 'price_1Q5HXyGEvsdXh8q6qABYqPDW';
 
