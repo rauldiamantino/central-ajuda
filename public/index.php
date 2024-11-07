@@ -4,22 +4,18 @@ require '../vendor/autoload.php';
 use app\Core\Cache;
 use app\Core\SessaoUsuario;
 use app\Roteamento\Roteador;
-use \Rollbar\Rollbar;
+
+// Rollbar
+if (! HOST_LOCAL) {
+  $config = array(
+    'access_token' => ROLLBAR_TOKEN,
+    'environment' => 'production',
+  );
+
+  \Rollbar\Rollbar::init($config);
+}
 
 $sessaoUsuario = new SessaoUsuario();
 $roteador = new Roteador();
 
 $roteador->rotear();
-
-// Rollbar
-$set_exception_handler = false;
-$set_error_handler = false;
-
-$config = array(
-  'access_token' => ROLLBAR_TOKEN,
-  'environment' => 'production',
-);
-
-if (! HOST_LOCAL) {
-  Rollbar::init($config, $set_exception_handler, $set_error_handler);
-}
