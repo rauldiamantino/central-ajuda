@@ -373,7 +373,7 @@ class DashboardUsuarioModel extends Model
       $emailValidado = filter_Var($campos['email'], FILTER_VALIDATE_EMAIL);
 
       // Sempre primeiro
-      if (isset($campos['senha'])) {
+      if ($campos['senha']) {
         $msgErro = $this->validarSenhaSegura($campos['senha']);
         $campos['senha'] = password_hash(trim($campos['senha']), PASSWORD_DEFAULT);
       }

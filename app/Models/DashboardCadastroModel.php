@@ -50,7 +50,7 @@ class DashboardCadastroModel extends Model
       $campos['protocolo'] = htmlspecialchars($campos['protocolo']);
 
       // Sempre primeiro
-      if (isset($campos['senha'])) {
+      if ($campos['senha']) {
         $msgErro = $this->validarSenhaSegura($campos['senha']);
       }
 
