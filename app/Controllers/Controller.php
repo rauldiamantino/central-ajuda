@@ -14,7 +14,7 @@ class Controller
     $this->recuperarSessao();
   }
 
-  private function recuperarSessao(
+  private function recuperarSessao()
   {
     global $sessaoUsuario;
     $this->sessaoUsuario = $sessaoUsuario;
