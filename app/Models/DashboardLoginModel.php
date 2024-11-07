@@ -122,6 +122,7 @@ class DashboardLoginModel extends Model
       'navegador' => $_SERVER['HTTP_USER_AGENT'],
       'protocolo' => isset($_SERVER['HTTPS']) ? 'HTTPS' : 'HTTP',
       'idSessao' => session_id(),
+      'tokenSessao' => bin2hex(random_bytes(32)),
     ];
 
     $sql = 'UPDATE
