@@ -126,10 +126,6 @@ class PublicoController extends Controller
 
   public function exibirInativos(): bool
   {
-    if ($this->usuarioLogado['padrao'] == USUARIO_SUPORTE) {
-      return true;
-    }
-
     return false;
   }
 }
