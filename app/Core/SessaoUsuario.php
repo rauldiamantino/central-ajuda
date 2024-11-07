@@ -7,7 +7,7 @@ class SessaoUsuario
   {
     if (session_status() === PHP_SESSION_NONE) {
       session_start([
-        'cookie_lifetime' => 0,
+        'cookie_lifetime' => 7200, // duas horas
         'cookie_httponly' => true,
         'cookie_secure' => isset($_SERVER['HTTPS']),
         'use_strict_mode' => true,
