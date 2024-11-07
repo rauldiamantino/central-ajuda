@@ -5,7 +5,7 @@ use app\Models\DashboardAjusteModel;
 
 class Controller
 {
-  protected $sessaoUsuario;
+  protected $sessaoUsuario
   protected $usuarioLogado;
   protected $empresaPadraoId;
 
