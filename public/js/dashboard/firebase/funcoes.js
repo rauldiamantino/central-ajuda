@@ -1,10 +1,14 @@
 import { inicializarFirebase } from './inicializar.js'
 
-async function uploadImagem(empresaId, artigoId, file) {
+async function uploadImagem(empresaId, artigoId, file, favicon = false) {
   try {
     const { storage, ref, uploadBytes, getDownloadURL } = await inicializarFirebase()
 
     let storageRef = ref(storage, `imagens/empresa-${empresaId}/logo`)
+
+    if (favicon) {
+      storageRef = ref(storage, `imagens/empresa-${empresaId}/favicon`)
+    }
 
     if (artigoId) {
       storageRef = ref(storage, `imagens/empresa-${empresaId}/artigo-${artigoId}/${Date.now() % 100000}`)
@@ -20,7 +24,7 @@ async function uploadImagem(empresaId, artigoId, file) {
   }
 }
 
-async function substituirImagem(empresaId, artigoId, file, existingImagePath) {
+async function substituirImagem(empresaId, artigoId, file, existingImagePath, favicon = false) {
   try {
     const { storage, ref, uploadBytes, getDownloadURL, deleteObject } = await inicializarFirebase()
 
@@ -30,6 +34,10 @@ async function substituirImagem(empresaId, artigoId, file, existingImagePath) {
     }
 
     let newImagePath = `imagens/empresa-${empresaId}/logo`
+
+    if (favicon) {
+      newImagePath = `imagens/empresa-${empresaId}/favicon`
+    }
 
     if (artigoId) {
       newImagePath = `imagens/empresa-${empresaId}/artigo-${artigoId}/${Date.now() % 100000}`

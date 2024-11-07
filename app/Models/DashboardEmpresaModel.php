@@ -119,7 +119,6 @@ class DashboardEmpresaModel extends Model
     }
 
     $retorno = parent::atualizar($campos, $id);
-
     return $retorno;
   }
 
@@ -148,6 +147,7 @@ class DashboardEmpresaModel extends Model
       'subdominio' => $params['subdominio'] ?? '',
       'telefone' => $params['telefone'] ?? '',
       'logo' => $params['logo'] ?? '',
+      'favicon' => $params['favicon'] ?? '',
       'cnpj' => $params['cnpj'] ?? '',
       'sessao_stripe_id' => $params['sessao_stripe_id'] ?? '',
       'assinatura_id' => $params['assinatura_id'] ?? '',
@@ -172,6 +172,7 @@ class DashboardEmpresaModel extends Model
         'telefone',
         'subdominio',
         'logo',
+        'favicon',
         'sessao_stripe_id',
         'assinatura_id',
         'plano_nome',
@@ -203,6 +204,7 @@ class DashboardEmpresaModel extends Model
       $campos['telefone'] = filter_var($campos['telefone'], FILTER_SANITIZE_NUMBER_INT);
       $cnpjValido = preg_match('/^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/', $campos['cnpj']);
       $campos['logo'] = filter_var($campos['logo'], FILTER_SANITIZE_URL);
+      $campos['favicon'] = filter_var($campos['favicon'], FILTER_SANITIZE_URL);
       $campos['sessao_stripe_id'] = htmlspecialchars($campos['sessao_stripe_id']);
       $campos['assinatura_id'] = htmlspecialchars($campos['assinatura_id']);
       $campos['plano_nome'] = htmlspecialchars($campos['plano_nome']);
@@ -224,6 +226,10 @@ class DashboardEmpresaModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('logo', 'valInvalido');
       }
 
+      if (isset($params['favicon']) and $campos['favicon'] and filter_var($campos['favicon'], FILTER_VALIDATE_URL) == false) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('favicon', 'valInvalido');
+      }
+
       if ($campos['plano_nome'] and ! in_array($campos['plano_nome'], ['Mensal', 'Anual'])) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('plano_nome', 'valInvalido');
       }
@@ -242,6 +248,7 @@ class DashboardEmpresaModel extends Model
       $telefoneCaracteresMin = 10;
       $telefoneCaracteresMax = 11;
       $logoCaracteres = 255;
+      $faviconCaracteres = 255;
       $sessaoStripeCaracteres = 255;
       $assinaturaId = 255;
       $planoNomeCaracteres = 6;
@@ -280,6 +287,10 @@ class DashboardEmpresaModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('logo', 'caracteres', $logoCaracteres);
       }
 
+      if (strlen($campos['favicon']) > $faviconCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('favicon', 'caracteres', $faviconCaracteres);
+      }
+
       if (strlen($campos['plano_nome']) > $planoNomeCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('plano_nome', 'caracteres', $planoNomeCaracteres);
       }
@@ -307,6 +318,7 @@ class DashboardEmpresaModel extends Model
       'telefone' => $campos['telefone'],
       'cnpj' => $campos['cnpj'],
       'logo' => $campos['logo'],
+      'favicon' => $campos['favicon'],
       'sessao_stripe_id' => $campos['sessao_stripe_id'],
       'assinatura_id' => $campos['assinatura_id'],
       'plano_nome' => $campos['plano_nome'],
@@ -333,6 +345,10 @@ class DashboardEmpresaModel extends Model
 
     if (isset($camposValidados['logo']) and empty($camposValidados['logo'])) {
       $camposValidados['logo'] = null;
+    }
+
+    if (isset($camposValidados['favicon']) and empty($camposValidados['favicon'])) {
+      $camposValidados['favicon'] = null;
     }
 
     if (isset($camposValidados['sessao_stripe_id']) and empty($camposValidados['sessao_stripe_id'])) {

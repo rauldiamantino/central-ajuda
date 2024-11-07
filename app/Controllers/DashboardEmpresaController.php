@@ -37,6 +37,7 @@ class DashboardEmpresaController extends DashboardController
       'Empresa.cnpj',
       'Empresa.telefone',
       'Empresa.logo',
+      'Empresa.favicon',
       'Empresa.sessao_stripe_id',
       'Empresa.assinatura_id',
       'Empresa.criado',
