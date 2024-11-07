@@ -12,14 +12,14 @@ $roteador = new Roteador();
 $roteador->rotear();
 
 // Rollbar
+$set_exception_handler = false;
+$set_error_handler = false;
+
+$config = array(
+  'access_token' => ROLLBAR_TOKEN,
+  'environment' => 'production',
+);
+
 if (! HOST_LOCAL) {
-  $set_exception_handler = false;
-  $set_error_handler = false;
-
-  $config = array(
-    'access_token' => ROLLBAR_TOKEN,
-    'environment' => 'production',
-  );
-
   Rollbar::init($config, $set_exception_handler, $set_error_handler);
 }
