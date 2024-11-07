@@ -8,4 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'app\\' => array($baseDir . '/app'),
     'Stripe\\' => array($vendorDir . '/stripe/stripe-php/lib'),
+    'Rollbar\\' => array($vendorDir . '/rollbar/rollbar/src'),
+    'Psr\\Log\\' => array($vendorDir . '/psr/log/src'),
+    'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
 );

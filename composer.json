@@ -20,6 +20,7 @@
         "erusev/parsedown": "^1.7",
         "stripe/stripe-php": "^16.0",
         "ext-pdo": "*",
-        "ext-pdo_pgsql": "*"
+        "ext-pdo_pgsql": "*",
+        "rollbar/rollbar": "~4.0"
     }
 }
