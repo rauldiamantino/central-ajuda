@@ -1,68 +1,73 @@
-<form class="w-full space-y-6" action="<?php echo baseUrl('/cadastro'); ?>" method="POST">
-  <div class="flex flex-col gap-2">
-    <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
-    <input id="email" name="email" type="email" autocomplete="off" required class="<?php echo CLASSES_LOGIN_INPUT; ?>">
-  </div>
+<form class="w-full flex flex-col md:flex-row md:gap-12 space-y-6" action="<?php echo baseUrl('/cadastro'); ?>" method="POST">
+  <div class="w-full flex flex-col gap-6">
+    <div class="flex flex-col gap-2">
+      <label for="email" class="text-sm font-medium text-gray-800">Email</label>
+      <input id="email" name="email" type="email" required class="<?php echo CLASSES_LOGIN_INPUT; ?>">
+    </div>
 
-  <div class="flex flex-col gap-2">
-    <label for="subdominio" class="block text-sm font-medium leading-6 text-gray-900">Como as pessoas vão te encontrar</label>
-    <input id="subdominio" name="subdominio" type="subdominio" autocomplete="off" required class="<?php echo CLASSES_LOGIN_INPUT; ?>" placeholder="nome-empresa">
-    <div class="pt-1 text-xs">Exemplo: 360help.com.br/<span class="text-sm font-bold text-red-800 underline">nome-empresa</span></div>
-  </div>
+    <div class="flex flex-col gap-2">
+      <label for="subdominio" class="text-sm font-medium text-gray-800">Escolha seu subdomínio</label>
+      <input id="subdominio" name="subdominio" type="text" required class="<?php echo CLASSES_LOGIN_INPUT; ?>" placeholder="nome-empresa">
+      <div class="pt-1 text-xs text-gray-500">Exemplo: 360help.com.br/<span class="font-bold text-blue-800">nome-empresa</span></div>
+    </div>
 
-  <div class="flex flex-col gap-2">
-    <label for="senha" class="block text-sm font-medium leading-6 text-gray-900">Senha</label>
-    <input id="senha" name="senha" type="password" autocomplete="off" required class="<?php echo CLASSES_LOGIN_INPUT; ?>">
-  </div>
+    <div class="flex flex-col gap-2">
+      <label for="senha" class="text-sm font-medium text-gray-800">Senha</label>
+      <input id="senha" name="senha" type="password" required class="<?php echo CLASSES_LOGIN_INPUT; ?>">
+    </div>
 
-  <div class="flex flex-col gap-2">
-    <label for="confirmar_senha" class="block text-sm font-medium leading-6 text-gray-900">Confirmar senha</label>
-    <input id="confirmar_senha" name="confirmar_senha" type="password" autocomplete="off" required class="<?php echo CLASSES_LOGIN_INPUT; ?>">
-  </div>
+    <div class="flex flex-col gap-2">
+      <label for="confirmar_senha" class="text-sm font-medium text-gray-800">Confirmar senha</label>
+      <input id="confirmar_senha" name="confirmar_senha" type="password" required class="<?php echo CLASSES_LOGIN_INPUT; ?>">
+    </div>
 
-  <div class="text-xs">
-    <span>Sua senha precisa conter pelo menos:</span>
-    <ul class="list-disc">
-      <li class="ml-5">8 caracteres</li>
-      <li class="ml-5">1 letra maiúscula</li>
-      <li class="ml-5">1 letra minúscula</li>
-      <li class="ml-5">1 número</li>
-      <li class="ml-5">1 caractere especial (ex: !, @, #, $)</li>
-    </ul>
+    <div class="text-xs text-gray-500 mt-0">
+      <span>A senha precisa ter:</span>
+      <ul class="list-disc ml-5 space-y-1">
+        <li>8 caracteres</li>
+        <li>1 letra maiúscula e minúscula</li>
+        <li>1 número e 1 caractere especial (!, @, #)</li>
+      </ul>
+    </div>
   </div>
-
-  <div class="w-full flex flex-col items-center justify-center">
-    <div class="w-full flex gap-2 sm:gap-4 justify-between">
-      <div class="w-full">
-        <input type="radio" id="cadastro-plano-mensal" name="plano_nome" class="hidden peer" checked value="Mensal">
-        <label for="cadastro-plano-mensal" class="w-full flex flex-col items-center text-sm font-medium leading-6 text-gray-900 p-5 rounded-md border border-gray-200 transition duration-200 ease-in-out peer-checked:ring-2 peer-checked:ring-blue-900 peer-checked:ring-offset-2 peer-checked:ring-offset-gray-200">
-          Mensal
-          <div class="w-full flex flex-col sm:flex-row gap-2 justify-center items-center">
-            <h2 class="text-3xl whitespace-nowrap">R$ 99</h2>
-            <span class="leading-4 text-xs">
-              por<br class="hidden sm:block">
-              mês
-            </span>
-          </div>
+  <div class="w-full flex flex-col gap-6">
+    <div class="border border-gray-200 rounded-lg p-6 space-y-4">
+      <h3 class="text-lg font-semibold text-center text-gray-800">Benefícios da nossa Central de Ajuda</h3>
+      <ul class="list-disc ml-5 space-y-2 text-sm text-gray-700">
+        <li>Vídeos, imagens e guias interativos para enriquecer o suporte</li>
+        <li>Encontre conteúdos facilmente na dashboard</li>
+        <li>Interface simples e ágil para sua equipe e clientes</li>
+        <li>Gestão ilimitada de artigos com controle de acesso para sua equipe</li>
+        <li>Organização de artigos em categorias para navegação rápida</li>
+      </ul>
+    </div>
+    <div class="w-full">
+      <h3 class="text-lg font-semibold text-center text-gray-800">Escolha o plano ideal para sua empresa</h3>
+    </div>
+    <div class="w-full flex gap-4">
+      <div class="flex-1">
+        <input type="radio" id="plano-mensal" name="plano_nome" class="hidden peer" checked value="Mensal">
+        <label for="plano-mensal" class="block p-5 rounded-lg text-center cursor-pointer border border-gray-200 transition duration-200 ease-in-out peer-checked:ring-2 peer-checked:ring-blue-900 peer-checked:ring-offset-2 peer-checked:ring-offset-gray-200">
+          <span class="text-lg font-semibold text-gray-800">Mensal</span>
+          <p class="text-2xl md:text-3xl mt-1 text-blue-800">R$ 99</p>
+          <p class="text-xs mt-1 text-gray-600">por mês</p>
         </label>
       </div>
-      <div class="w-full">
-        <input type="radio" id="cadastro-plano-anual" name="plano_nome" class="hidden peer" value="Anual">
-        <label for="cadastro-plano-anual" class="w-full flex flex-col items-center text-sm font-medium leading-6 text-gray-900 p-5 rounded-md border border-gray-200 transition duration-200 ease-in-out peer-checked:ring-2 peer-checked:ring-blue-900 peer-checked:ring-offset-2 peer-checked:ring-offset-gray-200">
-          Anual
-          <div class="w-full flex flex-col sm:flex-row gap-2 justify-center items-center">
-            <h3 class="text-3xl whitespace-nowrap">R$ 768</h3>
-            <span class="leading-4 text-xs">
-              por<br class="hidden sm:block">
-              ano
-            </span>
-          </div>
+      <div class="flex-1">
+        <input type="radio" id="plano-anual" name="plano_nome" class="hidden peer" value="Anual">
+        <label for="plano-anual" class="block p-5 rounded-lg text-center cursor-pointer border border-gray-200 transition duration-200 ease-in-out peer-checked:ring-2 peer-checked:ring-blue-900 peer-checked:ring-offset-2 peer-checked:ring-offset-gray-200">
+          <span class="text-lg font-semibold text-gray-800">Anual</span>
+          <p class="text-2xl md:text-3xl mt-1 text-blue-800">R$ 768</p>
+          <p class="text-xs mt-1 text-gray-600">por ano</p>
         </label>
       </div>
     </div>
-  </div>
+    <div class="flex justify-center">
+      <button type="submit" class="<?php echo CLASSES_LOGIN_BUTTON; ?>">Assinar</button>
+    </div>
 
-  <div class="flex flex-col gap-2">
-    <button type="submit" class="<?php echo CLASSES_LOGIN_BUTTON; ?>">Assinar</button>
+    <p class="mt-6 text-center text-sm text-gray-500">
+      Já possui uma conta? <a href="<?php echo baseUrl('/login'); ?>" class="font-semibold text-blue-800 hover:text-blue-600">Entrar</a>
+    </p>
   </div>
 </form>
