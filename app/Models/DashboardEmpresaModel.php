@@ -119,6 +119,7 @@ class DashboardEmpresaModel extends Model
     }
 
     $retorno = parent::atualizar($campos, $id);
+
     return $retorno;
   }
 
@@ -222,11 +223,19 @@ class DashboardEmpresaModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('cnpj', 'valInvalido');
       }
 
-      if (isset($params['logo']) and $campos['logo'] and filter_var($campos['logo'], FILTER_VALIDATE_URL) == false) {
+      if ($campos['logo'] == 'undefined') {
+        $campos['logo'] = '';
+      }
+
+      if ($campos['favicon'] == 'undefined') {
+        $campos['favicon'] = '';
+      }
+
+      if ($campos['logo'] and filter_var($campos['logo'], FILTER_VALIDATE_URL) == false) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('logo', 'valInvalido');
       }
 
-      if (isset($params['favicon']) and $campos['favicon'] and filter_var($campos['favicon'], FILTER_VALIDATE_URL) == false) {
+      if ($campos['favicon'] and filter_var($campos['favicon'], FILTER_VALIDATE_URL) == false) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('favicon', 'valInvalido');
       }
 

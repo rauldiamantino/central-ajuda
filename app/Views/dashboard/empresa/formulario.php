@@ -60,7 +60,7 @@
       </button>
       <h3 class="whitespace-pre-line text-red-800 erro-empresa-favicon"></h3>
       <div class="border border-slate-200 p-4 flex flex-col gap-4 w-full justify-center items-center opacity-50 rounded-md">
-        <img src="<?php echo $empresa['Empresa']['favicon']; ?>" class="object-cover w-max h-max empresa-alterar-favicon <?php echo $empresa['Empresa']['favicon'] ? '' : 'hidden' ?>">
+        <img src="<?php echo $empresa['Empresa']['favicon'] ? $empresa['Empresa']['favicon'] : ''; ?>" class="object-cover w-max h-max empresa-alterar-favicon <?php echo $empresa['Empresa']['favicon'] ? '' : 'hidden' ?>">
       </div>
     </div>
   </div>
