@@ -34,7 +34,7 @@
     <div class="border border-gray-200 rounded-lg p-6 space-y-4">
       <h3 class="text-lg font-semibold text-center text-gray-800">Benefícios da nossa Central de Ajuda</h3>
       <ul class="list-disc ml-5 space-y-2 text-sm text-gray-700">
-        <li>Vídeos, imagens e guias interativos para enriquecer o suporte</li>
+        <li>Passo a passo em vídeos, imagens e textos para enriquecer o suporte</li>
         <li>Encontre conteúdos facilmente na dashboard</li>
         <li>Interface simples e ágil para sua equipe e clientes</li>
         <li>Gestão ilimitada de artigos com controle de acesso para sua equipe</li>
