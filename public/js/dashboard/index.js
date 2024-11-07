@@ -29,15 +29,15 @@ document.addEventListener('DOMContentLoaded', function() {
   const menuTopoUsuarioBaixo = document.querySelector('.perfil-usuario-baixo')
 
   if (notificacaoErro) {
-    setTimeout(() => fecharNotificacao(notificacaoErro), 50000)
+    setTimeout(() => fecharNotificacao(notificacaoErro), 60000)
   }
 
   if (notificacaoSucesso) {
-    setTimeout(() => fecharNotificacao(notificacaoSucesso), 50000)
+    setTimeout(() => fecharNotificacao(notificacaoSucesso), 60000)
   }
 
   if (notificacaoNeutra) {
-    setTimeout(() => fecharNotificacao(notificacaoNeutra), 50000)
+    setTimeout(() => fecharNotificacao(notificacaoNeutra), 60000)
   }
 
   if (btnNotificacaoErroFechar) {
