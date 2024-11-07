@@ -372,12 +372,14 @@ class DashboardUsuarioModel extends Model
       $campos['email'] = filter_Var($campos['email'], FILTER_SANITIZE_EMAIL);
       $emailValidado = filter_Var($campos['email'], FILTER_VALIDATE_EMAIL);
 
-      if (isset($params['email']) and $emailValidado == false) {
-        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('email', 'invalido');
+      // Sempre primeiro
+      if (isset($campos['senha'])) {
+        $msgErro = $this->validarSenhaSegura($campos['senha']);
+        $campos['senha'] = password_hash(trim($campos['senha']), PASSWORD_DEFAULT);
       }
 
-      if (isset($campos['senha'])) {
-        $campos['senha'] = password_hash(trim($campos['senha']), PASSWORD_DEFAULT);
+      if (isset($params['email']) and $emailValidado == false) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('email', 'invalido');
       }
 
       if (isset($params['ativo']) and ! in_array($campos['ativo'], [INATIVO, ATIVO])) {
@@ -431,7 +433,7 @@ class DashboardUsuarioModel extends Model
       }
     }
 
-    if ($msgErro['erro']['mensagem']) {
+    if (isset($msgErro['erro']['mensagem']) and $msgErro['erro']['mensagem']) {
       return $msgErro;
     }
 
@@ -527,6 +529,42 @@ class DashboardUsuarioModel extends Model
     }
 
     return [];
+  }
+
+  private function validarSenhaSegura(string $senha): array
+  {
+    $msgErro = [
+      'erro' => [
+        'codigo' => 400,
+        'mensagem' => ['Sua senha não atingiu os seguintes critérios:'],
+      ],
+    ];
+
+    if (strlen($senha) < 8) {
+      $msgErro['erro']['mensagem'][] = " • Ter pelo menos 8 caracteres.";
+    }
+
+    if (! preg_match('/[A-Z]/', $senha)) {
+      $msgErro['erro']['mensagem'][] = " • Conter pelo menos uma letra maiúscula.";
+    }
+
+    if (! preg_match('/[a-z]/', $senha)) {
+      $msgErro['erro']['mensagem'][] = " • Conter pelo menos uma letra minúscula.";
+    }
+
+    if (! preg_match('/\d/', $senha)) {
+      $msgErro['erro']['mensagem'][] = " • Conter pelo menos um número.";
+    }
+
+    if (! preg_match('/[\W_]/', $senha)) {
+      $msgErro['erro']['mensagem'][] = " • Conter pelo menos um caractere especial (ex: !, @, #, $).";
+    }
+
+    if (count($msgErro['erro']['mensagem']) > 1) {
+      return $msgErro;
+    }
+
+    return ['ok' => true];
   }
 
   private function validarPermissoes(array $campos, array $usuarioEditado, int $id): array

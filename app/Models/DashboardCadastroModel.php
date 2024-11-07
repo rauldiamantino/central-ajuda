@@ -49,12 +49,17 @@ class DashboardCadastroModel extends Model
       $campos['plano_nome'] = htmlspecialchars($campos['plano_nome']);
       $campos['protocolo'] = htmlspecialchars($campos['protocolo']);
 
-      if (isset($params['email']) and $emailValidado == false) {
-        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('email', 'invalido');
+      // Sempre primeiro
+      if (isset($campos['senha'])) {
+        $msgErro = $this->validarSenhaSegura($campos['senha']);
       }
 
       if ($campos['senha'] !== $campos['confirmar_senha']) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('confirmar_senha', 'valInvalido');
+      }
+
+      if (isset($params['email']) and $emailValidado == false) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('email', 'invalido');
       }
 
       if (! in_array($campos['plano_nome'], ['Mensal', 'Anual'])) {
@@ -91,10 +96,11 @@ class DashboardCadastroModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('protocolo', 'caracteres', $protocoloCaracteres);
       }
 
+      // Gera hash somente após todas as validações
       $campos['senha'] = password_hash(trim($campos['senha']), PASSWORD_DEFAULT);
     }
 
-    if ($msgErro['erro']['mensagem']) {
+    if (isset($msgErro['erro']['mensagem']) and $msgErro['erro']['mensagem']) {
       return $msgErro;
     }
 
@@ -115,6 +121,42 @@ class DashboardCadastroModel extends Model
     }
 
     return $camposValidados;
+  }
+
+  private function validarSenhaSegura(string $senha): array
+  {
+    $msgErro = [
+      'erro' => [
+        'codigo' => 400,
+        'mensagem' => ['Sua senha não atingiu os seguintes critérios:'],
+      ],
+    ];
+
+    if (strlen($senha) < 8) {
+      $msgErro['erro']['mensagem'][] = " • Ter pelo menos 8 caracteres.";
+    }
+
+    if (! preg_match('/[A-Z]/', $senha)) {
+      $msgErro['erro']['mensagem'][] = " • Conter pelo menos uma letra maiúscula.";
+    }
+
+    if (! preg_match('/[a-z]/', $senha)) {
+      $msgErro['erro']['mensagem'][] = " • Conter pelo menos uma letra minúscula.";
+    }
+
+    if (! preg_match('/\d/', $senha)) {
+      $msgErro['erro']['mensagem'][] = " • Conter pelo menos um número.";
+    }
+
+    if (! preg_match('/[\W_]/', $senha)) {
+      $msgErro['erro']['mensagem'][] = " • Conter pelo menos um caractere especial (ex: !, @, #, $).";
+    }
+
+    if (count($msgErro['erro']['mensagem']) > 1) {
+      return $msgErro;
+    }
+
+    return ['ok' => true];
   }
 
   private function gerarMsgErro(string $campo, string $tipo, int $quantidade = 0): string

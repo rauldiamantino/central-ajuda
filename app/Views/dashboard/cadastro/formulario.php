@@ -1,4 +1,4 @@
-<form class="space-y-6" action="<?php echo baseUrl('/cadastro'); ?>" method="POST">
+<form class="w-full space-y-6" action="<?php echo baseUrl('/cadastro'); ?>" method="POST">
   <div class="flex flex-col gap-2">
     <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
     <input id="email" name="email" type="email" autocomplete="off" required class="<?php echo CLASSES_LOGIN_INPUT; ?>">
@@ -18,6 +18,17 @@
   <div class="flex flex-col gap-2">
     <label for="confirmar_senha" class="block text-sm font-medium leading-6 text-gray-900">Confirmar senha</label>
     <input id="confirmar_senha" name="confirmar_senha" type="password" autocomplete="off" required class="<?php echo CLASSES_LOGIN_INPUT; ?>">
+  </div>
+
+  <div class="text-xs">
+    <span>Sua senha precisa conter pelo menos:</span>
+    <ul class="list-disc">
+      <li class="ml-5">8 caracteres</li>
+      <li class="ml-5">1 letra maiúscula</li>
+      <li class="ml-5">1 letra minúscula</li>
+      <li class="ml-5">1 número</li>
+      <li class="ml-5">1 caractere especial (ex: !, @, #, $)</li>
+    </ul>
   </div>
 
   <div class="w-full flex flex-col items-center justify-center">
@@ -52,6 +63,6 @@
   </div>
 
   <div class="flex flex-col gap-2">
-    <button type="submit" class="<?php echo CLASSES_LOGIN_BUTTON; ?>">Cadastrar</button>
+    <button type="submit" class="<?php echo CLASSES_LOGIN_BUTTON; ?>">Assinar</button>
   </div>
 </form>

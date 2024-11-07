@@ -2,8 +2,8 @@
 $notificacaoErro = $this->sessaoUsuario->buscar('erro');
 ?>
 
-<div class="w-full flex justify-center absolute inset-x-0 -bottom-10">
-  <div class="w-max">
+<div class="w-full flex justify-center fixed inset-x-0 bottom-0">
+  <div class="w-full">
     <?php // Notificação Erro ?>
     <?php if (isset($notificacaoErro)) { ?>
       <div class="js-dashboard-notificacao-erro js-dashboard-notificacao-erro-btn-fechar">
