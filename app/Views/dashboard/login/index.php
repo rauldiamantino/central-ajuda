@@ -1,4 +1,4 @@
-<div class="w-full h-full border border-slate-300 shadow rounded-md bg-white">
+<?<div class="w-full h-full border border-slate-300 shadow rounded-md bg-white">
   <div class="flex min-h-full flex-col justify-center px-6 py-12 md:px-10">
     <div class="w-full justify-center flex items-center">
       <img src="<?php echo baseUrl('/img/360help-branco.svg')?>" class="w-44">
