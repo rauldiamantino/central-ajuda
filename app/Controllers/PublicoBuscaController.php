@@ -35,10 +35,7 @@ class PublicoBuscaController extends PublicoController
       'campo' => 'Artigo.ativo', 'operador' => '=', 'valor' => ATIVO,
     ];
 
-    if ($this->usuarioLogado['padrao'] == USUARIO_SUPORTE) {
-      unset($condicao[0]);
-    }
-    elseif ($this->empresaId and $this->empresaId == $this->usuarioLogado['empresaId']) {
+    if ($this->exibirInativos()) {
       unset($condicao[0]);
     }
 
