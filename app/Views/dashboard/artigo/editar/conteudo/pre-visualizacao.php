@@ -1,8 +1,5 @@
 <div class="w-full h-full bg-white p-5 lg:p-10 rounded-md dashboard-pre-visualizacao">
-  <div class="w-full flex justify-center items-center gap-4">
-    <span class="font-light text-gray-400">Pré-visualização do artigo</span>
-  </div>
-  <div class="flex flex-col justify-between items-start gap-4 pt-10">
+  <div class="flex flex-col justify-between items-start gap-4 pt-10 px-3">
     <div class="flex gap-2 items-center">
       <h2 class="text-4xl"><?php echo $artigo['Artigo']['titulo'] ?></h2>
       <?php if ($artigo['Artigo']['ativo'] == INATIVO) { ?>
@@ -18,7 +15,7 @@
       <div>Última atualização: <?php echo traduzirDataPtBr($artigo['Artigo']['modificado']); ?></div>
     </div>
 
-    <div class="w-full flex flex-col gap-5 pt-6 pb-10 border-b border-slate-200">
+    <div class="w-full flex flex-col pt-6 pb-10 border-b border-slate-200">
       <?php if ($conteudos) { ?>
         <?php foreach ($conteudos as $chave => $linha) : ?>
           <?php if ($linha['Conteudo']['tipo'] == 1) { ?>

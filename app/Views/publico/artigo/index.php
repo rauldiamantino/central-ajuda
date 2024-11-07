@@ -35,7 +35,7 @@
     </div>
   </div>
 
-  <div class="flex flex-col gap-5 py-10 border-b border-slate-200 publico-artigo-blocos">
+  <div class="flex flex-col py-10 border-b border-slate-200 publico-artigo-blocos">
     <?php if ($conteudos) { ?>
       <?php foreach ($conteudos as $chave => $linha) : ?>
         <?php if ($linha['Conteudo']['tipo'] == 1) { ?>
