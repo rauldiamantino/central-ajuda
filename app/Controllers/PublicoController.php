@@ -130,10 +130,6 @@ class PublicoController extends Controller
       return true;
     }
 
-    if ($this->empresaId and $this->empresaId == $this->usuarioLogado['empresaId']) {
-      return true;
-    }
-
     return false;
   }
 }
