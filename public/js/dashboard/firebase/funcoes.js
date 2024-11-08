@@ -1,28 +1,61 @@
 import { inicializarFirebase } from './inicializar.js'
 
-async function uploadImagem(empresaId, artigoId, file, favicon = false) {
+async function uploadImagem(empresaId, artigoId, file) {
   try {
     const { storage, ref, uploadBytes, getDownloadURL } = await inicializarFirebase()
 
-    let storageRef = ref(storage, `imagens/empresa-${empresaId}/logo`)
-
-    if (favicon) {
-      storageRef = ref(storage, `imagens/empresa-${empresaId}/favicon`)
-    }
+    let storageRef
 
     if (artigoId) {
       storageRef = ref(storage, `imagens/empresa-${empresaId}/artigo-${artigoId}/${Date.now() % 100000}`)
     }
+    else {
+      storageRef = ref(storage, `imagens/empresa-${empresaId}/logo`)
+    }
 
     const snapshot = await uploadBytes(storageRef, file)
+    const downloadURL = await getDownloadURL(snapshot.ref)
 
-    return await getDownloadURL(snapshot.ref)
+    return downloadURL
   }
   catch (error) {
     console.error('Erro ao fazer upload da imagem para o Firebase: ', error)
     return false
   }
 }
+
+async function uploadMultiplasImagens(empresaId, artigoId, imagensParaUpload) {
+  try {
+    const { storage, ref, uploadBytes, getDownloadURL } = await inicializarFirebase()
+
+    const downloadURLs = []
+
+    for (const { file, type } of imagensParaUpload) {
+      let storageRef
+
+      if (type === 'favicon') {
+        storageRef = ref(storage, `imagens/empresa-${empresaId}/favicon`)
+      }
+      else if (type === 'logo') {
+        storageRef = ref(storage, `imagens/empresa-${empresaId}/logo`)
+      }
+      else if (artigoId) {
+        storageRef = ref(storage, `imagens/empresa-${empresaId}/artigo-${artigoId}/${Date.now() % 100000}`)
+      }
+
+      // Faz o upload do arquivo
+      const snapshot = await uploadBytes(storageRef, file)
+      const downloadURL = await getDownloadURL(snapshot.ref)
+      downloadURLs.push(downloadURL) // Adiciona a URL do arquivo à lista
+    }
+
+    return downloadURLs // Retorna as URLs dos arquivos carregados
+  } catch (error) {
+    console.error('Erro ao fazer upload das imagens:', error)
+    throw new Error('Erro no upload das imagens') // Lança o erro se ocorrer algum problema
+  }
+}
+
 
 async function substituirImagem(empresaId, artigoId, file, existingImagePath, favicon = false) {
   try {
@@ -106,4 +139,4 @@ async function apagarImgsArtigo(caminhoPasta) {
   }
 }
 
-export { uploadImagem, substituirImagem, apagarImagem, apagarImgsArtigo }
+export { uploadImagem, uploadMultiplasImagens, substituirImagem, apagarImagem, apagarImgsArtigo }
