@@ -8,9 +8,9 @@
     <span>></span>
     <span class="underline whitespace-nowrap truncate"><?php echo $artigo['Artigo']['titulo'] ?></span>
   </div>
-  <div class="flex flex-col justify-between items-start gap-4 pt-10 publico-artigo-topo">
+  <div class="flex flex-col justify-between items-start gap-2 pt-10 publico-artigo-blocos publico-artigo-topo">
     <div class="flex gap-2 items-center">
-      <h2 class="text-4xl publico-artigo-titulo"><?php echo $artigo['Artigo']['titulo'] ?></h2>
+      <h1 class="publico-artigo-titulo"><?php echo $artigo['Artigo']['titulo'] ?></h1>
 
       <?php if ($artigo['Artigo']['ativo'] == INATIVO) { ?>
         <div class="text-red-800">

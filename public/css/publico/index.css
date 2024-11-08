@@ -5,35 +5,11 @@ body {
   line-height: 1.6;
 }
 
-
 /* Cabeçalhos */
-.publico-artigo-blocos h1 {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-top: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.publico-artigo-blocos h2 {
-  font-size: 1.75rem;
-  font-weight: 600;
-  margin-top: 1.25rem;
-  margin-bottom: 0.75rem;
-}
-
-.publico-artigo-blocos h3 {
-  font-size: 1.5rem;
-  font-weight: 500;
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
-}
-
-.publico-artigo-blocos h4 {
-  font-size: 1.15rem;
-  font-weight: 500;
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
-}
+.publico-artigo-blocos h1 { font-size: 1.9rem; font-weight: 500; }
+.publico-artigo-blocos h2 { font-size: 1.75rem; font-weight: 400; margin-top: 1.25rem; margin-bottom: 0.75rem; }
+.publico-artigo-blocos h3 { font-size: 1.5rem; font-weight: 400; margin-top: 1rem; margin-bottom: 0.5rem; }
+.publico-artigo-blocos h4 { font-size: 1.15rem; font-weight: 400; margin-top: 1rem; margin-bottom: 0.5rem; }
 
 /* Parágrafos */
 .publico-artigo-blocos p {
