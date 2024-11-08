@@ -35,9 +35,9 @@ import translations from 'ckeditor5/translations/pt-br.js'
 const editorConfig = {
   ui: {
     poweredBy: {
-      position: 'inside',
+      position: 'border',
       side: 'left',
-      label: ''
+      label: '',
     },
   },
   enterMode: 'ENTER_P',
@@ -102,7 +102,7 @@ const editorConfig = {
 		TableToolbar,
 		TodoList,
 		Underline,
-		Undo
+		Undo,
 	],
 	balloonToolbar: ['bold', 'italic', '|', 'link', '|', 'bulletedList', 'numberedList'],
 	heading: {
