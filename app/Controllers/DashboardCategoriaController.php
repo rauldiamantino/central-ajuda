@@ -86,17 +86,28 @@ class DashboardCategoriaController extends DashboardController
       'Categoria.ativo',
       'Categoria.criado',
       'Categoria.modificado',
+      'Artigo.id',
+      'Artigo.titulo',
+      'Artigo.ativo',
+      'Artigo.empresa_id',
+    ];
+
+    $juntar = [
+      'tabelaJoin' => 'Artigo',
+      'campoA' => 'Artigo.categoria_id',
+      'campoB' => 'Categoria.id',
     ];
 
     $categoria = $this->categoriaModel->selecionar($colunas)
                                       ->condicao($condicao)
+                                      ->juntar($juntar, 'LEFT')
                                       ->executarConsulta();
 
     if (isset($categoria['erro']) and $categoria['erro']) {
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categorias', $categoria['erro']);
     }
 
-    $this->visao->variavel('categoria', reset($categoria));
+    $this->visao->variavel('categoria', $categoria);
     $this->visao->variavel('titulo', 'Editar categoria');
     $this->visao->variavel('paginaMenuLateral', 'categorias');
     $this->visao->renderizar('/categoria/editar/index');

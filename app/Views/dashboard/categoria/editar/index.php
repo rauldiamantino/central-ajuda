@@ -2,14 +2,19 @@
   <h2 class="text-2xl font-semibold mb-4">
     Editar
     <span class="text-gray-400 font-light italic">
-      <a href="/<?php echo $this->usuarioLogado['subdominio']; ?>/categoria/<?php echo $categoria['Categoria']['id'] ?>" target="_blank" class="text-sm text-gray-400 font-light italic hover:underline">(Categoria #<?php echo $categoria['Categoria']['id']; ?>)</a>
+      <a href="/<?php echo $this->usuarioLogado['subdominio']; ?>/categoria/<?php echo $categoria[0]['Categoria']['id'] ?>" target="_blank" class="text-sm text-gray-400 font-light italic hover:underline">(Categoria #<?php echo $categoria[0]['Categoria']['id']; ?>)</a>
     </span>
   </h2>
-  <?php require_once 'datas.php' ?>
+
   <div class="w-full flex gap-4">
     <div class="w-full flex flex-col gap-10">
       <?php require_once 'formulario.php' ?>
+      <?php require_once 'tabela-artigos.php' ?>
+      <!-- <?php require_once 'paginacao.php' ?> -->
     </div>
-    <div class="hidden md:block w-full"></div>
+    <div class="md:block w-full">
+    </div>
   </div>
 </div>
+
+<?php require_once 'modais/remover.php' ?>

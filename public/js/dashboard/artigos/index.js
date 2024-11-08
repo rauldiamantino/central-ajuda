@@ -51,7 +51,7 @@ const fecharModalRemover = () => {
 
 const requisicaoRemover = async (artigoId) => {
 
-  if (artigoId === undefined || empresaId === undefined || empresaId === undefined) {
+  if (artigoId === undefined || empresaId === undefined) {
     return
   }
 
