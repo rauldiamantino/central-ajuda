@@ -10,7 +10,7 @@
     <div class="w-full flex flex-col gap-10">
       <?php require_once 'formulario.php' ?>
       <?php require_once 'tabela-artigos.php' ?>
-      <!-- <?php require_once 'paginacao.php' ?> -->
+      <?php require_once 'paginacao.php' ?>
     </div>
     <div class="md:block w-full">
     </div>

@@ -1,16 +1,19 @@
 <?php
 namespace app\Controllers;
 use app\Core\Cache;
+use app\Models\DashboardArtigoModel;
 use app\Models\DashboardCategoriaModel;
 
 class DashboardCategoriaController extends DashboardController
 {
+  protected $artigoModel;
   protected $categoriaModel;
 
   public function __construct()
   {
     parent::__construct();
 
+    $this->artigoModel = new DashboardArtigoModel($this->usuarioLogado, $this->empresaPadraoId);
     $this->categoriaModel = new DashboardCategoriaModel($this->usuarioLogado, $this->empresaPadraoId);
   }
 
@@ -71,6 +74,24 @@ class DashboardCategoriaController extends DashboardController
 
   public function categoriaEditarVer(int $id)
   {
+    $limite = 10;
+    $paginasTotal = 0;
+    $intervaloInicio = 0;
+    $intervaloFim = 0;
+    $paginaAtual = intval($_GET['pagina'] ?? 0);
+
+    $condContarArtigos = [
+      'campo' => 'Artigo.categoria_id',
+      'operador' => '=',
+      'valor' => $id,
+    ];
+
+    $artigosTotal = $this->artigoModel->contar('Artigo.id')
+                                      ->condicao($condContarArtigos)
+                                      ->executarConsulta();
+
+    $artigosTotal = intval($artigosTotal['total'] ?? 0);
+
     $id = (int) $id;
 
     $condicao = [
@@ -92,22 +113,45 @@ class DashboardCategoriaController extends DashboardController
       'Artigo.empresa_id',
     ];
 
-    $juntar = [
+    $uniaoArtigos = [
       'tabelaJoin' => 'Artigo',
       'campoA' => 'Artigo.categoria_id',
       'campoB' => 'Categoria.id',
     ];
 
+    $ordem = [
+      'Categoria.nome' => 'ASC',
+      'Artigo.ordem' => 'ASC',
+    ];
+
+    if ($artigosTotal > 0) {
+      $paginasTotal = ceil($artigosTotal / $limite);
+      $paginaAtual = abs($paginaAtual);
+      $paginaAtual = max($paginaAtual, 1);
+      $paginaAtual = min($paginaAtual, $paginasTotal);
+    }
+
     $categoria = $this->categoriaModel->selecionar($colunas)
                                       ->condicao($condicao)
-                                      ->juntar($juntar, 'LEFT')
+                                      ->juntar($uniaoArtigos, 'LEFT')
+                                      ->pagina($limite, $paginaAtual)
+                                      ->ordem($ordem)
                                       ->executarConsulta();
+
+    $intervaloInicio = ($paginaAtual - 1) * $limite + 1;
+    $intervaloFim = min($paginaAtual * $limite, $artigosTotal);
 
     if (isset($categoria['erro']) and $categoria['erro']) {
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categorias', $categoria['erro']);
     }
 
     $this->visao->variavel('categoria', $categoria);
+    $this->visao->variavel('pagina', $paginaAtual);
+    $this->visao->variavel('artigosTotal', $artigosTotal);
+    $this->visao->variavel('limite', $limite);
+    $this->visao->variavel('paginasTotal', $paginasTotal);
+    $this->visao->variavel('intervaloInicio', $intervaloInicio);
+    $this->visao->variavel('intervaloFim', $intervaloFim);
     $this->visao->variavel('titulo', 'Editar categoria');
     $this->visao->variavel('paginaMenuLateral', 'categorias');
     $this->visao->renderizar('/categoria/editar/index');
