@@ -19,8 +19,6 @@ class SessaoUsuario
 
   public function definir($chave, $valor, $array = false)
   {
-    $this->regenerarId();
-
     if ($array) {
       $_SESSION[ $chave ][] = $valor;
     }

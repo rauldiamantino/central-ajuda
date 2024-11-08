@@ -37,6 +37,7 @@ class DashboardEmpresaController extends DashboardController
       'Empresa.cnpj',
       'Empresa.telefone',
       'Empresa.logo',
+      'Empresa.favicon',
       'Empresa.sessao_stripe_id',
       'Empresa.assinatura_id',
       'Empresa.criado',
@@ -77,6 +78,10 @@ class DashboardEmpresaController extends DashboardController
 
     if (isset($resultado['erro'])) {
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', $resultado['erro']);
+    }
+
+    if (! isset($resultado['linhasAfetadas']) or $resultado['linhasAfetadas'] != 1) {
+      $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar');
     }
 
     $condicao[] = [

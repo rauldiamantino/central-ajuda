@@ -2,7 +2,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="icon" type="image/png" href="<?php echo baseUrl('/img/favicon.png'); ?>">
+  <link rel="icon" type="image/png" href="<?php echo $favicon; ?>">
   <link rel="stylesheet" href="<?php echo baseUrl('/css/publico/index.css'); ?>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

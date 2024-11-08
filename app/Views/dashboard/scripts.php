@@ -9,7 +9,7 @@
 <!------------------- scripts ------------------->
 <script src="<?php echo baseUrl('/js/dashboard/index.js'); ?>"></script>
 <script src="<?php echo baseUrl('/js/dashboard/empresas/index.js'); ?>"></script>
-<script src="<?php echo baseUrl('/js/dashboard/empresas/foto.js'); ?>" type="module"></script>
+<script src="<?php echo baseUrl('/js/dashboard/empresas/imagens.js'); ?>" type="module"></script>
 <script src="<?php echo baseUrl('/js/dashboard/usuarios/index.js'); ?>"></script>
 <script src="<?php echo baseUrl('/js/dashboard/categorias/index.js'); ?>"></script>
 <script src="<?php echo baseUrl('/js/dashboard/categorias/organizar.js'); ?>"></script>

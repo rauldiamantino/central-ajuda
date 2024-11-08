@@ -53,22 +53,24 @@ class Database
     $sqlFormatado = $sql;
 
     if ($parametros) {
-      foreach ($parametros as $valor) :
+      foreach ($parametros as $index => $valor):
+        $placeholder = ':val' . ($index + 1);
+        $sqlFormatado = preg_replace('/\?/', $placeholder, $sqlFormatado, 1);
+      endforeach;
 
-        if ($valor == '') {
-          $valor = '""';
+      foreach ($parametros as $index => $valor):
+
+        if (is_null($valor)) {
+          $valorFormatado = 'NULL';
+        }
+        elseif ($valor === '') {
+          $valorFormatado = "''";
+        }
+        else {
+          $valorFormatado = is_int($valor) ? (int) $valor : ("'" . addslashes(strip_tags((string)$valor)) . "'");
         }
 
-        $valorFormatado = strip_tags(is_int($valor) ? $valor : $valor);
-
-        if (is_string($valorFormatado)) {
-          $valorFormatado = '\'' . $valorFormatado . '\'';
-        }
-        elseif (is_int($valorFormatado)) {
-          $valorFormatado = (int) $valorFormatado;
-        }
-
-        $sqlFormatado = preg_replace('/\?/', $valorFormatado, $sqlFormatado, 1);
+        $sqlFormatado = str_replace(':val' . ($index + 1), $valorFormatado, $sqlFormatado);
       endforeach;
     }
 
@@ -107,10 +109,7 @@ class Database
       }
       else {
         $linhasAfetadas = $stmt->rowCount();
-
-        if ($linhasAfetadas) {
-          $resposta = ['linhasAfetadas' => $linhasAfetadas];
-        }
+        $resposta = ['linhasAfetadas' => $linhasAfetadas];
       }
     }
     catch (Exception $e){

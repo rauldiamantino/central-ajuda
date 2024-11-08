@@ -1,4 +1,4 @@
-<form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/empresa/editar/' . $empresa['Empresa']['id']); ?>" class="border border-slate-300 w-full h-full flex flex-col gap-4 p-4 rounded-lg shadow form-editar-empresa bg-white" data-empresa-id="<?php echo $empresa['Empresa']['id'] ?>" data-imagem-atual="<?php echo $empresa['Empresa']['logo']; ?>">
+<form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/empresa/editar/' . $empresa['Empresa']['id']); ?>" class="border border-slate-300 w-full h-full flex flex-col gap-4 p-4 rounded-lg shadow form-editar-empresa bg-white" data-empresa-id="<?php echo $empresa['Empresa']['id'] ?>" data-imagem-atual="<?php echo $empresa['Empresa']['logo']; ?>" data-favicon-atual="<?php echo $empresa['Empresa']['favicon']; ?>">
   <input type="hidden" name="_method" value="PUT">
   <div class="w-full flex flex-col gap-4">
     <div class="w-full flex justify-start gap-4">
@@ -32,22 +32,40 @@
       <label for="empresa-editar-telefone" class="block text-sm font-medium text-gray-700">Telefone</label>
       <input type="text" id="empresa-editar-telefone" name="telefone" class="<?php echo CLASSES_DASH_INPUT; ?>" placeholder="00 00000 0000" value="<?php echo $empresa['Empresa']['telefone']; ?>">
     </div>
-    <div class="w-full items-start flex flex-col gap-2">
-      <input type="hidden" name="logo" value="" class="url-imagem">
-      <input type="file" accept="image/*" id="empresa-editar-imagem" class="hidden empresa-editar-imagem-escolher">
-      <button type="button" for="empresa-editar-imagem" class="w-full flex items-center justify-center cursor-pointer border border-gray-300 bg-gray-50 p-4 rounded-lg hover:bg-gray-100 empresa-btn-imagem-editar-escolher">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-image text-gray-500" viewBox="0 0 16 16">
-          <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
-          <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z" />
-        </svg>
-        <span class="ml-2 text-gray-700 h-max w-max empresa-txt-imagem-editar-escolher">Alterar Imagem</span>
-      </button>
-      <h3 class="whitespace-pre-line text-red-800 erro-empresa-imagem"></h3>
-      <div class="border border-slate-200 p-4 flex flex-col gap-4 w-full justify-center items-center opacity-50 rounded-md">
-        <img src="<?php echo $empresa['Empresa']['logo']; ?>" class="object-cover w-max h-max empresa-alterar-logo <?php echo $empresa['Empresa']['logo'] ? '' : 'hidden' ?>">
+
+    <div class="w-full flex flex-col sm:flex-row gap-4">
+      <div class="w-full items-start flex flex-col gap-2">
+        <input type="hidden" name="logo" value="" class="url-imagem">
+        <input type="file" accept="image/*" id="empresa-editar-imagem" class="hidden empresa-editar-imagem-escolher">
+        <button type="button" for="empresa-editar-imagem" class="w-full flex items-center justify-center cursor-pointer border border-gray-300 bg-gray-50 p-4 rounded-lg hover:bg-gray-100 empresa-btn-imagem-editar-escolher">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-image text-gray-500" viewBox="0 0 16 16">
+            <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+            <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z" />
+          </svg>
+          <span class="ml-2 text-gray-700 h-max w-max empresa-txt-imagem-editar-escolher">Alterar Logo</span>
+        </button>
+        <h3 class="whitespace-pre-line text-red-800 erro-empresa-imagem"></h3>
+        <div class="border border-slate-200 p-4 flex flex-col gap-4 w-full h-full justify-center items-center opacity-50 rounded-md">
+          <img src="<?php echo $empresa['Empresa']['logo']; ?>" class="object-cover w-max h-max empresa-alterar-logo <?php echo $empresa['Empresa']['logo'] ? '' : 'hidden' ?>">
+        </div>
       </div>
+      <div class="w-full items-start flex flex-col gap-2">
+        <input type="hidden" name="favicon" value="" class="url-favicon">
+        <input type="file" accept="image/*" id="empresa-editar-favicon" class="hidden empresa-editar-favicon-escolher">
+        <button type="button" for="empresa-editar-favicon" class="w-full flex items-center justify-center cursor-pointer border border-gray-300 bg-gray-50 p-4 rounded-lg hover:bg-gray-100 empresa-btn-favicon-editar-escolher">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-image text-gray-500" viewBox="0 0 16 16">
+            <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+            <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z" />
+          </svg>
+          <span class="ml-2 text-gray-700 h-max w-max empresa-txt-favicon-editar-escolher">Alterar Favicon</span>
+        </button>
+        <h3 class="whitespace-pre-line text-red-800 erro-empresa-favicon"></h3>
+        <div class="border border-slate-200 p-4 flex flex-col gap-4 w-full h-full justify-center items-center opacity-50 rounded-md">
+          <img src="<?php echo $empresa['Empresa']['favicon'] ? $empresa['Empresa']['favicon'] : ''; ?>" class="object-cover w-max h-max empresa-alterar-favicon <?php echo $empresa['Empresa']['favicon'] ? '' : 'hidden' ?>">
+        </div>
+      </div>
+        </div>
     </div>
-  </div>
   <div class="flex gap-2">
     <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos'); ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>">Voltar</a>
     <button type="submit" class="<?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> btn-gravar-empresa">Gravar</button>
