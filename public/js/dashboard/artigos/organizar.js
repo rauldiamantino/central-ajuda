@@ -11,14 +11,20 @@ const buscarArtigos = () => {
   }
 
   const urlParams = new URLSearchParams(window.location.search)
-  const categoriaSelecionadaId = urlParams.get('categoria_id')
-  const urlBuscar = baseUrl(`/${empresa}/d/artigos?categoria_id=${categoriaSelecionadaId}`)
+  let categoriaSelecionadaId = urlParams.get('categoria_id')
+  const pathMatch = window.location.pathname.match(/\/categoria\/editar\/([^/]+)/)
+
+  if (pathMatch) {
+    categoriaSelecionadaId = pathMatch[1]
+  }
 
   if (! categoriaSelecionadaId) {
     modalAlertaFiltroOk.addEventListener('click', () => modalAlertaFiltro.close())
 
     return modalAlertaFiltro.showModal()
   }
+
+  const urlBuscar = baseUrl(`/${empresa}/d/artigos?categoria_id=${categoriaSelecionadaId}`)
 
   if (! modalOrganizar || ! modalOrganizarCancelar || ! modalOrganizarBlocos || ! modalOrganizarConfirmar) {
     return

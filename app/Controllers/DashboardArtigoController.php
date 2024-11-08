@@ -449,7 +449,10 @@ class DashboardArtigoController extends DashboardController
 
     if ($categoriaId) {
       Cache::apagar('publico-artigos-categoria-' . $categoriaId, $this->usuarioLogado['empresaId']);
+      Cache::apagar('publico-categoria-' . $categoriaId . '-artigos', $this->usuarioLogado['empresaId']);
     }
+
+    $this->sessaoUsuario->definir('ok', 'Posições reorganizados');
 
     $this->responderJson($resultado);
   }

@@ -1,8 +1,4 @@
-<div class="w-full flex flex-col gap-4">
-  <h2 class="text-2xl font-semibold">
-    Artigos
-  </h2>
-
+<div class="w-full">
   <div class="w-full min-h-max border border-slate-300 rounded-md shadow bg-white overflow-x-auto overflow-y-hidden">
     <div class="inline-block min-w-full align-middle">
       <table class="table-fixed min-w-full text-sm text-left text-gray-500">
@@ -59,4 +55,6 @@
       </table>
     </div>
   </div>
+
+  <?php require_once 'paginacao.php' ?>
 </div>

@@ -38,7 +38,7 @@ class Roteador
     $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     $metodo = $_SERVER['REQUEST_METHOD'];
     $metodoOculto = $_POST['_method'] ?? null;
-registrarLog('rotas', $url);
+
     // Formulário HTML
     if ($metodoOculto and in_array(strtoupper($metodoOculto), ['PUT', 'DELETE'])) {
       $metodo = strtoupper($metodoOculto);
