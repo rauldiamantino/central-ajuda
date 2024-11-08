@@ -11,8 +11,17 @@
       <?php } ?>
     </div>
     <div class="text-xs font-light">
-      <div>Criado por <span class="font-semibold"><?php echo $artigo['Usuario']['nome']; ?></span> em <?php echo traduzirDataPtBr($artigo['Artigo']['criado']); ?></div>
-      <div>Última atualização: <?php echo traduzirDataPtBr($artigo['Artigo']['modificado']); ?></div>
+      <?php if ($this->buscarAjuste('artigo_criado') == 1 and $this->buscarAjuste('artigo_autor') == 1) { ?>
+        <div>Criado por <span class="font-semibold"> <?php echo $artigo['Usuario']['nome'] ?> </span> em <?php echo traduzirDataPtBr($artigo['Artigo']['criado']); ?></div>
+      <?php } ?>
+
+      <?php if ($this->buscarAjuste('artigo_criado') == 1 and $this->buscarAjuste('artigo_autor') == 0) { ?>
+        <div>Criado em <?php echo traduzirDataPtBr($artigo['Artigo.criado']); ?></div>
+      <?php } ?>
+
+      <?php if ($this->buscarAjuste('artigo_modificado') == 1) { ?>
+        <div>Última atualização: <?php echo traduzirDataPtBr($artigo['Artigo']['modificado']); ?></div>
+      <?php } ?>
     </div>
 
     <div class="w-full flex flex-col pt-6 pb-10 border-b border-slate-200">
