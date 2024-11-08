@@ -24,7 +24,14 @@
                 <h2><?php echo $linha['Conteudo']['titulo'] ?></h2>
               <?php } ?>
               <div>
-                <?php echo htmlspecialchars_decode($linha['Conteudo']['conteudo']); ?>
+                <?php
+                if (empty($linha['Conteudo']['conteudo'])) {
+                  echo '<br>';
+                }
+                else {
+                  echo htmlspecialchars_decode($linha['Conteudo']['conteudo']);
+                }
+                ?>
               </div>
             </div>
           <?php } ?>

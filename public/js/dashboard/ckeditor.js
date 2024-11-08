@@ -33,6 +33,15 @@ import {
 import translations from 'ckeditor5/translations/pt-br.js'
 
 const editorConfig = {
+  ui: {
+    poweredBy: {
+      position: 'inside',
+      side: 'left',
+      label: ''
+    },
+  },
+  enterMode: 'ENTER_P',
+  shiftEnterMode: 'ENTER_BR',
 	toolbar: {
 		items: [
 			'undo',
@@ -106,19 +115,19 @@ const editorConfig = {
 			{
 				model: 'heading2',
 				view: 'h2',
-				title: 'Heading 2',
+				title: 'Título 2',
 				class: 'ck-heading_heading2'
 			},
 			{
 				model: 'heading3',
 				view: 'h3',
-				title: 'Heading 3',
+				title: 'Título 3',
 				class: 'ck-heading_heading3'
 			},
 			{
 				model: 'heading4',
 				view: 'h4',
-				title: 'Heading 4',
+				title: 'Título 4',
 				class: 'ck-heading_heading4'
 			},
 		]

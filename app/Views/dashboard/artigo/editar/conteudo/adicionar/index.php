@@ -20,7 +20,7 @@
         <div class="w-full editor-container_classic-editor">
           <textarea name="conteudo" class="border border-gray-300 w-full p-2 min-h-56 rounded-lg ckeditor" name="conteudo"></textarea>
         </div>
-        <div class="sticky bottom-0 py-4 w-full h-max flex flex-col lg:flex-row justify-between gap-4 bg-white">
+        <div class="sticky z-20 bottom-0 py-4 w-full h-max flex flex-col lg:flex-row justify-between gap-4 bg-white">
           <div class="w-full bg-white">
             <label class="flex items-start gap-2 cursor-pointer">
               <input type="hidden" name="titulo_ocultar" value="0">
