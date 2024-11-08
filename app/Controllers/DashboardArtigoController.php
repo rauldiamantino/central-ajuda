@@ -120,8 +120,7 @@ class DashboardArtigoController extends DashboardController
       ];
 
       $ordem = [
-        'Categoria.nome' => 'ASC',
-        'Artigo.ordem' => 'ASC',
+        'Artigo.id' => 'DESC',
       ];
 
       $resultado = $this->artigoModel->selecionar($colunas)

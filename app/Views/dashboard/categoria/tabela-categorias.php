@@ -3,7 +3,7 @@
     <table class="table-fixed min-w-full text-sm text-left text-gray-500">
       <thead class="text-xs font-light text-gray-500 uppercase">
         <colgroup>
-          <col class="w-[60px]">
+          <!-- <col class="w-[60px]"> -->
           <col class="w-[350px]">
           <col class="w-[500px]">
           <col class="w-[200px]">
@@ -11,7 +11,7 @@
           <col class="w-[100px]">
         </colgroup>
         <tr class="bg-slate-100 w-full border-b">
-          <th class="py-5 px-4">ID</th>
+          <!-- <th class="py-5 px-4">ID</th> -->
           <th class="py-5 px-4">Título</th>
           <th class="py-5 px-4">Descrição</th>
           <th class="py-5 px-4">Criado</th>
@@ -23,7 +23,7 @@
         <?php foreach ($categorias as $chave => $linha) : ?>
           <tr class="hover:bg-slate-100">
             <?php if (isset($linha['Categoria']['id'])) { ?>
-                <td class="py-5 px-4"><?php echo $linha['Categoria']['id'] ?></td>
+                <!-- <td class="py-5 px-4"><?php echo $linha['Categoria']['id'] ?></td> -->
 
                 <td class="py-5 px-4">
                   <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categoria/editar/' . $linha['Categoria']['id']); ?>" class="font-semibold text-gray-700 hover:underline js-dashboard-categorias-editar" data-categoria-id="<?php echo $linha['Categoria']['id'] ?>">
