@@ -1,4 +1,4 @@
-import { uploadMultiplasImagens} from '../firebase/funcoes.js'
+import { uploadMultiplasImagens } from '../firebase/funcoes.js'
 
 document.addEventListener('DOMContentLoaded', function () {
   const formularioEditarEmpresa = document.querySelector('.form-editar-empresa')
