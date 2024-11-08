@@ -151,6 +151,9 @@ class DashboardArtigoController extends DashboardController
     $artigo = [];
     $categorias = [];
     $conteudos = [];
+    $botaoVoltar = $_GET['referer'] ?? '';
+    $botaoVoltar = htmlspecialchars($botaoVoltar);
+    $botaoVoltar = urldecode($botaoVoltar);
 
     $ordemNum = [
       'prox' => 1,
@@ -273,6 +276,7 @@ class DashboardArtigoController extends DashboardController
     $this->visao->variavel('ordem', $ordemNum);
     $this->visao->variavel('conteudos', $conteudos);
     $this->visao->variavel('categorias', $categorias);
+    $this->visao->variavel('botaoVoltar', $botaoVoltar);
     $this->visao->variavel('titulo', 'Editar artigo');
     $this->visao->variavel('paginaMenuLateral', 'artigos');
     $this->visao->renderizar('/artigo/editar/index');
@@ -280,6 +284,10 @@ class DashboardArtigoController extends DashboardController
 
   public function artigoAdicionarVer()
   {
+    $botaoVoltar = $_GET['referer'] ?? '';
+    $botaoVoltar = htmlspecialchars($botaoVoltar);
+    $botaoVoltar = urldecode($botaoVoltar);
+
     $colCategoria = [
       'Categoria.id',
       'Categoria.nome',
@@ -318,6 +326,7 @@ class DashboardArtigoController extends DashboardController
     $this->visao->variavel('ordem', $ordem);
     $this->visao->variavel('usuarioId', $this->usuarioLogado['id']);
     $this->visao->variavel('categorias', $categorias);
+    $this->visao->variavel('botaoVoltar', $botaoVoltar);
     $this->visao->variavel('titulo', 'Adicionar artigo');
     $this->visao->variavel('paginaMenuLateral', 'artigos');
     $this->visao->renderizar('/artigo/adicionar');

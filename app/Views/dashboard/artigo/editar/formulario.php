@@ -26,7 +26,7 @@
     </select>
   </div>
   <div class="w-full flex justify-start gap-2">
-    <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos'); ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>">Voltar</a>
+    <a href="<?php echo baseUrl($botaoVoltar ? $botaoVoltar : '/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos'); ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>">Voltar</a>
     <button type="submit" class="w-full md:w-max <?php echo CLASSES_DASH_BUTTON_GRAVAR; ?>">Gravar</button>
   </div>
 </form>

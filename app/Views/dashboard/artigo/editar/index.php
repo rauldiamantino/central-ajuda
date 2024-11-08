@@ -2,6 +2,7 @@
   <h2 class="text-2xl font-semibold mb-4">
     Editar <a href="/<?php echo $this->usuarioLogado['subdominio']; ?>/artigo/<?php echo $artigo['Artigo']['id'] ?>" target="_blank" class="text-sm text-gray-400 font-light italic hover:underline">(Artigo #<?php echo $artigo['Artigo']['id']; ?>)</a>
   </h2>
+
   <div class="w-full flex flex-col lg:flex-row lg:justify-between gap-5">
     <div class="w-full lg:w-7/12 flex flex-col md:items-center gap-4">
       <div class="w-full flex flex-col gap-10">

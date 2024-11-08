@@ -22,7 +22,7 @@
               <?php if (isset($linha['Artigo']['id'])) { ?>
                 <td class="py-5 px-4"><?php echo $linha['Artigo']['id'] ?></td>
                 <td class="py-5 px-4">
-                  <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $linha['Artigo']['id']); ?>" class="font-semibold text-gray-700 hover:underline js-dashboard-artigos-editar" data-artigo-id="<?php echo $linha['Artigo']['id'] ?>">
+                  <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $linha['Artigo']['id']) . '?referer=' . urlencode(baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categoria/editar/' . $linha['Categoria']['id'])); ?>" class="font-semibold text-gray-700 hover:underline js-dashboard-artigos-editar" data-artigo-id="<?php echo $linha['Artigo']['id'] ?>">
                     <?php echo $linha['Artigo']['titulo'] ?>
                   </a>
                 </td>
