@@ -11,6 +11,7 @@
           <input type="hidden" name="_method" value="PUT">
           <input type="hidden" name="artigo_id" value="<?php echo $conteudo['Conteudo']['artigo_id'] ?>">
           <input type="hidden" name="tipo" value="1">
+          <input type="hidden" name="referer" value="<?php echo $botaoVoltar; ?>">
 
           <div class="w-full">
             <label for="conteudo-editar-texto-titulo" class="block text-sm font-medium text-gray-700">Título</label>
@@ -29,7 +30,7 @@
               </label>
             </div>
             <div class="flex gap-2 bg-white">
-              <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $conteudo['Conteudo']['artigo_id']); ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>modal-texto-editar-btn-cancelar">Voltar</a>
+              <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $conteudo['Conteudo']['artigo_id'] . '?referer=' . $botaoVoltar); ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>modal-texto-editar-btn-cancelar">Voltar</a>
               <button type="submit" class="w-full lg:w-max <?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> modal-conteudo-texto-btn-enviar">Gravar</button>
             </div>
           </div>
@@ -45,6 +46,7 @@
           <input type="hidden" name="artigo_id" value="<?php echo $conteudo['Conteudo']['artigo_id'] ?>">
           <input type="hidden" name="tipo" value="2">
           <input type="hidden" name="url" value="" class="url-imagem">
+          <input type="hidden" name="referer" value="<?php echo $botaoVoltar; ?>">
 
           <div class="w-full">
             <label for="conteudo-editar-imagem-titulo" class="block text-sm font-medium text-gray-700">Título</label>
@@ -73,7 +75,7 @@
               </label>
             </div>
             <div class="flex gap-2">
-              <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $conteudo['Conteudo']['artigo_id']); ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>modal-conteudo-imagem-btn-cancelar">Voltar</a>
+              <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $conteudo['Conteudo']['artigo_id'] . '?referer=' . $botaoVoltar); ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>modal-conteudo-imagem-btn-cancelar">Voltar</a>
               <button type="submit" class="w-full md-w-max <?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> modal-conteudo-imagem-btn-enviar">Gravar</button>
             </div>
           </div>
@@ -88,6 +90,7 @@
           <input type="hidden" name="_method" value="PUT">
           <input type="hidden" name="artigo_id" value="<?php echo $conteudo['Conteudo']['artigo_id'] ?>">
           <input type="hidden" name="tipo" value="3">
+          <input type="hidden" name="referer" value="<?php echo $botaoVoltar; ?>">
 
           <div class="w-full">
             <label for="conteudo-editar-video-titulo" class="block text-sm font-medium text-gray-700">Título</label>
@@ -104,7 +107,7 @@
               </label>
             </div>
             <div class="flex gap-2">
-              <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $conteudo['Conteudo']['artigo_id']); ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>modal-conteudo-video-btn-cancelar">Voltar</a>
+              <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $conteudo['Conteudo']['artigo_id'] . '?referer=' . $botaoVoltar); ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>modal-conteudo-video-btn-cancelar">Voltar</a>
               <button type="submit" class="w-full md-w-max <?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> modal-conteudo-video-btn-enviar">Gravar</button>
             </div>
           </div>

@@ -15,6 +15,15 @@ class DashboardConteudoController extends DashboardController
 
   public function conteudoEditarVer(int $id)
   {
+    $botaoVoltar = $_GET['referer'] ?? '';
+    $botaoVoltar = htmlspecialchars($botaoVoltar);
+    $botaoVoltar = urldecode($botaoVoltar);
+
+    if (isset($_POST['referer']) and $_POST['referer'] and ! is_array($_POST['referer'])) {
+      $botaoVoltar = $_POST['referer'];
+      $botaoVoltar = htmlspecialchars($botaoVoltar);
+    }
+
     $condicao = [
       'campo' => 'Conteudo.id',
       'operador' => '=',
@@ -37,6 +46,7 @@ class DashboardConteudoController extends DashboardController
                                      ->condicao($condicao)
                                      ->executarConsulta();
 
+    $this->visao->variavel('botaoVoltar', $botaoVoltar);
     $this->visao->variavel('loader', true);
     $this->visao->variavel('conteudo', reset($resultado));
     $this->visao->variavel('titulo', 'Editar conteúdo');
@@ -46,6 +56,15 @@ class DashboardConteudoController extends DashboardController
 
   public function conteudoAdicionarVer()
   {
+    $botaoVoltar = $_GET['referer'] ?? '';
+    $botaoVoltar = htmlspecialchars($botaoVoltar);
+    $botaoVoltar = urldecode($botaoVoltar);
+
+    if (isset($_POST['referer']) and $_POST['referer'] and ! is_array($_POST['referer'])) {
+      $botaoVoltar = $_POST['referer'];
+      $botaoVoltar = htmlspecialchars($botaoVoltar);
+    }
+
     $empresaId = 0;
 
     $ordemNum = [
@@ -91,6 +110,7 @@ class DashboardConteudoController extends DashboardController
       }
     }
 
+    $this->visao->variavel('botaoVoltar', $botaoVoltar);
     $this->visao->variavel('loader', true);
     $this->visao->variavel('artigoId', $artigoId);
     $this->visao->variavel('empresaId', $empresaId);
@@ -103,6 +123,15 @@ class DashboardConteudoController extends DashboardController
 
   public function adicionar(): array
   {
+    $botaoVoltar = $_GET['referer'] ?? '';
+    $botaoVoltar = htmlspecialchars($botaoVoltar);
+    $botaoVoltar = urldecode($botaoVoltar);
+
+    if (isset($_POST['referer']) and $_POST['referer'] and ! is_array($_POST['referer'])) {
+      $botaoVoltar = $_POST['referer'];
+      $botaoVoltar = htmlspecialchars($botaoVoltar);
+    }
+
     $dados = $this->receberJson();
     $resultado = $this->conteudoModel->adicionar($dados);
 
@@ -110,6 +139,10 @@ class DashboardConteudoController extends DashboardController
 
     if (isset($dados['artigo_id'])) {
       $urlRetorno = '/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $dados['artigo_id'];
+    }
+
+    if ($botaoVoltar) {
+      $urlRetorno .= '?referer=' . $botaoVoltar;
     }
 
     // Formulário via POST
@@ -170,6 +203,15 @@ class DashboardConteudoController extends DashboardController
 
   public function atualizar(int $id)
   {
+    $botaoVoltar = $_GET['referer'] ?? '';
+    $botaoVoltar = htmlspecialchars($botaoVoltar);
+    $botaoVoltar = urldecode($botaoVoltar);
+
+    if (isset($_POST['referer']) and $_POST['referer'] and ! is_array($_POST['referer'])) {
+      $botaoVoltar = $_POST['referer'];
+      $botaoVoltar = htmlspecialchars($botaoVoltar);
+    }
+
     $id = (int) $id;
     $json = $this->receberJson();
     $resultado = $this->conteudoModel->atualizar($json, $id);
@@ -177,15 +219,15 @@ class DashboardConteudoController extends DashboardController
     $artigoId = intval($json['artigo_id'] ?? 0);
 
     if ($_POST and isset($resultado['erro'])) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $id, $resultado['erro']);
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $id . '?referer=' . $botaoVoltar, $resultado['erro']);
     }
     elseif ($_POST and $resultado) {
       Cache::apagar('publico-artigo-' . $artigoId . '-conteudos', $this->usuarioLogado['empresaId']);
 
-      $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId, 'Conteúdo editado com sucesso');
+      $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId . '?referer=' . $botaoVoltar, 'Conteúdo editado com sucesso');
     }
     elseif ($_POST) {
-      $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId, 'Nenhuma alteração realizada');
+      $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId . '?referer=' . $botaoVoltar, 'Nenhuma alteração realizada');
     }
   }
 

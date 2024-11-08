@@ -1,5 +1,6 @@
 <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/artigo/' . $artigo['Artigo']['id']); ?>" class="border border-slate-300 w-full flex flex-col gap-4 p-4 rounded-lg shadow bg-white">
   <input type="hidden" name="_method" value="PUT">
+  <input type="hidden" name="referer" value="<?php echo $botaoVoltar ?>">
   <div class="w-full flex gap-4">
     <div>
       <label class="flex flex-col items-start gap-1 cursor-pointer">
@@ -26,7 +27,7 @@
     </select>
   </div>
   <div class="w-full flex justify-start gap-2">
-    <a href="<?php echo baseUrl($botaoVoltar ? $botaoVoltar : '/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos'); ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>">Voltar</a>
+    <a href="<?php echo baseUrl($botaoVoltar ? $botaoVoltar : '/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos?referer=' . $botaoVoltar); ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>">Voltar</a>
     <button type="submit" class="w-full md:w-max <?php echo CLASSES_DASH_BUTTON_GRAVAR; ?>">Gravar</button>
   </div>
 </form>

@@ -10,6 +10,8 @@
       <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/conteudo'); ?>" class="flex flex-col items-end gap-2 editor-container__editor" enctype="multipart/form-data">
         <input type="hidden" name="tipo" value="1">
         <input type="hidden" name="artigo_id" value="<?php echo $artigoId ?>">
+        <input type="hidden" name="referer" value="<?php echo $botaoVoltar ?>">
+
         <?php if (isset($ordem['prox'])) { ?>
           <input type="hidden" name="ordem" value="<?php echo $ordem['prox'] ?>">
         <?php } ?>
@@ -30,7 +32,7 @@
             </label>
           </div>
           <div class="flex gap-2">
-            <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId); ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?> modal-texto-adicionar-btn-cancelar">Voltar</a>
+            <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId . '?referer=' . $botaoVoltar); ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?> modal-texto-adicionar-btn-cancelar">Voltar</a>
             <button type="submit" class="w-full lg:w-max <?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> modal-conteudo-texto-btn-enviar">Gravar</button>
           </div>
         </div>
@@ -45,6 +47,8 @@
         <input type="hidden" name="artigo_id" value="<?php echo $artigoId ?>">
         <input type="hidden" name="tipo" value="2">
         <input type="hidden" name="url" value="" class="url-imagem">
+        <input type="hidden" name="referer" value="<?php echo $botaoVoltar ?>">
+
         <?php if (isset($ordem['prox'])) { ?>
           <input type="hidden" name="ordem" value="<?php echo $ordem['prox'] ?>">
         <?php } ?>
@@ -75,7 +79,7 @@
             </label>
           </div>
           <div class="flex gap-2">
-            <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId); ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?> modal-conteudo-imagem-btn-cancelar-adicionar">Voltar</a>
+            <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId . '?referer=' . $botaoVoltar); ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?> modal-conteudo-imagem-btn-cancelar-adicionar">Voltar</a>
             <button type="submit" class="w-full lg:w-max <?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> modal-conteudo-imagem-btn-enviar">Gravar</button>
           </div>
         </div>
@@ -89,6 +93,8 @@
       <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/conteudo'); ?>" class="flex flex-col items-end gap-2" enctype="multipart/form-data">
         <input type="hidden" name="artigo_id" value="<?php echo $artigoId ?>">
         <input type="hidden" name="tipo" value="3">
+        <input type="hidden" name="referer" value="<?php echo $botaoVoltar ?>">
+
         <?php if (isset($ordem['prox'])) { ?>
           <input type="hidden" name="ordem" value="<?php echo $ordem['prox'] ?>">
         <?php } ?>
@@ -107,7 +113,7 @@
             </label>
           </div>
           <div class="flex gap-2">
-            <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId); ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?> modal-conteudo-video-btn-cancelar-adicionar">Voltar</a>
+            <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId . '?referer=' . $botaoVoltar); ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?> modal-conteudo-video-btn-cancelar-adicionar">Voltar</a>
             <button type="submit" class="w-full lg:w-max <?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> modal-conteudo-video-btn-enviar">Gravar</button>
           </div>
         </div>

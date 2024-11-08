@@ -6,6 +6,7 @@
     <?php // Artigo e Inserção de Conteúdos ?>
     <div class="w-full flex flex-col gap-10">
       <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/artigo'); ?>" class="border border-slate-200 w-full flex flex-col gap-4 p-4 rounded-lg shadow bg-white">
+        <input type="hidden" name="referer" value="<?php echo $botaoVoltar ?>">
         <input type="hidden" name="usuario_id" value="<?php echo $usuarioId ?>">
         <?php if (isset($ordem['prox'])) { ?>
           <input type="hidden" name="ordem" value="<?php echo $ordem['prox'] ?>">
