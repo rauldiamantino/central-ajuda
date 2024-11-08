@@ -25,7 +25,7 @@
             <?php if (isset($linha['Categoria']['id'])) { ?>
                 <!-- <td class="py-5 px-4"><?php echo $linha['Categoria']['id'] ?></td> -->
 
-                <td class="py-5 px-4">
+                <td class="py-5 px-4 md:pl-8">
                   <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categoria/editar/' . $linha['Categoria']['id']); ?>" class="font-semibold text-gray-700 hover:underline js-dashboard-categorias-editar" data-categoria-id="<?php echo $linha['Categoria']['id'] ?>">
                     <?php echo $linha['Categoria']['nome'] ?>
                   </a>
