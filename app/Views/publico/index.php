@@ -33,18 +33,7 @@
     <?php $this->sessaoUsuario->apagar('ok'); ?>
     <?php $this->sessaoUsuario->apagar('erro'); ?>
 
-    <?php
-    $bordaOk = false;
-
-    if (isset($inicio) and (int) $this->buscarAjuste('publico_borda_inicio') == ATIVO) {
-      $bordaOk = true;
-    }
-
-    if (! isset($inicio) and (int) $this->buscarAjuste('publico_borda_artigo') == ATIVO) {
-      $bordaOk = true;
-    }
-    ?>
-    <div class="<?php echo $bordaOk ? 'lg:border lg:border-slate-300 lg:shadow-lg ' : '' ?>w-full lg:w-8/12 min-h-screen flex rounded-md bg-white">
+    <div class="w-full lg:w-8/12 min-h-screen flex rounded-md bg-white">
 
       <?php if ($menuLateral) { ?>
         <?php require_once 'template/menu_lateral.php' ?>

@@ -20,8 +20,6 @@ class DashboardAjusteModel extends Model
       'publico_cate_busca',
       'publico_cate_abrir_primeira',
       'publico_topo_fixo',
-      'publico_borda_inicio',
-      'publico_borda_artigo',
     ];
 
     $total = 0;
@@ -90,8 +88,6 @@ class DashboardAjusteModel extends Model
       4 => ['Ajuste' => ['nome' => 'publico_cate_busca', 'ativo' => INATIVO, ]],
       5 => ['Ajuste' => ['nome' => 'publico_cate_abrir_primeira', 'ativo' => INATIVO, ]],
       6 => ['Ajuste' => ['nome' => 'publico_topo_fixo', 'ativo' => INATIVO, ]],
-      7 => ['Ajuste' => ['nome' => 'publico_borda_inicio', 'ativo' => INATIVO, ]],
-      8 => ['Ajuste' => ['nome' => 'publico_borda_artigo', 'ativo' => INATIVO, ]],
     ];
 
     // Substitui ajuste conforme DB
