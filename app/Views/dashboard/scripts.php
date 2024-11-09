@@ -15,6 +15,7 @@
 <script src="<?php echo baseUrl('/js/dashboard/categorias/organizar.js'); ?>"></script>
 <script src="<?php echo baseUrl('/js/dashboard/artigos/index.js'); ?>" type="module"></script>
 <script src="<?php echo baseUrl('/js/dashboard/artigos/filtrar.js'); ?>"></script>
+<script src="<?php echo baseUrl('/js/dashboard/categorias/filtrar.js'); ?>"></script>
 <script src="<?php echo baseUrl('/js/dashboard/artigos/organizar.js'); ?>"></script>
 <script src="<?php echo baseUrl('/js/dashboard/artigos/conteudos/organizar.js'); ?>"></script>
 <script src="<?php echo baseUrl('/js/dashboard/artigos/conteudos/remover.js'); ?>" type="module"></script>

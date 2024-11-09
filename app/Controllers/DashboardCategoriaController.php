@@ -21,9 +21,36 @@ class DashboardCategoriaController extends DashboardController
   {
     $limite = 10;
     $paginaAtual = intval($_GET['pagina'] ?? 0);
+    $resultado = [];
+    $condicoes = [];
+
+    // Filtros
+    $categoriaId = $_GET['id'] ?? '';
+    $categoriaStatus = $_GET['status'] ?? '';
+    $categoriaNome = urldecode($_GET['nome'] ?? '');
+    $filtroAtual = [];
+
+    // Filtrar por ID
+    if (isset($_GET['id'])) {
+      $filtroAtual['id'] = $categoriaId;
+      $condicoes[] = ['campo' => 'Categoria.id', 'operador' => '=', 'valor' => (int) $categoriaId];
+    }
+
+    // Filtrar por status
+    if (isset($_GET['status'])) {
+      $filtroAtual['status'] = $categoriaStatus;
+      $condicoes[] = ['campo' => 'Categoria.ativo', 'operador' => '=', 'valor' => (int) $categoriaStatus];
+    }
+
+    // Filtrar por título
+    if (isset($_GET['nome'])) {
+      $filtroAtual['nome'] = $categoriaNome;
+      $condicoes[] = ['campo' => 'Categoria.nome', 'operador' => 'LIKE', 'valor' => '%' . $categoriaNome . '%'];
+    }
 
     // Recupera quantidade de páginas
     $categoriasTotal = $this->categoriaModel->contar('Categoria.id')
+                                            ->condicao($condicoes)
                                             ->executarConsulta();
 
     $categoriasTotal = $categoriasTotal['total'] ?? 0;
@@ -47,6 +74,7 @@ class DashboardCategoriaController extends DashboardController
     ];
 
     $resultado = $this->categoriaModel->selecionar($colunas)
+                                      ->condicao($condicoes)
                                       ->pagina($limite, $paginaAtual)
                                       ->ordem($ordem)
                                       ->executarConsulta();
@@ -61,6 +89,7 @@ class DashboardCategoriaController extends DashboardController
     }
 
     $this->visao->variavel('categorias', $resultado);
+    $this->visao->variavel('filtroAtual', $filtroAtual);
     $this->visao->variavel('pagina', $paginaAtual);
     $this->visao->variavel('categoriasTotal', $categoriasTotal);
     $this->visao->variavel('limite', $limite);
