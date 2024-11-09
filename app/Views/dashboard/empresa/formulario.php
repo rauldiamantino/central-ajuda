@@ -38,9 +38,9 @@
         <input type="hidden" name="logo" value="" class="url-imagem">
         <input type="file" accept="image/*" id="empresa-editar-imagem" class="hidden empresa-editar-imagem-escolher">
         <label for="empresa-editar-imagem" class="block text-sm font-medium text-gray-700">Logo</label>
-        <button type="button" for="empresa-editar-imagem" class="w-full h-full flex items-center justify-center cursor-pointer border border-gray-300 bg-gray-50 p-4 rounded-lg hover:bg-gray-100 empresa-btn-imagem-editar-escolher">
-          <div class="">
-            <img src="<?php echo $empresa['Empresa']['logo']; ?>" class="object-cover w-max h-max empresa-alterar-logo <?php echo $empresa['Empresa']['logo'] ? '' : 'hidden' ?>">
+        <button type="button" for="empresa-editar-imagem" class="w-full h-24 flex items-center justify-center cursor-pointer border border-gray-300 bg-gray-50 p-4 rounded-lg hover:bg-gray-100 empresa-btn-imagem-editar-escolher">
+          <div class="h-full">
+            <img src="<?php echo $empresa['Empresa']['logo']; ?>" class="object-contain w-full h-full empresa-alterar-logo <?php echo $empresa['Empresa']['logo'] ? '' : 'hidden' ?>">
           </div>
           <span class="ml-2 text-gray-700 h-max w-max empresa-txt-imagem-editar-escolher"><?php echo $empresa['Empresa']['logo'] ? '' : 'Adicionar'; ?></span>
         </button>
@@ -49,9 +49,9 @@
         <input type="hidden" name="favicon" value="" class="url-favicon">
         <input type="file" accept="image/*" id="empresa-editar-favicon" class="hidden empresa-editar-favicon-escolher">
         <label for="empresa-editar-imagem" class="block text-sm font-medium text-gray-700">Favicon</label>
-        <button type="button" for="empresa-editar-favicon" class="w-full h-full flex items-center justify-center cursor-pointer border border-gray-300 bg-gray-50 p-4 rounded-lg hover:bg-gray-100 empresa-btn-favicon-editar-escolher">
-          <div class="">
-            <img src="<?php echo $empresa['Empresa']['favicon'] ? $empresa['Empresa']['favicon'] : ''; ?>" class="object-cover w-max h-max empresa-alterar-favicon <?php echo $empresa['Empresa']['favicon'] ? '' : 'hidden' ?>">
+        <button type="button" for="empresa-editar-favicon" class="w-full h-24 flex items-center justify-center cursor-pointer border border-gray-300 bg-gray-50 p-4 rounded-lg hover:bg-gray-100 empresa-btn-favicon-editar-escolher">
+          <div class="h-full">
+            <img src="<?php echo $empresa['Empresa']['favicon'] ? $empresa['Empresa']['favicon'] : ''; ?>" class="object-contain w-full h-full empresa-alterar-favicon <?php echo $empresa['Empresa']['favicon'] ? '' : 'hidden' ?>">
           </div>
           <span class="ml-2 text-gray-700 h-max w-max empresa-txt-favicon-editar-escolher"><?php echo $empresa['Empresa']['favicon'] ? '' : 'Adicionar'; ?></span>
         </button>
