@@ -27,88 +27,86 @@ class PublicoBuscaController extends PublicoController
     $intervaloInicio = 0;
     $intervaloFim = 0;
     $resultadoBuscar = [];
+    $artigosTotal = 0;
 
     $pagina = intval($_GET['pagina'] ?? 0);
     $textoBusca = htmlspecialchars($_GET['texto_busca'] ?? '');
 
-    $condicao[] = [
-      'campo' => 'Artigo.ativo', 'operador' => '=', 'valor' => ATIVO,
-    ];
-
-    if ($this->exibirInativos()) {
-      unset($condicao[0]);
-    }
-
-    if ($textoBusca) {
+    if (mb_strlen($textoBusca) > 2) {
       $condicao[] = [
+        'campo' => 'Artigo.ativo', 'operador' => '=', 'valor' => ATIVO,
         'campo' => 'Artigo.titulo', 'operador' => 'LIKE', 'valor' => '%' . $textoBusca . '%',
       ];
-    }
 
-    $cacheNome = 'publico-busca-artigos-total-' . md5(serialize($condicao));
-    $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
+      if ($this->exibirInativos()) {
+        unset($condicao[0]);
+      }
 
-    if ($resultado == null) {
-      $resultado = $this->artigoModel->contar('Artigo.id')
-                                     ->condicao($condicao)
-                                     ->executarConsulta();
-
-      Cache::definir($cacheNome, $resultado, $this->cacheTempo, $this->empresaPadraoId);
-    }
-
-    $artigosTotal = intval($resultado['total'] ?? 0);
-
-    if ($artigosTotal > 0) {
-      $paginasTotal = ceil($artigosTotal / $limite);
-
-      $pagina = abs($pagina);
-      $pagina = max($pagina, 1);
-      $pagina = min($pagina, $paginasTotal);
-
-      $colunas = [
-        'Artigo.id',
-        'Artigo.titulo',
-        'Artigo.ativo',
-        'Artigo.categoria_id',
-        'Categoria.nome',
-        'Categoria.ativo',
-      ];
-
-      $ordem = [
-        'Artigo.modificado' => 'DESC',
-        'Categoria.nome' => 'DESC',
-        'Artigo.criado' => 'DESC',
-        'Artigo.ordem' => 'ASC',
-      ];
-
-      $juntar = [
-        'tabelaJoin' => 'Categoria',
-        'campoA' => 'Categoria.id',
-        'campoB' => 'Artigo.categoria_id',
-      ];
-
-      $limite = 10;
-
-      $cacheNome = 'publico-busca-resultado-buscar-' . md5(serialize($textoBusca . $pagina));
+      $cacheNome = 'publico-busca-artigos-total-' . md5(serialize($condicao));
       $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
 
       if ($resultado == null) {
-        $resultado = $this->artigoModel->selecionar($colunas)
-                                       ->condicao($condicao)
-                                       ->juntar($juntar, 'LEFT')
-                                       ->ordem($ordem)
-                                       ->pagina($limite, $pagina)
-                                       ->executarConsulta();
+        $resultado = $this->artigoModel->contar('Artigo.id')
+                                      ->condicao($condicao)
+                                      ->executarConsulta();
 
         Cache::definir($cacheNome, $resultado, $this->cacheTempo, $this->empresaPadraoId);
       }
 
-      if (isset($resultado[0]['Artigo']['id'])) {
-        $resultadoBuscar = $resultado;
-      }
+      $artigosTotal = intval($resultado['total'] ?? 0);
 
-      $intervaloInicio = ($pagina - 1) * $limite + 1;
-      $intervaloFim = min($pagina * $limite, $artigosTotal);
+      if ($artigosTotal > 0) {
+        $paginasTotal = ceil($artigosTotal / $limite);
+
+        $pagina = abs($pagina);
+        $pagina = max($pagina, 1);
+        $pagina = min($pagina, $paginasTotal);
+
+        $colunas = [
+          'Artigo.id',
+          'Artigo.titulo',
+          'Artigo.ativo',
+          'Artigo.categoria_id',
+          'Categoria.nome',
+          'Categoria.ativo',
+        ];
+
+        $ordem = [
+          'Artigo.modificado' => 'DESC',
+          'Categoria.nome' => 'DESC',
+          'Artigo.criado' => 'DESC',
+          'Artigo.ordem' => 'ASC',
+        ];
+
+        $juntar = [
+          'tabelaJoin' => 'Categoria',
+          'campoA' => 'Categoria.id',
+          'campoB' => 'Artigo.categoria_id',
+        ];
+
+        $limite = 10;
+
+        $cacheNome = 'publico-busca-resultado-buscar-' . md5(serialize($textoBusca . $pagina));
+        $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
+
+        if ($resultado == null) {
+          $resultado = $this->artigoModel->selecionar($colunas)
+                                        ->condicao($condicao)
+                                        ->juntar($juntar, 'LEFT')
+                                        ->ordem($ordem)
+                                        ->pagina($limite, $pagina)
+                                        ->executarConsulta();
+
+          Cache::definir($cacheNome, $resultado, $this->cacheTempo, $this->empresaPadraoId);
+        }
+
+        if (isset($resultado[0]['Artigo']['id'])) {
+          $resultadoBuscar = $resultado;
+        }
+
+        $intervaloInicio = ($pagina - 1) * $limite + 1;
+        $intervaloFim = min($pagina * $limite, $artigosTotal);
+      }
     }
 
     $categorias = [];
