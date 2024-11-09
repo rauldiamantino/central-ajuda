@@ -8,12 +8,27 @@ const btnsArtigoRemover = document.querySelectorAll('.js-dashboard-artigos-remov
 const modalRemover = document.querySelector('.modal-artigo-remover')
 const btnModalRemover = document.querySelector('.modal-artigo-btn-remover')
 const btnModalCancelar = document.querySelector('.modal-artigo-btn-cancelar')
+const menuAdicionarConteudo = document.querySelector('.menu-adicionar-conteudos')
+const botaoAbrirMenuAdicionarConteudo = document.querySelector('.botao-abrir-menu-adicionar-conteudos')
+const botaoFecharMenuAdicionarConteudo = document.querySelector('.botao-fechar-menu-adicionar-conteudos')
 
 if (btnsArtigoEditar) {
   btnsArtigoEditar.forEach(artigo => {
     artigo.addEventListener('click', () => {
 
     })
+  })
+}
+
+if (botaoAbrirMenuAdicionarConteudo) {
+  botaoAbrirMenuAdicionarConteudo.addEventListener('click', () => {
+    menuAdicionarConteudo.showModal()
+  })
+}
+
+if (botaoFecharMenuAdicionarConteudo) {
+  botaoFecharMenuAdicionarConteudo.addEventListener('click', () => {
+    menuAdicionarConteudo.close()
   })
 }
 
