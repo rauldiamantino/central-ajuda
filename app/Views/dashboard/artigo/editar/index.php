@@ -1,9 +1,9 @@
-<div class="relative w-full min-h-full flex flex-col p-4">
-  <h2 class="text-2xl font-semibold mb-4">
-    Editar <a href="/<?php echo $this->usuarioLogado['subdominio']; ?>/artigo/<?php echo $artigo['Artigo']['id'] ?>" target="_blank" class="text-sm text-gray-400 font-light italic hover:underline">(Artigo #<?php echo $artigo['Artigo']['id']; ?>)</a>
-  </h2>
-
-  <div class="w-full flex flex-col lg:flex-row lg:justify-between gap-5">
+<div class="relative w-full min-h-screen flex flex-col">
+  <div class="mb-5 w-full flex flex-col">
+    <h2 class="text-3xl font-semibold flex gap-2 items-center">Editar artigo <a href="/<?php echo $this->usuarioLogado['subdominio']; ?>/artigo/<?php echo $artigo['Artigo']['id'] ?>" target="_blank" class="text-sm text-gray-400 font-light italic hover:underline">(Artigo #<?php echo $artigo['Artigo']['id']; ?>)</a></h2>
+    <p class="text-gray-600">Vamos dar aquele toque nos seus tutoriais de ajuda e deixá-los ainda melhores!</p>
+  </div>
+  <div class="mt-4 w-full flex flex-col lg:flex-row lg:justify-between gap-5">
     <div class="w-full lg:w-7/12 flex flex-col md:items-center gap-4">
       <div class="w-full flex flex-col gap-10">
         <?php require_once 'formulario.php' ?>

@@ -1,9 +1,10 @@
-<div class="w-full min-h-full flex flex-col p-4 hidden editar-fundo">
-  <h2 class="relative text-2xl font-semibold mb-4">
-    Editar <span class="text-gray-400 font-light italic text-sm">(Conteúdo #<?php echo $conteudo['Conteudo']['id']; ?></span>
-    <span class="text-gray-400 font-light italic hover:underline text-sm"><a href="/<?php echo $this->usuarioLogado['subdominio']; ?>/artigo/<?php echo $conteudo['Conteudo']['artigo_id'] ?>" target="_blank">- Artigo #<?php echo $conteudo['Conteudo']['artigo_id']; ?>)</a></span>
-  </h2>
-  <div class="w-full lg:w-1/2">
+<div class="relative w-full min-h-screen flex flex-col hidden editar-fundo">
+  <div class="mb-5 w-full flex flex-col">
+    <h2 class="text-3xl font-semibold flex gap-2 items-center">Editar conteúdo<span class="text-gray-400 font-light italic text-sm">(Conteúdo #<?php echo $conteudo['Conteudo']['id']; ?></span>
+    <span class="text-gray-400 font-light italic hover:underline text-sm"><a href="/<?php echo $this->usuarioLogado['subdominio']; ?>/artigo/<?php echo $conteudo['Conteudo']['artigo_id'] ?>" target="_blank">- Artigo #<?php echo $conteudo['Conteudo']['artigo_id']; ?>)</a></span></h2>
+    <p class="text-gray-600">Hora de ajustar os conteúdos e deixar tudo no capricho!</p>
+  </div>
+  <div class="mt-4 w-full <?php echo $conteudo['Conteudo']['tipo'] == 1 ? '' : 'lg:w-1/2'?>">
     <?php // Editar texto ?>
     <?php if ($conteudo['Conteudo']['tipo'] == 1) { ?>
       <div class="border border-slate-300 p-4 md:w-full rounded-lg shadow editor-container bg-white">
