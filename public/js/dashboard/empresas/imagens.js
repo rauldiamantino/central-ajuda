@@ -46,18 +46,26 @@ document.addEventListener('DOMContentLoaded', function () {
       msgErroFavicon.textContent = ''
 
       if (!formatosPermitidos.includes(anexo.type)) {
-        msgErroFavicon.textContent = 'Por favor, escolha um arquivo PNG ou JPEG.'
+        msgErroFavicon.textContent = 'Favicon: Escolha um arquivo PNG ou JPEG.'
         msgErroFavicon.dataset.sucesso = 'false'
+        msgErroFavicon.classList.remove('hidden')
         return
+      }
+      else {
+        msgErroFavicon.classList.add('hidden')
       }
 
       const tamanhoMaximoMB = 2
       const tamanhoMaximoBytes = tamanhoMaximoMB * 1024 * 1024
 
       if (anexo.size > tamanhoMaximoBytes) {
-        msgErroFavicon.textContent = 'Tamanho de imagem excede o limite de 2MB.'
+        msgErroFavicon.textContent = 'Favicon: Tamanho de imagem excede o limite de 2MB.'
         msgErroFavicon.dataset.sucesso = 'false'
+        msgErroFavicon.classList.remove('hidden')
         return
+      }
+      else {
+        msgErroFavicon.classList.add('hidden')
       }
 
       const imagem = new Image()
@@ -68,9 +76,13 @@ document.addEventListener('DOMContentLoaded', function () {
         const alturaMaxima = 48
 
         if (imagem.width > larguraMaxima || imagem.height > alturaMaxima) {
-          msgErroFavicon.textContent = `Por favor, envie uma imagem com até ${larguraMaxima}px de largura e ${alturaMaxima}px de altura.`
+          msgErroFavicon.textContent = `Favicon: Envie uma imagem com até ${larguraMaxima}px de largura e ${alturaMaxima}px de altura.`
           msgErroFavicon.dataset.sucesso = 'false'
+          msgErroFavicon.classList.remove('hidden')
           return
+        }
+        else {
+          msgErroFavicon.classList.add('hidden')
         }
       }
 
@@ -81,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
         faviconElemento.classList.remove('hidden')
       }
 
-      editarTextoFaviconEscolher.textContent = anexo.name
+      editarTextoFaviconEscolher.textContent = ''
       objetoReader.readAsDataURL(anexo)
       faviconParaUpload = anexo
     }
@@ -95,18 +107,27 @@ document.addEventListener('DOMContentLoaded', function () {
       msgErroImagem.dataset.sucesso = 'true'
       msgErroImagem.textContent = ''
 
-      if (!formatosPermitidos.includes(anexo.type)) {
-        msgErroImagem.textContent = 'Por favor, escolha um arquivo PNG ou JPEG.'
+      if (! formatosPermitidos.includes(anexo.type)) {
+        msgErroImagem.textContent = 'Logo: Escolha um arquivo PNG ou JPEG.'
         msgErroImagem.dataset.sucesso = 'false'
+        msgErroImagem.classList.remove('hidden')
         return
+      }
+      else {
+        msgErroImagem.classList.add('hidden')
       }
 
       const tamanhoMaximoMB = 2
       const tamanhoMaximoBytes = tamanhoMaximoMB * 1024 * 1024
+
       if (anexo.size > tamanhoMaximoBytes) {
-        msgErroImagem.textContent = 'Tamanho de imagem excede o limite de 2MB.'
+        msgErroImagem.textContent = 'Logo: Tamanho de imagem excede o limite de 2MB.'
         msgErroImagem.dataset.sucesso = 'false'
+        msgErroImagem.classList.remove('hidden')
         return
+      }
+      else {
+        msgErroImagem.classList.add('hidden')
       }
 
       const imagem = new Image()
@@ -115,9 +136,13 @@ document.addEventListener('DOMContentLoaded', function () {
         const larguraMaxima = 200
         const alturaMaxima = 70
         if (imagem.width > larguraMaxima || imagem.height > alturaMaxima) {
-          msgErroImagem.textContent = `Por favor, envie uma imagem com até ${larguraMaxima}px de largura e ${alturaMaxima}px de altura.`
+          msgErroImagem.textContent = `Logo: Envie uma imagem com até ${larguraMaxima}px de largura e ${alturaMaxima}px de altura.`
           msgErroImagem.dataset.sucesso = 'false'
+          msgErroImagem.classList.remove('hidden')
           return
+        }
+        else {
+          msgErroImagem.classList.add('hidden')
         }
       }
 
@@ -127,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function () {
         imgElemento.classList.remove('hidden')
       }
 
-      editarTextoImagemEscolher.textContent = anexo.name
+      editarTextoImagemEscolher.textContent = ''
       objetoReader.readAsDataURL(anexo)
       imagemParaUpload = anexo
     }
