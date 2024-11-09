@@ -32,7 +32,7 @@
           <?php if ($ultimoAcesso) {?>
             <?php foreach ($ultimoAcesso as $chave => $linha): ?>
               <?php // Sempre ocultar ?>
-              <?php if (in_array($chave, ['idSessao', 'url'])) { continue; } ?>
+              <?php if (in_array($chave, ['idSessao', 'url', 'tokenSessao'])) { continue; } ?>
 
               <div class="w-full p-2 flex flex-col sm:flex-row items-center sm:gap-6">
                 <span class="w-full sm:w-2/12 text-xs rounded"><?php echo strtoupper($chave) ?></span>
