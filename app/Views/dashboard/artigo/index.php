@@ -1,7 +1,7 @@
 <div class="relative p-4 w-full min-h-full flex flex-col">
   <div class="pb-4 w-full flex flex-col sm:flex-row justify-between items-start gap-10 sm:items-center">
     <h2 class="text-2xl font-semibold flex gap-2">Artigos</h2>
-    <div class="w-full flex md:gap-6 justify-between md:justify-end items-center rounded-md">
+    <div class="w-full flex gap-6 justify-start md:justify-end items-center rounded-md">
       <button type="button" class="w-max flex gap-2 items-center justify-center text-black text-sm text-sm hover:underline" onclick="filtrarArtigos()">
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
           <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/>
