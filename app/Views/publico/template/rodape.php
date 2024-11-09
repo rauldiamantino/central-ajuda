@@ -1,4 +1,5 @@
 <footer class="mt-14 w-full text-sm md:text-base px-4 py-16 flex justify-center items-center bg-white">
+
   <?php if ($empresaNome) { ?>
   <div class="flex flex-col justify-center items-center">
     <span class="font-normal">©<?php echo $empresaNome; ?> 2024</span>
