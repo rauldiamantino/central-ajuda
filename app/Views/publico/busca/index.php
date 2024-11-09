@@ -1,4 +1,10 @@
 <div class="w-full flex flex-col md:px-12 py-14">
+  <div class="pb-6 border-b border-slate-200 flex gap-2 font-light text-sm publico-migalhas">
+    <a href="<?php echo baseUrl('/' . $subdominio); ?>" class="hover:underline">Início</a>
+    <span>></span>
+    <span class="underline">Busca</span>
+  </div>
+
   <div class="flex flex-col justify-between items-start gap-4 py-5 mb-10 publico-artigo-blocos publico-artigo-topo">
     <?php if ($textoBusca) { ?>
       <h1 class="publico-artigo-titulo"> Exibindo resultados para "<?php echo $textoBusca ?>"</h1>
