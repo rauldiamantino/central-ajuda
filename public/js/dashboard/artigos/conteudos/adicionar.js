@@ -4,31 +4,19 @@ const efeitoLoader = document.querySelector('#efeito-loader')
 const adicionarFundo = document.querySelector('.adicionar-fundo')
 
 const formularioAdicionarTexto = document.querySelector('.modal-conteudo-texto-adicionar > form')
-const formularioAdicionarImagem = document.querySelector('.modal-conteudo-imagem-adicionar > form')
-const formularioAdicionarVideo = document.querySelector('.modal-conteudo-video-adicionar > form')
 
 if (formularioAdicionarTexto) {
   adicionarTexto()
 }
 
-if (formularioAdicionarImagem) {
-  adicionarImagem()
-}
-
-if (formularioAdicionarVideo) {
-  adicionarVideo()
-}
-
-// Funções
 function adicionarTexto() {
   efeitoLoader.classList.add('hidden')
   adicionarFundo.classList.remove('hidden')
 }
 
-function adicionarImagem() {
-  efeitoLoader.classList.add('hidden')
-  adicionarFundo.classList.remove('hidden')
+const formularioAdicionarImagem = document.querySelector('.modal-conteudo-imagem-adicionar > form')
 
+if (formularioAdicionarImagem) {
   let imagemEscolhida = null
   const imgElemento = formularioAdicionarImagem.querySelector('img')
   const adicionarImagemEscolher = document.querySelector('.conteudo-adicionar-imagem-escolher')
@@ -91,9 +79,4 @@ function adicionarImagem() {
 
     btnAdicionar.disabled = false
   })
-}
-
-function adicionarVideo() {
-  efeitoLoader.classList.add('hidden')
-  adicionarFundo.classList.remove('hidden')
 }

@@ -25,9 +25,9 @@
     </div>
   </div>
 </div>
+
+<?php require_once 'modais/formulario.php' ?>
 <?php require_once 'conteudo/modais/organizar.php' ?>
 <?php require_once 'conteudo/modais/remover.php' ?>
-
-<dialog class="border border-slate-300 w-full lg:w-[500px] rounded-md shadow menu-adicionar-conteudos">
-  <?php require_once 'modais/formulario.php' ?>
-</dialog>
+<?php require_once 'conteudo/modais/adicionar-video.php' ?>
+<?php require_once 'conteudo/modais/adicionar-imagem.php' ?>
