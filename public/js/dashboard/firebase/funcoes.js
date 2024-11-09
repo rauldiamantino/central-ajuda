@@ -1,7 +1,14 @@
 import { inicializarFirebase } from './inicializar.js'
+import { uploadImagemLocal, uploadMultiplasImagensLocal, substituirImagemLocal, apagarImagemLocal, apagarImgsArtigoLocal } from './upload-local.js'
 
 async function uploadImagem(empresaId, artigoId, file) {
   try {
+    const hostLocal = window.location.hostname === 'localhost'
+
+    if (hostLocal) {
+      return await uploadImagemLocal(empresaId, artigoId, file)
+    }
+
     const { storage, ref, uploadBytes, getDownloadURL } = await inicializarFirebase()
 
     let storageRef
@@ -26,6 +33,12 @@ async function uploadImagem(empresaId, artigoId, file) {
 
 async function uploadMultiplasImagens(empresaId, artigoId, imagensParaUpload) {
   try {
+    const hostLocal = window.location.hostname === 'localhost'
+
+    if (hostLocal) {
+      return await uploadMultiplasImagensLocal(empresaId, artigoId, imagensParaUpload)
+    }
+
     const { storage, ref, uploadBytes, getDownloadURL } = await inicializarFirebase()
 
     const downloadURLs = []
@@ -43,34 +56,35 @@ async function uploadMultiplasImagens(empresaId, artigoId, imagensParaUpload) {
         storageRef = ref(storage, `imagens/empresa-${empresaId}/artigo-${artigoId}/${Date.now() % 100000}`)
       }
 
-      // Faz o upload do arquivo
       const snapshot = await uploadBytes(storageRef, file)
       const downloadURL = await getDownloadURL(snapshot.ref)
-      downloadURLs.push(downloadURL) // Adiciona a URL do arquivo à lista
+      downloadURLs.push(downloadURL)
     }
 
-    return downloadURLs // Retorna as URLs dos arquivos carregados
-  } catch (error) {
+    return downloadURLs
+  }
+  catch (error) {
     console.error('Erro ao fazer upload das imagens:', error)
-    throw new Error('Erro no upload das imagens') // Lança o erro se ocorrer algum problema
+    throw new Error('Erro no upload das imagens')
   }
 }
 
-
-async function substituirImagem(empresaId, artigoId, file, existingImagePath, favicon = false) {
+async function substituirImagem(empresaId, artigoId, file, $caminhoImagemAtual) {
   try {
+    const hostLocal = window.location.hostname === 'localhost'
+
+    if (hostLocal) {
+      return await substituirImagemLocal(empresaId, artigoId, file, $caminhoImagemAtual)
+    }
+
     const { storage, ref, uploadBytes, getDownloadURL, deleteObject } = await inicializarFirebase()
 
-    if (existingImagePath) {
-      const oldImageRef = ref(storage, existingImagePath)
+    if ($caminhoImagemAtual) {
+      const oldImageRef = ref(storage, $caminhoImagemAtual)
       await deleteObject(oldImageRef)
     }
 
     let newImagePath = `imagens/empresa-${empresaId}/logo`
-
-    if (favicon) {
-      newImagePath = `imagens/empresa-${empresaId}/favicon`
-    }
 
     if (artigoId) {
       newImagePath = `imagens/empresa-${empresaId}/artigo-${artigoId}/${Date.now() % 100000}`
@@ -90,6 +104,12 @@ async function substituirImagem(empresaId, artigoId, file, existingImagePath, fa
 
 async function apagarImagem(caminhoImagem) {
   try {
+    const hostLocal = window.location.hostname === 'localhost'
+
+    if (hostLocal) {
+      return await apagarImagemLocal(caminhoImagem)
+    }
+
     const { storage, ref, getMetadata, deleteObject } = await inicializarFirebase()
     const imagemRef = ref(storage, caminhoImagem)
 
@@ -111,6 +131,12 @@ async function apagarImagem(caminhoImagem) {
 
 async function apagarImgsArtigo(caminhoPasta) {
   try {
+    const hostLocal = window.location.hostname === 'localhost'
+
+    if (hostLocal) {
+      return await apagarImgsArtigoLocal(caminhoPasta)
+    }
+
     const { storage, ref, listAll, deleteObject } = await inicializarFirebase()
     const pastaRef = ref(storage, caminhoPasta)
     const listaDeArquivos = await listAll(pastaRef)

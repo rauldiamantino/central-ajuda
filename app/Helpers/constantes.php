@@ -2,16 +2,24 @@
 
 if (isset($_SERVER['HTTP_HOST'])) {
   $host = $_SERVER['HTTP_HOST'];
+  $host = htmlspecialchars($host, ENT_QUOTES, 'UTF-8');
 }
 else {
   $host = $_SERVER['SERVER_NAME'];
+  $host = htmlspecialchars($host, ENT_QUOTES, 'UTF-8');
 }
 
-$host = htmlspecialchars($host, ENT_QUOTES, 'UTF-8');
+if (isset($_SERVER['HTTPS']) and $_SERVER['HTTPS'] === 'on') {
+  $protocolo = 'https://';
+}
+else {
+  $protocolo = 'http://';
+}
 
 define('HOST_LOCAL', strpos($host, 'localhost') !== false);
 define('REFERER', $_SERVER['HTTP_REFERER'] ?? '/login');
 define('RAIZ', '/');
+define('PROTOCOLO', $protocolo);
 
 // Constantes
 define('USUARIO_SUPORTE', 99);

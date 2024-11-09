@@ -445,6 +445,10 @@ class Roteador
       // Dashboard - Ajustes
       'PUT:/{empresa}/d/ajustes' => [DashboardAjusteController::class, 'atualizar'],
       'GET:/{empresa}/d/firebase' => [DatabaseFirebaseComponent::class, 'credenciais'],
+      'POST:/{empresa}/d/apagar-local' => [DatabaseFirebaseComponent::class, 'apagarLocal'],
+      'POST:/{empresa}/d/apagar-artigos-local' => [DatabaseFirebaseComponent::class, 'apagarArtigosLocal'],
+      'POST:/{empresa}/d/upload-local' => [DatabaseFirebaseComponent::class, 'uploadLocal'],
+      'POST:/{empresa}/d/upload-multiplas-local' => [DatabaseFirebaseComponent::class, 'uploadMultiplasLocal'],
       'POST:/{empresa}/d/assinatura' => [DashboardEmpresaController::class, 'buscarAssinatura'],
       'PUT:/{empresa}/d/empresa/editar/{id}' => [DashboardEmpresaController::class, 'atualizar'],
 

@@ -43,7 +43,7 @@
   <?php // Adicionar imagem ?>
   <?php if ($tipo == 2) { ?>
     <div class="border border-slate-300 p-4 md:w-full rounded-lg shadow modal-conteudo-imagem-adicionar bg-white">
-      <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/conteudo'); ?>" class="flex flex-col items-end gap-2 form-conteudo-imagem-adicionar" enctype="multipart/form-data" data-artigo-id=<?php echo $artigoId ?> data-empresa-id=<?php echo $empresaId ?>>
+      <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/conteudo'); ?>" class="flex flex-col items-end gap-2 form-conteudo-imagem-adicionar" enctype="multipart/form-data" data-artigo-id=<?php echo $artigoId ?> data-empresa-id="<?php echo $this->usuarioLogado['empresaId'] ?>">
         <input type="hidden" name="artigo_id" value="<?php echo $artigoId ?>">
         <input type="hidden" name="tipo" value="2">
         <input type="hidden" name="url" value="" class="url-imagem">

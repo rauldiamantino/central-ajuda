@@ -1,7 +1,7 @@
 logs/
 app/logs/
 public/cache/
-public/img/conteudo
+public/img/local
 certificados-dev
 mysql-dev
 .env
