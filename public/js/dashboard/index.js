@@ -158,5 +158,17 @@ const converterInteiroParaDecimal = (valor = 0) => {
 }
 
 const converterParaReais = (valor = 0) => {
-  return `R$ ${valor.replace('.', ',')}`;
+  return `R$ ${valor.replace('.', ',')}`
+}
+
+// Editar Imagem
+function editarImagemModal(event) {
+  import('./artigos/conteudos/editar.js')
+    .then(module => {
+      const botaoAbrirModal = event.target
+      module.editarImagem(botaoAbrirModal)
+    })
+    .catch(error => {
+      console.error("Erro ao carregar o módulo:", error)
+    })
 }
