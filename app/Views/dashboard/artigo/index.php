@@ -36,26 +36,26 @@
         <?php foreach ($filtroAtual as $chave => $linha): ?>
 
           <?php if ($chave == 'id') { ?>
-            <div class="w-max border-dashed border border-blue-600 px-2 py-1 whitespace-nowrap">
+            <div class="w-max border-dashed border border-blue-600 px-2 py-1 whitespace-nowrap cursor-pointer" onclick="filtrarArtigos()">
               ID: <span class="font-semibold"><?php echo $linha ?></span>
             </div>
           <?php } ?>
 
           <?php if ($chave == 'categoria_id') { ?>
-            <div class="w-max border-dashed border border-blue-600 px-2 py-1 whitespace-nowrap">
+            <div class="w-max border-dashed border border-blue-600 px-2 py-1 whitespace-nowrap cursor-pointer" onclick="filtrarArtigos()">
               <?php $categoriaNome = $filtroAtual['categoria_nome'] ?? ''; ?>
               Categoria: <span class="font-semibold"><?php echo $categoriaNome ? $categoriaNome : '*** Sem Nome ***'; ?></span>
             </div>
           <?php } ?>
 
           <?php if ($chave == 'status') { ?>
-            <div class="w-max border-dashed border border-blue-600 px-2 py-1 whitespace-nowrap">
+            <div class="w-max border-dashed border border-blue-600 px-2 py-1 whitespace-nowrap cursor-pointer" onclick="filtrarArtigos()">
               Status: <span class="font-semibold"><?php echo $linha == ATIVO ? 'ATIVO' : 'INATIVO'; ?></span>
             </div>
           <?php } ?>
 
           <?php if ($chave == 'titulo') { ?>
-            <div class="w-max border-dashed border border-blue-600 px-2 py-1 whitespace-nowrap">
+            <div class="w-max border-dashed border border-blue-600 px-2 py-1 whitespace-nowrap cursor-pointer" onclick="filtrarArtigos()">
               Título: <span class="font-semibold"><?php echo $linha; ?></span>
             </div>
           <?php } ?>

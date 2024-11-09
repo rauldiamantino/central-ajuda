@@ -10,7 +10,7 @@ $statusFiltro = $filtroAtual['status'] ?? 'null';
 
 <dialog class="border border-slate-200 p-4 w-full sm:w-[440px] rounded-lg shadow modal-artigos-filtrar-cate">
   <div class="w-full flex flex-col gap-4 mb-4 modal-artigos-filtrar-cate-blocos">
-    <div class="flex gap-6">
+    <div class="flex gap-4">
       <div class="w-full flex flex-col">
         <label for="filtrar-id">ID</label>
         <input type="number" id="filtrar-id" class="<?php echo CLASSES_DASH_INPUT_BUSCA; ?> input-number-none" value=<?php echo $filtroAtual['id'] ?? ''; ?>>
