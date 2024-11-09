@@ -13,6 +13,8 @@ class PublicoController extends Controller
   protected $cacheTempo;
   protected $subdominio;
   protected $empresaId;
+  protected $empresaNome;
+  protected $empresaCnpj;
   protected $telefone;
   protected $logo;
   protected $favicon;
@@ -32,6 +34,8 @@ class PublicoController extends Controller
     $this->visao->variavel('favicon', $this->favicon);
     $this->visao->variavel('subdominio', $this->subdominio);
     $this->visao->variavel('empresaId', $this->empresaId);
+    $this->visao->variavel('empresaNome', $this->empresaNome);
+    $this->visao->variavel('empresaCnpj', $this->empresaCnpj);
     $this->visao->variavel('telefoneEmpresa', $this->telefone);
 
   }
@@ -106,6 +110,8 @@ class PublicoController extends Controller
 
     $colunas = [
       'Empresa.logo',
+      'Empresa.nome',
+      'Empresa.cnpj',
       'Empresa.favicon',
       'Empresa.telefone',
     ];
@@ -123,9 +129,22 @@ class PublicoController extends Controller
 
     $this->logo = $resultado[0]['Empresa']['logo'] ?? '';
     $this->favicon = $resultado[0]['Empresa']['favicon'] ?? '';
+    $this->empresaNome = $resultado[0]['Empresa']['nome'] ?? '';
     $this->telefone = intval($resultado[0]['Empresa']['telefone'] ?? 0);
     $this->subdominio = $this->sessaoUsuario->buscar('subdominio');
     $this->empresaId = $this->sessaoUsuario->buscar('empresaPadraoId');
+
+    $cnpj = $resultado[0]['Empresa']['cnpj'] ?? '';
+
+    if ($cnpj && strlen($cnpj) == 14) {
+      $this->empresaCnpj = vsprintf('%s.%s.%s/%s-%s', [
+        substr($cnpj, 0, 2),
+        substr($cnpj, 2, 3),
+        substr($cnpj, 5, 3),
+        substr($cnpj, 8, 4),
+        substr($cnpj, 12, 2)
+      ]);
+    }
   }
 
   public function exibirInativos(): bool

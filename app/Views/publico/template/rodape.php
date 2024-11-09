@@ -1,8 +1,15 @@
 <footer class="mt-14 w-full text-sm md:text-base px-4 py-16 flex justify-center items-center bg-white">
+  <?php if ($empresaNome) { ?>
   <div class="flex flex-col justify-center items-center">
-    <span class="font-normal">©360Help 2024</span>
+    <span class="font-normal">©<?php echo $empresaNome; ?> 2024</span>
+
+    <?php if ($empresaCnpj) { ?>
+      <span class="font-extralight">CNPJ <?php echo $empresaCnpj; ?></span>
+    <?php } ?>
+
     <span class="font-extralight">Todos os direitos reservados</span>
   </div>
+  <?php } ?>
 
   <?php if ((int) $this->buscarAjuste('botao_whatsapp') == ATIVO and isset($telefoneEmpresa) and $telefoneEmpresa > 0) { ?>
     <a href="https://wa.me/55<?php echo $telefoneEmpresa ?>" target="_blank" class="p-3 hover:scale-110 duration-100 w-max h-max flex items-center justify-center bg-blue-200 fixed bottom-10 right-10 text-white bg-green-500 rounded-full">
