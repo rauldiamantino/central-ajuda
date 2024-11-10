@@ -21,7 +21,6 @@
 </div>
 
 <?php require_once 'modais/formulario.php' ?>
-<!-- <?php require_once 'modais/adicionar-artigo.php' ?> -->
 <?php require_once 'modais/remover.php' ?>
 <?php require_once 'modais/filtrar.php' ?>
 <?php require_once 'modais/filtrar-alerta.php' ?>
