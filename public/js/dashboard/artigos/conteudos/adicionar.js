@@ -2,6 +2,7 @@ import { uploadImagem } from '../../firebase/funcoes.js'
 
 const efeitoLoader = document.querySelector('#efeito-loader')
 const adicionarFundo = document.querySelector('.adicionar-fundo')
+const topoDashboard = document.querySelector('.topo-dashboard')
 
 const formularioAdicionarTexto = document.querySelector('.modal-conteudo-texto-adicionar > form')
 

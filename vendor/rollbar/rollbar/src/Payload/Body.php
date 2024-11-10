@@ -25,13 +25,13 @@ class Body implements SerializerInterface
         $this->value = $value;
         return $this;
     }
-    
+
     public function setExtra(array $extra): self
     {
         $this->extra = $extra;
         return $this;
     }
-    
+
     public function getExtra(): array
     {
         return $this->extra;
@@ -41,11 +41,11 @@ class Body implements SerializerInterface
     {
         $result = array();
         $result[$this->value->getKey()] = $this->value;
-        
+
         if (!empty($this->extra)) {
             $result['extra'] = $this->extra;
         }
-        
+
         return $this->utilities()->serializeForRollbarInternal($result, array('extra'));
     }
 }
