@@ -20,7 +20,7 @@ class DashboardEmpresaController extends DashboardController
   public function empresaEditarVer()
   {
     if ($this->usuarioLogado['nivel'] == USUARIO_RESTRITO) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', 'Você não tem permissão para realizar esta ação.');
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard', 'Você não tem permissão para realizar esta ação.');
     }
 
     $condicao[] = [
@@ -49,7 +49,7 @@ class DashboardEmpresaController extends DashboardController
                                   ->executarConsulta();
 
     if (isset($empresa['erro']) and $empresa['erro']) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', $empresa['erro']);
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard', $empresa['erro']);
     }
 
     $this->visao->variavel('empresa', reset($empresa));
@@ -70,7 +70,7 @@ class DashboardEmpresaController extends DashboardController
   public function atualizar(int $id)
   {
     if ($this->usuarioLogado['nivel'] == USUARIO_RESTRITO) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', 'Você não tem permissão para realizar esta ação.');
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard', 'Você não tem permissão para realizar esta ação.');
     }
 
     $json = $this->receberJson();

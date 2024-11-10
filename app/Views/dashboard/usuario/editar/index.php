@@ -1,6 +1,6 @@
 <?php
 if ($this->usuarioLogado['nivel'] == USUARIO_COMUM) {
-  $urlVoltar = '/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos';
+  $urlVoltar = '/' . $this->usuarioLogado['subdominio'] . '/dashboard';
 }
 else {
 $urlVoltar = '/' . $this->usuarioLogado['subdominio'] . '/dashboard/usuarios';

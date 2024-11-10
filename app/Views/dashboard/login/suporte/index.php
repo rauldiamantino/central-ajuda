@@ -23,6 +23,6 @@
     </div>
   </div>
   <div class="p-6 w-full flex justify-start">
-    <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos'); ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>">Voltar</a>
+    <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard'); ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>">Voltar</a>
   </div>
 </div>

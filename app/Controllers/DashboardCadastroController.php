@@ -22,7 +22,7 @@ class DashboardCadastroController extends DashboardController
   public function cadastroVer()
   {
     if ($this->usuarioLogado['id'] > 0) {
-      header('Location: ' . baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos'));
+      header('Location: ' . baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard'));
       exit();
     }
 
@@ -34,7 +34,7 @@ class DashboardCadastroController extends DashboardController
   public function cadastroSucessoVer()
   {
     if ($this->usuarioLogado['id'] > 0 and $this->usuarioLogado['empresaAtivo'] == ATIVO) {
-      $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos');
+      $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard');
     }
 
     $protocolo = $this->sessaoUsuario->buscar('protocolo');
