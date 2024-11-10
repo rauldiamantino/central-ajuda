@@ -1,5 +1,22 @@
 import { apagarImgsArtigo } from '../firebase/funcoes.js'
 
+document.addEventListener('DOMContentLoaded', function() {
+  // Redir início rápido
+  const urlParams = new URLSearchParams(window.location.search)
+  const modalAdicionar = document.querySelector('.menu-adicionar-artigo')
+
+  if (urlParams.get('acao') === 'adicionar') {
+
+    if (! modalAdicionar) {
+      return
+    }
+
+    setTimeout(() => {
+      modalAdicionar.showModal()
+    }, 200)
+  }
+})
+
 let artigoId = null
 let empresaId = null
 

@@ -426,7 +426,7 @@ class Roteador
       'GET:/{empresa}/buscar' => [PublicoBuscaController::class, 'buscar'],
 
       // Dashboard
-      // 'GET:/dashboard/{empresaId}' => [DashboardController::class, 'dashboardVer'],
+      'GET:/{empresa}/dashboard' => [DashboardController::class, 'dashboardVer'],
       'GET:/{empresa}/dashboard/ajustes' => [DashboardAjusteController::class, 'ajustesVer'],
       'GET:/{empresa}/dashboard/artigos' => [DashboardArtigoController::class, 'artigosVer'],
       'GET:/{empresa}/dashboard/artigo/editar/{id}' => [DashboardArtigoController::class, 'artigoEditarVer'],

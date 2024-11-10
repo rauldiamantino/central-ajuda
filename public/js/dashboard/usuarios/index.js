@@ -93,6 +93,21 @@ if (inputNumeroUsuarioPagina) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+  // Redir início rápido
+  const urlParams = new URLSearchParams(window.location.search)
+  const modalAdicionar = document.querySelector('.menu-adicionar-usuario')
+
+  if (urlParams.get('acao') === 'adicionar') {
+
+    if (! modalAdicionar) {
+      return
+    }
+
+    setTimeout(() => {
+      modalAdicionar.showModal()
+    }, 200)
+  }
+
   const form = document.querySelector('.menu-adicionar-usuario-form')
 
   if (! form) {
