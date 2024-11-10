@@ -28,6 +28,22 @@ document.addEventListener('DOMContentLoaded', function() {
   const menuTopoUsuarioCima = document.querySelector('.perfil-usuario-cima')
   const menuTopoUsuarioBaixo = document.querySelector('.perfil-usuario-baixo')
 
+  // Menu auxiliar
+  const menuAuxiliar = document.querySelector('.menu-auxiliar')
+
+  if (menuAuxiliar) {
+    const botaoAbrirMenuAuxiliar = document.querySelector('.menu-auxiliar').previousElementSibling
+
+    if (botaoAbrirMenuAuxiliar) {
+      document.addEventListener('click', function (event) {
+
+        if (! menuAuxiliar.classList.contains('hidden') && ! menuAuxiliar.contains(event.target) && ! botaoAbrirMenuAuxiliar.contains(event.target)) {
+          menuAuxiliar.classList.add('hidden')
+        }
+      })
+    }
+  }
+
   if (notificacaoErro) {
     setTimeout(() => fecharNotificacao(notificacaoErro), 60000)
   }

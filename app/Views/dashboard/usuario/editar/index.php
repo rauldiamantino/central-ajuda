@@ -15,17 +15,12 @@ $urlVoltar = '/' . $this->usuarioLogado['subdominio'] . '/dashboard/usuarios';
       <p class="text-gray-600">Gerencie seu plano, extrato e configurações para otimizar sua experiência.</p>
     </div>
 
-    <div class="py-2 h-full flex flex-wrap sm:flex-nowrap gap-2 items-start">
-
-      <?php // Somente suporte ?>
-      <?php if ($this->usuarioLogado['padrao'] == USUARIO_SUPORTE and $usuario['Usuario']['tentativas_login'] >= 10) { ?>
-        <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/usuario/desbloquear/' . $usuario['Usuario']['id']); ?>" class="flex gap-2 text-sm <?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>">Desbloquear</a>
-      <?php } ?>
-
-      <a href="<?php echo baseUrl($urlVoltar); ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>">Voltar</a>
-      <button type="button" class="<?php echo CLASSES_DASH_BUTTON_GRAVAR; ?>" onclick="document.querySelector('.btn-gravar-usuario').click()">Gravar</button>
+    <div class="w-full h-full flex">
+      <div class="py-2 w-full flex gap-2 items-center justify-end">
+        <a href="<?php echo baseUrl($urlVoltar); ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>">Voltar</a>
+        <button type="button" class="<?php echo CLASSES_DASH_BUTTON_GRAVAR; ?>" onclick="document.querySelector('.btn-gravar-usuario').click()">Gravar</button>
+      </div>
     </div>
-
   </div>
   <?php require_once 'formulario.php' ?>
 </div>

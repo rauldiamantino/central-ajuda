@@ -15,7 +15,18 @@
 
       <?php // Assinatura Stripe ?>
       <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
-        <label for="empresa-editar-assinatura-id" class="w-full block text-sm font-medium text-gray-700">ID da assinatura Stripe</label>
+        <label for="empresa-editar-assinatura-id" class="w-full flex flex-col text-sm font-medium text-gray-700">
+          <span>ID da assinatura Stripe</span>
+          <?php if ($this->usuarioLogado['padrao'] == USUARIO_SUPORTE) { ?>
+            <form action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/validar_assinatura'); ?>" method="GET" class="w-full">
+              <input type="hidden" name="assinatura_id" value="<?php echo $empresa['Empresa']['assinatura_id']; ?>">
+              <input type="hidden" name="sessao_stripe_id" value="<?php echo $empresa['Empresa']['sessao_stripe_id']; ?>">
+              <button type="submit" class="w-max font-extralight hover:underline">
+                Reprocessar
+              </button>
+            </form>
+          <?php } ?>
+        </label>
         <input type="text" id="empresa-editar-assinatura-id" name="assinatura_id" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $empresa['Empresa']['assinatura_id']; ?>">
       </div>
     <?php } ?>

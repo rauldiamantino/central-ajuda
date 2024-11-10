@@ -20,7 +20,7 @@ $ultimoAcesso = json_decode($ultimoAcesso, true);
     <?php // Status ?>
     <div class="w-full lg:w-[700px] py-8 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
       <span class="block text-sm font-medium text-gray-700">Status</span>
-      <label class="flex flex-col items-start gap-1 cursor-pointer">
+      <label class="w-max flex flex-col items-start gap-1 cursor-pointer">
         <input type="hidden" name="ativo" value="0">
         <input type="checkbox" value="1" class="sr-only peer" <?php echo $usuario['Usuario']['ativo'] ? 'checked' : '' ?> name="ativo">
         <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
@@ -74,7 +74,9 @@ $ultimoAcesso = json_decode($ultimoAcesso, true);
       <?php foreach ($ultimoAcesso as $chave => $linha): ?>
         <?php if (in_array($chave, ['idSessao', 'url', 'tokenSessao'])) { continue; } ?>
         <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
-          <span class="w-full sm:w-2/12 text-xs rounded"><?php echo ucfirst($chave) ?></span>
+          <div class="flex flex-col text-sm font-medium text-gray-700">
+            <span><?php echo ucfirst($chave) ?></span>
+          </div>
           <div class="<?php echo CLASSES_DASH_INPUT_BLOCK; ?>">
             <span class="text-sm"><?php echo $linha ?? '' ?></span>
           </div>
@@ -85,9 +87,21 @@ $ultimoAcesso = json_decode($ultimoAcesso, true);
     <?php if ($this->usuarioLogado['padrao'] == USUARIO_SUPORTE) { ?>
       <?php // Tentativas ?>
       <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
-        <span class="w-full sm:w-2/12 text-xs rounded"><?php echo strtoupper('tentativas') ?></span>
+        <div class="flex flex-col text-sm font-medium text-gray-700">
+          <span>Tentativas</span>
+        </div>
         <div class="<?php echo CLASSES_DASH_INPUT_BLOCK; ?>"><span class="text-sm"><?php echo $usuario['Usuario']['tentativas_login'] ?></span></div>
       </div>
+
+      <?php // Desbloquear ?>
+      <?php if ($usuario['Usuario']['tentativas_login'] >= 10) { ?>
+        <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
+          <div class="w-max flex flex-col text-sm font-medium text-gray-700">
+            <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/usuario/desbloquear/' . $usuario['Usuario']['id']); ?>" class="py-2 flex gap-2 text-sm underline text-red-600 hover:text-red-900">Desbloquear acesso</a>
+          </div>
+
+        </div>
+      <?php } ?>
     <?php } ?>
   </div>
 
