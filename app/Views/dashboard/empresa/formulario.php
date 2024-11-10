@@ -6,7 +6,7 @@
       <?php // Status da empresa ?>
       <div class="w-full lg:w-[700px] py-8 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
         <span class="block text-sm font-medium text-gray-700">Status</span>
-        <label class="w-250px flex flex-col items-start gap-1 cursor-pointer">
+        <label class="w-max flex flex-col items-start gap-1 cursor-pointer">
           <input type="hidden" name="ativo" value="0">
           <input type="checkbox" name="ativo" value="1" class="sr-only peer" <?php echo $empresa['Empresa']['ativo'] ? 'checked' : '' ?> <?php echo $this->usuarioLogado['padrao'] != USUARIO_SUPORTE ? 'disabled' : '' ?>>
           <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
@@ -53,16 +53,16 @@
     <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
       <input type="hidden" name="logo" value="" class="url-imagem">
       <input type="file" accept="image/*" id="empresa-editar-imagem" class="hidden empresa-editar-imagem-escolher">
-      <label for="empresa-editar-imagem" class="flex flex-col text-sm font-medium text-gray-700">
+      <div class="flex flex-col text-sm font-medium text-gray-700">
         <span>Logo</span>
         <span class="font-extralight">Envie uma imagem para representar a sua empresa. O arquivo deve ter até 2MB e estar no formato .jpg ou .png. Tamanho ideal: 200px de largura por 70px de altura.</span>
-      </label>
+      </div>
       <button type="button" for="empresa-editar-imagem" class="w-full h-24 flex items-center justify-center cursor-pointer border border-gray-300 bg-gray-50 p-4 rounded-lg hover:bg-gray-100 empresa-btn-imagem-editar-escolher">
         <div class="h-full">
           <img src="<?php echo $empresa['Empresa']['logo']; ?>" class="object-contain w-full h-full empresa-alterar-logo <?php echo $empresa['Empresa']['logo'] ? '' : 'hidden' ?>">
         </div>
         <span class="ml-2 text-gray-700 h-max w-max empresa-txt-imagem-editar-escolher"><?php echo $empresa['Empresa']['logo'] ? '' : 'Adicionar'; ?></span>
-        <h3 class="hidden text-left text-sm text-red-800 erro-empresa-imagem"></h3>
+        <h3 class="hidden font-light text-left text-sm text-red-800 erro-empresa-imagem"></h3>
       </button>
     </div>
 
@@ -70,16 +70,16 @@
     <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
       <input type="hidden" name="favicon" value="" class="url-favicon">
       <input type="file" accept="image/*" id="empresa-editar-favicon" class="hidden empresa-editar-favicon-escolher">
-      <label for="empresa-editar-imagem" class="flex flex-col text-sm font-medium text-gray-700">
+      <div class="flex flex-col text-sm font-medium text-gray-700">
         <span>Favicon</span>
         <span class="font-extralight">Adicione um ícone personalizado para a barra de navegação. Deve ser uma imagem .jpg ou .png com 48px de largura por 48px de altura.</span>
-      </label>
+      </div>
       <button type="button" for="empresa-editar-favicon" class="w-full h-24 flex items-center justify-center cursor-pointer border border-gray-300 bg-gray-50 p-4 rounded-lg hover:bg-gray-100 empresa-btn-favicon-editar-escolher">
         <div class="h-full">
           <img src="<?php echo $empresa['Empresa']['favicon'] ? $empresa['Empresa']['favicon'] : ''; ?>" class="object-contain w-full h-full empresa-alterar-favicon <?php echo $empresa['Empresa']['favicon'] ? '' : 'hidden' ?>">
         </div>
         <span class="ml-2 text-gray-700 h-max w-max empresa-txt-favicon-editar-escolher"><?php echo $empresa['Empresa']['favicon'] ? '' : 'Adicionar'; ?></span>
-        <h3 class="hidden text-left text-sm text-red-800 erro-empresa-favicon"></h3>
+        <h3 class="hidden font-light text-left text-sm text-red-800 erro-empresa-favicon"></h3>
       </button>
     </div>
   </div>
