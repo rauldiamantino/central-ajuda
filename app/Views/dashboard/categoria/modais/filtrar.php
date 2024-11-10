@@ -26,7 +26,7 @@ $statusFiltro = $filtroAtual['status'] ?? 'null';
     </div>
     <div>
       <label for="filtrar-titulo">Título</label>
-      <input type="text" id="filtrar-titulo" class="<?php echo CLASSES_DASH_INPUT_BUSCA; ?>" value="<?php echo urldecode($filtroAtual['nome'] ?? ''); ?>">
+      <input type="text" id="filtrar-titulo" class="<?php echo CLASSES_DASH_INPUT_BUSCA; ?>" value="<?php echo urldecode($filtroAtual['nome'] ?? ''); ?>" autofocus>
     </div>
   </div>
   <div class="mt-4 w-full flex flex-wrap sm:flex-nowrap gap-2 justify-center sm:justify-end">
