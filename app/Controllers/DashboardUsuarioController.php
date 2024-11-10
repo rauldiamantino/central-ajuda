@@ -89,7 +89,7 @@ class DashboardUsuarioController extends DashboardController
 
   public function usuarioEditarVer(int $id)
   {
-    if ($this->usuarioLogado['id'] == 2 and $this->usuarioLogado['id'] != $id) {
+    if ($this->usuarioLogado['nivel'] == USUARIO_RESTRITO and $this->usuarioLogado['id'] != $id) {
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard', 'Você não tem permissão para realizar esta ação.');
     }
 
