@@ -4,7 +4,7 @@
     <span class="text-gray-400 font-light italic hover:underline text-sm"><a href="/<?php echo $this->usuarioLogado['subdominio']; ?>/artigo/<?php echo $conteudo['Conteudo']['artigo_id'] ?>" target="_blank">- Artigo #<?php echo $conteudo['Conteudo']['artigo_id']; ?>)</a></span></h2>
     <p class="text-gray-600">Hora de ajustar os conteúdos e deixar tudo no capricho!</p>
   </div>
-  <div class="mt-4 w-full <?php echo $conteudo['Conteudo']['tipo'] == 1 ? '' : 'lg:w-1/2'?>">
+  <div class="mt-4 mb-10 w-full <?php echo $conteudo['Conteudo']['tipo'] == 1 ? '' : 'lg:w-1/2'?>">
     <?php // Editar texto ?>
     <?php if ($conteudo['Conteudo']['tipo'] == 1) { ?>
       <div class="border border-slate-300 p-4 md:w-full rounded-lg shadow editor-container bg-white">

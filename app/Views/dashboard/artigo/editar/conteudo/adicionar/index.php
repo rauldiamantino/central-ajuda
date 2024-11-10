@@ -3,7 +3,7 @@
     <h2 class="text-3xl font-semibold flex gap-2 items-center">Adicionar conteúdo<span class="text-gray-400 font-light italic hover:underline text-sm"><a href="/<?php echo $this->usuarioLogado['subdominio']; ?>/artigo/<?php echo $artigoId ?>" target="_blank">(Artigo #<?php echo $artigoId; ?>)</a></span></h2>
     <p class="text-gray-600">Vamos dar aquele toque nos seus tutoriais de ajuda e deixá-los ainda melhores!</p>
   </div>
-  <div class="mt-4 w-full <?php echo $tipo == 1 ? '' : 'lg:w-1/2'?>">
+  <div class="mt-4 mb-10 w-full <?php echo $tipo == 1 ? '' : 'lg:w-1/2'?>">
   <?php // Adicionar texto ?>
   <?php if ($tipo == 1) { ?>
     <div class="border border-slate-300 p-4 md:w-full rounded-lg shadow editor-container modal-conteudo-texto-adicionar bg-white">
