@@ -11,6 +11,11 @@ body { margin: 0 !important; font-family: 'Inter', sans-serif; }
 .ck-content a { color: #1E40AF; cursor: pointer; text-decoration: underline; }
 .editor-container_classic-editor { width: 100%; }
 
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.692); /* Escurecimento padrão */
+  transition: background-color 0.3s ease; /* Transição suave */
+}
+
 .loader {
   border: 8px solid #f3f3f3;
   border-radius: 50%;

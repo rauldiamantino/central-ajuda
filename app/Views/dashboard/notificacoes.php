@@ -6,7 +6,7 @@ $notificacaoNeutra = $this->sessaoUsuario->buscar('neutra');
 
 <?php // Notificação Sucesso ?>
 <?php if (isset($notificacaoSucesso)) { ?>
-  <div class="p-4 js-dashboard-notificacao-sucesso" onload="fecharNotificacao()">
+  <div class="pb-4 js-dashboard-notificacao-sucesso" onload="fecharNotificacao()">
     <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
       <strong class="font-bold">Ok!</strong>
       <span class="block sm:inline"><?php echo $notificacaoSucesso; ?></span>
@@ -21,7 +21,7 @@ $notificacaoNeutra = $this->sessaoUsuario->buscar('neutra');
 <?php } ?>
 <?php // Notificação Erro ?>
 <?php if (isset($notificacaoErro)) { ?>
-  <div class="p-4 js-dashboard-notificacao-erro">
+  <div class="pb-4 js-dashboard-notificacao-erro">
     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
       <strong class="font-bold">Erro!</strong>
       <?php if (is_array($notificacaoErro)) { ?>
@@ -45,7 +45,7 @@ $notificacaoNeutra = $this->sessaoUsuario->buscar('neutra');
 <?php } ?>
 <?php // Notificação Neutra ?>
 <?php if (isset($notificacaoNeutra)) { ?>
-  <div class="p-4 js-dashboard-notificacao-neutra">
+  <div class="pb-4 js-dashboard-notificacao-neutra">
     <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded relative" role="alert">
       <?php if (is_array($notificacaoNeutra)) { ?>
         <?php foreach($notificacaoNeutra as $linha): ?>

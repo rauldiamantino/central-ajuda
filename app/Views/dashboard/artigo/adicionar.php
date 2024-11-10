@@ -1,8 +1,9 @@
-<div class="relative w-full min-h-full flex flex-col p-4">
-  <h2 class="text-2xl font-semibold mb-4">
-    Adicionar artigo
-  </h2>
-  <div class="w-full flex gap-4">
+<div class="relative w-full min-h-screen flex flex-col">
+  <div class="mb-5 w-full flex flex-col">
+    <h2 class="text-3xl font-semibold flex gap-2">Adicionar artigo</h2>
+    <p class="text-gray-600">Vamos lá! Defina o título e selecione a categoria para o artigo</p>
+  </div>
+  <div class="mt-4 w-full flex gap-4">
     <?php // Artigo e Inserção de Conteúdos ?>
     <div class="w-full flex flex-col gap-10">
       <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/artigo'); ?>" class="border border-slate-200 w-full flex flex-col gap-4 p-4 rounded-lg shadow bg-white">

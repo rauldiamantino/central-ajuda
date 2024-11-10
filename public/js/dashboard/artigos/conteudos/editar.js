@@ -5,23 +5,8 @@ const efeitoLoader = document.querySelector('#efeito-loader')
 const editarFundo = document.querySelector('.editar-fundo')
 
 const formularioEditarTexto = document.querySelector('.form-conteudo-texto-editar')
-const formularioEditarImagem = document.querySelector('.modal-conteudo-imagem-editar > form')
-const formularioEditarVideo = document.querySelector('.modal-conteudo-video-editar > form')
 
 if (formularioEditarTexto) {
-  editarTexto()
-}
-
-if (formularioEditarImagem) {
-  editarImagem()
-}
-
-if (formularioEditarVideo) {
-  editarVideo()
-}
-
-// Funções
-function editarTexto() {
   const conteudoEditarTexto = document.querySelector('.conteudo-texto-editar')
   const verificarCKEditor = setInterval(() => {
     const editor = editorInstances['conteudo']
@@ -39,12 +24,39 @@ function editarTexto() {
   setTimeout(() => clearInterval(verificarCKEditor), 5000)
 }
 
-function editarImagem() {
+const formularioEditarVideo = document.querySelector('.modal-conteudo-video-editar > form')
+
+if (formularioEditarVideo) {
+  efeitoLoader.classList.add('hidden')
+  editarFundo.classList.remove('hidden')
+}
+
+
+export const editarImagem = (botaoAbrirModal) => {
+  const conteudoId = botaoAbrirModal.dataset.conteudoId
+  const conteudoUrl = botaoAbrirModal.dataset.conteudoUrl
+  const conteudoTipo = botaoAbrirModal.dataset.conteudoTipo
+  const ordemProx = botaoAbrirModal.dataset.ordemProx
+  const conteudoTitulo = botaoAbrirModal.dataset.conteudoTitulo
+
+  const modalEditarImagem = document.querySelector('.modal-conteudo-imagem-editar')
+
+  if (! modalEditarImagem) {
+    return
+  }
+
+  modalEditarImagem.showModal()
+
   let imagemParaUpload = null
   let imagemAtual = null
 
-  efeitoLoader.classList.add('hidden')
-  editarFundo.classList.remove('hidden')
+  const formularioEditarImagem = modalEditarImagem.querySelector('form')
+  const campoTitulo = formularioEditarImagem.querySelector('#conteudo-editar-imagem-titulo')
+  const campoImagemSrc = formularioEditarImagem.querySelector('img')
+
+  formularioEditarImagem.action = `/${empresa}/d/conteudo/${conteudoId}`
+  campoTitulo.value = conteudoTitulo
+  campoImagemSrc.src = conteudoUrl
 
   const editarImagemEscolher = document.querySelector('.conteudo-editar-imagem-escolher')
   const editarTextoImagemEscolher = document.querySelector('.conteudo-txt-imagem-editar-escolher')
@@ -110,9 +122,4 @@ function editarImagem() {
       formularioEditarImagem.submit()
     }
   })
-}
-
-function editarVideo() {
-  efeitoLoader.classList.add('hidden')
-  editarFundo.classList.remove('hidden')
 }

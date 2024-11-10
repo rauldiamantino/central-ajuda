@@ -1,5 +1,5 @@
-<header class="border-b border-slate-200 py-3 lg:py-4 px-4 sticky top-0 w-full flex items-center justify-between bg-white z-10 shadow">
-  <nav class="relative w-full bg-white flex gap-10 justify-between">
+<header class="py-3 lg:py-4 px-4 sticky top-0 w-full flex items-center justify-between z-10">
+  <nav class="relative w-full flex gap-10 justify-between">
     <div class="w-full">
       <button class="xl:hidden btn-dashboard-menu-lateral">
         <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="current">

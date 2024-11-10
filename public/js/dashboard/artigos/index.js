@@ -98,3 +98,54 @@ if (inputNumeroPagina) {
     }
   })
 }
+
+// Adicionar conteúdos
+const menuAdicionarConteudo = document.querySelector('.menu-adicionar-conteudos')
+const botaoAbrirMenuAdicionarConteudo = document.querySelector('.botao-abrir-menu-adicionar-conteudos')
+const botaoFecharMenuAdicionarConteudo = document.querySelector('.botao-fechar-menu-adicionar-conteudos')
+
+if (botaoAbrirMenuAdicionarConteudo) {
+  botaoAbrirMenuAdicionarConteudo.addEventListener('click', () => {
+    menuAdicionarConteudo.showModal()
+  })
+}
+
+if (botaoFecharMenuAdicionarConteudo) {
+  botaoFecharMenuAdicionarConteudo.addEventListener('click', () => {
+    menuAdicionarConteudo.close()
+  })
+}
+
+// Adicionar vídeo
+const menuAdicionarConteudoVideo = document.querySelector('.modal-conteudo-video-adicionar')
+const botaoAbrirMenuAdicionarConteudoVideo = document.querySelector('.botao-abrir-menu-adicionar-video')
+const botaoFecharMenuAdicionarConteudoVideo = document.querySelector('.botao-fechar-menu-adicionar-video')
+
+if (botaoAbrirMenuAdicionarConteudoVideo) {
+  botaoAbrirMenuAdicionarConteudoVideo.addEventListener('click', () => {
+    menuAdicionarConteudoVideo.showModal()
+  })
+}
+
+if (botaoFecharMenuAdicionarConteudoVideo) {
+  botaoFecharMenuAdicionarConteudoVideo.addEventListener('click', () => {
+    menuAdicionarConteudoVideo.close()
+  })
+}
+
+// Adicionar imagem
+const menuAdicionarConteudoImagem = document.querySelector('.modal-conteudo-imagem-adicionar')
+const botaoAbrirMenuAdicionarConteudoImagem = document.querySelector('.botao-abrir-menu-adicionar-imagem')
+const botaoFecharMenuAdicionarConteudoImagem = document.querySelector('.botao-fechar-menu-adicionar-imagem')
+
+if (botaoAbrirMenuAdicionarConteudoImagem) {
+  botaoAbrirMenuAdicionarConteudoImagem.addEventListener('click', () => {
+    menuAdicionarConteudoImagem.showModal()
+  })
+}
+
+if (botaoFecharMenuAdicionarConteudoImagem) {
+  botaoFecharMenuAdicionarConteudoImagem.addEventListener('click', () => {
+    menuAdicionarConteudoImagem.close()
+  })
+}

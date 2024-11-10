@@ -20,6 +20,7 @@ define('HOST_LOCAL', strpos($host, 'localhost') !== false);
 define('REFERER', $_SERVER['HTTP_REFERER'] ?? '/login');
 define('RAIZ', '/');
 define('PROTOCOLO', $protocolo);
+define('REQUISICAO_FETCH', isset($_SERVER['HTTP_X_REQUESTED_WITH']) and $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest');
 
 // Constantes
 define('USUARIO_SUPORTE', 99);

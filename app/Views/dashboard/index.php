@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <?php require_once 'template/cabecalho.php' ?>
 
-<body class="flex flex-col font-normal min-h-screen max-w-screen bg-slate-100" data-editor="ClassicEditor" data-empresa-id="<?php echo $this->usuarioLogado['empresaId'] ?>" data-empresa="<?php echo $this->usuarioLogado['subdominio'] ?>" data-base-url="<?php echo RAIZ; ?>">
+<body class="min-h-screen max-w-screen flex flex-col justify-center items-center font-normal bg-slate-100" data-editor="ClassicEditor" data-empresa-id="<?php echo $this->usuarioLogado['empresaId'] ?>" data-empresa="<?php echo $this->usuarioLogado['subdominio'] ?>" data-base-url="<?php echo RAIZ; ?>">
   <div id="efeito-loader" class="loader <?php echo isset($loader) ? '' : 'hidden'; ?>"></div>
 
   <?php if (isset($pagLogin)) { ?>
@@ -46,11 +46,11 @@
 
   <?php if (! isset($pagLogin) and ! isset($pagLoginSuporte) and ! isset($pagCadastro)) { ?>
     <?php require_once 'template/topo.php' ?>
-    <div class="flex h-full">
+    <div class="mt-5 w-11/12 md:w-10/12 lg:w-9/12 flex h-full">
       <?php require_once 'template/menu_lateral.php' ?>
-      <main class="xl:ml-72 pt-5 lg:px-10 flex w-full flex-col">
+      <main class="xl:ml-72 flex flex-col w-full">
         <?php require_once 'notificacoes.php' ?>
-        <div class="w-full max-w-screen h-full flex gap-6">
+        <div class="w-full h-full flex gap-6">
           <?php require_once $visao ?>
         </div>
       </main>

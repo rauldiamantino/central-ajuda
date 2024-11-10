@@ -1,5 +1,4 @@
 <div class="w-full flex flex-col gap-1">
-  <h2>Adicionar conteúdo</h2>
   <div class="border border-slate-300 p-4 w-full flex gap-5 rounded-md shadow bg-white">
     <div class="flex flex-col gap-6 w-full form-conteudo">
       <input type="hidden" name="artigo.id" value="<?php echo $artigo['Artigo']['id'] ?>">
@@ -12,20 +11,20 @@
             </svg>
             Texto
           </a>
-          <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/conteudo/adicionar?artigo_id=' . $artigo['Artigo']['id'] . '&tipo=2&referer=' . $botaoVoltar); ?>" class="w-max flex gap-2 items-center justify-center hover:underline text-black text-sm conteudo-btn-imagem-adicionar">
+          <button type="button" class="w-max flex gap-2 items-center justify-center hover:underline text-black text-sm botao-abrir-menu-adicionar-imagem">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
               <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
               <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z" />
             </svg>
             Imagem
-          </a>
-          <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/conteudo/adicionar?artigo_id=' . $artigo['Artigo']['id'] . '&tipo=3&referer=' . $botaoVoltar); ?>" class="w-max flex gap-2 items-center justify-center hover:underline text-black text-sm conteudo-btn-video-adicionar">
+          </button>
+          <button type="button" class="w-max flex gap-2 items-center justify-center hover:underline text-black text-sm botao-abrir-menu-adicionar-video">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
               <path d="M6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814z" />
               <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z" />
             </svg>
             Vídeo
-          </a>
+          </button>
         </div>
         <button type="button" class="w-max flex gap-2 items-center hover:underline justify-center text-black text-sm rounded-lg" <?php echo count($conteudos) > 1 ? 'onclick="buscarConteudos()"' : '' ?>>
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-up" viewBox="0 0 16 16">

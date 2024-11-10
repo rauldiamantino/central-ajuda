@@ -7,7 +7,6 @@
 
   <div class="w-full flex gap-4">
     <div class="w-full flex flex-col gap-2">
-      <?php require_once 'formulario.php' ?>
     </div>
     <div class="hidden md:block w-full"></div>
   </div>

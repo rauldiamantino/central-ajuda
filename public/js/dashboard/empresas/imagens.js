@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
       msgErroFavicon.textContent = ''
 
       if (!formatosPermitidos.includes(anexo.type)) {
-        msgErroFavicon.textContent = 'Favicon: Escolha um arquivo PNG ou JPEG.'
+        msgErroFavicon.textContent = 'Escolha um arquivo .png ou .jpg.'
         msgErroFavicon.dataset.sucesso = 'false'
         msgErroFavicon.classList.remove('hidden')
         return
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const tamanhoMaximoBytes = tamanhoMaximoMB * 1024 * 1024
 
       if (anexo.size > tamanhoMaximoBytes) {
-        msgErroFavicon.textContent = 'Favicon: Tamanho de imagem excede o limite de 2MB.'
+        msgErroFavicon.textContent = 'Tamanho de imagem excede o limite de 2MB.'
         msgErroFavicon.dataset.sucesso = 'false'
         msgErroFavicon.classList.remove('hidden')
         return
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const alturaMaxima = 48
 
         if (imagem.width > larguraMaxima || imagem.height > alturaMaxima) {
-          msgErroFavicon.textContent = `Favicon: Envie uma imagem com até ${larguraMaxima}px de largura e ${alturaMaxima}px de altura.`
+          msgErroFavicon.textContent = `Envie uma imagem ${larguraMaxima}px por ${alturaMaxima}px.`
           msgErroFavicon.dataset.sucesso = 'false'
           msgErroFavicon.classList.remove('hidden')
           return
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
       msgErroImagem.textContent = ''
 
       if (! formatosPermitidos.includes(anexo.type)) {
-        msgErroImagem.textContent = 'Logo: Escolha um arquivo PNG ou JPEG.'
+        msgErroImagem.textContent = 'Escolha um arquivo .pnh ou .jpg.'
         msgErroImagem.dataset.sucesso = 'false'
         msgErroImagem.classList.remove('hidden')
         return
@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const tamanhoMaximoBytes = tamanhoMaximoMB * 1024 * 1024
 
       if (anexo.size > tamanhoMaximoBytes) {
-        msgErroImagem.textContent = 'Logo: Tamanho de imagem excede o limite de 2MB.'
+        msgErroImagem.textContent = 'Tamanho de imagem excede o limite de 2MB.'
         msgErroImagem.dataset.sucesso = 'false'
         msgErroImagem.classList.remove('hidden')
         return
@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const larguraMaxima = 200
         const alturaMaxima = 70
         if (imagem.width > larguraMaxima || imagem.height > alturaMaxima) {
-          msgErroImagem.textContent = `Logo: Envie uma imagem com até ${larguraMaxima}px de largura e ${alturaMaxima}px de altura.`
+          msgErroImagem.textContent = `Envie uma imagem ${larguraMaxima}px por ${alturaMaxima}px.`
           msgErroImagem.dataset.sucesso = 'false'
           msgErroImagem.classList.remove('hidden')
           return

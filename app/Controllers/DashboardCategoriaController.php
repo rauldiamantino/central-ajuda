@@ -67,6 +67,7 @@ class DashboardCategoriaController extends DashboardController
       'Categoria.criado',
       'Categoria.ativo',
       'Categoria.modificado',
+      'Categoria.ordem',
     ];
 
     $ordem = [
@@ -88,6 +89,33 @@ class DashboardCategoriaController extends DashboardController
       $intervaloFim = min($paginaAtual * $limite, $categoriasTotal);
     }
 
+    $ordem = [];
+
+    if ($resultado) {
+      $colCategoriaOrdem = [
+        'Categoria.ordem',
+      ];
+
+      $ordCategoriaOrdem = [
+        'Categoria.ordem' => 'DESC',
+      ];
+
+      $limiteCategoriaOrdem = 1;
+
+      $resultadoOrdem = $this->categoriaModel->selecionar($colCategoriaOrdem)
+                                             ->ordem($ordCategoriaOrdem)
+                                             ->limite($limiteCategoriaOrdem)
+                                             ->executarConsulta();
+
+      $ordem = [];
+      $ordemAtual = intval($resultadoOrdem[0]['Categoria']['ordem'] ?? 0);
+
+      $ordem = [
+        'prox' => $ordemAtual + 1,
+      ];
+    }
+
+    $this->visao->variavel('ordem', $ordem);
     $this->visao->variavel('categorias', $resultado);
     $this->visao->variavel('filtroAtual', $filtroAtual);
     $this->visao->variavel('pagina', $paginaAtual);
@@ -184,37 +212,6 @@ class DashboardCategoriaController extends DashboardController
     $this->visao->variavel('titulo', 'Editar categoria');
     $this->visao->variavel('paginaMenuLateral', 'categorias');
     $this->visao->renderizar('/categoria/editar/index');
-  }
-
-  public function categoriaAdicionarVer()
-  {
-    $colCategoriaOrdem = [
-      'Categoria.id',
-      'Categoria.ordem',
-    ];
-
-    $ordCategoriaOrdem = [
-      'Categoria.ordem' => 'DESC',
-    ];
-
-    $limiteCategoriaOrdem = 1;
-
-    $resultadoOrdem = $this->categoriaModel->selecionar($colCategoriaOrdem)
-                                           ->ordem($ordCategoriaOrdem)
-                                           ->limite($limiteCategoriaOrdem)
-                                           ->executarConsulta();
-
-    $ordem = [];
-    $ordemAtual = intval($resultadoOrdem[0]['Categoria']['ordem'] ?? 0);
-
-    $ordem = [
-      'prox' => $ordemAtual + 1,
-    ];
-
-    $this->visao->variavel('ordem', $ordem);
-    $this->visao->variavel('titulo', 'Adicionar categoria');
-    $this->visao->variavel('paginaMenuLateral', 'categorias');
-    $this->visao->renderizar('/categoria/adicionar');
   }
 
   public function adicionar(array $params = []): array

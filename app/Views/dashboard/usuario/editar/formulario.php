@@ -3,72 +3,94 @@ $nivelAcesso = [
   USUARIO_TOTAL => 'Acesso total',
   USUARIO_RESTRITO => 'Acesso restrito',
 ];
+
+$ultimoAcesso = $usuario['Usuario']['ultimo_acesso'] ?? '';
+$ultimoAcesso = json_decode($ultimoAcesso, true);
 ?>
 
-<form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/usuario/' . $usuario['Usuario']['id']); ?>" class="border border-slate-300 w-full h-full flex flex-col gap-4 p-4 rounded-lg shadow bg-white">
+<form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/usuario/' . $usuario['Usuario']['id']); ?>" class="border-t border-slate-300 w-full h-full flex flex-col gap-4 form-editar-usuario">
   <input type="hidden" name="_method" value="PUT">
   <input type="hidden" name="empresa_id" value="<?php echo $usuario['Usuario']['empresa_id']; ?>">
-  <div class="w-full flex flex-col gap-4">
-    <div class="flex gap-10">
-      <div class="w-full flex gap-4">
-        <label class="flex flex-col items-start gap-1 cursor-pointer">
-          <span class="block text-sm font-medium text-gray-700">Status</span>
-          <input type="hidden" name="ativo" value="0">
-          <input type="checkbox" value="1" class="sr-only peer" <?php echo $usuario['Usuario']['ativo'] ? 'checked' : '' ?> name="ativo">
-          <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
-        </label>
 
-        <div class="w-full flex flex-col">
-          <label for="usuario-editar-nivel" class="block text-sm font-medium text-gray-700">Nível de acesso</label>
-          <select id="usuario-editar-nivel" name="nivel" class="<?php echo CLASSES_DASH_INPUT; ?>" required>
-            <?php foreach ($nivelAcesso as $chave => $linha) : ?>
-              <option value="<?php echo $chave; ?>" <?php echo $chave == $usuario['Usuario']['nivel'] ? 'selected' : ''; ?>>
-                <?php echo $linha; ?>
-              </option>
-            <?php endforeach; ?>
-          </select>
-        </div>
+  <?php if ($this->usuarioLogado['padrao'] != USUARIO_SUPORTE) { ?>
+    <input type="hidden" name="padrao" value="<?php echo $usuario['Usuario']['padrao']; ?>">
+  <?php } ?>
 
-        <?php if ($this->usuarioLogado['padrao'] != USUARIO_SUPORTE) { ?>
-          <input type="hidden" name="padrao" value="<?php echo $usuario['Usuario']['padrao']; ?>">
-        <?php } ?>
-      </div>
+  <div class="w-full flex flex-col divide-y">
+    <?php // Status ?>
+    <div class="w-full lg:w-[700px] py-8 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
+      <span class="block text-sm font-medium text-gray-700">Status</span>
+      <label class="flex flex-col items-start gap-1 cursor-pointer">
+        <input type="hidden" name="ativo" value="0">
+        <input type="checkbox" value="1" class="sr-only peer" <?php echo $usuario['Usuario']['ativo'] ? 'checked' : '' ?> name="ativo">
+        <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
+      </label>
     </div>
-    <div class="w-full">
-      <label for="usuario-editar-nome" class="block text-sm font-medium text-gray-700">Nome</label>
+
+    <?php // Nível de acesso?>
+    <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
+      <label for="usuario-editar-nivel" class="block text-sm font-medium text-gray-700">Nível de acesso</label>
+      <select id="usuario-editar-nivel" name="nivel" class="<?php echo CLASSES_DASH_INPUT; ?>" required>
+        <?php foreach ($nivelAcesso as $chave => $linha) : ?>
+          <option value="<?php echo $chave; ?>" <?php echo $chave == $usuario['Usuario']['nivel'] ? 'selected' : ''; ?>>
+            <?php echo $linha; ?>
+          </option>
+        <?php endforeach; ?>
+      </select>
+    </div>
+
+    <?php // Nome do usuário ?>
+    <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
+      <label for="usuario-editar-nome" class="block text-sm font-medium text-gray-700">Seu nome <span class="font-extralight">(opcional)</span></label>
       <input type="text" id="usuario-editar-nome" name="nome" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $usuario['Usuario']['nome']; ?>" autofocus>
     </div>
-    <div class="w-full">
-      <label for="usuario-editar-email" class="block text-sm font-medium text-gray-700">Email</label>
+
+    <?php // Email do usuário?>
+    <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
+      <label for="usuario-editar-email" class="block text-sm font-medium text-gray-700">Seu e-mail</label>
       <input type="text" id="usuario-editar-email" name="email" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $usuario['Usuario']['email']; ?>" required>
     </div>
-    <div>
-      <div class="mt-4 text-red-800 text-xs">*Preencha os campos abaixo apenas para alterar a senha</div>
-      <div class="px-4 p-6 flex flex-col gap-4 border border-slate-200 bg-slate-50 rounded-md">
-        <div class="flex flex-col md:flex-row gap-4">
-          <div class="w-full">
-            <label for="usuario-editar-senha-atual" class="block text-sm font-medium text-gray-700">Senha atual</label>
-            <input type="password" id="usuario-editar-senha-atual" name="senha_atual" class="<?php echo CLASSES_DASH_INPUT; ?>" value="" autocomplete="off">
-          </div>
-          <div class="w-full">
-            <label for="usuario-editar-senha" class="block text-sm font-medium text-gray-700">Nova senha</label>
-            <input type="password" id="usuario-editar-senha" name="senha" class="<?php echo CLASSES_DASH_INPUT; ?>" value="" autocomplete="off">
+
+    <?php // Senha atual ?>
+    <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
+      <label for="usuario-editar-senha-atual" class="flex flex-col text-sm font-medium text-gray-700">
+        <span>Senha atual</span>
+        <span class="font-extralight">Obrigatório apenas para alteração de senha</span>
+      </label>
+      <input type="password" id="usuario-editar-senha-atual" name="senha_atual" class="<?php echo CLASSES_DASH_INPUT; ?>" value="" autocomplete="off">
+    </div>
+
+    <?php // Nova senha ?>
+    <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
+      <label for="usuario-editar-senha" class="flex flex-col text-sm font-medium text-gray-700">
+        <span>Nova senha</span>
+        <span class="font-extralight">Obrigatório apenas para alteração de senha</span>
+      </label>
+      <input type="password" id="usuario-editar-senha" name="senha" class="<?php echo CLASSES_DASH_INPUT; ?>" value="" autocomplete="off">
+    </div>
+
+    <?php // Último acesso?>
+    <?php if ($ultimoAcesso and (int) $this->usuarioLogado['padrao'] == USUARIO_SUPORTE) {?>
+      <?php foreach ($ultimoAcesso as $chave => $linha): ?>
+        <?php if (in_array($chave, ['idSessao', 'url', 'tokenSessao'])) { continue; } ?>
+        <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
+          <span class="w-full sm:w-2/12 text-xs rounded"><?php echo ucfirst($chave) ?></span>
+          <div class="<?php echo CLASSES_DASH_INPUT_BLOCK; ?>">
+            <span class="text-sm"><?php echo $linha ?? '' ?></span>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-  <div class="w-full flex gap-4 justify-between">
-    <div class="flex gap-2">
-      <?php
-      $urlVoltar = '/' . $this->usuarioLogado['subdominio'] . '/dashboard/usuarios';
+      <?php endforeach; ?>
+    <?php } ?>
 
-      if ($this->usuarioLogado['nivel'] == USUARIO_COMUM) {
-        $urlVoltar = '/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos';
-      }
-      ?>
-      <a href="<?php echo baseUrl($urlVoltar); ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>">Voltar</a>
-      <button type="submit" class="<?php echo CLASSES_DASH_BUTTON_GRAVAR; ?>">Gravar</button>
-    </div>
+    <?php if ($this->usuarioLogado['padrao'] == USUARIO_SUPORTE) { ?>
+      <?php // Tentativas ?>
+      <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
+        <span class="w-full sm:w-2/12 text-xs rounded"><?php echo strtoupper('tentativas') ?></span>
+        <div class="<?php echo CLASSES_DASH_INPUT_BLOCK; ?>"><span class="text-sm"><?php echo $usuario['Usuario']['tentativas_login'] ?></span></div>
+      </div>
+    <?php } ?>
   </div>
+
+  <?php // Não apagar ?>
+  <button type="submit" class="hidden btn-gravar-usuario"></button>
 </form>
