@@ -11,9 +11,9 @@
         </svg>
         Filtrar
       </button>
-      <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/adicionar'); ?>" class="<?php echo CLASSES_DASH_BUTTON_ADICIONAR; ?>">
+      <button class="<?php echo CLASSES_DASH_BUTTON_ADICIONAR; ?>" onclick="document.querySelector('.menu-adicionar-artigo').showModal()">
         Adicionar
-      </a>
+      </button>
     </div>
   </div>
 
@@ -60,6 +60,7 @@
   <?php require_once 'paginacao.php' ?>
 </div>
 
+<?php require_once 'modais/adicionar.php' ?>
 <?php require_once 'modais/remover.php' ?>
 <?php require_once 'modais/filtrar.php' ?>
 <?php require_once 'modais/filtrar-alerta.php' ?>

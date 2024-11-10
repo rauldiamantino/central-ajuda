@@ -140,6 +140,43 @@ class DashboardArtigoController extends DashboardController
       $resultado['filtro'] = true;
     }
 
+    $colCategoria = [
+      'Categoria.id',
+      'Categoria.nome',
+    ];
+
+    // Categorias do select ao adicionar
+    $categorias = $this->categoriaModel->selecionar($colCategoria)
+                                       ->executarConsulta();
+
+    if (! isset($categorias[0]['Categoria']['nome'])) {
+      $categorias = [];
+    }
+
+    $colArtigoOrdem = [
+      'Artigo.id',
+      'Artigo.ordem',
+    ];
+
+    $ordArtigoOrdem = [
+      'Artigo.ordem' => 'DESC',
+    ];
+
+    $limiteArtigoOrdem = 1;
+
+    $resultadoOrdem = $this->artigoModel->selecionar($colArtigoOrdem)
+                                        ->ordem($ordArtigoOrdem)
+                                        ->limite($limiteArtigoOrdem)
+                                        ->executarConsulta();
+    $ordem = [];
+    $ordemAtual = intval($resultadoOrdem[0]['Artigo']['ordem'] ?? 0);
+
+    $ordem = [
+      'prox' => $ordemAtual + 1,
+    ];
+
+    $this->visao->variavel('ordem', $ordem);
+    $this->visao->variavel('categorias', $categorias);
     $this->visao->variavel('botaoVoltar', $botaoVoltar);
     $this->visao->variavel('filtroAtual', $filtroAtual);
     $this->visao->variavel('artigos', $resultado);
@@ -294,61 +331,6 @@ class DashboardArtigoController extends DashboardController
     $this->visao->variavel('titulo', 'Editar artigo');
     $this->visao->variavel('paginaMenuLateral', 'artigos');
     $this->visao->renderizar('/artigo/editar/index');
-  }
-
-  public function artigoAdicionarVer()
-  {
-    $botaoVoltar = $_GET['referer'] ?? '';
-    $botaoVoltar = htmlspecialchars($botaoVoltar);
-    $botaoVoltar = urldecode($botaoVoltar);
-
-    if (isset($_POST['referer']) and $_POST['referer'] and ! is_array($_POST['referer'])) {
-      $botaoVoltar = $_POST['referer'];
-      $botaoVoltar = htmlspecialchars($botaoVoltar);
-    }
-
-    $colCategoria = [
-      'Categoria.id',
-      'Categoria.nome',
-    ];
-
-    $categorias = $this->categoriaModel->selecionar($colCategoria)
-                                       ->executarConsulta();
-
-    if (! isset($categorias[0]['Categoria']['nome'])) {
-      $categorias = [];
-    }
-
-    $colArtigoOrdem = [
-      'Artigo.id',
-      'Artigo.ordem',
-    ];
-
-    $ordArtigoOrdem = [
-      'Artigo.ordem' => 'DESC',
-    ];
-
-    $limiteArtigoOrdem = 1;
-
-    $resultadoOrdem = $this->artigoModel->selecionar($colArtigoOrdem)
-                                        ->ordem($ordArtigoOrdem)
-                                        ->limite($limiteArtigoOrdem)
-                                        ->executarConsulta();
-
-    $ordem = [];
-    $ordemAtual = intval($resultadoOrdem[0]['Artigo']['ordem'] ?? 0);
-
-    $ordem = [
-      'prox' => $ordemAtual + 1,
-    ];
-
-    $this->visao->variavel('ordem', $ordem);
-    $this->visao->variavel('usuarioId', $this->usuarioLogado['id']);
-    $this->visao->variavel('categorias', $categorias);
-    $this->visao->variavel('botaoVoltar', $botaoVoltar);
-    $this->visao->variavel('titulo', 'Adicionar artigo');
-    $this->visao->variavel('paginaMenuLateral', 'artigos');
-    $this->visao->renderizar('/artigo/adicionar');
   }
 
   public function adicionar(): array

@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class="flex gap-2">
-      <button type="button" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>" onclick="document.querySelector('.menu-adicionar-categoria').close()">Voltar</a>
+      <button type="button" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>" onclick="document.querySelector('.menu-adicionar-categoria').close()">Voltar</button>
       <button type="submit" class="<?php echo CLASSES_DASH_BUTTON_GRAVAR; ?>">Gravar</button>
     </div>
   </form>
