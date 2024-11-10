@@ -19,12 +19,12 @@ if ($horaAtual >= 5 and $horaAtual < 12) {
   </div>
 
   <!-- Conteúdo da dashboard -->
-  <div class="border-t border-slate-300 w-full flex flex-col gap-10 py-6">
+  <div class="border-t border-slate-300 w-full flex flex-col py-6">
 
     <?php // Início rápido ?>
     <div class="w-full py-4">
       <h3 class="py-3 text-lg font-semibold">O que gostaria de fazer?</h3>
-      <div class="flex gap-6 inicio-rapido-blocos">
+      <div class="flex flex-col lg:flex-row gap-6 inicio-rapido-blocos">
         <button type="button" onclick="window.location.href='/<?php echo $this->usuarioLogado['subdominio'] . '/dashboard/categorias?acao=adicionar'; ?>';" class="border border-slate-200 flex flex-col gap-4 p-6 bg-slate-50 hover:bg-slate-100 rounded-xl shadow cursor-pointer">
           <span class="text-blue-900">
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="" viewBox="0 0 16 16"><path d="M3 2v4.586l7 7L14.586 9l-7-7zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586z"/><path d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1z"/></svg>
@@ -52,69 +52,40 @@ if ($horaAtual >= 5 and $horaAtual < 12) {
       </div>
     </div>
 
-
-
-
-    <!-- aqui abaixo estão apenas inspirações -->
-    <!-- Resumo Geral -->
-    <!-- <div class="bg-white shadow-md rounded-lg p-4">
-      <h3 class="text-xl font-semibold mb-2">Resumo Geral</h3>
-      <div class="flex gap-6">
-        <div class="flex flex-col">
-          <span class="text-2xl font-bold">42</span>
-          <span class="text-gray-600">Categorias</span>
+    <?php // Visão geral ?>
+    <div class="w-full py-4">
+      <h3 class="py-3 text-lg font-semibold">Visão geral</h3>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 inicio-rapido-visao-geral">
+        <div class="border border-slate-200 flex gap-4 items-center p-6 bg-slate-50 rounded-xl shadow">
+          <span class="flex items-center p-3 text-red-800 bg-red-100/75 rounded-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="" viewBox="0 0 16 16"><path d="M3 2v4.586l7 7L14.586 9l-7-7zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586z"/><path d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1z"/></svg>
+          </span>
+          </span>
+          <div class="flex flex-col justify-center items-start">
+            <span>Categorias</span>
+            <span class="text-2xl font-bold"><?php echo $totalCategorias; ?></span>
+          </div>
         </div>
-        <div class="flex flex-col">
-          <span class="text-2xl font-bold">128</span>
-          <span class="text-gray-600">Artigos</span>
+        <div class="border border-slate-200 flex gap-4 items-center p-6 bg-slate-50 rounded-xl shadow">
+          <span class="flex items-center p-3 text-orange-800 bg-orange-100/75 rounded-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16"><path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/></svg>
+          </span>
+          </span>
+          <div class="flex flex-col justify-center items-start">
+            <span>Artigos</span>
+            <span class="text-2xl font-bold"><?php echo $totalArtigos; ?></span>
+          </div>
         </div>
-        <div class="flex flex-col">
-          <span class="text-2xl font-bold">56</span>
-          <span class="text-gray-600">Usuários</span>
-        </div>
-      </div>
-    </div> -->
-
-    <!-- Artigos Recentes -->
-    <!-- <div class="bg-white shadow-md rounded-lg p-4">
-      <h3 class="text-xl font-semibold mb-2">Artigos Recentes</h3>
-      <ul class="list-disc pl-5">
-        <li><a href="#" class="text-blue-500 hover:underline">Como criar um artigo eficiente</a></li>
-        <li><a href="#" class="text-blue-500 hover:underline">Dicas de organização por categorias</a></li>
-        <li><a href="#" class="text-blue-500 hover:underline">Melhores práticas de SEO em artigos</a></li>
-      </ul>
-    </div> -->
-
-    <!-- Atividade Recente -->
-    <!-- <div class="bg-white shadow-md rounded-lg p-4">
-      <h3 class="text-xl font-semibold mb-2">Atividade Recente</h3>
-      <ul class="list-disc pl-5">
-        <li>Artigo "Estruturação de Conhecimento" foi atualizado.</li>
-        <li>Nova categoria "Tutoriais" foi adicionada.</li>
-        <li>Usuário "Maria Souza" criou um novo artigo.</li>
-      </ul>
-    </div> -->
-
-    <!-- Estatísticas de Visualização -->
-    <!-- <div class="bg-white shadow-md rounded-lg p-4">
-      <h3 class="text-xl font-semibold mb-2">Estatísticas de Visualização</h3>
-      <div class="flex gap-6">
-        <div class="flex flex-col">
-          <span class="text-2xl font-bold">300</span>
-          <span class="text-gray-600">Visualizações hoje</span>
-        </div>
-        <div class="flex flex-col">
-          <span class="text-2xl font-bold">1.200</span>
-          <span class="text-gray-600">Visualizações esta semana</span>
+        <div class="border border-slate-200 flex gap-4 items-center p-6 bg-slate-50 rounded-xl shadow">
+          <span class="flex items-center p-3 text-green-800 bg-green-100/75 rounded-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="" viewBox="0 0 16 16"><path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1L7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002-.014.002zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4q0 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/></svg>
+          </span>
+          <div class="flex flex-col justify-center items-start">
+            <span>Usuários</span>
+            <span class="text-2xl font-bold"><?php echo $totalUsuarios; ?></span>
+          </div>
         </div>
       </div>
-    </div> -->
-
-    <!-- Dicas Rápidas -->
-    <!-- <div class="bg-white shadow-md rounded-lg p-4">
-      <h3 class="text-xl font-semibold mb-2">Dicas Rápidas</h3>
-      <p class="text-gray-600">Aproveite o recurso de vídeos para tornar seus artigos mais interativos. Explore novas maneiras de organizar o conteúdo!</p>
-    </div> -->
-
+    </div>
   </div>
 </div>
