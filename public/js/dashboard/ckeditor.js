@@ -35,7 +35,7 @@ import translations from 'ckeditor5/translations/pt-br.js'
 const editorConfig = {
   ui: {
     poweredBy: {
-      position: 'border',
+      position: 'inside',
       side: 'left',
       label: '',
     },

@@ -161,12 +161,22 @@ const converterParaReais = (valor = 0) => {
   return `R$ ${valor.replace('.', ',')}`
 }
 
-// Editar Imagem
 function editarImagemModal(event) {
   import('./artigos/conteudos/editar.js')
     .then(module => {
       const botaoAbrirModal = event.target
       module.editarImagem(botaoAbrirModal)
+    })
+    .catch(error => {
+      console.error("Erro ao carregar o módulo:", error)
+    })
+}
+
+function editarVideoModal(event) {
+  import('./artigos/conteudos/editar.js')
+    .then(module => {
+      const botaoAbrirModal = event.target
+      module.editarVideo(botaoAbrirModal)
     })
     .catch(error => {
       console.error("Erro ao carregar o módulo:", error)

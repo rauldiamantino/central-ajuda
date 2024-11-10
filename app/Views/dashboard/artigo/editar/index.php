@@ -32,3 +32,4 @@
 <?php require_once 'conteudo/modais/adicionar-video.php' ?>
 <?php require_once 'conteudo/modais/adicionar-imagem.php' ?>
 <?php require_once 'conteudo/modais/editar-imagem.php' ?>
+<?php require_once 'conteudo/modais/editar-video.php' ?>

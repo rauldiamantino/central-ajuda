@@ -24,19 +24,38 @@ if (formularioEditarTexto) {
   setTimeout(() => clearInterval(verificarCKEditor), 5000)
 }
 
-const formularioEditarVideo = document.querySelector('.modal-conteudo-video-editar > form')
+export const editarVideo = (botaoAbrirModal) => {
+  const conteudoId = botaoAbrirModal.dataset.conteudoId
+  const conteudoUrl = botaoAbrirModal.dataset.conteudoUrl
+  const conteudoTitulo = botaoAbrirModal.dataset.conteudoTitulo
+  const conteudoTituloOcultar = botaoAbrirModal.dataset.conteudoTituloOcultar
 
-if (formularioEditarVideo) {
-  efeitoLoader.classList.add('hidden')
-  editarFundo.classList.remove('hidden')
+  const modalEditarVideo = document.querySelector('.modal-conteudo-video-editar')
+
+  if (! modalEditarVideo) {
+    return
+  }
+
+  modalEditarVideo.showModal()
+
+  const formularioEditarVideo = modalEditarVideo.querySelector('form')
+  const campoTitulo = formularioEditarVideo.querySelector('#conteudo-editar-video-titulo')
+  const campoTituloOcultar = formularioEditarVideo.querySelector('.conteudo-editar-video-titulo-ocultar')
+  const campoVideoUrl = formularioEditarVideo.querySelector('#conteudo-editar-video-url')
+
+  formularioEditarVideo.action = `/${empresa}/d/conteudo/${conteudoId}`
+  campoTitulo.value = conteudoTitulo
+  campoTituloOcultar.checked = conteudoTituloOcultar == 1
+  campoVideoUrl.value = conteudoUrl
+  formularioEditarVideo.addEventListener('submit', async (event) => {
+    formularioEditarVideo.submit()
+  })
 }
-
 
 export const editarImagem = (botaoAbrirModal) => {
   const conteudoId = botaoAbrirModal.dataset.conteudoId
   const conteudoUrl = botaoAbrirModal.dataset.conteudoUrl
-  const conteudoTipo = botaoAbrirModal.dataset.conteudoTipo
-  const ordemProx = botaoAbrirModal.dataset.ordemProx
+  const conteudoTituloOcultar = botaoAbrirModal.dataset.conteudoTituloOcultar
   const conteudoTitulo = botaoAbrirModal.dataset.conteudoTitulo
 
   const modalEditarImagem = document.querySelector('.modal-conteudo-imagem-editar')
@@ -52,10 +71,12 @@ export const editarImagem = (botaoAbrirModal) => {
 
   const formularioEditarImagem = modalEditarImagem.querySelector('form')
   const campoTitulo = formularioEditarImagem.querySelector('#conteudo-editar-imagem-titulo')
+  const campoTituloOcultar = formularioEditarImagem.querySelector('.conteudo-editar-imagem-titulo-ocultar')
   const campoImagemSrc = formularioEditarImagem.querySelector('img')
 
   formularioEditarImagem.action = `/${empresa}/d/conteudo/${conteudoId}`
   campoTitulo.value = conteudoTitulo
+  campoTituloOcultar.checked = conteudoTituloOcultar == 1
   campoImagemSrc.src = conteudoUrl
 
   const editarImagemEscolher = document.querySelector('.conteudo-editar-imagem-escolher')
