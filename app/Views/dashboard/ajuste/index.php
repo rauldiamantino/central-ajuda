@@ -1,11 +1,12 @@
-<div class="relative w-full min-h-full flex flex-col p-4">
-  <h2 class="text-2xl font-semibold mb-4">
-    Ajustes
-  </h2>
-  <div class="w-full flex gap-4">
-    <div class="w-full flex flex-col gap-10">
-      <?php require_once 'formulario.php' ?>
+<div class="mb-10 relative w-full min-h-screen flex flex-col">
+  <div class="mb-4 w-full flex flex-col lg:flex-row justify-between items-start lg:items-center">
+    <div class="mb-5 w-full h-full flex flex-col justify-end">
+      <h2 class="text-3xl font-semibold flex gap-2">Ajustes</h2>
+      <p class="text-gray-600">Escolha o que mostrar e deixe sua página do seu jeito!</p>
     </div>
-    <div class="hidden md:block w-full"></div>
+    <div class="py-2 h-full flex gap-2 items-start">
+      <button type="button" class="<?php echo CLASSES_DASH_BUTTON_GRAVAR; ?>" onclick="document.querySelector('.form-dashboard-ajustes').submit()">Gravar</button>
+    </div>
   </div>
+  <?php require_once 'formulario.php' ?>
 </div>

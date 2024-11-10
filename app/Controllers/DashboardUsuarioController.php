@@ -182,11 +182,22 @@ class DashboardUsuarioController extends DashboardController
     $dados = $this->receberJson();
     $resultado = $this->usuarioModel->adicionar($dados);
 
-    if (isset($resultado['erro'])) {
+    // Formulário via POST
+    if (! REQUISICAO_FETCH and isset($resultado['erro'])) {
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/usuario/adicionar', $resultado['erro']);
     }
+    elseif (! REQUISICAO_FETCH and isset($resultado['id'])) {
+      $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/usuarios', 'Usuário criado com sucesso');
+    }
 
-    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/usuarios', 'Usuário criado com sucesso');
+    // Formulário via Fetch
+    if (isset($resultado['erro'])) {
+      $codigo = $resultado['erro']['codigo'] ?? 500;
+      $this->responderJson($resultado, $codigo);
+    }
+
+    $this->sessaoUsuario->definir('ok', 'Usuário criado com sucesso');
+    $this->responderJson($resultado);
   }
 
   public function atualizar(int $id)

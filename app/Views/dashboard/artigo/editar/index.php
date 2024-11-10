@@ -1,10 +1,10 @@
 <div class="mb-10 relative w-full min-h-screen flex flex-col">
-  <div class="w-full flex justify-between items-center">
-    <div class="mb-5 w-full flex flex-col">
-      <h2 class="text-3xl font-semibold flex gap-2 items-center">Editar artigo <a href="/<?php echo $this->usuarioLogado['subdominio']; ?>/artigo/<?php echo $artigo['Artigo']['id'] ?>" target="_blank" class="text-sm text-gray-400 font-light italic hover:underline">(Artigo #<?php echo $artigo['Artigo']['id']; ?>)</a></h2>
+  <div class="mb-4 w-full flex flex-col lg:flex-row justify-between items-start lg:items-center">
+    <div class="mb-5 w-full h-full flex flex-col justify-end">
+      <h2 class="text-3xl font-semibold flex gap-2 items-end">Editar artigo <a href="/<?php echo $this->usuarioLogado['subdominio']; ?>/artigo/<?php echo $artigo['Artigo']['id'] ?>" target="_blank" class="py-1 text-sm text-gray-400 font-light italic hover:underline">(Artigo #<?php echo $artigo['Artigo']['id']; ?>)</a></h2>
       <p class="text-gray-600">Vamos dar aquele toque nos seus tutoriais de ajuda e deixá-los ainda melhores!</p>
     </div>
-    <div class="flex gap-2">
+    <div class="py-2 h-full flex gap-2 items-start">
       <a href="<?php echo baseUrl($botaoVoltar ? $botaoVoltar : '/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos?referer=' . $botaoVoltar); ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>">Voltar</a>
       <button class="w-max <?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> botao-abrir-menu-adicionar-conteudos">Editar</button>
     </div>

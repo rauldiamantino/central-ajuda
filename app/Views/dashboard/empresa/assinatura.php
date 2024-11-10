@@ -1,4 +1,4 @@
-<div class="relative mb-10 md:mb-0 md:block w-full md:w-max md:min-w-72 h-max empresa-bloco-assinatura" data-empresa-assinatura="<?php echo $empresa['Empresa']['ativo'] == ATIVO ? $empresa['Empresa']['assinatura_id'] : ''; ?>">
+<div class="relative w-full empresa-bloco-assinatura" data-empresa-assinatura="<?php echo $empresa['Empresa']['ativo'] == ATIVO ? $empresa['Empresa']['assinatura_id'] : ''; ?>">
   <div class="border border-slate-300 w-full h-full flex flex-col p-4 rounded-lg shadow">
     <div id="efeito-loader-assinatura" class="hidden loader"></div>
     <div class="pb-2 px-2 w-full flex gap-4 justify-between items-center">
