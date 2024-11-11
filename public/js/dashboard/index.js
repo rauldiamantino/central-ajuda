@@ -226,10 +226,10 @@ function abrirModalAdicionar() {
   modal.classList.remove('hidden')
 
   setTimeout(() => {
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: 'smooth'
-    });
+    const bodyHeight = document.body.scrollHeight
+
+    console.log(bodyHeight)
+    window.scrollTo({ top: bodyHeight, behavior: 'smooth' })
   }, 50)
 }
 
