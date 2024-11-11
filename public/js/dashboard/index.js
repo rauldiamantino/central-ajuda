@@ -230,6 +230,11 @@ function abrirModalAdicionar() {
   })
 
   modal.classList.remove('hidden');
+
+  setTimeout(() => {
+    const bodyHeight = document.body.scrollHeight
+    window.scrollTo({ top: bodyHeight, behavior: 'smooth' })
+  }, 50)
 }
 
 function voltarAoTopo() {
@@ -241,4 +246,5 @@ function voltarAoTopo() {
   })
 
   modal.classList.add('hidden')
+  window.scrollTo({ top: 0, behavior: 'smooth' })
 }

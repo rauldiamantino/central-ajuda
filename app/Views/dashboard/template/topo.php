@@ -1,4 +1,4 @@
-<header class="py-3 lg:py-4 px-4 static top-0 w-full flex items-center justify-between z-20 bg-white shadow xl:bg-transparent xl:shadow-none topo-dashboard">
+<header class="py-3 lg:py-4 px-4 sticky xl:static top-0 w-full flex items-center justify-between z-20 bg-white shadow xl:bg-transparent xl:shadow-none topo-dashboard">
   <nav class="relative w-full flex gap-10 justify-between">
     <div class="w-full">
       <button class="xl:hidden btn-dashboard-menu-lateral">
