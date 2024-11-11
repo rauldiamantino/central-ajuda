@@ -430,7 +430,6 @@ class Roteador
       'GET:/{empresa}/dashboard/ajustes' => [DashboardAjusteController::class, 'ajustesVer'],
       'GET:/{empresa}/dashboard/artigos' => [DashboardArtigoController::class, 'artigosVer'],
       'GET:/{empresa}/dashboard/artigo/editar/{id}' => [DashboardArtigoController::class, 'artigoEditarVer'],
-      'GET:/{empresa}/dashboard/artigo/adicionar' => [DashboardArtigoController::class, 'artigoAdicionarVer'],
       'GET:/{empresa}/dashboard/conteudo/editar/{id}' => [DashboardConteudoController::class, 'conteudoEditarVer'],
       'GET:/{empresa}/dashboard/conteudo/adicionar' => [DashboardConteudoController::class, 'conteudoAdicionarVer'],
       'GET:/{empresa}/dashboard/categorias' => [DashboardCategoriaController::class, 'categoriasVer'],
