@@ -37,7 +37,7 @@
           </div>
         </div>
       </form>
-  </div>
+    </div>
   <?php } ?>
 
   <?php // Adicionar imagem ?>

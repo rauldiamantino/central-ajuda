@@ -1,27 +1,38 @@
 import { substituirImagem } from '../../firebase/funcoes.js'
 import { editorInstances } from '../../ckeditor.js'
 
-const efeitoLoader = document.querySelector('#efeito-loader')
-const editarFundo = document.querySelector('.editar-fundo')
+export const editarTexto = (botaoAbrirModal) => {
+  const conteudoId = botaoAbrirModal.dataset.conteudoId
+  const novaDivEditarTexto = document.querySelector('.container-conteudo-texto-editar[data-conteudo-id="' + conteudoId + '"]')
 
-const formularioEditarTexto = document.querySelector('.form-conteudo-texto-editar')
+  if (! conteudoId) {
+    return
+  }
 
-if (formularioEditarTexto) {
-  const conteudoEditarTexto = document.querySelector('.conteudo-texto-editar')
-  const verificarCKEditor = setInterval(() => {
-    const editor = editorInstances['conteudo']
+  if (! novaDivEditarTexto) {
+    return
+  }
 
-    if (editor) {
-      editor.setData(conteudoEditarTexto.dataset.conteudo)
+  const divPrevisualizar = botaoAbrirModal.closest('.div-pai-conteudo-editar').querySelector('.bloco-editar-conteudo-texto[data-conteudo-id="' + conteudoId + '"]')
 
-      efeitoLoader.classList.add('hidden')
-      editarFundo.classList.remove('hidden')
+  if (! divPrevisualizar) {
+    return
+  }
 
-      clearInterval(verificarCKEditor)
-    }
-  }, 100)
+  divPrevisualizar.classList.toggle('hidden')
+  novaDivEditarTexto.classList.toggle('hidden')
 
-  setTimeout(() => clearInterval(verificarCKEditor), 5000)
+  const formularioEditarTexto = novaDivEditarTexto.querySelector('form')
+  const conteudoEditarTexto = formularioEditarTexto.querySelector('.conteudo-texto-editar')
+
+const editor = editorInstances[conteudoId];
+
+if (editor) {
+  // Atribuindo o conteúdo ao editor
+  editor.setData(conteudoEditarTexto.dataset.conteudo);
+} else {
+  console.error('Editor não encontrado para o conteúdoId:', conteudoId);
+}
 }
 
 export const editarVideo = (botaoAbrirModal) => {

@@ -274,6 +274,7 @@ class DashboardArtigoController extends DashboardController
       'Conteudo.ativo',
       'Conteudo.tipo',
       'Conteudo.titulo',
+      'Conteudo.artigo_id',
       'Conteudo.titulo_ocultar',
       'Conteudo.conteudo',
       'Conteudo.empresa_id',

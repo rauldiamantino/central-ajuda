@@ -198,3 +198,14 @@ function editarVideoModal(event) {
       console.error("Erro ao carregar o módulo:", error)
     })
 }
+
+function editarTextoModal(event) {
+  import('./artigos/conteudos/editar.js')
+    .then(module => {
+      const botaoAbrirModal = event.target
+      module.editarTexto(botaoAbrirModal)
+    })
+    .catch(error => {
+      console.error("Erro ao carregar o módulo:", error)
+    })
+}

@@ -165,24 +165,33 @@ const editorConfig = {
 export let editorInstances = {}
 
 document.addEventListener('DOMContentLoaded', () => {
-  const textareas = document.querySelectorAll('textarea.ckeditor');
+  const textareas = document.querySelectorAll('textarea.ckeditor')
 
   textareas.forEach(textarea => {
+    const conteudoId = textarea.dataset.conteudoId
+
     ClassicEditor.create(textarea, editorConfig)
       .then(editor => {
-        editorInstances[textarea.name] = editor;
+        editorInstances[ conteudoId ] = editor
 
         const event = new CustomEvent('ckeditorInicializado', {
           detail: {
-            name: textarea.name,
+            conteudoId: conteudoId,
             editor: editor
           }
-        });
-        document.dispatchEvent(event);
-        console.log('CKEditor 5 inicializado')
+        })
+
+        document.dispatchEvent(event)
+
+        if (conteudoId) {
+          console.log('CKEditor 5 inicializado para o conteúdoId:', conteudoId)
+        }
+        else {
+          console.log('CKEditor 5 inicializado')
+        }
       })
       .catch(error => {
-        console.error('There was a problem initializing CKEditor 5', error);
-      });
-  });
-});
+        console.error('There was a problem initializing CKEditor 5', error)
+      })
+  })
+})
