@@ -1,5 +1,5 @@
 <?php // Editar vídeo ?>
-<div class="p-4 w-full editor-container hidden container-conteudo-texto-editar" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>">
+<div class="w-full editor-container hidden container-conteudo-texto-editar" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>">
   <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/conteudo/' . $linha['Conteudo']['id']); ?>" class="flex flex-col items-end gap-2 editor-container__editor form-conteudo-texto-editar" enctype="multipart/form-data">
     <input type="hidden" name="_method" value="PUT">
     <input type="hidden" name="artigo_id" value="<?php echo $linha['Conteudo']['artigo_id'] ?>">
@@ -10,7 +10,7 @@
       <input type="text" id="conteudo-editar-texto-titulo-<?php echo $linha['Conteudo']['id'] ?>" name="titulo" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $linha['Conteudo']['titulo'] ?>">
     </div>
     <div class="w-full editor-container_classic-editor">
-      <textarea name="conteudo" class="border border-gray-300 w-full p-2 min-h-56 rounded-lg bg-slate-50 conteudo-texto-editar ckeditor" data-conteudo="<?php echo $linha['Conteudo']['conteudo'] ?>" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>"></textarea>
+      <textarea name="conteudo" class="border border-gray-300 w-full min-h-56 rounded-lg bg-slate-50 conteudo-texto-editar ckeditor" data-conteudo="<?php echo $linha['Conteudo']['conteudo'] ?>" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>"></textarea>
     </div>
     <div class="sticky bottom-0 py-4 w-full h-max flex flex-col lg:flex-row justify-between gap-4 bg-white">
       <div class="w-full bg-white">
