@@ -1,11 +1,14 @@
 <?php
+date_default_timezone_set('America/Sao_Paulo');
 $horaAtual = date('H');
 
 if ($horaAtual >= 5 and $horaAtual < 12) {
   $saudacao = 'Bom dia';
-} elseif ($horaAtual >= 12 and $horaAtual < 18) {
+}
+elseif ($horaAtual >= 12 and $horaAtual < 18) {
   $saudacao = 'Boa tarde';
-} else {
+}
+else {
   $saudacao = 'Boa noite';
 }
 ?>
