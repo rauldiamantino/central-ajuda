@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <?php require_once 'template/cabecalho.php' ?>
 
-<body class="min-h-screen max-w-screen flex flex-col justify-start items-center font-normal bg-slate-100" data-editor="ClassicEditor" data-empresa-id="<?php echo $this->usuarioLogado['empresaId'] ?>" data-empresa="<?php echo $this->usuarioLogado['subdominio'] ?>" data-base-url="<?php echo RAIZ; ?>">
+<body class="relative min-h-screen max-w-screen flex flex-col justify-start items-center font-normal bg-slate-100" data-editor="ClassicEditor" data-empresa-id="<?php echo $this->usuarioLogado['empresaId'] ?>" data-empresa="<?php echo $this->usuarioLogado['subdominio'] ?>" data-base-url="<?php echo RAIZ; ?>">
   <div id="efeito-loader" class="loader <?php echo isset($loader) ? '' : 'hidden'; ?>"></div>
 
   <?php if (isset($pagLogin)) { ?>
@@ -67,7 +67,7 @@
       $classeMargem = 'xl:ml-72 ';
     }
     ?>
-    <div class="<?php echo $classeMargem ?>my-10 px-4 lg:px-14 flex max-w-screen">
+    <div class="<?php echo $classeMargem ?>my-10 px-4 lg:px-16 flex w-full lg:w-8/12 max-w-screen">
       <div class="w-full">
         <h2 class="mb-5 text-2xl font-semibold">Debug</h2>
         <div class="border border-slate-300 w-full p-4 lg:p-10 bg-gray-200 text-gray-900 text-xs shadow rounded-md">
