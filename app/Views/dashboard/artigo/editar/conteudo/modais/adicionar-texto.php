@@ -1,5 +1,5 @@
 <?php // Adicionar texto ?>
-<div class="pt-12 h-max md:w-full editor-container hidden modal-conteudo-texto-adicionar">
+<div class="max-w-full editor-container hidden bg-white modal-conteudo-texto-adicionar">
   <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/conteudo'); ?>" class="flex flex-col items-end gap-2 editor-container__editor" enctype="multipart/form-data">
     <input type="hidden" name="tipo" value="1">
     <input type="hidden" name="artigo_id" value="<?php echo $artigo['Artigo']['id'] ?>">

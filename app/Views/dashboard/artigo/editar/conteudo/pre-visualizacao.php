@@ -88,10 +88,10 @@
             </div>
           </div>
         <?php endforeach; ?>
+
       <?php } ?>
 
       <?php require_once 'modais/adicionar-texto.php' ?>
-      <span class="block final"></span>
     </div>
   </div>
 </div>

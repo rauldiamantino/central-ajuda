@@ -223,20 +223,22 @@ function fecharTextoModal(event) {
 
 function abrirModalAdicionar() {
   const modal = document.querySelector('.modal-conteudo-texto-adicionar')
-  const final = document.querySelector('.final')
+  const containerConteudos = document.querySelectorAll('.div-pai-conteudo-editar')
+
+  containerConteudos.forEach(conteudo => {
+    conteudo.classList.add('hidden');
+  })
 
   modal.classList.remove('hidden');
-
-  setTimeout(() => {
-    window.scrollTo({
-      top: final.offsetTop + final.offsetHeight,
-      behavior: 'smooth'
-    })
-  }, 100)
 }
 
 function voltarAoTopo() {
   const modal = document.querySelector('.modal-conteudo-texto-adicionar')
+  const containerConteudos = document.querySelectorAll('.div-pai-conteudo-editar')
+
+  containerConteudos.forEach(conteudo => {
+    conteudo.classList.remove('hidden');
+  })
+
   modal.classList.add('hidden')
-  window.scrollTo({ top: 0, behavior: 'smooth' })
 }
