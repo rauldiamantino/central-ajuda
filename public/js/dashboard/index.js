@@ -223,14 +223,16 @@ function fecharTextoModal(event) {
 
 function abrirModalAdicionar() {
   const modal = document.querySelector('.modal-conteudo-texto-adicionar')
-  modal.classList.remove('hidden')
+  const final = document.querySelector('.final')
+
+  modal.classList.remove('hidden');
 
   setTimeout(() => {
-    const bodyHeight = document.body.scrollHeight
-
-    console.log(bodyHeight)
-    window.scrollTo({ top: bodyHeight, behavior: 'smooth' })
-  }, 50)
+    window.scrollTo({
+      top: final.offsetTop + final.offsetHeight,
+      behavior: 'smooth'
+    })
+  }, 100)
 }
 
 function voltarAoTopo() {
