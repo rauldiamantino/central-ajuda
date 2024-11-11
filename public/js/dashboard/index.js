@@ -233,7 +233,6 @@ function abrirModalAdicionar() {
   }, 50)
 }
 
-
 function voltarAoTopo() {
   const modal = document.querySelector('.modal-conteudo-texto-adicionar')
   modal.classList.add('hidden')
