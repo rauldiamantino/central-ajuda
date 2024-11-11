@@ -29,7 +29,7 @@
         <?php foreach ($conteudos as $chave => $linha) : ?>
           <div class="relative p-1 w-full h-full border-2 border-transparent group hover:border-black rounded div-pai-conteudo-editar">
             <?php if ($linha['Conteudo']['tipo'] == 1) { ?>
-              <div class="flex flex-col gap-2 leading-7 bloco-editar-conteudo-texto" data-conteudo-ordem="<?php echo $linha['Conteudo']['ordem'] ?>" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>">
+              <div class="flex flex-col gap-2 leading-7 bloco-editar-conteudo-texto select-none" data-conteudo-ordem="<?php echo $linha['Conteudo']['ordem'] ?>" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>">
                 <?php if ($linha['Conteudo']['titulo'] and $linha['Conteudo']['titulo_ocultar'] == 0) { ?>
                   <h2><?php echo $linha['Conteudo']['titulo'] ?></h2>
                 <?php } ?>
@@ -44,7 +44,7 @@
             <?php } ?>
 
             <?php if ($linha['Conteudo']['tipo'] == 2) { ?>
-              <div data-conteudo-ordem="<?php echo $linha['Conteudo']['ordem'] ?>" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>">
+              <div data-conteudo-ordem="<?php echo $linha['Conteudo']['ordem'] ?>" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>" class="select-none">
                 <?php if ($linha['Conteudo']['titulo'] and $linha['Conteudo']['titulo_ocultar'] == 0) { ?>
                   <h2><?php echo $linha['Conteudo']['titulo'] ?></h2>
                 <?php } ?>
@@ -53,7 +53,7 @@
             <?php } ?>
 
             <?php if ($linha['Conteudo']['tipo'] == 3) { ?>
-              <div data-conteudo-ordem="<?php echo $linha['Conteudo']['ordem'] ?>" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>">
+              <div data-conteudo-ordem="<?php echo $linha['Conteudo']['ordem'] ?>" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>" class="select-none">
                 <?php if ($linha['Conteudo']['titulo'] and $linha['Conteudo']['titulo_ocultar'] == 0) { ?>
                   <h2><?php echo $linha['Conteudo']['titulo'] ?></h2>
                 <?php } ?>
