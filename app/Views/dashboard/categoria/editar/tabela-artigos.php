@@ -11,7 +11,7 @@
           </colgroup>
           <tr class="bg-slate-100 w-full border-b">
             <th class="py-5 px-4">ID</th>
-            <th class="py-5 px-4">Títulos dos artigos</th>
+            <th class="py-5 px-4">Título</th>
             <th class="py-5 px-4">Status</th>
             <th class="py-5 px-4">Ação</th>
           </tr>

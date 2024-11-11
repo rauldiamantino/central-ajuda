@@ -3,7 +3,7 @@
   <div class="w-full flex flex-col px-10 sm:px-2 gap-1 text-sm handle modal-conteudos-organizar-blocos">
   </div>
   <div class="mt-2 sticky bottom-0 py-4 w-full flex gap-2 justify-end bg-white">
-    <button type="button" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?> modal-conteudos-organizar-btn-cancelar">Voltar</button>
+    <button type="button" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?> modal-conteudos-organizar-btn-cancelar">Cancelar</button>
     <button type="button" class="<?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> modal-conteudos-organizar-btn-confirmar">Confirmar</button>
   </div>
 </dialog>

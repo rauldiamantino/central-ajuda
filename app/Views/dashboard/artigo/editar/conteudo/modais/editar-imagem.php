@@ -34,7 +34,7 @@
         </label>
       </div>
       <div class="flex gap-2">
-        <button type="button" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?> botao-abrir-menu-adicionar-imagem" onclick="document.querySelector('.modal-conteudo-imagem-editar').close()">Voltar</a>
+        <button type="button" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?> botao-abrir-menu-adicionar-imagem" onclick="document.querySelector('.modal-conteudo-imagem-editar').close()">Cancelar</a>
         <button type="submit" class="w-full md-w-max <?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> modal-conteudo-imagem-btn-enviar">Gravar</button>
       </div>
     </div>

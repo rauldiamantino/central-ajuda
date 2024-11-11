@@ -22,6 +22,7 @@
         </label>
       </div>
       <div class="flex gap-2 bg-white">
+        <button type="button" class="w-full lg:w-max <?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>" onclick="fecharTextoModal(event)">Cancelar</button>
         <button type="submit" class="w-full lg:w-max <?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> modal-conteudo-texto-btn-enviar">Gravar</button>
       </div>
     </div>

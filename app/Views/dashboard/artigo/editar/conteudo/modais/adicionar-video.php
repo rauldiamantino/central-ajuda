@@ -23,7 +23,7 @@
         </label>
       </div>
       <div class="flex gap-2">
-        <button type="button" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?> botao-fechar-menu-adicionar-video">Voltar</button>
+        <button type="button" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?> botao-fechar-menu-adicionar-video">Cancelar</button>
         <button type="submit" class="w-full lg:w-max <?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> modal-conteudo-video-btn-enviar">Gravar</button>
       </div>
     </div>

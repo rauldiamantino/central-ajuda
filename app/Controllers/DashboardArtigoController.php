@@ -435,7 +435,7 @@ class DashboardArtigoController extends DashboardController
     $resultado = $this->artigoModel->atualizar($json, $id);
 
     if (isset($resultado['erro'])) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', $resultado['erro']);
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $id . '?referer=' . urlencode($botaoVoltar), $resultado['erro']);
     }
 
     Cache::apagar('publico-artigo-' . $id, $this->usuarioLogado['empresaId']);
@@ -444,7 +444,7 @@ class DashboardArtigoController extends DashboardController
     Cache::apagar('publico-categoria-' . $json['categoria_id'] . '-artigos', $this->usuarioLogado['empresaId']);
     Cache::apagar('publico-artigos-categoria-' . $json['categoria_id'], $this->usuarioLogado['empresaId']);
 
-    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $id . '?referer=' . $botaoVoltar, 'Registro alterado com sucesso');
+    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $id . '?referer=' . urlencode($botaoVoltar), 'Registro alterado com sucesso');
   }
 
   public function atualizarOrdem()

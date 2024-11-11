@@ -13,12 +13,12 @@
       </div>
       <div class="w-full">
         <label for="artigo-editar-titulo" class="block text-sm font-medium text-gray-700">Título</label>
-        <input type="text" id="artigo-editar-titulo" name="titulo" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $artigo['Artigo']['titulo']; ?>" required autofocus>
+        <input type="text" id="artigo-editar-titulo" name="titulo" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $artigo['Artigo']['titulo']; ?>">
       </div>
     </div>
     <div class="mb-4">
       <label for="artigo-editar-categoria" class="block text-sm font-medium text-gray-700">Categoria</label>
-      <select id="artigo-editar-categoria" name="categoria_id" class="<?php echo CLASSES_DASH_INPUT; ?>">
+      <select id="artigo-editar-categoria" name="categoria_id" class="<?php echo CLASSES_DASH_INPUT; ?>" autofocus>
         <option value="0">Sem categoria</option>
         <?php foreach ($categorias as $chave => $linha) : ?>
           <option value="<?php echo $linha['Categoria']['id']; ?>" <?php echo $linha['Categoria']['id'] == $artigo['Artigo']['categoria_id'] ? 'selected' : ''; ?>>
@@ -28,7 +28,7 @@
       </select>
     </div>
     <div class="w-full flex justify-start gap-2">
-      <button type="button" class="w-full md:w-max <?php echo CLASSES_DASH_BUTTON_VOLTAR; ?> botao-fechar-menu-adicionar-conteudos">Fechar</button>
+      <button type="button" class="w-full md:w-max <?php echo CLASSES_DASH_BUTTON_VOLTAR; ?> botao-fechar-menu-adicionar-conteudos">Cancelar</button>
       <button type="submit" class="w-full md:w-max <?php echo CLASSES_DASH_BUTTON_GRAVAR; ?>">Gravar</button>
     </div>
   </form>

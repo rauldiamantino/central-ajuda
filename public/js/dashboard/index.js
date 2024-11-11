@@ -209,3 +209,26 @@ function editarTextoModal(event) {
       console.error("Erro ao carregar o módulo:", error)
     })
 }
+
+function fecharTextoModal(event) {
+  import('./artigos/conteudos/editar.js')
+    .then(module => {
+      const botaoCancelar = event.target
+      module.fecharEditarTexto(botaoCancelar)
+    })
+    .catch(error => {
+      console.error("Erro ao carregar o módulo:", error)
+    })
+}
+
+function abrirModalAdicionar() {
+  const modal = document.querySelector('.modal-conteudo-texto-adicionar')
+  modal.classList.remove('hidden')
+  modal.scrollIntoView({ behavior: 'smooth' })
+}
+
+function voltarAoTopo() {
+  const modal = document.querySelector('.modal-conteudo-texto-adicionar')
+  modal.classList.add('hidden')
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}

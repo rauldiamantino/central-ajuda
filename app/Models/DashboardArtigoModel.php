@@ -96,7 +96,7 @@ class DashboardArtigoModel extends Model
   {
     $campos = [
       'ativo' => $params['ativo'] ?? 0,
-      'titulo' => $params['titulo'] ?? '',
+      'titulo' => trim($params['titulo'] ?? ''),
       'usuario_id' => $params['usuario_id'] ?? 0,
       'empresa_id' => $this->empresaPadraoId,
       'categoria_id' => $params['categoria_id'] ?? 0,

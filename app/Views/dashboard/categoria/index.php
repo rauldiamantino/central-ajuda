@@ -2,7 +2,7 @@
   <div class="mb-4 w-full flex flex-col lg:flex-row justify-between items-start lg:items-center">
     <div class="mb-5 w-full h-full flex flex-col justify-end">
       <h2 class="text-3xl font-semibold flex gap-2">Categorias</h2>
-      <p class="text-gray-600">Organize seus tutoriais em categorias e facilite a busca!</p>
+      <p class="text-gray-600">Organize seus artigos em categorias e facilite a busca!</p>
     </div>
     <div class="w-full py-2 h-full flex items-start gap-2 justify-end">
       <button type="button" class="<?php echo CLASSES_DASH_BUTTON_ADICIONAR; ?>" onclick="document.querySelector('.menu-adicionar-categoria').showModal()">

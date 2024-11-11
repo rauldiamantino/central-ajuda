@@ -6,7 +6,7 @@
           (Categoria #<?php echo $categoria[0]['Categoria']['id']; ?>)
         </a>
       </h2>
-      <p class="text-gray-600">Organize seus tutoriais em categorias e facilite a busca!</p>
+      <p class="text-gray-600">Aqui estão todos os artigos da categoria <span class="font-semibold"><?php echo $categoria[0]['Categoria']['nome'] ?></span></p>
     </div>
     <div class="py-2 w-full h-full flex gap-2 items-start justify-end">
       <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categorias'); ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>">Voltar</a>

@@ -23,12 +23,12 @@
           </div>
           <div class="w-full">
             <label for="artigo-editar-titulo" class="">Título</label>
-            <input type="text" id="artigo-editar-titulo" name="titulo" class="<?php echo CLASSES_DASH_INPUT; ?>" value="" required autofocus>
+            <input type="text" id="artigo-editar-titulo" name="titulo" class="<?php echo CLASSES_DASH_INPUT; ?>" value="">
           </div>
         </div>
         <div class="mb-4">
           <label for="artigo-editar-categoria" class="">Categoria</label>
-          <select id="artigo-editar-categoria" name="categoria_id" class="<?php echo CLASSES_DASH_INPUT; ?>">
+          <select id="artigo-editar-categoria" name="categoria_id" class="<?php echo CLASSES_DASH_INPUT; ?>" autofocus>
             <option value="0">Sem categoria</option>
             <?php foreach ($categorias as $chave => $linha) : ?>
               <option value="<?php echo $linha['Categoria']['id']; ?>">

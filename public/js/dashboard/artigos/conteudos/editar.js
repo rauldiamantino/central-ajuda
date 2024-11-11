@@ -25,14 +25,36 @@ export const editarTexto = (botaoAbrirModal) => {
   const formularioEditarTexto = novaDivEditarTexto.querySelector('form')
   const conteudoEditarTexto = formularioEditarTexto.querySelector('.conteudo-texto-editar')
 
-const editor = editorInstances[conteudoId];
+  const editor = editorInstances[conteudoId];
 
-if (editor) {
-  // Atribuindo o conteúdo ao editor
-  editor.setData(conteudoEditarTexto.dataset.conteudo);
-} else {
-  console.error('Editor não encontrado para o conteúdoId:', conteudoId);
+  if (editor) {
+    // Atribuindo o conteúdo ao editor
+    editor.setData(conteudoEditarTexto.dataset.conteudo);
+  } else {
+    console.error('Editor não encontrado para o conteúdoId:', conteudoId);
+  }
 }
+
+export const fecharEditarTexto = (botaoFecharModal) => {
+  const conteudoId = botaoFecharModal.dataset.conteudoId
+  const novaDivEditarTexto = document.querySelector('.container-conteudo-texto-editar[data-conteudo-id="' + conteudoId + '"]')
+
+  if (! conteudoId) {
+    return
+  }
+
+  if (! novaDivEditarTexto) {
+    return
+  }
+
+  const divPrevisualizar = botaoFecharModal.closest('.div-pai-conteudo-editar').querySelector('.bloco-editar-conteudo-texto[data-conteudo-id="' + conteudoId + '"]')
+
+  if (! divPrevisualizar) {
+    return
+  }
+
+  divPrevisualizar.classList.toggle('hidden')
+  novaDivEditarTexto.classList.toggle('hidden')
 }
 
 export const editarVideo = (botaoAbrirModal) => {
