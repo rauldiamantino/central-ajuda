@@ -226,9 +226,13 @@ function abrirModalAdicionar() {
   modal.classList.remove('hidden')
 
   setTimeout(() => {
-    modal.scrollIntoView({ behavior: 'smooth', block: 'end' })
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth'
+    });
   }, 50)
 }
+
 
 function voltarAoTopo() {
   const modal = document.querySelector('.modal-conteudo-texto-adicionar')
