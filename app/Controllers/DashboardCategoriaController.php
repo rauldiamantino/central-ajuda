@@ -167,6 +167,7 @@ class DashboardCategoriaController extends DashboardController
       'Artigo.id',
       'Artigo.titulo',
       'Artigo.ativo',
+      'Artigo.criado',
       'Artigo.empresa_id',
     ];
 

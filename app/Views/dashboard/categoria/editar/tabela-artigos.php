@@ -6,12 +6,14 @@
           <colgroup>
             <col class="w-[60px]">
             <col class="w-[400px]">
+            <col class="w-[200px]">
             <col class="w-[100px]">
             <col class="w-[100px]">
           </colgroup>
           <tr class="bg-slate-100 w-full border-b">
             <th class="py-5 px-4">ID</th>
             <th class="py-5 px-4">Título</th>
+            <th class="py-5 px-4">Criado</th>
             <th class="py-5 px-4">Status</th>
             <th class="py-5 px-4">Ação</th>
           </tr>
@@ -26,6 +28,7 @@
                     <?php echo $linha['Artigo']['titulo'] ?>
                   </a>
                 </td>
+                <td class="py-5 px-4"><?php echo $linha['Artigo']['criado'] ?></td>
                 <td class="py-5 px-4">
                   <?php if ($linha['Artigo']['ativo'] == 1) { ?>
                     <div class="flex items-center gap-2">
