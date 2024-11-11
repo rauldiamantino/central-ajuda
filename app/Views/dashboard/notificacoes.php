@@ -6,7 +6,7 @@ $notificacaoNeutra = $this->sessaoUsuario->buscar('neutra');
 
 <?php // Notificação Sucesso ?>
 <?php if (isset($notificacaoSucesso)) { ?>
-  <div class="fixed left-1/2 bottom-4 w-full md:w-max z-30 pb-4 px-4 sm:px-0 transform -translate-x-1/2 js-dashboard-notificacao-sucesso" onload="fecharNotificacao()">
+  <div class="fixed left-1/2 bottom-4 w-full md:w-max z-30 pb-4 px-5 sm:px-0 transform -translate-x-1/2 js-dashboard-notificacao-sucesso" onload="fecharNotificacao()">
     <div class="bg-green-100 border border-green-500 text-green-700 px-4 py-3 rounded relative shadow" role="alert">
       <span class="block sm:inline"><?php echo $notificacaoSucesso; ?></span>
       <span class="absolute top-0 bottom-0 right-0 md:-right-10 px-4 py-3 js-dashboard-notificacao-sucesso-btn-fechar">
@@ -20,7 +20,7 @@ $notificacaoNeutra = $this->sessaoUsuario->buscar('neutra');
 <?php } ?>
 <?php // Notificação Erro ?>
 <?php if (isset($notificacaoErro)) { ?>
-  <div class="fixed left-1/2 bottom-4 w-full md:w-max z-30 pb-4 px-4 sm:px-0 transform -translate-x-1/2 js-dashboard-notificacao-erro">
+  <div class="fixed left-1/2 bottom-4 w-full md:w-max z-30 pb-4 px-5 sm:px-0 transform -translate-x-1/2 js-dashboard-notificacao-erro">
     <div class="bg-red-100 border border-red-500 text-red-700 px-4 py-3 rounded relative" role="alert">
       <?php if (is_array($notificacaoErro)) { ?>
         <?php foreach($notificacaoErro as $linha): ?>
@@ -43,7 +43,7 @@ $notificacaoNeutra = $this->sessaoUsuario->buscar('neutra');
 <?php } ?>
 <?php // Notificação Neutra ?>
 <?php if (isset($notificacaoNeutra)) { ?>
-  <div class="fixed left-1/2 bottom-4 w-full md:w-max z-30 pb-4 px-4 sm:px-0 transform -translate-x-1/2 js-dashboard-notificacao-neutra">
+  <div class="fixed left-1/2 bottom-4 w-full md:w-max z-30 pb-4 px-5 sm:px-0 transform -translate-x-1/2 js-dashboard-notificacao-neutra">
     <div class="bg-blue-100 border border-blue-500 text-blue-700 px-4 py-3 rounded relative" role="alert">
       <?php if (is_array($notificacaoNeutra)) { ?>
         <?php foreach($notificacaoNeutra as $linha): ?>
