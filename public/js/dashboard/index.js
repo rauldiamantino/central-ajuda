@@ -220,13 +220,14 @@ function fecharTextoModal(event) {
       console.error("Erro ao carregar o módulo:", error)
     })
 }
+
 function abrirModalAdicionar() {
   const modal = document.querySelector('.modal-conteudo-texto-adicionar')
-  modal.classList.remove('hidden');
+  modal.classList.remove('hidden')
 
   setTimeout(() => {
-    modal.scrollIntoView({ behavior: 'smooth' });
-  }, 0)
+    modal.scrollIntoView({ behavior: 'smooth' })
+  }, 100)
 }
 
 function voltarAoTopo() {
