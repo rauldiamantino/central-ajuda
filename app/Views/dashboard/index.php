@@ -48,7 +48,7 @@
     <?php require_once 'template/topo.php' ?>
     <div class="mt-5 w-11/12 md:w-10/12 lg:w-9/12 flex h-full">
       <?php require_once 'template/menu_lateral.php' ?>
-      <main class="xl:pl-72 flex flex-col w-full">
+      <main class="xl:ml-72 flex flex-col w-full">
         <?php require_once 'notificacoes.php' ?>
         <div class="w-full h-full flex gap-6">
           <?php require_once $visao ?>

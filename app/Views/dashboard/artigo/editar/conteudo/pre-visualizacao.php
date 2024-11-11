@@ -24,7 +24,7 @@
       <?php } ?>
     </div>
 
-    <div class="w-full flex flex-col pt-6 pb-10 border-b border-slate-200">
+    <div class="w-full flex flex-col pt-6 pb-2 border-b border-slate-200">
       <?php if ($conteudos) { ?>
         <?php foreach ($conteudos as $chave => $linha) : ?>
           <div class="relative p-1 w-full h-full border-2 border-transparent group hover:border-black rounded div-pai-conteudo-editar">
