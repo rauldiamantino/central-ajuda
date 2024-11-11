@@ -223,10 +223,10 @@ function fecharTextoModal(event) {
 
 function abrirModalAdicionar() {
   const modal = document.querySelector('.modal-conteudo-texto-adicionar')
-  modal.classList.remove('hidden')
 
   setTimeout(() => {
     modal.scrollIntoView({ behavior: 'smooth' })
+    modal.classList.remove('hidden')
   }, 100)
 }
 
