@@ -11,6 +11,5 @@
   </div>
 
   <?php require_once 'formulario.php' ?>
-  <div class="mt-10"></div>
   <?php require_once 'plano.php' ?>
 </div>

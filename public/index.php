@@ -4,6 +4,7 @@ require '../vendor/autoload.php';
 use app\Core\Cache;
 use app\Core\SessaoUsuario;
 use app\Roteamento\Roteador;
+use app\Controllers\Components\PagamentoAsaasComponent;
 
 // Rollbar
 if (! HOST_LOCAL) {
@@ -15,7 +16,11 @@ if (! HOST_LOCAL) {
   \Rollbar\Rollbar::init($config);
 }
 
-$sessaoUsuario = new SessaoUsuario();
-$roteador = new Roteador();
+// $sessaoUsuario = new SessaoUsuario();
+// $roteador = new Roteador();
 
-$roteador->rotear();
+// $roteador->rotear();
+
+$asaas = new PagamentoAsaasComponent();
+$criarAssinatura = $asaas->criarAssinatura();
+die;
