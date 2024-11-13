@@ -43,6 +43,7 @@ class DashboardLoginController extends DashboardController
       'Empresa.subdominio',
       'Empresa.ativo',
       'Empresa.id',
+      'Empresa.criado',
     ];
 
     $empresas = $this->empresaModel->selecionar($colunas)
@@ -73,6 +74,10 @@ class DashboardLoginController extends DashboardController
           continue;
         }
 
+        if (! isset($linha['Empresa']['criado']) or empty($linha['Empresa']['criado'])) {
+          continue;
+        }
+
         if ($id != $linha['Empresa']['id']) {
           continue;
         }
@@ -80,6 +85,7 @@ class DashboardLoginController extends DashboardController
         // Aplica empresa na sessão
         $this->usuarioLogado['empresaId'] = $linha['Empresa']['id'];
         $this->usuarioLogado['empresaAtivo'] = $linha['Empresa']['ativo'];
+        $this->usuarioLogado['empresaCriado'] = $linha['Empresa']['criado'];
         $this->usuarioLogado['subdominio'] = $linha['Empresa']['subdominio'];
         $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
 
@@ -117,6 +123,7 @@ class DashboardLoginController extends DashboardController
       'email' => $resultado['ok']['email'],
       'empresaId' => $resultado['ok']['empresa_id'],
       'empresaAtivo' => $resultado['ok']['Empresa.ativo'],
+      'empresaCriado' => $resultado['ok']['Empresa.criado'],
       'subdominio' => $resultado['ok']['Empresa.subdominio'],
       'nivel' => $resultado['ok']['nivel'],
       'padrao' => $resultado['ok']['padrao'],

@@ -30,7 +30,8 @@ class DashboardLoginModel extends Model
               Usuario.padrao,
               Usuario.tentativas_login,
               Empresa.subdominio AS "Empresa.subdominio",
-              Empresa.ativo AS "Empresa.ativo"
+              Empresa.ativo AS "Empresa.ativo",
+              Empresa.criado AS "Empresa.criado"
             FROM
               usuarios AS Usuario
             LEFT JOIN

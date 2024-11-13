@@ -12,12 +12,11 @@ class PagamentoAsaasComponent extends DashboardController
 
   public function __construct()
   {
-    $this->base = '';
-    $this->token = '';
+    $this->base = 'https://api.asaas.com/v3';
+    $this->token = ASAAS_TOKEN;
 
     if (HOST_LOCAL) {
-      $this->base = 'https://sandbox.asaas.com';
-      $this->token = '$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDAwOTQ1NTY6OiRhYWNoX2VkMTQ0NWFkLTQ4YzUtNGE1Yy04YjZhLTVmYWQ3MjgwY2U4ZQ==';
+      $this->base = 'https://sandbox.asaas.com/api/v3';
     }
   }
 
@@ -70,7 +69,7 @@ class PagamentoAsaasComponent extends DashboardController
       'externalReference' => $empresaId,
     ];
 
-    $resposta = $this->req('POST', '/api/v3/customers', $campos);
+    $resposta = $this->req('POST', '/customers', $campos);
 
     if (isset($resposta['dados']['errors'][0]['description']) and $resposta['dados']['errors'][0]['description']) {
       return ['erro' => $resposta['dados']['errors'][0]['description']];
@@ -134,7 +133,7 @@ class PagamentoAsaasComponent extends DashboardController
       ],
     ];
 
-    $resposta = $this->req('POST', '/api/v3/subscriptions', $campos);
+    $resposta = $this->req('POST', '/subscriptions', $campos);
 
     if (isset($resposta['dados']['errors'][0]['description']) and $resposta['dados']['errors'][0]['description']) {
       return ['erro' => $resposta['dados']['errors'][0]['description']];
@@ -153,7 +152,7 @@ class PagamentoAsaasComponent extends DashboardController
       return ['erro' => 'Assinatura ID não informado'];
     }
 
-    $resposta = $this->req('GET', '/api/v3/subscriptions/' . $assinaturaId . '/payments');
+    $resposta = $this->req('GET', '/subscriptions/' . $assinaturaId . '/payments');
 
     if (isset($resposta['dados']['errors']) and $resposta['dados']['errors']) {
       return $resposta['dados']['errors'];
