@@ -453,6 +453,7 @@ class Roteador
 
       // Dashboard - Assinatura
       'POST:/d/assinaturas/receber' => [AssinaturaReceberComponent::class, 'receberWebhook'],
+      'GET:/{empresa}/d/assinaturas/gerar' => [DashboardEmpresaController::class, 'criarAssinaturaAsaas'],
 
       // Cache
       'GET:/{empresa}/cache/limpar' => [Cache::class, 'resetarCache'],

@@ -3,7 +3,7 @@
         'name' => 'rauld/central-ajuda',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '55ca08c5520dfb98ee69a85ffee7a6cb3dbf2ff9',
+        'reference' => '633d479652555acc71e6d6371d4151fd9594dba1',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -127,7 +127,7 @@
         'rauld/central-ajuda' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '55ca08c5520dfb98ee69a85ffee7a6cb3dbf2ff9',
+            'reference' => '633d479652555acc71e6d6371d4151fd9594dba1',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

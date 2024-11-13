@@ -11,34 +11,17 @@
           <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
         </label>
       </div>
-
-      <?php // Assinatura Stripe ?>
-      <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
-        <label for="empresa-editar-assinatura-id" class="w-full flex flex-col text-sm font-medium text-gray-700">
-          <span>ID da assinatura Stripe</span>
-          <?php if ($this->usuarioLogado['padrao'] == USUARIO_SUPORTE) { ?>
-            <form action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/validar_assinatura'); ?>" method="GET" class="w-full">
-              <input type="hidden" name="assinatura_id" value="<?php echo $empresa['Empresa']['assinatura_id']; ?>">
-              <input type="hidden" name="sessao_stripe_id" value="<?php echo $empresa['Empresa']['sessao_stripe_id']; ?>">
-              <button type="submit" class="w-max font-extralight hover:underline">
-                Reprocessar
-              </button>
-            </form>
-          <?php } ?>
-        </label>
-        <input type="text" id="empresa-editar-assinatura-id" name="assinatura_id" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $empresa['Empresa']['assinatura_id']; ?>">
-      </div>
     <?php } ?>
 
     <?php // Nome da empresa ?>
     <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
-      <label for="empresa-editar-assinatura-id" class="w-full block text-sm font-medium text-gray-700">Nome da empresa <span class="font-extralight">(opcional)</span></label>
+      <label for="empresa-editar-assinatura-id" class="w-full block text-sm font-medium text-gray-700">Nome da empresa <span class="text-red-800 font-extralight">(obrigatório)</span></label>
       <input type="text" id="empresa-editar-nome" name="nome" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $empresa['Empresa']['nome']; ?>">
     </div>
 
     <?php // CNPJ ?>
     <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
-      <label for="empresa-editar-cnpj" class="block text-sm font-medium text-gray-700">CNPJ <span class="font-extralight">(opcional)</span></label>
+      <label for="empresa-editar-cnpj" class="block text-sm font-medium text-gray-700">CNPJ <span class="text-red-800 font-extralight">(obrigatório)</span></label>
       <input type="text" id="empresa-editar-cnpj" name="cnpj" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $empresa['Empresa']['cnpj']; ?>">
     </div>
 

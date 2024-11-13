@@ -8,19 +8,16 @@ use app\Controllers\Components\PagamentoAsaasComponent;
 
 // Rollbar
 if (! HOST_LOCAL) {
-  $config = array(
+  $config = [
     'access_token' => ROLLBAR_TOKEN,
     'environment' => 'production',
-  );
+  ];
 
   \Rollbar\Rollbar::init($config);
 }
 
-// $sessaoUsuario = new SessaoUsuario();
-// $roteador = new Roteador();
+$sessaoUsuario = new SessaoUsuario();
+$sessaoUsuario->apagar('debug');
 
-// $roteador->rotear();
-
-$asaas = new PagamentoAsaasComponent();
-$criarAssinatura = $asaas->criarAssinatura();
-die;
+$roteador = new Roteador();
+$roteador->rotear();

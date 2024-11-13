@@ -2,30 +2,35 @@
 
   <div class="py-8">
     <h3 class="text-lg font-semibold">Plano</h3>
-    <div class="text-sm text-gray-700">Ajuste sua assinatura e mude de plano quando quiser!</div>
-
+    <?php if ($assinaturaId and $cobrancas) { ?>
+      <div class="text-sm text-gray-700">Gostaria de alterar o plano? <a href="https://api.whatsapp.com/send/?phone=5511934332319&text=Olá!%20Tudo%20bem?%20Gostaria%20de%20saber%20como%20posso%20alterar%20meu%20plano.%20Obrigado!&type=phone_number&app_absent=0" target="_blank" class="underline font-semibold">Fale com a gente! :)</a></div>
+    <?php } elseif ($assinaturaId) { ?>
+      <div class="text-sm text-gray-700">Ops! Algo deu errado. Por favor, entre em contato para atualizar sua assinatura.</div>
+    <?php } else { ?>
+      <div class="text-sm text-gray-700">Ajuste sua assinatura e mude de plano quando quiser!</div>
+    <?php } ?>
     <?php // Plano ?>
     <div class="pt-5 w-full flex flex-col gap-5">
-      <button class="border border-slate-200 w-full lg:w-[700px] p-8 flex flex-col gap-2 md:flex-row justify-between md:items-center rounded-lg bg-slate-50 hover:bg-slate-100">
+      <button <?php echo ($assinaturaId) ? 'disabled' : ''; ?> onclick="window.location.href='/<?php echo $this->usuarioLogado['subdominio'] . '/d/assinaturas/gerar?plano=mensal'; ?>';" class="border border-slate-200 w-full lg:w-[700px] p-8 flex flex-col gap-2 md:flex-row justify-between md:items-center rounded-lg bg-slate-50 hover:bg-slate-100">
         <div class="text-left">
           <div class="flex flex-col md:flex-row gap-1 md:gap-2 items-start md:items-end">
             <span class="text-sm font-semibold">Mensal</span>
-            <span class="text-sm font-light text-gray-500 line-through">De R$ 149,00/mês</span>
+            <span class="text-sm font-light text-gray-500 line-through">De R$ 119,00/mês</span>
             <span class="text-sm text-green-700 font-normal">por R$ 99,00/mês</span>
           </div>
         </div>
-        <span class="text-sm font-semibold text-blue-800">Assinar</span>
+        <span class="text-sm font-semibold text-blue-800"><?php echo $assinaturaId ? '' : 'Assinar'; ?></span>
       </button>
-      <button class="border border-slate-200 w-full lg:w-[700px] p-8 flex flex-col gap-2 md:flex-row justify-between md:items-center rounded-lg bg-slate-50 hover:bg-slate-100">
+      <button <?php echo ($assinaturaId) ? 'disabled' : ''; ?> onclick="window.location.href='/<?php echo $this->usuarioLogado['subdominio'] . '/d/assinaturas/gerar?plano=anual'; ?>';" class="border border-slate-200 w-full lg:w-[700px] p-8 flex flex-col gap-2 md:flex-row justify-between md:items-center rounded-lg bg-slate-50 hover:bg-slate-100">
         <div class="text-left">
           <div class="h-full flex flex-col md:flex-row gap-1 md:gap-2 items-start md:items-end">
             <span class="text-sm font-semibold">Anual</span>
-            <span class="text-sm font-light text-gray-500 line-through">De R$ 114,00/mês</span>
+            <span class="text-sm font-light text-gray-500 line-through">De R$ 84,00/mês</span>
             <span class="text-sm text-green-700 font-normal">por R$ 64,00/mês</span>
             <span class="text-sm font-light text-gray-500">cobrado anualmente (R$ 768,00/ano)</span>
           </div>
         </div>
-        <span class="text-sm font-semibold text-blue-800">Assinar</span>
+        <span class="text-sm font-semibold text-blue-800"><?php echo $assinaturaId ? '' : 'Assinar'; ?></span>
       </button>
     </div>
 
@@ -52,21 +57,76 @@
             </tr>
           </thead>
           <tbody class="divide-y">
-            <tr class="hover:bg-slate-100">
-              <td class="py-5 px-4">12/12/2024</td>
-              <td class="py-5 px-4 font-semibold">Mensal</td>
-              <td class="py-5 px-4">
-                <div class="flex items-center gap-2">
-                  <span class="px-3 py-1 bg-orange-50 text-orange-600 text-xs rounded-full">Pendente</span>
-                </div>
-              </td>
-              <td class="py-5 px-4 text-green-700">R$ 69,90</td>
-              <td class="py-5 px-4 font-semibold text-blue-800">
-                <a href="" class="font-semibold hover:underline">Pagar</a>
-              </td>
-            </tr>
+            <?php $temCobranca = false ?>
+            <?php foreach($cobrancas as $chave => $linha): ?>
+
+              <?php
+              if (! isset($linha['dueDate']) or empty($linha['dueDate'])) {
+                continue;
+              }
+
+              if (! isset($linha['description']) or empty($linha['description'])) {
+                continue;
+              }
+
+              if (! isset($linha['status']) or empty($linha['status'])) {
+                continue;
+              }
+
+              if (! isset($linha['value']) or empty($linha['value'])) {
+                continue;
+              }
+
+              if (! isset($linha['invoiceUrl']) or empty($linha['invoiceUrl'])) {
+                continue;
+              }
+
+              $botao = '';
+              $status = $linha['status'];
+              $valor = number_format($linha['value'], 2, ',', '.');
+              $vencimento = $linha['dueDate'];
+              $vencimento = new DateTime($vencimento);
+              $vencimento = $vencimento->format('d/m/Y');
+              $pagamentoLink = $linha['invoiceUrl'];
+
+              $temCobranca = true;
+
+              if ($status == 'CONFIRMED') {
+                $status = 'Pago';
+                $classeStatus = 'bg-green-50 text-green-600';
+              }
+              elseif ($status == 'OVERDUE') {
+                $botao = 'Pagar';
+                $status = 'Vencido';
+                $classeStatus = 'bg-red-50 text-red-600';
+              }
+              else {
+                $botao = 'Pagar';
+                $status = 'Pendente';
+                $classeStatus = 'bg-orange-50 text-orange-600';
+              }
+              ?>
+
+              <tr class="hover:bg-slate-100">
+                <td class="py-5 px-4"><?php echo $vencimento ?></td>
+                <td class="py-5 px-4 font-semibold"><?php echo $linha['description'] ?></td>
+                <td class="py-5 px-4">
+                  <div class="flex items-center gap-2">
+                    <span class="px-3 py-1 text-xs rounded-full <?php echo $classeStatus; ?>"><?php echo $status ?></span>
+                  </div>
+                </td>
+                <td class="py-5 px-4 text-green-700">R$ <?php echo $valor ?></td>
+                <td class="py-5 px-4 font-semibold text-blue-800">
+                  <a href="<?php echo $pagamentoLink; ?>" target="_blank" class="font-semibold hover:underline"><?php echo $botao ?></a>
+                </td>
+              </tr>
+            <?php endforeach; ?>
           </tbody>
         </table>
+
+        <?php if ($temCobranca == false) { ?>
+          <div class="w-full p-4 flex justify-center items-center text-gray-700 text-xs">...</div>
+        <?php } ?>
       </div>
     </div>
   </div>

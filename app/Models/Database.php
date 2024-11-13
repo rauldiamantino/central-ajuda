@@ -24,12 +24,6 @@ class Database
     catch (Exception $e) {
       $log['erro'] = $e->getMessage();
 
-      if (DEBUG) {
-        global $sessaoUsuario;
-        $sessaoUsuario = $sessaoUsuario;
-        $sessaoUsuario->definir('debug', $log, true);
-      }
-
       if (HOST_LOCAL) {
         registrarLog('database-conexao', $log);
       }
@@ -133,12 +127,6 @@ class Database
 
     if ($erro) {
       $log['erro'] = $erro;
-    }
-
-    if (DEBUG) {
-      global $sessaoUsuario;
-      $sessaoUsuario = $sessaoUsuario;
-      $sessaoUsuario->definir('debug', $log, true);
     }
 
     if (HOST_LOCAL) {

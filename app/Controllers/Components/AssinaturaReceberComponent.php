@@ -21,6 +21,7 @@ class AssinaturaReceberComponent extends DashboardController
   {
     $json = $this->receberJson();
     $evento = $json['type'] ?? '';
+    $eventoAsaas = $json['event'] ?? '';
 
     if ($evento == 'checkout.session.completed') {
       $this->confirmarAssinatura($json);
@@ -29,6 +30,10 @@ class AssinaturaReceberComponent extends DashboardController
     if ($evento == 'customer.subscription.deleted') {
       $this->cancelarAssinatura($json);
     }
+
+    // if ($eventoAsaas == 'PAYMENT_CREATED') {
+    //   $this->confirmarPagamentoAsaas($json);
+    // }
   }
 
   private function confirmarAssinatura(array $json): void
