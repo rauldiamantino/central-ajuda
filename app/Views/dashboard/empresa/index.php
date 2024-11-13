@@ -10,5 +10,6 @@
     </div>
   </div>
 
-   <?php require_once 'formulario.php' ?>
+  <?php require_once 'formulario.php' ?>
+  <?php require_once 'plano.php' ?>
 </div>

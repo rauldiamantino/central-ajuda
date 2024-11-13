@@ -32,7 +32,7 @@
   <?php if (isset($pagCadastro)) { ?>
     <main>
       <div class="w-full min-h-screen flex justify-center items-center">
-        <div class="relative p-4 w-full sm:w-[1200px] h-max">
+        <div class="relative p-4 w-full sm:w-[600px] h-max">
           <?php require_once $visao ?>
           <?php require_once 'cadastro/notificacoes.php' ?>
         </div>
@@ -74,7 +74,6 @@
           <div class="py-4 overflow-x-auto">
             <?php pr($this->sessaoUsuario->buscar('debug')); ?>
           </div>
-          <?php $this->sessaoUsuario->apagar('debug'); ?>
         </div>
       </div>
     </div>

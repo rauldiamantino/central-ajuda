@@ -53,7 +53,6 @@
           <div class="py-4 overflow-x-auto">
             <?php pr($this->sessaoUsuario->buscar('debug')); ?>
           </div>
-          <?php $this->sessaoUsuario->apagar('debug'); ?>
         </div>
       </div>
     </div>

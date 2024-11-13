@@ -1,8 +1,8 @@
 <div class="w-full h-full bg-white p-5 lg:p-10 rounded-md dashboard-pre-visualizacao">
   <div class="flex flex-col justify-between items-start gap-2 md:pt-5 px-3">
     <div class="flex gap-2 items-center">
-      <h1><?php echo $artigo['Artigo']['titulo'] ?></h1>
-      <?php if ($artigo['Artigo']['ativo'] == INATIVO) { ?>
+      <h1><?php echo $artigo['Artigo']['titulo'] ?? '' ?></h1>
+      <?php if (isset($artigo['Artigo']['ativo']) and $artigo['Artigo']['ativo'] == INATIVO) { ?>
         <div class="text-red-800">
           <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 16 16">
             <circle cx="8" cy="8" r="8"/>

@@ -2,7 +2,8 @@
 namespace app\Controllers;
 use app\Core\Cache;
 use app\Models\DashboardEmpresaModel;
-use app\Controllers\Components\PagamentoStripeComponent;
+use app\Controllers\DashboardController;
+use app\Controllers\Components\PagamentoAsaasComponent;
 
 class DashboardEmpresaController extends DashboardController
 {
@@ -14,7 +15,6 @@ class DashboardEmpresaController extends DashboardController
     parent::__construct();
 
     $this->empresaModel = new DashboardEmpresaModel($this->usuarioLogado, $this->empresaPadraoId);
-    $this->pagamentoStripe = new PagamentoStripeComponent();
   }
 
   public function empresaEditarVer()
@@ -38,8 +38,7 @@ class DashboardEmpresaController extends DashboardController
       'Empresa.telefone',
       'Empresa.logo',
       'Empresa.favicon',
-      'Empresa.sessao_stripe_id',
-      'Empresa.assinatura_id',
+      'Empresa.assinatura_id_asaas',
       'Empresa.criado',
       'Empresa.modificado',
     ];
@@ -52,7 +51,17 @@ class DashboardEmpresaController extends DashboardController
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard', $empresa['erro']);
     }
 
+    $buscarCobrancas = [];
+    $assinaturaId = $empresa[0]['Empresa']['assinatura_id_asaas'];
+
+    if ($assinaturaId) {
+      $asaas = new PagamentoAsaasComponent();
+      $buscarCobrancas = $asaas->buscarCobrancas($assinaturaId);
+    }
+
     $this->visao->variavel('empresa', reset($empresa));
+    $this->visao->variavel('assinaturaId', $assinaturaId);
+    $this->visao->variavel('cobrancas', $buscarCobrancas);
     $this->visao->variavel('titulo', 'Editar empresa');
     $this->visao->variavel('paginaMenuLateral', 'empresa');
     $this->visao->renderizar('/empresa/index');
@@ -65,6 +74,91 @@ class DashboardEmpresaController extends DashboardController
     }
 
     return $this->empresaModel->buscarEmpresaSemId($coluna, $valor);
+  }
+
+  public function criarAssinaturaAsaas()
+  {
+    $plano = strtolower($_GET['plano'] ?? '');
+
+    $msgErro = [
+      'erro' => [
+        'codigo' => 400,
+        'mensagem' => '',
+      ],
+    ];
+
+    $condicao[] = [
+      'campo' => 'Empresa.id',
+      'operador' => '=',
+      'valor' => (int) $this->empresaPadraoId,
+    ];
+
+    $condicao[] = [
+      'campo' => 'Usuario.padrao',
+      'operador' => '=',
+      'valor' => (int) USUARIO_PADRAO,
+    ];
+
+    $colunas = [
+      'Empresa.id',
+      'Empresa.nome',
+      'Empresa.cnpj',
+      'Empresa.telefone',
+      'Empresa.subdominio',
+      'Usuario.email',
+      'Usuario.padrao',
+    ];
+
+    $juntarUsuario = [
+      'tabelaJoin' => 'Usuario',
+      'campoA' => 'Usuario.empresa_id',
+      'campoB' => 'Empresa.id',
+    ];
+
+    $empresa = $this->empresaModel->selecionar($colunas)
+                                  ->condicao($condicao)
+                                  ->juntar($juntarUsuario, 'LEFT')
+                                  ->executarConsulta();
+
+    if (empty($empresa)) {
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Não foi possível gerar a assinatura, por favor, entre em contato com o nosso suporte.');
+    }
+
+    if (is_array($plano) or ! in_array($plano, ['mensal', 'anual'])) {
+      $msgErro['erro']['mensagem'] = 'Plano inválido';
+    }
+
+    if (! isset($empresa[0]['Empresa']['nome'])) {
+      $msgErro['erro']['mensagem'] = 'Para realizar a assinatura, é necessário preencher o nome da empresa';
+    }
+
+    if (! isset($empresa[0]['Empresa']['cnpj'])) {
+      $msgErro['erro']['mensagem'] = 'Para realizar a assinatura, é necessário preencher o CNPJ da empresa';
+    }
+
+    if ($msgErro['erro']['mensagem']) {
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', $msgErro['erro']);
+    }
+
+    $asaas = new PagamentoAsaasComponent();
+    $criarAssinatura = $asaas->criarAssinatura($empresa, $plano);
+
+    if (isset($criarAssinatura['erro'])) {
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Não foi possível gerar a assinatura, por favor, entre em contato com o nosso suporte');
+    }
+
+    $campos = ['assinatura_id_asaas' => $criarAssinatura['id']];
+    $resultado = $this->empresaModel->atualizar($campos, $this->empresaPadraoId);
+
+    if (isset($resultado['erro'])) {
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', $resultado['erro']);
+    }
+
+    if (! isset($resultado['linhasAfetadas']) or $resultado['linhasAfetadas'] != 1) {
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Não foi possível gravar os dados da sua assinatura, por favor, entre em contato com o nosso suporte');
+    }
+
+    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Assinatura criada com sucesso!');
   }
 
   public function atualizar(int $id)
@@ -109,189 +203,5 @@ class DashboardEmpresaController extends DashboardController
     Cache::apagar('roteador_subdominio-' . md5('subdominio' . $this->usuarioLogado['subdominio']));
 
     $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Registro alterado com sucesso');
-  }
-
-
-  public function reprocessarAssinatura(): void
-  {
-    $assinaturaId = $_GET['assinatura_id'] ?? '';
-    $sessaoStripe = $_GET['sessao_stripe_id'] ?? '';
-
-    if ($sessaoStripe) {
-      $this->confirmarAssinatura();
-      return;
-    }
-
-    if ($assinaturaId and $this->usuarioLogado['empresaId']) {
-      $assinatura = $this->pagamentoStripe->buscarAssinatura($assinaturaId);
-      $status = $assinatura['status'] ?? '';
-
-      if (in_array($status, ['canceled', 'active'])) {
-        $campos['ativo'] = INATIVO;
-
-        if ($status == 'active') {
-          $campos['ativo'] = ATIVO;
-        }
-
-        $resultado = $this->empresaModel->atualizar($campos, $this->usuarioLogado['empresaId']);
-
-        if (isset($resultado['erro'])) {
-          $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', $resultado['erro']);
-        }
-
-        $condicao[] = [
-          'campo' => 'Empresa.id',
-          'operador' => '=',
-          'valor' => $this->usuarioLogado['empresaId'],
-        ];
-
-        $colunas = [
-          'Empresa.ativo',
-        ];
-
-        $empresa = $this->empresaModel->selecionar($colunas)
-                                      ->condicao($condicao)
-                                      ->executarConsulta();
-
-        // Atualiza sessão
-        if (isset($empresa[0]['Empresa']['ativo'])) {
-          $this->usuarioLogado['empresaAtivo'] = $empresa[0]['Empresa']['ativo'];
-          $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
-        }
-
-        Cache::apagar('publico-dados-empresa', $this->usuarioLogado['empresaId']);
-        Cache::apagar('roteador_subdominio-' . md5('id' . $this->empresaPadraoId));
-        Cache::apagar('roteador_subdominio-' . md5('subdominio' . $this->usuarioLogado['subdominio']));
-
-        $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Assinatura reprocessada com sucesso');
-      }
-    }
-
-    $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar');
-  }
-
-  private function confirmarAssinatura(): void
-  {
-    $sessaoStripe = $_GET['sessao_stripe_id'] ?? '';
-
-    if ($sessaoStripe and $this->usuarioLogado['empresaId']) {
-      $buscarAssinaturaAtiva = $this->pagamentoStripe->buscarAssinaturaAtiva($sessaoStripe);
-
-      if (isset($buscarAssinaturaAtiva['erro'])) {
-        $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', $buscarAssinaturaAtiva['erro']);
-      }
-
-      if (isset($buscarAssinaturaAtiva['ok']) and $buscarAssinaturaAtiva['ok']) {
-        $campos = [
-          'ativo' => ATIVO,
-          'sessao_stripe_id' => '',
-          'assinatura_id' => $buscarAssinaturaAtiva['ok'],
-        ];
-
-        $resultado = $this->empresaModel->atualizar($campos, $this->usuarioLogado['empresaId']);
-
-        if (isset($resultado['erro'])) {
-          $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', $resultado['erro']);
-        }
-
-        $condicao[] = [
-          'campo' => 'Empresa.id',
-          'operador' => '=',
-          'valor' => $this->usuarioLogado['empresaId'],
-        ];
-
-        $colunas = [
-          'Empresa.ativo',
-        ];
-
-        $empresa = $this->empresaModel->selecionar($colunas)
-                                      ->condicao($condicao)
-                                      ->executarConsulta();
-
-        // Atualiza sessão
-        if (isset($empresa[0]['Empresa']['ativo'])) {
-          $this->usuarioLogado['empresaAtivo'] = $empresa[0]['Empresa']['ativo'];
-          $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
-
-          Cache::apagar('roteador_subdominio-' . $this->usuarioLogado['empresaId']);
-        }
-
-        $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Assinatura confirmada com sucesso');
-      }
-    }
-
-    $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Sem alterações');
-  }
-
-  public function confirmarAssinaturaWebhook(string $sessionId, string $assinaturaId): bool
-  {
-    $resultado = $this->empresaModel->buscarEmpresaSemId('sessao_stripe_id', $sessionId);
-    $empresaId = intval($resultado[0]['Empresa']['id'] ?? 0);
-
-    if ($empresaId == 0) {
-      return false;
-    }
-
-    $campos = [
-      'sessao_stripe_id' => NULL,
-      'assinatura_id' => $assinaturaId,
-    ];
-
-    $webhook = true;
-    $resultado = $this->empresaModel->atualizar($campos, $empresaId, $webhook);
-
-    if (! isset($resultado['linhasAfetadas']) or $resultado['linhasAfetadas'] != 1) {
-      return false;
-    }
-
-    if (isset($this->usuarioLogado['empresaId'])) {
-      Cache::apagar('roteador_subdominio-' . $this->usuarioLogado['empresaId']);
-    }
-
-    return true;
-  }
-
-  public function cancelarAssinaturaWebhook(string $assinaturaId): bool
-  {
-    $resultado = $this->empresaModel->buscarEmpresaSemId('assinatura_id', $assinaturaId);
-    $empresaId = intval($resultado[0]['Empresa']['id'] ?? 0);
-
-    if ($empresaId == 0) {
-      return false;
-    }
-
-    $campos = [
-      'ativo' => INATIVO,
-    ];
-
-    $webhook = true;
-    $resultado = $this->empresaModel->atualizar($campos, $empresaId, $webhook);
-
-    if (! isset($resultado['linhasAfetadas']) or $resultado['linhasAfetadas'] != 1) {
-      return false;
-    }
-
-    Cache::apagar('publico-dados-empresa', $this->usuarioLogado['empresaId']);
-    Cache::apagar('roteador_subdominio-' . md5('id' . $this->empresaPadraoId));
-    Cache::apagar('roteador_subdominio-' . md5('subdominio' . $this->usuarioLogado['subdominio']));
-
-    return true;
-  }
-
-  public function buscarAssinatura()
-  {
-    if ($this->acessoPermitido() == false) {
-      $this->responderJson('Acesso negado', 403);
-    }
-
-    $json = $this->receberJson();
-    $assinaturaId = $json['assinatura_id'] ?? '';
-    $respostaApi = $this->pagamentoStripe->buscarAssinatura($assinaturaId);
-
-    if (! isset($respostaApi['id']) or empty($respostaApi['id'])) {
-      $this->responderJson(['erro' => 'Assinatura não encontrada'], 404);
-    }
-
-    $this->responderJson(['ok' => $respostaApi]);
   }
 }

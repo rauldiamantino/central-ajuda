@@ -40,7 +40,7 @@
 
   <div class="mt-4 w-full flex flex-col lg:flex-row lg:justify-between gap-5">
     <div class="relative pb-10 w-full border border-slate-300 bg-white duration-350 shadow rounded-md">
-      <?php if((int) $artigo['Artigo']['ativo'] == INATIVO) { ?>
+      <?php if(isset($artigo['Artigo']['ativo']) and (int) $artigo['Artigo']['ativo'] == INATIVO) { ?>
         <div class="md:absolute w-full p-4 flex justify-end">
           <div class="w-full md:w-max py-1 px-4 bg-red-900 text-center text-white text-xs font-light rounded">
             Não publicado
