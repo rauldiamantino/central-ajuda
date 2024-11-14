@@ -13,7 +13,7 @@ else {
 }
 ?>
 
-<div class="mb-10 relative w-full min-h-screen flex flex-col">
+<div class="relative w-full max-h-screen flex flex-col">
   <div class="mb-4 w-full flex flex-col lg:flex-row justify-between items-start lg:items-center">
     <div class="mb-5 w-full h-full flex flex-col justify-end">
       <h2 class="text-3xl font-semibold flex gap-2"><?php echo $saudacao; ?>! Vamos lá?</h2>

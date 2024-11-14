@@ -3,7 +3,7 @@ $paginaSelecionada = $paginaMenuLateral ?? '';
 $classeRestrito = $this->usuarioLogado['nivel'] == USUARIO_RESTRITO ? 'text-gray-500' : ''
 ?>
 
-<asside class="fixed top-0 bottom-0 left-0 z-20 transform -translate-x-full transition-transform duration-100 xl:translate-x-0 border-r border-slate-200 flex flex-col justify-start bg-gray-800 w-80 md:w-96 lg:w-72 h-screen min-h-full overflow-hidden dashboard-menu-lateral">
+<asside class="fixed top-0 bottom-0 left-0 z-20 transform -translate-x-full transition-transform duration-100 xl:translate-x-0 border-r border-slate-200 flex flex-col justify-start bg-gray-800 w-80 md:w-96 lg:w-72 h-screen min-h-full overflow-y-auto dashboard-menu-lateral">
   <div class="mb-2 w-full py-5 flex justify-center gap-8 items-center text-gray-400">
     <a href="<?php echo baseUrl('/login'); ?>" class="w-max justify-center flex items-center">
       <img src="<?php echo baseUrl('/img/360help-preto.svg')?>" class="w-44">
