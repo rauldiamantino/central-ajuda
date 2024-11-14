@@ -176,13 +176,12 @@ const converterParaReais = (valor = 0) => {
 
 const rolagemVerticalAutomatica = () => {
   const urlParams = new URLSearchParams(window.location.search)
+  const alvo = document.querySelector('.alvo-plano');
 
-  if (urlParams.get('acao') === 'assinar') {
-
+  if (urlParams.get('acao') === 'assinar' && alvo != undefined) {
     setTimeout(() => {
-      const bodyHeight = document.body.scrollHeight
-      window.scrollTo({ top: bodyHeight, behavior: 'smooth' })
-    }, 50)
+      alvo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
   }
   else {
     setTimeout(() => window.scrollTo({top: 0, left: 0, behavior: 'smooth'}), 60)
