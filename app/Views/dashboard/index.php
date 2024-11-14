@@ -46,7 +46,7 @@
 
   <?php if (! isset($pagLogin) and ! isset($pagLoginSuporte) and ! isset($pagCadastro)) { ?>
     <?php require_once 'template/topo.php' ?>
-    <div class="mt-5 w-11/12 md:w-10/12 lg:w-9/12 flex h-full">
+    <div class="mt-5 w-11/12 md:w-10/12 lg:w-9/12 flex h-max">
       <?php require_once 'template/menu_lateral.php' ?>
       <main class="xl:pl-72 flex flex-col w-full">
         <?php require_once 'notificacoes.php' ?>
@@ -56,7 +56,6 @@
       </main>
     </div>
   <?php } ?>
-  <?php require_once 'scripts.php' ?>
 
   <?php if ($this->usuarioLogado['padrao'] == USUARIO_SUPORTE and $this->sessaoUsuario->buscar('debugAtivo')) { ?>
 
@@ -67,7 +66,7 @@
       $classeMargem = 'xl:ml-72 ';
     }
     ?>
-    <div class="<?php echo $classeMargem ?>my-10 px-4 lg:px-16 flex w-full lg:w-8/12 max-w-screen">
+    <div class="<?php echo $classeMargem ?>my-10 px-4 lg:px-16 flex w-full min-h-max lg:w-8/12 max-w-screen">
       <div class="w-full">
         <h2 class="mb-5 text-2xl font-semibold">Debug</h2>
         <div class="border border-slate-300 w-full p-4 lg:p-10 bg-gray-200 text-gray-900 text-xs shadow rounded-md">
@@ -78,5 +77,6 @@
       </div>
     </div>
   <?php } ?>
+  <?php require_once 'scripts.php' ?>
 </body>
 </html>

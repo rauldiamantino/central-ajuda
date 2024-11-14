@@ -7,7 +7,7 @@ $urlVoltar = '/' . $this->usuarioLogado['subdominio'] . '/dashboard/usuarios';
 }
 ?>
 
-<div class="mb-10 relative w-full max-h-screen flex flex-col">
+<div class="mb-10 relative w-full h-max flex flex-col">
   <div class="mb-4 w-full flex flex-col lg:flex-row justify-between items-start lg:items-center">
     <div class="mb-5 w-full h-full flex flex-col justify-end">
       <h2 class="text-3xl font-semibold flex gap-2">Editar <?php require_once 'usuario-padrao.php' ?>
