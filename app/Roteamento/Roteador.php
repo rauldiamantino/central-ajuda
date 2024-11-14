@@ -97,6 +97,8 @@ class Roteador
     $empresaAtivo = 0;
     $assinaturaId = '';
     $assinaturaStatus = 0;
+    $gratisVencido = false;
+    $gratisPrazo = '';
 
     $chaveRota = preg_replace('/\b' . preg_quote($id, '/') . '\b/', '{id}', $chaveRota, 1);
 
@@ -134,6 +136,16 @@ class Roteador
       $empresa = $buscarEmpresa[0]['Empresa']['subdominio'] ?? '';
       $assinaturaId = $buscarEmpresa[0]['Empresa']['assinatura_id_asaas'] ?? '';;
       $assinaturaStatus = intval($buscarEmpresa[0]['Empresa']['assinatura_status'] ?? 0);
+      $gratisPrazo = $buscarEmpresa[0]['Empresa']['gratis_prazo'] ?? '';
+    }
+
+    if ($gratisPrazo) {
+      $dataHoje = new DateTime('now');
+      $dataGratis = new DateTime($gratisPrazo);
+
+      if ($dataGratis <= $dataHoje) {
+        $gratisVencido = true;
+      }
     }
 
     // Acesso negado
@@ -215,7 +227,7 @@ class Roteador
 
       if ($sucesso and $usuarioLogado['padrao'] != USUARIO_SUPORTE) {
 
-        if (empty($assinaturaId) and $assinaturaStatus == INATIVO and ! $this->rotaAssinaturaVencida($chaveRota)) {
+        if ($gratisVencido and empty($assinaturaId) and $assinaturaStatus == INATIVO and ! $this->rotaAssinaturaVencida($chaveRota)) {
           // Teste expirado
           $this->sessaoUsuario->definir('neutra', 'Ops! Seu período de testes expirou. 😔 <br>
                                                   <a href="/' . $empresa . '/dashboard/empresa/editar?acao=assinar" class="underline font-semibold">Clique aqui</a> para assinar o 360Help!');
@@ -239,6 +251,11 @@ class Roteador
       if ($usuarioLogado['empresaId'] !== $empresaId) {
         return $this->paginaErro->erroVer();
       }
+    }
+
+    // Acesso público de usuário com assinatura vencida
+    if (! strpos($chaveRota, '/dashboard') and $gratisVencido and $assinaturaStatus == INATIVO and (! isset($usuarioLogado['padrao']) or $usuarioLogado['padrao'] != USUARIO_SUPORTE)) {
+        $empresaId = 0;
     }
 
     // Acesso sem subdomínio

@@ -167,11 +167,12 @@ class DashboardCadastroModel extends Model
 
   public function gerarEmpresa(string $subdominio): int
   {
-    $sql = 'INSERT INTO `empresas` (`ativo`, `subdominio`) VALUES (?, ?)';
+    $sql = 'INSERT INTO `empresas` (`ativo`, `subdominio`, `gratis_prazo`) VALUES (?, ?, ?)';
 
     $params = [
       0 => ATIVO,
       1 => $subdominio,
+      2 => date('Y-m-d H:i:s', strtotime('+14 days')),
     ];
 
     $resultado = parent::executarQuery($sql, $params);

@@ -40,6 +40,7 @@ class DashboardEmpresaController extends DashboardController
       'Empresa.telefone',
       'Empresa.logo',
       'Empresa.favicon',
+      'Empresa.gratis_prazo',
       'Empresa.assinatura_id_asaas',
       'Empresa.assinatura_status',
       'Empresa.criado',
@@ -235,7 +236,7 @@ class DashboardEmpresaController extends DashboardController
     }
 
     if (! isset($resultado['linhasAfetadas']) or $resultado['linhasAfetadas'] != 1) {
-      $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar');
+      $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Nenhuma alteração realizada');
     }
 
     $condicao[] = [
@@ -247,6 +248,8 @@ class DashboardEmpresaController extends DashboardController
     $colunas = [
       'Empresa.ativo',
       'Empresa.subdominio',
+      'Empresa.gratis_prazo',
+      'Empresa.assinatura_status',
     ];
 
     $empresa = $this->empresaModel->selecionar($colunas)
@@ -255,6 +258,8 @@ class DashboardEmpresaController extends DashboardController
 
     if (isset($empresa[0]['Empresa']['ativo'])) {
       $this->usuarioLogado['empresaAtivo'] = $empresa[0]['Empresa']['ativo'];
+      $this->usuarioLogado['gratisPrazo'] = $empresa[0]['Empresa']['gratis_prazo'];
+      $this->usuarioLogado['assinaturaStatus'] = $empresa[0]['Empresa']['assinatura_status'];
       $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
     }
 

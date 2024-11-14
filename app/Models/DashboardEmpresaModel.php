@@ -1,5 +1,6 @@
 <?php
 namespace app\Models;
+use DateTime;
 use app\Models\Model;
 
 class DashboardEmpresaModel extends Model
@@ -55,6 +56,9 @@ class DashboardEmpresaModel extends Model
       'Empresa.id',
       'Empresa.ativo',
       'Empresa.subdominio',
+      'Empresa.assinatura_id_asaas',
+      'Empresa.assinatura_status',
+      'Empresa.gratis_prazo',
     ];
 
     $resultado = $this->selecionar($colunas)
@@ -152,6 +156,7 @@ class DashboardEmpresaModel extends Model
       'assinatura_status' => $params['assinatura_status'] ?? 0,
       'assinatura_ciclo' => $params['assinatura_ciclo'] ?? '',
       'assinatura_valor' => $params['assinatura_valor'] ?? 0.00,
+      'gratis_prazo' => $params['gratis_prazo'] ?? '',
     ];
 
     $msgErro = [
@@ -175,6 +180,7 @@ class DashboardEmpresaModel extends Model
         'assinatura_status',
         'assinatura_ciclo',
         'assinatura_valor',
+        'gratis_prazo',
       ];
 
       if ($atualizar and ! isset($params[ $chave ])) {
@@ -204,7 +210,7 @@ class DashboardEmpresaModel extends Model
       $campos['favicon'] = filter_var($campos['favicon'], FILTER_SANITIZE_URL);
       $campos['assinatura_id_asaas'] = htmlspecialchars($campos['assinatura_id_asaas']);
       $campos['assinatura_ciclo'] = htmlspecialchars($campos['assinatura_ciclo']);
-      $campos['assinatura_valor'] = htmlspecialchars($campos['assinatura_valor']);
+      $campos['gratis_prazo'] = htmlspecialchars($campos['gratis_prazo']);
       $campos['assinatura_status'] = filter_var($campos['assinatura_status'], FILTER_SANITIZE_NUMBER_INT);
 
       if (isset($params['ativo']) and ! in_array($campos['ativo'], [INATIVO, ATIVO])) {
@@ -234,6 +240,17 @@ class DashboardEmpresaModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('logo', 'valInvalido');
       }
 
+      if ($campos['gratis_prazo']) {
+
+        try {
+          $campos['gratis_prazo'] = new DateTime($campos['gratis_prazo']);
+          $campos['gratis_prazo'] = $campos['gratis_prazo']->format('Y-m-d H:i:s');
+        }
+        catch (Exception $e) {
+          $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('gratis_prazo', 'valInvalido');
+        }
+      }
+
       if ($campos['favicon'] and filter_var($campos['favicon'], FILTER_VALIDATE_URL) == false) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('favicon', 'valInvalido');
       }
@@ -249,6 +266,7 @@ class DashboardEmpresaModel extends Model
       $assinaturaCicloCaracteres = 50;
       $assinaturaValorCaracteres = 12;
       $assinaturaStatusCaracteres = 1;
+      $gratisPrazoCaracteres = 19;
 
       if (strlen($campos['assinatura_id_asaas']) > $assinaturaIdAsaasCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('assinatura_id_asaas', 'caracteres', $assinaturaIdAsaasCaracteres);
@@ -294,6 +312,10 @@ class DashboardEmpresaModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('favicon', 'caracteres', $faviconCaracteres);
       }
 
+      if (strlen($campos['gratis_prazo']) > $gratisPrazoCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('gratis_prazo', 'caracteres', $gratisPrazoCaracteres);
+      }
+
       $campos['cnpj'] = trim($campos['cnpj']);
       $campos['subdominio'] = trim($campos['subdominio']);
     }
@@ -314,6 +336,7 @@ class DashboardEmpresaModel extends Model
       'assinatura_status' => $campos['assinatura_status'],
       'assinatura_ciclo' => $campos['assinatura_ciclo'],
       'assinatura_valor' => $campos['assinatura_valor'],
+      'gratis_prazo' => $campos['gratis_prazo'],
     ];
 
     if ($atualizar) {
@@ -339,6 +362,10 @@ class DashboardEmpresaModel extends Model
 
     if (isset($camposValidados['favicon']) and empty($camposValidados['favicon'])) {
       $camposValidados['favicon'] = null;
+    }
+
+    if (isset($camposValidados['gratis_prazo']) and empty($camposValidados['gratis_prazo'])) {
+      unset($camposValidados['gratis_prazo']);
     }
 
     if ($webhook == false and $this->usuarioLogado['padrao'] != USUARIO_SUPORTE and isset($camposValidados['ativo'])) {
@@ -378,6 +405,10 @@ class DashboardEmpresaModel extends Model
 
     if ($campo == 'assinatura_valor') {
       $campo = 'Valor da assinatura';
+    }
+
+    if ($campo == 'gratis_prazo') {
+      $campo = 'Prazo do teste grátis';
     }
 
     $msgErro = [

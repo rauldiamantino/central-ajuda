@@ -1,24 +1,22 @@
 <?php
-$diasGratis = 14;
-$dataHoje = date('Y-m-d H:i:m');
-$dataCadastro = $this->usuarioLogado['empresaCriado'];
+$dataHoje = strtotime('today');
+$dataCadastro = strtotime($this->usuarioLogado['empresaCriado']);
+$dataFinalTeste = strtotime($this->usuarioLogado['gratisPrazo']);
 
-$dataHojeObj = new DateTime($dataHoje);
-$dataCadastroObj = new DateTime($dataCadastro);
+$totalDiasTeste = ($dataFinalTeste - $dataCadastro) / (60 * 60 * 24);
+$diasPassados = ($dataHoje - $dataCadastro) / (60 * 60 * 24);
 
-$dataFinalTeste = clone $dataCadastroObj;
-$dataFinalTeste->modify('+ ' . $diasGratis . ' days');
+if ($totalDiasTeste > 0) {
+  $progresso = ($diasPassados / $totalDiasTeste) * 100;
+  $progresso = min(100, max(0, $progresso));
 
-$intervaloTotal = $dataCadastroObj->diff($dataFinalTeste);
-$intervaloPassado = $dataCadastroObj->diff($dataHojeObj);
-
-$totalDiasTeste = $intervaloTotal->days;
-$diasPassados = $intervaloPassado->days;
-
-$progresso = ($diasPassados / $totalDiasTeste) * 100;
-$progresso = min(100, max(0, $progresso));
-
-$mensagemTesteFinalizado = $progresso >= 100 ? "Teste grátis finalizado!" : "Faltam " . ($diasGratis - $diasPassados) . " dias para terminar!";
+  $diasRestantes = max(0, round($totalDiasTeste - $diasPassados));
+  $mensagemTesteFinalizado = $progresso >= 100 ? 'Teste grátis finalizado!' : ($diasRestantes == 1 ? 'Falta 1 dia para terminar!' : 'Faltam ' . $diasRestantes . ' dias para terminar!');
+}
+else {
+  $progresso = 100;
+  $mensagemTesteFinalizado = "Teste grátis finalizado!";
+}
 ?>
 
 <li class="m-4 px-4 py-3 bg-gray-700/25 <?php echo $paginaSelecionada == 'empresa' ? 'bg-gray-700' : ''; ?> rounded-lg flex flex-col gap-0 group">

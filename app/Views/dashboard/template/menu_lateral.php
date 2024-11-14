@@ -142,7 +142,8 @@ $classeRestrito = $this->usuarioLogado['nivel'] == USUARIO_RESTRITO ? 'text-gray
   </ul>
 
   <?php
-  if (! isset($this->usuarioLogado['assinaturaIdAsaas']) or empty($this->usuarioLogado['assinaturaIdAsaas'])) {
+
+  if (! isset($this->usuarioLogado['assinaturaStatus']) or (int) $this->usuarioLogado['assinaturaStatus'] == INATIVO) {
     require_once 'teste-gratis.php';
   }
   ?>
