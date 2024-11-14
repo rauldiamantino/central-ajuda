@@ -35,6 +35,12 @@
               <span class="whitespace-nowrap">Editar título</span>
             </button>
           </li>
+          <li class="px-8 py-5">
+            <button type="button" onclick="document.querySelector('.menu-editar-categoria-novo-artigo').showModal()" class="flex gap-3 items-center hover:text-gray-950 botao-abrir-menu-editar-categoria">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16"><path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/></svg>
+              <span class="whitespace-nowrap">Novo artigo</span>
+            </button>
+          </li>
         </ul>
       </div>
 
@@ -43,6 +49,7 @@
   <?php require_once 'tabela-artigos.php' ?>
 </div>
 
+<?php require_once 'modais/adicionar-artigo.php' ?>
 <?php require_once 'modais/formulario.php' ?>
 <?php require_once 'modais/remover.php' ?>
 <?php require_once 'modais/filtrar.php' ?>

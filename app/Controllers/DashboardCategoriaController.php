@@ -168,6 +168,7 @@ class DashboardCategoriaController extends DashboardController
       'Artigo.titulo',
       'Artigo.ativo',
       'Artigo.criado',
+      'Artigo.ordem',
       'Artigo.empresa_id',
     ];
 
@@ -203,6 +204,16 @@ class DashboardCategoriaController extends DashboardController
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categorias', $categoria['erro']);
     }
 
+    // Adicionar artigo
+    $ordem = [];
+    $ultimo = end($categoria);
+    $ordemAtual = intval($ultimo['Artigo']['ordem'] ?? 0);
+
+    $ordem = [
+      'prox' => $ordemAtual + 1,
+    ];
+
+    $this->visao->variavel('ordem', $ordem);
     $this->visao->variavel('categoria', $categoria);
     $this->visao->variavel('pagina', $paginaAtual);
     $this->visao->variavel('artigosTotal', $artigosTotal);
