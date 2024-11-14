@@ -89,10 +89,6 @@ class DashboardLoginController extends DashboardController
           continue;
         }
 
-        if (! isset($linha['Empresa']['gratis_prazo'])) {
-          continue;
-        }
-
         if ($id != $linha['Empresa']['id']) {
           continue;
         }
@@ -101,7 +97,7 @@ class DashboardLoginController extends DashboardController
         $this->usuarioLogado['empresaId'] = $linha['Empresa']['id'];
         $this->usuarioLogado['empresaAtivo'] = $linha['Empresa']['ativo'];
         $this->usuarioLogado['empresaCriado'] = $linha['Empresa']['criado'];
-        $this->usuarioLogado['gratisPrazo'] = $linha['Empresa']['gratis_prazo'];
+        $this->usuarioLogado['gratisPrazo'] = $linha['Empresa']['gratis_prazo'] ?? '';
         $this->usuarioLogado['assinaturaStatus'] = $linha['Empresa']['assinatura_status'];
         $this->usuarioLogado['assinaturaIdAsaas'] = $linha['Empresa']['assinatura_id_asaas'];
         $this->usuarioLogado['subdominio'] = $linha['Empresa']['subdominio'];
