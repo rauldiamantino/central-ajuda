@@ -149,6 +149,7 @@ class DashboardEmpresaModel extends Model
       'favicon' => $params['favicon'] ?? '',
       'cnpj' => $params['cnpj'] ?? '',
       'assinatura_id_asaas' => $params['assinatura_id_asaas'] ?? '',
+      'assinatura_status' => $params['assinatura_status'] ?? 0,
     ];
 
     $msgErro = [
@@ -169,6 +170,7 @@ class DashboardEmpresaModel extends Model
         'logo',
         'favicon',
         'assinatura_id_asaas',
+        'assinatura_status',
       ];
 
       if ($atualizar and ! isset($params[ $chave ])) {
@@ -197,9 +199,14 @@ class DashboardEmpresaModel extends Model
       $campos['logo'] = filter_var($campos['logo'], FILTER_SANITIZE_URL);
       $campos['favicon'] = filter_var($campos['favicon'], FILTER_SANITIZE_URL);
       $campos['assinatura_id_asaas'] = htmlspecialchars($campos['assinatura_id_asaas']);
+      $campos['assinatura_status'] = filter_var($campos['assinatura_status'], FILTER_SANITIZE_NUMBER_INT);
 
       if (isset($params['ativo']) and ! in_array($campos['ativo'], [INATIVO, ATIVO])) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('ativo', 'valInvalido');
+      }
+
+      if (isset($params['assinatura_status']) and ! in_array($campos['assinatura_status'], [INATIVO, ATIVO])) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('assinatura_status', 'valInvalido');
       }
 
       if (isset($params['cnpj']) and $cnpjValido) {
@@ -233,6 +240,7 @@ class DashboardEmpresaModel extends Model
       $logoCaracteres = 255;
       $faviconCaracteres = 255;
       $assinaturaIdAsaas = 255;
+      $assinaturaStatusCaracteres = 1;
 
       if (strlen($campos['assinatura_id_asaas']) > $assinaturaIdAsaas) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('assinatura_id_asaas', 'caracteres', $assinaturaIdAsaas);
@@ -240,6 +248,10 @@ class DashboardEmpresaModel extends Model
 
       if (strlen($campos['ativo']) > $ativoCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('id', 'caracteres', $ativoCaracteres);
+      }
+
+      if (strlen($campos['assinatura_status']) > $assinaturaStatusCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('assinatura_status', 'caracteres', $assinaturaStatusCaracteres);
       }
 
       if (strlen($campos['nome']) > $nomeCaracteres) {
@@ -283,6 +295,7 @@ class DashboardEmpresaModel extends Model
       'logo' => $campos['logo'],
       'favicon' => $campos['favicon'],
       'assinatura_id_asaas' => $campos['assinatura_id_asaas'],
+      'assinatura_status' => $campos['assinatura_status'],
     ];
 
     if ($atualizar) {
@@ -318,6 +331,10 @@ class DashboardEmpresaModel extends Model
       unset($camposValidados['ativo']);
     }
 
+    if ($webhook == false and $this->usuarioLogado['padrao'] != USUARIO_SUPORTE and isset($camposValidados['assinatura_status'])) {
+      unset($camposValidados['assinatura_status']);
+    }
+
     if (empty($camposValidados)) {
       $msgErro['erro']['mensagem'][] = 'Nenhum campo informado';
 
@@ -333,8 +350,12 @@ class DashboardEmpresaModel extends Model
       $campo = 'CNPJ';
     }
 
-    if (in_array($campo, ['assinatura_id', 'assinatura_id_asaas'])) {
+    if ($campo == 'assinatura_id_asaas') {
       $campo = 'Assinatura ID';
+    }
+
+    if ($campo == 'assinatura_status') {
+      $campo = 'Status da assinatura';
     }
 
     $msgErro = [

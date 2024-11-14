@@ -30,6 +30,7 @@ class Controller
       'empresaId' => intval($resultado['empresaId'] ?? 0),
       'empresaAtivo' => intval($resultado['empresaAtivo'] ?? 0),
       'empresaCriado' => $resultado['empresaCriado'] ?? '',
+      'assinaturaIdAsaas' => $resultado['assinaturaIdAsaas'] ?? '',
       'subdominio' => $resultado['subdominio'] ?? '',
       'tentativasLogin' => intval($resultado['tentativas_login'] ?? 0),
     ];

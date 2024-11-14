@@ -44,6 +44,7 @@ class DashboardLoginController extends DashboardController
       'Empresa.ativo',
       'Empresa.id',
       'Empresa.criado',
+      'Empresa.assinatura_id_asaas',
     ];
 
     $empresas = $this->empresaModel->selecionar($colunas)
@@ -86,6 +87,7 @@ class DashboardLoginController extends DashboardController
         $this->usuarioLogado['empresaId'] = $linha['Empresa']['id'];
         $this->usuarioLogado['empresaAtivo'] = $linha['Empresa']['ativo'];
         $this->usuarioLogado['empresaCriado'] = $linha['Empresa']['criado'];
+        $this->usuarioLogado['assinaturaIdAsaas'] = $linha['Empresa']['assinatura_id_asaas'];
         $this->usuarioLogado['subdominio'] = $linha['Empresa']['subdominio'];
         $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
 
