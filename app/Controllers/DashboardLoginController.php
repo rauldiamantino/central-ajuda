@@ -45,6 +45,7 @@ class DashboardLoginController extends DashboardController
       'Empresa.id',
       'Empresa.criado',
       'Empresa.assinatura_id_asaas',
+      'Empresa.assinatura_status',
     ];
 
     $empresas = $this->empresaModel->selecionar($colunas)
@@ -79,6 +80,14 @@ class DashboardLoginController extends DashboardController
           continue;
         }
 
+        if (! isset($linha['Empresa']['assinatura_id_asaas'])) {
+          continue;
+        }
+
+        if (! isset($linha['Empresa']['assinatura_status'])) {
+          continue;
+        }
+
         if ($id != $linha['Empresa']['id']) {
           continue;
         }
@@ -87,6 +96,7 @@ class DashboardLoginController extends DashboardController
         $this->usuarioLogado['empresaId'] = $linha['Empresa']['id'];
         $this->usuarioLogado['empresaAtivo'] = $linha['Empresa']['ativo'];
         $this->usuarioLogado['empresaCriado'] = $linha['Empresa']['criado'];
+        $this->usuarioLogado['assinaturaStatus'] = $linha['Empresa']['assinatura_status'];
         $this->usuarioLogado['assinaturaIdAsaas'] = $linha['Empresa']['assinatura_id_asaas'];
         $this->usuarioLogado['subdominio'] = $linha['Empresa']['subdominio'];
         $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
@@ -126,6 +136,8 @@ class DashboardLoginController extends DashboardController
       'empresaId' => $resultado['ok']['empresa_id'],
       'empresaAtivo' => $resultado['ok']['Empresa.ativo'],
       'empresaCriado' => $resultado['ok']['Empresa.criado'],
+      'assinaturaIdAsaas' => $resultado['ok']['Empresa.assinatura_id_asaas'],
+      'assinaturaStatus' => $resultado['ok']['Empresa.assinatura_status'],
       'subdominio' => $resultado['ok']['Empresa.subdominio'],
       'nivel' => $resultado['ok']['nivel'],
       'padrao' => $resultado['ok']['padrao'],

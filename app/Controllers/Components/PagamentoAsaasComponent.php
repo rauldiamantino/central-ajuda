@@ -146,6 +146,25 @@ class PagamentoAsaasComponent extends DashboardController
     return $resposta['dados'];
   }
 
+  public function buscarAssinatura(string $assinaturaId)
+  {
+    if (empty($assinaturaId)) {
+      return ['erro' => 'Assinatura ID não informado'];
+    }
+
+    $resposta = $this->req('GET', '/subscriptions/' . $assinaturaId);
+
+    if (isset($resposta['dados']['errors']) and $resposta['dados']['errors']) {
+      return $resposta['dados']['errors'];
+    }
+
+    if (! isset($resposta['dados']['id'])) {
+      return [];
+    }
+
+    return $resposta['dados'];
+  }
+
   public function buscarCobrancas(string $assinaturaId)
   {
     if (empty($assinaturaId)) {

@@ -150,6 +150,8 @@ class DashboardEmpresaModel extends Model
       'cnpj' => $params['cnpj'] ?? '',
       'assinatura_id_asaas' => $params['assinatura_id_asaas'] ?? '',
       'assinatura_status' => $params['assinatura_status'] ?? 0,
+      'assinatura_ciclo' => $params['assinatura_ciclo'] ?? '',
+      'assinatura_valor' => $params['assinatura_valor'] ?? 0.00,
     ];
 
     $msgErro = [
@@ -171,6 +173,8 @@ class DashboardEmpresaModel extends Model
         'favicon',
         'assinatura_id_asaas',
         'assinatura_status',
+        'assinatura_ciclo',
+        'assinatura_valor',
       ];
 
       if ($atualizar and ! isset($params[ $chave ])) {
@@ -199,6 +203,8 @@ class DashboardEmpresaModel extends Model
       $campos['logo'] = filter_var($campos['logo'], FILTER_SANITIZE_URL);
       $campos['favicon'] = filter_var($campos['favicon'], FILTER_SANITIZE_URL);
       $campos['assinatura_id_asaas'] = htmlspecialchars($campos['assinatura_id_asaas']);
+      $campos['assinatura_ciclo'] = htmlspecialchars($campos['assinatura_ciclo']);
+      $campos['assinatura_valor'] = htmlspecialchars($campos['assinatura_valor']);
       $campos['assinatura_status'] = filter_var($campos['assinatura_status'], FILTER_SANITIZE_NUMBER_INT);
 
       if (isset($params['ativo']) and ! in_array($campos['ativo'], [INATIVO, ATIVO])) {
@@ -239,11 +245,21 @@ class DashboardEmpresaModel extends Model
       $telefoneCaracteresMax = 11;
       $logoCaracteres = 255;
       $faviconCaracteres = 255;
-      $assinaturaIdAsaas = 255;
+      $assinaturaIdAsaasCaracteres = 255;
+      $assinaturaCicloCaracteres = 50;
+      $assinaturaValorCaracteres = 12;
       $assinaturaStatusCaracteres = 1;
 
-      if (strlen($campos['assinatura_id_asaas']) > $assinaturaIdAsaas) {
-        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('assinatura_id_asaas', 'caracteres', $assinaturaIdAsaas);
+      if (strlen($campos['assinatura_id_asaas']) > $assinaturaIdAsaasCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('assinatura_id_asaas', 'caracteres', $assinaturaIdAsaasCaracteres);
+      }
+
+      if (strlen($campos['assinatura_ciclo']) > $assinaturaCicloCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('assinatura_ciclo', 'caracteres', $assinaturaCicloCaracteres);
+      }
+
+      if (strlen($campos['assinatura_valor']) > $assinaturaValorCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('assinatura_valor', 'caracteres', $assinaturaValorCaracteres);
       }
 
       if (strlen($campos['ativo']) > $ativoCaracteres) {
@@ -296,6 +312,8 @@ class DashboardEmpresaModel extends Model
       'favicon' => $campos['favicon'],
       'assinatura_id_asaas' => $campos['assinatura_id_asaas'],
       'assinatura_status' => $campos['assinatura_status'],
+      'assinatura_ciclo' => $campos['assinatura_ciclo'],
+      'assinatura_valor' => $campos['assinatura_valor'],
     ];
 
     if ($atualizar) {
@@ -321,10 +339,6 @@ class DashboardEmpresaModel extends Model
 
     if (isset($camposValidados['favicon']) and empty($camposValidados['favicon'])) {
       $camposValidados['favicon'] = null;
-    }
-
-    if (isset($camposValidados['assinatura_id_asaas']) and empty($camposValidados['assinatura_id_asaas'])) {
-      $camposValidados['assinatura_id_asaas'] = null;
     }
 
     if ($webhook == false and $this->usuarioLogado['padrao'] != USUARIO_SUPORTE and isset($camposValidados['ativo'])) {
@@ -356,6 +370,14 @@ class DashboardEmpresaModel extends Model
 
     if ($campo == 'assinatura_status') {
       $campo = 'Status da assinatura';
+    }
+
+    if ($campo == 'assinatura_ciclo') {
+      $campo = 'Ciclo da assinatura';
+    }
+
+    if ($campo == 'assinatura_valor') {
+      $campo = 'Valor da assinatura';
     }
 
     $msgErro = [

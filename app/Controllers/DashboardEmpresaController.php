@@ -8,12 +8,14 @@ use app\Controllers\Components\PagamentoAsaasComponent;
 class DashboardEmpresaController extends DashboardController
 {
   protected $empresaModel;
+  protected $pagamentoAsaas;
   protected $pagamentoStripe;
 
   public function __construct()
   {
     parent::__construct();
 
+    $this->pagamentoAsaas = new PagamentoAsaasComponent();
     $this->empresaModel = new DashboardEmpresaModel($this->usuarioLogado, $this->empresaPadraoId);
   }
 
@@ -39,6 +41,7 @@ class DashboardEmpresaController extends DashboardController
       'Empresa.logo',
       'Empresa.favicon',
       'Empresa.assinatura_id_asaas',
+      'Empresa.assinatura_status',
       'Empresa.criado',
       'Empresa.modificado',
     ];
@@ -51,12 +54,13 @@ class DashboardEmpresaController extends DashboardController
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard', $empresa['erro']);
     }
 
+    // Recupera assinatura e cobranças no Asaas
     $buscarCobrancas = [];
     $assinaturaId = $empresa[0]['Empresa']['assinatura_id_asaas'];
 
     if ($assinaturaId) {
-      $asaas = new PagamentoAsaasComponent();
-      $buscarCobrancas = $asaas->buscarCobrancas($assinaturaId);
+      $this->pagamentoAsaas = new PagamentoAsaasComponent();
+      $buscarCobrancas = $this->pagamentoAsaas->buscarCobrancas($assinaturaId);
     }
 
     $this->visao->variavel('empresa', reset($empresa));
@@ -74,6 +78,62 @@ class DashboardEmpresaController extends DashboardController
     }
 
     return $this->empresaModel->buscarEmpresaSemId($coluna, $valor);
+  }
+
+  public function reprocessarAssinaturaAsaas(): void
+  {
+    $assinaturaId = $_GET['assinatura_id'] ?? '';
+
+    if (empty($assinaturaId)) {
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'ID da assinatura não informado.');
+    }
+
+    // sub_s7e1bsgfijoaw7qp
+    $buscarAssinatura = $this->pagamentoAsaas->buscarAssinatura($assinaturaId);
+    $assinaturaStatus = $buscarAssinatura['status'] ?? '';
+    $assinaturaCiclo = $buscarAssinatura['cycle'] ?? '';
+    $assinaturaValor = $buscarAssinatura['value'] ?? 0;
+    $assinaturaValor = number_format($assinaturaValor, 2, '.', '');
+
+    if (isset($buscarAssinatura['erro'])) {
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', $buscarAssinatura['erro']);
+    }
+
+    if ($assinaturaStatus == 'ACTIVE') {
+      $novoStatus = ATIVO;
+    }
+    else {
+      $novoStatus = INATIVO;
+    }
+
+    if ($assinaturaCiclo == 'YEARLY') {
+      $novoCiclo = 'Anual';
+    }
+    elseif ($assinaturaCiclo == 'MONT') {
+      $novoCiclo = 'Mensal';
+    }
+    else {
+      $novoCiclo = '';
+    }
+
+    // Atualiza banco de dados
+    if ($assinaturaStatus) {
+      $campos = [
+        'assinatura_status' => $novoStatus,
+        'assinatura_ciclo' => $novoCiclo,
+        'assinatura_valor' => $assinaturaValor,
+      ];
+
+      $this->empresaModel->atualizar($campos, $this->empresaPadraoId);
+
+      // Atualiza sessão para uso imediato
+      $this->usuarioLogado['assinaturaStatus'] = $novoStatus;
+      $this->usuarioLogado['assinaturaId'] = $assinaturaId;
+      $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
+      $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Assinatura reprocessada');
+    }
+
+    $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Assinatura não encontrada');
   }
 
   public function criarAssinaturaAsaas()
@@ -140,8 +200,8 @@ class DashboardEmpresaController extends DashboardController
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', $msgErro['erro']);
     }
 
-    $asaas = new PagamentoAsaasComponent();
-    $criarAssinatura = $asaas->criarAssinatura($empresa, $plano);
+    $this->pagamentoAsaas = new PagamentoAsaasComponent();
+    $criarAssinatura = $this->pagamentoAsaas->criarAssinatura($empresa, $plano);
 
     if (isset($criarAssinatura['erro'])) {
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Não foi possível gerar a assinatura, por favor, entre em contato com o nosso suporte');

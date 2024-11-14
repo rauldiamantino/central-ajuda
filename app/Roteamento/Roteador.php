@@ -95,6 +95,8 @@ class Roteador
 
     $empresaId = 0;
     $empresaAtivo = 0;
+    $assinaturaId = '';
+    $assinaturaStatus = 0;
 
     $chaveRota = preg_replace('/\b' . preg_quote($id, '/') . '\b/', '{id}', $chaveRota, 1);
 
@@ -130,6 +132,8 @@ class Roteador
       $empresaId = intval($buscarEmpresa[0]['Empresa']['id'] ?? 0);
       $empresaAtivo = intval($buscarEmpresa[0]['Empresa']['ativo'] ?? 0);
       $empresa = $buscarEmpresa[0]['Empresa']['subdominio'] ?? '';
+      $assinaturaId = $buscarEmpresa[0]['Empresa']['assinatura_id_asaas'] ?? '';;
+      $assinaturaStatus = intval($buscarEmpresa[0]['Empresa']['assinatura_status'] ?? 0);
     }
 
     // Acesso negado
@@ -207,6 +211,23 @@ class Roteador
       if ($sucesso and $usuarioLogado['nivel'] == USUARIO_RESTRITO and $this->rotaRestritaNivel2($chaveRota, $usuarioLogado['id'], $id)) {
         $this->sessaoUsuario->definir('erro', 'Você não tem permissão para realizar esta ação.');
         $sucesso = false;
+      }
+
+      if ($sucesso and $usuarioLogado['padrao'] != USUARIO_SUPORTE) {
+
+        if (empty($assinaturaId) and $assinaturaStatus == INATIVO and ! $this->rotaAssinaturaVencida($chaveRota)) {
+          // Teste expirado
+          $this->sessaoUsuario->definir('neutra', 'Ops! Seu período de testes expirou. 😔 <br>
+                                                  <a href="/' . $empresa . '/dashboard/empresa/editar?acao=assinar" class="underline font-semibold">Clique aqui</a> para assinar o 360Help!');
+          $sucesso = false;
+        }
+        elseif ($assinaturaId and $assinaturaStatus == INATIVO and ! $this->rotaAssinaturaVencida($chaveRota)) {
+          // Assinatura vencida ou problemas no pagamento
+          $this->sessaoUsuario->definir('erro', 'Ops! Parece que seu pagamento não foi finalizado. <br>
+                                                  <a href="https://api.whatsapp.com/send/?phone=5511934332319&text=Oi!%20Notei%20que%20o%20pagamento%20ainda%20está%20em%20aberto.%20Poderiam%20me%20ajudar%20a%20resolver?%20Obrigado!"
+                                                  target="_blank" class="underline font-semibold">Clique aqui</a> para falar com a gente');
+          $sucesso = false;
+        }
       }
 
       if ($sucesso == false) {
@@ -366,6 +387,20 @@ class Roteador
     return true;
   }
 
+  private function rotaAssinaturaVencida(string $chaveRota): bool
+  {
+    $rotasPermitidas = [
+      'GET:/{empresa}/dashboard',
+      'GET:/{empresa}/dashboard/empresa/editar',
+    ];
+
+    if (! in_array($chaveRota, $rotasPermitidas)) {
+      return false;
+    }
+
+    return true;
+  }
+
   // private function rotaPublica(string $chaveRota): bool
   // {
   //   $rotasRestritas = [
@@ -439,7 +474,7 @@ class Roteador
       'GET:/{empresa}/dashboard/usuario/editar/{id}' => [DashboardUsuarioController::class, 'usuarioEditarVer'],
       'GET:/{empresa}/dashboard/usuario/adicionar' => [DashboardUsuarioController::class, 'usuarioAdicionarVer'],
       'GET:/{empresa}/dashboard/empresa/editar' => [DashboardEmpresaController::class, 'empresaEditarVer'],
-      'GET:/{empresa}/dashboard/validar_assinatura' => [DashboardEmpresaController::class, 'reprocessarAssinatura'],
+      'GET:/{empresa}/dashboard/validar_assinatura' => [DashboardEmpresaController::class, 'reprocessarAssinaturaAsaas'],
 
       // Dashboard - Ajustes
       'PUT:/{empresa}/d/ajustes' => [DashboardAjusteController::class, 'atualizar'],

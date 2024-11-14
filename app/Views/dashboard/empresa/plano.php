@@ -115,7 +115,7 @@
                     <span class="px-3 py-1 text-xs rounded-full <?php echo $classeStatus; ?>"><?php echo $status ?></span>
                   </div>
                 </td>
-                <td class="py-5 px-4 text-green-700">R$ <?php echo $valor ?></td>
+                <td class="py-5 px-4 text-green-700 whitespace-nowrap">R$ <?php echo $valor ?></td>
                 <td class="py-5 px-4 font-semibold text-blue-800">
                   <a href="<?php echo $pagamentoLink; ?>" target="_blank" class="font-semibold hover:underline"><?php echo $botao ?></a>
                 </td>
