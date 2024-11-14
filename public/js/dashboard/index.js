@@ -93,10 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   removerAutocomplete()
-  setTimeout(() => window.scrollTo({top: 0, left: 0, behavior: 'smooth'}), 60)
-
-  removerAutocomplete()
-  setTimeout(() => window.scrollTo({top: 0, left: 0, behavior: 'smooth'}), 60)
+  rolagemVerticalAutomatica()
 })
 
 const menuLateralToggle = (menuLateral) => {
@@ -177,7 +174,22 @@ const converterParaReais = (valor = 0) => {
   return `R$ ${valor.replace('.', ',')}`
 }
 
-function editarImagemModal(event) {
+const rolagemVerticalAutomatica = () => {
+  const urlParams = new URLSearchParams(window.location.search)
+
+  if (urlParams.get('acao') === 'assinar') {
+
+    setTimeout(() => {
+      const bodyHeight = document.body.scrollHeight
+      window.scrollTo({ top: bodyHeight, behavior: 'smooth' })
+    }, 50)
+  }
+  else {
+    setTimeout(() => window.scrollTo({top: 0, left: 0, behavior: 'smooth'}), 60)
+  }
+}
+
+const editarImagemModal = (event) => {
   import('./artigos/conteudos/editar.js')
     .then(module => {
       const botaoAbrirModal = event.target
@@ -188,7 +200,7 @@ function editarImagemModal(event) {
     })
 }
 
-function editarVideoModal(event) {
+const editarVideoModal = (event) => {
   import('./artigos/conteudos/editar.js')
     .then(module => {
       const botaoAbrirModal = event.target
@@ -199,7 +211,7 @@ function editarVideoModal(event) {
     })
 }
 
-function editarTextoModal(event) {
+const editarTextoModal = (event) => {
   import('./artigos/conteudos/editar.js')
     .then(module => {
       const botaoAbrirModal = event.target
@@ -210,7 +222,7 @@ function editarTextoModal(event) {
     })
 }
 
-function fecharTextoModal(event) {
+const fecharTextoModal = (event) => {
   import('./artigos/conteudos/editar.js')
     .then(module => {
       const botaoCancelar = event.target
@@ -221,7 +233,7 @@ function fecharTextoModal(event) {
     })
 }
 
-function abrirModalAdicionar() {
+const abrirModalAdicionar = () => {
   const modal = document.querySelector('.modal-conteudo-texto-adicionar')
   const containerConteudos = document.querySelectorAll('.div-pai-conteudo-editar')
 
@@ -237,7 +249,7 @@ function abrirModalAdicionar() {
   }, 50)
 }
 
-function voltarAoTopo() {
+const voltarAoTopo = () => {
   const modal = document.querySelector('.modal-conteudo-texto-adicionar')
   const containerConteudos = document.querySelectorAll('.div-pai-conteudo-editar')
 
