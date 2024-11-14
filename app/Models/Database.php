@@ -16,7 +16,7 @@ class Database
       $user = MYSQL_USUARIO;
       $password = MYSQL_SENHA;
 
-      $dsn = 'mysql:host=' . $host . ';dbname=' . $dbname . ';charset=utf8';
+      $dsn = 'mysql:host=' . $host . ';dbname=' . $dbname . ';charset=utf8mb4';
       $this->conexao = new PDO($dsn, $user, $password);
 
       $this->conexao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

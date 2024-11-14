@@ -19,6 +19,11 @@ function baseUrl($url = '') {
 
 
 function traduzirDataPtBr($data) {
+
+  if (empty($data)) {
+    return '';
+  }
+
   $dateTime = new DateTime($data);
 
   $formatter = new IntlDateFormatter(

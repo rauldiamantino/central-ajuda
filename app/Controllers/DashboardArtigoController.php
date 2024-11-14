@@ -249,6 +249,9 @@ class DashboardArtigoController extends DashboardController
     if (isset($resultado['erro']) and $resultado['erro']) {
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', $resultado['erro']);
     }
+    elseif (! isset($resultado[0]['Artigo']['id'])) {
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', 'Artigo não encontrado');
+    }
     else {
       $artigo = $resultado;
     }
