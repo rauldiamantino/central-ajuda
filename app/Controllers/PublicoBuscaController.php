@@ -22,91 +22,115 @@ class PublicoBuscaController extends PublicoController
 
   public function buscar()
   {
-    $limite = 10;
     $paginasTotal = 0;
     $intervaloInicio = 0;
     $intervaloFim = 0;
-    $resultadoBuscar = [];
     $artigosTotal = 0;
+    $resultadoBuscar = [];
 
-    $pagina = intval($_GET['pagina'] ?? 0);
+    $pagina = intval($_GET['pagina'] ?? 1);
     $textoBusca = htmlspecialchars($_GET['texto_busca'] ?? '');
 
+    // Resultado por página
+    $limite = 10;
+    $offset = ($pagina - 1) * $limite;
+
     if (mb_strlen($textoBusca) > 2) {
-      $condicao[] = [
-        'campo' => 'Artigo.ativo', 'operador' => '=', 'valor' => ATIVO,
-        'campo' => 'Artigo.titulo', 'operador' => 'LIKE', 'valor' => '%' . $textoBusca . '%',
+      $sql = 'SELECT SQL_CALC_FOUND_ROWS
+                `Artigo`.`id` AS `Artigo.id`,
+                `Artigo`.`ativo` AS `Artigo.ativo`,
+                `Artigo`.`titulo` AS `Artigo.titulo`,
+                `Artigo`.`categoria_id` AS `Artigo.categoria_id`,
+                `Categoria`.`nome` AS `Categoria.nome`,
+                -- Usando GROUP_CONCAT para juntar os títulos dos conteúdos
+                GROUP_CONCAT(DISTINCT `Conteudo`.`titulo` ORDER BY `Conteudo`.`id` ASC) AS `Conteudo.titulo`,
+                -- Usando uma subconsulta para pegar o primeiro trecho do conteúdo
+                (
+                    SELECT SUBSTRING_INDEX(
+                        SUBSTRING_INDEX(`Conteudo`.`conteudo`, ?, 1),
+                        ?, 30
+                    )
+                    FROM `conteudos` AS `Conteudo`
+                    WHERE `Conteudo`.`artigo_id` = `Artigo`.`id`
+                    AND `Conteudo`.`empresa_id` = ?
+                    ORDER BY `Conteudo`.`id` ASC
+                    LIMIT 1
+                ) AS `Conteudo.trecho`
+              FROM
+                `artigos` AS `Artigo`
+              LEFT JOIN
+                `categorias` AS `Categoria` ON `Categoria`.`id` = `Artigo`.`categoria_id` AND `Categoria`.`empresa_id` = ?
+              LEFT JOIN
+                `conteudos` AS `Conteudo` ON `Conteudo`.`artigo_id` = `Artigo`.`id`
+                AND `Conteudo`.`empresa_id` = ?
+              WHERE
+                  `Artigo`.`empresa_id` = ?
+                AND
+                  `Artigo`.`ativo` = ?
+                AND (
+                    MATCH(`Categoria`.`nome`)
+                      AGAINST(? IN NATURAL LANGUAGE MODE)
+                    OR MATCH(`Artigo`.`titulo`)
+                      AGAINST(? IN NATURAL LANGUAGE MODE)
+                    OR (
+                        `Conteudo`.`titulo_ocultar` = ?
+                        AND MATCH(`Conteudo`.`titulo`)
+                          AGAINST(? IN NATURAL LANGUAGE MODE)
+                    )
+                    OR MATCH(`Conteudo`.`conteudo`)
+                      AGAINST(? IN NATURAL LANGUAGE MODE)
+                )
+              GROUP BY `Artigo`.`id`
+              LIMIT ?, ?;';
+
+      $totalSql = 'SELECT FOUND_ROWS();';
+
+      $sqlParams = [
+        1,                      // Posição inicial do SUBSTRING_INDEX (fixo)
+        1,                      // Posição final do SUBSTRING_INDEX (fixo)
+        $this->empresaPadraoId, // Conteudo.empresa_id (usado na subconsulta)
+        $this->empresaPadraoId, // Categoria.empresa_id (usado no JOIN)
+        $this->empresaPadraoId, // Conteudo.empresa_id (usado no JOIN)
+        $this->empresaPadraoId, // Artigo.empresa_id
+        ATIVO,                  // Artigo.ativo (verifique se ATIVO é um valor numérico como 1)
+        $textoBusca,            // MATCH Categoria.nome
+        $textoBusca,            // MATCH Artigo.titulo
+        INATIVO,                // Conteudo.titulo_ocultar (verifique se INATIVO é um valor numérico, como 0)
+        $textoBusca,            // MATCH Conteudo.titulo
+        $textoBusca,            // MATCH Conteudo.conteudo
+        $offset,                // OFFSET: Posição inicial dos resultados
+        $limite,                // LIMIT: Quantidade de resultados por página
       ];
 
-      if ($this->exibirInativos()) {
-        unset($condicao[0]);
-      }
+      $cacheNome = 'publico-busca-resultado-buscar-' . md5(serialize($textoBusca . $pagina));
+      $resultadoCache = Cache::buscar($cacheNome, $this->empresaPadraoId);
+      $resultadoCache = null;
 
-      $cacheNome = 'publico-busca-artigos-total-' . md5(serialize($condicao));
-      $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
+      if ($resultadoCache == null) {
+        $busca = $this->artigoModel->executarQuery($sql, $sqlParams);
+        $total = $this->artigoModel->executarQuery($totalSql);
 
-      if ($resultado == null) {
-        $resultado = $this->artigoModel->contar('Artigo.id')
-                                      ->condicao($condicao)
-                                      ->executarConsulta();
-
-        Cache::definir($cacheNome, $resultado, $this->cacheTempo, $this->empresaPadraoId);
-      }
-
-      $artigosTotal = intval($resultado['total'] ?? 0);
-
-      if ($artigosTotal > 0) {
-        $paginasTotal = ceil($artigosTotal / $limite);
-
-        $pagina = abs($pagina);
-        $pagina = max($pagina, 1);
-        $pagina = min($pagina, $paginasTotal);
-
-        $colunas = [
-          'Artigo.id',
-          'Artigo.titulo',
-          'Artigo.ativo',
-          'Artigo.categoria_id',
-          'Categoria.nome',
-          'Categoria.ativo',
-        ];
-
-        $ordem = [
-          'Artigo.modificado' => 'DESC',
-          'Categoria.nome' => 'DESC',
-          'Artigo.criado' => 'DESC',
-          'Artigo.ordem' => 'ASC',
-        ];
-
-        $juntar = [
-          'tabelaJoin' => 'Categoria',
-          'campoA' => 'Categoria.id',
-          'campoB' => 'Artigo.categoria_id',
-        ];
-
-        $limite = 10;
-
-        $cacheNome = 'publico-busca-resultado-buscar-' . md5(serialize($textoBusca . $pagina));
-        $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
-
-        if ($resultado == null) {
-          $resultado = $this->artigoModel->selecionar($colunas)
-                                        ->condicao($condicao)
-                                        ->juntar($juntar, 'LEFT')
-                                        ->ordem($ordem)
-                                        ->pagina($limite, $pagina)
-                                        ->executarConsulta();
-
-          Cache::definir($cacheNome, $resultado, $this->cacheTempo, $this->empresaPadraoId);
+        if (is_array($busca) and ! isset($busca['erro'])) {
+          $busca = $this->artigoModel->organizarResultado($busca);
+          $total = $this->artigoModel->organizarResultado($total);
         }
 
-        if (isset($resultado[0]['Artigo']['id'])) {
-          $resultadoBuscar = $resultado;
-        }
+        $resultadoCache = [
+          'resultado' => $busca,
+          'artigosTotal' => $total,
+        ];
 
-        $intervaloInicio = ($pagina - 1) * $limite + 1;
-        $intervaloFim = min($pagina * $limite, $artigosTotal);
+        Cache::definir($cacheNome, $resultadoCache, $this->cacheTempo, $this->empresaPadraoId);
       }
+
+      if (isset($resultadoCache['resultado'][0]['Artigo']['id'])) {
+        $resultadoBuscar = $resultadoCache['resultado'];
+        $artigosTotal = intval($resultadoCache['artigosTotal'][0]['FOUND_ROWS()'] ?? 0);
+      }
+
+      $paginasTotal = ceil($artigosTotal / $limite); // Total de páginas
+      $intervaloInicio = ($pagina - 1) * $limite + 1;
+      $intervaloFim = min($pagina * $limite, $artigosTotal);
     }
 
     $categorias = [];
