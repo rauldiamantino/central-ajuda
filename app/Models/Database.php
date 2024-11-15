@@ -24,9 +24,7 @@ class Database
     catch (Exception $e) {
       $log['erro'] = $e->getMessage();
 
-      if (HOST_LOCAL) {
-        registrarLog('database-conexao', $log);
-      }
+      registrarLog('database-conexao', $log);
     }
   }
 
@@ -129,9 +127,7 @@ class Database
       $log['erro'] = $erro;
     }
 
-    if (HOST_LOCAL) {
-      registrarLog('database-operacoes', $log);
-    }
+    registrarLog('database-operacoes', $log);
 
     return $resposta;
   }
