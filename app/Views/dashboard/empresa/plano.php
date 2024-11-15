@@ -1,5 +1,5 @@
-<span class="pt-4 alvo-plano"></span>
-<div class="mt-10 border-t border-slate-300 w-full h-full flex flex-col gap-4 editar-plano">
+<span class="alvo-plano"></span>
+<div class="pt-10 border-t border-slate-300 w-full h-full flex flex-col gap-4 editar-plano">
   <div class="py-8">
     <h3 class="text-lg font-semibold">Plano</h3>
     <?php if ($assinaturaId and $cobrancas) { ?>

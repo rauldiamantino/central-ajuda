@@ -15,8 +15,53 @@
 
     <?php // Telefone ?>
     <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
-      <label for="empresa-editar-telefone" class="block text-sm font-medium text-gray-700">Celular com DDD <span class="font-extralight">(opcional)</span></label>
+      <label for="empresa-editar-telefone" class="block text-sm font-medium text-gray-700">Celular com DDD</label>
       <input type="text" id="empresa-editar-telefone" name="telefone" class="<?php echo CLASSES_DASH_INPUT; ?>" placeholder="00 00000 0000" value="<?php echo $empresa['Empresa']['telefone']; ?>">
+    </div>
+
+    <?php // Cor primária ?>
+    <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
+      <div class="flex flex-col text-sm font-medium text-gray-700">
+        <span>Cor primária</span>
+        <span class="font-extralight">Escolha a cor principal que representará sua empresa. Esta cor será usada em partes de destaque da sua Central de Ajuda, como botões e cabeçalhos.</span>
+      </div>
+      <div class="mt-4 lg:mt-0 flex flex-wrap gap-2">
+        <?php
+        // Azul escuro     #2d2d2d
+        // Laranja         #f05829
+        // Amarelo Suave   #FFD700
+        // Verde Escuro 2  #006400
+        // Verde Escuro    #2E8B57
+        ?>
+        <label class="inline-block">
+          <input type="radio" name="cor_primaria" value="1" class="hidden peer" <?php echo ($empresa['Empresa']['cor_primaria'] == 1) ? 'checked' : ''; ?> />
+          <span class="block w-9 h-9 bg-[#2d2d2d] cursor-pointer rounded peer-checked:ring-2 peer-checked:ring-offset-1 peer-checked:ring-gray-500"></span>
+        </label>
+
+        <!-- Laranja -->
+        <label class="inline-block">
+          <input type="radio" name="cor_primaria" value="2" class="hidden peer" <?php echo ($empresa['Empresa']['cor_primaria'] == 2) ? 'checked' : ''; ?> />
+          <span class="block w-9 h-9 bg-[#f05829] cursor-pointer rounded peer-checked:ring-2 peer-checked:ring-offset-1 peer-checked:ring-gray-500"></span>
+        </label>
+
+        <!-- Amarelo Suave -->
+        <label class="inline-block">
+          <input type="radio" name="cor_primaria" value="3" class="hidden peer" <?php echo ($empresa['Empresa']['cor_primaria'] == 3) ? 'checked' : ''; ?> />
+          <span class="block w-9 h-9 bg-[#FFD700] cursor-pointer rounded peer-checked:ring-2 peer-checked:ring-offset-1 peer-checked:ring-gray-500"></span>
+        </label>
+
+        <!-- Verde Escuro 2 -->
+        <label class="inline-block">
+          <input type="radio" name="cor_primaria" value="4" class="hidden peer" <?php echo ($empresa['Empresa']['cor_primaria'] == 4) ? 'checked' : ''; ?> />
+          <span class="block w-9 h-9 bg-[#006400] cursor-pointer rounded peer-checked:ring-2 peer-checked:ring-offset-1 peer-checked:ring-gray-500"></span>
+        </label>
+
+        <!-- Verde Escuro -->
+        <label class="inline-block">
+          <input type="radio" name="cor_primaria" value="5" class="hidden peer" <?php echo ($empresa['Empresa']['cor_primaria'] == 5) ? 'checked' : ''; ?> />
+          <span class="block w-9 h-9 bg-[#2E8B57] cursor-pointer rounded peer-checked:ring-2 peer-checked:ring-offset-1 peer-checked:ring-gray-500"></span>
+        </label>
+      </div>
     </div>
 
     <?php // Logo ?>

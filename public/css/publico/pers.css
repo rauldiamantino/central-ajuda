@@ -1,0 +1,69 @@
+/*Azul escuro - #2d2d2d */
+.pers-publico-botao.template-cor-1                                            { background-color: #2d2d2d;color: #ffffff; }
+.pers-publico-lupa.template-cor-1                                             { color: #2d2d2d; }
+.pers-publico-inicio-blocos.template-cor-1:hover                              { color: #ffffff; background-color: #2d2d2d; transform: scale(1.05); opacity: 90%; }
+.pers-publico-inicio-blocos.template-cor-1:hover .bloco-categoria-descricao   { color: #ffffff; background-color: #2d2d2d; }
+.pers-publico-tag-cate.template-cor-1                                         { color: #2d2d2d; }
+.pers-publico-seta-artigo.template-cor-1                                      { color: #2d2d2d; }
+.pers-publico-busca-pag.template-cor-1                                        { color: #ffffff; border: 1px solid #2d2d2d; background-color: #2d2d2d; }
+.pers-publico-busca-pag-input.template-cor-1                                  { border: 1px solid #2d2d2d; }
+.pers-publico-artigo.template-cor-1.publico-artigo-blocos a                   { color: #1E40AF; text-decoration: none; }
+.pers-publico-artigo.template-cor-1.publico-artigo-blocos a:hover             { text-decoration: underline; }
+.pers-publico-artigo.template-cor-1.dashboard-pre-visualizacao a              { color: #1E40AF; text-decoration: none; }
+.pers-publico-artigo.template-cor-1.dashboard-pre-visualizacao a:hover        { text-decoration: underline; }
+
+/*Laranja - #f05829 */
+.pers-publico-botao.template-cor-2                                            { background-color: #f05829;color: #ffffff; }
+.pers-publico-lupa.template-cor-2                                             { color: #f05829; }
+.pers-publico-inicio-blocos.template-cor-2:hover                              { color: #ffffff; background-color: #f05829; transform: scale(1.05); opacity: 90%; }
+.pers-publico-inicio-blocos.template-cor-2:hover .bloco-categoria-descricao   { color: #ffffff; background-color: #f05829; }
+.pers-publico-tag-cate.template-cor-2                                         { color: #f05829; }
+.pers-publico-seta-artigo.template-cor-2                                      { color: #f05829; }
+.pers-publico-busca-pag.template-cor-2                                        { color: #ffffff; border: 1px solid #f05829; background-color: #f05829; }
+.pers-publico-busca-pag-input.template-cor-2                                  { border: 1px solid #f05829; }
+.pers-publico-artigo.template-cor-2.publico-artigo-blocos a                   { color: #f05829; text-decoration: none; }
+.pers-publico-artigo.template-cor-2.publico-artigo-blocos a:hover             { text-decoration: underline; }
+.pers-publico-artigo.template-cor-2.dashboard-pre-visualizacao a              { color: #f05829; text-decoration: none; }
+.pers-publico-artigo.template-cor-2.dashboard-pre-visualizacao a:hover        { text-decoration: underline; }
+
+/*Amarelo Suave - #FFD700 */
+.pers-publico-botao.template-cor-3                                            { background-color: #FFD700;color: #000000; }
+.pers-publico-lupa.template-cor-3                                             { color: #FFD700; }
+.pers-publico-inicio-blocos.template-cor-3:hover                              { color: #000000; background-color: #FFD700; transform: scale(1.05); opacity: 90%; }
+.pers-publico-inicio-blocos.template-cor-3:hover .bloco-categoria-descricao   { color: #000000; background-color: #FFD700; }
+.pers-publico-tag-cate.template-cor-3                                         { color: #FFD700; }
+.pers-publico-seta-artigo.template-cor-3                                      { color: #FFD700; }
+.pers-publico-busca-pag.template-cor-3                                        { color: #000000; border: 1px solid #FFD700; background-color: #FFD700; }
+.pers-publico-busca-pag-input.template-cor-3                                  { border: 1px solid #FFD700; }
+.pers-publico-artigo.template-cor-3.publico-artigo-blocos a                   { color: #1E40AF; text-decoration: none; }
+.pers-publico-artigo.template-cor-3.publico-artigo-blocos a:hover             { text-decoration: underline; }
+.pers-publico-artigo.template-cor-3.dashboard-pre-visualizacao a              { color: #FFD700; text-decoration: none; }
+.pers-publico-artigo.template-cor-3.dashboard-pre-visualizacao a:hover        { text-decoration: underline; }
+
+/*Verde Escuro 2 - #006400 */
+.pers-publico-botao.template-cor-4                                            { background-color: #006400;color: #ffffff; }
+.pers-publico-lupa.template-cor-4                                             { color: #006400; }
+.pers-publico-inicio-blocos.template-cor-4:hover                              { color: #ffffff; background-color: #006400; transform: scale(1.05); opacity: 90%; }
+.pers-publico-inicio-blocos.template-cor-4:hover .bloco-categoria-descricao   { color: #ffffff; background-color: #006400; }
+.pers-publico-tag-cate.template-cor-4                                         { color: #006400; }
+.pers-publico-seta-artigo.template-cor-4                                      { color: #006400; }
+.pers-publico-busca-pag.template-cor-4                                        { color: #ffffff; border: 1px solid #006400; background-color: #006400; }
+.pers-publico-busca-pag-input.template-cor-4                                  { border: 1px solid #006400; }
+.pers-publico-artigo.template-cor-4.publico-artigo-blocos a                   { color: #006400; text-decoration: none; }
+.pers-publico-artigo.template-cor-4.publico-artigo-blocos a:hover             { text-decoration: underline; }
+.pers-publico-artigo.template-cor-4.dashboard-pre-visualizacao a              { color: #006400; text-decoration: none; }
+.pers-publico-artigo.template-cor-4.dashboard-pre-visualizacao a:hover        { text-decoration: underline; }
+
+/*Verde Escuro - #2E8B57 */
+.pers-publico-botao.template-cor-5                                            { background-color: #2E8B57;color: #ffffff; }
+.pers-publico-lupa.template-cor-5                                             { color: #2E8B57; }
+.pers-publico-inicio-blocos.template-cor-5:hover                              { color: #ffffff; background-color: #2E8B57; transform: scale(1.05); opacity: 90%; }
+.pers-publico-inicio-blocos.template-cor-5:hover .bloco-categoria-descricao   { color: #ffffff; background-color: #2E8B57; }
+.pers-publico-tag-cate.template-cor-5                                         { color: #2E8B57; }
+.pers-publico-seta-artigo.template-cor-5                                      { color: #2E8B57; }
+.pers-publico-busca-pag.template-cor-5                                        { color: #ffffff; border: 1px solid #2E8B57; background-color: #2E8B57; }
+.pers-publico-busca-pag-input.template-cor-5                                  { border: 1px solid #2E8B57; }
+.pers-publico-artigo.template-cor-5.publico-artigo-blocos a                   { color: #2E8B57; text-decoration: none; }
+.pers-publico-artigo.template-cor-5.publico-artigo-blocos a:hover             { text-decoration: underline; }
+.pers-publico-artigo.template-cor-5.dashboard-pre-visualizacao a              { color: #2E8B57; text-decoration: none; }
+.pers-publico-artigo.template-cor-5.dashboard-pre-visualizacao a:hover        { text-decoration: underline; }

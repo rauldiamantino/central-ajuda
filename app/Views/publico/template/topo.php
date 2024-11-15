@@ -18,7 +18,7 @@
       </div>
     </div>
   </div>
-  <div class="<?php echo ! isset($inicio) ? 'hidden ' : '' ?> md:block w-max">
+  <div class="<?php echo ! isset($inicio) ? 'hidden ' : '' ?> hidden md:block w-max">
     <?php require 'menu_login.php' ?>
   </div>
 </header>

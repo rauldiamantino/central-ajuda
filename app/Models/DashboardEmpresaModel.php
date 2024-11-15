@@ -157,6 +157,7 @@ class DashboardEmpresaModel extends Model
       'assinatura_ciclo' => $params['assinatura_ciclo'] ?? '',
       'assinatura_valor' => $params['assinatura_valor'] ?? 0.00,
       'gratis_prazo' => $params['gratis_prazo'] ?? '',
+      'cor_primaria' => intval($params['cor_primaria'] ?? 1),
     ];
 
     $msgErro = [
@@ -181,6 +182,7 @@ class DashboardEmpresaModel extends Model
         'assinatura_ciclo',
         'assinatura_valor',
         'gratis_prazo',
+        'cor_primaria',
       ];
 
       if ($atualizar and ! isset($params[ $chave ])) {
@@ -212,6 +214,7 @@ class DashboardEmpresaModel extends Model
       $campos['assinatura_ciclo'] = htmlspecialchars($campos['assinatura_ciclo']);
       $campos['gratis_prazo'] = htmlspecialchars($campos['gratis_prazo']);
       $campos['assinatura_status'] = filter_var($campos['assinatura_status'], FILTER_SANITIZE_NUMBER_INT);
+      $campos['cor_primaria'] = filter_var($campos['cor_primaria'], FILTER_SANITIZE_NUMBER_INT);
 
       if (isset($params['ativo']) and ! in_array($campos['ativo'], [INATIVO, ATIVO])) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('ativo', 'valInvalido');
@@ -267,6 +270,7 @@ class DashboardEmpresaModel extends Model
       $assinaturaValorCaracteres = 12;
       $assinaturaStatusCaracteres = 1;
       $gratisPrazoCaracteres = 19;
+      $corPrimariaCaracteres = 2;
 
       if (strlen($campos['assinatura_id_asaas']) > $assinaturaIdAsaasCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('assinatura_id_asaas', 'caracteres', $assinaturaIdAsaasCaracteres);
@@ -316,6 +320,10 @@ class DashboardEmpresaModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('gratis_prazo', 'caracteres', $gratisPrazoCaracteres);
       }
 
+      if (strlen($campos['cor_primaria']) > $corPrimariaCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('cor_primaria', 'caracteres', $corPrimariaCaracteres);
+      }
+
       $campos['cnpj'] = trim($campos['cnpj']);
       $campos['subdominio'] = trim($campos['subdominio']);
     }
@@ -337,6 +345,7 @@ class DashboardEmpresaModel extends Model
       'assinatura_ciclo' => $campos['assinatura_ciclo'],
       'assinatura_valor' => $campos['assinatura_valor'],
       'gratis_prazo' => $campos['gratis_prazo'],
+      'cor_primaria' => $campos['cor_primaria'],
     ];
 
     if ($atualizar) {
@@ -409,6 +418,10 @@ class DashboardEmpresaModel extends Model
 
     if ($campo == 'gratis_prazo') {
       $campo = 'Prazo do teste grátis';
+    }
+
+    if ($campo == 'cor_primaria') {
+      $campo = 'Cor primária';
     }
 
     $msgErro = [

@@ -10,5 +10,6 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.1.1/ckeditor5.css" />
   <link rel="stylesheet" href="<?php echo baseUrl('/css/dashboard/index.css'); ?>">
+  <link rel="stylesheet" href="<?php echo baseUrl('/css/publico/pers.css'); ?>">
   <title><?php echo $titulo ?></title>
 </head>

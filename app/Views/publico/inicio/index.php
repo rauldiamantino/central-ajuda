@@ -1,4 +1,4 @@
-<div class="mx-auto w-full xl:w-8/12 flex flex-col items-center gap-16 md:px-6 py-12">
+<div class="mx-auto w-full flex flex-col items-center gap-16 md:px-4 xl:px-14 py-12">
 
   <div class="w-full flex flex-col items-start gap-6">
     <div class="flex flex-col gap-3">
@@ -13,12 +13,10 @@
   <div class="w-full flex flex-col gap-2">
     <h3 class="font-light">Principais tópicos...</h3>
     <div class="w-full h-max grid grid-cols-2 xl:grid-cols-3 justify-start gap-2">
-      <?php foreach ($categorias as $chave => $linha): ?>
-        <a href="<?php echo baseUrl('/' . $subdominio . '/categoria/' . $linha['Categoria']['id']); ?>" class="hover:scale-105 transition-scale duration-150">
-          <div class="border border-slate-200 hover:shadow-xl p-6 h-full min-h-[200px] flex flex-col justify-between rounded shadow">
-            <h3 class="text-lg"><?php echo $linha['Categoria']['nome'] ?></h3>
-            <div class="font-extralight text-gray-400"><?php echo $linha['Categoria']['descricao'] ?></div>
-          </div>
+      <?php foreach (array_slice($categorias, 0, 6) as $chave => $linha): ?>
+        <a href="<?php echo baseUrl('/' . $subdominio . '/categoria/' . $linha['Categoria']['id']); ?>" class="p-6 h-full min-h-[200px] flex flex-col justify-between rounded-lg shadow border border-slate-200 hover:shadow-xl pers-publico-inicio-blocos template-cor-<?php echo $corPrimaria; ?>">
+            <h3 class="text-lg bloco-categoria-nome"><?php echo $linha['Categoria']['nome'] ?></h3>
+            <div class="font-extralight text-gray-400 bloco-categoria-descricao"><?php echo $linha['Categoria']['descricao'] ?></div>
         </a>
       <?php endforeach; ?>
     </div>

@@ -31,6 +31,7 @@ class Controller
       'empresaAtivo' => intval($resultado['empresaAtivo'] ?? 0),
       'empresaCriado' => $resultado['empresaCriado'] ?? '',
       'gratisPrazo' => $resultado['gratisPrazo'] ?? '',
+      'corPrimaria' => intval($resultado['corPrimaria'] ?? 1),
       'assinaturaIdAsaas' => $resultado['assinaturaIdAsaas'] ?? '',
       'assinaturaStatus' => intval($resultado['assinaturaStatus'] ?? 0),
       'subdominio' => $resultado['subdominio'] ?? '',

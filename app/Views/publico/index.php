@@ -33,7 +33,7 @@
     <?php $this->sessaoUsuario->apagar('ok'); ?>
     <?php $this->sessaoUsuario->apagar('erro'); ?>
 
-    <div class="w-full lg:w-8/12 min-h-screen flex rounded-md bg-white">
+    <div class="w-full max-w-[1200px] min-h-screen flex rounded-md bg-white">
 
       <?php if ($menuLateral) { ?>
         <?php require_once 'template/menu_lateral.php' ?>

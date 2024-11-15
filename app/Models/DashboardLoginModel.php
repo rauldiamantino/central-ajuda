@@ -32,6 +32,7 @@ class DashboardLoginModel extends Model
               Empresa.subdominio AS "Empresa.subdominio",
               Empresa.ativo AS "Empresa.ativo",
               Empresa.gratis_prazo AS "Empresa.gratis_prazo",
+              Empresa.cor_primaria AS "Empresa.cor_primaria",
               Empresa.assinatura_id_asaas AS "Empresa.assinatura_id_asaas",
               Empresa.assinatura_status AS "Empresa.assinatura_status",
               Empresa.criado AS "Empresa.criado"
