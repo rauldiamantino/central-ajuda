@@ -26,18 +26,18 @@
 .pers-publico-artigo.template-cor-2.dashboard-pre-visualizacao a              { color: #f05829; text-decoration: none; }
 .pers-publico-artigo.template-cor-2.dashboard-pre-visualizacao a:hover        { text-decoration: underline; }
 
-/*Amarelo Suave - #FFD700 */
-.pers-publico-botao.template-cor-3                                            { background-color: #FFD700;color: #000000; }
-.pers-publico-lupa.template-cor-3                                             { color: #FFD700; }
-.pers-publico-inicio-blocos.template-cor-3:hover                              { color: #000000; background-color: #FFD700; transform: scale(1.05); opacity: 90%; }
-.pers-publico-inicio-blocos.template-cor-3:hover .bloco-categoria-descricao   { color: #000000; background-color: #FFD700; }
-.pers-publico-tag-cate.template-cor-3                                         { color: #FFD700; }
-.pers-publico-seta-artigo.template-cor-3                                      { color: #FFD700; }
-.pers-publico-busca-pag.template-cor-3                                        { color: #000000; border: 1px solid #FFD700; background-color: #FFD700; }
-.pers-publico-busca-pag-input.template-cor-3                                  { border: 1px solid #FFD700; }
-.pers-publico-artigo.template-cor-3.publico-artigo-blocos a                   { color: #1E40AF; text-decoration: none; }
+/*Marrom Escuro - #5D4037 */
+.pers-publico-botao.template-cor-3                                            { background-color: #5D4037;color: #ffffff; }
+.pers-publico-lupa.template-cor-3                                             { color: #5D4037; }
+.pers-publico-inicio-blocos.template-cor-3:hover                              { color: #ffffff; background-color: #5D4037; transform: scale(1.05); opacity: 90%; }
+.pers-publico-inicio-blocos.template-cor-3:hover .bloco-categoria-descricao   { color: #ffffff; background-color: #5D4037; }
+.pers-publico-tag-cate.template-cor-3                                         { color: #5D4037; }
+.pers-publico-seta-artigo.template-cor-3                                      { color: #5D4037; }
+.pers-publico-busca-pag.template-cor-3                                        { color: #ffffff; border: 1px solid #5D4037; background-color: #5D4037; }
+.pers-publico-busca-pag-input.template-cor-3                                  { border: 1px solid #5D4037; }
+.pers-publico-artigo.template-cor-3.publico-artigo-blocos a                   { color: #5D4037; text-decoration: none; }
 .pers-publico-artigo.template-cor-3.publico-artigo-blocos a:hover             { text-decoration: underline; }
-.pers-publico-artigo.template-cor-3.dashboard-pre-visualizacao a              { color: #FFD700; text-decoration: none; }
+.pers-publico-artigo.template-cor-3.dashboard-pre-visualizacao a              { color: #5D4037; text-decoration: none; }
 .pers-publico-artigo.template-cor-3.dashboard-pre-visualizacao a:hover        { text-decoration: underline; }
 
 /*Verde Escuro 2 - #006400 */
@@ -67,3 +67,59 @@
 .pers-publico-artigo.template-cor-5.publico-artigo-blocos a:hover             { text-decoration: underline; }
 .pers-publico-artigo.template-cor-5.dashboard-pre-visualizacao a              { color: #2E8B57; text-decoration: none; }
 .pers-publico-artigo.template-cor-5.dashboard-pre-visualizacao a:hover        { text-decoration: underline; }
+
+/*Bordô - #800020 */
+.pers-publico-botao.template-cor-6                                            { background-color: #800020;color: #ffffff; }
+.pers-publico-lupa.template-cor-6                                             { color: #800020; }
+.pers-publico-inicio-blocos.template-cor-6:hover                              { color: #ffffff; background-color: #800020; transform: scale(1.05); opacity: 90%; }
+.pers-publico-inicio-blocos.template-cor-6:hover .bloco-categoria-descricao   { color: #ffffff; background-color: #800020; }
+.pers-publico-tag-cate.template-cor-6                                         { color: #800020; }
+.pers-publico-seta-artigo.template-cor-6                                      { color: #800020; }
+.pers-publico-busca-pag.template-cor-6                                        { color: #ffffff; border: 1px solid #800020; background-color: #800020; }
+.pers-publico-busca-pag-input.template-cor-6                                  { border: 1px solid #800020; }
+.pers-publico-artigo.template-cor-6.publico-artigo-blocos a                   { color: #800020; text-decoration: none; }
+.pers-publico-artigo.template-cor-6.publico-artigo-blocos a:hover             { text-decoration: underline; }
+.pers-publico-artigo.template-cor-6.dashboard-pre-visualizacao a              { color: #800020; text-decoration: none; }
+.pers-publico-artigo.template-cor-6.dashboard-pre-visualizacao a:hover        { text-decoration: underline; }
+
+/*Verde musgo - #556B2F */
+.pers-publico-botao.template-cor-7                                            { background-color: #556B2F;color: #ffffff; }
+.pers-publico-lupa.template-cor-7                                             { color: #556B2F; }
+.pers-publico-inicio-blocos.template-cor-7:hover                              { color: #ffffff; background-color: #556B2F; transform: scale(1.05); opacity: 90%; }
+.pers-publico-inicio-blocos.template-cor-7:hover .bloco-categoria-descricao   { color: #ffffff; background-color: #556B2F; }
+.pers-publico-tag-cate.template-cor-7                                         { color: #556B2F; }
+.pers-publico-seta-artigo.template-cor-7                                      { color: #556B2F; }
+.pers-publico-busca-pag.template-cor-7                                        { color: #ffffff; border: 1px solid #556B2F; background-color: #556B2F; }
+.pers-publico-busca-pag-input.template-cor-7                                  { border: 1px solid #556B2F; }
+.pers-publico-artigo.template-cor-7.publico-artigo-blocos a                   { color: #556B2F; text-decoration: none; }
+.pers-publico-artigo.template-cor-7.publico-artigo-blocos a:hover             { text-decoration: underline; }
+.pers-publico-artigo.template-cor-7.dashboard-pre-visualizacao a              { color: #556B2F; text-decoration: none; }
+.pers-publico-artigo.template-cor-7.dashboard-pre-visualizacao a:hover        { text-decoration: underline; }
+
+/*Cinza azulado - #4A5568 */
+.pers-publico-botao.template-cor-8                                            { background-color: #4A5568;color: #ffffff; }
+.pers-publico-lupa.template-cor-8                                             { color: #4A5568; }
+.pers-publico-inicio-blocos.template-cor-8:hover                              { color: #ffffff; background-color: #4A5568; transform: scale(1.05); opacity: 90%; }
+.pers-publico-inicio-blocos.template-cor-8:hover .bloco-categoria-descricao   { color: #ffffff; background-color: #4A5568; }
+.pers-publico-tag-cate.template-cor-8                                         { color: #4A5568; }
+.pers-publico-seta-artigo.template-cor-8                                      { color: #4A5568; }
+.pers-publico-busca-pag.template-cor-8                                        { color: #ffffff; border: 1px solid #4A5568; background-color: #4A5568; }
+.pers-publico-busca-pag-input.template-cor-8                                  { border: 1px solid #4A5568; }
+.pers-publico-artigo.template-cor-8.publico-artigo-blocos a                   { color: #4A5568; text-decoration: none; }
+.pers-publico-artigo.template-cor-8.publico-artigo-blocos a:hover             { text-decoration: underline; }
+.pers-publico-artigo.template-cor-8.dashboard-pre-visualizacao a              { color: #4A5568; text-decoration: none; }
+.pers-publico-artigo.template-cor-8.dashboard-pre-visualizacao a:hover        { text-decoration: underline; }
+
+/*Roxo escuro - #4B0082 */
+.pers-publico-botao.template-cor-9                                            { background-color: #4B0082;color: #ffffff; }
+.pers-publico-lupa.template-cor-9                                             { color: #4B0082; }
+.pers-publico-inicio-blocos.template-cor-9:hover                              { color: #ffffff; background-color: #4B0082; transform: scale(1.05); opacity: 90%; }
+.pers-publico-inicio-blocos.template-cor-9:hover .bloco-categoria-descricao   { color: #ffffff; background-color: #4B0082; }
+.pers-publico-tag-cate.template-cor-9                                         { color: #4B0082; }
+.pers-publico-seta-artigo.template-cor-9                                      { color: #4B0082; }
+.pers-publico-busca-pag.template-cor-9                                        { color: #ffffff; border: 1px solid #4B0082; background-color: #4B0082; }
+.pers-publico-busca-pag-input.template-cor-9                                  { border: 1px solid #4B0082; }
+.pers-publico-artigo.template-cor-9.publico-artigo-blocos a                   { color: #4B0082; text-decoration: none; }
+.pers-publico-artigo.template-cor-9.publico-artigo-blocos a:hover             { text-decoration: underline; }
+.pers-publico-artigo.template-cor-9.dashboard-pre-visualizacao a              { color: #4B0082; text-decoration: none; }
+.pers-publico-artigo.template-cor-9.dashboard-pre-visualizacao a:hover        { text-decoration: underline; }
