@@ -49,11 +49,6 @@ function converterInteiroParaDecimal(int $valor = 0) {
 }
 
 function registrarLog($nome, $arquivo) {
-
-  if (! HOST_LOCAL) {
-    return;
-  }
-
   // Remove quebras de linha e espaços extras
   if ($nome == 'database' and isset($arquivo['sql']) && is_string($arquivo['sql'])) {
     $arquivo['sql'] = preg_replace('/\s+/', ' ', $arquivo['sql']);
@@ -71,7 +66,9 @@ function registrarLog($nome, $arquivo) {
     $sessaoUsuario->definir('debug', $logMensagem, true);
   }
 
-  error_log($logMensagem, 3, '../app/logs/' . $nome . '-' . date('Y-m-d') . '.log');
+  if (HOST_LOCAL) {
+    error_log($logMensagem, 3, '../app/logs/' . $nome . '-' . date('Y-m-d') . '.log');
+  }
 }
 
 function subdominioDominio(string $subdominio = '', $protocolo = true) {
