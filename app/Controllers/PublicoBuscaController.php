@@ -140,13 +140,6 @@ class PublicoBuscaController extends PublicoController
         'campo' => 'Categoria.ativo', 'operador' => '=', 'valor' => ATIVO,
       ];
 
-      if ($this->usuarioLogado['padrao'] == USUARIO_SUPORTE) {
-        unset($condicoes[0]);
-      }
-      elseif ($this->empresaId and $this->empresaId == $this->usuarioLogado['empresaId']) {
-        unset($condicoes[0]);
-      }
-
       $colunas = [
         'Categoria.id',
         'Categoria.nome',
