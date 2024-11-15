@@ -45,15 +45,15 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   if (notificacaoErro) {
-    setTimeout(() => fecharNotificacao(notificacaoErro), 60000)
+    setTimeout(() => fecharNotificacao(notificacaoErro), 6000)
   }
 
   if (notificacaoSucesso) {
-    setTimeout(() => fecharNotificacao(notificacaoSucesso), 60000)
+    setTimeout(() => fecharNotificacao(notificacaoSucesso), 6000)
   }
 
   if (notificacaoNeutra) {
-    setTimeout(() => fecharNotificacao(notificacaoNeutra), 60000)
+    setTimeout(() => fecharNotificacao(notificacaoNeutra), 6000)
   }
 
   if (btnNotificacaoErroFechar) {

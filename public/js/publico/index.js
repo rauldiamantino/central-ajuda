@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   if (notificacaoErro) {
-    setTimeout(() => fecharNotificacao(notificacaoErro), 10000)
+    setTimeout(() => fecharNotificacao(notificacaoErro), 6000)
   }
 
   if (btnNotificacaoErroFechar) {
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   if (notificacaoSucesso) {
-    setTimeout(() => fecharNotificacao(notificacaoSucesso), 10000)
+    setTimeout(() => fecharNotificacao(notificacaoSucesso), 6000)
   }
 
   if (btnNotificacaoSucessoFechar) {
