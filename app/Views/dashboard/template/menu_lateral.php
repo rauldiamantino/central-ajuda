@@ -160,6 +160,12 @@ $classeRestrito = $this->usuarioLogado['nivel'] == USUARIO_RESTRITO ? 'text-gray
         </div>
       </a>
     </li>
+  <?php
+
+  if (! isset($this->usuarioLogado['assinaturaStatus']) or (int) $this->usuarioLogado['assinaturaStatus'] == INATIVO) {
+    require_once 'teste-gratis.php';
+  }
+  ?>
     <?php if ($this->usuarioLogado['id'] > 0 and $this->usuarioLogado['padrao'] == USUARIO_SUPORTE) { ?>
       <h3 class="mt-4 px-6 py-2 text-xs font-extralight text-slate-300">SUPORTE</h3>
       <li class="px-4 hover:bg-gray-700 rounded-lg cursor-pointer flex justify-between group">
@@ -207,11 +213,4 @@ $classeRestrito = $this->usuarioLogado['nivel'] == USUARIO_RESTRITO ? 'text-gray
     <?php } ?>
     <?php $diasGratis = 10 ?>
   </ul>
-
-  <?php
-
-  if (! isset($this->usuarioLogado['assinaturaStatus']) or (int) $this->usuarioLogado['assinaturaStatus'] == INATIVO) {
-    require_once 'teste-gratis.php';
-  }
-  ?>
 </asside>

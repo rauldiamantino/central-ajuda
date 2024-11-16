@@ -132,6 +132,8 @@ class DashboardEmpresaController extends DashboardController
       $this->usuarioLogado['assinaturaStatus'] = $novoStatus;
       $this->usuarioLogado['assinaturaId'] = $assinaturaId;
       $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
+      Cache::apagar('roteador-' . $this->usuarioLogado['subdominio']);
+
       $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Assinatura reprocessada');
     }
 
@@ -220,6 +222,8 @@ class DashboardEmpresaController extends DashboardController
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Não foi possível gravar os dados da sua assinatura, por favor, entre em contato com o nosso suporte');
     }
 
+    Cache::apagar('roteador-' . $this->usuarioLogado['subdominio']);
+
     $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Assinatura criada com sucesso!');
   }
 
@@ -267,8 +271,7 @@ class DashboardEmpresaController extends DashboardController
     }
 
     Cache::apagar('publico-dados-empresa', $this->usuarioLogado['empresaId']);
-    Cache::apagar('roteador_subdominio-' . md5('id' . $this->empresaPadraoId));
-    Cache::apagar('roteador_subdominio-' . md5('subdominio' . $this->usuarioLogado['subdominio']));
+    Cache::apagar('roteador-' . $this->usuarioLogado['subdominio']);
 
     $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Registro alterado com sucesso');
   }

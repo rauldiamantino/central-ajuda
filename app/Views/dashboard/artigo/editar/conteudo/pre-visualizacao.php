@@ -10,7 +10,6 @@
         </div>
       <?php } ?>
     </div>
-    <span class="alvo-adicionar-texto"></span>
     <div class="px-3 text-xs font-light">
       <?php if ($this->buscarAjuste('artigo_criado') == 1 and $this->buscarAjuste('artigo_autor') == 1) { ?>
         <div>Criado por <span class="font-semibold"> <?php echo $artigo['Usuario']['nome'] ?> </span> em <?php echo traduzirDataPtBr($artigo['Artigo']['criado']); ?></div>
@@ -91,7 +90,7 @@
         <?php endforeach; ?>
 
       <?php } ?>
-
+      <span class="alvo-adicionar-texto"></span>
       <?php require_once 'modais/adicionar-texto.php' ?>
     </div>
   </div>

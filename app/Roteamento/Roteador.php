@@ -44,26 +44,6 @@ class Roteador
       $metodo = strtoupper($metodoOculto);
     }
 
-    // // Subdomínio
-    // if (strpos($_SERVER['HTTP_HOST'], 'localhost')) {
-    //   $subPadrao = '.localhost';
-    // }
-    // elseif (strpos($_SERVER['HTTP_HOST'], '360help.local')) {
-    //   $subPadrao = '.360help.local';
-    // }
-    // else {
-    //   $subPadrao = '.';
-    // }
-
-    // $temp = explode($subPadrao, $_SERVER['HTTP_HOST']);
-    // $subdominio = '';
-    // $subdominioAtivo = false;
-
-    // if (count($temp) > 1) {
-    //   $subdominio = $temp[0];
-    //   $subdominioAtivo = true;
-    // }
-
     $chaveRota = $metodo . ':' . $url;
     $partesRota = explode('/', trim($url, '/'));
 
@@ -117,9 +97,8 @@ class Roteador
 
       $coluna = 'subdominio';
       $valor = $empresa;
-
       $cacheTempo = 60 * 60;
-      $cacheNome = 'roteador_subdominio-' . md5($coluna . $valor);
+      $cacheNome = 'roteador-' . $valor;
 
       $buscarEmpresa = Cache::buscar($cacheNome);
 

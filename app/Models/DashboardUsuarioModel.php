@@ -169,8 +169,14 @@ class DashboardUsuarioModel extends Model
         'Usuario.empresa_id',
         'Usuario.nivel',
         'Usuario.padrao',
+        'Usuario.tentativas_login',
         'Empresa.subdominio',
         'Empresa.ativo',
+        'Empresa.gratis_prazo',
+        'Empresa.cor_primaria',
+        'Empresa.assinatura_id_asaas',
+        'Empresa.assinatura_status',
+        'Empresa.criado',
       ];
 
       $juntar = [
@@ -185,16 +191,24 @@ class DashboardUsuarioModel extends Model
                       ->executarConsulta();
 
       if (isset($usuario[0]['Usuario']['id'])) {
-        $this->sessaoUsuario->definir('usuario', [
+        $this->usuarioLogado = [
           'id' => $usuario[0]['Usuario']['id'],
           'nome' => $usuario[0]['Usuario']['nome'],
           'email' => $usuario[0]['Usuario']['email'],
           'empresaId' => $usuario[0]['Usuario']['empresa_id'],
           'empresaAtivo' => $usuario[0]['Empresa']['ativo'],
+          'empresaCriado' => $usuario[0]['Empresa']['criado'],
+          'gratisPrazo' => $usuario[0]['Empresa']['gratis_prazo'],
+          'corPrimaria' => $usuario[0]['Empresa']['cor_primaria'],
+          'assinaturaIdAsaas' => $usuario[0]['Empresa']['assinatura_id_asaas'],
+          'assinaturaStatus' => $usuario[0]['Empresa']['assinatura_status'],
           'subdominio' => $usuario[0]['Empresa']['subdominio'],
           'nivel' => $usuario[0]['Usuario']['nivel'],
           'padrao' => $usuario[0]['Usuario']['padrao'],
-        ]);
+          'tentativasLogin' => $usuario[0]['Usuario']['tentativas_login'],
+        ];
+
+        $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
       }
     }
 

@@ -160,7 +160,7 @@ const removerAutocomplete = () => {
 
     setTimeout(function(){
       input.removeAttribute('disabled')
-    }, 50)
+    }, 1000)
   })
 }
 
@@ -235,7 +235,6 @@ const fecharTextoModal = (event) => {
 const abrirModalAdicionar = () => {
   const alvo = document.querySelector('.alvo-adicionar-texto');
   const modal = document.querySelector('.modal-conteudo-texto-adicionar')
-  const containerConteudos = document.querySelectorAll('.div-pai-conteudo-editar')
 
   if (! alvo) {
     return
@@ -244,14 +243,6 @@ const abrirModalAdicionar = () => {
   if (! modal) {
     return
   }
-
-  if (! containerConteudos) {
-    return
-  }
-
-  containerConteudos.forEach(conteudo => {
-    conteudo.classList.add('hidden');
-  })
 
   modal.classList.remove('hidden');
 

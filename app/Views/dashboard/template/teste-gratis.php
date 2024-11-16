@@ -19,7 +19,7 @@ else {
 }
 ?>
 
-<li class="m-4 px-4 py-3 bg-gray-700/25 <?php echo $paginaSelecionada == 'empresa' ? 'bg-gray-700' : ''; ?> rounded-lg flex flex-col gap-0 group">
+<li class="mt-4 px-4 py-3 bg-gray-700/25 <?php echo $paginaSelecionada == 'empresa' ? 'bg-gray-700' : ''; ?> rounded-lg flex flex-col gap-0 group">
   <h2 class="text-lg font-semibold text-white">Teste grátis</h2>
   <div class="text-sm text-gray-300 "><?php echo $mensagemTesteFinalizado; ?></div>
 

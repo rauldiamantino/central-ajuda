@@ -1,5 +1,6 @@
 <?php // Adicionar texto ?>
-<div class="max-w-full editor-container hidden bg-white modal-conteudo-texto-adicionar">
+<div class="border-t border-slate-300 mt-14 pt-10 max-w-full editor-container hidden bg-white modal-conteudo-texto-adicionar">
+  <h3>Novo texto</h3>
   <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/conteudo'); ?>" class="flex flex-col items-end gap-2 editor-container__editor" enctype="multipart/form-data">
     <input type="hidden" name="tipo" value="1">
     <input type="hidden" name="referer" value="<?php echo $botaoVoltar ?>">
@@ -13,7 +14,7 @@
       <input type="text" id="conteudo-adicionar-texto-titulo" name="titulo" class="<?php echo CLASSES_DASH_INPUT; ?>" value="">
     </div>
     <div class="w-full editor-container_classic-editor">
-      <textarea name="conteudo" class="border border-gray-300 w-full p-2 min-h-56 rounded-lg ckeditor" name="conteudo"></textarea>
+      <textarea name="conteudo" class="border border-gray-300 w-full p-2 h-full min-h-56 rounded-lg ckeditor" name="conteudo"></textarea>
     </div>
     <div class="sticky z-20 bottom-0 py-4 w-full h-max flex flex-col lg:flex-row justify-between gap-4 bg-white">
       <div class="w-full bg-white">

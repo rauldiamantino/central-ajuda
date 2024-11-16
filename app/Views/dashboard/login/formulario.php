@@ -1,7 +1,7 @@
 <form class="space-y-4" action="<?php echo baseUrl('/login'); ?>" method="POST">
   <div class="flex flex-col gap-2">
     <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
-    <input id="email" name="email" type="email" autocomplete="off" class="<?php echo CLASSES_LOGIN_INPUT; ?>" placeholder="Digite seu e-mail">
+    <input id="email" name="email" type="email" class="<?php echo CLASSES_LOGIN_INPUT; ?>" placeholder="Digite seu e-mail">
   </div>
 
   <div class="flex flex-col gap-2">

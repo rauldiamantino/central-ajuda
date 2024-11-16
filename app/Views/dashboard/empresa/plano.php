@@ -48,11 +48,11 @@
               <col class="w-[50px]">
             </colgroup>
             <tr class="bg-slate-100 w-full border-b">
-              <th class="py-5 px-4">Vencimento</th>
-              <th class="py-5 px-4">Descrição</th>
-              <th class="py-5 px-4">Status</th>
-              <th class="py-5 px-4">Valor</th>
-              <th class="py-5 px-4"></th>
+              <th class="py-4 px-4">Vencimento</th>
+              <th class="py-4 px-4">Descrição</th>
+              <th class="py-4 px-4">Status</th>
+              <th class="py-4 px-4">Valor</th>
+              <th class="py-4 px-4"></th>
             </tr>
           </thead>
           <tbody class="divide-y">
@@ -107,15 +107,15 @@
               ?>
 
               <tr class="hover:bg-slate-100">
-                <td class="py-5 px-4"><?php echo $vencimento ?></td>
-                <td class="py-5 px-4 font-semibold"><?php echo $linha['description'] ?></td>
-                <td class="py-5 px-4">
+                <td class="py-4 px-4"><?php echo $vencimento ?></td>
+                <td class="py-4 px-4 font-semibold"><?php echo $linha['description'] ?></td>
+                <td class="py-4 px-4">
                   <div class="flex items-center gap-2">
                     <span class="px-3 py-1 text-xs rounded-full <?php echo $classeStatus; ?>"><?php echo $status ?></span>
                   </div>
                 </td>
-                <td class="py-5 px-4 text-green-700 whitespace-nowrap">R$ <?php echo $valor ?></td>
-                <td class="py-5 px-4 font-semibold text-blue-800">
+                <td class="py-4 px-4 text-green-700 whitespace-nowrap">R$ <?php echo $valor ?></td>
+                <td class="py-4 px-4 font-semibold text-blue-800">
                   <a href="<?php echo $pagamentoLink; ?>" target="_blank" class="font-semibold hover:underline"><?php echo $botao ?></a>
                 </td>
               </tr>

@@ -46,11 +46,12 @@ class DashboardLoginModel extends Model
               Usuario.ativo = ?
             ORDER BY
               Usuario.id ASC
-            LIMIT 1';
+            LIMIT ?';
 
     $sqlParam = [
       0 => $campos['email'],
-      1 => 1,
+      1 => ATIVO,
+      2 => 1,
     ];
 
     $usuario = parent::executarQueryLogin($sql, $sqlParam);

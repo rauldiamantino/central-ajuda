@@ -12,7 +12,7 @@ $urlVoltar = '/' . $this->usuarioLogado['subdominio'] . '/dashboard/usuarios';
     <div class="mb-5 w-full h-full flex flex-col justify-end">
       <h2 class="text-3xl font-semibold flex gap-2">Editar <?php require_once 'usuario-padrao.php' ?>
       </h2>
-      <p class="text-gray-600">Gerencie seu plano, extrato e configurações para otimizar sua experiência.</p>
+      <p class="text-gray-600">Gerencie informações e configure o nível de acesso com facilidade</p>
     </div>
 
     <div class="w-full h-full flex gap-2 items-center">
@@ -22,7 +22,7 @@ $urlVoltar = '/' . $this->usuarioLogado['subdominio'] . '/dashboard/usuarios';
       </div>
 
       <?php // Menu auxiliar ?>
-      <div class="relative">
+      <div class="relative text-sm">
         <button type="button" class="p-3 bg-gray-400/10 hover:bg-gray-400/20 rounded-lg cursor-pointer" onclick="document.querySelector('.menu-auxiliar-usuario').classList.toggle('hidden')">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
             <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
