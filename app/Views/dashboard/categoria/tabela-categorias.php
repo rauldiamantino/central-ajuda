@@ -18,7 +18,7 @@
           <?php if (isset($linha['Categoria']['id'])) { ?>
             <tr class="hover:bg-slate-100 cursor-pointer" onclick="window.location='<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categoria/editar/' . $linha['Categoria']['id']); ?>';">
               <td class="py-5 px-4 md:pl-8 font-semibold text-gray-900"><?php echo $linha['Categoria']['nome'] ?></td>
-              <td class="py-5 px-4 truncate"><?php echo $linha['Categoria']['descricao'] ?></td>
+              <td class="py-5 px-4 md:whitespace-nowrap md:truncate"><?php echo $linha['Categoria']['descricao'] ?></td>
               <td class="py-5 px-4">
                 <?php if ($linha['Categoria']['ativo'] == 1) { ?>
                   <div class="flex items-center gap-2">
