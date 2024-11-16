@@ -68,7 +68,7 @@ class PublicoBuscaController extends PublicoController
                 AND
                   `Artigo`.`ativo` = ?
                 AND (
-                    MATCH(`Categoria`.`nome`)
+                    MATCH(`Categoria`.`nome`, `Categoria`.`descricao`)
                       AGAINST(? IN NATURAL LANGUAGE MODE)
                     OR MATCH(`Artigo`.`titulo`)
                       AGAINST(? IN NATURAL LANGUAGE MODE)
