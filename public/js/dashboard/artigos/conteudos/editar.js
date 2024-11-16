@@ -24,7 +24,6 @@ export const editarTexto = (botaoAbrirModal) => {
 
   const formularioEditarTexto = novaDivEditarTexto.querySelector('form')
   const conteudoEditarTexto = formularioEditarTexto.querySelector('.conteudo-texto-editar')
-
   const editor = editorInstances[conteudoId];
 
   if (editor) {
@@ -33,6 +32,10 @@ export const editarTexto = (botaoAbrirModal) => {
   } else {
     console.error('Editor não encontrado para o conteúdoId:', conteudoId);
   }
+
+  setTimeout(() => {
+    formularioEditarTexto.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
 }
 
 export const fecharEditarTexto = (botaoFecharModal) => {

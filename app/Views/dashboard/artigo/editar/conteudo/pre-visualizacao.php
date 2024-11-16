@@ -29,7 +29,7 @@
         <?php foreach ($conteudos as $chave => $linha) : ?>
           <div class="relative p-3 w-full h-full group hover:bg-gray-600/10 rounded-lg div-pai-conteudo-editar">
             <?php if ($linha['Conteudo']['tipo'] == 1) { ?>
-              <div class="flex flex-col gap-2 leading-7 bloco-editar-conteudo-texto select-none" data-conteudo-ordem="<?php echo $linha['Conteudo']['ordem'] ?>" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>">
+              <div class="flex flex-col gap-2 leading-7 bloco-editar-conteudo-texto" data-conteudo-ordem="<?php echo $linha['Conteudo']['ordem'] ?>" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>">
                 <?php if ($linha['Conteudo']['titulo'] and $linha['Conteudo']['titulo_ocultar'] == 0) { ?>
                   <h2><?php echo $linha['Conteudo']['titulo'] ?></h2>
                 <?php } ?>
@@ -46,7 +46,7 @@
             <?php if ($linha['Conteudo']['tipo'] == 2) { ?>
               <div data-conteudo-ordem="<?php echo $linha['Conteudo']['ordem'] ?>" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>">
                 <?php if ($linha['Conteudo']['titulo'] and $linha['Conteudo']['titulo_ocultar'] == 0) { ?>
-                  <h2 class="select-none"><?php echo $linha['Conteudo']['titulo'] ?></h2>
+                  <h2 class=""><?php echo $linha['Conteudo']['titulo'] ?></h2>
                 <?php } ?>
                 <img src="<?php echo $linha['Conteudo']['url'] ?>" class="w-full">
               </div>
@@ -55,7 +55,7 @@
             <?php if ($linha['Conteudo']['tipo'] == 3) { ?>
               <div data-conteudo-ordem="<?php echo $linha['Conteudo']['ordem'] ?>" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>">
                 <?php if ($linha['Conteudo']['titulo'] and $linha['Conteudo']['titulo_ocultar'] == 0) { ?>
-                  <h2 class="select-none"><?php echo $linha['Conteudo']['titulo'] ?></h2>
+                  <h2 class=""><?php echo $linha['Conteudo']['titulo'] ?></h2>
                 <?php } ?>
                 <iframe src="<?php echo str_replace('watch?v=', 'embed/', $linha['Conteudo']['url']) ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="width: 100%; height: auto; aspect-ratio: 16/9"></iframe>
               </div>

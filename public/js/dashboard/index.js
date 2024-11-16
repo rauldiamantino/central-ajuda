@@ -215,6 +215,7 @@ const editarTextoModal = (event) => {
     .then(module => {
       const botaoAbrirModal = event.target
       module.editarTexto(botaoAbrirModal)
+
     })
     .catch(error => {
       console.error("Erro ao carregar o módulo:", error)
