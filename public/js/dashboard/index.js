@@ -233,8 +233,21 @@ const fecharTextoModal = (event) => {
 }
 
 const abrirModalAdicionar = () => {
+  const alvo = document.querySelector('.alvo-adicionar-texto');
   const modal = document.querySelector('.modal-conteudo-texto-adicionar')
   const containerConteudos = document.querySelectorAll('.div-pai-conteudo-editar')
+
+  if (! alvo) {
+    return
+  }
+
+  if (! modal) {
+    return
+  }
+
+  if (! containerConteudos) {
+    return
+  }
 
   containerConteudos.forEach(conteudo => {
     conteudo.classList.add('hidden');
@@ -243,9 +256,8 @@ const abrirModalAdicionar = () => {
   modal.classList.remove('hidden');
 
   setTimeout(() => {
-    const bodyHeight = document.body.scrollHeight
-    window.scrollTo({ top: bodyHeight, behavior: 'smooth' })
-  }, 50)
+    alvo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
 }
 
 const voltarAoTopo = () => {

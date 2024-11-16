@@ -1,5 +1,6 @@
 <div class="w-full h-full bg-white p-5 lg:p-10 rounded-md pers-publico-artigo template-cor-<?php echo $this->usuarioLogado['corPrimaria']; ?> dashboard-pre-visualizacao">
   <div class="flex flex-col justify-between items-start gap-2 md:pt-5 px-3">
+    <span class="alvo-adicionar-texto"></span>
     <div class="px-3 flex gap-2 items-center">
       <h1><?php echo $artigo['Artigo']['titulo'] ?? '' ?></h1>
       <?php if (isset($artigo['Artigo']['ativo']) and $artigo['Artigo']['ativo'] == INATIVO) { ?>
