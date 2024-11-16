@@ -22,7 +22,6 @@ $nivelAcesso = [
           <col class="w-[150px]">
           <col class="w-[150px]">
           <col class="w-[150px]">
-          <col class="w-[100px]">
         </colgroup>
         <tr class="bg-slate-100 w-full border-b">
           <th class="py-5 px-4">ID</th>
@@ -31,21 +30,16 @@ $nivelAcesso = [
           <th class="py-5 px-4">Tipo de usuário</th>
           <th class="py-5 px-4">Nível</th>
           <th class="py-5 px-4">Status</th>
-          <th class="py-5 px-4">Ação</th>
         </tr>
       </thead>
       <tbody class="divide-y">
         <?php foreach ($usuarios as $chave => $linha) : ?>
-          <tr class="hover:bg-slate-100">
+          <tr class="hover:bg-slate-100 cursor-pointer" onclick="window.location='<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/usuario/editar/' . $linha['Usuario']['id']); ?>';">
             <?php if (isset($linha['Usuario']['id'])) { ?>
               <td class="py-5 px-4">
                 <?php echo $linha['Usuario']['id'] ?>
               </td>
-              <td class="py-5 px-4">
-                <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/usuario/editar/' . $linha['Usuario']['id']); ?>" class="font-semibold text-gray-700 underline js-dashboard-usuarios-editar" data-usuario-id="<?php echo $linha['Usuario']['id'] ?>">
-                  <?php echo $linha['Usuario']['nome'] ? $linha['Usuario']['nome'] : '** Sem nome **' ?>
-                </a>
-              </td>
+              <td class="py-5 px-4 font-semibold text-gray-900"><?php echo $linha['Usuario']['nome'] ? $linha['Usuario']['nome'] : '** Sem nome **' ?></td>
               <td class="py-5 px-4"><?php echo $linha['Usuario']['email'] ?></td>
               <td class="py-5 px-4">
                 <div class="flex gap-2">
@@ -90,17 +84,6 @@ $nivelAcesso = [
                     <span class="px-3 py-1 bg-gray-50 text-gray-600 text-xs rounded-full">Bloqueado</span>
                   </div>
                 <?php } ?>
-              </td>
-
-              <td class="py-5 px-4">
-                <div class="min-h-full flex gap-3 md:gap-1 justify-start">
-                  <button type="button" class="text-red-800 js-dashboard-usuarios-remover" data-usuario-id="<?php echo $linha['Usuario']['id'] ?>">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" class="min-h-full">
-                      <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
-                      <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
-                    </svg>
-                  </button>
-                </div>
               </td>
             <?php } ?>
           </tr>

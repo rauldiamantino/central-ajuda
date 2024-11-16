@@ -20,19 +20,10 @@ document.addEventListener('DOMContentLoaded', function() {
 let artigoId = null
 let empresaId = null
 
-const btnsArtigoEditar = document.querySelectorAll('.js-dashboard-artigos-editar')
 const btnsArtigoRemover = document.querySelectorAll('.js-dashboard-artigos-remover')
 const modalRemover = document.querySelector('.modal-artigo-remover')
 const btnModalRemover = document.querySelector('.modal-artigo-btn-remover')
 const btnModalCancelar = document.querySelector('.modal-artigo-btn-cancelar')
-
-if (btnsArtigoEditar) {
-  btnsArtigoEditar.forEach(artigo => {
-    artigo.addEventListener('click', () => {
-
-    })
-  })
-}
 
 if (btnsArtigoRemover) {
   btnsArtigoRemover.forEach(artigo => {
@@ -83,7 +74,8 @@ const requisicaoRemover = async (artigoId) => {
     .then(resposta => {
 
       if (resposta.linhasAfetadas == 1) {
-        window.location.href = window.location.href;
+        window.location.href = baseUrl(`/${empresa}/dashboard/artigos`);
+        return
       }
       else if (resposta.erro) {
         throw new Error(resposta.erro)
@@ -94,7 +86,7 @@ const requisicaoRemover = async (artigoId) => {
     })
     .catch(error => {
       window.location.href = window.location.href;
-      console.log(error)
+      return
     })
 }
 

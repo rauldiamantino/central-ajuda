@@ -6,7 +6,7 @@
     </div>
     <div class="w-full py-2 h-full flex items-start gap-2 justify-end">
       <button type="button" class="<?php echo CLASSES_DASH_BUTTON_ADICIONAR; ?>" onclick="document.querySelector('.menu-adicionar-categoria').showModal()">
-        Adicionar
+        Nova categoria
       </button>
 
       <?php // Menu auxiliar ?>
@@ -26,11 +26,11 @@
             </button>
           </li>
           <li class="px-8 py-5">
-            <button type="button" onclick="filtrarCategorias()" class="flex gap-3 items-center hover:text-gray-950">
+            <button type="button" onclick="filtrarCategorias()" class="flex gap-2 items-center hover:text-gray-950">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
                 <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/>
               </svg>
-              Filtrar
+              <span class="whitespace-nowrap">Filtrar</span>
             </button>
           </li>
         </ul>
@@ -77,4 +77,3 @@
 <?php require_once 'modais/adicionar.php' ?>
 <?php require_once 'modais/filtrar.php' ?>
 <?php require_once 'modais/organizar.php' ?>
-<?php require_once 'modais/remover.php' ?>

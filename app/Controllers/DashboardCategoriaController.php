@@ -20,6 +20,7 @@ class DashboardCategoriaController extends DashboardController
   public function categoriasVer()
   {
     $limite = 10;
+    $acao = htmlspecialchars($_GET['acao'] ?? '');
     $paginaAtual = intval($_GET['pagina'] ?? 0);
     $resultado = [];
     $condicoes = [];
@@ -59,6 +60,11 @@ class DashboardCategoriaController extends DashboardController
     $paginaAtual = abs($paginaAtual);
     $paginaAtual = max($paginaAtual, 1);
     $paginaAtual = min($paginaAtual, $paginasTotal);
+
+    // Redireciona para a página onde a nova categoria está
+    if ($acao == 'adicionado') {
+      $paginaAtual = $paginasTotal;
+    }
 
     $colunas = [
       'Categoria.id',
@@ -238,7 +244,7 @@ class DashboardCategoriaController extends DashboardController
     Cache::apagar('publico-categorias', $this->usuarioLogado['empresaId']);
     Cache::apagar('publico-categorias-inicio', $this->usuarioLogado['empresaId']);
 
-    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categorias', 'Categoria criada com sucesso');
+    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categorias?acao=adicionado', 'Categoria criada com sucesso');
   }
 
   public function buscar(int $id = 0)

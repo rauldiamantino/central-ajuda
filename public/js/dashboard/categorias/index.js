@@ -15,19 +15,10 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   let categoriaId = null
-  const btnsCategoriaEditar = document.querySelectorAll('.js-dashboard-categorias-editar')
   const btnsCategoriaRemover = document.querySelectorAll('.js-dashboard-categorias-remover')
   const modalCateRemover = document.querySelector('.modal-categoria-remover')
   const btnModalCateRemover = document.querySelector('.modal-categoria-btn-remover')
   const btnModalCateCancelar = document.querySelector('.modal-categoria-btn-cancelar')
-
-  if (btnsCategoriaEditar) {
-    btnsCategoriaEditar.forEach(categoria => {
-      categoria.addEventListener('click', () => {
-        console.log(categoria)
-      })
-    })
-  }
 
   if (btnsCategoriaRemover) {
     btnsCategoriaRemover.forEach(categoria => {
@@ -74,7 +65,8 @@ document.addEventListener('DOMContentLoaded', function() {
       .then(resposta => {
 
         if (resposta.linhasAfetadas == 1) {
-          window.location.href = window.location.href
+          window.location.href = baseUrl(`/${empresa}/dashboard/categorias`)
+          return
         }
         else if (resposta.erro) {
           throw new Error(resposta.erro)
@@ -85,6 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
       })
       .catch(error => {
         window.location.href = window.location.href
+        return
       })
   }
 

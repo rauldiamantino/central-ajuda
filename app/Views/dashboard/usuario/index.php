@@ -13,4 +13,3 @@
   <?php require_once 'paginacao.php' ?>
 </div>
 <?php require_once 'modais/adicionar.php' ?>
-<?php require_once 'modais/remover.php' ?>

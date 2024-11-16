@@ -6,7 +6,7 @@
     </div>
     <div class="py-2 w-full h-full flex gap-2 items-start justify-end">
       <button class="<?php echo CLASSES_DASH_BUTTON_ADICIONAR; ?>" onclick="document.querySelector('.menu-adicionar-artigo').showModal()">
-        Adicionar
+        Novo artigo
       </button>
 
       <?php // Menu auxiliar ?>
@@ -74,7 +74,6 @@
 </div>
 
 <?php require_once 'modais/adicionar.php' ?>
-<?php require_once 'modais/remover.php' ?>
 <?php require_once 'modais/filtrar.php' ?>
 <?php require_once 'modais/filtrar-alerta.php' ?>
 <?php require_once 'modais/organizar.php' ?>

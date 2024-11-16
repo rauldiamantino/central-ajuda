@@ -59,7 +59,8 @@ const requisicaoUsuarioRemover = (usuarioId) => {
     .then(resposta => {
 
       if (resposta.linhasAfetadas == 1) {
-        window.location.href = window.location.href
+        window.location.href = baseUrl(`/${empresa}/dashboard/usuarios`)
+        return
       }
       else if (resposta.erro) {
         throw new Error(resposta.erro)
@@ -70,6 +71,7 @@ const requisicaoUsuarioRemover = (usuarioId) => {
     })
     .catch(error => {
       window.location.href = window.location.href
+      return
     })
 }
 
