@@ -2,11 +2,11 @@
 <html lang="pt-br">
 <?php require_once 'template/cabecalho.php' ?>
 
-<body class="relative min-h-screen max-w-screen flex flex-col justify-start items-center font-normal bg-slate-100" data-editor="ClassicEditor" data-empresa-id="<?php echo $this->usuarioLogado['empresaId'] ?>" data-empresa="<?php echo $this->usuarioLogado['subdominio'] ?>" data-base-url="<?php echo RAIZ; ?>">
+<body class="relative w-full min-h-screen max-w-screen flex flex-col justify-start items-center font-normal bg-slate-100" data-editor="ClassicEditor" data-empresa-id="<?php echo $this->usuarioLogado['empresaId'] ?>" data-empresa="<?php echo $this->usuarioLogado['subdominio'] ?>" data-base-url="<?php echo RAIZ; ?>">
   <div id="efeito-loader" class="loader <?php echo isset($loader) ? '' : 'hidden'; ?>"></div>
 
   <?php if (isset($pagLogin)) { ?>
-    <main>
+    <main class="w-full p-4">
       <div class="w-full min-h-screen flex justify-center items-center">
         <div class="relative w-full sm:w-[445px] h-max">
           <?php require_once $visao ?>
@@ -18,7 +18,7 @@
   <?php } ?>
 
   <?php if (isset($pagLoginSuporte)) { ?>
-    <main>
+    <main class="w-full p-4">
       <div class="w-full min-h-screen flex justify-center items-center">
         <div class="relative w-full sm:w-[445px] h-max">
           <?php require_once $visao ?>
@@ -30,7 +30,7 @@
   <?php } ?>
 
   <?php if (isset($pagCadastro)) { ?>
-    <main>
+    <main class="w-full p-4">
       <div class="w-full min-h-screen flex justify-center items-center">
         <div class="relative w-full sm:w-[445px] h-max">
           <?php require_once $visao ?>
@@ -46,7 +46,7 @@
 
   <?php if (! isset($pagLogin) and ! isset($pagLoginSuporte) and ! isset($pagCadastro)) { ?>
     <?php require_once 'template/topo.php' ?>
-    <div class="mt-5 w-11/12 md:w-10/12 lg:w-9/12 flex h-max">
+    <div class="p-5 w-full max-w-[1440px] flex h-max">
       <?php require_once 'template/menu_lateral.php' ?>
       <main class="xl:pl-72 flex flex-col w-full">
         <?php require_once 'notificacoes.php' ?>
@@ -63,11 +63,11 @@
     $classeMargem = '';
 
     if (! isset($pagLogin) and ! isset($pagLoginSuporte) and ! isset($pagCadastro)) {
-      $classeMargem = 'xl:ml-72 ';
+      $classeMargem = 'xl:pl-72 ';
     }
     ?>
-    <div class="<?php echo $classeMargem ?>my-10 px-4 lg:px-16 flex w-full min-h-max lg:w-8/12 max-w-screen">
-      <div class="w-full">
+    <div class="p-5 w-full max-w-[1440px] flex h-max">
+      <div class="<?php echo $classeMargem ?> w-full">
         <h2 class="mb-5 text-2xl font-semibold">Debug</h2>
         <div class="border border-slate-300 w-full p-4 lg:p-10 bg-gray-200 text-gray-900 text-xs shadow rounded-md">
           <div class="py-4 overflow-x-auto">

@@ -1,5 +1,5 @@
 <div class="mx-auto md:p-4 w-full sm:w-[600px] h-full">
-  <div class="border border-slate-300 flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 shadow rounded-lg bg-white">
+  <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 shadow-2xl rounded-md bg-white">
     <div class="w-full justify-center flex items-center">
       <a href="<?php echo baseUrl('/login'); ?>" class="w-full justify-center flex items-center">
         <img src="<?php echo baseUrl('/img/360help-branco.svg')?>" class="w-44">

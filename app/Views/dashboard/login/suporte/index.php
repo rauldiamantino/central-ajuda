@@ -1,4 +1,4 @@
-<div class="border border-slate-300 w-full h-full shadow rounded-lg bg-white">
+<div class="w-full h-full shadow-2xl rounded-md bg-white">
   <div class="flex min-h-full flex-col justify-center p-6">
     <div class="w-full justify-center flex items-center">
       <div class="w-full justify-center flex items-center">

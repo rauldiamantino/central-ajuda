@@ -2,7 +2,7 @@
   <img src="<?php echo baseUrl('/img/360help-branco.svg')?>" class="w-32">
 </div>
 <div class="mt-5 w-full h-full shadow-2xl rounded-md bg-white">
-  <div class="flex min-h-full flex-col justify-center px-6 py-12 md:px-10">
+  <div class="w-full flex min-h-full flex-col justify-center px-6 py-12 md:px-10">
     <h2 class="text-2xl font-semibold">Entrar</h2>
     <p class="font-light text-sm text-gray-700">Informe seus dados de acesso:</p>
     <div class="mt-10 w-full">
