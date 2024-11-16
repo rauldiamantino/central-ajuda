@@ -1,4 +1,3 @@
-<span class="alvo-plano"></span>
 <div class="pt-10 border-t border-slate-300 w-full h-full flex flex-col gap-4 editar-plano">
   <div class="py-8">
     <h3 class="text-lg font-semibold">Plano</h3>
@@ -25,9 +24,9 @@
         <div class="text-left">
           <div class="h-full flex flex-col md:flex-row gap-1 md:gap-2 items-start md:items-end">
             <span class="text-sm font-semibold">Anual</span>
-            <span class="text-sm font-light text-gray-500 line-through">De R$ 84,00/mês</span>
-            <span class="text-sm text-green-700 font-normal">por R$ 64,00/mês</span>
-            <span class="text-sm font-light text-gray-500">cobrado anualmente (R$ 768,00/ano)</span>
+            <span class="text-sm font-light text-gray-500 line-through">De R$ 99,00/mês</span>
+            <span class="text-sm text-green-700 font-normal">por R$ 79,00/mês</span>
+            <span class="text-sm font-light text-gray-500">cobrado anualmente (R$ 948,00/ano)</span>
           </div>
         </div>
         <span class="text-sm font-semibold text-blue-800"><?php echo $assinaturaId ? '' : 'Assinar'; ?></span>

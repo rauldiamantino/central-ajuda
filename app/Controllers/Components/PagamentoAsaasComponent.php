@@ -111,7 +111,7 @@ class PagamentoAsaasComponent extends DashboardController
     $ciclo = 'MONTHLY';
 
     if ($plano == 'anual') {
-      $planoValor = 768;
+      $planoValor = 948;
       $ciclo = 'YEARLY';
     }
 
