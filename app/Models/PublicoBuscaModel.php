@@ -1,6 +1,5 @@
 <?php
 namespace app\Models;
-use app\Models\Model;
 use app\Models\PublicoModel;
 
 class PublicoBuscaModel extends PublicoModel
@@ -91,6 +90,10 @@ class PublicoBuscaModel extends PublicoModel
     if (is_array($busca) and ! isset($busca['erro'])) {
       $busca = $this->artigoModel->organizarResultado($busca);
       $total = $this->artigoModel->organizarResultado($total);
+    }
+    else {
+      $busca = [];
+      $total = [];
     }
 
     return [
