@@ -6,8 +6,8 @@
   <div id="efeito-loader" class="loader <?php echo isset($loader) ? '' : 'hidden'; ?>"></div>
 
   <?php if (isset($pagLogin)) { ?>
-    <main class="w-full p-4">
-      <div class="w-full min-h-screen flex justify-center items-center">
+    <main class="w-full my-auto p-2">
+      <div class="w-full h-full flex justify-center items-center">
         <div class="relative w-full sm:w-[445px] h-max">
           <?php require_once $visao ?>
           <?php require_once 'login/notificacoes.php' ?>
@@ -18,8 +18,8 @@
   <?php } ?>
 
   <?php if (isset($pagLoginSuporte)) { ?>
-    <main class="w-full p-4">
-      <div class="w-full min-h-screen flex justify-center items-center">
+    <main class="w-full my-auto p-2">
+      <div class="w-full h-full flex justify-center items-center">
         <div class="relative w-full sm:w-[445px] h-max">
           <?php require_once $visao ?>
           <?php require_once 'login/notificacoes.php' ?>
@@ -30,8 +30,8 @@
   <?php } ?>
 
   <?php if (isset($pagCadastro)) { ?>
-    <main class="w-full p-4">
-      <div class="w-full min-h-screen flex justify-center items-center">
+    <main class="w-full my-auto p-2">
+      <div class="w-full h-full flex justify-center items-center">
         <div class="relative w-full sm:w-[445px] h-max">
           <?php require_once $visao ?>
           <?php require_once 'cadastro/notificacoes.php' ?>

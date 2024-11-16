@@ -5,7 +5,7 @@
   <div class="w-full flex min-h-full flex-col justify-center px-6 py-12 md:px-10">
     <h2 class="text-2xl font-semibold">Entrar</h2>
     <p class="font-light text-sm text-gray-700">Informe seus dados de acesso:</p>
-    <div class="mt-10 w-full">
+    <div class="pt-10 w-full">
       <?php require_once 'formulario.php' ?>
       <p class="mt-10 text-center text-sm text-gray-500">
         Não possui cadastro?
