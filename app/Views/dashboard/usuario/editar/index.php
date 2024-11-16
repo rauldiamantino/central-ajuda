@@ -29,7 +29,7 @@ $urlVoltar = '/' . $this->usuarioLogado['subdominio'] . '/dashboard/usuarios';
           </svg>
         </button>
         <ul class="z-10 absolute top-12 right-0 lg:-right-10 border border-slate-300 lg:mx-10 flex flex-col justify-center bg-white text-gray-600 rounded-md shadow hidden menu-auxiliar menu-auxiliar-usuario">
-          <li class="px-8 py-5">
+          <li class="px-4 py-3">
             <button type="button" class="flex gap-3 items-center text-red-800 js-dashboard-usuarios-remover" data-usuario-id="<?php echo $usuario['Usuario']['id'] ?>" data-empresa-id="<?php echo $usuario['Usuario']['empresa_id'] ?>">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="min-h-full">
                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
