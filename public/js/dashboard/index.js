@@ -227,6 +227,7 @@ const fecharTextoModal = (event) => {
     .then(module => {
       const botaoCancelar = event.target
       module.fecharEditarTexto(botaoCancelar)
+      rolagemVerticalAutomatica()
     })
     .catch(error => {
       console.error("Erro ao carregar o módulo:", error)
