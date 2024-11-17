@@ -158,6 +158,7 @@ class DashboardEmpresaModel extends Model
       'assinatura_valor' => $params['assinatura_valor'] ?? 0.00,
       'gratis_prazo' => $params['gratis_prazo'] ?? '',
       'cor_primaria' => intval($params['cor_primaria'] ?? 1),
+      'url_site' => $params['url_site'] ?? '',
     ];
 
     $msgErro = [
@@ -183,6 +184,7 @@ class DashboardEmpresaModel extends Model
         'assinatura_valor',
         'gratis_prazo',
         'cor_primaria',
+        'url_site',
       ];
 
       if ($atualizar and ! isset($params[ $chave ])) {
@@ -208,8 +210,6 @@ class DashboardEmpresaModel extends Model
       $campos['subdominio'] = htmlspecialchars($campos['subdominio']);
       $campos['telefone'] = filter_var($campos['telefone'], FILTER_SANITIZE_NUMBER_INT);
       $cnpjValido = preg_match('/^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/', $campos['cnpj']);
-      $campos['logo'] = filter_var($campos['logo'], FILTER_SANITIZE_URL);
-      $campos['favicon'] = filter_var($campos['favicon'], FILTER_SANITIZE_URL);
       $campos['assinatura_id_asaas'] = htmlspecialchars($campos['assinatura_id_asaas']);
       $campos['assinatura_ciclo'] = htmlspecialchars($campos['assinatura_ciclo']);
       $campos['gratis_prazo'] = htmlspecialchars($campos['gratis_prazo']);
@@ -243,6 +243,14 @@ class DashboardEmpresaModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('logo', 'valInvalido');
       }
 
+      if ($campos['favicon'] and filter_var($campos['favicon'], FILTER_VALIDATE_URL) == false) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('favicon', 'valInvalido');
+      }
+
+      if ($campos['url_site'] and filter_var($campos['url_site'], FILTER_VALIDATE_URL) == false) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('url_site', 'valInvalido');
+      }
+
       if ($campos['gratis_prazo']) {
 
         try {
@@ -265,6 +273,7 @@ class DashboardEmpresaModel extends Model
       $telefoneCaracteresMax = 11;
       $logoCaracteres = 255;
       $faviconCaracteres = 255;
+      $urlSiteCaracteres = 255;
       $assinaturaIdAsaasCaracteres = 255;
       $assinaturaCicloCaracteres = 50;
       $assinaturaValorCaracteres = 12;
@@ -316,6 +325,10 @@ class DashboardEmpresaModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('favicon', 'caracteres', $faviconCaracteres);
       }
 
+      if (strlen($campos['url_site']) > $urlSiteCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('url_site', 'caracteres', $urlSiteCaracteres);
+      }
+
       if (strlen($campos['gratis_prazo']) > $gratisPrazoCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('gratis_prazo', 'caracteres', $gratisPrazoCaracteres);
       }
@@ -346,6 +359,7 @@ class DashboardEmpresaModel extends Model
       'assinatura_valor' => $campos['assinatura_valor'],
       'gratis_prazo' => $campos['gratis_prazo'],
       'cor_primaria' => $campos['cor_primaria'],
+      'url_site' => $campos['url_site'],
     ];
 
     if ($atualizar) {
@@ -422,6 +436,10 @@ class DashboardEmpresaModel extends Model
 
     if ($campo == 'cor_primaria') {
       $campo = 'Cor primária';
+    }
+
+    if ($campo == 'url_site') {
+      $campo = 'Link para o site';
     }
 
     $msgErro = [

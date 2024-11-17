@@ -41,6 +41,7 @@ class DashboardEmpresaController extends DashboardController
       'Empresa.logo',
       'Empresa.favicon',
       'Empresa.cor_primaria',
+      'Empresa.url_site',
       'Empresa.gratis_prazo',
       'Empresa.assinatura_id_asaas',
       'Empresa.assinatura_status',
@@ -255,6 +256,7 @@ class DashboardEmpresaController extends DashboardController
       'Empresa.subdominio',
       'Empresa.gratis_prazo',
       'Empresa.cor_primaria',
+      'Empresa.url_site',
       'Empresa.assinatura_status',
     ];
 
@@ -266,6 +268,7 @@ class DashboardEmpresaController extends DashboardController
       $this->usuarioLogado['empresaAtivo'] = $empresa[0]['Empresa']['ativo'];
       $this->usuarioLogado['gratisPrazo'] = $empresa[0]['Empresa']['gratis_prazo'];
       $this->usuarioLogado['corPrimaria'] = $empresa[0]['Empresa']['cor_primaria'];
+      $this->usuarioLogado['urlSite'] = $empresa[0]['Empresa']['url_site'];
       $this->usuarioLogado['assinaturaStatus'] = $empresa[0]['Empresa']['assinatura_status'];
       $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
     }

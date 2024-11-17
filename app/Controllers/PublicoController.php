@@ -19,6 +19,7 @@ class PublicoController extends Controller
   protected $logo;
   protected $favicon;
   protected $corPrimaria;
+  protected $urlSite;
   protected $visao;
 
   public function __construct()
@@ -39,6 +40,7 @@ class PublicoController extends Controller
     $this->visao->variavel('empresaNome', $this->empresaNome);
     $this->visao->variavel('empresaCnpj', $this->empresaCnpj);
     $this->visao->variavel('telefoneEmpresa', $this->telefone);
+    $this->visao->variavel('urlSite', $this->urlSite);
 
   }
 
@@ -114,6 +116,7 @@ class PublicoController extends Controller
       'Empresa.favicon',
       'Empresa.cor_primaria',
       'Empresa.telefone',
+      'Empresa.url_site',
     ];
 
     $cacheNome = 'publico-dados-empresa';
@@ -130,6 +133,7 @@ class PublicoController extends Controller
     $this->logo = $resultado[0]['Empresa']['logo'] ?? '';
     $this->favicon = $resultado[0]['Empresa']['favicon'] ?? '';
     $this->corPrimaria = $resultado[0]['Empresa']['cor_primaria'] ?? '';
+    $this->urlSite = $resultado[0]['Empresa']['url_site'] ?? '';
     $this->empresaNome = $resultado[0]['Empresa']['nome'] ?? '';
     $this->telefone = intval($resultado[0]['Empresa']['telefone'] ?? 0);
     $this->subdominio = $this->sessaoUsuario->buscar('subdominio');

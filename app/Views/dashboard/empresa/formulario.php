@@ -19,6 +19,15 @@
       <input type="text" id="empresa-editar-telefone" name="telefone" class="<?php echo CLASSES_DASH_INPUT; ?>" placeholder="00 00000 0000" value="<?php echo $empresa['Empresa']['telefone']; ?>">
     </div>
 
+    <?php // URL ?>
+    <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
+      <div class="flex flex-col text-sm font-medium text-gray-700">
+        <span>Link para site da empresa</span>
+        <span class="font-extralight">Adicionando o link do seu site, um botão de redirecionamento aparecerá na sua Central de Ajuda.</span>
+      </div>
+      <input type="text" id="empresa-editar-url_site" name="url_site" class="<?php echo CLASSES_DASH_INPUT; ?>" placeholder="https://www.seusite.com.br" value="<?php echo $empresa['Empresa']['url_site']; ?>">
+    </div>
+
     <?php // Cor primária ?>
     <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
       <div class="flex flex-col text-sm font-medium text-gray-700">
