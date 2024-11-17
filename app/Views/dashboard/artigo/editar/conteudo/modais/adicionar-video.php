@@ -1,5 +1,6 @@
 <?php // Adicionar vídeo ?>
-<dialog class="border border-slate-300 p-4 bg-white w-full md:w-[500px] rounded-lg shadow modal-conteudo-video-adicionar">
+<div class="border-t border-slate-300 mt-14 pt-10 max-w-full hidden modal-conteudo-video-adicionar">
+  <h3>Novo vídeo</h3>
   <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/conteudo'); ?>" class="flex flex-col items-end gap-2" enctype="multipart/form-data">
     <input type="hidden" name="artigo_id" value="<?php echo $artigo['Artigo']['id'] ?>">
     <input type="hidden" name="tipo" value="3">
@@ -23,9 +24,9 @@
         </label>
       </div>
       <div class="flex gap-2">
-        <button type="button" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?> botao-fechar-menu-adicionar-video">Cancelar</button>
+        <button type="button" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?> botao-fechar-menu-adicionar-video" onclick="voltarAoTopo('video')">Cancelar</button>
         <button type="submit" class="w-full lg:w-max <?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> modal-conteudo-video-btn-enviar">Gravar</button>
       </div>
     </div>
   </form>
-</dialog>
+</div>

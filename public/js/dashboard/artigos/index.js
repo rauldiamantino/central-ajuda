@@ -124,20 +124,3 @@ if (botaoFecharMenuAdicionarConteudo) {
     menuAdicionarConteudo.close()
   })
 }
-
-// Adicionar vídeo
-const menuAdicionarConteudoVideo = document.querySelector('.modal-conteudo-video-adicionar')
-const botaoAbrirMenuAdicionarConteudoVideo = document.querySelector('.botao-abrir-menu-adicionar-video')
-const botaoFecharMenuAdicionarConteudoVideo = document.querySelector('.botao-fechar-menu-adicionar-video')
-
-if (botaoAbrirMenuAdicionarConteudoVideo) {
-  botaoAbrirMenuAdicionarConteudoVideo.addEventListener('click', () => {
-    menuAdicionarConteudoVideo.showModal()
-  })
-}
-
-if (botaoFecharMenuAdicionarConteudoVideo) {
-  botaoFecharMenuAdicionarConteudoVideo.addEventListener('click', () => {
-    menuAdicionarConteudoVideo.close()
-  })
-}
