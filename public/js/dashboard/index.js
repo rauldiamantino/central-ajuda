@@ -115,13 +115,13 @@ const menuLateralToggle = (menuLateral) => {
     menuLateral.classList.remove('-translate-x-full')
 
     if (window.innerWidth < 1024) {
-      body.classList.add('overflow-hidden')
+      // body.classList.add('overflow-hidden')
     }
   }
   else if (! menuLateral.classList.contains('-translate-x-full') && menuLateral.classList.contains('translate-x-0')) {
     menuLateral.classList.remove('translate-x-0')
     menuLateral.classList.add('-translate-x-full')
-    body.classList.remove('overflow-hidden')
+    // body.classList.remove('overflow-hidden')
   }
 }
 
