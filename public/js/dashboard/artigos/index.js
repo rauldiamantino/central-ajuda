@@ -141,20 +141,3 @@ if (botaoFecharMenuAdicionarConteudoVideo) {
     menuAdicionarConteudoVideo.close()
   })
 }
-
-// Adicionar imagem
-const menuAdicionarConteudoImagem = document.querySelector('.modal-conteudo-imagem-adicionar')
-const botaoAbrirMenuAdicionarConteudoImagem = document.querySelector('.botao-abrir-menu-adicionar-imagem')
-const botaoFecharMenuAdicionarConteudoImagem = document.querySelector('.botao-fechar-menu-adicionar-imagem')
-
-if (botaoAbrirMenuAdicionarConteudoImagem) {
-  botaoAbrirMenuAdicionarConteudoImagem.addEventListener('click', () => {
-    menuAdicionarConteudoImagem.showModal()
-  })
-}
-
-if (botaoFecharMenuAdicionarConteudoImagem) {
-  botaoFecharMenuAdicionarConteudoImagem.addEventListener('click', () => {
-    menuAdicionarConteudoImagem.close()
-  })
-}

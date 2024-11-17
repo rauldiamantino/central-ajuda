@@ -1,4 +1,4 @@
-<?php // Editar vídeo ?>
+<?php // Editar texto ?>
 <div class="w-full editor-container hidden container-conteudo-texto-editar" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>">
   <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/conteudo/' . $linha['Conteudo']['id']); ?>" class="flex flex-col items-end gap-2 editor-container__editor form-conteudo-texto-editar" enctype="multipart/form-data">
     <input type="hidden" name="_method" value="PUT">
@@ -13,7 +13,7 @@
     <div class="w-full editor-container_classic-editor">
       <textarea name="conteudo" class="border border-gray-300 w-full min-h-56 rounded-lg bg-slate-50 conteudo-texto-editar ckeditor" data-conteudo="<?php echo $linha['Conteudo']['conteudo'] ?>" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>"></textarea>
     </div>
-    <div class="sticky bottom-0 py-4 w-full h-max flex flex-col lg:flex-row justify-between gap-4 bg-white">
+    <div class="sticky bottom-0 px-2 py-4 w-full h-max flex flex-col lg:flex-row justify-between gap-4 bg-white rounded-lg">
       <div class="w-full bg-white">
         <label class="flex items-start gap-2 cursor-pointer">
           <input type="hidden" name="titulo_ocultar" value="0">
@@ -22,9 +22,10 @@
           <span class="block text-sm font-medium text-gray-700">Ocultar título na publicação</span>
         </label>
       </div>
-      <div class="flex gap-2 bg-white">
-        <button type="button" class="w-full lg:w-max <?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>" onclick="fecharTextoModal(event)">Cancelar</button>
-        <button type="submit" class="w-full lg:w-max <?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> modal-conteudo-texto-btn-enviar">Gravar</button>
+      <div class="w-full flex flex-col sm:flex-row gap-1 justify-end sm:gap-2 bg-white">
+        <button type="button" class="js-dashboard-conteudo-remover <?php echo CLASSES_DASH_BUTTON_REMOVER_2; ?>" data-conteudo-id="" data-conteudo-url="" data-conteudo-tipo="">Remover</button>
+        <button type="button" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>" onclick="fecharTextoModal(event)">Cancelar</button>
+        <button type="submit" class="<?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> modal-conteudo-texto-btn-enviar">Gravar</button>
       </div>
     </div>
   </form>

@@ -1,5 +1,6 @@
 <?php // Adicionar imagem ?>
-<dialog class="border border-slate-300 p-4 bg-white w-full md:w-[500px] rounded-lg shadow modal-conteudo-video-adicionar modal-conteudo-imagem-adicionar">
+<div class="border-t border-slate-300 mt-14 pt-10 max-w-full hidden bg-white modal-conteudo-imagem-adicionar">
+  <h3>Nova imagem</h3>
   <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/conteudo'); ?>" class="flex flex-col items-end gap-2 form-conteudo-imagem-adicionar" enctype="multipart/form-data" data-artigo-id=<?php echo $artigo['Artigo']['id'] ?> data-empresa-id="<?php echo $this->usuarioLogado['empresaId'] ?>">
     <input type="hidden" name="artigo_id" value="<?php echo $artigo['Artigo']['id'] ?>">
     <input type="hidden" name="tipo" value="2">
@@ -36,9 +37,9 @@
         </label>
       </div>
       <div class="flex gap-2">
-        <button type="button" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?> botao-fechar-menu-adicionar-imagem">Cancelar</button>
+        <button type="button" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?> botao-fechar-menu-adicionar-imagem" onclick="voltarAoTopo('imagem')">Cancelar</button>
         <button type="submit" class="w-full lg:w-max <?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> modal-conteudo-imagem-btn-enviar">Gravar</button>
       </div>
     </div>
   </form>
-</dialog>
+</div>

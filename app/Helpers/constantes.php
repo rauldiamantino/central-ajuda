@@ -50,5 +50,6 @@ define('CLASSES_DASH_BUTTON_GRAVAR', 'border border-blue-800 hover:border-blue-6
 define('CLASSES_DASH_BUTTON_ASSINAR', 'border border-blue-800 hover:border-blue-600 w-full flex justify-center bg-blue-800 hover:bg-blue-600 px-4 py-1 text-sm text-white rounded-md shadow-sm');
 define('CLASSES_DASH_BUTTON_ADICIONAR', 'border border-green-800 hover:border-green-600 w-full sm:w-max flex justify-center items-center gap-2 bg-green-800 hover:bg-green-600 px-6 py-2 text-sm text-white rounded-md shadow-sm');
 define('CLASSES_DASH_BUTTON_REMOVER', 'border border-red-800 hover:border-red-600 w-full sm:w-max flex justify-center items-center gap-2 bg-red-800 hover:bg-red-600 px-6 py-2 text-sm text-white rounded-md shadow-sm');
+define('CLASSES_DASH_BUTTON_REMOVER_2', 'border border-slate-300 w-full sm:w-max flex justify-center bg-gray-50 hover:bg-gray-200 px-6 py-2 text-sm text-red-600 rounded-md shadow-sm');
 
 define('JSON_FORMATADO', JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);

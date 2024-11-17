@@ -3,6 +3,8 @@ import { editorInstances } from '../../ckeditor.js'
 
 export const editarTexto = (botaoAbrirModal) => {
   const conteudoId = botaoAbrirModal.dataset.conteudoId
+  const conteudoTipo = botaoAbrirModal.dataset.conteudoTipo
+
   const novaDivEditarTexto = document.querySelector('.container-conteudo-texto-editar[data-conteudo-id="' + conteudoId + '"]')
 
   if (! conteudoId) {
@@ -24,6 +26,12 @@ export const editarTexto = (botaoAbrirModal) => {
 
   const formularioEditarTexto = novaDivEditarTexto.querySelector('form')
   const conteudoEditarTexto = formularioEditarTexto.querySelector('.conteudo-texto-editar')
+  const botaoRemover = formularioEditarTexto.querySelector('.js-dashboard-conteudo-remover')
+
+  // Necessário para remover
+  botaoRemover.dataset.conteudoId = conteudoId
+  botaoRemover.dataset.conteudoTipo = conteudoTipo
+
   const editor = editorInstances[conteudoId];
 
   if (editor) {
@@ -62,59 +70,111 @@ export const fecharEditarTexto = (botaoFecharModal) => {
 
 export const editarVideo = (botaoAbrirModal) => {
   const conteudoId = botaoAbrirModal.dataset.conteudoId
-  const conteudoUrl = botaoAbrirModal.dataset.conteudoUrl
-  const conteudoTitulo = botaoAbrirModal.dataset.conteudoTitulo
-  const conteudoTituloOcultar = botaoAbrirModal.dataset.conteudoTituloOcultar
+  const novaDivEditarVideo = document.querySelector('.container-conteudo-video-editar[data-conteudo-id="' + conteudoId + '"]')
 
-  const modalEditarVideo = document.querySelector('.modal-conteudo-video-editar')
-
-  if (! modalEditarVideo) {
+  if (! conteudoId) {
     return
   }
 
-  modalEditarVideo.showModal()
+  if (! novaDivEditarVideo) {
+    return
+  }
 
-  const formularioEditarVideo = modalEditarVideo.querySelector('form')
-  const campoTitulo = formularioEditarVideo.querySelector('#conteudo-editar-video-titulo')
-  const campoTituloOcultar = formularioEditarVideo.querySelector('.conteudo-editar-video-titulo-ocultar')
-  const campoVideoUrl = formularioEditarVideo.querySelector('#conteudo-editar-video-url')
+  const divPrevisualizar = botaoAbrirModal.closest('.div-pai-conteudo-editar').querySelector('.bloco-editar-conteudo-video[data-conteudo-id="' + conteudoId + '"]')
 
-  formularioEditarVideo.action = `/${empresa}/d/conteudo/${conteudoId}`
-  campoTitulo.value = conteudoTitulo
-  campoTituloOcultar.checked = conteudoTituloOcultar == 1
-  campoVideoUrl.value = conteudoUrl
-  formularioEditarVideo.addEventListener('submit', async (event) => {
-    formularioEditarVideo.submit()
-  })
+  if (! divPrevisualizar) {
+    return
+  }
+
+  divPrevisualizar.classList.toggle('hidden')
+  novaDivEditarVideo.classList.toggle('hidden')
+
+  const formularioEditarVideo = novaDivEditarVideo.querySelector('form')
+
+  setTimeout(() => {
+    formularioEditarVideo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
+}
+
+export const fecharEditarVideo = (botaoFecharModal) => {
+  const conteudoId = botaoFecharModal.dataset.conteudoId
+  const novaDivEditarVideo = document.querySelector('.container-conteudo-video-editar[data-conteudo-id="' + conteudoId + '"]')
+
+  if (! conteudoId) {
+    return
+  }
+
+  if (! novaDivEditarVideo) {
+    return
+  }
+
+  const divPrevisualizar = botaoFecharModal.closest('.div-pai-conteudo-editar').querySelector('.bloco-editar-conteudo-video[data-conteudo-id="' + conteudoId + '"]')
+
+  if (! divPrevisualizar) {
+    return
+  }
+
+  divPrevisualizar.classList.toggle('hidden')
+  novaDivEditarVideo.classList.toggle('hidden')
 }
 
 export const editarImagem = (botaoAbrirModal) => {
   const conteudoId = botaoAbrirModal.dataset.conteudoId
-  const conteudoUrl = botaoAbrirModal.dataset.conteudoUrl
-  const conteudoTituloOcultar = botaoAbrirModal.dataset.conteudoTituloOcultar
-  const conteudoTitulo = botaoAbrirModal.dataset.conteudoTitulo
+  const novaDivEditarImagem = document.querySelector('.container-conteudo-imagem-editar[data-conteudo-id="' + conteudoId + '"]')
 
-  const modalEditarImagem = document.querySelector('.modal-conteudo-imagem-editar')
-
-  if (! modalEditarImagem) {
+  if (! conteudoId) {
     return
   }
 
-  modalEditarImagem.showModal()
+  if (! novaDivEditarImagem) {
+    return
+  }
 
+  const divPrevisualizar = botaoAbrirModal.closest('.div-pai-conteudo-editar').querySelector('.bloco-editar-conteudo-imagem[data-conteudo-id="' + conteudoId + '"]')
+
+  if (! divPrevisualizar) {
+    return
+  }
+
+  divPrevisualizar.classList.toggle('hidden')
+  novaDivEditarImagem.classList.toggle('hidden')
+
+  const formularioEditarImagem = novaDivEditarImagem.querySelector('form')
+
+  setTimeout(() => {
+    formularioEditarImagem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
+
+  alterarImagem(novaDivEditarImagem)
+}
+
+export const fecharEditarImagem = (botaoFecharModal) => {
+  const conteudoId = botaoFecharModal.dataset.conteudoId
+  const novaDivEditarImagem = document.querySelector('.container-conteudo-imagem-editar[data-conteudo-id="' + conteudoId + '"]')
+
+  if (! conteudoId) {
+    return
+  }
+
+  if (! novaDivEditarImagem) {
+    return
+  }
+
+  const divPrevisualizar = botaoFecharModal.closest('.div-pai-conteudo-editar').querySelector('.bloco-editar-conteudo-imagem[data-conteudo-id="' + conteudoId + '"]')
+
+  if (! divPrevisualizar) {
+    return
+  }
+
+  divPrevisualizar.classList.toggle('hidden')
+  novaDivEditarImagem.classList.toggle('hidden')
+}
+
+export const alterarImagem = (containerImagem) => {
   let imagemParaUpload = null
   let imagemAtual = null
 
-  const formularioEditarImagem = modalEditarImagem.querySelector('form')
-  const campoTitulo = formularioEditarImagem.querySelector('#conteudo-editar-imagem-titulo')
-  const campoTituloOcultar = formularioEditarImagem.querySelector('.conteudo-editar-imagem-titulo-ocultar')
-  const campoImagemSrc = formularioEditarImagem.querySelector('img')
-
-  formularioEditarImagem.action = `/${empresa}/d/conteudo/${conteudoId}`
-  campoTitulo.value = conteudoTitulo
-  campoTituloOcultar.checked = conteudoTituloOcultar == 1
-  campoImagemSrc.src = conteudoUrl
-
+  const formularioEditarImagem = containerImagem.querySelector('form')
   const editarImagemEscolher = document.querySelector('.conteudo-editar-imagem-escolher')
   const editarTextoImagemEscolher = document.querySelector('.conteudo-txt-imagem-editar-escolher')
   const btnEditarImagemEscolher = document.querySelector('.conteudo-btn-imagem-editar-escolher')

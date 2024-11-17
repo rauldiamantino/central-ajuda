@@ -199,11 +199,33 @@ const editarImagemModal = (event) => {
     })
 }
 
+const fecharImagemModal = (event) => {
+  import('./artigos/conteudos/editar.js')
+    .then(module => {
+      const botaoCancelar = event.target
+      module.fecharEditarImagem(botaoCancelar)
+    })
+    .catch(error => {
+      console.error("Erro ao carregar o módulo:", error)
+    })
+}
+
 const editarVideoModal = (event) => {
   import('./artigos/conteudos/editar.js')
     .then(module => {
       const botaoAbrirModal = event.target
       module.editarVideo(botaoAbrirModal)
+    })
+    .catch(error => {
+      console.error("Erro ao carregar o módulo:", error)
+    })
+}
+
+const fecharVideoModal = (event) => {
+  import('./artigos/conteudos/editar.js')
+    .then(module => {
+      const botaoCancelar = event.target
+      module.fecharEditarVideo(botaoCancelar)
     })
     .catch(error => {
       console.error("Erro ao carregar o módulo:", error)
@@ -227,16 +249,15 @@ const fecharTextoModal = (event) => {
     .then(module => {
       const botaoCancelar = event.target
       module.fecharEditarTexto(botaoCancelar)
-      rolagemVerticalAutomatica()
     })
     .catch(error => {
       console.error("Erro ao carregar o módulo:", error)
     })
 }
 
-const abrirModalAdicionar = () => {
-  const alvo = document.querySelector('.alvo-adicionar-texto');
-  const modal = document.querySelector('.modal-conteudo-texto-adicionar')
+const abrirModalAdicionar = (tipoModal) => {
+  const alvo = document.querySelector('.alvo-adicionar');
+  const modal = document.querySelector(`.modal-conteudo-${tipoModal}-adicionar`)
 
   if (! alvo) {
     return
@@ -253,8 +274,8 @@ const abrirModalAdicionar = () => {
   }, 50);
 }
 
-const voltarAoTopo = () => {
-  const modal = document.querySelector('.modal-conteudo-texto-adicionar')
+const voltarAoTopo = (tipoModal) => {
+  const modal = document.querySelector(`.modal-conteudo-${tipoModal}-adicionar`)
   const containerConteudos = document.querySelectorAll('.div-pai-conteudo-editar')
 
   containerConteudos.forEach(conteudo => {
