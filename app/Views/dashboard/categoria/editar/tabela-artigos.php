@@ -19,7 +19,7 @@
         <tbody class="divide-y">
           <?php foreach ($categoria as $chave => $linha) : ?>
             <?php if (isset($linha['Artigo']['id'])) { ?>
-              <tr class="hover:bg-slate-100 cursor-pointer" onclick="window.location='<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $linha['Artigo']['id']) . '?referer=' . urlencode(baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categoria/editar/' . $linha['Categoria']['id'])); ?>';">
+              <tr class="hover:bg-slate-100 cursor-pointer select-none lg:select-auto" onclick="window.location='<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $linha['Artigo']['id']) . '?referer=' . urlencode(baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categoria/editar/' . $linha['Categoria']['id'])); ?>';">
                 <td class="py-4 px-4"><?php echo $linha['Artigo']['id'] ?></td>
                 <td class="py-4 px-4 font-semibold text-gray-900 break-words"><?php echo $linha['Artigo']['titulo'] ?></td>
                 <td class="py-4 px-4 whitespace-nowrap"><?php echo $linha['Artigo']['criado'] ?></td>
