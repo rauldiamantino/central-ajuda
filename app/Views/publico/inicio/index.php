@@ -14,7 +14,7 @@
     <h3 class="font-light">Principais tópicos...</h3>
     <div class="w-full h-max grid grid-cols-2 xl:grid-cols-3 justify-start gap-2">
       <?php foreach (array_slice($categorias, 0, 6) as $chave => $linha): ?>
-        <a href="<?php echo baseUrl('/' . $subdominio . '/categoria/' . $linha['Categoria']['id']); ?>" class="p-6 h-full min-h-[200px] flex flex-col justify-between rounded-lg shadow border border-slate-200 hover:shadow-xl pers-publico-inicio-blocos template-cor-<?php echo $corPrimaria; ?>">
+        <a href="<?php echo baseUrl('/' . $subdominio . '/categoria/' . $linha['Categoria']['id']); ?>" class="p-6 h-full min-h-[200px] flex flex-col gap-4 justify-start rounded-lg shadow border border-slate-200 hover:shadow-xl pers-publico-inicio-blocos template-cor-<?php echo $corPrimaria; ?>">
             <h3 class="text-lg bloco-categoria-nome"><?php echo $linha['Categoria']['nome'] ?></h3>
             <div class="font-extralight text-gray-400 bloco-categoria-descricao"><?php echo $linha['Categoria']['descricao'] ?></div>
         </a>
