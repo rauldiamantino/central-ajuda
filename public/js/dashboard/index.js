@@ -28,6 +28,17 @@ document.addEventListener('DOMContentLoaded', function() {
   const menuTopoUsuarioCima = document.querySelector('.perfil-usuario-cima')
   const menuTopoUsuarioBaixo = document.querySelector('.perfil-usuario-baixo')
 
+  const liberaScrollBody = () => {
+    const body = document.body
+
+    if (window.innerWidth >= 1024) {
+      body.classList.remove('overflow-hidden')
+    }
+  }
+
+  // Escuta maximizar e minimizar
+  window.addEventListener('resize', liberaScrollBody)
+
   // Menu auxiliar
   const menuAuxiliar = document.querySelector('.menu-auxiliar')
 
@@ -97,14 +108,20 @@ document.addEventListener('DOMContentLoaded', function() {
 })
 
 const menuLateralToggle = (menuLateral) => {
+  const body = document.body
 
   if (menuLateral.classList.contains('-translate-x-full') && ! menuLateral.classList.contains('translate-x-0')) {
     menuLateral.classList.add('translate-x-0')
     menuLateral.classList.remove('-translate-x-full')
+
+    if (window.innerWidth < 1024) {
+      body.classList.add('overflow-hidden')
+    }
   }
   else if (! menuLateral.classList.contains('-translate-x-full') && menuLateral.classList.contains('translate-x-0')) {
     menuLateral.classList.remove('translate-x-0')
     menuLateral.classList.add('-translate-x-full')
+    body.classList.remove('overflow-hidden')
   }
 }
 
@@ -176,12 +193,12 @@ const converterParaReais = (valor = 0) => {
 
 const rolagemVerticalAutomatica = () => {
   const urlParams = new URLSearchParams(window.location.search)
-  const alvo = document.querySelector('.alvo-plano');
+  const alvo = document.querySelector('.alvo-plano')
 
   if (urlParams.get('acao') === 'assinar' && alvo != undefined) {
     setTimeout(() => {
-      alvo.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 50);
+      alvo.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 50)
   }
   else {
     setTimeout(() => window.scrollTo({top: 0, left: 0, behavior: 'smooth'}), 60)
@@ -256,7 +273,7 @@ const fecharTextoModal = (event) => {
 }
 
 const abrirModalAdicionar = (tipoModal) => {
-  const alvo = document.querySelector('.alvo-adicionar');
+  const alvo = document.querySelector('.alvo-adicionar')
   const modal = document.querySelector(`.modal-conteudo-${tipoModal}-adicionar`)
 
   if (! alvo) {
@@ -267,11 +284,11 @@ const abrirModalAdicionar = (tipoModal) => {
     return
   }
 
-  modal.classList.remove('hidden');
+  modal.classList.remove('hidden')
 
   setTimeout(() => {
-    alvo.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 50);
+    alvo.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, 50)
 }
 
 const voltarAoTopo = (tipoModal) => {
@@ -279,7 +296,7 @@ const voltarAoTopo = (tipoModal) => {
   const containerConteudos = document.querySelectorAll('.div-pai-conteudo-editar')
 
   containerConteudos.forEach(conteudo => {
-    conteudo.classList.remove('hidden');
+    conteudo.classList.remove('hidden')
   })
 
   modal.classList.add('hidden')

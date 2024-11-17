@@ -9,20 +9,16 @@ document.addEventListener('DOMContentLoaded', function() {
   const notificacaoSucesso = document.querySelector('.js-notificacao-sucesso-publico')
   const btnNotificacaoSucessoFechar = document.querySelector('.js-dashboard-notificacao-sucesso-btn-fechar')
 
-  function checarScroll() {
-    const posicaoScroll = window.scrollY
+  const liberaScrollBody = () => {
+    const body = document.body
 
-    if (posicaoScroll > 50) {
-      // topoPublico.classList.remove('bg-slate-800')
-      // topoPublico.classList.add('bg-white')
-      // topoPublicoInverter.classList.remove('invert')
-    }
-    else {
-      // topoPublico.classList.remove('bg-white')
-      // topoPublico.classList.add('bg-slate-800')
-      // topoPublicoInverter.classList.add('invert')
+    if (window.innerWidth >= 768) {
+      body.classList.remove('overflow-hidden')
     }
   }
+
+  // Escuta maximizar e minimizar
+  window.addEventListener('resize', liberaScrollBody)
 
   if (btnMenuLateral) {
     btnMenuLateral.addEventListener('click', () => {
@@ -56,17 +52,21 @@ document.addEventListener('DOMContentLoaded', function() {
     })
   }
 
-  window.addEventListener('scroll', checarScroll)
-
   const menuLateralToggle = (menuLateral) => {
+    const body = document.body
 
     if (menuLateral.classList.contains('-translate-x-full') && ! menuLateral.classList.contains('translate-x-0')) {
       menuLateral.classList.add('translate-x-0')
       menuLateral.classList.remove('-translate-x-full')
+
+      if (window.innerWidth < 768) {
+        body.classList.add('overflow-hidden')
+      }
     }
     else if (! menuLateral.classList.contains('-translate-x-full') && menuLateral.classList.contains('translate-x-0')) {
       menuLateral.classList.remove('translate-x-0')
       menuLateral.classList.add('-translate-x-full')
+      body.classList.remove('overflow-hidden')
     }
   }
 
