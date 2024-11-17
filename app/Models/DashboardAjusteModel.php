@@ -20,6 +20,7 @@ class DashboardAjusteModel extends Model
       'publico_cate_busca',
       'publico_cate_abrir_primeira',
       'publico_topo_fixo',
+      'publico_cor_bloco_inicio',
     ];
 
     $total = 0;
@@ -81,13 +82,14 @@ class DashboardAjusteModel extends Model
                     ->executarConsulta();
 
     $resultado = [
-      0 => ['Ajuste' => ['nome' => 'artigo_autor', 'ativo' => INATIVO, ]],
-      1 => ['Ajuste' => ['nome' => 'artigo_criado', 'ativo' => INATIVO, ]],
-      2 => ['Ajuste' => ['nome' => 'artigo_modificado', 'ativo' => INATIVO, ]],
-      3 => ['Ajuste' => ['nome' => 'botao_whatsapp', 'ativo' => INATIVO, ]],
-      4 => ['Ajuste' => ['nome' => 'publico_cate_busca', 'ativo' => INATIVO, ]],
+      0 => ['Ajuste' => ['nome' => 'artigo_autor', 'ativo' => ATIVO, ]],
+      1 => ['Ajuste' => ['nome' => 'artigo_criado', 'ativo' => ATIVO, ]],
+      2 => ['Ajuste' => ['nome' => 'artigo_modificado', 'ativo' => ATIVO, ]],
+      3 => ['Ajuste' => ['nome' => 'botao_whatsapp', 'ativo' => ATIVO, ]],
+      4 => ['Ajuste' => ['nome' => 'publico_cate_busca', 'ativo' => ATIVO, ]],
       5 => ['Ajuste' => ['nome' => 'publico_cate_abrir_primeira', 'ativo' => INATIVO, ]],
       6 => ['Ajuste' => ['nome' => 'publico_topo_fixo', 'ativo' => INATIVO, ]],
+      7 => ['Ajuste' => ['nome' => 'publico_cor_bloco_inicio', 'ativo' => ATIVO, ]],
     ];
 
     // Substitui ajuste conforme DB

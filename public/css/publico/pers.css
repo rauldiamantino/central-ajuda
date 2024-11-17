@@ -1,7 +1,7 @@
 /*Azul escuro - #2d2d2d */
 .pers-publico-botao.template-cor-1                                            { background-color: #2d2d2d;color: #ffffff; }
 .pers-publico-lupa.template-cor-1                                             { color: #2d2d2d; }
-.pers-publico-inicio-blocos.template-cor-1:hover                              { color: #ffffff; background-color: #2d2d2d; transform: scale(1.05); opacity: 90%; }
+.pers-publico-inicio-blocos.template-cor-1:hover                              { color: #ffffff; background-color: #2d2d2d; opacity: 90%; }
 .pers-publico-inicio-blocos.template-cor-1:hover .bloco-categoria-descricao   { color: #ffffff; background-color: #2d2d2d; }
 .pers-publico-tag-cate.template-cor-1                                         { color: #2d2d2d; }
 .pers-publico-seta-artigo.template-cor-1                                      { color: #2d2d2d; }
@@ -15,7 +15,7 @@
 /*Laranja - #f05829 */
 .pers-publico-botao.template-cor-2                                            { background-color: #f05829;color: #ffffff; }
 .pers-publico-lupa.template-cor-2                                             { color: #f05829; }
-.pers-publico-inicio-blocos.template-cor-2:hover                              { color: #ffffff; background-color: #f05829; transform: scale(1.05); opacity: 90%; }
+.pers-publico-inicio-blocos.template-cor-2:hover                              { color: #ffffff; background-color: #f05829; opacity: 90%; }
 .pers-publico-inicio-blocos.template-cor-2:hover .bloco-categoria-descricao   { color: #ffffff; background-color: #f05829; }
 .pers-publico-tag-cate.template-cor-2                                         { color: #f05829; }
 .pers-publico-seta-artigo.template-cor-2                                      { color: #f05829; }
@@ -29,7 +29,7 @@
 /*Marrom Escuro - #5D4037 */
 .pers-publico-botao.template-cor-3                                            { background-color: #5D4037;color: #ffffff; }
 .pers-publico-lupa.template-cor-3                                             { color: #5D4037; }
-.pers-publico-inicio-blocos.template-cor-3:hover                              { color: #ffffff; background-color: #5D4037; transform: scale(1.05); opacity: 90%; }
+.pers-publico-inicio-blocos.template-cor-3:hover                              { color: #ffffff; background-color: #5D4037; opacity: 90%; }
 .pers-publico-inicio-blocos.template-cor-3:hover .bloco-categoria-descricao   { color: #ffffff; background-color: #5D4037; }
 .pers-publico-tag-cate.template-cor-3                                         { color: #5D4037; }
 .pers-publico-seta-artigo.template-cor-3                                      { color: #5D4037; }
@@ -43,7 +43,7 @@
 /*Verde Escuro 2 - #006400 */
 .pers-publico-botao.template-cor-4                                            { background-color: #006400;color: #ffffff; }
 .pers-publico-lupa.template-cor-4                                             { color: #006400; }
-.pers-publico-inicio-blocos.template-cor-4:hover                              { color: #ffffff; background-color: #006400; transform: scale(1.05); opacity: 90%; }
+.pers-publico-inicio-blocos.template-cor-4:hover                              { color: #ffffff; background-color: #006400; opacity: 90%; }
 .pers-publico-inicio-blocos.template-cor-4:hover .bloco-categoria-descricao   { color: #ffffff; background-color: #006400; }
 .pers-publico-tag-cate.template-cor-4                                         { color: #006400; }
 .pers-publico-seta-artigo.template-cor-4                                      { color: #006400; }
@@ -57,7 +57,7 @@
 /*Verde Escuro - #2E8B57 */
 .pers-publico-botao.template-cor-5                                            { background-color: #2E8B57;color: #ffffff; }
 .pers-publico-lupa.template-cor-5                                             { color: #2E8B57; }
-.pers-publico-inicio-blocos.template-cor-5:hover                              { color: #ffffff; background-color: #2E8B57; transform: scale(1.05); opacity: 90%; }
+.pers-publico-inicio-blocos.template-cor-5:hover                              { color: #ffffff; background-color: #2E8B57; opacity: 90%; }
 .pers-publico-inicio-blocos.template-cor-5:hover .bloco-categoria-descricao   { color: #ffffff; background-color: #2E8B57; }
 .pers-publico-tag-cate.template-cor-5                                         { color: #2E8B57; }
 .pers-publico-seta-artigo.template-cor-5                                      { color: #2E8B57; }
@@ -71,7 +71,7 @@
 /*Bordô - #800020 */
 .pers-publico-botao.template-cor-6                                            { background-color: #800020;color: #ffffff; }
 .pers-publico-lupa.template-cor-6                                             { color: #800020; }
-.pers-publico-inicio-blocos.template-cor-6:hover                              { color: #ffffff; background-color: #800020; transform: scale(1.05); opacity: 90%; }
+.pers-publico-inicio-blocos.template-cor-6:hover                              { color: #ffffff; background-color: #800020; opacity: 90%; }
 .pers-publico-inicio-blocos.template-cor-6:hover .bloco-categoria-descricao   { color: #ffffff; background-color: #800020; }
 .pers-publico-tag-cate.template-cor-6                                         { color: #800020; }
 .pers-publico-seta-artigo.template-cor-6                                      { color: #800020; }
@@ -85,7 +85,7 @@
 /*Verde musgo - #556B2F */
 .pers-publico-botao.template-cor-7                                            { background-color: #556B2F;color: #ffffff; }
 .pers-publico-lupa.template-cor-7                                             { color: #556B2F; }
-.pers-publico-inicio-blocos.template-cor-7:hover                              { color: #ffffff; background-color: #556B2F; transform: scale(1.05); opacity: 90%; }
+.pers-publico-inicio-blocos.template-cor-7:hover                              { color: #ffffff; background-color: #556B2F; opacity: 90%; }
 .pers-publico-inicio-blocos.template-cor-7:hover .bloco-categoria-descricao   { color: #ffffff; background-color: #556B2F; }
 .pers-publico-tag-cate.template-cor-7                                         { color: #556B2F; }
 .pers-publico-seta-artigo.template-cor-7                                      { color: #556B2F; }
@@ -99,7 +99,7 @@
 /*Cinza azulado - #4A5568 */
 .pers-publico-botao.template-cor-8                                            { background-color: #4A5568;color: #ffffff; }
 .pers-publico-lupa.template-cor-8                                             { color: #4A5568; }
-.pers-publico-inicio-blocos.template-cor-8:hover                              { color: #ffffff; background-color: #4A5568; transform: scale(1.05); opacity: 90%; }
+.pers-publico-inicio-blocos.template-cor-8:hover                              { color: #ffffff; background-color: #4A5568; opacity: 90%; }
 .pers-publico-inicio-blocos.template-cor-8:hover .bloco-categoria-descricao   { color: #ffffff; background-color: #4A5568; }
 .pers-publico-tag-cate.template-cor-8                                         { color: #4A5568; }
 .pers-publico-seta-artigo.template-cor-8                                      { color: #4A5568; }
@@ -113,7 +113,7 @@
 /*Roxo escuro - #4B0082 */
 .pers-publico-botao.template-cor-9                                            { background-color: #4B0082;color: #ffffff; }
 .pers-publico-lupa.template-cor-9                                             { color: #4B0082; }
-.pers-publico-inicio-blocos.template-cor-9:hover                              { color: #ffffff; background-color: #4B0082; transform: scale(1.05); opacity: 90%; }
+.pers-publico-inicio-blocos.template-cor-9:hover                              { color: #ffffff; background-color: #4B0082; opacity: 90%; }
 .pers-publico-inicio-blocos.template-cor-9:hover .bloco-categoria-descricao   { color: #ffffff; background-color: #4B0082; }
 .pers-publico-tag-cate.template-cor-9                                         { color: #4B0082; }
 .pers-publico-seta-artigo.template-cor-9                                      { color: #4B0082; }
