@@ -1,7 +1,7 @@
 <?php // Adicionar vídeo ?>
 <div class="border-t border-slate-300 mt-14 pt-10 max-w-full hidden modal-conteudo-video-adicionar">
   <h3>Novo vídeo</h3>
-  <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/conteudo'); ?>" class="flex flex-col items-end gap-2" enctype="multipart/form-data">
+  <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/conteudo'); ?>" class="flex flex-col items-end gap-2" enctype="multipart/form-data" onsubmit="evitarDuploClique(event)">
     <input type="hidden" name="artigo_id" value="<?php echo $artigo['Artigo']['id'] ?>">
     <input type="hidden" name="tipo" value="3">
     <input type="hidden" name="referer" value="<?php echo $botaoVoltar ?>">

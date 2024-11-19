@@ -39,6 +39,8 @@ if (formularioAdicionarImagem) {
 
   adicionarTextoImagemEscolher.textContent = 'Escolher imagem'
 
+  let botaoDesativado = false
+
   formularioAdicionarImagem.addEventListener('submit', async (event) => {
     event.preventDefault()
 
@@ -50,7 +52,14 @@ if (formularioAdicionarImagem) {
       return
     }
 
+    if (botaoDesativado) {
+      return
+    }
+
+    botaoDesativado = true
     btnAdicionar.disabled = true
+    btnAdicionar.textContent = 'Gravando...'
+    btnAdicionar.classList.add('opacity-50', 'cursor-not-allowed')
 
     const downloadURL = await uploadImagem(empresaId, artigoId, imagemEscolhida)
 
@@ -62,7 +71,5 @@ if (formularioAdicionarImagem) {
 
       formularioAdicionarImagem.submit()
     }
-
-    btnAdicionar.disabled = false
   })
 }

@@ -1,5 +1,5 @@
 <dialog class="border border-slate-300 w-full md:w-[500px] rounded-md shadow ease-in-out menu-adicionar-artigo">
-  <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/artigo'); ?>" class="border border-slate-200 w-full flex flex-col gap-4 p-4 rounded-lg shadow bg-white">
+  <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/artigo'); ?>" class="border border-slate-200 w-full flex flex-col gap-4 p-4 rounded-lg shadow bg-white" onsubmit="evitarDuploClique(event)">
     <input type="hidden" name="referer" value="<?php echo $botaoVoltar ?>">
     <input type="hidden" name="usuario_id" value="<?php echo $this->usuarioLogado['id'] ?>">
     <?php if (isset($ordem['prox'])) { ?>

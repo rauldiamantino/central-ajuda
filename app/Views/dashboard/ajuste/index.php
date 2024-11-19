@@ -5,7 +5,7 @@
       <p class="text-gray-600">Escolha o que mostrar e deixe sua página do seu jeito!</p>
     </div>
     <div class="py-2 w-full h-full flex gap-2 items-start justify-end">
-      <button type="button" class="<?php echo CLASSES_DASH_BUTTON_GRAVAR; ?>" onclick="document.querySelector('.form-dashboard-ajustes').submit()">Gravar</button>
+      <button type="button" class="<?php echo CLASSES_DASH_BUTTON_GRAVAR; ?>" onclick="evitarDuploCliqueRedirect(event, '.form-dashboard-ajustes');">Gravar</button>
     </div>
   </div>
   <?php require_once 'formulario.php' ?>

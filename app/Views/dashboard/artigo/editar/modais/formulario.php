@@ -1,5 +1,5 @@
 <dialog class="border border-slate-300 w-full md:w-[500px] rounded-md shadow menu-adicionar-conteudos">
-  <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/artigo/' . $artigo['Artigo']['id']); ?>" class="w-full flex flex-col gap-4 p-4 rounded-lg bg-white">
+  <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/artigo/' . $artigo['Artigo']['id']); ?>" class="w-full flex flex-col gap-4 p-4 rounded-lg bg-white" onsubmit="evitarDuploClique(event)">
     <input type="hidden" name="_method" value="PUT">
     <input type="hidden" name="referer" value="<?php echo $botaoVoltar ?>">
     <div class="w-full flex gap-4">

@@ -116,10 +116,20 @@ document.addEventListener('DOMContentLoaded', function () {
     return
   }
 
+  let botaoDesativado = false
+
   form.addEventListener('submit', function (event) {
     const formButton = form.querySelector('button[type="submit"]')
 
+    if (botaoDesativado) {
+      return
+    }
+
+    botaoDesativado = true
     formButton.disabled = true
+    formButton.textContent = 'Gravando...'
+    formButton.classList.add('opacity-50', 'cursor-not-allowed')
+
     event.preventDefault()
 
     const formData = new FormData(form)
@@ -137,6 +147,10 @@ document.addEventListener('DOMContentLoaded', function () {
         if (resposta.erro) {
           limparErros()
           exibirErros(resposta.erro)
+          botaoDesativado = false
+          formButton.disabled = false
+          formButton.textContent = 'Gravar'
+          formButton.classList.remove('opacity-50', 'cursor-not-allowed')
         }
         else {
           window.location.href = window.location.href
@@ -144,9 +158,6 @@ document.addEventListener('DOMContentLoaded', function () {
       })
       .catch(error => {
         console.error('Erro na requisição:', error)
-      })
-      .finally(() => {
-        formButton.disabled = false
       })
   })
 

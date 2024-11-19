@@ -1,6 +1,6 @@
 <?php // Editar imagem ?>
 <div class="mt-10 w-full hidden container-conteudo-imagem-editar" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>">
-  <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/conteudo/' . $linha['Conteudo']['id']); ?>" class="flex flex-col items-end gap-2" enctype="multipart/form-data" data-artigo-id=<?php echo $artigo['Artigo']['id'] ?> data-empresa-id=<?php echo $artigo['Artigo']['empresa_id'] ?>>
+  <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/conteudo/' . $linha['Conteudo']['id']); ?>" class="flex flex-col items-end gap-2" enctype="multipart/form-data" data-artigo-id=<?php echo $artigo['Artigo']['id'] ?> data-empresa-id=<?php echo $artigo['Artigo']['empresa_id'] ?> onsubmit="evitarDuploClique(event)">
     <input type="hidden" name="_method" value="PUT">
     <input type="hidden" name="artigo_id" value="<?php echo $artigo['Artigo']['id'] ?>">
     <input type="hidden" name="tipo" value="2">

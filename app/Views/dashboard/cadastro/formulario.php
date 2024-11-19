@@ -1,4 +1,4 @@
-<form class="w-full" action="<?php echo baseUrl('/cadastro'); ?>" method="POST">
+<form class="w-full" action="<?php echo baseUrl('/cadastro'); ?>" method="POST" onsubmit="evitarDuploClique(event)">
   <div class="w-full flex flex-col gap-4">
     <div class="flex flex-col gap-2">
       <label for="email" class="text-sm font-medium text-gray-800">Email do responsável</label>

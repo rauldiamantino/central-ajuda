@@ -302,3 +302,40 @@ const voltarAoTopo = (tipoModal) => {
   modal.classList.add('hidden')
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
+
+const evitarDuploClique = (event) => {
+  event.preventDefault()
+
+  const form = event.target
+  const submitButton = form.querySelector('button[type="submit"]')
+
+  if (submitButton.disabled) {
+    return
+  }
+
+  submitButton.disabled = true
+  submitButton.textContent = 'Gravando...'
+  submitButton.classList.add('opacity-50')
+
+  form.submit()
+}
+
+const evitarDuploCliqueRedirect = (event, classeAlvo) => {
+  event.preventDefault()
+
+  const submitButton = event.target
+  const formularioAlvo = document.querySelector(classeAlvo)
+
+  if (submitButton.disabled) {
+    return
+  }
+
+  if (! formularioAlvo) {
+    return
+  }
+
+  submitButton.disabled = true
+  submitButton.textContent = 'Gravando...'
+  submitButton.classList.add('opacity-50')
+  formularioAlvo.submit()
+}
