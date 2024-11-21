@@ -107,11 +107,10 @@ class DashboardConteudoController extends DashboardController
     $id = (int) $id;
     $json = $this->receberJson();
     $resultado = $this->conteudoModel->atualizar($json, $id);
-
     $artigoId = intval($json['artigo_id'] ?? 0);
 
     if ($_POST and isset($resultado['erro'])) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $id . '?referer=' . $botaoVoltar, $resultado['erro']);
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId . '?referer=' . $botaoVoltar, $resultado['erro']);
     }
     elseif ($_POST and $resultado) {
       Cache::apagar('publico-artigo-' . $artigoId . '-conteudos', $this->usuarioLogado['empresaId']);

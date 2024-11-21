@@ -196,7 +196,6 @@ class DashboardArtigoController extends DashboardController
     $artigo = [];
     $categorias = [];
     $conteudos = [];
-
     $botaoVoltar = $_GET['referer'] ?? '';
     $botaoVoltar = htmlspecialchars($botaoVoltar);
     $botaoVoltar = urldecode($botaoVoltar);

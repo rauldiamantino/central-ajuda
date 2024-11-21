@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
     return
   }
 
-  const btnEditar = formularioEditarEmpresa.querySelector('.btn-gravar-empresa')
+  const btnEditar = document.querySelector('.btn-gravar-empresa')
 
   // Favicon
   const editarFaviconEscolher = document.querySelector('.empresa-editar-favicon-escolher')
@@ -158,6 +158,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   })
 
+  let botaoDesativado = false
+
   // Envio do formulário
   if (formularioEditarEmpresa) {
     formularioEditarEmpresa.addEventListener('submit', async (event) => {
@@ -169,7 +171,15 @@ document.addEventListener('DOMContentLoaded', function () {
         return
       }
 
+      if (botaoDesativado) {
+        return
+      }
+
+      botaoDesativado = true
       btnEditar.disabled = true
+      btnEditar.textContent = 'Gravando...'
+      btnEditar.classList.add('opacity-50', 'cursor-not-allowed')
+
       let erroNoUpload = false
 
       try {

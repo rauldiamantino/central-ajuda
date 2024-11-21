@@ -6,7 +6,7 @@
       <p class="text-gray-600">Gerencie seu plano, extrato e configurações para otimizar sua experiência.</p>
     </div>
     <div class="py-2 w-full h-full flex gap-2 items-start justify-end">
-      <button type="button" class="<?php echo CLASSES_DASH_BUTTON_GRAVAR; ?>" onclick="document.querySelector('.btn-gravar-empresa').click();">Gravar</button>
+      <button type="submit" class="<?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> btn-gravar-empresa" form="form-editar-empresa">Gravar</button>
     </div>
   </div>
 

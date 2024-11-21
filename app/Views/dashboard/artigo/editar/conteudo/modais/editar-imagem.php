@@ -1,8 +1,8 @@
 <?php // Editar imagem ?>
 <div class="mt-10 w-full hidden container-conteudo-imagem-editar" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>">
-  <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/conteudo/' . $linha['Conteudo']['id']); ?>" class="flex flex-col items-end gap-2" enctype="multipart/form-data" data-artigo-id=<?php echo $artigo['Artigo']['id'] ?> data-empresa-id=<?php echo $artigo['Artigo']['empresa_id'] ?> onsubmit="evitarDuploClique(event)">
+  <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/conteudo/' . $linha['Conteudo']['id']); ?>" class="flex flex-col items-end gap-2" enctype="multipart/form-data" data-artigo-id=<?php echo $linha['Conteudo']['artigo_id'] ?> data-empresa-id=<?php echo $linha['Conteudo']['empresa_id'] ?> onsubmit="evitarDuploClique(event)">
     <input type="hidden" name="_method" value="PUT">
-    <input type="hidden" name="artigo_id" value="<?php echo $artigo['Artigo']['id'] ?>">
+    <input type="hidden" name="artigo_id" value="<?php echo $linha['Conteudo']['artigo_id'] ?>">
     <input type="hidden" name="tipo" value="2">
     <input type="hidden" name="url" value="" class="url-imagem">
     <input type="hidden" name="referer" value="<?php echo $botaoVoltar; ?>">
@@ -34,7 +34,7 @@
         </label>
       </div>
       <div class="w-full flex flex-col sm:flex-row gap-1 justify-end sm:gap-2 bg-white">
-        <button type="button" class="js-dashboard-conteudo-remover <?php echo CLASSES_DASH_BUTTON_REMOVER_2; ?>" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>">Remover</button>
+        <button type="button" class="js-dashboard-conteudo-remover <?php echo CLASSES_DASH_BUTTON_REMOVER_2; ?>" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>" data-conteudo-url="<?php echo $linha['Conteudo']['url'] ?>" data-conteudo-tipo="<?php echo $linha['Conteudo']['tipo'] ?>">Remover</button>
         <button type="button" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>" onclick="fecharImagemModal(event)">Cancelar</button>
         <button type="submit" class="w-full md-w-max <?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> modal-conteudo-imagem-btn-enviar">Gravar</button>
       </div>
