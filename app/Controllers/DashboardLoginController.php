@@ -118,9 +118,14 @@ class DashboardLoginController extends DashboardController
     $this->visao->renderizar('/login/suporte/index');
   }
 
-  public function login()
+  public function login(array $loginCadastro = [])
   {
     $json = $this->receberJson();
+
+    if ($loginCadastro) {
+      $json = $loginCadastro;
+    }
+
     $resultado = $this->loginModel->login($json);
 
     // Acesso será liberado somente via suporte
@@ -156,6 +161,10 @@ class DashboardLoginController extends DashboardController
 
     if ($this->usuarioLogado['empresaId'] == 1 and $this->usuarioLogado['padrao'] == USUARIO_SUPORTE) {
       $this->redirecionar('/login/suporte');
+    }
+
+    if ($loginCadastro) {
+      $this->sessaoUsuario->definir('ok', 'Cadastro realizado com sucesso!');
     }
 
     $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard');

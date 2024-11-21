@@ -5,11 +5,14 @@ use app\Models\DashboardCadastroModel;
 class DashboardCadastroController extends DashboardController
 {
   private $cadastroModel;
+  private $loginController;
 
   public function __construct()
   {
     parent::__construct();
+
     $this->cadastroModel = new DashboardCadastroModel($this->usuarioLogado, $this->empresaPadraoId);
+    $this->loginController = new DashboardLoginController();
   }
 
   public function cadastroVer()
@@ -80,6 +83,6 @@ class DashboardCadastroController extends DashboardController
       $this->redirecionarErro('/cadastro', 'Erro ao cadastrar usuário (C500#USR)');
     }
 
-    $this->redirecionar('/login');
+    $this->loginController->login($dados);
   }
 }
