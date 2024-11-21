@@ -11,15 +11,23 @@
       <?php } ?>
     </div>
     <div class="px-3 text-xs font-light">
-      <?php if ($this->buscarAjuste('artigo_criado') == 1 and $this->buscarAjuste('artigo_autor') == 1) { ?>
+      <?php if ((! isset($artigo['Usuario']['nome']) or empty($artigo['Usuario']['nome'])) and $this->buscarAjuste('artigo_criado') == ATIVO and $this->buscarAjuste('artigo_autor') == ATIVO) { ?>
+        <div>Criado em <?php echo traduzirDataPtBr($artigo['Artigo']['criado']); ?></div>
+      <?php } ?>
+
+      <?php if (isset($artigo['Usuario']['nome']) and $artigo['Usuario']['nome'] and $this->buscarAjuste('artigo_criado') == ATIVO and $this->buscarAjuste('artigo_autor') == ATIVO) { ?>
         <div>Criado por <span class="font-semibold"> <?php echo $artigo['Usuario']['nome'] ?> </span> em <?php echo traduzirDataPtBr($artigo['Artigo']['criado']); ?></div>
       <?php } ?>
 
-      <?php if ($this->buscarAjuste('artigo_criado') == 1 and $this->buscarAjuste('artigo_autor') == 0) { ?>
-        <div>Criado em <?php echo traduzirDataPtBr($artigo['Artigo.criado']); ?></div>
+      <?php if (isset($artigo['Usuario']['nome']) and $artigo['Usuario']['nome'] and $this->buscarAjuste('artigo_criado') == INATIVO and $this->buscarAjuste('artigo_autor') == ATIVO) { ?>
+        <div>Criado por <span class="font-semibold"> <?php echo $artigo['Usuario']['nome'] ?> </span></div>
       <?php } ?>
 
-      <?php if ($this->buscarAjuste('artigo_modificado') == 1) { ?>
+      <?php if (isset($artigo['Artigo']['criado']) and $artigo['Artigo']['criado'] and $this->buscarAjuste('artigo_criado') == ATIVO and $this->buscarAjuste('artigo_autor') == INATIVO) { ?>
+        <div>Criado em <?php echo traduzirDataPtBr($artigo['Artigo']['criado']); ?></div>
+      <?php } ?>
+
+      <?php if (isset($artigo['Artigo']['modificado']) and $artigo['Artigo']['modificado'] and $this->buscarAjuste('artigo_modificado') == ATIVO) { ?>
         <div>Última atualização: <?php echo traduzirDataPtBr($artigo['Artigo']['modificado']); ?></div>
       <?php } ?>
     </div>
@@ -28,7 +36,7 @@
       <?php if ($conteudos) { ?>
         <?php foreach ($conteudos as $chave => $linha) : ?>
           <div class="relative p-3 w-full h-full group hover:bg-gray-600/10 duration-150 rounded-lg div-pai-conteudo-editar">
-            <?php if ($linha['Conteudo']['tipo'] == 1) { ?>
+            <?php if ($linha['Conteudo']['tipo'] == ATIVO) { ?>
               <button class="w-full flex flex-col gap-2 items-start text-left leading-7 bloco-editar-conteudo-texto"
                 data-conteudo-ordem="<?php echo $linha['Conteudo']['ordem'] ?>"
                 data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>"
@@ -40,7 +48,7 @@
                 data-conteudo-texto="<?php echo $linha['Conteudo']['conteudo'] ?>"
                 onclick="editarTextoModal(event)"
               >
-                <?php if ($linha['Conteudo']['titulo'] and $linha['Conteudo']['titulo_ocultar'] == 0) { ?>
+                <?php if ($linha['Conteudo']['titulo'] and $linha['Conteudo']['titulo_ocultar'] == INATIVO) { ?>
                   <h2 class="pointer-events-none"><?php echo $linha['Conteudo']['titulo'] ?></h2>
                 <?php } ?>
                 <div class="pointer-events-none">
@@ -66,7 +74,7 @@
                 data-conteudo-texto="<?php echo $linha['Conteudo']['conteudo'] ?>"
                 onclick="editarImagemModal(event)"
               >
-                <?php if ($linha['Conteudo']['titulo'] and $linha['Conteudo']['titulo_ocultar'] == 0) { ?>
+                <?php if ($linha['Conteudo']['titulo'] and $linha['Conteudo']['titulo_ocultar'] == INATIVO) { ?>
                   <h2 class="pointer-events-none"><?php echo $linha['Conteudo']['titulo'] ?></h2>
                 <?php } ?>
                 <img src="<?php echo $linha['Conteudo']['url'] ?>" class="pointer-events-none w-full">
@@ -89,7 +97,7 @@
                 data-conteudo-texto="<?php echo $linha['Conteudo']['conteudo'] ?>"
                 onclick="editarVideoModal(event)"
               >
-                <?php if ($linha['Conteudo']['titulo'] and $linha['Conteudo']['titulo_ocultar'] == 0) { ?>
+                <?php if ($linha['Conteudo']['titulo'] and $linha['Conteudo']['titulo_ocultar'] == INATIVO) { ?>
                   <h2 class="pointer-events-none"><?php echo $linha['Conteudo']['titulo'] ?></h2>
                 <?php } else { ?>
                   <div class="hidden px-1 py-4 group-hover:block text-2xl pointer-events-none text-gray-400 font-extralight italic">*** Sem título ***</div>
