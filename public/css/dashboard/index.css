@@ -41,7 +41,6 @@ body {
   line-height: 1.6;
 }
 
-
 /* Cabeçalhos */
 .dashboard-pre-visualizacao h1 { font-size: 1.9rem; font-weight: 500; }
 .dashboard-pre-visualizacao h2 { font-size: 1.75rem; font-weight: 400; margin-top: 1.25rem; margin-bottom: 0.75rem; }
@@ -51,7 +50,6 @@ body {
 /* Parágrafos */
 .dashboard-pre-visualizacao p {
   margin-bottom: 1.05rem;
-  text-align: justify;
 }
 
 /* Listas */

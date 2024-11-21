@@ -45,25 +45,21 @@ class Database
     $sqlFormatado = $sql;
 
     if ($parametros) {
-      foreach ($parametros as $index => $valor):
-        $placeholder = ':val' . ($index + 1);
-        $sqlFormatado = preg_replace('/\?/', $placeholder, $sqlFormatado, 1);
+      foreach ($parametros as $parametro):
+
+        if (is_string($parametro)) {
+          $sqlFormatado = preg_replace('/\?/', "'" . addslashes($parametro) . "'", $sqlFormatado, 1);
+        }
+        elseif (is_int($parametro)) {
+          $sqlFormatado = preg_replace('/\?/', (int)$parametro, $sqlFormatado, 1);
+        }
+        elseif (is_null($parametro)) {
+          $sqlFormatado = preg_replace('/\?/', 'NULL', $sqlFormatado, 1);
+        }
       endforeach;
 
-      foreach ($parametros as $index => $valor):
-
-        if (is_null($valor)) {
-          $valorFormatado = 'NULL';
-        }
-        elseif ($valor === '') {
-          $valorFormatado = "''";
-        }
-        else {
-          $valorFormatado = is_int($valor) ? (int) $valor : ("'" . addslashes(strip_tags((string)$valor)) . "'");
-        }
-
-        $sqlFormatado = str_replace(':val' . ($index + 1), $valorFormatado, $sqlFormatado);
-      endforeach;
+      $sqlFormatado = preg_replace('/\s+/', ' ', $sqlFormatado);
+      $sqlFormatado = trim($sqlFormatado);
     }
 
     try {

@@ -18,15 +18,14 @@ class PublicoBuscaModel extends PublicoModel
     $textoBusca = htmlspecialchars($textoBusca);
     $offset = ($pagina - 1) * $limite;
 
-    $sql = 'SELECT SQL_CALC_FOUND_ROWS
+    $sql = <<<SQL
+            SELECT SQL_CALC_FOUND_ROWS
               `Artigo`.`id` AS `Artigo.id`,
               `Artigo`.`ativo` AS `Artigo.ativo`,
               `Artigo`.`titulo` AS `Artigo.titulo`,
               `Artigo`.`categoria_id` AS `Artigo.categoria_id`,
               `Categoria`.`nome` AS `Categoria.nome`,
-              -- Usando GROUP_CONCAT para juntar os títulos dos conteúdos
               GROUP_CONCAT(DISTINCT `Conteudo`.`titulo` ORDER BY `Conteudo`.`id` ASC) AS `Conteudo.titulo`,
-              -- Usando uma subconsulta para pegar o primeiro trecho do conteúdo
               (
                   SELECT SUBSTRING_INDEX(
                       SUBSTRING_INDEX(`Conteudo`.`conteudo`, ?, 1),
@@ -63,7 +62,8 @@ class PublicoBuscaModel extends PublicoModel
                     AGAINST(? IN NATURAL LANGUAGE MODE)
               )
             GROUP BY `Artigo`.`id`
-            LIMIT ?, ?;';
+            LIMIT ?, ?;
+           SQL;
 
     $totalSql = 'SELECT FOUND_ROWS();';
 

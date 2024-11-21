@@ -52,6 +52,7 @@ function registrarLog($nome, $arquivo) {
   // Remove quebras de linha e espaços extras
   if ($nome == 'database' and isset($arquivo['sql']) && is_string($arquivo['sql'])) {
     $arquivo['sql'] = preg_replace('/\s+/', ' ', $arquivo['sql']);
+    $arquivo['sql'] = str_replace('\r\n', ' ', $arquivo['sql']);
   }
 
   $logMensagem = str_repeat("-", 150) . PHP_EOL . PHP_EOL;
