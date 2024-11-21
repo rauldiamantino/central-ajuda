@@ -2,9 +2,8 @@
 <html lang="pt-br">
 <?php require_once 'template/cabecalho.php' ?>
 
-<body class="w-full min-h-screen max-w-screen flex flex-col justify-start items-center font-normal bg-slate-100" data-editor="ClassicEditor" data-empresa-id="<?php echo $this->usuarioLogado['empresaId'] ?>" data-empresa="<?php echo $this->usuarioLogado['subdominio'] ?>" data-base-url="<?php echo RAIZ; ?>">
-  <div id="efeito-loader" class="loader <?php echo isset($loader) ? '' : 'hidden'; ?>"></div>
-
+<body class="relative w-full min-h-screen max-w-screen flex flex-col justify-start items-center font-normal bg-slate-100" data-editor="ClassicEditor" data-empresa-id="<?php echo $this->usuarioLogado['empresaId'] ?>" data-empresa="<?php echo $this->usuarioLogado['subdominio'] ?>" data-base-url="<?php echo RAIZ; ?>">
+  <div class="efeito-loader" <?php echo isset($loader) ? '' : 'hidden'; ?>></div>
   <?php if (isset($pagLogin)) { ?>
     <main class="w-full my-auto p-2">
       <div class="w-full h-full flex justify-center items-center">

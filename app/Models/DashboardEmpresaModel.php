@@ -262,10 +262,6 @@ class DashboardEmpresaModel extends Model
         }
       }
 
-      if ($campos['favicon'] and filter_var($campos['favicon'], FILTER_VALIDATE_URL) == false) {
-        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('favicon', 'valInvalido');
-      }
-
       $ativoCaracteres = 1;
       $nomeCaracteres = 255;
       $subdominioCaracteres = 255;

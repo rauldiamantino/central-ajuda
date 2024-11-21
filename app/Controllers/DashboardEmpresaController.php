@@ -70,6 +70,7 @@ class DashboardEmpresaController extends DashboardController
     $this->visao->variavel('assinaturaId', $assinaturaId);
     $this->visao->variavel('cobrancas', $buscarCobrancas);
     $this->visao->variavel('titulo', 'Editar empresa');
+    $this->visao->variavel('loader', true);
     $this->visao->variavel('paginaMenuLateral', 'empresa');
     $this->visao->renderizar('/empresa/index');
   }
