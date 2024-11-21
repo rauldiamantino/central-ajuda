@@ -13,7 +13,15 @@
       <label for="conteudo-adicionar-video-titulo" class="block text-sm font-medium text-gray-700">Título</label>
       <input type="text" id="conteudo-adicionar-video-titulo" name="titulo" class="<?php echo CLASSES_DASH_INPUT; ?>" value="">
     </div>
-    <input type="text" name="url" id="conteudo-adicionar-video-url" class="<?php echo CLASSES_DASH_INPUT; ?>" placeholder="https://www.youtube.com/watch?v=00000000000">
+    <div class="w-full">
+      <label for="conteudo-adicionar-video-url" class="block text-sm font-medium text-gray-700">URL do vídeo</label>
+      <input type="text" name="url" id="conteudo-adicionar-video-url" class="<?php echo CLASSES_DASH_INPUT; ?>">
+    </div>
+    <div class="pb-2 w-full text-xs text-gray-700 flex flex-col items-start justify-center">
+      <span>Exemplos de URLs aceitas</span>
+      <span class="font-light">https://www.youtube.com/watch?v=dQw4w9WgXcQ</span>
+      <span class="font-light">https://www.vimeo.com/76979871</span>
+    </div>
     <div class="sticky bottom-0 py-4 w-full h-max flex flex-col lg:flex-row justify-between gap-4 bg-white">
       <div class="w-full">
         <label class="flex items-start gap-2 cursor-pointer">

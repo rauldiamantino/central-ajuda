@@ -1,5 +1,5 @@
 <?php // Editar vídeo ?>
-<div class="mt-10 w-full hidden container-conteudo-video-editar" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>">
+<div class="mt-10 w-full hidden container-conteudo-video-editar alvo-editar" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>">
   <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/conteudo/' . $linha['Conteudo']['id']); ?>" class="flex flex-col items-end gap-2" enctype="multipart/form-data" onsubmit="evitarDuploClique(event)">
     <input type="hidden" name="_method" value="PUT">
     <input type="hidden" name="artigo_id" value="<?php echo $linha['Conteudo']['artigo_id'] ?>">
@@ -10,7 +10,16 @@
       <label for="conteudo-editar-video-titulo" class="block text-sm font-medium text-gray-700">Título</label>
       <input type="text" id="conteudo-editar-video-titulo-<?php echo $linha['Conteudo']['id'] ?>" name="titulo" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $linha['Conteudo']['titulo'] ?>">
     </div>
-    <input type="text" name="url" id="conteudo-editar-video-url" class="<?php echo CLASSES_DASH_INPUT; ?>" placeholder="https://www.youtube.com/watch?v=00000000000" value="<?php echo $linha['Conteudo']['url'] ?>" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>">
+    <div class="w-full">
+      <label for="conteudo-editar-video-url" class="block text-sm font-medium text-gray-700">URL do vídeo</label>
+      <input type="text" name="url" id="conteudo-editar-video-url" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $linha['Conteudo']['url'] ?>" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>">
+    </div>
+    <div class="pb-5 w-full text-xs text-gray-700 flex flex-col items-start justify-center">
+      <span>Exemplos de URLs aceitas</span>
+      <span class="font-light">https://www.youtube.com/watch?v=dQw4w9WgXcQ</span>
+      <span class="font-light">https://www.vimeo.com/76979871</span>
+    </div>
+
     <div class="sticky bottom-0 px-2 py-4 w-full h-max flex flex-col md:flex-row items-end justify-end gap-1 md:gap-4 bg-white rounded-lg">
       <div class="mb-5 w-full flex gap-4">
         <label class="flex items-start gap-2 cursor-pointer">

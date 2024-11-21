@@ -35,7 +35,7 @@
     </div>
   </div>
 
-  <div class="flex flex-col gap-1 py-10 border-b border-slate-200 pers-publico-artigo template-cor-<?php echo $corPrimaria; ?> publico-artigo-blocos">
+  <div class="flex flex-col gap-2 py-10 border-b border-slate-200 pers-publico-artigo template-cor-<?php echo $corPrimaria; ?> publico-artigo-blocos">
     <?php if ($conteudos) { ?>
       <?php foreach ($conteudos as $chave => $linha) : ?>
         <?php if ($linha['Conteudo']['tipo'] == 1) { ?>
@@ -70,7 +70,14 @@
             <?php if ($linha['Conteudo']['titulo'] and $linha['Conteudo']['titulo_ocultar'] == 0) { ?>
               <h2><?php echo $linha['Conteudo']['titulo'] ?></h2>
             <?php } ?>
-            <iframe src="<?php echo str_replace('watch?v=', 'embed/', $linha['Conteudo']['url']) ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="width: 100%; height: auto; aspect-ratio: 16/9"></iframe>
+
+            <?php if (preg_match('/(youtube\.com|youtu\.be)/', $linha['Conteudo']['url'])) { ?>
+              <iframe src="<?php echo str_replace('watch?v=', 'embed/', $linha['Conteudo']['url']) ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="width: 100%; height: auto; aspect-ratio: 16/9" class="w-full"></iframe>
+            <?php } elseif (preg_match('/vimeo\.com/', $linha['Conteudo']['url'])) { ?>
+              <iframe src="<?php echo str_replace('vimeo.com/', 'player.vimeo.com/video/', $linha['Conteudo']['url']) ?>" class="w-full" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="width: 100%; height: auto; aspect-ratio: 16/9"></iframe>
+            <?php } else { ?>
+              <div class="p-4 text-xs text-center bg-gray-100 rounded-lg font-light text-red-900">Vídeo não suportado</div>
+            <?php } ?>
           </div>
         <?php } ?>
       <?php endforeach; ?>

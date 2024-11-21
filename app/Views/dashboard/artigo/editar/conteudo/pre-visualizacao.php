@@ -27,7 +27,7 @@
     <div class="w-full flex flex-col pt-6 pb-2 border-b border-slate-200">
       <?php if ($conteudos) { ?>
         <?php foreach ($conteudos as $chave => $linha) : ?>
-          <div class="relative p-3 w-full h-full group hover:bg-gray-600/10 rounded-lg div-pai-conteudo-editar">
+          <div class="relative p-3 w-full h-full group hover:bg-gray-600/10 duration-150 rounded-lg div-pai-conteudo-editar">
             <?php if ($linha['Conteudo']['tipo'] == 1) { ?>
               <button class="w-full flex flex-col gap-2 items-start text-left leading-7 bloco-editar-conteudo-texto"
                 data-conteudo-ordem="<?php echo $linha['Conteudo']['ordem'] ?>"
@@ -91,8 +91,17 @@
               >
                 <?php if ($linha['Conteudo']['titulo'] and $linha['Conteudo']['titulo_ocultar'] == 0) { ?>
                   <h2 class="pointer-events-none"><?php echo $linha['Conteudo']['titulo'] ?></h2>
+                <?php } else { ?>
+                  <div class="hidden px-1 py-4 group-hover:block text-2xl pointer-events-none text-gray-400 font-extralight italic">*** Sem título ***</div>
                 <?php } ?>
-                <iframe src="<?php echo str_replace('watch?v=', 'embed/', $linha['Conteudo']['url']) ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="width: 100%; height: auto; aspect-ratio: 16/9" class="pointer-events-none w-full"></iframe>
+
+                <?php if (preg_match('/(youtube\.com|youtu\.be)/', $linha['Conteudo']['url'])) { ?>
+                  <iframe src="<?php echo str_replace('watch?v=', 'embed/', $linha['Conteudo']['url']) ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="width: 100%; height: auto; aspect-ratio: 16/9" class="w-full"></iframe>
+                <?php } elseif (preg_match('/vimeo\.com/', $linha['Conteudo']['url'])) { ?>
+                  <iframe src="<?php echo str_replace('vimeo.com/', 'player.vimeo.com/video/', $linha['Conteudo']['url']) ?>" class="w-full" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="width: 100%; height: auto; aspect-ratio: 16/9"></iframe>
+                <?php } else { ?>
+                  <div class="p-4 text-xs text-center bg-gray-100 rounded-lg font-light text-red-900">Vídeo não suportado</div>
+                <?php } ?>
               </button>
 
               <?php // Edição escondido ?>

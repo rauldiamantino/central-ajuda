@@ -92,7 +92,7 @@ export const editarVideo = (botaoAbrirModal) => {
   const formularioEditarVideo = novaDivEditarVideo.querySelector('form')
 
   setTimeout(() => {
-    formularioEditarVideo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    formularioEditarVideo.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }, 50);
 }
 
