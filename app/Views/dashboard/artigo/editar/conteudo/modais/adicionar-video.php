@@ -19,8 +19,8 @@
     </div>
     <div class="pb-2 w-full text-xs text-gray-700 flex flex-col items-start justify-center">
       <span>Exemplos de URLs aceitas</span>
-      <span class="font-light">https://www.youtube.com/watch?v=dQw4w9WgXcQ</span>
-      <span class="font-light">https://www.vimeo.com/76979871</span>
+      <span class="font-light">https://youtube.com/watch?v=dQw4w9WgXcQ</span>
+      <span class="font-light">https://vimeo.com/76979871</span>
     </div>
     <div class="sticky bottom-0 py-4 w-full h-max flex flex-col lg:flex-row justify-between gap-4 bg-white">
       <div class="w-full">
