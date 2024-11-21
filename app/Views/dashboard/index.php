@@ -45,7 +45,7 @@
 
   <?php if (! isset($pagLogin) and ! isset($pagLoginSuporte) and ! isset($pagCadastro)) { ?>
     <?php require_once 'template/topo.php' ?>
-    <div class="p-5 w-full max-w-[1440px] flex h-max">
+    <div class="p-5 w-full max-w-[1660px] flex h-max">
       <?php require_once 'template/menu_lateral.php' ?>
       <main class="xl:pl-72 flex flex-col w-full">
         <?php require_once 'notificacoes.php' ?>
@@ -65,7 +65,7 @@
       $classeMargem = 'xl:pl-72 ';
     }
     ?>
-    <div class="p-5 w-full max-w-[1440px] flex h-max">
+    <div class="p-5 w-full max-w-[1660px] flex h-max">
       <div class="<?php echo $classeMargem ?> w-full">
         <h2 class="mb-5 text-2xl font-semibold">Debug</h2>
         <div class="border border-slate-300 w-full p-4 lg:p-10 bg-gray-200 text-gray-900 text-xs shadow rounded-md">

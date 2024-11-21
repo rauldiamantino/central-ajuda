@@ -42,7 +42,7 @@ export const editarTexto = (botaoAbrirModal) => {
   }
 
   setTimeout(() => {
-    formularioEditarTexto.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    formularioEditarTexto.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }, 50);
 }
 

@@ -3,7 +3,7 @@
   <div class="w-full flex">
     <div class="w-full flex flex-col gap-6">
       <?php foreach($ajustes as $chave => $linha): ?>
-        <label class="w-full flex items-center justify-start gap-3 cursor-pointer">
+        <label class="w-full grid grid-cols-[50px_1fr] items-center justify-start gap-3 cursor-pointer">
           <?php if ($linha['Ajuste']['nome'] == 'artigo_autor') { ?>
             <input type="hidden" name="artigo_autor" value="0">
             <input type="checkbox" value="1" class="sr-only peer" <?php echo $linha['Ajuste']['ativo'] == ATIVO ? 'checked' : '' ?> name="artigo_autor">
