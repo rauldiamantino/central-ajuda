@@ -96,6 +96,7 @@ class DashboardCategoriaController extends DashboardController
     }
 
     $ordem = [];
+    $ordemAtual = 0;
 
     if ($resultado) {
       $colCategoriaOrdem = [
@@ -113,13 +114,12 @@ class DashboardCategoriaController extends DashboardController
                                              ->limite($limiteCategoriaOrdem)
                                              ->executarConsulta();
 
-      $ordem = [];
       $ordemAtual = intval($resultadoOrdem[0]['Categoria']['ordem'] ?? 0);
-
-      $ordem = [
-        'prox' => $ordemAtual + 1,
-      ];
     }
+
+    $ordem = [
+      'prox' => $ordemAtual + 1,
+    ];
 
     $this->visao->variavel('ordem', $ordem);
     $this->visao->variavel('categorias', $resultado);
