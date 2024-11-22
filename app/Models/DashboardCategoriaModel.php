@@ -128,6 +128,7 @@ class DashboardCategoriaModel extends Model
       'ativo' => $params['ativo'] ?? 0,
       'nome' => $params['nome'] ?? '',
       'descricao' => $params['descricao'] ?? '',
+      'icone' => $params['icone'] ?? '',
       'empresa_id' => $this->empresaPadraoId,
       'ordem' => $params['ordem'] ?? 0,
     ];
@@ -144,6 +145,7 @@ class DashboardCategoriaModel extends Model
       $permitidos = [
         'ativo',
         'descricao',
+        'icone',
       ];
 
       if ($atualizar and ! isset($params[ $chave ])) {
@@ -176,9 +178,18 @@ class DashboardCategoriaModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('ativo', 'valInvalido');
       }
 
+      if ($campos['icone'] == 'undefined') {
+        $campos['icone'] = '';
+      }
+
+      if ($campos['icone'] and filter_var($campos['icone'], FILTER_VALIDATE_URL) == false) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('icone', 'valInvalido');
+      }
+
       $ativoCaracteres = 1;
       $nomeCaracteres = 255;
       $descricaoCaracteres = 255;
+      $iconeCaracteres = 255;
       $empresaIdCaracteres = 999999999;
       $ordemCaracteres = 999999999;
 
@@ -192,6 +203,10 @@ class DashboardCategoriaModel extends Model
 
       if (strlen($campos['descricao']) > $descricaoCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('descricao', 'caracteres', $descricaoCaracteres);
+      }
+
+      if (strlen($campos['icone']) > $iconeCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('icone', 'caracteres', $iconeCaracteres);
       }
 
       if (strlen($campos['empresa_id']) > $empresaIdCaracteres) {
@@ -211,6 +226,7 @@ class DashboardCategoriaModel extends Model
       'ativo' => $campos['ativo'],
       'nome' => $campos['nome'],
       'descricao' => $campos['descricao'],
+      'icone' => $campos['icone'],
       'empresa_id' => $campos['empresa_id'],
       'ordem' => $campos['ordem'],
     ];
@@ -237,6 +253,10 @@ class DashboardCategoriaModel extends Model
   {
     if ($campo == 'empresa_id') {
       $campo = 'empresa ID';
+    }
+
+    if ($campo == 'icone') {
+      $campo = 'ícone';
     }
 
     $msgErro = [

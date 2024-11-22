@@ -60,6 +60,7 @@ class PublicoController extends Controller
       'Categoria.id',
       'Categoria.nome',
       'Categoria.descricao',
+      'Categoria.icone',
       'Categoria.ativo',
     ];
 

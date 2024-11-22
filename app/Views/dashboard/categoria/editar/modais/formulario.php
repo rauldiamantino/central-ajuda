@@ -15,10 +15,34 @@
           <label for="categoria-editar-titulo" class="block text-sm font-medium text-gray-700">Título</label>
           <input type="text" id="categoria-editar-titulo" name="nome" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $categoria[0]['Categoria']['nome']; ?>">
         </div>
-        <div class="w-full">
-          <label for="descricao" class="block text-sm font-medium text-gray-700">Breve descrição</label>
-          <input name="descricao" id="descricao" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $categoria[0]['Categoria']['descricao']; ?>"></input>
-        </div>
+      </div>
+    </div>
+    <div class="w-full flex flex-col gap-4">
+      <div class="w-full">
+        <label for="descricao" class="block text-sm font-medium text-gray-700">Breve descrição</label>
+        <input name="descricao" id="descricao" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $categoria[0]['Categoria']['descricao']; ?>"></input>
+      </div>
+      <div class="w-full">
+        <label for="icone" class="block text-sm font-medium text-gray-700">Ícone</label>
+        <select id="icone" name="icone" class="<?php echo CLASSES_DASH_INPUT; ?>">
+          <option value="" disabled <?php echo empty($categoria[0]['Categoria']['icone']) ? 'selected' : ''; ?>>Não definido</option>
+          <?php
+          $icones = $this->buscarIcones();
+          foreach ($icones as $icone):
+
+            if (! isset($icone['nome'])) {
+              continue;
+            }
+
+            if (! isset($icone['caminho'])) {
+              continue;
+            }
+
+            $selected = $categoria[0]['Categoria']['icone'] == $icone['caminho'] ? 'selected' : '';
+            echo '<option value="' . htmlspecialchars($icone['caminho']) . '" ' . $selected . '>' . htmlspecialchars($icone['nome']) . '</option>';
+          endforeach;
+          ?>
+        </select>
       </div>
     </div>
     <div class="w-full flex justify-between">

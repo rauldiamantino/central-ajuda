@@ -167,6 +167,7 @@ class DashboardCategoriaController extends DashboardController
       'Categoria.id',
       'Categoria.nome',
       'Categoria.descricao',
+      'Categoria.icone',
       'Categoria.ativo',
       'Categoria.criado',
       'Categoria.modificado',

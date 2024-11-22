@@ -187,4 +187,23 @@ class Controller
 
     return 0;
   }
+
+  public function buscarIcones()
+  {
+    $diretorio = './icones';
+    $arquivos = array_diff(scandir($diretorio), ['.', '..']);
+
+    $icones = [];
+    foreach ($arquivos as $arquivo):
+
+      if (pathinfo($arquivo, PATHINFO_EXTENSION) === 'svg') {
+        $icones[] = [
+          'nome' => pathinfo($arquivo, PATHINFO_FILENAME),
+          'caminho' => PROTOCOLO . $_SERVER['HTTP_HOST'] . '/icones/' . $arquivo,
+        ];
+      }
+    endforeach;
+
+    return $icones;
+  }
 }

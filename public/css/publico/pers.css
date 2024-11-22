@@ -2,6 +2,7 @@
 .pers-publico-botao.template-cor-1                                            { background-color: #2d2d2d; color: #ffffff; }
 .pers-publico-inicio-busca.template-cor-1                                     { background: radial-gradient(circle, #3a3a3a, #2d2d2d, #1a1a1a); color: #ffffff; }
 .pers-publico-lupa.template-cor-1                                             { color: #2d2d2d; }
+.pers-publico-icones.template-cor-1                                           { color: #2d2d2d; }
 .pers-publico-tag-cate.template-cor-1                                         { color: #2d2d2d; }
 .pers-publico-seta-artigo.template-cor-1                                      { color: #2d2d2d; }
 .pers-publico-busca-pag.template-cor-1                                        { color: #ffffff; border: 1px solid #2d2d2d; background-color: #2d2d2d; }
@@ -15,6 +16,7 @@
 .pers-publico-botao.template-cor-2                                            { background-color: #f05829; color: #ffffff; }
 .pers-publico-inicio-busca.template-cor-2                                     { background: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,71,11) 100%); color: #ffffff; }
 .pers-publico-lupa.template-cor-2                                             { color: #f05829; }
+.pers-publico-icones.template-cor-2                                           { color: #f05829; }
 .pers-publico-tag-cate.template-cor-2                                         { color: #f05829; }
 .pers-publico-seta-artigo.template-cor-2                                      { color: #f05829; }
 .pers-publico-busca-pag.template-cor-2                                        { color: #ffffff; border: 1px solid #f05829; background-color: #f05829; }
@@ -28,6 +30,7 @@
 .pers-publico-botao.template-cor-8                                            { background-color: #4A5568; color: #ffffff; }
 .pers-publico-inicio-busca.template-cor-8                                     { background: radial-gradient(circle, #5b6878, #4a5568, #353e49); color: #ffffff; }
 .pers-publico-lupa.template-cor-8                                             { color: #4A5568; }
+.pers-publico-icones.template-cor-8                                           { color: #4A5568; }
 .pers-publico-tag-cate.template-cor-8                                         { color: #4A5568; }
 .pers-publico-seta-artigo.template-cor-8                                      { color: #4A5568; }
 .pers-publico-busca-pag.template-cor-8                                        { color: #ffffff; border: 1px solid #4A5568; background-color: #4A5568; }
@@ -41,6 +44,7 @@
 .pers-publico-botao.template-cor-9                                            { background-color: #4B0082; color: #ffffff; }
 .pers-publico-inicio-busca.template-cor-9                                     { background: radial-gradient(circle, #5c009e, #4b0082, #3b0067); color: #ffffff; }
 .pers-publico-lupa.template-cor-9                                             { color: #4B0082; }
+.pers-publico-icones.template-cor-9                                           { color: #4B0082; }
 .pers-publico-tag-cate.template-cor-9                                         { color: #4B0082; }
 .pers-publico-seta-artigo.template-cor-9                                      { color: #4B0082; }
 .pers-publico-busca-pag.template-cor-9                                        { color: #ffffff; border: 1px solid #4B0082; background-color: #4B0082; }
