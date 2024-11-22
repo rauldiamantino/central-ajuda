@@ -1,17 +1,6 @@
 <div class="mx-auto w-full flex flex-col items-center gap-16 md:px-4 xl:px-14 py-12">
-
-  <div class="w-full flex flex-col items-start gap-6">
-    <div class="flex flex-col gap-3">
-      <h2 class="font-bold text-4xl">Olá, como podemos te ajudar hoje?</h2>
-      <div class="font-light">Explore nossos <span class="font-semibold">guias, tutoriais e artigos</span> para encontrar rapidamente as informações que você precisa.</div>
-    </div>
-    <div class="w-full flex flex-col justify-center">
-      <?php require_once 'formulario-busca.php' ?>
-    </div>
-  </div>
-
-  <div class="w-full flex flex-col gap-2">
-    <h3 class="font-light">Principais tópicos...</h3>
+  <div class="w-full max-w-[800px] flex flex-col gap-2">
+    <h3 class="font-extralight text-xs text-gray-800">CATEGORIAS</h3>
     <div class="w-full h-max grid grid-cols-2 xl:grid-cols-3 justify-start gap-2">
       <?php
       $classTemplateCor = '';
@@ -20,9 +9,9 @@
         $classTemplateCor = 'template-cor-' . $corPrimaria;
       }
       ?>
-      <?php foreach (array_slice($categorias, 0, 6) as $chave => $linha): ?>
-        <a href="<?php echo baseUrl('/' . $subdominio . '/categoria/' . $linha['Categoria']['id']); ?>" class="p-6 h-full min-h-[200px] flex flex-col gap-4 justify-start rounded-lg shadow border border-slate-200 hover:shadow-xl hover:scale-105 pers-publico-inicio-blocos <?php echo $classTemplateCor; ?>">
-            <h3 class="text-lg bloco-categoria-nome"><?php echo $linha['Categoria']['nome'] ?></h3>
+      <?php foreach ($categorias as $chave => $linha): ?>
+        <a href="<?php echo baseUrl('/' . $subdominio . '/categoria/' . $linha['Categoria']['id']); ?>" class="border border-slate-200 shadow p-5 h-full min-h-[200px] bg-white flex flex-col gap-4 justify-start items-start text-left rounded-lg hover:scale-105 duration-100 pers-publico-inicio-blocos <?php echo $classTemplateCor; ?>">
+            <h3 class="text-xl bloco-categoria-nome"><?php echo $linha['Categoria']['nome'] ?></h3>
             <div class="font-extralight text-gray-400 bloco-categoria-descricao"><?php echo $linha['Categoria']['descricao'] ?></div>
         </a>
       <?php endforeach; ?>

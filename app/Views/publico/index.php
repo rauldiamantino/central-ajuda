@@ -3,9 +3,23 @@
 
 <?php require_once 'template/cabecalho.php' ?>
 
-<body class="min-h-screen max-w-screen flex flex-col font-normal bg-white" data-base-url="<?php echo RAIZ; ?>">
+<body class="min-h-screen max-w-screen flex flex-col font-normal <?php echo isset($inicio) ? 'bg-gray-50' : 'bg-white' ?>" data-base-url="<?php echo RAIZ; ?>">
 
   <?php require_once 'template/topo.php' ?>
+
+  <?php if (isset($inicio)) { ?>
+    <div class="px-4 py-10 md:py-16 w-full flex items-center justify-center pers-publico-inicio-busca template-cor-<?php echo $corPrimaria; ?>">
+      <div class="w-full max-w-[800px] flex flex-col items-start gap-6">
+        <div class="flex flex-col gap-3">
+          <h2 class="font-bold text-3xl">Olá, como podemos te ajudar hoje?</h2>
+          <div class="font-light">Explore nossos <span class="font-semibold">guias, tutoriais e artigos</span> para encontrar rapidamente as informações que você precisa.</div>
+        </div>
+        <div class="w-full flex flex-col justify-center">
+          <?php require_once 'inicio/formulario-busca.php' ?>
+        </div>
+      </div>
+    </div>
+  <?php } ?>
 
   <main class="p-4 w-full min-h-screen flex flex-col gap-4 items-center">
     <?php $notificacaoSucesso = $this->sessaoUsuario->buscar('ok'); ?>
@@ -33,7 +47,7 @@
     <?php $this->sessaoUsuario->apagar('ok'); ?>
     <?php $this->sessaoUsuario->apagar('erro'); ?>
 
-    <div class="w-full max-w-[1300px] min-h-screen flex rounded-md bg-white">
+    <div class="w-full max-w-[1244px] min-h-screen flex rounded-md <?php echo isset($inicio) ? 'bg-gray-50' : 'bg-white' ?>">
 
       <?php if ($menuLateral) { ?>
         <?php require_once 'template/menu_lateral.php' ?>

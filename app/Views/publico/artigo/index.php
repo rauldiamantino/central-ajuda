@@ -1,5 +1,5 @@
-<div class="w-full flex flex-col md:px-12 py-14">
-  <div class="pb-6 border-b border-slate-200 flex flex-wrap gap-2 font-light text-sm publico-migalhas">
+<div class="w-full flex flex-col px-4 xl:px-10 py-14">
+  <div class="pb-6 flex flex-wrap gap-2 font-light text-sm publico-migalhas">
     <a href="<?php echo baseUrl('/' . $subdominio); ?>" class="hover:underline whitespace-nowrap">Início</a>
     <?php if (isset($artigo['Categoria']['nome'])) { ?>
       <span>></span>
@@ -43,7 +43,7 @@
     </div>
   </div>
 
-  <div class="flex flex-col gap-2 py-10 border-b border-slate-200 pers-publico-artigo template-cor-<?php echo $corPrimaria; ?> publico-artigo-blocos">
+  <div class="flex flex-col gap-2 py-10 pers-publico-artigo template-cor-<?php echo $corPrimaria; ?> publico-artigo-blocos">
     <?php if ($conteudos) { ?>
       <?php foreach ($conteudos as $chave => $linha) : ?>
         <?php if ($linha['Conteudo']['tipo'] == 1) { ?>
