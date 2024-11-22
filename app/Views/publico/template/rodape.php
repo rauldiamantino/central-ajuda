@@ -1,4 +1,4 @@
-<footer class="mt-14 w-full text-sm md:text-base px-4 py-16 flex justify-center items-center bg-white">
+<footer class="mt-14 w-full text-sm md:text-base px-4 py-16 flex justify-center items-center <?php isset($inicio) ? 'bg-gray-50' : 'bg-white'?>">
 
   <?php if ($empresaNome) { ?>
   <div class="flex flex-col justify-center items-center">
