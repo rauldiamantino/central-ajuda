@@ -25,6 +25,7 @@ class PublicoBuscaModel extends PublicoModel
               `Artigo`.`titulo` AS `Artigo.titulo`,
               `Artigo`.`categoria_id` AS `Artigo.categoria_id`,
               `Categoria`.`nome` AS `Categoria.nome`,
+              `Categoria`.`icone` AS `Categoria.icone`,
               GROUP_CONCAT(DISTINCT `Conteudo`.`titulo` ORDER BY `Conteudo`.`id` ASC) AS `Conteudo.titulo`,
               (
                   SELECT SUBSTRING_INDEX(
