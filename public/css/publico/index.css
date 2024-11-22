@@ -35,7 +35,7 @@ body {
 /* Links */
 .publico-artigo-blocos a {
   color: #1E40AF;
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 .publico-artigo-blocos a:hover {
