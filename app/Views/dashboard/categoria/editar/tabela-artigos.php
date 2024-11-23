@@ -1,5 +1,5 @@
 <div class="w-full">
-  <div class="w-full min-h-max border border-gray-300 rounded-t-2xl rounded-b-lg shadow bg-white overflow-x-auto overflow-y-hidden">
+  <div class="w-full min-h-max border border-gray-300 rounded-t-2xl rounded-b-lg shadow bg-white overflow-x-auto overflow-y-hidden overflow-estilo-tabela">
     <div class="inline-block min-w-full align-middle">
       <table class="table-fixed min-w-full text-sm text-left text-gray-500">
         <thead class="text-xs font-light text-gray-500 uppercase">
