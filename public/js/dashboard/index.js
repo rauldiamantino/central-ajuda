@@ -239,6 +239,31 @@ const editarImagemModal = async (event) => {
         }
       }
 
+      const demaisBlocosAdicionar = document.querySelectorAll(`.container-pre-visualizar-adicionar`)
+      const algumBlocoAdicionarAberto = Array.from(demaisBlocosAdicionar).some(bloco => ! bloco.classList.contains('hidden'))
+
+      if (algumBlocoAdicionarAberto) {
+        const modalConfirmacao = document.querySelector('.modal-conteudo-fechar')
+        const btnContinuar = modalConfirmacao.querySelector('.modal-conteudo-btn-continuar')
+        const btnFechar = modalConfirmacao.querySelector('.modal-conteudo-btn-fechar')
+
+        abrirEditar = false
+        modalConfirmacao.showModal()
+
+        btnContinuar.addEventListener('click', () => {
+          modalConfirmacao.close()
+        })
+
+        btnFechar.addEventListener('click', () => {
+          demaisBlocosAdicionar.forEach((blocoAdicionar) => {
+            blocoAdicionar.classList.add('hidden')
+          })
+
+          abrirEditar = true
+          modalConfirmacao.close()
+        })
+      }
+
       if (abrirEditar) {
         demaisBlocosAdicionar.forEach(blocoAdicionar => {
           blocoAdicionar.classList.add('hidden')
@@ -296,6 +321,31 @@ const editarVideoModal = async (event) => {
         if (! abrirEditar) {
           break
         }
+      }
+
+      const demaisBlocosAdicionar = document.querySelectorAll(`.container-pre-visualizar-adicionar`)
+      const algumBlocoAdicionarAberto = Array.from(demaisBlocosAdicionar).some(bloco => ! bloco.classList.contains('hidden'))
+
+      if (algumBlocoAdicionarAberto) {
+        const modalConfirmacao = document.querySelector('.modal-conteudo-fechar')
+        const btnContinuar = modalConfirmacao.querySelector('.modal-conteudo-btn-continuar')
+        const btnFechar = modalConfirmacao.querySelector('.modal-conteudo-btn-fechar')
+
+        abrirEditar = false
+        modalConfirmacao.showModal()
+
+        btnContinuar.addEventListener('click', () => {
+          modalConfirmacao.close()
+        })
+
+        btnFechar.addEventListener('click', () => {
+          demaisBlocosAdicionar.forEach((blocoAdicionar) => {
+            blocoAdicionar.classList.add('hidden')
+          })
+
+          abrirEditar = true
+          modalConfirmacao.close()
+        })
       }
 
       if (abrirEditar) {
@@ -356,6 +406,31 @@ const editarTextoModal = (event) => {
         }
       }
 
+      const demaisBlocosAdicionar = document.querySelectorAll(`.container-pre-visualizar-adicionar`)
+      const algumBlocoAdicionarAberto = Array.from(demaisBlocosAdicionar).some(bloco => ! bloco.classList.contains('hidden'))
+
+      if (algumBlocoAdicionarAberto) {
+        const modalConfirmacao = document.querySelector('.modal-conteudo-fechar')
+        const btnContinuar = modalConfirmacao.querySelector('.modal-conteudo-btn-continuar')
+        const btnFechar = modalConfirmacao.querySelector('.modal-conteudo-btn-fechar')
+
+        abrirEditar = false
+        modalConfirmacao.showModal()
+
+        btnContinuar.addEventListener('click', () => {
+          modalConfirmacao.close()
+        })
+
+        btnFechar.addEventListener('click', () => {
+          demaisBlocosAdicionar.forEach((blocoAdicionar) => {
+            blocoAdicionar.classList.add('hidden')
+          })
+
+          abrirEditar = true
+          modalConfirmacao.close()
+        })
+      }
+
       if (abrirEditar) {
         demaisBlocosAdicionar.forEach(blocoAdicionar => {
           blocoAdicionar.classList.add('hidden')
@@ -386,7 +461,6 @@ const abrirModalAdicionar = async (tipoModal) => {
   const alvo = document.querySelector('.alvo-adicionar')
   const modal = document.querySelector(`.modal-conteudo-${tipoModal}-adicionar`)
   const demaisBlocosEditar = document.querySelectorAll(`.div-pai-conteudo-editar > .container-pre-visualizar`)
-  const demaisBlocosAdicionar = document.querySelectorAll(`.container-pre-visualizar-adicionar`)
   let abrirAdicionar = true
 
   if (! alvo || ! modal || ! demaisBlocosEditar) {
@@ -417,11 +491,32 @@ const abrirModalAdicionar = async (tipoModal) => {
         }
       }
 
-      if (abrirAdicionar) {
-        demaisBlocosAdicionar.forEach(blocoAdicionar => {
-          blocoAdicionar.classList.add('hidden')
+      const demaisBlocosAdicionar = document.querySelectorAll(`.container-pre-visualizar-adicionar`)
+      const algumBlocoAdicionarAberto = Array.from(demaisBlocosAdicionar).some(bloco => ! bloco.classList.contains('hidden'))
+
+      if (algumBlocoAdicionarAberto) {
+        const modalConfirmacao = document.querySelector('.modal-conteudo-fechar')
+        const btnContinuar = modalConfirmacao.querySelector('.modal-conteudo-btn-continuar')
+        const btnFechar = modalConfirmacao.querySelector('.modal-conteudo-btn-fechar')
+
+        abrirAdicionar = false
+        modalConfirmacao.showModal()
+
+        btnContinuar.addEventListener('click', () => {
+          modalConfirmacao.close()
         })
 
+        btnFechar.addEventListener('click', () => {
+          demaisBlocosAdicionar.forEach((blocoAdicionar) => {
+            blocoAdicionar.classList.add('hidden')
+          })
+
+          abrirAdicionar = true
+          modalConfirmacao.close()
+        })
+      }
+
+      if (abrirAdicionar) {
         modal.classList.remove('hidden')
 
         setTimeout(() => {
