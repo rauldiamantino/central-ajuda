@@ -1,18 +1,18 @@
-<div class="w-full flex flex-col md:px-10 py-14">
-  <div class="pb-6 border-b border-slate-200 flex gap-2 font-light text-sm publico-migalhas">
+<div class="w-full flex flex-col py-14">
+  <div class="pb-6 flex gap-2 font-light text-sm publico-migalhas">
     <a href="<?php echo baseUrl('/' . $subdominio); ?>" class="hover:underline">Início</a>
     <span>></span>
     <span class="underline">Busca</span>
   </div>
 
-  <div class="flex flex-col justify-between items-start gap-4 py-5 mb-10 publico-artigo-blocos publico-artigo-topo">
+  <div class="flex flex-col justify-between items-start gap-4 py-5 mb-0 publico-artigo-blocos publico-artigo-topo">
     <h1 class="publico-artigo-titulo"> Exibindo resultados para "<?php echo $textoBusca ?>"</h1>
   </div>
 
   <?php if ($resultadoBuscar) { ?>
-    <div class="flex flex-col">
+    <div class="flex flex-col gap-2">
       <?php foreach ($resultadoBuscar as $chave => $linha) : ?>
-          <div class="mb-8 flex flex-col gap-2 publico-artigo-bloco">
+          <div class="flex flex-col gap-1 publico-artigo-bloco bg-white hover:bg-gray-100 p-4 shadow rounded-lg">
             <?php if (isset($linha['Artigo']['id']) and $linha['Artigo']['id'] > 0) { ?>
                 <div class="pb-0 flex gap-2 items-center font-light text-sm publico-migalhas">
                   <?php if ($linha['Categoria']['icone'] and file_get_contents($linha['Categoria']['icone'])) { ?>
@@ -34,7 +34,7 @@
                     <a href="<?php echo baseUrl('/' . $subdominio . '/categoria/' . $linha['Artigo']['categoria_id']); ?>" class="italic hover:underline"><?php echo $linha['Categoria']['nome'] ?></a>
                   <?php } ?>
                 </div>
-              <h2 class="text-2xl flex gap-2 items-center">
+              <h2 class="text-xl flex gap-2 items-center">
                 <a href="<?php echo baseUrl('/' . $subdominio . '/artigo/' . $linha['Artigo']['id']); ?>" class="hover:underline"><?php echo $linha['Artigo']['titulo'] ?></a>
 
                 <?php if ($linha['Artigo']['ativo'] == INATIVO) { ?>
@@ -52,3 +52,4 @@
       <?php require_once 'paginacao.php' ?>
     </div>
   <?php } ?>
+</div>

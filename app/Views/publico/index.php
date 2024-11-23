@@ -3,12 +3,12 @@
 
 <?php require_once 'template/cabecalho.php' ?>
 
-<body class="min-h-screen max-w-screen flex flex-col font-normal <?php echo isset($inicio) ? 'bg-gray-50' : 'bg-white' ?>" data-base-url="<?php echo RAIZ; ?>">
+<body class="min-h-screen max-w-screen flex flex-col font-normal <?php echo isset($inicio) ? 'bg-gray-100' : 'bg-gray-100' ?>" data-base-url="<?php echo RAIZ; ?>">
 
   <?php require_once 'template/topo.php' ?>
 
   <?php if (isset($inicio)) { ?>
-    <div class="px-4 py-10 md:py-16 w-full flex items-center justify-center pers-publico-inicio-busca template-cor-<?php echo $corPrimaria; ?>">
+    <div class="px-4 py-16 md:py-32 w-full flex items-center justify-center pers-publico-inicio-busca template-cor-<?php echo $corPrimaria; ?>">
       <div class="w-full max-w-[800px] flex flex-col items-start gap-6">
         <div class="flex flex-col gap-3">
           <h2 class="font-bold text-3xl">Olá, como podemos te ajudar hoje?</h2>
@@ -47,7 +47,7 @@
     <?php $this->sessaoUsuario->apagar('ok'); ?>
     <?php $this->sessaoUsuario->apagar('erro'); ?>
 
-    <div class="w-full max-w-[1244px] min-h-screen flex rounded-md <?php echo isset($inicio) ? 'bg-gray-50' : 'bg-white' ?>">
+    <div class="w-full max-w-[1244px] min-h-screen flex rounded-md">
 
       <?php if ($menuLateral) { ?>
         <?php require_once 'template/menu_lateral.php' ?>
