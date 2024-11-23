@@ -205,15 +205,52 @@ const rolagemVerticalAutomatica = () => {
   }
 }
 
-const editarImagemModal = (event) => {
-  import('./artigos/conteudos/editar.js')
-    .then(module => {
-      const botaoAbrirModal = event.target
-      module.editarImagem(botaoAbrirModal)
+const editarImagemModal = async (event) => {
+  const botaoAbrirModal = event.target
+  const demaisBlocos = document.querySelectorAll(`.div-pai-conteudo-editar > .container-pre-visualizar`)
+  const demaisBlocosAdicionar = document.querySelectorAll(`.container-pre-visualizar-adicionar`)
+  let abrirEditar = true
+
+  if (! botaoAbrirModal || ! demaisBlocos) {
+    return
+  }
+
+  try {
+    import('./artigos/conteudos/editar.js').then(async (module) => {
+      for (const bloco of demaisBlocos) {
+        const tipo = bloco.dataset.conteudoTipo
+
+        if (bloco.classList.contains('hidden')) {
+          continue
+        }
+
+        if (tipo == 1 && module.fecharEditarTexto) {
+          abrirEditar = await module.fecharEditarTexto(bloco)
+        }
+        else if (tipo == 2 && module.fecharEditarImagem) {
+          abrirEditar = await module.fecharEditarImagem(bloco)
+        }
+        else if (tipo == 3 && module.fecharEditarVideo) {
+          abrirEditar = await module.fecharEditarVideo(bloco)
+        }
+
+        if (! abrirEditar) {
+          break
+        }
+      }
+
+      if (abrirEditar) {
+        demaisBlocosAdicionar.forEach(blocoAdicionar => {
+          blocoAdicionar.classList.add('hidden')
+        })
+
+        module.editarImagem(botaoAbrirModal)
+      }
     })
-    .catch(error => {
-      console.error("Erro ao carregar o módulo:", error)
-    })
+  }
+  catch (error) {
+    console.error('Erro ao carregar o módulo:', error)
+  }
 }
 
 const fecharImagemModal = (event) => {
@@ -227,15 +264,52 @@ const fecharImagemModal = (event) => {
     })
 }
 
-const editarVideoModal = (event) => {
-  import('./artigos/conteudos/editar.js')
-    .then(module => {
-      const botaoAbrirModal = event.target
-      module.editarVideo(botaoAbrirModal)
+const editarVideoModal = async (event) => {
+  const botaoAbrirModal = event.target
+  const demaisBlocos = document.querySelectorAll(`.div-pai-conteudo-editar > .container-pre-visualizar`)
+  const demaisBlocosAdicionar = document.querySelectorAll(`.container-pre-visualizar-adicionar`)
+  let abrirEditar = true
+
+  if (! botaoAbrirModal || ! demaisBlocos) {
+    return
+  }
+
+  try {
+    import('./artigos/conteudos/editar.js').then(async (module) => {
+      for (const bloco of demaisBlocos) {
+        const tipo = bloco.dataset.conteudoTipo
+
+        if (bloco.classList.contains('hidden')) {
+          continue
+        }
+
+        if (tipo == 1 && module.fecharEditarTexto) {
+          abrirEditar = await module.fecharEditarTexto(bloco)
+        }
+        else if (tipo == 2 && module.fecharEditarImagem) {
+          abrirEditar = await module.fecharEditarImagem(bloco)
+        }
+        else if (tipo == 3 && module.fecharEditarVideo) {
+          abrirEditar = await module.fecharEditarVideo(bloco)
+        }
+
+        if (! abrirEditar) {
+          break
+        }
+      }
+
+      if (abrirEditar) {
+        demaisBlocosAdicionar.forEach(blocoAdicionar => {
+          blocoAdicionar.classList.add('hidden')
+        })
+
+        module.editarVideo(botaoAbrirModal)
+      }
     })
-    .catch(error => {
-      console.error("Erro ao carregar o módulo:", error)
-    })
+  }
+  catch (error) {
+    console.error('Erro ao carregar o módulo:', error)
+  }
 }
 
 const fecharVideoModal = (event) => {
@@ -248,18 +322,54 @@ const fecharVideoModal = (event) => {
       console.error("Erro ao carregar o módulo:", error)
     })
 }
-
 const editarTextoModal = (event) => {
-  import('./artigos/conteudos/editar.js')
-    .then(module => {
-      const botaoAbrirModal = event.target
-      module.editarTexto(botaoAbrirModal)
+  const botaoAbrirModal = event.target
+  const demaisBlocos = document.querySelectorAll(`.div-pai-conteudo-editar > .container-pre-visualizar`)
+  const demaisBlocosAdicionar = document.querySelectorAll(`.container-pre-visualizar-adicionar`)
+  let abrirEditar = true
 
+  if (! botaoAbrirModal || ! demaisBlocos) {
+    return
+  }
+
+  try {
+    import('./artigos/conteudos/editar.js').then(async (module) => {
+      for (const bloco of demaisBlocos) {
+        const tipo = bloco.dataset.conteudoTipo
+
+        if (bloco.classList.contains('hidden')) {
+          continue
+        }
+
+        if (tipo == 1 && module.fecharEditarTexto) {
+          abrirEditar = await module.fecharEditarTexto(bloco)
+        }
+        else if (tipo == 2 && module.fecharEditarImagem) {
+          abrirEditar = await module.fecharEditarImagem(bloco)
+        }
+        else if (tipo == 3 && module.fecharEditarVideo) {
+          abrirEditar = await module.fecharEditarVideo(bloco)
+        }
+
+        if (! abrirEditar) {
+          break
+        }
+      }
+
+      if (abrirEditar) {
+        demaisBlocosAdicionar.forEach(blocoAdicionar => {
+          blocoAdicionar.classList.add('hidden')
+        })
+
+        module.editarTexto(botaoAbrirModal)
+      }
     })
-    .catch(error => {
-      console.error("Erro ao carregar o módulo:", error)
-    })
+  }
+  catch (error) {
+    console.error('Erro ao carregar o módulo:', error)
+  }
 }
+
 
 const fecharTextoModal = (event) => {
   import('./artigos/conteudos/editar.js')
@@ -272,24 +382,59 @@ const fecharTextoModal = (event) => {
     })
 }
 
-const abrirModalAdicionar = (tipoModal) => {
+const abrirModalAdicionar = async (tipoModal) => {
   const alvo = document.querySelector('.alvo-adicionar')
   const modal = document.querySelector(`.modal-conteudo-${tipoModal}-adicionar`)
+  const demaisBlocosEditar = document.querySelectorAll(`.div-pai-conteudo-editar > .container-pre-visualizar`)
+  const demaisBlocosAdicionar = document.querySelectorAll(`.container-pre-visualizar-adicionar`)
+  let abrirAdicionar = true
 
-  if (! alvo) {
+  if (! alvo || ! modal || ! demaisBlocosEditar) {
     return
   }
 
-  if (! modal) {
-    return
+  try {
+    import('./artigos/conteudos/editar.js').then(async (module) => {
+      for (const bloco of demaisBlocosEditar) {
+        const tipo = bloco.dataset.conteudoTipo
+
+        if (bloco.classList.contains('hidden')) {
+          continue
+        }
+
+        if (tipo == 1 && module.fecharEditarTexto) {
+          abrirAdicionar = await module.fecharEditarTexto(bloco)
+        }
+        else if (tipo == 2 && module.fecharEditarImagem) {
+          abrirAdicionar = await module.fecharEditarImagem(bloco)
+        }
+        else if (tipo == 3 && module.fecharEditarVideo) {
+          abrirAdicionar = await module.fecharEditarVideo(bloco)
+        }
+
+        if (! abrirAdicionar) {
+          break
+        }
+      }
+
+      if (abrirAdicionar) {
+        demaisBlocosAdicionar.forEach(blocoAdicionar => {
+          blocoAdicionar.classList.add('hidden')
+        })
+
+        modal.classList.remove('hidden')
+
+        setTimeout(() => {
+          alvo.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }, 50)
+      }
+    })
   }
-
-  modal.classList.remove('hidden')
-
-  setTimeout(() => {
-    alvo.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }, 50)
+  catch (error) {
+    console.error('Erro ao carregar o módulo:', error)
+  }
 }
+
 
 const voltarAoTopo = (tipoModal) => {
   const modal = document.querySelector(`.modal-conteudo-${tipoModal}-adicionar`)

@@ -74,3 +74,4 @@
 <?php require_once 'modais/remover-artigo.php' ?>
 <?php require_once 'conteudo/modais/organizar.php' ?>
 <?php require_once 'conteudo/modais/remover.php' ?>
+<?php require_once 'conteudo/modais/fechar.php' ?>

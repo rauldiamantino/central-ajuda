@@ -1,5 +1,5 @@
 <?php // Adicionar texto ?>
-<div class="mt-14 p-3 max-w-full editor-container hidden bg-white hover:bg-gray-600/10 duration-150 rounded-lg modal-conteudo-texto-adicionar">
+<div class="mt-14 p-3 max-w-full editor-container hidden bg-white hover:bg-gray-600/10 duration-150 rounded-lg container-pre-visualizar-adicionar modal-conteudo-texto-adicionar">
   <h3>Novo texto</h3>
   <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/conteudo'); ?>" class="flex flex-col items-end gap-2 editor-container__editor" enctype="multipart/form-data" onsubmit="evitarDuploClique(event)">
     <input type="hidden" name="tipo" value="1">

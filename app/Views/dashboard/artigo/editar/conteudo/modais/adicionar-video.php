@@ -1,5 +1,5 @@
 <?php // Adicionar vídeo ?>
-<div class="mt-14 p-3 max-w-full hidden bg-white hover:bg-gray-600/10 duration-150 rounded-lg modal-conteudo-video-adicionar">
+<div class="mt-14 p-3 max-w-full hidden bg-white hover:bg-gray-600/10 duration-150 rounded-lg container-pre-visualizar-adicionar modal-conteudo-video-adicionar">
   <h3>Novo vídeo</h3>
   <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/conteudo'); ?>" class="flex flex-col items-end gap-2" enctype="multipart/form-data" onsubmit="evitarDuploClique(event)">
     <input type="hidden" name="artigo_id" value="<?php echo $artigo['Artigo']['id'] ?>">

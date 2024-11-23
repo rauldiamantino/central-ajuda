@@ -1,5 +1,5 @@
 <?php // Editar imagem ?>
-<div class="p-3 w-full hidden container-conteudo-imagem-editar" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>">
+<div class="p-3 w-full hidden container-pre-visualizar container-conteudo-imagem-editar" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>" data-conteudo-tipo="<?php echo $linha['Conteudo']['tipo'] ?>">
   <div class="font-extralight pb-10 flex flex-col">
     <div class="font-normal text-2xl">Edição de imagem</div>
     <span>Não esqueca de clicar em gravar :)</span>

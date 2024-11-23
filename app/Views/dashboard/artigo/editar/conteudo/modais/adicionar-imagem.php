@@ -1,5 +1,5 @@
 <?php // Adicionar imagem ?>
-<div class="mt-14 p-3 max-w-full hidden bg-white hover:bg-gray-600/10 duration-150 rounded-lg modal-conteudo-imagem-adicionar">
+<div class="mt-14 p-3 max-w-full hidden bg-white hover:bg-gray-600/10 duration-150 rounded-lg container-pre-visualizar-adicionar modal-conteudo-imagem-adicionar">
   <h3>Nova imagem</h3>
   <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/conteudo'); ?>" class="flex flex-col items-end gap-2 form-conteudo-imagem-adicionar" enctype="multipart/form-data" data-artigo-id=<?php echo $artigo['Artigo']['id'] ?> data-empresa-id="<?php echo $this->usuarioLogado['empresaId'] ?>">
     <input type="hidden" name="artigo_id" value="<?php echo $artigo['Artigo']['id'] ?>">
