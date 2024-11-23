@@ -51,18 +51,21 @@
     </div>
   </div>
 
-  <?php require_once 'conteudo/menu-adicionar.php' ?>
+  <div class="w-full border-t border-slate-300 pt-4 w-full flex flex-col lg:justify-between gap-5">
 
-  <div class="mt-4 w-full flex flex-col lg:flex-row lg:justify-between gap-5">
-    <div class="relative pb-10 w-full max-w-[1000px] border border-slate-300 bg-white duration-350 shadow rounded-md">
-      <?php if(isset($artigo['Artigo']['ativo']) and (int) $artigo['Artigo']['ativo'] == INATIVO) { ?>
-        <div class="md:absolute w-full p-4 flex justify-end">
-          <div class="w-full md:w-max py-1 px-4 bg-red-900 text-center text-white text-xs font-light rounded">
-            Não publicado
+    <?php require_once 'conteudo/menu-adicionar.php' ?>
+
+    <div class="w-full max-w-[990px] border border-slate-300 bg-white duration-350 shadow rounded-md">
+      <div class="relative pb-10 w-full">
+        <?php if(isset($artigo['Artigo']['ativo']) and (int) $artigo['Artigo']['ativo'] == INATIVO) { ?>
+          <div class="md:absolute w-full p-4 flex justify-end">
+            <div class="w-full md:w-max py-1 px-4 bg-red-900 text-center text-white text-xs font-light rounded">
+              Não publicado
+            </div>
           </div>
-        </div>
-      <?php } ?>
-      <?php require_once 'conteudo/pre-visualizacao.php' ?>
+        <?php } ?>
+        <?php require_once 'conteudo/pre-visualizacao.php' ?>
+      </div>
     </div>
   </div>
 </div>

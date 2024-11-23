@@ -1,5 +1,9 @@
 <?php // Editar imagem ?>
-<div class="mt-10 w-full hidden container-conteudo-imagem-editar" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>">
+<div class="p-3 w-full hidden container-conteudo-imagem-editar" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>">
+  <div class="font-extralight pb-10 flex flex-col">
+    <div class="font-normal text-2xl">Edição de imagem</div>
+    <span>Não esqueca de clicar em gravar :)</span>
+  </div>
   <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/conteudo/' . $linha['Conteudo']['id']); ?>" class="flex flex-col items-end gap-2" enctype="multipart/form-data" data-artigo-id=<?php echo $linha['Conteudo']['artigo_id'] ?> data-empresa-id=<?php echo $linha['Conteudo']['empresa_id'] ?> onsubmit="evitarDuploClique(event)">
     <input type="hidden" name="_method" value="PUT">
     <input type="hidden" name="artigo_id" value="<?php echo $linha['Conteudo']['artigo_id'] ?>">
@@ -13,14 +17,14 @@
     </div>
     <div class="w-full items-start flex flex-col gap-2">
       <input type="file" accept="image/*" id="conteudo-editar-imagem" class="hidden conteudo-editar-imagem-escolher">
-      <button type="button" for="conteudo-editar-imagem" class="w-full flex items-center justify-center cursor-pointer border border-gray-300 bg-gray-50 p-4 rounded-lg hover:bg-gray-100 conteudo-btn-imagem-editar-escolher">
+      <button type="button" for="conteudo-editar-imagem" class="w-full flex items-center justify-center cursor-pointer border border-gray-300 bg-white p-4 rounded-lg hover:bg-gray-100 conteudo-btn-imagem-editar-escolher">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-image text-gray-500" viewBox="0 0 16 16">
           <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
           <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z" />
         </svg>
         <span class="ml-2 text-gray-700 conteudo-txt-imagem-editar-escolher">Alterar Imagem</span>
       </button>
-      <div class="border border-slate-300 p-4 relative flex flex-col gap-2 w-full min-h-48 rounded-md">
+      <div class="border border-slate-300 p-4 relative flex flex-col gap-2 w-full min-h-48 bg-white rounded-md">
         <img src="<?php echo $linha['Conteudo']['url'] ?>" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>" class="object-cover w-full h-full opacity-0 transition-opacity duration-300 ease-in-out">
       </div>
     </div>

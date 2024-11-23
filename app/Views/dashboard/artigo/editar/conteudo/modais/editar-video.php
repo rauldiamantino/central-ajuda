@@ -1,5 +1,9 @@
 <?php // Editar vídeo ?>
-<div class="mt-10 w-full hidden container-conteudo-video-editar alvo-editar" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>">
+<div class="p-3 w-full hidden container-conteudo-video-editar alvo-editar" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>">
+  <div class="font-extralight pb-10 flex flex-col">
+    <div class="font-normal text-2xl">Edição de vídeo</div>
+    <span>Não esqueca de clicar em gravar :)</span>
+  </div>
   <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/conteudo/' . $linha['Conteudo']['id']); ?>" class="flex flex-col items-end gap-2" enctype="multipart/form-data" onsubmit="evitarDuploClique(event)">
     <input type="hidden" name="_method" value="PUT">
     <input type="hidden" name="artigo_id" value="<?php echo $linha['Conteudo']['artigo_id'] ?>">

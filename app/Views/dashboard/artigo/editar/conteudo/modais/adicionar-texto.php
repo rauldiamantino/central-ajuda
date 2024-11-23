@@ -1,5 +1,5 @@
 <?php // Adicionar texto ?>
-<div class="border-t border-slate-300 mt-14 pt-10 max-w-full editor-container hidden bg-white modal-conteudo-texto-adicionar">
+<div class="mt-14 p-3 max-w-full editor-container hidden bg-white hover:bg-gray-600/10 duration-150 rounded-lg modal-conteudo-texto-adicionar">
   <h3>Novo texto</h3>
   <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/conteudo'); ?>" class="flex flex-col items-end gap-2 editor-container__editor" enctype="multipart/form-data" onsubmit="evitarDuploClique(event)">
     <input type="hidden" name="tipo" value="1">
@@ -16,7 +16,7 @@
     <div class="w-full editor-container_classic-editor">
       <textarea name="conteudo" class="border border-gray-300 w-full p-2 h-full min-h-56 rounded-lg ckeditor" name="conteudo"></textarea>
     </div>
-    <div class="sticky z-20 bottom-0 py-4 w-full h-max flex flex-col lg:flex-row justify-between gap-4 bg-white">
+    <div class="sticky bottom-0 px-2 py-4 w-full h-max flex flex-col lg:flex-row justify-between gap-4 bg-white rounded-lg">
       <div class="w-full bg-white">
         <label class="flex items-start gap-2 cursor-pointer">
           <input type="hidden" name="titulo_ocultar" value="0">
@@ -25,7 +25,7 @@
           <span class="block text-sm font-medium text-gray-700">Ocultar título na publicação</span>
         </label>
       </div>
-      <div class="flex gap-2">
+      <div class="w-full flex flex-col sm:flex-row gap-1 justify-end sm:gap-2 bg-white">
         <button type="button" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?> modal-texto-adicionar-btn-cancelar" onclick="voltarAoTopo('texto')">Cancelar</button>
         <button type="submit" class="w-full lg:w-max <?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> modal-conteudo-texto-btn-enviar">Gravar</button>
       </div>

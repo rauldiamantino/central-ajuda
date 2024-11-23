@@ -11,7 +11,7 @@ $nivelAcesso = [
 ];
 ?>
 
-<div class="w-full min-h-max overflow-x-auto overflow-y-hidden border border-slate-300 rounded-md shadow bg-white">
+<div class="w-full min-h-max border border-gray-300 rounded-t-2xl rounded-b-lg shadow bg-white overflow-x-auto overflow-y-hidden">
   <div class="inline-block min-w-full align-middle">
     <table class="table-fixed min-w-full text-sm text-left text-gray-500">
       <thead class="text-xs font-light text-gray-500 uppercase">
@@ -23,8 +23,8 @@ $nivelAcesso = [
           <col class="w-[150px]">
           <col class="w-[150px]">
         </colgroup>
-        <tr class="bg-slate-100 w-full border-b">
-          <th class="py-4 px-4">ID</th>
+        <tr class="bg-gray-100 w-full border-b text-xs">
+          <th class="py-4 px-6">ID</th>
           <th class="py-4 px-4">Nome</th>
           <th class="py-4 px-4">Email</th>
           <th class="py-4 px-4">Tipo de usuário</th>
@@ -34,14 +34,14 @@ $nivelAcesso = [
       </thead>
       <tbody class="divide-y">
         <?php foreach ($usuarios as $chave => $linha) : ?>
-          <tr class="hover:bg-slate-100 cursor-pointer select-none md:select-auto" onclick="window.location='<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/usuario/editar/' . $linha['Usuario']['id']); ?>';">
+          <tr class="hover:bg-gray-100 cursor-pointer select-none md:select-auto" onclick="window.location='<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/usuario/editar/' . $linha['Usuario']['id']); ?>';">
             <?php if (isset($linha['Usuario']['id'])) { ?>
               <td class="py-4 px-4">
                 <?php echo $linha['Usuario']['id'] ?>
               </td>
-              <td class="py-4 px-4 font-semibold text-gray-900"><?php echo $linha['Usuario']['nome'] ? $linha['Usuario']['nome'] : '** Sem nome **' ?></td>
-              <td class="py-4 px-4"><?php echo $linha['Usuario']['email'] ?></td>
-              <td class="py-4 px-4">
+              <td class="py-6 px-6 font-semibold text-gray-900"><?php echo $linha['Usuario']['nome'] ? $linha['Usuario']['nome'] : '** Sem nome **' ?></td>
+              <td class="py-6 px-4"><?php echo $linha['Usuario']['email'] ?></td>
+              <td class="py-6 px-4">
                 <div class="flex gap-2">
                   <?php if ($linha == USUARIO_SUPORTE) { ?>
                     <span class="w-max h-max text-yellow-800">
@@ -67,8 +67,8 @@ $nivelAcesso = [
                   <?php echo $tipoUsuario[ $linha['Usuario']['padrao'] ]; ?>
                 </div>
               </td>
-              <td class="py-4 px-4"><?php echo $nivelAcesso[ $linha['Usuario']['nivel'] ]; ?></td>
-              <td class="py-4 px-4">
+              <td class="py-6 px-4"><?php echo $nivelAcesso[ $linha['Usuario']['nivel'] ]; ?></td>
+              <td class="py-6 px-4">
                 <?php if ($linha['Usuario']['tentativas_login'] < 10 and $linha['Usuario']['ativo'] == ATIVO) { ?>
                   <div class="flex items-center gap-2">
                     <span class="px-3 py-1 bg-green-50 text-green-600 text-xs rounded-full">Ativo</span>

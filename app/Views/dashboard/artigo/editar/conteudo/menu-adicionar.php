@@ -1,29 +1,26 @@
-<div class="w-full max-w-[1000px] flex flex-col gap-1 menu-adicionar">
-  <div class="border border-slate-300 p-4 w-full flex gap-5 rounded-md shadow bg-white">
+<div class="w-full max-w-[990px] flex flex-col gap-1 menu-adicionar">
+  <div class="w-full flex gap-5">
     <div class="flex flex-col gap-6 w-full form-conteudo">
       <input type="hidden" name="artigo.id" value="<?php echo $artigo['Artigo']['id'] ?>">
-      <div class="w-full px-2 flex gap-5 flex-col md:flex-row conteudo-botoes-adicionar">
-        <div class="w-full flex justify-between md:justify-start flex-wrap sm:flex-nowrap gap-5 md:gap-8">
-          <button type="button" class="w-max flex gap-2 items-center justify-center text-black text-sm hover:underline conteudo-btn-texto-adicionar" onclick="abrirModalAdicionar('texto')">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-              <path d="M1.5 2.5A1.5 1.5 0 0 1 3 1h10a1.5 1.5 0 0 1 1.5 1.5v3.563a2 2 0 0 1 0 3.874V13.5A1.5 1.5 0 0 1 13 15H3a1.5 1.5 0 0 1-1.5-1.5V9.937a2 2 0 0 1 0-3.874zm1 3.563a2 2 0 0 1 0 3.874V13.5a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V9.937a2 2 0 0 1 0-3.874V2.5A.5.5 0 0 0 13 2H3a.5.5 0 0 0-.5.5zM2 7a1 1 0 1 0 0 2 1 1 0 0 0 0-2m12 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2" />
-              <path d="M11.434 4H4.566L4.5 5.994h.386c.21-1.252.612-1.446 2.173-1.495l.343-.011v6.343c0 .537-.116.665-1.049.748V12h3.294v-.421c-.938-.083-1.054-.21-1.054-.748V4.488l.348.01c1.56.05 1.963.244 2.173 1.496h.386z" />
+      <div class="w-full flex gap-5 flex-col md:flex-row conteudo-botoes-adicionar">
+        <div class="w-full flex flex-col sm:flex-row justify-between md:justify-start gap-2 md:gap-5">
+          <button type="button" class="border-2 border-dashed border-slate-200 rounded-lg px-10 py-4 md:py-6 w-full text-left hover:bg-gray-200/60 duration-100 flex gap-4 items-center justify-center text-gray-700 text-xs conteudo-btn-texto-adicionar" onclick="abrirModalAdicionar('texto')">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-slate-400/50">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
             </svg>
-            Texto
+            texto
           </button>
-          <button type="button" class="w-max flex gap-2 items-center justify-center hover:underline text-black text-sm botao-abrir-menu-adicionar-imagem" onclick="abrirModalAdicionar('imagem')">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-              <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
-              <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z" />
+          <button type="button" class="border-2 border-dashed border-slate-200 rounded-lg px-10 py-4 md:py-6 w-full text-left hover:bg-gray-200/60 duration-100 flex gap-4 items-center justify-center text-gray-700 text-xs botao-abrir-menu-adicionar-imagem" onclick="abrirModalAdicionar('imagem')">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-slate-400/50">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
             </svg>
-            Imagem
+            imagem
           </button>
-          <button type="button" class="w-max flex gap-2 items-center justify-center hover:underline text-black text-sm botao-abrir-menu-adicionar-video" onclick="abrirModalAdicionar('video')">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-              <path d="M6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814z" />
-              <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z" />
+          <button type="button" class="border-2 border-dashed border-slate-200 rounded-lg px-10 py-4 md:py-6 w-full text-left hover:bg-gray-200/60 duration-100 flex gap-4 items-center justify-center text-gray-700 text-xs botao-abrir-menu-adicionar-video" onclick="abrirModalAdicionar('video')">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-slate-400/50">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
             </svg>
-            Vídeo
+            vídeo
           </button>
         </div>
       </div>

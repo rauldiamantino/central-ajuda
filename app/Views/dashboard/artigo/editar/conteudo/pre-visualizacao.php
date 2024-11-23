@@ -35,9 +35,10 @@
     <div class="w-full flex flex-col pt-6 pb-2 border-b border-slate-200">
       <?php if ($conteudos) { ?>
         <?php foreach ($conteudos as $chave => $linha) : ?>
-          <div class="relative p-3 w-full h-full group hover:bg-gray-600/10 duration-150 rounded-lg div-pai-conteudo-editar">
-            <?php if ($linha['Conteudo']['tipo'] == ATIVO) { ?>
-              <button class="w-full flex flex-col gap-2 items-start text-left leading-7 bloco-editar-conteudo-texto"
+          <div class="relative w-full h-full group hover:bg-gray-600/10 duration-150 rounded-lg div-pai-conteudo-editar">
+            <?php if ($linha['Conteudo']['tipo'] == 1) { ?>
+              <button
+                class="p-3 w-full flex flex-col gap-2 items-start text-left leading-7 bloco-editar-conteudo-texto"
                 data-conteudo-ordem="<?php echo $linha['Conteudo']['ordem'] ?>"
                 data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>"
                 data-conteudo-url="<?php echo $linha['Conteudo']['url'] ?>"
@@ -63,7 +64,7 @@
 
             <?php if ($linha['Conteudo']['tipo'] == 2) { ?>
               <button
-                class="text-left w-full bloco-editar-conteudo-imagem"
+                class="p-3 text-left w-full bloco-editar-conteudo-imagem"
                 data-conteudo-ordem="<?php echo $linha['Conteudo']['ordem'] ?>"
                 data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>"
                 data-conteudo-url="<?php echo $linha['Conteudo']['url'] ?>"
@@ -86,7 +87,7 @@
 
             <?php if ($linha['Conteudo']['tipo'] == 3) { ?>
               <button
-                class="text-left w-full bloco-editar-conteudo-video"
+                class="p-3 text-left w-full bloco-editar-conteudo-video"
                 data-conteudo-ordem="<?php echo $linha['Conteudo']['ordem'] ?>"
                 data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>"
                 data-conteudo-url="<?php echo $linha['Conteudo']['url'] ?>"

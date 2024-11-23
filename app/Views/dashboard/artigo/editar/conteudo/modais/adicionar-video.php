@@ -1,5 +1,5 @@
 <?php // Adicionar vídeo ?>
-<div class="border-t border-slate-300 mt-14 pt-10 max-w-full hidden modal-conteudo-video-adicionar">
+<div class="mt-14 p-3 max-w-full hidden bg-white hover:bg-gray-600/10 duration-150 rounded-lg modal-conteudo-video-adicionar">
   <h3>Novo vídeo</h3>
   <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/conteudo'); ?>" class="flex flex-col items-end gap-2" enctype="multipart/form-data" onsubmit="evitarDuploClique(event)">
     <input type="hidden" name="artigo_id" value="<?php echo $artigo['Artigo']['id'] ?>">
@@ -22,7 +22,7 @@
       <span class="font-light">https://youtube.com/watch?v=dQw4w9WgXcQ</span>
       <span class="font-light">https://vimeo.com/76979871</span>
     </div>
-    <div class="sticky bottom-0 py-4 w-full h-max flex flex-col lg:flex-row justify-between gap-4 bg-white">
+    <div class="sticky bottom-0 px-2 py-4 w-full h-max flex flex-col lg:flex-row justify-between gap-4 bg-white rounded-lg">
       <div class="w-full">
         <label class="flex items-start gap-2 cursor-pointer">
           <input type="hidden" name="titulo_ocultar" value="0">
@@ -31,7 +31,7 @@
           <span class="block text-sm font-medium text-gray-700">Ocultar título na publicação</span>
         </label>
       </div>
-      <div class="flex gap-2">
+      <div class="w-full flex flex-col sm:flex-row gap-1 justify-end sm:gap-2 bg-white">
         <button type="button" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?> botao-fechar-menu-adicionar-video" onclick="voltarAoTopo('video')">Cancelar</button>
         <button type="submit" class="w-full lg:w-max <?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> modal-conteudo-video-btn-enviar">Gravar</button>
       </div>
