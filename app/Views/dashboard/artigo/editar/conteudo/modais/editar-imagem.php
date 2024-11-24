@@ -9,7 +9,7 @@
     <input type="hidden" name="artigo_id" value="<?php echo $linha['Conteudo']['artigo_id'] ?>">
     <input type="hidden" name="tipo" value="2">
     <input type="hidden" name="url" value="" class="url-imagem">
-    <input type="hidden" name="referer" value="<?php echo $botaoVoltar; ?>">
+    <input type="hidden" name="referer" value="<?php echo urlencode($botaoVoltar); ?>">
 
     <div class="w-full">
       <label for="conteudo-editar-imagem-titulo-<?php echo $linha['Conteudo']['id'] ?>" class="block text-sm font-medium text-gray-700">Título</label>

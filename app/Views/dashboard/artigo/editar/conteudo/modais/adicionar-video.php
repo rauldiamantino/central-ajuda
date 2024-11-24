@@ -4,7 +4,7 @@
   <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/conteudo'); ?>" class="flex flex-col items-end gap-2" enctype="multipart/form-data" onsubmit="evitarDuploClique(event)">
     <input type="hidden" name="artigo_id" value="<?php echo $artigo['Artigo']['id'] ?>">
     <input type="hidden" name="tipo" value="3">
-    <input type="hidden" name="referer" value="<?php echo $botaoVoltar ?>">
+    <input type="hidden" name="referer" value="<?php echo urlencode($botaoVoltar) ?>">
 
     <?php if (isset($ordem['prox'])) { ?>
       <input type="hidden" name="ordem" value="<?php echo $ordem['prox'] ?>">

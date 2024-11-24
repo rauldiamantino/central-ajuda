@@ -109,16 +109,22 @@ class DashboardConteudoController extends DashboardController
     $resultado = $this->conteudoModel->atualizar($json, $id);
     $artigoId = intval($json['artigo_id'] ?? 0);
 
+    $referer = '';
+
+    if ($botaoVoltar) {
+      $referer = '?referer=' . urlencode($botaoVoltar);
+    }
+
     if ($_POST and isset($resultado['erro'])) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId . '?referer=' . $botaoVoltar, $resultado['erro']);
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId . $referer, $resultado['erro']);
     }
     elseif ($_POST and $resultado) {
       Cache::apagar('publico-artigo-' . $artigoId . '-conteudos', $this->usuarioLogado['empresaId']);
 
-      $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId . '?referer=' . $botaoVoltar, 'Conteúdo editado com sucesso');
+      $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId . $referer, 'Conteúdo editado com sucesso');
     }
     elseif ($_POST) {
-      $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId . '?referer=' . $botaoVoltar, 'Nenhuma alteração realizada');
+      $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId . $referer, 'Nenhuma alteração realizada');
     }
   }
 

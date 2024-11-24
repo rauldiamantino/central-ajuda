@@ -8,7 +8,7 @@
     <input type="hidden" name="_method" value="PUT">
     <input type="hidden" name="artigo_id" value="<?php echo $linha['Conteudo']['artigo_id'] ?>">
     <input type="hidden" name="tipo" value="3">
-    <input type="hidden" name="referer" value="<?php echo $botaoVoltar; ?>">
+    <input type="hidden" name="referer" value="<?php echo urlencode($botaoVoltar); ?>">
 
     <div class="w-full">
       <label for="conteudo-editar-video-titulo" class="block text-sm font-medium text-gray-700">Título</label>

@@ -350,6 +350,12 @@ class DashboardArtigoController extends DashboardController
     $dados = $this->receberJson();
     $resultado = $this->artigoModel->adicionar($dados);
 
+    $referer = '';
+
+    if ($botaoVoltar) {
+      $referer = '?referer=' . urlencode($botaoVoltar);
+    }
+
     if ($_POST and isset($resultado['erro'])) {
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', $resultado['erro']);
     }
@@ -360,7 +366,7 @@ class DashboardArtigoController extends DashboardController
       Cache::apagar('publico-categoria-' . $dados['categoria_id'] . '-artigos', $this->usuarioLogado['empresaId']);
       Cache::apagar('publico-artigos-categoria-' . $dados['categoria_id'], $this->usuarioLogado['empresaId']);
 
-      $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $resultado['id'] . '?referer=' . $botaoVoltar, 'Artigo criado com sucesso');
+      $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $resultado['id'] . $referer, 'Artigo criado com sucesso');
     }
   }
 
@@ -436,8 +442,14 @@ class DashboardArtigoController extends DashboardController
     $json = $this->receberJson();
     $resultado = $this->artigoModel->atualizar($json, $id);
 
+    $referer = '';
+
+    if ($botaoVoltar) {
+      $referer = '?referer=' . urlencode($botaoVoltar);
+    }
+
     if (isset($resultado['erro'])) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $id . '?referer=' . urlencode($botaoVoltar), $resultado['erro']);
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $id . $referer, $resultado['erro']);
     }
 
     Cache::apagar('publico-artigo-' . $id, $this->usuarioLogado['empresaId']);
@@ -446,7 +458,7 @@ class DashboardArtigoController extends DashboardController
     Cache::apagar('publico-categoria-' . $json['categoria_id'] . '-artigos', $this->usuarioLogado['empresaId']);
     Cache::apagar('publico-artigos-categoria-' . $json['categoria_id'], $this->usuarioLogado['empresaId']);
 
-    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $id . '?referer=' . urlencode($botaoVoltar), 'Registro alterado com sucesso');
+    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $id . $referer, 'Registro alterado com sucesso');
   }
 
   public function atualizarOrdem()

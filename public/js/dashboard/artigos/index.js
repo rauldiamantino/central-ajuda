@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 let artigoId = null
 let empresaId = null
+let urlVoltar = null
 
 const btnsArtigoRemover = document.querySelectorAll('.js-dashboard-artigos-remover')
 const modalRemover = document.querySelector('.modal-artigo-remover')
@@ -30,6 +31,7 @@ if (btnsArtigoRemover) {
     artigo.addEventListener('click', () => {
       artigoId = artigo.dataset.artigoId
       empresaId = artigo.dataset.empresaId
+      urlVoltar = validarReferer(artigo.dataset.botaoVoltar)
 
       abrirModalRemover()
     })
@@ -47,6 +49,20 @@ if (btnModalCancelar) {
     btnModalCancelar.addEventListener('click', () => {
     fecharModalRemover()
   })
+}
+
+function validarReferer(referer) {
+  let refererDecodificado = decodeURIComponent(referer)
+  const padraoEsperado = /^\/([^/]+)\/([^/]+)\/([^/]+)\/([^/]+)\/([0-9]+)$/
+  const resultado = refererDecodificado.match(padraoEsperado)
+
+  if (resultado) {
+    return resultado[0]
+  }
+  else {
+    console.error('Referer inválido ou estrutura incorreta')
+    return null
+  }
 }
 
 const abrirModalRemover = () => {
@@ -74,7 +90,13 @@ const requisicaoRemover = async (artigoId) => {
     .then(resposta => {
 
       if (resposta.linhasAfetadas == 1) {
-        window.location.href = baseUrl(`/${empresa}/dashboard/artigos`);
+
+        if (urlVoltar) {
+          window.location.href = baseUrl(urlVoltar)
+        }
+        else {
+          window.location.href = baseUrl(`/${empresa}/dashboard/artigos`)
+        }
         return
       }
       else if (resposta.erro) {
@@ -85,7 +107,7 @@ const requisicaoRemover = async (artigoId) => {
       }
     })
     .catch(error => {
-      window.location.href = window.location.href;
+      window.location.href = window.location.href
       return
     })
 }
