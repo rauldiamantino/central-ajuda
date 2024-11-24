@@ -193,7 +193,7 @@ const rolagemVerticalAutomatica = () => {
   if (urlParams.get('acao') === 'assinar' && alvo != undefined) {
     setTimeout(() => {
       alvo.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }, 50)
+    }, 800)
   }
   else {
     setTimeout(() => window.scrollTo({top: 0, left: 0, behavior: 'smooth'}), 60)
