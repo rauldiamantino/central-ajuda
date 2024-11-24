@@ -47,7 +47,7 @@
                 data-ordem-prox="<?php echo $ordem['prox'] ?? 0; ?>"
                 data-conteudo-titulo-ocultar="<?php echo $linha['Conteudo']['titulo_ocultar']; ?>"
                 data-conteudo-texto="<?php echo $linha['Conteudo']['conteudo'] ?>"
-                onclick="editarTextoModal(event)"
+                onclick="abrirModalEditar(event)"
               >
                 <?php if ($linha['Conteudo']['titulo'] and $linha['Conteudo']['titulo_ocultar'] == INATIVO) { ?>
                   <h2 class="pointer-events-none"><?php echo $linha['Conteudo']['titulo'] ?></h2>
@@ -73,7 +73,7 @@
                 data-ordem-prox="<?php echo $ordem['prox'] ?? 0; ?>"
                 data-conteudo-titulo-ocultar="<?php echo $linha['Conteudo']['titulo_ocultar']; ?>"
                 data-conteudo-texto="<?php echo $linha['Conteudo']['conteudo'] ?>"
-                onclick="editarImagemModal(event)"
+                onclick="abrirModalEditar(event)"
               >
                 <?php if ($linha['Conteudo']['titulo'] and $linha['Conteudo']['titulo_ocultar'] == INATIVO) { ?>
                   <h2 class="pointer-events-none"><?php echo $linha['Conteudo']['titulo'] ?></h2>
@@ -96,7 +96,7 @@
                 data-ordem-prox="<?php echo $ordem['prox'] ?? 0; ?>"
                 data-conteudo-titulo-ocultar="<?php echo $linha['Conteudo']['titulo_ocultar']; ?>"
                 data-conteudo-texto="<?php echo $linha['Conteudo']['conteudo'] ?>"
-                onclick="editarVideoModal(event)"
+                onclick="abrirModalEditar(event)"
               >
                 <?php if ($linha['Conteudo']['titulo'] and $linha['Conteudo']['titulo_ocultar'] == INATIVO) { ?>
                   <h2 class="pointer-events-none"><?php echo $linha['Conteudo']['titulo'] ?></h2>

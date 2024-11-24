@@ -28,7 +28,7 @@
       </div>
       <div class="w-full flex flex-col sm:flex-row gap-1 justify-end sm:gap-2 bg-white">
         <button type="button" class="js-dashboard-conteudo-remover <?php echo CLASSES_DASH_BUTTON_REMOVER_2; ?>" data-conteudo-id="" data-conteudo-url="" data-conteudo-tipo="">Remover</button>
-        <button type="button" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>" onclick="fecharTextoModal(event)">Cancelar</button>
+        <button type="button" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>" data-conteudo-tipo="<?php echo $linha['Conteudo']['tipo'] ?>" onclick="fecharModalEditar(event)">Cancelar</button>
         <button type="submit" class="<?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> modal-conteudo-texto-btn-enviar">Gravar</button>
       </div>
     </div>

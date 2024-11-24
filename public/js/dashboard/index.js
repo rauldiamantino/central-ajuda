@@ -113,15 +113,10 @@ const menuLateralToggle = (menuLateral) => {
   if (menuLateral.classList.contains('-translate-x-full') && ! menuLateral.classList.contains('translate-x-0')) {
     menuLateral.classList.add('translate-x-0')
     menuLateral.classList.remove('-translate-x-full')
-
-    if (window.innerWidth < 1024) {
-      // body.classList.add('overflow-hidden')
-    }
   }
   else if (! menuLateral.classList.contains('-translate-x-full') && menuLateral.classList.contains('translate-x-0')) {
     menuLateral.classList.remove('translate-x-0')
     menuLateral.classList.add('-translate-x-full')
-    // body.classList.remove('overflow-hidden')
   }
 }
 
@@ -139,13 +134,13 @@ const menuTopoUsuarioToggle = (menuTopoUsuario, menuTopoUsuarioCima, menuTopoUsu
   alternarSetas(menuTopoUsuarioCima, menuTopoUsuarioBaixo)
 }
 
-const menuTopoUsuarioFecharCliqueFora = (e) => {
+const menuTopoUsuarioFecharCliqueFora = (event) => {
   const menuTopoUsuario = document.querySelector('.menu-topo-usuario')
   const btnMenuTopoUsuario = document.querySelector('.btn-menu-topo-usuario')
   const menuTopoUsuarioCima = document.querySelector('.perfil-usuario-cima')
   const menuTopoUsuarioBaixo = document.querySelector('.perfil-usuario-baixo')
 
-  if (! menuTopoUsuario.contains(e.target) && ! btnMenuTopoUsuario.contains(e.target)) {
+  if (! menuTopoUsuario.contains(event.target) && ! btnMenuTopoUsuario.contains(event.target)) {
     menuTopoUsuario.classList.add('hidden')
     document.removeEventListener('click', menuTopoUsuarioFecharCliqueFora)
 
@@ -205,258 +200,44 @@ const rolagemVerticalAutomatica = () => {
   }
 }
 
-const editarImagemModal = async (event) => {
-  const botaoAbrirModal = event.target
-  const demaisBlocos = document.querySelectorAll(`.div-pai-conteudo-editar > .container-pre-visualizar`)
-  const demaisBlocosAdicionar = document.querySelectorAll(`.container-pre-visualizar-adicionar`)
-  let abrirEditar = true
+const evitarDuploClique = (event) => {
+  event.preventDefault()
 
-  if (! botaoAbrirModal || ! demaisBlocos) {
+  const form = event.target
+  const submitButton = form.querySelector('button[type="submit"]')
+
+  if (submitButton.disabled) {
     return
   }
 
-  try {
-    import('./artigos/conteudos/editar.js').then(async (module) => {
-      for (const bloco of demaisBlocos) {
-        const tipo = bloco.dataset.conteudoTipo
+  submitButton.disabled = true
+  submitButton.textContent = 'Gravando...'
+  submitButton.classList.add('opacity-50')
 
-        if (bloco.classList.contains('hidden')) {
-          continue
-        }
-
-        if (tipo == 1 && module.fecharEditarTexto) {
-          abrirEditar = await module.fecharEditarTexto(bloco)
-        }
-        else if (tipo == 2 && module.fecharEditarImagem) {
-          abrirEditar = await module.fecharEditarImagem(bloco)
-        }
-        else if (tipo == 3 && module.fecharEditarVideo) {
-          abrirEditar = await module.fecharEditarVideo(bloco)
-        }
-
-        if (! abrirEditar) {
-          break
-        }
-      }
-
-      const demaisBlocosAdicionar = document.querySelectorAll(`.container-pre-visualizar-adicionar`)
-      const algumBlocoAdicionarAberto = Array.from(demaisBlocosAdicionar).some(bloco => ! bloco.classList.contains('hidden'))
-
-      if (algumBlocoAdicionarAberto) {
-        const modalConfirmacao = document.querySelector('.modal-conteudo-fechar')
-        const btnContinuar = modalConfirmacao.querySelector('.modal-conteudo-btn-continuar')
-        const btnFechar = modalConfirmacao.querySelector('.modal-conteudo-btn-fechar')
-
-        abrirEditar = false
-        modalConfirmacao.showModal()
-
-        btnContinuar.addEventListener('click', () => {
-          modalConfirmacao.close()
-        })
-
-        btnFechar.addEventListener('click', () => {
-          demaisBlocosAdicionar.forEach((blocoAdicionar) => {
-            blocoAdicionar.classList.add('hidden')
-          })
-
-          abrirEditar = true
-          modalConfirmacao.close()
-        })
-      }
-
-      if (abrirEditar) {
-        demaisBlocosAdicionar.forEach(blocoAdicionar => {
-          blocoAdicionar.classList.add('hidden')
-        })
-
-        module.editarImagem(botaoAbrirModal)
-      }
-    })
-  }
-  catch (error) {
-    console.error('Erro ao carregar o módulo:', error)
-  }
+  form.submit()
 }
 
-const fecharImagemModal = (event) => {
-  import('./artigos/conteudos/editar.js')
-    .then(module => {
-      const botaoCancelar = event.target
-      module.fecharEditarImagem(botaoCancelar)
-    })
-    .catch(error => {
-      console.error("Erro ao carregar o módulo:", error)
-    })
-}
+const evitarDuploCliqueRedirect = (event, classeAlvo) => {
+  event.preventDefault()
 
-const editarVideoModal = async (event) => {
-  const botaoAbrirModal = event.target
-  const demaisBlocos = document.querySelectorAll(`.div-pai-conteudo-editar > .container-pre-visualizar`)
-  const demaisBlocosAdicionar = document.querySelectorAll(`.container-pre-visualizar-adicionar`)
-  let abrirEditar = true
+  const submitButton = event.target
+  const formularioAlvo = document.querySelector(classeAlvo)
 
-  if (! botaoAbrirModal || ! demaisBlocos) {
+  if (submitButton.disabled) {
     return
   }
 
-  try {
-    import('./artigos/conteudos/editar.js').then(async (module) => {
-      for (const bloco of demaisBlocos) {
-        const tipo = bloco.dataset.conteudoTipo
-
-        if (bloco.classList.contains('hidden')) {
-          continue
-        }
-
-        if (tipo == 1 && module.fecharEditarTexto) {
-          abrirEditar = await module.fecharEditarTexto(bloco)
-        }
-        else if (tipo == 2 && module.fecharEditarImagem) {
-          abrirEditar = await module.fecharEditarImagem(bloco)
-        }
-        else if (tipo == 3 && module.fecharEditarVideo) {
-          abrirEditar = await module.fecharEditarVideo(bloco)
-        }
-
-        if (! abrirEditar) {
-          break
-        }
-      }
-
-      const demaisBlocosAdicionar = document.querySelectorAll(`.container-pre-visualizar-adicionar`)
-      const algumBlocoAdicionarAberto = Array.from(demaisBlocosAdicionar).some(bloco => ! bloco.classList.contains('hidden'))
-
-      if (algumBlocoAdicionarAberto) {
-        const modalConfirmacao = document.querySelector('.modal-conteudo-fechar')
-        const btnContinuar = modalConfirmacao.querySelector('.modal-conteudo-btn-continuar')
-        const btnFechar = modalConfirmacao.querySelector('.modal-conteudo-btn-fechar')
-
-        abrirEditar = false
-        modalConfirmacao.showModal()
-
-        btnContinuar.addEventListener('click', () => {
-          modalConfirmacao.close()
-        })
-
-        btnFechar.addEventListener('click', () => {
-          demaisBlocosAdicionar.forEach((blocoAdicionar) => {
-            blocoAdicionar.classList.add('hidden')
-          })
-
-          abrirEditar = true
-          modalConfirmacao.close()
-        })
-      }
-
-      if (abrirEditar) {
-        demaisBlocosAdicionar.forEach(blocoAdicionar => {
-          blocoAdicionar.classList.add('hidden')
-        })
-
-        module.editarVideo(botaoAbrirModal)
-      }
-    })
-  }
-  catch (error) {
-    console.error('Erro ao carregar o módulo:', error)
-  }
-}
-
-const fecharVideoModal = (event) => {
-  import('./artigos/conteudos/editar.js')
-    .then(module => {
-      const botaoCancelar = event.target
-      module.fecharEditarVideo(botaoCancelar)
-    })
-    .catch(error => {
-      console.error("Erro ao carregar o módulo:", error)
-    })
-}
-const editarTextoModal = (event) => {
-  const botaoAbrirModal = event.target
-  const demaisBlocos = document.querySelectorAll(`.div-pai-conteudo-editar > .container-pre-visualizar`)
-  const demaisBlocosAdicionar = document.querySelectorAll(`.container-pre-visualizar-adicionar`)
-  let abrirEditar = true
-
-  if (! botaoAbrirModal || ! demaisBlocos) {
+  if (! formularioAlvo) {
     return
   }
 
-  try {
-    import('./artigos/conteudos/editar.js').then(async (module) => {
-      for (const bloco of demaisBlocos) {
-        const tipo = bloco.dataset.conteudoTipo
-
-        if (bloco.classList.contains('hidden')) {
-          continue
-        }
-
-        if (tipo == 1 && module.fecharEditarTexto) {
-          abrirEditar = await module.fecharEditarTexto(bloco)
-        }
-        else if (tipo == 2 && module.fecharEditarImagem) {
-          abrirEditar = await module.fecharEditarImagem(bloco)
-        }
-        else if (tipo == 3 && module.fecharEditarVideo) {
-          abrirEditar = await module.fecharEditarVideo(bloco)
-        }
-
-        if (! abrirEditar) {
-          break
-        }
-      }
-
-      const demaisBlocosAdicionar = document.querySelectorAll(`.container-pre-visualizar-adicionar`)
-      const algumBlocoAdicionarAberto = Array.from(demaisBlocosAdicionar).some(bloco => ! bloco.classList.contains('hidden'))
-
-      if (algumBlocoAdicionarAberto) {
-        const modalConfirmacao = document.querySelector('.modal-conteudo-fechar')
-        const btnContinuar = modalConfirmacao.querySelector('.modal-conteudo-btn-continuar')
-        const btnFechar = modalConfirmacao.querySelector('.modal-conteudo-btn-fechar')
-
-        abrirEditar = false
-        modalConfirmacao.showModal()
-
-        btnContinuar.addEventListener('click', () => {
-          modalConfirmacao.close()
-        })
-
-        btnFechar.addEventListener('click', () => {
-          demaisBlocosAdicionar.forEach((blocoAdicionar) => {
-            blocoAdicionar.classList.add('hidden')
-          })
-
-          abrirEditar = true
-          modalConfirmacao.close()
-        })
-      }
-
-      if (abrirEditar) {
-        demaisBlocosAdicionar.forEach(blocoAdicionar => {
-          blocoAdicionar.classList.add('hidden')
-        })
-
-        module.editarTexto(botaoAbrirModal)
-      }
-    })
-  }
-  catch (error) {
-    console.error('Erro ao carregar o módulo:', error)
-  }
+  submitButton.disabled = true
+  submitButton.textContent = 'Gravando...'
+  submitButton.classList.add('opacity-50')
+  formularioAlvo.submit()
 }
 
-
-const fecharTextoModal = (event) => {
-  import('./artigos/conteudos/editar.js')
-    .then(module => {
-      const botaoCancelar = event.target
-      module.fecharEditarTexto(botaoCancelar)
-    })
-    .catch(error => {
-      console.error("Erro ao carregar o módulo:", error)
-    })
-}
-
+// Abrir adicionar e editar
 const abrirModalAdicionar = async (tipoModal) => {
   const alvo = document.querySelector('.alvo-adicionar')
   const modal = document.querySelector(`.modal-conteudo-${tipoModal}-adicionar`)
@@ -495,25 +276,7 @@ const abrirModalAdicionar = async (tipoModal) => {
       const algumBlocoAdicionarAberto = Array.from(demaisBlocosAdicionar).some(bloco => ! bloco.classList.contains('hidden'))
 
       if (algumBlocoAdicionarAberto) {
-        const modalConfirmacao = document.querySelector('.modal-conteudo-fechar')
-        const btnContinuar = modalConfirmacao.querySelector('.modal-conteudo-btn-continuar')
-        const btnFechar = modalConfirmacao.querySelector('.modal-conteudo-btn-fechar')
-
-        abrirAdicionar = false
-        modalConfirmacao.showModal()
-
-        btnContinuar.addEventListener('click', () => {
-          modalConfirmacao.close()
-        })
-
-        btnFechar.addEventListener('click', () => {
-          demaisBlocosAdicionar.forEach((blocoAdicionar) => {
-            blocoAdicionar.classList.add('hidden')
-          })
-
-          abrirAdicionar = true
-          modalConfirmacao.close()
-        })
+        abrirAdicionar = await fecharDemaisAdicionar(demaisBlocosAdicionar)
       }
 
       if (abrirAdicionar) {
@@ -530,10 +293,81 @@ const abrirModalAdicionar = async (tipoModal) => {
   }
 }
 
+const abrirModalEditar = async (event) => {
+  const botaoAbrirModal = event.target
+  const tipoBotao = botaoAbrirModal.dataset.conteudoTipo
+  const demaisBlocosEditar = document.querySelectorAll(`.div-pai-conteudo-editar > .container-pre-visualizar`)
+  let abrirEditar = true
 
-const voltarAoTopo = (tipoModal) => {
+  if (! botaoAbrirModal || ! tipoBotao || ! demaisBlocosEditar) {
+    console.log('Dados do botão não informados')
+    return
+  }
+
+  try {
+    import('./artigos/conteudos/editar.js').then(async (module) => {
+      for (const bloco of demaisBlocosEditar) {
+        const tipoBloco = bloco.dataset.conteudoTipo
+
+        if (bloco.classList.contains('hidden')) {
+          continue
+        }
+
+        if (tipoBloco == 1 && module.fecharEditarTexto) {
+          abrirEditar = await module.fecharEditarTexto(bloco)
+        }
+        else if (tipoBloco == 2 && module.fecharEditarImagem) {
+          abrirEditar = await module.fecharEditarImagem(bloco)
+        }
+        else if (tipoBloco == 3 && module.fecharEditarVideo) {
+          abrirEditar = await module.fecharEditarVideo(bloco)
+        }
+
+        if (! abrirEditar) {
+          break
+        }
+      }
+
+      const demaisBlocosAdicionar = document.querySelectorAll(`.container-pre-visualizar-adicionar`)
+      const algumBlocoAdicionarAberto = Array.from(demaisBlocosAdicionar).some(bloco => ! bloco.classList.contains('hidden'))
+
+      if (algumBlocoAdicionarAberto) {
+        abrirEditar = await fecharDemaisAdicionar(demaisBlocosAdicionar)
+      }
+
+      if (! abrirEditar) {
+        return
+      }
+
+      if (tipoBotao == 1) {
+        module.editarTexto(botaoAbrirModal)
+      }
+      else if (tipoBotao == 2) {
+        module.editarImagem(botaoAbrirModal)
+      }
+      else if (tipoBotao == 3) {
+        module.editarVideo(botaoAbrirModal)
+      }
+    })
+  }
+  catch (error) {
+    console.error('Erro ao carregar o módulo:', error)
+  }
+}
+
+// Fechar adicionar e editar
+const fecharModalAdicionar = async (tipoModal) => {
   const modal = document.querySelector(`.modal-conteudo-${tipoModal}-adicionar`)
   const containerConteudos = document.querySelectorAll('.div-pai-conteudo-editar')
+  let fecharAdicionar = false
+
+  if (! modal.classList.contains('hidden')) {
+    fecharAdicionar = await fecharAdicionarAtual()
+  }
+
+  if (! fecharAdicionar) {
+    return
+  }
 
   containerConteudos.forEach(conteudo => {
     conteudo.classList.remove('hidden')
@@ -543,39 +377,100 @@ const voltarAoTopo = (tipoModal) => {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
-const evitarDuploClique = (event) => {
-  event.preventDefault()
+const fecharAdicionarAtual = () => {
+  const modal = document.querySelector('.modal-conteudo-fechar')
+  const btnContinuar = modal.querySelector('.modal-conteudo-btn-continuar')
+  const btnFechar = modal.querySelector('.modal-conteudo-btn-fechar')
 
-  const form = event.target
-  const submitButton = form.querySelector('button[type="submit"]')
-
-  if (submitButton.disabled) {
-    return
+  if (! modal || ! btnContinuar || ! btnFechar) {
+    return Promise.resolve(false);
   }
 
-  submitButton.disabled = true
-  submitButton.textContent = 'Gravando...'
-  submitButton.classList.add('opacity-50')
+  modal.showModal()
 
-  form.submit()
+  return new Promise((resolve) => {
+    const clicouContinuar = () => {
+      modal.close()
+      removerListeners()
+      resolve(false)
+    }
+
+    const clicouFechar = () => {
+      modal.close()
+      removerListeners()
+      resolve(true)
+    }
+
+    const removerListeners = () => {
+      btnContinuar.removeEventListener('click', clicouContinuar)
+      btnFechar.removeEventListener('click', clicouFechar)
+    }
+
+    btnContinuar.addEventListener('click', clicouContinuar)
+    btnFechar.addEventListener('click', clicouFechar)
+  })
 }
 
-const evitarDuploCliqueRedirect = (event, classeAlvo) => {
-  event.preventDefault()
+const fecharDemaisAdicionar = (demaisBlocosAdicionar) => {
 
-  const submitButton = event.target
-  const formularioAlvo = document.querySelector(classeAlvo)
-
-  if (submitButton.disabled) {
-    return
+  if (! demaisBlocosAdicionar) {
+    return Promise.resolve(false);
   }
 
-  if (! formularioAlvo) {
-    return
+  const modal = document.querySelector('.modal-conteudo-fechar')
+  const btnContinuar = modal.querySelector('.modal-conteudo-btn-continuar')
+  const btnFechar = modal.querySelector('.modal-conteudo-btn-fechar')
+
+  if (! modal || ! btnContinuar || ! btnFechar) {
+    return Promise.resolve(false);
   }
 
-  submitButton.disabled = true
-  submitButton.textContent = 'Gravando...'
-  submitButton.classList.add('opacity-50')
-  formularioAlvo.submit()
+  modal.showModal()
+
+  return new Promise((resolve) => {
+    const clicouContinuar = () => {
+      modal.close()
+      removerListeners()
+      resolve(false)
+    }
+
+    const clicouFechar = () => {
+      demaisBlocosAdicionar.forEach((blocoAdicionar) => {
+        blocoAdicionar.classList.add('hidden')
+      })
+
+      modal.close()
+      removerListeners()
+      resolve(true)
+    }
+
+    const removerListeners = () => {
+      btnContinuar.removeEventListener('click', clicouContinuar)
+      btnFechar.removeEventListener('click', clicouFechar)
+    }
+
+    btnContinuar.addEventListener('click', clicouContinuar)
+    btnFechar.addEventListener('click', clicouFechar)
+  })
+}
+
+const fecharModalEditar = (event) => {
+  import('./artigos/conteudos/editar.js')
+    .then(module => {
+      const botaoCancelar = event.target
+      const tipoBotao = botaoCancelar.dataset.conteudoTipo
+
+      if (tipoBotao == 1) {
+        module.fecharEditarTexto(botaoCancelar)
+      }
+      else if (tipoBotao == 2) {
+        module.fecharEditarImagem(botaoCancelar)
+      }
+      else if (tipoBotao == 3) {
+        module.fecharEditarVideo(botaoCancelar)
+      }
+    })
+    .catch(error => {
+      console.error("Erro ao carregar o módulo:", error)
+    })
 }

@@ -16,7 +16,7 @@
     </div>
   </div>
   <div class="mt-4 w-full flex gap-2 justify-end">
-    <button type="button" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?> modal-conteudo-btn-continuar">Continuar editando</button>
+    <button type="button" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?> modal-conteudo-btn-continuar">Voltar</button>
     <button type="button" class="<?php echo CLASSES_DASH_BUTTON_REMOVER; ?> modal-conteudo-btn-fechar">Fechar</button>
   </div>
 </dialog>

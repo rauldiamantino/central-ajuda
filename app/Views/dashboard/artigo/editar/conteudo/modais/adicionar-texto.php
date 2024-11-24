@@ -26,7 +26,7 @@
         </label>
       </div>
       <div class="w-full flex flex-col sm:flex-row gap-1 justify-end sm:gap-2 bg-white">
-        <button type="button" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?> modal-texto-adicionar-btn-cancelar" onclick="voltarAoTopo('texto')">Cancelar</button>
+        <button type="button" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?> modal-texto-adicionar-btn-cancelar" onclick="fecharModalAdicionar('texto')">Cancelar</button>
         <button type="submit" class="w-full lg:w-max <?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> modal-conteudo-texto-btn-enviar">Gravar</button>
       </div>
     </div>

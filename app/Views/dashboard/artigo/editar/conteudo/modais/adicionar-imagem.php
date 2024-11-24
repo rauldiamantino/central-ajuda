@@ -37,7 +37,7 @@
         </label>
       </div>
       <div class="w-full flex flex-col sm:flex-row gap-1 justify-end sm:gap-2 bg-white">
-        <button type="button" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?> botao-fechar-menu-adicionar-imagem" onclick="voltarAoTopo('imagem')">Cancelar</button>
+        <button type="button" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?> botao-fechar-menu-adicionar-imagem" onclick="fecharModalAdicionar('imagem')">Cancelar</button>
         <button type="submit" class="w-full lg:w-max <?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> modal-conteudo-imagem-btn-enviar">Gravar</button>
       </div>
     </div>
