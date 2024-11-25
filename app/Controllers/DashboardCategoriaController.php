@@ -68,6 +68,7 @@ class DashboardCategoriaController extends DashboardController
 
     $colunas = [
       'Categoria.id',
+      'Categoria.icone',
       'Categoria.nome',
       'Categoria.descricao',
       'Categoria.criado',
