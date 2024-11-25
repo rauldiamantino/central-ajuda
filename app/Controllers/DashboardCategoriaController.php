@@ -25,6 +25,15 @@ class DashboardCategoriaController extends DashboardController
     $resultado = [];
     $condicoes = [];
 
+    $botaoVoltar = $_GET['referer'] ?? '';
+    $botaoVoltar = htmlspecialchars($botaoVoltar);
+    $botaoVoltar = urldecode($botaoVoltar);
+
+    if (isset($_POST['referer']) and $_POST['referer'] and ! is_array($_POST['referer'])) {
+      $botaoVoltar = $_POST['referer'];
+      $botaoVoltar = htmlspecialchars($botaoVoltar);
+    }
+
     // Filtros
     $categoriaId = $_GET['id'] ?? '';
     $categoriaStatus = $_GET['status'] ?? '';
@@ -122,6 +131,7 @@ class DashboardCategoriaController extends DashboardController
       'prox' => $ordemAtual + 1,
     ];
 
+    $this->visao->variavel('botaoVoltar', $botaoVoltar);
     $this->visao->variavel('ordem', $ordem);
     $this->visao->variavel('categorias', $resultado);
     $this->visao->variavel('filtroAtual', $filtroAtual);
@@ -143,6 +153,15 @@ class DashboardCategoriaController extends DashboardController
     $intervaloInicio = 0;
     $intervaloFim = 0;
     $paginaAtual = intval($_GET['pagina'] ?? 0);
+
+    $botaoVoltar = $_GET['referer'] ?? '';
+    $botaoVoltar = htmlspecialchars($botaoVoltar);
+    $botaoVoltar = urldecode($botaoVoltar);
+
+    if (isset($_POST['referer']) and $_POST['referer'] and ! is_array($_POST['referer'])) {
+      $botaoVoltar = $_POST['referer'];
+      $botaoVoltar = htmlspecialchars($botaoVoltar);
+    }
 
     $condContarArtigos = [
       'campo' => 'Artigo.categoria_id',
@@ -230,6 +249,7 @@ class DashboardCategoriaController extends DashboardController
       'prox' => $ordemAtual + 1,
     ];
 
+    $this->visao->variavel('botaoVoltar', $botaoVoltar);
     $this->visao->variavel('ordem', $ordem);
     $this->visao->variavel('categoria', $categoria);
     $this->visao->variavel('pagina', $paginaAtual);
@@ -297,11 +317,26 @@ class DashboardCategoriaController extends DashboardController
 
   public function atualizar(int $id)
   {
+    $botaoVoltar = $_GET['referer'] ?? '';
+    $botaoVoltar = htmlspecialchars($botaoVoltar);
+    $botaoVoltar = urldecode($botaoVoltar);
+
+    if (isset($_POST['referer']) and $_POST['referer'] and ! is_array($_POST['referer'])) {
+      $botaoVoltar = $_POST['referer'];
+      $botaoVoltar = htmlspecialchars($botaoVoltar);
+    }
+
     $json = $this->receberJson();
     $resultado = $this->categoriaModel->atualizar($json, $id);
 
+    $referer = '';
+
+    if ($botaoVoltar) {
+      $referer = '?referer=' . urlencode($botaoVoltar);
+    }
+
     if (isset($resultado['erro'])) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categoria/editar/'. $id, $resultado['erro']);
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categoria/editar/'. $id . $referer, $resultado['erro']);
     }
 
     Cache::apagar('publico-categorias', $this->usuarioLogado['empresaId']);
@@ -309,7 +344,7 @@ class DashboardCategoriaController extends DashboardController
     Cache::apagar('publico-categoria-' . $id, $this->usuarioLogado['empresaId']);
     Cache::apagar('publico-categoria-' . $id . '-artigos', $this->usuarioLogado['empresaId']);
 
-    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categoria/editar/' . $id, 'Registro alterado com sucesso');
+    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categoria/editar/' . $id . $referer, 'Registro alterado com sucesso');
   }
 
   public function atualizarOrdem()

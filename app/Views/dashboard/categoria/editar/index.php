@@ -11,7 +11,7 @@
       <p class="text-gray-600">Pronto! Aqui estão todos os artigos desta categoria.</p>
     </div>
     <div class="py-2 w-full h-full flex gap-2 items-start justify-end">
-      <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categorias'); ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>">Voltar</a>
+      <a href="<?php echo baseUrl($botaoVoltar ? $botaoVoltar : '/' . $this->usuarioLogado['subdominio'] . '/dashboard/categorias'); ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>">Voltar</a>
       <button type="button" class="<?php echo CLASSES_DASH_BUTTON_ADICIONAR; ?>" onclick="document.querySelector('.menu-editar-categoria-novo-artigo').showModal()">
         Novo artigo
       </button>
