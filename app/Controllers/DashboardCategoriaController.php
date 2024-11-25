@@ -178,12 +178,20 @@ class DashboardCategoriaController extends DashboardController
       'Artigo.criado',
       'Artigo.ordem',
       'Artigo.empresa_id',
+      'Usuario.nome',
+      'Usuario.email',
     ];
 
     $uniaoArtigos = [
       'tabelaJoin' => 'Artigo',
       'campoA' => 'Artigo.categoria_id',
       'campoB' => 'Categoria.id',
+    ];
+
+    $uniaoUsuarios = [
+      'tabelaJoin' => 'Usuario',
+      'campoA' => 'Usuario.id',
+      'campoB' => 'Artigo.usuario_id',
     ];
 
     $ordem = [
@@ -201,6 +209,7 @@ class DashboardCategoriaController extends DashboardController
     $categoria = $this->categoriaModel->selecionar($colunas)
                                       ->condicao($condicao)
                                       ->juntar($uniaoArtigos, 'LEFT')
+                                      ->juntar($uniaoUsuarios, 'LEFT')
                                       ->pagina($limite, $paginaAtual)
                                       ->ordem($ordem)
                                       ->executarConsulta();

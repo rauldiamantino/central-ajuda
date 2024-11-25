@@ -6,7 +6,8 @@
           <colgroup>
           <col class="w-[60px]">
           <col class="w-[400px]">
-          <col class="w-[450px]">
+          <col class="w-[350px]">
+          <col class="w-[250px]">
           <col class="w-[200px]">
           <col class="w-[100px]">
           </colgroup>
@@ -14,6 +15,7 @@
             <th class="py-4 px-6">ID</th>
             <th class="py-4 px-4">Artigo</th>
             <th class="py-4 px-4">Categoria</th>
+            <th class="py-4 px-4">Autor</th>
             <th class="py-4 px-4">Criado</th>
             <th class="py-4 px-4">Status</th>
           </tr>
@@ -25,6 +27,10 @@
                 <td class="py-6 px-6"><?php echo $linha['Artigo']['id'] ?></td>
                 <td class="py-6 px-4 font-semibold text-gray-900 break-words"><?php echo $linha['Artigo']['titulo'] ?></td>
                 <td class="py-6 px-4 break-words"><?php echo $linha['Categoria']['nome'] ?></td>
+                <td class="py-6 px-4 whitespace-nowrap flex flex-col">
+                  <span><?php echo $linha['Usuario']['nome'] ? $linha['Usuario']['nome'] : '** Sem nome **' ?></span>
+                  <span class="text-xs font-extralight"><?php echo $linha['Usuario']['email'] ?></span>
+                </td>
                 <td class="py-6 px-4 whitespace-nowrap"><?php echo $linha['Artigo']['criado'] ?></td>
                 <td class="py-6 px-4">
                   <?php if ($linha['Artigo']['ativo'] == 1) { ?>

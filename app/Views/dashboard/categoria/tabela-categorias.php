@@ -20,7 +20,7 @@
           <?php if (isset($linha['Categoria']['id'])) { ?>
             <tr class="hover:bg-gray-100 cursor-pointer select-none lg:select-auto" onclick="window.location='<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categoria/editar/' . $linha['Categoria']['id']); ?>';">
               <td class="py-6 px-6 font-semibold text-gray-900">
-                <?php if ($linha['Categoria']['icone']) { ?>
+                <?php if ($linha['Categoria']['icone'] and $this->iconeExiste($linha['Categoria']['icone'])) { ?>
                   <div class="w-6">
                     <?php echo file_get_contents($linha['Categoria']['icone']); ?>
                   </div>

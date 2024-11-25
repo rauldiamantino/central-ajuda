@@ -101,6 +101,7 @@ class DashboardArtigoController extends DashboardController
         'Artigo.visualizacoes',
         'Categoria.nome',
         'Usuario.nome',
+        'Usuario.email',
         'Artigo.ordem',
         'Artigo.criado',
         'Artigo.ativo',

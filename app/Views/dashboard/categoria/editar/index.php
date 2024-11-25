@@ -2,7 +2,7 @@
   <div class="mb-4 w-full flex flex-col lg:flex-row justify-between items-start lg:items-center">
     <div class="mb-5 w-full h-full flex flex-col justify-end">
       <h2 class="text-3xl font-semibold flex flex-wrap gap-2 items-center">
-        <?php if ($categoria[0]['Categoria']['icone']) { ?>
+        <?php if ($categoria[0]['Categoria']['icone'] and $this->iconeExiste($categoria[0]['Categoria']['icone'])) { ?>
           <div class="w-8">
             <?php echo file_get_contents($categoria[0]['Categoria']['icone']); ?>
           </div>
