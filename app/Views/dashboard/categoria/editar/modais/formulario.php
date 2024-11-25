@@ -1,3 +1,11 @@
+<?php
+$icones = $this->buscarIcones();
+
+if (! is_array($icones)) {
+  $icones = [];
+}
+?>
+
 <dialog class="border border-slate-300 w-full md:w-[500px] rounded-md shadow menu-editar-categoria">
   <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/categoria/' . $categoria[0]['Categoria']['id']); ?>" class="w-full flex flex-col gap-4 p-4 rounded-lg shadow bg-white" onsubmit="evitarDuploClique(event)">
     <input type="hidden" name="_method" value="PUT">
@@ -22,27 +30,37 @@
         <label for="descricao" class="block text-sm font-medium text-gray-700">Breve descrição</label>
         <input name="descricao" id="descricao" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $categoria[0]['Categoria']['descricao']; ?>"></input>
       </div>
-      <div class="w-full">
-        <label for="icone" class="block text-sm font-medium text-gray-700">Ícone</label>
-        <select id="icone" name="icone" class="<?php echo CLASSES_DASH_INPUT; ?>">
-          <option value="" disabled <?php echo empty($categoria[0]['Categoria']['icone']) ? 'selected' : ''; ?>>Não definido</option>
-          <?php
-          $icones = $this->buscarIcones();
-          foreach ($icones as $icone):
-
-            if (! isset($icone['nome'])) {
-              continue;
-            }
-
-            if (! isset($icone['caminho'])) {
-              continue;
-            }
-
-            $selected = $categoria[0]['Categoria']['icone'] == $icone['caminho'] ? 'selected' : '';
-            echo '<option value="' . htmlspecialchars($icone['caminho']) . '" ' . $selected . '>' . htmlspecialchars($icone['nome']) . '</option>';
-          endforeach;
-          ?>
-        </select>
+      <div class="flex flex-col">
+        <span class="block text-sm font-medium text-gray-700">Ícone</span>
+        <div class="border border-gray-200 p-2 w-full h-56 overflow-y-auto overflow-estilo-tabela rounded-lg">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <label class="p-2 border border-gray-100 w-full hover:bg-gray-50 duration-100 cursor-pointer rounded-lg">
+              <div class="w-full grid grid-cols-[auto,1fr] items-center gap-2">
+                <input type="radio" name="icone" value="" <?php echo empty($categoria[0]['Categoria']['icone']) ? 'checked' : ''; ?> class="hidden peer">
+                <div class="w-8 h-8 flex items-center justify-center border border-gray-300 peer-checked:border-blue-800 peer-checked:ring-2 peer-checked:ring-blue-800 rounded-lg">
+                  <div class="w-6 text-gray-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 0 0 5.636 5.636m12.728 12.728A9 9 0 0 1 5.636 5.636m12.728 12.728L5.636 5.636" />
+                    </svg>
+                  </div>
+                </div>
+                <span class="text-xs">Nenhum</span>
+              </div>
+            </label>
+            <?php foreach ($icones as $icone): ?>
+              <?php if (! isset($icone['nome']) || ! isset($icone['caminho'])) { continue; } ?>
+              <label class="p-2 border border-gray-100 w-full hover:bg-gray-50 duration-100 cursor-pointer rounded-lg">
+                <div class="w-full grid grid-cols-[auto,1fr] items-center gap-2">
+                  <input type="radio" name="icone" value="<?php echo htmlspecialchars($icone['caminho']) ?>" <?php echo $categoria[0]['Categoria']['icone'] == $icone['caminho'] ? 'checked' : ''; ?> class="hidden peer" >
+                  <div class="w-8 h-8 flex items-center justify-center border border-gray-300 peer-checked:border-blue-800 peer-checked:ring-2 peer-checked:ring-blue-800 rounded-lg">
+                    <img src="<?php echo htmlspecialchars($icone['caminho']) ?>" alt="<?php echo htmlspecialchars($icone['nome']) ?>" class="w-6 h-6">
+                  </div>
+                  <span class="text-xs"><?php echo htmlspecialchars($icone['nome']) ?></span>
+                </div>
+              </label>
+            <?php endforeach; ?>
+          </div>
+        </div>
       </div>
     </div>
     <div class="w-full flex justify-between">

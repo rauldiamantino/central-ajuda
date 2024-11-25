@@ -1,7 +1,13 @@
 <div class="relative w-full h-max flex flex-col">
   <div class="mb-4 w-full flex flex-col lg:flex-row justify-between items-start lg:items-center">
     <div class="mb-5 w-full h-full flex flex-col justify-end">
-      <h2 class="text-3xl font-semibold flex flex-wrap sm:gap-2"><?php echo $categoria[0]['Categoria']['nome'] ?></h2>
+      <h2 class="text-3xl font-semibold flex flex-wrap gap-2 items-center">
+        <?php if ($categoria[0]['Categoria']['icone']) { ?>
+          <div class="w-8">
+            <?php echo file_get_contents($categoria[0]['Categoria']['icone']); ?>
+          </div>
+        <?php } ?>
+        <?php echo $categoria[0]['Categoria']['nome'] ?></h2>
       <p class="text-gray-600">Pronto! Aqui estão todos os artigos desta categoria.</p>
     </div>
     <div class="py-2 w-full h-full flex gap-2 items-start justify-end">
