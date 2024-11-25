@@ -8,7 +8,7 @@
   <?php require_once 'template/topo.php' ?>
 
   <?php if (isset($inicio)) { ?>
-    <div class="px-4 py-16 md:py-32 w-full flex items-center justify-center pers-publico-inicio-busca template-cor-<?php echo $corPrimaria; ?>">
+    <div class="px-4 md:px-8 py-16 md:py-32 w-full flex items-center justify-center pers-publico-inicio-busca template-cor-<?php echo $corPrimaria; ?>">
       <div class="w-full max-w-[800px] flex flex-col items-start gap-6">
         <div class="flex flex-col gap-3">
           <h2 class="font-bold text-3xl">Olá, como podemos te ajudar hoje?</h2>
