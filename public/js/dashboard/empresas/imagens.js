@@ -83,21 +83,6 @@ document.addEventListener('DOMContentLoaded', function () {
       const imagem = new Image()
       imagem.src = URL.createObjectURL(anexo)
 
-      // imagem.onload = () => {
-      //   const larguraMaxima = 48
-      //   const alturaMaxima = 48
-
-      //   if (imagem.width > larguraMaxima || imagem.height > alturaMaxima) {
-      //     msgErroFavicon.textContent = `Envie uma imagem ${larguraMaxima}px por ${alturaMaxima}px.`
-      //     msgErroFavicon.dataset.sucesso = 'false'
-      //     msgErroFavicon.classList.remove('hidden')
-      //     return
-      //   }
-      //   else {
-      //     msgErroFavicon.classList.add('hidden')
-      //   }
-      // }
-
       const objetoReader = new FileReader()
 
       objetoReader.onload = (e) => {
@@ -144,20 +129,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
       const imagem = new Image()
       imagem.src = URL.createObjectURL(anexo)
-
-      // imagem.onload = () => {
-      //   const larguraMaxima = 200
-      //   const alturaMaxima = 70
-      //   if (imagem.width > larguraMaxima || imagem.height > alturaMaxima) {
-      //     msgErroImagem.textContent = `Envie uma imagem ${larguraMaxima}px por ${alturaMaxima}px.`
-      //     msgErroImagem.dataset.sucesso = 'false'
-      //     msgErroImagem.classList.remove('hidden')
-      //     return
-      //   }
-      //   else {
-      //     msgErroImagem.classList.add('hidden')
-      //   }
-      // }
 
       const objetoReader = new FileReader()
       objetoReader.onload = (e) => {

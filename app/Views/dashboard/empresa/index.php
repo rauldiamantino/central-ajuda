@@ -12,4 +12,5 @@
 
   <?php require_once 'formulario.php' ?>
   <?php require_once 'plano.php' ?>
+  <?php require_once 'modais/assinar.php' ?>
 </div>

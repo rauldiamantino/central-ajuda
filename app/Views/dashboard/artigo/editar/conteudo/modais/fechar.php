@@ -10,7 +10,7 @@
       <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-conteudo-fechar-titulo">Edição em andamento</h3>
       <div class="mt-2">
         <p class="text-sm text-gray-500">
-          Identificamos que há conteúdo em aberto. <br>Deseja fechar sem salvar ou voltar à edição?
+          Identificamos que há conteúdo em aberto. <br class="hidden sm:block">Deseja fechar sem salvar ou voltar à edição?
         </p>
       </div>
     </div>

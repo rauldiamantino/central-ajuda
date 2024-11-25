@@ -3,6 +3,35 @@ document.addEventListener('DOMContentLoaded', function () {
   mascararCelular()
 })
 
+const assinarPlano = (plano) => {
+  const modal = document.querySelector('.modal-plano-assinar')
+  const btnAssinar = modal.querySelector('.modal-plano-btn-assinar')
+  const btnFechar = modal.querySelector('.modal-plano-btn-fechar')
+
+  if (! modal || ! btnAssinar || ! btnFechar) {
+    return false;
+  }
+
+  modal.showModal()
+
+  const clicouAssinar = () => {
+    window.location.href= `/${empresa}/d/assinaturas/gerar?plano=${plano}`;
+  }
+
+  const clicouFechar = () => {
+    modal.close()
+    removerListeners()
+  }
+
+  const removerListeners = () => {
+    btnAssinar.removeEventListener('click', clicouAssinar)
+    btnFechar.removeEventListener('click', clicouFechar)
+  }
+
+  btnAssinar.addEventListener('click', clicouAssinar)
+  btnFechar.addEventListener('click', clicouFechar)
+}
+
 const mascararCnpj = () => {
   const cnpj = document.querySelector('#empresa-editar-cnpj')
 

@@ -10,7 +10,7 @@
     <?php } ?>
     <?php // Plano ?>
     <div class="pt-5 w-full flex flex-col gap-5">
-      <button <?php echo ($assinaturaId) ? 'disabled' : ''; ?> onclick="window.location.href='/<?php echo $this->usuarioLogado['subdominio'] . '/d/assinaturas/gerar?plano=mensal'; ?>';" class="border border-gray-200 w-full lg:w-[700px] p-8 flex flex-col gap-2 md:flex-row justify-between md:items-center rounded-lg bg-white hover:bg-gray-100">
+      <button <?php echo ($assinaturaId) ? 'disabled' : ''; ?> onclick="assinarPlano('mensal')" class="border border-gray-200 w-full lg:w-[700px] p-8 flex flex-col gap-2 md:flex-row justify-between md:items-center rounded-lg bg-white hover:bg-gray-100">
         <div class="text-left">
           <div class="flex flex-col md:flex-row gap-1 md:gap-2 items-start md:items-end">
             <span class="text-sm font-semibold">Mensal</span>
@@ -20,7 +20,7 @@
         </div>
         <span class="text-sm font-semibold text-blue-800"><?php echo $assinaturaId ? '' : 'Assinar'; ?></span>
       </button>
-      <button <?php echo ($assinaturaId) ? 'disabled' : ''; ?> onclick="window.location.href='/<?php echo $this->usuarioLogado['subdominio'] . '/d/assinaturas/gerar?plano=anual'; ?>';" class="border border-gray-200 w-full lg:w-[700px] p-8 flex flex-col gap-2 md:flex-row justify-between md:items-center rounded-lg bg-white hover:bg-gray-100">
+      <button <?php echo ($assinaturaId) ? 'disabled' : ''; ?> onclick="assinarPlano('anual')" class="border border-gray-200 w-full lg:w-[700px] p-8 flex flex-col gap-2 md:flex-row justify-between md:items-center rounded-lg bg-white hover:bg-gray-100">
         <div class="text-left">
           <div class="h-full flex flex-col md:flex-row gap-1 md:gap-2 items-start md:items-end">
             <span class="text-sm font-semibold">Anual</span>

@@ -28,17 +28,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const menuTopoUsuarioCima = document.querySelector('.perfil-usuario-cima')
   const menuTopoUsuarioBaixo = document.querySelector('.perfil-usuario-baixo')
 
-  const liberaScrollBody = () => {
-    const body = document.body
-
-    if (window.innerWidth >= 1024) {
-      body.classList.remove('overflow-hidden')
-    }
-  }
-
-  // Escuta maximizar e minimizar
-  window.addEventListener('resize', liberaScrollBody)
-
   // Menu auxiliar
   const menuAuxiliar = document.querySelector('.menu-auxiliar')
 
