@@ -6,14 +6,21 @@ class SessaoUsuario
   public function __construct()
   {
     if (session_status() === PHP_SESSION_NONE) {
-      session_start([
-        'cookie_lifetime' => 18400, // 4 horas
-        'cookie_httponly' => true,
-        'cookie_secure' => isset($_SERVER['HTTPS']),
-        'use_strict_mode' => true,
-        'use_only_cookies' => true,
-        'use_trans_sid' => false,
+      ini_set('session.gc_maxlifetime', 14400);
+
+      $lifetime = 14400; // 4 horas
+      $cookieParams = session_get_cookie_params();
+
+      session_set_cookie_params([
+        'lifetime' => $lifetime,
+        'path' => $cookieParams['path'],
+        'domain' => $cookieParams['domain'],
+        'secure' => isset($_SERVER['HTTPS']),
+        'httponly' => true,
+        'samesite' => 'Strict',
       ]);
+
+      session_start();
     }
   }
 
