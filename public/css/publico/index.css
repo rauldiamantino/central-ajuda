@@ -1,27 +1,32 @@
 body { font-family: 'Inter', sans-serif; margin: 0; padding: 0; line-height: 1.6; }
 
+/* Ajuste para textos gerais */
+p, li, span, table, td, th {
+  font-weight: 300;
+}
+
 .publico-artigo-blocos h1 { font-size: 1.9rem; font-weight: 500; }
 .publico-artigo-blocos h2 { font-size: 1.75rem; font-weight: 400; margin-top: 1.25rem; margin-bottom: 0.75rem; }
-.publico-artigo-blocos h3 { font-size: 1.5rem; font-weight: 400; margin-top: 1rem; margin-bottom: 0.5rem; }
-.publico-artigo-blocos h4 { font-size: 1.15rem; font-weight: 400; margin-top: 1rem; margin-bottom: 0.5rem; }
-.publico-artigo-blocos p { margin-bottom: 1.25rem; }
+.publico-artigo-blocos h3 { font-size: 1.5rem; font-weight: 300; margin-top: 1rem; margin-bottom: 0.5rem; }
+.publico-artigo-blocos h4 { font-size: 1.15rem; font-weight: 300; margin-top: 1rem; margin-bottom: 0.5rem; }
+.publico-artigo-blocos p { margin-bottom: 1.25rem; font-weight: 300; }
 .publico-artigo-blocos ul { list-style-type: disc; margin-left: 1.5rem; }
 .publico-artigo-blocos ol { list-style-type: decimal; margin-left: 1.5rem; }
-.publico-artigo-blocos li { margin-bottom: 0.75rem; font-size: 1rem; }
-.publico-artigo-blocos a { color: #1E40AF; text-decoration: underline; }
+.publico-artigo-blocos li { margin-bottom: 0.75rem; font-size: 1rem; font-weight: 300; }
+.publico-artigo-blocos a { color: #1E40AF; text-decoration: underline; font-weight: 300; }
 .publico-artigo-blocos a:hover { text-decoration: underline; }
-.publico-artigo-blocos blockquote { padding-top: 0.9rem; padding-bottom: 0.2rem; padding-left: 1rem; padding-right: 1rem; background-color: #fff9e6; /* Amarelo claro */ border-left: 4px solid #ffb84d; /* Laranja claro */ color: #000; }
-.publico-artigo-blocos code { max-width: 100%; padding: 2px 4px; border-radius: 4px; font-family: 'Courier New', Courier, monospace; font-size: 0.95em; background-color: #f9fafb; color: #374151; }
-.publico-artigo-blocos pre { max-width: 100%; background-color: #f9fafb; color: #374151; padding: 1rem; border-radius: 8px; font-family: 'Courier New', Courier, monospace; font-size: 1rem; white-space: pre; overflow-x: auto; border: 1px solid #d1d5db; }
+.publico-artigo-blocos blockquote { padding-top: 0.9rem; padding-bottom: 0.2rem; padding-left: 1rem; padding-right: 1rem; background-color: #fff9e6; /* Amarelo claro */ border-left: 4px solid #ffb84d; /* Laranja claro */ color: #000; font-weight: 300; }
+.publico-artigo-blocos code { max-width: 100%; padding: 2px 4px; border-radius: 4px; font-family: 'Courier New', Courier, monospace; font-size: 0.95em; background-color: #f9fafb; color: #374151; font-weight: 300; }
+.publico-artigo-blocos pre { max-width: 100%; background-color: #f9fafb; color: #374151; padding: 1rem; border-radius: 8px; font-family: 'Courier New', Courier, monospace; font-size: 1rem; white-space: pre; overflow-x: auto; border: 1px solid #d1d5db; font-weight: 300; }
 .publico-artigo-blocos pre::-webkit-scrollbar { height: 8px; }
 .publico-artigo-blocos pre::-webkit-scrollbar-track { background-color: #f3f4f6; }
 .publico-artigo-blocos pre::-webkit-scrollbar-thumb { background-color: #d1d5db; border-radius: 4px; }
 .publico-artigo-blocos pre:hover::-webkit-scrollbar-thumb { background-color: #9ca3af; }
 .publico-artigo-blocos table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
-.publico-artigo-blocos th, .publico-artigo-blocos td { padding: 0.75rem; border: 1px solid #ddd; }
-.publico-artigo-blocos th { background-color: #f3f3f3; font-weight: bold; text-align: left; }
-.publico-artigo-blocos strong { font-weight: bold; }
-.publico-artigo-blocos em { font-style: italic; }
+.publico-artigo-blocos th, .publico-artigo-blocos td { padding: 0.75rem; border: 1px solid #ddd; font-weight: 300; }
+.publico-artigo-blocos th { background-color: #f3f3f3; font-weight: 400; text-align: left; }
+.publico-artigo-blocos strong { font-weight: 400; }
+.publico-artigo-blocos em { font-style: italic; font-weight: 300; }
 
 .overflow-estilo::-webkit-scrollbar { width: 0px; }
 .overflow-estilo::-webkit-scrollbar-thumb { background-color: #888; border-radius: 4px; }
