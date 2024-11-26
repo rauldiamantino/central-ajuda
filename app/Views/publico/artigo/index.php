@@ -1,4 +1,4 @@
-<div class="max-w-full flex flex-col py-14 overflow-x-hidden">
+<div class="w-full max-w-full flex flex-col py-14 overflow-x-hidden">
   <div class="pb-6 flex flex-wrap gap-2 font-light text-sm publico-migalhas">
     <a href="<?php echo baseUrl('/' . $subdominio); ?>" class="hover:underline whitespace-nowrap">Início</a>
     <?php if (isset($artigo['Categoria']['nome'])) { ?>
