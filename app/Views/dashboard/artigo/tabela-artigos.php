@@ -30,7 +30,7 @@
                 <span><?php echo $linha['Usuario']['nome'] ? $linha['Usuario']['nome'] : '** Sem nome **' ?></span>
                 <span class="text-xs font-extralight"><?php echo $linha['Usuario']['email'] ?></span>
               </td>
-              <td class="py-6 px-4 whitespace-nowrap"><?php echo $linha['Artigo']['criado'] ?></td>
+              <td class="py-6 px-4 whitespace-nowrap"><?php echo traduzirDataPtBr($linha['Artigo']['criado']) ?></td>
               <td class="py-6 px-4">
                 <?php if ($linha['Artigo']['ativo'] == 1) { ?>
                   <div class="flex items-center gap-2">

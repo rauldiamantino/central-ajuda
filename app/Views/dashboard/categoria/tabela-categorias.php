@@ -20,17 +20,7 @@
           <?php if (isset($linha['Categoria']['id'])) { ?>
             <tr class="hover:bg-gray-100 cursor-pointer select-none lg:select-auto" onclick="window.location='<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categoria/editar/' . $linha['Categoria']['id'] . '?referer=' . urlencode(baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categorias?pagina=' . $pagina))); ?>';">
               <td class="py-6 px-6 font-semibold text-gray-900">
-                <?php if ($linha['Categoria']['icone'] and $this->iconeExiste($linha['Categoria']['icone'])) { ?>
-                  <div class="w-6">
-                    <?php echo file_get_contents($linha['Categoria']['icone']); ?>
-                  </div>
-                <?php } else { ?>
-                  <div class="w-6 text-gray-200">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 0 0 5.636 5.636m12.728 12.728A9 9 0 0 1 5.636 5.636m12.728 12.728L5.636 5.636" />
-                    </svg>
-                  </div>
-                <?php } ?>
+
               </td>
               <td class="py-6 px-4 font-semibold text-gray-900"><?php echo $linha['Categoria']['nome'] ?></td>
               <td class="py-6 px-4 md:whitespace-nowrap md:truncate"><?php echo $linha['Categoria']['descricao'] ?></td>
