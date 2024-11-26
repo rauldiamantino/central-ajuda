@@ -163,9 +163,9 @@ class Roteador
     }
 
     // Dashboard
-    if (strpos($chaveRota, '/dashboard')) {
+    if (strpos($chaveRota, '/{empresa}/dashboard') or strpos($chaveRota, '/{empresa}/d/')) {
       $sucesso = true;
-
+      registrarLog('rota-dash', $chaveRota);
       if (! isset($usuarioLogado['nivel'])) {
         $sucesso = false;
       }
