@@ -388,6 +388,7 @@ class Roteador
     $rotasPermitidas = [
       'GET:/{empresa}/dashboard',
       'GET:/{empresa}/dashboard/empresa/editar',
+      'GET:/{empresa}/d/assinaturas/gerar',
     ];
 
     if (! in_array($chaveRota, $rotasPermitidas)) {

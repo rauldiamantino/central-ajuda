@@ -213,8 +213,12 @@ class DashboardEmpresaController extends DashboardController
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Não foi possível gerar a assinatura, por favor, entre em contato com o nosso suporte');
     }
 
-    $campos = ['assinatura_id_asaas' => $criarAssinatura['id']];
-    $resultado = $this->empresaModel->atualizar($campos, $this->empresaPadraoId);
+    $campos = [
+      'assinatura_id_asaas' => $criarAssinatura['id'],
+      'assinatura_status' => ATIVO,
+    ];
+
+    $resultado = $this->empresaModel->atualizar($campos, $this->empresaPadraoId, true);
 
     if (isset($resultado['erro'])) {
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', $resultado['erro']);
