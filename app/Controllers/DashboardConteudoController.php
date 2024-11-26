@@ -1,15 +1,19 @@
 <?php
 namespace app\Controllers;
 use app\Core\Cache;
+use app\Models\DashboardArtigoModel;
 use app\Models\DashboardConteudoModel;
+use DateTime;
 
 class DashboardConteudoController extends DashboardController
 {
+  protected $artigoModel;
   protected $conteudoModel;
 
   public function __construct()
   {
     parent::__construct();
+    $this->artigoModel = new DashboardArtigoModel($this->usuarioLogado, $this->empresaPadraoId);
     $this->conteudoModel = new DashboardConteudoModel($this->usuarioLogado, $this->empresaPadraoId);
   }
 
@@ -42,6 +46,12 @@ class DashboardConteudoController extends DashboardController
       $this->redirecionarErro($urlRetorno, $resultado['erro']);
     }
     elseif ($_POST and isset($resultado['id'])) {
+      $camposArtigo = [
+        'modificado' => (new DateTime())->format('Y-m-d H:i:s'),
+      ];
+
+      $this->artigoModel->atualizar($camposArtigo, $dados['artigo_id']);
+
       Cache::apagar('publico-artigo-' . $dados['artigo_id'], $this->usuarioLogado['empresaId']);
       Cache::apagar('publico-artigo-' . $dados['artigo_id'] . '-conteudos', $this->usuarioLogado['empresaId']);
 
@@ -53,6 +63,12 @@ class DashboardConteudoController extends DashboardController
       $codigo = $resultado['erro']['codigo'] ?? 500;
       $this->responderJson($resultado, $codigo);
     }
+
+    $camposArtigo = [
+      'modificado' => (new DateTime())->format('Y-m-d H:i:s'),
+    ];
+
+    $this->artigoModel->atualizar($camposArtigo, $dados['artigo_id']);
 
     Cache::apagar('publico-artigo-' . $dados['artigo_id'], $this->usuarioLogado['empresaId']);
     Cache::apagar('publico-artigo-' . $dados['artigo_id'] . '-conteudos', $this->usuarioLogado['empresaId']);
@@ -119,6 +135,12 @@ class DashboardConteudoController extends DashboardController
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId . $referer, $resultado['erro']);
     }
     elseif ($_POST and $resultado) {
+      $camposArtigo = [
+        'modificado' => (new DateTime())->format('Y-m-d H:i:s'),
+      ];
+
+      $this->artigoModel->atualizar($camposArtigo, $artigoId);
+
       Cache::apagar('publico-artigo-' . $artigoId . '-conteudos', $this->usuarioLogado['empresaId']);
 
       $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId . $referer, 'Conteúdo editado com sucesso');
@@ -158,6 +180,12 @@ class DashboardConteudoController extends DashboardController
     $artigoId = $buscarConteudo[0]['Conteudo']['artigo_id'] ?? 0;
 
     if ($artigoId) {
+      $camposArtigo = [
+        'modificado' => (new DateTime())->format('Y-m-d H:i:s'),
+      ];
+
+      $this->artigoModel->atualizar($camposArtigo, $artigoId);
+
       Cache::apagar('publico-artigo-' . $artigoId . '-conteudos', $this->usuarioLogado['empresaId']);
     }
 
@@ -194,6 +222,12 @@ class DashboardConteudoController extends DashboardController
     }
 
     if ($artigoId) {
+      $camposArtigo = [
+        'modificado' => (new DateTime())->format('Y-m-d H:i:s'),
+      ];
+
+      $this->artigoModel->atualizar($camposArtigo, $artigoId);
+
       Cache::apagar('publico-artigo-' . $artigoId . '-conteudos', $this->usuarioLogado['empresaId']);
     }
 

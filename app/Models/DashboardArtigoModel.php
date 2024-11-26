@@ -1,5 +1,6 @@
 <?php
 namespace app\Models;
+use DateTime;
 use app\Models\Model;
 
 class DashboardArtigoModel extends Model
@@ -102,6 +103,7 @@ class DashboardArtigoModel extends Model
       'categoria_id' => $params['categoria_id'] ?? 0,
       'visualizacoes' => $params['visualizacoes'] ?? 0,
       'ordem' => $params['ordem'] ?? 0,
+      'modificado' => $params['modificado'] ?? '',
     ];
 
     $msgErro = [
@@ -117,6 +119,7 @@ class DashboardArtigoModel extends Model
         'ativo',
         'categoria_id',
         'visualizacoes',
+        'modificado',
       ];
 
       if ($atualizar and ! isset($params[ $chave ])) {
@@ -146,9 +149,21 @@ class DashboardArtigoModel extends Model
       $campos['usuario_id'] = filter_var($campos['usuario_id'], FILTER_SANITIZE_NUMBER_INT);
       $campos['empresa_id'] = filter_var($campos['empresa_id'], FILTER_SANITIZE_NUMBER_INT);
       $campos['categoria_id'] = filter_var($campos['categoria_id'], FILTER_SANITIZE_NUMBER_INT);
+      $campos['modificado'] = htmlspecialchars($campos['modificado']);
 
       if (isset($params['ativo']) and ! in_array($campos['ativo'], [INATIVO, ATIVO])) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('ativo', 'valInvalido');
+      }
+
+      if ($campos['modificado']) {
+
+        try {
+          $campos['modificado'] = new DateTime($campos['modificado']);
+          $campos['modificado'] = $campos['modificado']->format('Y-m-d H:i:s');
+        }
+        catch (Exception $e) {
+          $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('modificado', 'valInvalido');
+        }
       }
 
       $ativoCaracteres = 1;
@@ -157,6 +172,7 @@ class DashboardArtigoModel extends Model
       $usuarioIdCaracteres = 999999999;
       $categoriaIdCaracteres = 999999999;
       $ordemCaracteres = 999999999;
+      $gratisPrazoCaracteres = 19;
 
       if (strlen($campos['ativo']) > $ativoCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('id', 'caracteres', $ativoCaracteres);
@@ -181,6 +197,10 @@ class DashboardArtigoModel extends Model
       if (strlen($campos['ordem']) > $ordemCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('ordem', 'caracteres', $ordemCaracteres);
       }
+
+      if (strlen($campos['modificado']) > $gratisPrazoCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('modificado', 'caracteres', $gratisPrazoCaracteres);
+      }
     }
 
     if ($msgErro['erro']['mensagem']) {
@@ -195,12 +215,13 @@ class DashboardArtigoModel extends Model
       'categoria_id' => $campos['categoria_id'],
       'visualizacoes' => $campos['visualizacoes'],
       'ordem' => $campos['ordem'],
+      'modificado' => $campos['modificado'],
     ];
 
     if ($atualizar) {
       foreach ($camposValidados as $chave => $linha):
 
-        if ($chave == 'categoria_id' and empty($linha)) {
+        if (isset($params['categoria_id']) and $chave == 'categoria_id' and empty($linha)) {
           $camposValidados[ $chave ] = null;
         }
         elseif (! isset($params[ $chave ])) {

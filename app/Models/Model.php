@@ -332,7 +332,13 @@ class Model
     $placeholders = $this->gerarPlaceholders();
     $this->sqlValores[] = $id;
 
-    $sql = 'UPDATE ' . $tabela . ' SET ' . $colunasValores . ' WHERE id = ' . $placeholders;
+    $andEmpresa = '';
+
+    if ($tabela != 'empresas') {
+      $andEmpresa = ' AND empresa_id=' . $this->empresaPadraoId;
+    }
+
+    $sql = 'UPDATE ' . $tabela . ' SET ' . $colunasValores . ' WHERE id = ' . $placeholders . $andEmpresa;
     $resultado = $this->database->operacoes($sql, $this->sqlValores);
 
     $this->limparPropriedades();
