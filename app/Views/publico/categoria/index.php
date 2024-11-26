@@ -10,7 +10,7 @@
 
   <div class="flex justify-start items-center gap-2 pt-6 publico-artigo-blocos publico-artigo-topo">
 
-    <?php if ($categoriaNome and $categoriaIcone) { ?>
+    <?php if ($categoriaNome and $categoriaIcone and $this->iconeExiste($categoriaIcone)) { ?>
       <div class="w-8 pers-publico-icones template-cor-<?php echo $corPrimaria; ?>">
         <?php echo file_get_contents($categoriaIcone); ?>
       </div>
