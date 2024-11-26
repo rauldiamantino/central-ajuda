@@ -1,5 +1,7 @@
 <?php
 namespace app\Controllers\Components;
+use Rollbar\Rollbar;
+use Rollbar\Payload\Level;
 use app\Controllers\DashboardController;
 
 class DatabaseFirebaseComponent extends DashboardController
@@ -18,6 +20,7 @@ class DatabaseFirebaseComponent extends DashboardController
     ];
 
     if ($this->acessoPermitido() == false) {
+      Rollbar::log(Level::ERROR, 'Firebase - Acesso não permitido', $_REQUEST);
       $this->responderJson('Acesso negado', 403);
     }
 

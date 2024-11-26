@@ -1,8 +1,10 @@
 <?php
 namespace app\Models;
 
-use Exception;
 use \PDO;
+use Exception;
+use Rollbar\Rollbar;
+use Rollbar\Payload\Level;
 
 class Database
 {
@@ -24,6 +26,7 @@ class Database
     catch (Exception $e) {
       $log['erro'] = $e->getMessage();
 
+      Rollbar::log(Level::ERROR, $e);
       registrarLog('database-conexao', $log);
     }
   }
@@ -112,6 +115,8 @@ class Database
         'cod' => $e->getCode(),
         'msg' => $e->getMessage(),
       ];
+
+      Rollbar::log(Level::ERROR, $e, [ $e->getMessage() ]);
     }
 
     $log = [
