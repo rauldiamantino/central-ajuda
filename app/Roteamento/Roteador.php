@@ -233,7 +233,7 @@ class Roteador
     }
 
     // Acesso público de usuário com assinatura vencida
-    if (! strpos($chaveRota, '/dashboard') and $gratisVencido and $assinaturaStatus == INATIVO and (! isset($usuarioLogado['padrao']) or $usuarioLogado['padrao'] != USUARIO_SUPORTE)) {
+    if ((! strpos($chaveRota, '/dashboard') and ! strpos($chaveRota, '/{empresa}/d/')) and $gratisVencido and $assinaturaStatus == INATIVO and (! isset($usuarioLogado['padrao']) or $usuarioLogado['padrao'] != USUARIO_SUPORTE)) {
         $empresaId = 0;
     }
 
