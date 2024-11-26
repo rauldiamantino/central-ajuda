@@ -15,7 +15,7 @@
           <div class="flex flex-col gap-1 publico-artigo-bloco bg-white hover:bg-gray-100 p-4 shadow rounded-lg">
             <?php if (isset($linha['Artigo']['id']) and $linha['Artigo']['id'] > 0) { ?>
                 <div class="pb-0 flex gap-2 items-center font-light text-sm publico-migalhas">
-                  <?php if ($linha['Categoria']['icone'] and file_get_contents($linha['Categoria']['icone'])) { ?>
+                  <?php if ($linha['Categoria']['icone'] and $this->iconeExiste($linha['Categoria']['icone'])) { ?>
                     <div class="w-6 pers-publico-icones template-cor-<?php echo $corPrimaria; ?>">
                       <?php echo file_get_contents($linha['Categoria']['icone']); ?>
                     </div>
