@@ -1,5 +1,6 @@
 /*Azul escuro - #2d2d2d */
 .pers-publico-botao.template-cor-1                                            { background-color: #2d2d2d; color: #ffffff; }
+.pers-publico-botao-editar.template-cor-1                                     { background-color: #2d2d2d; color: #ffffff; }
 .pers-publico-inicio-busca.template-cor-1                                     { background: radial-gradient(circle, #3a3a3a, #2d2d2d, #1a1a1a); color: #ffffff; }
 .pers-publico-lupa.template-cor-1                                             { color: #2d2d2d; }
 .pers-publico-icones.template-cor-1                                           { color: #2d2d2d; }
@@ -14,6 +15,7 @@
 
 /*Laranja - #f05829 */
 .pers-publico-botao.template-cor-2                                            { background-color: #f05829; color: #ffffff; }
+.pers-publico-botao-editar.template-cor-2                                     { background-color: #f05829; color: #ffffff; }
 .pers-publico-inicio-busca.template-cor-2                                     { background: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,71,11) 100%); color: #ffffff; }
 .pers-publico-lupa.template-cor-2                                             { color: #f05829; }
 .pers-publico-icones.template-cor-2                                           { color: #f05829; }
@@ -28,6 +30,7 @@
 
 /*Cinza azulado - #4A5568 */
 .pers-publico-botao.template-cor-8                                            { background-color: #4A5568; color: #ffffff; }
+.pers-publico-botao-editar.template-cor-8                                     { background-color: #4A5568; color: #ffffff; }
 .pers-publico-inicio-busca.template-cor-8                                     { background: radial-gradient(circle, #5b6878, #4a5568, #353e49); color: #ffffff; }
 .pers-publico-lupa.template-cor-8                                             { color: #4A5568; }
 .pers-publico-icones.template-cor-8                                           { color: #4A5568; }
@@ -42,6 +45,7 @@
 
 /*Roxo escuro - #4B0082 */
 .pers-publico-botao.template-cor-9                                            { background-color: #4B0082; color: #ffffff; }
+.pers-publico-botao-editar.template-cor-9                                     { background-color: #4B0082; color: #ffffff; }
 .pers-publico-inicio-busca.template-cor-9                                     { background: radial-gradient(circle, #5c009e, #4b0082, #3b0067); color: #ffffff; }
 .pers-publico-lupa.template-cor-9                                             { color: #4B0082; }
 .pers-publico-icones.template-cor-9                                           { color: #4B0082; }

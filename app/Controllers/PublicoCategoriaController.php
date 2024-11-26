@@ -91,6 +91,7 @@ class PublicoCategoriaController extends PublicoController
         'Artigo.categoria_id',
         'Artigo.criado',
         'Artigo.modificado',
+        'Categoria.id',
         'Categoria.ativo',
         'Categoria.nome',
         'Categoria.icone',
