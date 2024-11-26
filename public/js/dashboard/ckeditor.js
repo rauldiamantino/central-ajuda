@@ -45,6 +45,15 @@ import {
 import translations from '/ckeditor/ckeditor5/translations/pt-br.js';
 
 const editorConfig = {
+  ui: {
+    poweredBy: {
+      position: 'inside',
+      side: 'left',
+      label: '',
+    },
+  },
+  enterMode: 'ENTER_P',
+  shiftEnterMode: 'ENTER_BR',
 	toolbar: {
 		items: [
 			'undo',
@@ -179,14 +188,14 @@ const editorConfig = {
 	initialData: '',
 	language: 'pt-br',
 	link: {
-		addTargetToExternalLinks: true,
 		defaultProtocol: 'https://',
 		decorators: {
 			toggleDownloadable: {
 				mode: 'manual',
-				label: 'Downloadable',
+				label: 'Abrir em uma nova aba',
 				attributes: {
-					download: 'file'
+          target: '_blank',
+          rel: 'noopener noreferrer',
 				}
 			}
 		}
@@ -198,7 +207,7 @@ const editorConfig = {
 			reversed: true
 		}
 	},
-	placeholder: '',
+	placeholder: 'Digite ou cole seu conteúdo aqui!',
 	table: {
 		contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties']
 	},
