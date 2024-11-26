@@ -15,7 +15,7 @@
       <input type="text" id="conteudo-editar-texto-titulo-<?php echo $linha['Conteudo']['id'] ?>" name="titulo" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $linha['Conteudo']['titulo'] ?>">
     </div>
     <div class="w-full editor-container_classic-editor">
-      <textarea name="conteudo" class="border border-gray-300 w-full min-h-56 rounded-lg bg-slate-50 conteudo-texto-editar ckeditor" data-conteudo="<?php echo $linha['Conteudo']['conteudo'] ?>" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>"></textarea>
+      <textarea name="conteudo" class="overflow-estilo-tabelaborder border-gray-300 w-full min-h-56 rounded-lg bg-slate-50 conteudo-texto-editar ckeditor" data-conteudo="<?php echo $linha['Conteudo']['conteudo'] ?>" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>"></textarea>
     </div>
     <div class="sticky bottom-0 px-2 py-4 w-full h-max flex flex-col lg:flex-row justify-between gap-4 bg-white rounded-lg">
       <div class="w-full bg-white">

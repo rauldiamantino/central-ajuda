@@ -3,7 +3,6 @@ $categoriaAtual = intval($artigos[0]['Artigo']['categoria_id'] ?? 0);
 $artigoAtual = intval($artigo['Artigo']['id'] ?? 0);
 ?>
 
-
 <aside class="fixed <?php echo isset($inicio) ? ' md:hidden ' : '' ?> z-40 md:z-10 inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transform-translate duration-300 md:static w-full md:max-w-80 min-h-screen bg-gray-800 text-gray-400 md:bg-transparent md:text-black overflow-y-auto md:rounded-l-md overflow-estilo publico-menu-lateral">
   <nav class="relative h-full text-sm">
     <button class="absolute right-0 pt-10 px-8 h-max w-max md:hidden btn-publico-menu-lateral-fechar">

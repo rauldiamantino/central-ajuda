@@ -2,7 +2,7 @@
 <script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/addons/cleave-phone.br.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
-<script type="importmap">{ "imports": { "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.0.0/ckeditor5.js", "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.0.0/" }}</script>
+<script type="importmap">{"imports": {"ckeditor5": "/ckeditor/ckeditor5/ckeditor5.js","ckeditor5/": "/ckeditor5/"}}</script>
 <script src="<?php echo baseUrl('/js/dashboard/ckeditor.js'); ?>" type="module"></script>
 <script src="<?php echo baseUrl('/js/dashboard/firebase/inicializar.js'); ?>" type="module"></script>
 

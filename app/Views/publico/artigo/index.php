@@ -1,4 +1,4 @@
-<div class="w-full flex flex-col py-14">
+<div class="max-w-full flex flex-col py-14 overflow-x-hidden">
   <div class="pb-6 flex flex-wrap gap-2 font-light text-sm publico-migalhas">
     <a href="<?php echo baseUrl('/' . $subdominio); ?>" class="hover:underline whitespace-nowrap">Início</a>
     <?php if (isset($artigo['Categoria']['nome'])) { ?>
@@ -38,15 +38,15 @@
         <?php } ?>
       </div>
     </div>
-    <div class="flex flex-col gap-2 py-10 pers-publico-artigo template-cor-<?php echo $corPrimaria; ?> publico-artigo-blocos">
+    <div class="w-full flex flex-col gap-2 py-10 pers-publico-artigo template-cor-<?php echo $corPrimaria; ?> publico-artigo-blocos">
       <?php if ($conteudos) { ?>
         <?php foreach ($conteudos as $chave => $linha) : ?>
           <?php if ($linha['Conteudo']['tipo'] == 1) { ?>
-            <div class="flex flex-col gap-2 leading-7 publico-artigo-bloco">
+            <div class="w-full flex flex-col gap-2 leading-7 publico-artigo-bloco">
               <?php if ($linha['Conteudo']['titulo'] and $linha['Conteudo']['titulo_ocultar'] == 0) { ?>
                 <h2><?php echo $linha['Conteudo']['titulo'] ?></h2>
               <?php } ?>
-              <div class="publico-editorjs">
+              <div class="w-full publico-editorjs">
                 <?php
                 if (empty($linha['Conteudo']['conteudo'])) {
                   echo '<br>';

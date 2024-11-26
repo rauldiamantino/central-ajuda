@@ -1,21 +1,32 @@
-// ----------- CKEditor -----------
 import {
 	ClassicEditor,
 	AccessibilityHelp,
 	Alignment,
+	Autoformat,
 	Autosave,
-	BalloonToolbar,
+	BlockQuote,
+	BlockToolbar,
 	Bold,
+	Code,
+	CodeBlock,
 	Essentials,
+	FindAndReplace,
+	FontBackgroundColor,
 	FontColor,
+	FontFamily,
+	FontSize,
 	Heading,
+	Highlight,
 	HorizontalLine,
 	Indent,
+	IndentBlock,
 	Italic,
-  Link,
+	Link,
 	List,
 	ListProperties,
+	// MediaEmbed,
 	Paragraph,
+	PasteFromOffice,
 	RemoveFormat,
 	SelectAll,
 	Strikethrough,
@@ -25,43 +36,43 @@ import {
 	TableColumnResize,
 	TableProperties,
 	TableToolbar,
+	TextTransformation,
 	TodoList,
 	Underline,
 	Undo
-} from 'ckeditor5'
+} from 'ckeditor5';
 
-import translations from 'ckeditor5/translations/pt-br.js'
+import translations from '/ckeditor/ckeditor5/translations/pt-br.js';
 
 const editorConfig = {
-  ui: {
-    poweredBy: {
-      position: 'inside',
-      side: 'left',
-      label: '',
-    },
-  },
-  enterMode: 'ENTER_P',
-  shiftEnterMode: 'ENTER_BR',
 	toolbar: {
 		items: [
 			'undo',
 			'redo',
 			'|',
-			'selectAll',
+			'findAndReplace',
 			'|',
 			'heading',
 			'|',
+			'fontSize',
+			'fontFamily',
 			'fontColor',
+			'fontBackgroundColor',
 			'|',
 			'bold',
 			'italic',
 			'underline',
 			'strikethrough',
+			'code',
 			'removeFormat',
 			'|',
 			'horizontalLine',
 			'link',
+			// 'mediaEmbed',
 			'insertTable',
+			'highlight',
+			'blockQuote',
+			'codeBlock',
 			'|',
 			'alignment',
 			'|',
@@ -69,28 +80,38 @@ const editorConfig = {
 			'numberedList',
 			'todoList',
 			'outdent',
-			'indent',
-			'|',
-			'accessibilityHelp'
+			'indent'
 		],
 		shouldNotGroupWhenFull: false
 	},
 	plugins: [
 		AccessibilityHelp,
 		Alignment,
+		Autoformat,
 		Autosave,
-		BalloonToolbar,
+		BlockQuote,
+		BlockToolbar,
 		Bold,
+		Code,
+		CodeBlock,
 		Essentials,
+		FindAndReplace,
+		FontBackgroundColor,
 		FontColor,
+		FontFamily,
+		FontSize,
 		Heading,
+		Highlight,
 		HorizontalLine,
 		Indent,
+		IndentBlock,
 		Italic,
 		Link,
 		List,
 		ListProperties,
+		// MediaEmbed,
 		Paragraph,
+		PasteFromOffice,
 		RemoveFormat,
 		SelectAll,
 		Strikethrough,
@@ -100,11 +121,34 @@ const editorConfig = {
 		TableColumnResize,
 		TableProperties,
 		TableToolbar,
+		TextTransformation,
 		TodoList,
 		Underline,
-		Undo,
+		Undo
 	],
-	balloonToolbar: ['bold', 'italic', '|', 'link', '|', 'bulletedList', 'numberedList'],
+	blockToolbar: [
+		'fontSize',
+		'fontColor',
+		'fontBackgroundColor',
+		'|',
+		'bold',
+		'italic',
+		'|',
+		'link',
+		'insertTable',
+		'|',
+		'bulletedList',
+		'numberedList',
+		'outdent',
+		'indent'
+	],
+	fontFamily: {
+		supportAllValues: true
+	},
+	fontSize: {
+		options: [10, 12, 14, 'default', 18, 20, 22],
+		supportAllValues: true
+	},
 	heading: {
 		options: [
 			{
@@ -115,19 +159,19 @@ const editorConfig = {
 			{
 				model: 'heading2',
 				view: 'h2',
-				title: 'Título 2',
+				title: 'Heading 2',
 				class: 'ck-heading_heading2'
 			},
 			{
 				model: 'heading3',
 				view: 'h3',
-				title: 'Título 3',
+				title: 'Heading 3',
 				class: 'ck-heading_heading3'
 			},
 			{
 				model: 'heading4',
 				view: 'h4',
-				title: 'Título 4',
+				title: 'Heading 4',
 				class: 'ck-heading_heading4'
 			},
 		]
@@ -135,18 +179,17 @@ const editorConfig = {
 	initialData: '',
 	language: 'pt-br',
 	link: {
-    forceSimpleAmpersand: true,
-    decorators: {
-        openInNewTab: {
-            mode: 'manual',
-            label: 'Open in a new tab',
-            attributes: {
-                target: '_blank',
-                rel: 'noopener noreferrer'
-            }
-        }
-    },
+		addTargetToExternalLinks: true,
 		defaultProtocol: 'https://',
+		decorators: {
+			toggleDownloadable: {
+				mode: 'manual',
+				label: 'Downloadable',
+				attributes: {
+					download: 'file'
+				}
+			}
+		}
 	},
 	list: {
 		properties: {
@@ -155,12 +198,12 @@ const editorConfig = {
 			reversed: true
 		}
 	},
-	placeholder: 'Digite ou cole seu conteúdo aqui!',
+	placeholder: '',
 	table: {
 		contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties']
 	},
 	translations: [translations]
-}
+};
 
 export let editorInstances = {}
 
