@@ -89,10 +89,6 @@ class DashboardLoginModel extends Model
       $loginSucesso = false;
     }
 
-    if (! isset($usuario[0]['Empresa.subdominio_2'])) {
-      $loginSucesso = false;
-    }
-
     if (! isset($usuario[0]['Empresa.assinatura_status'])) {
       $loginSucesso = false;
     }
