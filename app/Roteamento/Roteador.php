@@ -95,7 +95,7 @@ class Roteador
     if (empty($subdominio_2) and empty($rotaRequisitada)) {
       return $this->paginaErro->erroVer();
     }
-pr($rotaRequisitada);
+
     $assinaturaStatus = 0;
     $gratisPrazo = '';
     $testeExpirado = false;
@@ -105,7 +105,7 @@ pr($rotaRequisitada);
 
       $coluna = 'subdominio';
       $valor = $empresa;
-
+pr($subdominio_2, true);
       if ($subdominio_2) {
         $coluna = 'subdominio_2';
         $valor = $_SERVER['REQUEST_SCHEME'] . '://' . $subdominio_2;
