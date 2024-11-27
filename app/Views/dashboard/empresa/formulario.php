@@ -20,7 +20,7 @@
     </div>
 
     <?php // Domínio personalizado ?>
-    <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
+ <!-- <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
       <div class="flex flex-col text-sm font-medium text-gray-700">
         <span>Domínio personalizado</span>
         <span class="font-extralight">
@@ -29,8 +29,7 @@
         </span>
       </div>
       <input type="text" id="empresa-editar-subdominio-2" name="subdominio_2" class="<?php echo CLASSES_DASH_INPUT; ?>" placeholder="https://ajuda.suaempresa.com.br" value="<?php echo $empresa['Empresa']['subdominio_2']; ?>">
-    </div>
-
+    </div> -->
     <?php // URL Site empresa ?>
     <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
       <div class="flex flex-col text-sm font-medium text-gray-700">
