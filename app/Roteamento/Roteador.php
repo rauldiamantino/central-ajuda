@@ -49,7 +49,7 @@ class Roteador
 
     $subdominio_2 = $_SERVER['HTTP_HOST'];
     $host360 = '360help.com.br';
-
+pr($_SERVER);
     if (HOST_LOCAL) {
       $chaveRota = str_replace(RAIZ, '/', $chaveRota);
       $host360 = 'localhost';
