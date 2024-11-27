@@ -423,6 +423,7 @@ class Roteador
       'GET:/cadastro/sucesso',
       'POST:/login',
       'GET:/logout',
+      'GET:/cache/limpar',
     ];
 
     if (! in_array($chaveRota, $rotasPublicas)) {
@@ -484,7 +485,7 @@ class Roteador
       'GET:/{empresa}/d/assinaturas/gerar' => [DashboardEmpresaController::class, 'criarAssinaturaAsaas'],
 
       // Cache
-      'GET:/d/cache/limpar' => [Cache::class, 'resetarCache'],
+      'GET:/cache/limpar' => [Cache::class, 'resetarCache'],
 
       // Dashboard - Artigos
       'GET:/{empresa}/d/artigos' => [DashboardArtigoController::class, 'buscar'],
