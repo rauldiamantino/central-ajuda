@@ -59,7 +59,8 @@ class Roteador
     if ($subdominio_2 == $host360) {
       $subdominio_2 = '';
     }
-
+pr($_SERVER);
+die;
     if (empty($subdominio_2) and $chaveRota == 'GET:/') {
       header('Location: /login');
       exit;
