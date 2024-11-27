@@ -115,7 +115,7 @@ class Roteador
       $cacheNome = 'roteador-' . $valor;
 
       $buscarEmpresa = Cache::buscar($cacheNome);
-pr($buscarEmpresa, true);
+
       if ($buscarEmpresa == null) {
         $buscarEmpresa = $dashboardEmpresa->buscarEmpresaSemId($coluna, $valor);
 
@@ -484,7 +484,7 @@ pr($buscarEmpresa, true);
       'GET:/{empresa}/d/assinaturas/gerar' => [DashboardEmpresaController::class, 'criarAssinaturaAsaas'],
 
       // Cache
-      'GET:/{empresa}/cache/limpar' => [Cache::class, 'resetarCache'],
+      'GET:/d/cache/limpar' => [Cache::class, 'resetarCache'],
 
       // Dashboard - Artigos
       'GET:/{empresa}/d/artigos' => [DashboardArtigoController::class, 'buscar'],
