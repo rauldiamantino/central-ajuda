@@ -343,6 +343,7 @@ class Roteador
       'GET:/cadastro/sucesso',
       'POST:/login',
       'GET:/logout',
+      'GET:/cache/limpar',
       'POST:/d/assinaturas/receber',
     ];
 
