@@ -48,15 +48,17 @@ class Roteador
     $partesRota = explode('/', trim($url, '/'));
 
     $subdominio_2 = $_SERVER['SERVER_NAME'];
-    $host360 = 'www.360help.com.br';
+    $host360_1 = 'www.360help.com.br';
+    $host360_2 = '360help.com.br';
 
     if (HOST_LOCAL) {
       $chaveRota = str_replace(RAIZ, '/', $chaveRota);
-      $host360 = 'localhost';
+      $host360_1 = 'localhost';
+      $host360_2 = 'localhost';
     }
 
     // Identifica subdomínio personalizado
-    if ($subdominio_2 == $host360) {
+    if (in_array($subdominio_2, [$host360_1, $host360_2])) {
       $subdominio_2 = '';
     }
 
