@@ -18,6 +18,7 @@ use app\Controllers\DashboardConteudoController;
 use app\Controllers\DashboardCategoriaController;
 use app\Controllers\Components\DatabaseFirebaseComponent;
 use app\Controllers\Components\AssinaturaReceberComponent;
+use app\Controllers\InicioController;
 
 class Roteador
 {
@@ -63,8 +64,7 @@ class Roteador
     }
 
     if (empty($subdominio_2) and $chaveRota == 'GET:/') {
-      header('Location: /login');
-      exit;
+
     }
 
     if (count($partesRota) > 1) {
@@ -334,6 +334,7 @@ class Roteador
   private function rotaPermitida(string $rota = ''): bool
   {
     $rotasPermitidas = [
+      'GET:/',
       'GET:/teste',
       'GET:/erro',
       'POST:/cadastro',
@@ -417,6 +418,7 @@ class Roteador
   private function rotaLogin(string $chaveRota): bool
   {
     $rotasPublicas = [
+      'GET:/',
       'GET:/erro',
       'GET:/login',
       'GET:/login/suporte',
@@ -440,6 +442,7 @@ class Roteador
   {
     $rotas = [
       // Acesso público
+      'GET:/' => [InicioController::class, 'inicioVer'],
       'GET:/erro' => [PaginaErroController::class, 'erroVer'],
       'GET:/login' => [DashboardLoginController::class, 'loginVer'],
       'GET:/login/suporte' => [DashboardLoginController::class, 'loginSuporteVer'],

@@ -1,0 +1,1 @@
+<script src="<?php echo baseUrl('/js/inicio/index.js')?>"></script>
