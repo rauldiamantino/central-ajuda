@@ -105,7 +105,7 @@ class Roteador
 
       $coluna = 'subdominio';
       $valor = $empresa;
-pr($subdominio_2, true);
+
       if ($subdominio_2) {
         $coluna = 'subdominio_2';
         $valor = $_SERVER['REQUEST_SCHEME'] . '://' . $subdominio_2;
@@ -115,7 +115,7 @@ pr($subdominio_2, true);
       $cacheNome = 'roteador-' . $valor;
 
       $buscarEmpresa = Cache::buscar($cacheNome);
-
+pr($buscarEmpresa, true);
       if ($buscarEmpresa == null) {
         $buscarEmpresa = $dashboardEmpresa->buscarEmpresaSemId($coluna, $valor);
 
