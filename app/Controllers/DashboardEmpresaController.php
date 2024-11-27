@@ -186,6 +186,8 @@ class DashboardEmpresaController extends DashboardController
                                   ->juntar($juntarUsuario, 'LEFT')
                                   ->executarConsulta();
 
+    registrarLog('empresa', $empresa, true);
+
     if (empty($empresa)) {
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Não foi possível gerar a assinatura, por favor, entre em contato com o nosso suporte.');
     }
@@ -208,7 +210,7 @@ class DashboardEmpresaController extends DashboardController
 
     $this->pagamentoAsaas = new PagamentoAsaasComponent();
     $criarAssinatura = $this->pagamentoAsaas->criarAssinatura($empresa, $plano);
-
+    registrarLog('criarAssinatura', $criarAssinatura, true);
     if (isset($criarAssinatura['erro'])) {
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Não foi possível gerar a assinatura, por favor, entre em contato com o nosso suporte');
     }

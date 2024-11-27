@@ -48,7 +48,7 @@ function converterInteiroParaDecimal(int $valor = 0) {
   return number_format($valorConvertido, 2, '.', '');
 }
 
-function registrarLog($nome, $arquivo) {
+function registrarLog($nome, $arquivo, $debug = false) {
   // Remove quebras de linha e espaços extras
   if ($nome == 'database' and isset($arquivo['sql']) && is_string($arquivo['sql'])) {
     $arquivo['sql'] = preg_replace('/\s+/', ' ', $arquivo['sql']);
@@ -67,7 +67,7 @@ function registrarLog($nome, $arquivo) {
     $sessaoUsuario->definir('debug', $logMensagem, true);
   }
 
-  if (HOST_LOCAL) {
+  if (HOST_LOCAL or $debug === true) {
     error_log($logMensagem, 3, '../app/logs/' . $nome . '-' . date('Y-m-d') . '.log');
   }
 }
