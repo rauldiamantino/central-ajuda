@@ -41,6 +41,7 @@ class DashboardLoginController extends DashboardController
     $colunas = [
       'Empresa.id',
       'Empresa.subdominio',
+      'Empresa.subdominio_2',
       'Empresa.ativo',
       'Empresa.id',
       'Empresa.gratis_prazo',
@@ -103,6 +104,7 @@ class DashboardLoginController extends DashboardController
         $this->usuarioLogado['assinaturaStatus'] = $linha['Empresa']['assinatura_status'];
         $this->usuarioLogado['assinaturaIdAsaas'] = $linha['Empresa']['assinatura_id_asaas'];
         $this->usuarioLogado['subdominio'] = $linha['Empresa']['subdominio'];
+        $this->usuarioLogado['subdominio_2'] = $linha['Empresa']['subdominio_2'] ?? '';
         $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
 
         $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard');
@@ -151,6 +153,7 @@ class DashboardLoginController extends DashboardController
       'assinaturaIdAsaas' => $resultado['ok']['Empresa.assinatura_id_asaas'],
       'assinaturaStatus' => $resultado['ok']['Empresa.assinatura_status'],
       'subdominio' => $resultado['ok']['Empresa.subdominio'],
+      'subdominio_2' => $resultado['ok']['Empresa.subdominio_2'],
       'nivel' => $resultado['ok']['nivel'],
       'padrao' => $resultado['ok']['padrao'],
       'tentativasLogin' => $resultado['ok']['tentativas_login'],

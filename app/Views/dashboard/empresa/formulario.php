@@ -19,7 +19,19 @@
       <input type="text" id="empresa-editar-telefone" name="telefone" class="<?php echo CLASSES_DASH_INPUT; ?>" placeholder="00 00000 0000" value="<?php echo $empresa['Empresa']['telefone']; ?>">
     </div>
 
-    <?php // URL ?>
+    <?php // Subdomínio personalizado ?>
+    <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
+      <div class="flex flex-col text-sm font-medium text-gray-700">
+        <span>Subdomínio personalizado</span>
+        <span class="font-extralight">
+          Será utilizado para acessar a sua Central de Ajuda, por exemplo: <strong>ajuda.suaempresa.com.br</strong>.<br>
+          Certifique-se de que está apontado para <a href="https://www.360help.com.br" target="_blank" class="text-blue-600">https://360help.com.br</a>.
+        </span>
+      </div>
+      <input type="text" id="empresa-editar-subdominio-2" name="subdominio_2" class="<?php echo CLASSES_DASH_INPUT; ?>" placeholder="https://ajuda.suaempresa.com.br" value="<?php echo $empresa['Empresa']['subdominio_2']; ?>">
+    </div>
+
+    <?php // URL Site empresa ?>
     <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
       <div class="flex flex-col text-sm font-medium text-gray-700">
         <span>Link para site da empresa</span>

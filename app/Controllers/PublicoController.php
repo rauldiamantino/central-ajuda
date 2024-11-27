@@ -12,6 +12,7 @@ class PublicoController extends Controller
   protected $dashboardEmpresaModel;
   protected $cacheTempo;
   protected $subdominio;
+  protected $subdominio_2;
   protected $empresaId;
   protected $empresaNome;
   protected $empresaCnpj;
@@ -31,11 +32,16 @@ class PublicoController extends Controller
     $this->obterDadosEmpresa();
     $this->dashboardCategoriaModel = new DashboardCategoriaModel($this->usuarioLogado, $this->empresaPadraoId);
 
+    if ($this->subdominio_2) {
+      $this->subdominio = '';
+    }
+
     $this->visao = new ViewRenderer('/publico');
     $this->visao->variavel('logo', $this->logo);
     $this->visao->variavel('favicon', $this->favicon);
     $this->visao->variavel('corPrimaria', $this->corPrimaria);
     $this->visao->variavel('subdominio', $this->subdominio);
+    $this->visao->variavel('subdominio_2', $this->subdominio_2);
     $this->visao->variavel('empresaId', $this->empresaId);
     $this->visao->variavel('empresaNome', $this->empresaNome);
     $this->visao->variavel('empresaCnpj', $this->empresaCnpj);
@@ -138,6 +144,7 @@ class PublicoController extends Controller
     $this->empresaNome = $resultado[0]['Empresa']['nome'] ?? '';
     $this->telefone = intval($resultado[0]['Empresa']['telefone'] ?? 0);
     $this->subdominio = $this->sessaoUsuario->buscar('subdominio');
+    $this->subdominio_2 = $this->sessaoUsuario->buscar('subdominio_2');
     $this->empresaId = $this->sessaoUsuario->buscar('empresaPadraoId');
 
     $cnpj = $resultado[0]['Empresa']['cnpj'] ?? '';

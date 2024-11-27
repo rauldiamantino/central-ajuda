@@ -47,15 +47,24 @@ class Roteador
     $chaveRota = $metodo . ':' . $url;
     $partesRota = explode('/', trim($url, '/'));
 
+    $subdominio_2 = $_SERVER['HTTP_HOST'];
+    $host360 = '360help.com.br';
+
     if (HOST_LOCAL) {
       $chaveRota = str_replace(RAIZ, '/', $chaveRota);
+      $host360 = 'localhost';
+    }
+
+    // Identifica subdomínio personalizado
+    if ($subdominio_2 and $subdominio_2 == $host360) {
+      $subdominio_2 = '';
     }
 
     // Até criar a landing page
-    if ($chaveRota == 'GET:/') {
-      header('Location: /login');
-      exit;
-    }
+    // if ($chaveRota == 'GET:/') {
+    //   header('Location: /login');
+    //   exit;
+    // }
 
     if (count($partesRota) > 1) {
       $empresa = reset($partesRota);
@@ -78,13 +87,13 @@ class Roteador
 
     $chaveRota = preg_replace('/\b' . preg_quote($id, '/') . '\b/', '{id}', $chaveRota, 1);
 
-    if (! $this->rotaLogin($chaveRota)) {
+    if (empty($subdominio_2) and ! $this->rotaLogin($chaveRota)) {
       $chaveRota = preg_replace('/\b' . preg_quote($empresa, '/') . '\b/', '{empresa}', $chaveRota, 1);
     }
 
     $rotaRequisitada = $this->acessarRota($chaveRota);
 
-    if (empty($rotaRequisitada)) {
+    if (empty($subdominio_2) and empty($rotaRequisitada)) {
       return $this->paginaErro->erroVer();
     }
 
@@ -92,11 +101,17 @@ class Roteador
     $gratisPrazo = '';
     $testeExpirado = false;
 
-    if (! $this->rotaLogin($chaveRota)) {
+    if ($subdominio_2 or ! $this->rotaLogin($chaveRota)) {
       $dashboardEmpresa = new DashboardEmpresaController();
 
       $coluna = 'subdominio';
       $valor = $empresa;
+
+      if ($subdominio_2) {
+        $coluna = 'subdominio_2';
+        $valor = $_SERVER['REQUEST_SCHEME'] . '://' . $subdominio_2;
+      }
+
       $cacheTempo = 60 * 60;
       $cacheNome = 'roteador-' . $valor;
 
@@ -114,8 +129,16 @@ class Roteador
       $empresaAtivo = intval($buscarEmpresa[0]['Empresa']['ativo'] ?? 0);
       $empresa = $buscarEmpresa[0]['Empresa']['subdominio'] ?? '';
 
-      $assinaturaStatus = (int) $buscarEmpresa[0]['Empresa']['assinatura_status'] ?? 0;
+      $assinaturaStatus = intval($buscarEmpresa[0]['Empresa']['assinatura_status'] ?? 0);
       $gratisPrazo = $buscarEmpresa[0]['Empresa']['gratis_prazo'] ?? '';
+    }
+
+    if ($empresa and $subdominio_2) {
+      $rotaRequisitada = $this->acessarRotaSubdominio($chaveRota);
+
+      if (empty($rotaRequisitada)) {
+        return $this->paginaErro->erroVer();
+      }
     }
 
     // Teste grátis expirado
@@ -235,6 +258,7 @@ class Roteador
     // Grava EmpresaID na sessão
     $this->sessaoUsuario->definir('empresaPadraoId', $empresaId);
     $this->sessaoUsuario->definir('subdominio', $empresa);
+    $this->sessaoUsuario->definir('subdominio_2', $subdominio_2);
 
     // Acessa rota solicitada
     $controlador = new $rotaRequisitada[0]();
@@ -494,6 +518,20 @@ class Roteador
       'PUT:/{empresa}/d/usuario/{id}' => [DashboardUsuarioController::class, 'atualizar'],
       'DELETE:/{empresa}/d/usuario/{id}' => [DashboardUsuarioController::class, 'apagar'],
       'GET:/{empresa}/d/usuario/desbloquear/{id}' => [DashboardUsuarioController::class, 'desbloquear'],
+    ];
+
+    return $rotas[ $rotaRequisitada ] ?? [];
+  }
+
+  private function acessarRotaSubdominio(string $rotaRequisitada = ''): array
+  {
+    $rotas = [
+      // Central de Ajuda com subdomínio personalizado
+      'GET:/' => [PublicoController::class, 'publicoVer'],
+      'GET:/categoria/{id}' => [PublicoCategoriaController::class, 'categoriaVer'],
+      'GET:/artigo/{id}' => [PublicoArtigoController::class, 'artigoVer'],
+      'POST:/buscar' => [PublicoBuscaController::class, 'buscar'],
+      'GET:/buscar' => [PublicoBuscaController::class, 'buscar'],
     ];
 
     return $rotas[ $rotaRequisitada ] ?? [];

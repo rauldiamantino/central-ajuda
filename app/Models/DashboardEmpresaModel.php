@@ -33,6 +33,7 @@ class DashboardEmpresaModel extends Model
     $permitidas = [
       'id',
       'subdominio',
+      'subdominio_2',
     ];
 
     if (! in_array($coluna, $permitidas)) {
@@ -56,6 +57,7 @@ class DashboardEmpresaModel extends Model
       'Empresa.id',
       'Empresa.ativo',
       'Empresa.subdominio',
+      'Empresa.subdominio_2',
       'Empresa.assinatura_id_asaas',
       'Empresa.assinatura_status',
       'Empresa.gratis_prazo',
@@ -148,6 +150,7 @@ class DashboardEmpresaModel extends Model
       'ativo' => $params['ativo'] ?? 0,
       'nome' => $params['nome'] ?? '',
       'subdominio' => $params['subdominio'] ?? '',
+      'subdominio_2' => $params['subdominio_2'] ?? '',
       'telefone' => $params['telefone'] ?? '',
       'logo' => $params['logo'] ?? '',
       'favicon' => $params['favicon'] ?? '',
@@ -176,6 +179,7 @@ class DashboardEmpresaModel extends Model
         'cnpj',
         'telefone',
         'subdominio',
+        'subdominio_2',
         'logo',
         'favicon',
         'assinatura_id_asaas',
@@ -208,6 +212,7 @@ class DashboardEmpresaModel extends Model
       $campos['ativo'] = filter_var($campos['ativo'], FILTER_SANITIZE_NUMBER_INT);
       $campos['nome'] = htmlspecialchars($campos['nome']);
       $campos['subdominio'] = htmlspecialchars($campos['subdominio']);
+      $campos['subdominio_2'] = filter_var($campos['subdominio_2'], FILTER_SANITIZE_URL);
       $campos['telefone'] = filter_var($campos['telefone'], FILTER_SANITIZE_NUMBER_INT);
       $cnpjValido = preg_match('/^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/', $campos['cnpj']);
       $campos['assinatura_id_asaas'] = htmlspecialchars($campos['assinatura_id_asaas']);
@@ -251,6 +256,10 @@ class DashboardEmpresaModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('url_site', 'valInvalido');
       }
 
+      if ($campos['subdominio_2'] and filter_var($campos['subdominio_2'], FILTER_VALIDATE_URL) == false) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('subdominio_2', 'valInvalido');
+      }
+
       if ($campos['gratis_prazo']) {
 
         try {
@@ -265,6 +274,7 @@ class DashboardEmpresaModel extends Model
       $ativoCaracteres = 1;
       $nomeCaracteres = 255;
       $subdominioCaracteres = 255;
+      $subdominio2Caracteres = 255;
       $telefoneCaracteresMin = 10;
       $telefoneCaracteresMax = 11;
       $logoCaracteres = 255;
@@ -303,6 +313,10 @@ class DashboardEmpresaModel extends Model
 
       if (strlen($campos['subdominio']) > $subdominioCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('subdominio', 'caracteres', $subdominioCaracteres);
+      }
+
+      if (strlen($campos['subdominio_2']) > $subdominio2Caracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('subdominio_2', 'caracteres', $subdominio2Caracteres);
       }
 
       if ($campos['telefone'] and strlen($campos['telefone']) > $telefoneCaracteresMax) {
@@ -345,6 +359,7 @@ class DashboardEmpresaModel extends Model
       'ativo' => $campos['ativo'],
       'nome' => $campos['nome'],
       'subdominio' => $campos['subdominio'],
+      'subdominio_2' => $campos['subdominio_2'],
       'telefone' => $campos['telefone'],
       'cnpj' => $campos['cnpj'],
       'logo' => $campos['logo'],
@@ -436,6 +451,10 @@ class DashboardEmpresaModel extends Model
 
     if ($campo == 'url_site') {
       $campo = 'Link para o site';
+    }
+
+    if ($campo == 'subdominio_2') {
+      $campo = 'Subdomínio personalizado';
     }
 
     $msgErro = [

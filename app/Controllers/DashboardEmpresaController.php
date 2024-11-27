@@ -37,6 +37,7 @@ class DashboardEmpresaController extends DashboardController
       'Empresa.ativo',
       'Empresa.nome',
       'Empresa.subdominio',
+      'Empresa.subdominio_2',
       'Empresa.cnpj',
       'Empresa.telefone',
       'Empresa.logo',
@@ -188,6 +189,7 @@ class DashboardEmpresaController extends DashboardController
       'Empresa.cnpj',
       'Empresa.telefone',
       'Empresa.subdominio',
+      'Empresa.subdominio_2',
       'Usuario.email',
       'Usuario.padrao',
     ];
@@ -276,6 +278,7 @@ class DashboardEmpresaController extends DashboardController
     $colunas = [
       'Empresa.ativo',
       'Empresa.subdominio',
+      'Empresa.subdominio_2',
       'Empresa.gratis_prazo',
       'Empresa.cor_primaria',
       'Empresa.url_site',

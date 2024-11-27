@@ -31,6 +31,7 @@ class DashboardLoginModel extends Model
               Usuario.padrao,
               Usuario.tentativas_login,
               Empresa.subdominio AS "Empresa.subdominio",
+              Empresa.subdominio_2 AS "Empresa.subdominio_2",
               Empresa.ativo AS "Empresa.ativo",
               Empresa.gratis_prazo AS "Empresa.gratis_prazo",
               Empresa.cor_primaria AS "Empresa.cor_primaria",
@@ -85,6 +86,10 @@ class DashboardLoginModel extends Model
     }
 
     if (! isset($usuario[0]['Empresa.assinatura_id_asaas'])) {
+      $loginSucesso = false;
+    }
+
+    if (! isset($usuario[0]['Empresa.subdominio_2'])) {
       $loginSucesso = false;
     }
 

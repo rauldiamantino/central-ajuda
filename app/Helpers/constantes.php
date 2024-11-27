@@ -17,6 +17,7 @@ else {
 }
 
 define('HOST_LOCAL', strpos($host, 'localhost') !== false);
+
 // define('HOST_LOCAL', false); // Apenas teste
 
 define('REFERER', $_SERVER['HTTP_REFERER'] ?? '/login');

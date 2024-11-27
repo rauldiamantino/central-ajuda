@@ -36,6 +36,7 @@ class Controller
       'assinaturaIdAsaas' => $resultado['assinaturaIdAsaas'] ?? '',
       'assinaturaStatus' => intval($resultado['assinaturaStatus'] ?? 0),
       'subdominio' => $resultado['subdominio'] ?? '',
+      'subdominio_2' => $resultado['subdominio_2'] ?? '',
       'tentativasLogin' => intval($resultado['tentativas_login'] ?? 0),
     ];
 
