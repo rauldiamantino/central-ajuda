@@ -47,9 +47,9 @@ class Roteador
     $chaveRota = $metodo . ':' . $url;
     $partesRota = explode('/', trim($url, '/'));
 
-    $subdominio_2 = $_SERVER['HTTP_HOST'];
+    $subdominio_2 = $_SERVER['SERVER_NAME'];
     $host360 = '360help.com.br';
-pr($_SERVER);
+
     if (HOST_LOCAL) {
       $chaveRota = str_replace(RAIZ, '/', $chaveRota);
       $host360 = 'localhost';
@@ -60,11 +60,10 @@ pr($_SERVER);
       $subdominio_2 = '';
     }
 
-    // Até criar a landing page
-    // if ($chaveRota == 'GET:/') {
-    //   header('Location: /login');
-    //   exit;
-    // }
+    if (empty($subdominio_2) and $chaveRota == 'GET:/') {
+      header('Location: /login');
+      exit;
+    }
 
     if (count($partesRota) > 1) {
       $empresa = reset($partesRota);
