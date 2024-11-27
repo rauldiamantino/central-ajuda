@@ -56,7 +56,7 @@ class Roteador
     }
 
     // Identifica subdomínio personalizado
-    if ($subdominio_2 and $subdominio_2 == $host360) {
+    if ($subdominio_2 == $host360) {
       $subdominio_2 = '';
     }
 
