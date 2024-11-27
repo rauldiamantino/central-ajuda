@@ -48,7 +48,7 @@ class Roteador
     $partesRota = explode('/', trim($url, '/'));
 
     $subdominio_2 = $_SERVER['SERVER_NAME'];
-    $host360 = '360help.com.br';
+    $host360 = 'www.360help.com.br';
 
     if (HOST_LOCAL) {
       $chaveRota = str_replace(RAIZ, '/', $chaveRota);
@@ -59,8 +59,7 @@ class Roteador
     if ($subdominio_2 == $host360) {
       $subdominio_2 = '';
     }
-pr($_SERVER);
-die;
+
     if (empty($subdominio_2) and $chaveRota == 'GET:/') {
       header('Location: /login');
       exit;
