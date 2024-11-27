@@ -129,7 +129,7 @@ class Database
     }
 
     registrarLog('database-operacoes', $log);
-
+    registrarLog('database-debug', $log, true);
     return $resposta;
   }
 }
