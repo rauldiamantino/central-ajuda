@@ -53,7 +53,7 @@ $artigoAtual = intval($artigo['Artigo']['id'] ?? 0);
           <?php if ($urlSite) { ?>
             <li><a href="<?php echo $urlSite ?>" target="_blank" class="hover:underline">Website</a></li>
           <?php } ?>
-          <li><a href="<?php echo HOST_LOCAL ? 'http://localhost/login' : 'https://www.360help.com.br'; ?>" target="_blank" class="hover:underline">Login</a></li>
+          <li><a href="<?php echo HOST_LOCAL ? 'http://localhost/login' : 'https://www.360help.com.br/login'; ?>" target="_blank" class="hover:underline">Login</a></li>
         </ul>
       </div>
     </ul>
