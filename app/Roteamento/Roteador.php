@@ -59,8 +59,7 @@ class Roteador
     if ($subdominio_2 and $subdominio_2 == $host360) {
       $subdominio_2 = '';
     }
-registrarLog('subdominio_2', $subdominio_2, true);
-registrarLog('host360', $host360, true);
+
     // Até criar a landing page
     // if ($chaveRota == 'GET:/') {
     //   header('Location: /login');
