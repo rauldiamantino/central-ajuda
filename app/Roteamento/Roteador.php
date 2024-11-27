@@ -89,7 +89,7 @@ class Roteador
     if (empty($subdominio_2) and ! $this->rotaLogin($chaveRota)) {
       $chaveRota = preg_replace('/\b' . preg_quote($empresa, '/') . '\b/', '{empresa}', $chaveRota, 1);
     }
-
+pr($chaveRota);
     $rotaRequisitada = $this->acessarRota($chaveRota);
 
     if (empty($subdominio_2) and empty($rotaRequisitada)) {
