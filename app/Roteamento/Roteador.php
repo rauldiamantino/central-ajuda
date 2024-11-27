@@ -75,10 +75,6 @@ class Roteador
 
     $empresaId = 0;
     $empresaAtivo = 0;
-    $assinaturaId = '';
-    $assinaturaStatus = 0;
-    $gratisVencido = false;
-    $gratisPrazo = '';
 
     $chaveRota = preg_replace('/\b' . preg_quote($id, '/') . '\b/', '{id}', $chaveRota, 1);
 
@@ -91,6 +87,10 @@ class Roteador
     if (empty($rotaRequisitada)) {
       return $this->paginaErro->erroVer();
     }
+
+    $assinaturaStatus = 0;
+    $gratisPrazo = '';
+    $testeExpirado = false;
 
     if (! $this->rotaLogin($chaveRota)) {
       $dashboardEmpresa = new DashboardEmpresaController();
@@ -113,17 +113,18 @@ class Roteador
       $empresaId = intval($buscarEmpresa[0]['Empresa']['id'] ?? 0);
       $empresaAtivo = intval($buscarEmpresa[0]['Empresa']['ativo'] ?? 0);
       $empresa = $buscarEmpresa[0]['Empresa']['subdominio'] ?? '';
-      $assinaturaId = $buscarEmpresa[0]['Empresa']['assinatura_id_asaas'] ?? '';;
-      $assinaturaStatus = intval($buscarEmpresa[0]['Empresa']['assinatura_status'] ?? 0);
+
+      $assinaturaStatus = (int) $buscarEmpresa[0]['Empresa']['assinatura_status'] ?? 0;
       $gratisPrazo = $buscarEmpresa[0]['Empresa']['gratis_prazo'] ?? '';
     }
 
-    if ($gratisPrazo) {
+    // Teste grátis expirado
+    if ($gratisPrazo and (int) $assinaturaStatus == INATIVO) {
       $dataHoje = new DateTime('now');
       $dataGratis = new DateTime($gratisPrazo);
 
-      if ($dataGratis <= $dataHoje) {
-        $gratisVencido = true;
+      if ((int) $assinaturaStatus == INATIVO and $dataHoje > $dataGratis) {
+        $testeExpirado = true;
       }
     }
 
@@ -204,23 +205,6 @@ class Roteador
         $sucesso = false;
       }
 
-      if ($sucesso and $usuarioLogado['padrao'] != USUARIO_SUPORTE) {
-
-        if ($gratisVencido and empty($assinaturaId) and $assinaturaStatus == INATIVO and ! $this->rotaAssinaturaVencida($chaveRota)) {
-          // Teste expirado
-          $this->sessaoUsuario->definir('neutra', 'Ops! Seu período de testes expirou. 😔 <br>
-                                                  <a href="/' . $empresa . '/dashboard/empresa/editar?acao=assinar" class="underline font-semibold">Clique aqui</a> para assinar o 360Help!');
-          $sucesso = false;
-        }
-        elseif ($assinaturaId and $assinaturaStatus == INATIVO and ! $this->rotaAssinaturaVencida($chaveRota)) {
-          // Assinatura vencida ou problemas no pagamento
-          $this->sessaoUsuario->definir('erro', 'Ops! Parece que seu pagamento não foi finalizado. <br>
-                                                  <a href="https://api.whatsapp.com/send/?phone=5511934332319&text=Oi!%20Notei%20que%20o%20pagamento%20ainda%20está%20em%20aberto.%20Poderiam%20me%20ajudar%20a%20resolver?%20Obrigado!"
-                                                  target="_blank" class="underline font-semibold">Clique aqui</a> para falar com a gente');
-          $sucesso = false;
-        }
-      }
-
       if ($sucesso == false) {
         header('Location: ' . baseUrl('/login'));
         exit;
@@ -230,11 +214,17 @@ class Roteador
       if ($usuarioLogado['empresaId'] !== $empresaId) {
         return $this->paginaErro->erroVer();
       }
-    }
 
-    // Acesso público de usuário com assinatura vencida
-    if ((! strpos($chaveRota, '/dashboard') and ! strpos($chaveRota, '/{empresa}/d/')) and $gratisVencido and $assinaturaStatus == INATIVO and (! isset($usuarioLogado['padrao']) or $usuarioLogado['padrao'] != USUARIO_SUPORTE)) {
-        $empresaId = 0;
+      $testeExpirado = $this->sessaoUsuario->buscar('teste-expirado-' . $empresaId);
+
+      if ($testeExpirado and ! $this->rotaAssinaturaVencida($chaveRota) and (int) $usuarioLogado['padrao'] != USUARIO_SUPORTE) {
+        header('Location: ' . baseUrl('/' . $empresa . '/dashboard/empresa/editar?acao=assinar'));
+        exit;
+      }
+    }
+    elseif ($testeExpirado and (! isset($usuarioLogado['padrao']) or $usuarioLogado['padrao'] != USUARIO_SUPORTE)) {
+      // Somente suporte acessa Central de Ajuda com teste expirado
+      $empresaId = 0;
     }
 
     // Acesso sem subdomínio
@@ -398,23 +388,6 @@ class Roteador
     return true;
   }
 
-  // private function rotaPublica(string $chaveRota): bool
-  // {
-  //   $rotasRestritas = [
-  //     'GET:/',
-  //     'GET:/categoria/{id}',
-  //     'GET:/artigo/{id}',
-  //     'POST:/buscar',
-  //     'GET:/buscar',
-  //   ];
-
-  //   if (! in_array($chaveRota, $rotasRestritas)) {
-  //     return false;
-  //   }
-
-  //   return true;
-  // }
-
   private function rotaLogin(string $chaveRota): bool
   {
     $rotasPublicas = [
@@ -450,7 +423,7 @@ class Roteador
       'POST:/login' => [DashboardLoginController::class, 'login'],
       'GET:/logout' => [DashboardLoginController::class, 'logout'],
 
-      // Empresa
+      // Central de Ajuda
       'GET:/{empresa}' => [PublicoController::class, 'publicoVer'],
       'GET:/{empresa}/categoria/{id}' => [PublicoCategoriaController::class, 'categoriaVer'],
       'GET:/{empresa}/artigo/{id}' => [PublicoArtigoController::class, 'artigoVer'],

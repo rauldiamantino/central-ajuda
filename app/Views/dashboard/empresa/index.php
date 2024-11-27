@@ -6,6 +6,12 @@
       <p class="text-gray-600">Gerencie seu plano, extrato e configurações para otimizar sua experiência.</p>
     </div>
     <div class="py-2 w-full h-full flex gap-2 items-start justify-end">
+      <?php if ((int) $this->usuarioLogado['padrao'] == USUARIO_SUPORTE) { ?>
+        <form action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/validar_assinatura'); ?>" method="GET" class="<?php echo CLASSES_DASH_BUTTON_LIMPAR; ?> flex justify-start items-center gap-2">
+          <input type="hidden" name="assinatura_id" value="<?php echo $empresa['Empresa']['assinatura_id_asaas']; ?>">
+          <button type="submit">Reprocessar</button>
+        </form>
+      <?php } ?>
       <button type="submit" class="<?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> btn-gravar-empresa" form="form-editar-empresa">Gravar</button>
     </div>
   </div>

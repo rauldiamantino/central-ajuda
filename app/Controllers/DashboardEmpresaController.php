@@ -1,5 +1,6 @@
 <?php
 namespace app\Controllers;
+use DateTime;
 use app\Core\Cache;
 use app\Models\DashboardEmpresaModel;
 use app\Controllers\DashboardController;
@@ -64,6 +65,22 @@ class DashboardEmpresaController extends DashboardController
     if ($assinaturaId) {
       $this->pagamentoAsaas = new PagamentoAsaasComponent();
       $buscarCobrancas = $this->pagamentoAsaas->buscarCobrancas($assinaturaId);
+    }
+
+    // Teste grátis expirado
+    $assinaturaStatus = (int) $empresa[0]['Empresa']['assinatura_status'];
+    $gratisPrazo = $empresa[0]['Empresa']['gratis_prazo'];
+
+    if ($gratisPrazo) {
+      $dataHoje = new DateTime('now');
+      $dataGratis = new DateTime($gratisPrazo);
+
+      if ((int) $assinaturaStatus == INATIVO and $dataHoje > $dataGratis) {
+        $this->sessaoUsuario->definir('teste-expirado-' . $this->empresaPadraoId, true);
+      }
+      else {
+        $this->sessaoUsuario->apagar('teste-expirado-' . $this->empresaPadraoId);
+      }
     }
 
     $this->visao->variavel('empresa', reset($empresa));

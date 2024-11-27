@@ -1,5 +1,6 @@
 <?php
 namespace app\Models;
+use DateTime;
 use app\Models\Model;
 
 class DashboardLoginModel extends Model
@@ -120,6 +121,23 @@ class DashboardLoginModel extends Model
       $this->registrarTentativas($usuario[0]['id']);
 
       return $validarSenha;
+    }
+
+    // Teste grátis expirado
+    $id = (int) $usuario[0]['Empresa.ativo'];
+    $assinaturaStatus = (int) $usuario[0]['Empresa.assinatura_status'];
+    $gratisPrazo = $usuario[0]['Empresa.gratis_prazo'];
+
+    if ($gratisPrazo) {
+      $dataHoje = new DateTime('now');
+      $dataGratis = new DateTime($gratisPrazo);
+
+      if ((int) $assinaturaStatus == INATIVO and $dataHoje > $dataGratis) {
+        $this->sessaoUsuario->definir('teste-expirado-' . $id, true);
+      }
+      else {
+        $this->sessaoUsuario->apagar('teste-expirado-' . $id);
+      }
     }
 
     $this->registrarUltimoLogin($usuario[0]['id']);
