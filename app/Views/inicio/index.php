@@ -88,22 +88,45 @@
       </section>
 
       <?php // Bloco 3 ?>
-      <section class="py-20 mx-auto w-full max-w-[1140px] flex flex-col items-center justify-center gap-6">
+      <section class="py-20 mx-auto w-full max-w-[1140px] flex flex-col items-center justify-center gap-2">
         <div class="pb-2 px-2 w-full flex flex-col items-center justify-center gap-4 text-center">
           <h1 class="text-3xl font-semibold">Gerencie seu conteúdo de forma simples e sem complicação</h1>
           <div class="text-lg font-light">
             Nossa plataforma foi criada para tornar a organização do seu conteúdo rápida e intuitiva. Sem telas confusas, sem recursos desnecessários. Vamos direto ao que importa, para você focar no que realmente faz a diferença!
           </div>
         </div>
-
-        <div class="w-full">
-          <img src="/img/inicio/dash-1.png" alt="busca-completa" class="w-full border-6 border-black rounded-3xl">
+        <div class="border-4 border-black relative w-full overflow-hidden rounded-2xl shadow-lg bg-black">
+          <div class="flex transition-transform duration-500 ease-in-out" id="carrossel-imagens">
+            <img src="/img/inicio/dash-1.png" alt="Imagem 1" class="w-full rounded-xl">
+            <img src="/img/inicio/dash-2.png" alt="Imagem 2" class="w-full rounded-xl">
+            <img src="/img/inicio/dash-3.png" alt="Imagem 3" class="w-full rounded-xl">
+            <img src="/img/inicio/dash-4.png" alt="Imagem 4" class="w-full rounded-xl">
+            <img src="/img/inicio/dash-5.png" alt="Imagem 5" class="w-full rounded-xl">
+            <img src="/img/inicio/dash-6.png" alt="Imagem 6" class="w-full rounded-xl">
+            <img src="/img/inicio/publico-1.png" alt="Imagem 7" class="w-full rounded-xl">
+            <img src="/img/inicio/publico-2.png" alt="Imagem 8" class="w-full rounded-xl">
+            <img src="/img/inicio/publico-3.png" alt="Imagem 9" class="w-full rounded-xl">
+          </div>
+          <button class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-800 text-white w-12 h-12 rounded-full shadow-lg opacity-70 hover:opacity-100 transition-opacity" onclick="moveSlide(-1)">&#10094;</button>
+          <button class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-800 text-white w-12 h-12 rounded-full shadow-lg opacity-70 hover:opacity-100 transition-opacity" onclick="moveSlide(1)">&#10095;</button>
         </div>
-        <div class="mt-10 w-full flex items-center justify-center">
+
+        <div class="mt-2 w-full flex items-center justify-center">
           <button type="button" class="w-max whitespace-nowrap flex items-center justify-center py-3 px-5 bg-blue-800 hover:bg-blue-700 text-white rounded-lg duration-100 font-semibold" onclick="window.open('/cadastro')">Iniciar teste grátis</button>
         </div>
       </section>
   </main>
+
+  <script>
+    let indiceAtual = 0;
+
+    function moveSlide(direcao) {
+      const imagens = document.querySelector('#carrossel-imagens');
+      const totalImagens = document.querySelectorAll('#carrossel-imagens img').length;
+      indiceAtual = (indiceAtual + direcao + totalImagens) % totalImagens;
+      imagens.style.transform = `translateX(-${indiceAtual * 100}%)`;
+    }
+  </script>
 
   <?php require_once 'template/rodape.php' ?>
   <?php require_once 'scripts.php' ?>
