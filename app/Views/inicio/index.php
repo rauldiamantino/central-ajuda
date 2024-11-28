@@ -422,6 +422,22 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                   </svg>
                 </span>
+                <span>Organização de artigos em categorias</span>
+              </li>
+              <li class="font-light grid grid-cols-[auto,1fr] gap-2 items-center">
+                <span class="text-blue-600 w-6">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                  </svg>
+                </span>
+                <span>Ícones personalizados para categorias</span>
+              </li>
+              <li class="font-light grid grid-cols-[auto,1fr] gap-2 items-center">
+                <span class="text-blue-600 w-6">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                  </svg>
+                </span>
                 <span>4 Templates de cores</span>
               </li>
               <li class="font-light grid grid-cols-[auto,1fr] gap-2 items-center">
@@ -471,6 +487,30 @@
                   </svg>
                 </span>
                 <span>Link personalizado para redirecionamento para sua empresa</span>
+              </li>
+              <li class="font-light grid grid-cols-[auto,1fr] gap-2 items-center">
+                <span class="text-blue-600 w-6">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                  </svg>
+                </span>
+                <span>Personalização da ordem de artigos, blocos de conteúdo e categorias</span>
+              </li>
+              <li class="font-light grid grid-cols-[auto,1fr] gap-2 items-center">
+                <span class="text-blue-600 w-6">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                  </svg>
+                </span>
+                <span>CNPJ e nome da empresa no rodapé</span>
+              </li>
+              <li class="font-light grid grid-cols-[auto,1fr] gap-2 items-center">
+                <span class="text-blue-600 w-6">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                  </svg>
+                </span>
+                <span>14 dias de teste grátis (sem necessidade de cartão de crédito)</span>
               </li>
             </ul>
             <div class="mt-6">
@@ -516,6 +556,22 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                   </svg>
                 </span>
+                <span>Organização de artigos em categorias</span>
+              </li>
+              <li class="font-light grid grid-cols-[auto,1fr] gap-2 items-center">
+                <span class="text-blue-600 w-6">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                  </svg>
+                </span>
+                <span>Ícones personalizados para categorias</span>
+              </li>
+              <li class="font-light grid grid-cols-[auto,1fr] gap-2 items-center">
+                <span class="text-blue-600 w-6">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                  </svg>
+                </span>
                 <span>4 Templates de cores</span>
               </li>
               <li class="font-light grid grid-cols-[auto,1fr] gap-2 items-center">
@@ -565,6 +621,30 @@
                   </svg>
                 </span>
                 <span>Link personalizado para redirecionamento para sua empresa</span>
+              </li>
+              <li class="font-light grid grid-cols-[auto,1fr] gap-2 items-center">
+                <span class="text-blue-600 w-6">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                  </svg>
+                </span>
+                <span>Personalização da ordem de artigos, blocos de conteúdo e categorias</span>
+              </li>
+              <li class="font-light grid grid-cols-[auto,1fr] gap-2 items-center">
+                <span class="text-blue-600 w-6">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                  </svg>
+                </span>
+                <span>CNPJ e nome da empresa no rodapé</span>
+              </li>
+              <li class="font-light grid grid-cols-[auto,1fr] gap-2 items-center">
+                <span class="text-blue-600 w-6">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                  </svg>
+                </span>
+                <span>14 dias de teste grátis (sem necessidade de cartão de crédito)</span>
               </li>
             </ul>
             <div class="mt-6">
