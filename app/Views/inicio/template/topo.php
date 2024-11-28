@@ -6,7 +6,7 @@
 
     <div class="w-max flex items-center gap-5">
       <button type="button" class="text-gray-800 w-max whitespace-nowrap flex items-center justify-center py-3 px-5 bg-gray-100 rounded-lg duration-100 font-semibold" onclick="window.open('/login')">Login</button>
-      <button type="button" class="w-max whitespace-nowrap hidden md:flex items-center justify-center py-3 px-5 bg-blue-800 hover:bg-blue-700 text-white rounded-lg duration-100 font-semibold" onclick="window.open('/cadastro')">Iniciar teste grátis</button>
+      <button type="button" class="w-max whitespace-nowrap hidden md:flex items-center justify-center py-3 px-5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg duration-100 font-semibold" onclick="window.open('/cadastro')">Iniciar teste grátis</button>
     </div>
   </nav>
 </header>
