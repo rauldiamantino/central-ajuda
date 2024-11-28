@@ -211,13 +211,14 @@ class Controller
   public function iconeExiste($iconeCaminho)
   {
     if (filter_var($iconeCaminho, FILTER_VALIDATE_URL)) {
-      $cabecalhos = @get_headers($iconeCaminho);
-  
-      if ($cabecalhos && strpos($cabecalhos[0], '200') !== false) {
+      $cabecalhos = get_headers($iconeCaminho);
+      $iconeExiste = strpos($cabecalhos[0] ?? '', '200') !== false;
+
+      if ($iconeExiste) {
         return true;
       }
     }
-  
+
     return false;
   }
 }
