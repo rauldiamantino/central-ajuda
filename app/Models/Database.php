@@ -128,7 +128,7 @@ class Database
       $log['erro'] = $erro;
     }
 
-    registrarLog('database-operacoes', $log);
+    registrarLog('database-operacoes', $log, true);
 
     return $resposta;
   }
