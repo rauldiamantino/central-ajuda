@@ -7,3 +7,4 @@ mysql-dev
 .env
 apache.conf
 app/Config/app.php
+.htaccess
