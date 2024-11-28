@@ -231,6 +231,10 @@ class DashboardArtigoModel extends Model
       endforeach;
     }
 
+    if (isset($camposValidados['modificado']) and empty($camposValidados['modificado'])) {
+      unset($camposValidados['modificado']);
+    }
+
     if (isset($camposValidados['categoria_id']) and empty($camposValidados['categoria_id'])) {
       unset($camposValidados['categoria_id']);
     }
