@@ -2,6 +2,9 @@
 namespace app\Roteamento;
 use DateTime;
 use app\Core\Cache;
+use Rollbar\Rollbar;
+use Rollbar\Payload\Level;
+use app\Controllers\InicioController;
 use app\Controllers\PublicoController;
 use app\Controllers\DashboardController;
 use app\Controllers\PaginaErroController;
@@ -18,7 +21,6 @@ use app\Controllers\DashboardConteudoController;
 use app\Controllers\DashboardCategoriaController;
 use app\Controllers\Components\DatabaseFirebaseComponent;
 use app\Controllers\Components\AssinaturaReceberComponent;
-use app\Controllers\InicioController;
 
 class Roteador
 {
@@ -95,6 +97,8 @@ class Roteador
     $rotaRequisitada = $this->acessarRota($chaveRota);
 
     if (empty($subdominio_2) and empty($rotaRequisitada)) {
+      Rollbar::log(Level::ERROR, 'Rota não encontrada', $_SESSION);
+
       return $this->paginaErro->erroVer();
     }
 
@@ -138,6 +142,7 @@ class Roteador
       $rotaRequisitada = $this->acessarRotaSubdominio($chaveRota);
 
       if (empty($rotaRequisitada)) {
+        Rollbar::log(Level::ERROR, 'Rota não encontrada (domínio personalizado)', $_SESSION);
         return $this->paginaErro->erroVer();
       }
     }
@@ -176,6 +181,7 @@ class Roteador
       $empresaId = $usuarioLogado['empresaId'];
 
       if (empty($empresa) and ! $this->rotaLogin($chaveRota)) {
+        Rollbar::log(Level::ERROR, 'Rota não encontrada (sem empresaId)', $_SESSION);
         return $this->paginaErro->erroVer();
       }
     }
@@ -236,6 +242,7 @@ class Roteador
 
       // Limita o acesso à empresa correta
       if ($usuarioLogado['empresaId'] !== $empresaId) {
+        Rollbar::log(Level::ERROR, 'Tentou acessar outra empresa', $_SESSION);
         return $this->paginaErro->erroVer();
       }
 
@@ -253,7 +260,8 @@ class Roteador
 
     // Acesso sem subdomínio
     if ($empresaId == 0 and ! $this->rotaPermitida($chaveRota)) {
-       return $this->paginaErro->erroVer();
+      Rollbar::log(Level::ERROR, 'Rota pública não encontrada', $_SESSION);
+      return $this->paginaErro->erroVer();
     }
 
     // Grava EmpresaID na sessão
@@ -275,9 +283,9 @@ class Roteador
 
   private function limiteRequisicoes()
   {
-    $limite = 1000;
-    $segundos = 60;
-    $segundosBloqueio = $segundos * 60;
+    $limite = 10;
+    $segundos = 1;
+    $segundosBloqueio = $segundos * 900; // 900 = 15 minutos
 
     $tempoAgora = time();
     $requisicoes = $this->sessaoUsuario->buscar('requisicoes');
@@ -290,9 +298,18 @@ class Roteador
     $bloqueioTimestamp = $bloqueio ? strtotime($bloqueio) : 0;
 
     if ($bloqueioTimestamp > $tempoAgora) {
-      $this->sessaoUsuario->definir('erro', 'Limite de requisições excedido, tente novamente mais tarde.');
+      $erro = 'Limite de requisições excedido, tente novamente mais tarde.';
+      $this->sessaoUsuario->definir('erro', $erro);
 
       $this->paginaErro->erroVer('Too Many Requests', 429);
+
+      $acesso = [
+        'url' => $_SERVER['REQUEST_URI'],
+        'referer' => $_SERVER['HTTP_REFERER'] ?? '',
+        'protocolo' => isset($_SERVER['HTTPS']) ? 'HTTPS' : 'HTTP',
+      ];
+
+      Rollbar::log(Level::ERROR, $erro, array_merge($acesso, $_SESSION));
       exit;
     }
 
@@ -310,6 +327,7 @@ class Roteador
     if (count($novaLista) >= $limite) {
       $novoBloqueio = $tempoAgora + $segundosBloqueio;
       $desbloqueio = (new DateTime())->setTimestamp($novoBloqueio)->format('Y-m-d H:i:s');
+      $erro = 'Limite de requisições excedido, tente novamente mais tarde.';
 
       $acesso = [
         'url' => $_SERVER['REQUEST_URI'],
@@ -320,9 +338,11 @@ class Roteador
       registrarLog('limite-requisicoes', array_merge($acesso, $_SESSION));
 
       $this->sessaoUsuario->definir('bloqueioData', $desbloqueio);
-      $this->sessaoUsuario->definir('erro', 'Limite de requisições excedido, tente novamente mais tarde.');
+      $this->sessaoUsuario->definir('erro', $erro);
 
       $this->paginaErro->erroVer('Too Many Requests', 429);
+
+      Rollbar::log(Level::ERROR, $erro, array_merge($acesso, $_SESSION));
       exit;
     }
 

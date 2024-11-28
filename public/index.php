@@ -21,3 +21,9 @@ $sessaoUsuario->apagar('debug');
 
 $roteador = new Roteador();
 $roteador->rotear();
+
+// Obtém o contador de requisições da sessão
+// $contadorRequisicoes = (int) $sessaoUsuario->buscar('contadorReq');
+// $contadorRequisicoes++;
+// $sessaoUsuario->definir('contadorReq', $contadorRequisicoes);
+// registrarLog('requisicoesQtde', $contadorRequisicoes);

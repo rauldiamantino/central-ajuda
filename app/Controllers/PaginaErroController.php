@@ -14,7 +14,7 @@ class PaginaErroController extends Controller
 
   public function erroVer($titulo = 'Not Found', $codigo = 404)
   {
-    http_response_code(404);
+    http_response_code($codigo);
     $this->visao->variavel('titulo', $titulo);
     $this->visao->variavel('codigoErro', $codigo);
     $this->visao->variavel('paginaMenuLateral', 'erro');
