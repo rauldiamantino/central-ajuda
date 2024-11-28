@@ -110,23 +110,11 @@
           <button class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-800 text-white w-12 h-12 rounded-full shadow-lg opacity-70 hover:opacity-100 transition-opacity" onclick="moveSlide(-1)">&#10094;</button>
           <button class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-800 text-white w-12 h-12 rounded-full shadow-lg opacity-70 hover:opacity-100 transition-opacity" onclick="moveSlide(1)">&#10095;</button>
         </div>
-
         <div class="mt-2 w-full flex items-center justify-center">
           <button type="button" class="w-max whitespace-nowrap flex items-center justify-center py-3 px-5 bg-blue-800 hover:bg-blue-700 text-white rounded-lg duration-100 font-semibold" onclick="window.open('/cadastro')">Iniciar teste grátis</button>
         </div>
       </section>
   </main>
-
-  <script>
-    let indiceAtual = 0;
-
-    function moveSlide(direcao) {
-      const imagens = document.querySelector('#carrossel-imagens');
-      const totalImagens = document.querySelectorAll('#carrossel-imagens img').length;
-      indiceAtual = (indiceAtual + direcao + totalImagens) % totalImagens;
-      imagens.style.transform = `translateX(-${indiceAtual * 100}%)`;
-    }
-  </script>
 
   <?php require_once 'template/rodape.php' ?>
   <?php require_once 'scripts.php' ?>
