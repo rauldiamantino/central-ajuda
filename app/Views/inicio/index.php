@@ -650,7 +650,7 @@
           <details class="bg-gray-100 p-4 rounded-lg">
             <summary class="cursor-pointer font-semibold text-gray-700">Para quem é a plataforma?</summary>
             <p class="mt-2 text-gray-600">
-              Nossa plataforma é ideal para pequenas e médias empresas, startups e profissionais autônomos que buscam uma solução prática e acessível para compartilhar informações com clientes, equipes ou parceiros. Oferece recursos como artigos públicos e privados, organização em categorias e personalização para refletir a identidade da sua empresa.
+              Nossa plataforma é ideal para pequenas e médias empresas que buscam uma solução prática e acessível para compartilhar informações com clientes, equipes ou parceiros. Oferece recursos como artigos públicos e privados, organização em categorias e personalização para refletir a identidade da sua empresa.
             </p>
           </details>
 
