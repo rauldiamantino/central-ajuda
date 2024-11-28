@@ -1,4 +1,4 @@
-<footer class="mt-14 w-full text-sm md:text-base px-4 py-16 flex justify-center items-center bg-gray-100">
+<footer class="mt-14 w-full text-sm md:text-base px-4 py-16 flex justify-center items-center bg-white">
   <div class="flex flex-col justify-center items-center">
     <span class="font-normal">©360Help 2024</span>
      <!-- <span class="font-extralight">CNPJ 00.000.000/0001-00</span> -->
