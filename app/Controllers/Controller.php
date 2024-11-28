@@ -208,16 +208,16 @@ class Controller
     return $icones;
   }
 
- public function iconeExiste($iconeCaminho)
- {
-   if (filter_var($iconeCaminho, FILTER_VALIDATE_URL)) {
-     $cabecalhos = @get_headers($iconeCaminho);
-
-     if ($cabecalhos && strpos($cabecalhos[0], '200') !== false) {
-       return true;
-     }
-   }
-
-   return false;
- }
+  public function iconeExiste($iconeCaminho)
+  {
+    if (filter_var($iconeCaminho, FILTER_VALIDATE_URL)) {
+      $cabecalhos = @get_headers($iconeCaminho);
+  
+      if ($cabecalhos && strpos($cabecalhos[0], '200') !== false) {
+        return true;
+      }
+    }
+  
+    return false;
+  }
 }
