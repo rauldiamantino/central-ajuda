@@ -177,7 +177,7 @@ class DashboardLoginController extends DashboardController
   {
     $this->sessaoUsuario->apagar('usuario');
 
-    header('Location: ' . baseUrl('/login'));
+    header('Location: ' . baseUrl('/'));
     exit();
   }
 }
