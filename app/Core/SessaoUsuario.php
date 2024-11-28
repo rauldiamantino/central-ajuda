@@ -12,12 +12,12 @@ class SessaoUsuario
       $cookieParams = session_get_cookie_params();
 
       session_set_cookie_params([
-        'lifetime' => $lifetime,
-        'path' => $cookieParams['path'],
-        'domain' => $cookieParams['domain'],
-        'secure' => isset($_SERVER['HTTPS']),
-        'httponly' => true,
-        'samesite' => 'Strict',
+          'lifetime' => $lifetime,
+          'path' => $cookieParams['path'],
+          'domain' => '.360help.com.br',
+          'secure' => isset($_SERVER['HTTPS']),
+          'httponly' => true,
+          'samesite' => 'Strict', // Ou 'Lax'
       ]);
 
       session_start();
