@@ -3,21 +3,21 @@
 
 <?php require_once 'template/cabecalho.php' ?>
 
-<body class="min-h-screen max-w-screen flex flex-col font-normal bg-white <?php echo isset($inicio) ? 'bg-gray-100' : 'bg-gray-100' ?>" data-base-url="<?php echo RAIZ; ?>">
+<body class="w-full min-h-screen max-w-screen flex flex-col font-normal bg-white <?php echo isset($inicio) ? 'bg-gray-100' : 'bg-gray-100' ?>" data-base-url="<?php echo RAIZ; ?>">
 
   <?php require_once 'template/topo.php' ?>
 
   <main class="w-full h-full">
-    <div class="px-10 w-full bg-white rounded-b-[90px]">
+    <div class="px-4 xl:px-10 w-full bg-white rounded-b-[90px]">
 
       <?php // Bloco 1 ?>
-      <section class="py-10 mx-auto w-full max-w-[1140px] flex gap-2">
+      <section class="py-10 mx-auto w-full max-w-[1140px] flex flex-col md:flex-row gap-10 md:gap-2">
         <div class="pb-2 px-2 w-full flex flex-col items-left justify-center text-left gap-4">
           <h1 class="text-3xl font-semibold">Menos chamados, mais agilidade!</h1>
           <div class="text-lg font-light">
             Uma base de conhecimento prática e eficiente. Organize, compartilhe e ofereça soluções rápidas, aliviando a sobrecarga do seu time de suporte.
           </div>
-          <button type="button" class="mt-10 w-max whitespace-nowrap flex items-center justify-center py-3 px-5 bg-blue-800 hover:bg-blue-700 text-white rounded-lg duration-100 font-semibold" onclick="window.open('/cadastro')">Iniciar teste grátis</button>
+          <button type="button" class="mt-10 w-full sm:w-max whitespace-nowrap flex items-center justify-center py-3 px-5 bg-blue-800 hover:bg-blue-700 text-white rounded-lg duration-100 font-semibold" onclick="window.open('/cadastro')">Iniciar teste grátis</button>
         </div>
 
         <div class="w-full">
@@ -26,7 +26,7 @@
       </section>
 
       <?php // Bloco 2 ?>
-      <section class="mt-16 py-10 mx-auto w-full max-w-[1140px] flex items-center gap-2">
+      <section class="mt-10 py-10 mx-auto w-full max-w-[1140px] flex flex-col items-center justify-center md:flex-row gap-10 md:gap-2">
         <div class="w-full">
           <img src="/img/inicio/inicio-img-2.png" alt="promessas" class="border-6 border-black rounded-3xl">
         </div>
@@ -80,9 +80,9 @@
               <span class="font-light">Com a organização eficiente e o acesso fácil, seus clientes encontram soluções rápidas, diminuindo o volume de chamados no suporte.</span>
             </div>
           </div>
-          <div class="w-full grid grid-cols-[auto,1fr] gap-4 items-start">
+          <div class="w-full sm:grid grid-cols-[auto,1fr] gap-4 items-start">
             <div class="w-14"></div>
-            <button type="button" class="w-max whitespace-nowrap flex items-center justify-center py-3 px-5 bg-blue-800 hover:bg-blue-700 text-white rounded-lg duration-100 font-semibold" onclick="window.open('/cadastro')">Iniciar teste grátis</button>
+            <button type="button" class="w-full sm:w-max whitespace-nowrap flex items-center justify-center py-3 px-5 bg-blue-800 hover:bg-blue-700 text-white rounded-lg duration-100 font-semibold" onclick="window.open('/cadastro')">Iniciar teste grátis</button>
           </div>
         </div>
       </section>
@@ -110,8 +110,8 @@
           <button class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-800 text-white w-12 h-12 rounded-full shadow-lg opacity-70 hover:opacity-100 transition-opacity" onclick="moveSlide(-1)">&#10094;</button>
           <button class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-800 text-white w-12 h-12 rounded-full shadow-lg opacity-70 hover:opacity-100 transition-opacity" onclick="moveSlide(1)">&#10095;</button>
         </div>
-        <div class="mt-2 w-full flex items-center justify-center">
-          <button type="button" class="w-max whitespace-nowrap flex items-center justify-center py-3 px-5 bg-blue-800 hover:bg-blue-700 text-white rounded-lg duration-100 font-semibold" onclick="window.open('/cadastro')">Iniciar teste grátis</button>
+        <div class="mt-6 w-full flex items-center justify-center">
+          <button type="button" class="w-full sm:w-max whitespace-nowrap flex items-center justify-center py-3 px-5 bg-blue-800 hover:bg-blue-700 text-white rounded-lg duration-100 font-semibold" onclick="window.open('/cadastro')">Iniciar teste grátis</button>
         </div>
       </section>
   </main>
