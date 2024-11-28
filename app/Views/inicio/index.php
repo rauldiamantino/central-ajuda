@@ -8,10 +8,10 @@
   <?php require_once 'template/topo.php' ?>
 
   <main class="w-full h-full">
-    <div class="px-4 xl:px-10 w-full bg-white rounded-b-[90px]">
+    <div class="w-full bg-white rounded-b-[90px]">
 
       <?php // Bloco 1 ?>
-      <section class="py-10 mx-auto w-full max-w-[1140px] flex flex-col md:flex-row gap-10 md:gap-2">
+      <section class="px-4 xl:px-0 py-10 mx-auto w-full max-w-[1140px] flex flex-col md:flex-row gap-10 md:gap-2">
         <div class="pb-2 px-2 w-full flex flex-col items-left justify-center text-left gap-4">
           <h1 class="text-3xl font-semibold">Menos chamados, mais agilidade!</h1>
           <div class="text-lg font-light">
@@ -26,7 +26,7 @@
       </section>
 
       <?php // Bloco 2 ?>
-      <section class="mt-10 py-10 mx-auto w-full max-w-[1140px] flex flex-col items-center justify-center md:flex-row gap-10 md:gap-2">
+      <section class="px-4 xl:px-0 mt-10 py-10 mx-auto w-full max-w-[1140px] flex flex-col items-center justify-center md:flex-row gap-10 md:gap-2">
         <div class="w-full">
           <img src="/img/inicio/inicio-img-2.png" alt="promessas" class="border-6 border-black rounded-3xl">
         </div>
@@ -88,35 +88,37 @@
       </section>
 
       <?php // Bloco 3 ?>
-      <section class="py-20 mx-auto w-full max-w-[1140px] flex flex-col items-center justify-center gap-2">
-        <div class="pb-2 px-2 w-full flex flex-col items-center justify-center gap-4 text-center">
-          <h1 class="text-3xl font-semibold">Gerencie seu conteúdo de forma simples e sem complicação</h1>
-          <div class="text-lg font-light">
-            Nossa plataforma foi criada para tornar a organização do seu conteúdo rápida e intuitiva. Sem telas confusas, sem recursos desnecessários. Vamos direto ao que importa, para você focar no que realmente faz a diferença!
+      <section class="px-4 xl:px-0 w-full bg-gray-800 text-gray-50">
+        <div class="py-40 mx-auto w-full max-w-[1140px] flex flex-col items-center justify-center gap-2">
+          <div class="pb-2 px-2 w-full flex flex-col items-center justify-center gap-4 text-center">
+            <h1 class="text-3xl font-semibold">Gerencie seu conteúdo de forma simples e sem complicação</h1>
+            <div class="text-lg font-light">
+              Nossa plataforma foi criada para tornar a organização do seu conteúdo rápida e intuitiva. Sem telas confusas, sem recursos desnecessários. Vamos direto ao que importa, para você focar no que realmente faz a diferença!
+            </div>
           </div>
-        </div>
-        <div class="border-4 border-black relative w-full overflow-hidden rounded-2xl shadow-lg bg-black shadow-xl">
-          <div class="flex transition-transform duration-500 ease-in-out" id="carrossel-imagens">
-            <img src="/img/inicio/dash-1.png" alt="Imagem 1" class="w-full rounded-xl">
-            <img src="/img/inicio/dash-2.png" alt="Imagem 2" class="w-full rounded-xl">
-            <img src="/img/inicio/dash-3.png" alt="Imagem 3" class="w-full rounded-xl">
-            <img src="/img/inicio/dash-4.png" alt="Imagem 4" class="w-full rounded-xl">
-            <img src="/img/inicio/dash-5.png" alt="Imagem 5" class="w-full rounded-xl">
-            <img src="/img/inicio/dash-6.png" alt="Imagem 6" class="w-full rounded-xl">
-            <img src="/img/inicio/publico-1.png" alt="Imagem 7" class="w-full rounded-xl">
-            <img src="/img/inicio/publico-2.png" alt="Imagem 8" class="w-full rounded-xl">
-            <img src="/img/inicio/publico-3.png" alt="Imagem 9" class="w-full rounded-xl">
+          <div class="border-4 border-black relative w-full overflow-hidden rounded-2xl shadow-lg bg-black shadow-xl">
+            <div class="flex transition-transform duration-500 ease-in-out" id="carrossel-imagens">
+              <img src="/img/inicio/dash-1.png" alt="Imagem 1" class="w-full rounded-xl">
+              <img src="/img/inicio/dash-2.png" alt="Imagem 2" class="w-full rounded-xl">
+              <img src="/img/inicio/dash-3.png" alt="Imagem 3" class="w-full rounded-xl">
+              <img src="/img/inicio/dash-4.png" alt="Imagem 4" class="w-full rounded-xl">
+              <img src="/img/inicio/dash-5.png" alt="Imagem 5" class="w-full rounded-xl">
+              <img src="/img/inicio/dash-6.png" alt="Imagem 6" class="w-full rounded-xl">
+              <img src="/img/inicio/publico-1.png" alt="Imagem 7" class="w-full rounded-xl">
+              <img src="/img/inicio/publico-2.png" alt="Imagem 8" class="w-full rounded-xl">
+              <img src="/img/inicio/publico-3.png" alt="Imagem 9" class="w-full rounded-xl">
+            </div>
+            <button class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-800 text-white w-12 h-12 rounded-full shadow-lg opacity-70 hover:opacity-100 transition-opacity" onclick="moveSlide(-1)">&#10094;</button>
+            <button class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-800 text-white w-12 h-12 rounded-full shadow-lg opacity-70 hover:opacity-100 transition-opacity" onclick="moveSlide(1)">&#10095;</button>
           </div>
-          <button class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-800 text-white w-12 h-12 rounded-full shadow-lg opacity-70 hover:opacity-100 transition-opacity" onclick="moveSlide(-1)">&#10094;</button>
-          <button class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-800 text-white w-12 h-12 rounded-full shadow-lg opacity-70 hover:opacity-100 transition-opacity" onclick="moveSlide(1)">&#10095;</button>
-        </div>
-        <div class="mt-6 w-full flex items-center justify-center">
-          <button type="button" class="w-full sm:w-max whitespace-nowrap flex items-center justify-center py-3 px-5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg duration-100 font-semibold" onclick="window.open('/cadastro')">Iniciar teste grátis</button>
+          <div class="mt-6 w-full flex items-center justify-center">
+            <button type="button" class="w-full sm:w-max whitespace-nowrap flex items-center justify-center py-3 px-5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg duration-100 font-semibold" onclick="window.open('/cadastro')">Iniciar teste grátis</button>
+          </div>
         </div>
       </section>
 
       <?php // Bloco 4 ?>
-      <section class="mt-10 py-10 mx-auto w-full max-w-[1140px] flex flex-col items-center justify-center md:flex-row gap-10 md:gap-2">
+      <section class="px-4 xl:px-0 mt-10 py-10 mx-auto w-full max-w-[1140px] flex flex-col items-center justify-center md:flex-row gap-10 md:gap-2">
         <div class="w-full h-full flex flex-col gap-8 items-center">
           <div class="w-full flex flex-col gap-6">
             <h2 class="text-3xl font-semibold">Cadastre seus artigos com facilidade, <strong class="font-semibold text-blue-600">sem dor de cabeça</strong> ou complicações!</h2>
@@ -183,7 +185,7 @@
       </section>
 
       <?php // Bloco 5 ?>
-      <section class="mt-10 py-10 mx-auto w-full max-w-[1140px] flex flex-col-reverse items-center justify-center md:flex-row gap-10 md:gap-10">
+      <section class="px-4 xl:px-0 mt-10 py-10 mx-auto w-full max-w-[1140px] flex flex-col-reverse items-center justify-center md:flex-row gap-10 md:gap-10">
         <div class="w-full">
           <img src="/img/inicio/categoria-1.png" alt="promessas" class="border-6 border-black rounded-3xl shadow-xl">
         </div>
@@ -249,7 +251,7 @@
       </section>
 
       <?php // Bloco 6 ?>
-      <section class="mt-10 py-10 mx-auto w-full max-w-[1140px] flex flex-col items-center justify-center md:flex-row gap-10 md:gap-2">
+      <section class="px-4 xl:px-0 mt-10 py-10 mx-auto w-full max-w-[1140px] flex flex-col items-center justify-center md:flex-row gap-10 md:gap-2">
         <div class="w-full h-full flex flex-col gap-8 items-center">
           <div class="w-full flex flex-col gap-6">
             <h2 class="text-3xl font-semibold">Sua equipe vai adorar a <strong class="text-blue-600 font-semibold">facilidade</strong> para adicionar novos conteúdos!</h2>
@@ -316,7 +318,7 @@
       </section>
 
       <?php // Bloco 7 ?>
-      <section class="mt-10 py-10 mx-auto w-full max-w-[1140px] flex flex-col-reverse items-center justify-center md:flex-row gap-10 md:gap-10">
+      <section class="px-4 xl:px-0 mt-10 py-10 mx-auto w-full max-w-[1140px] flex flex-col-reverse items-center justify-center md:flex-row gap-10 md:gap-10">
         <div class="w-full">
           <img src="/img/inicio/ajustes-1.png" alt="promessas" class="border-6 border-black rounded-3xl">
         </div>
@@ -380,7 +382,8 @@
           </div>
         </div>
       </section>
-      <section class="py-20 mx-auto w-full max-w-[1140px] flex flex-col items-center gap-0">
+
+      <section class="px-4 xl:px-0 py-20 mx-auto w-full max-w-[1140px] flex flex-col items-center gap-0">
         <strong class="w-full text-center text-xs text-blue-600 font-semibold sm:text-lg">Aproveite nossos planos de inauguração</strong>
         <div class="text-center">
           <h2 class="text-4xl font-bold text-gray-800">O plano perfeito para o seu negócio</h2>
@@ -398,7 +401,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                   </svg>
                 </span>
-                <span>Até 10 usuários</span>
+                <span>Usuários ilimitados</span>
               </li>
               <li class="font-light grid grid-cols-[auto,1fr] gap-2 items-center">
                 <span class="text-blue-600 w-6">
@@ -406,7 +409,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                   </svg>
                 </span>
-                <span>1 GB de armazenamento ou 300 artigos</span>
+                <span>2 GB de armazenamento ou 600 artigos</span>
               </li>
               <li class="font-light grid grid-cols-[auto,1fr] gap-2 items-center">
                 <span class="text-blue-600 w-6">
@@ -454,7 +457,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                   </svg>
                 </span>
-                <span>Busca FULL TEXT na Central de Ajuda</span>
+                <span>Busca avançada na Central de Ajuda</span>
               </li>
               <li class="font-light grid grid-cols-[auto,1fr] gap-2 items-center">
                 <span class="text-blue-600 w-6">
@@ -486,15 +489,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                   </svg>
                 </span>
-                <span>Link personalizado para redirecionamento para sua empresa</span>
-              </li>
-              <li class="font-light grid grid-cols-[auto,1fr] gap-2 items-center">
-                <span class="text-blue-600 w-6">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                  </svg>
-                </span>
-                <span>Personalização da ordem de artigos, blocos de conteúdo e categorias</span>
+                <span>Link para redirecionamento para sua empresa</span>
               </li>
               <li class="font-light grid grid-cols-[auto,1fr] gap-2 items-center">
                 <span class="text-blue-600 w-6">
@@ -510,7 +505,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                   </svg>
                 </span>
-                <span>14 dias de teste grátis (sem necessidade de cartão de crédito)</span>
+                <span>14 dias de teste grátis <span class="text-xs font-extralight">*sem necessidade de cartão de crédito</span></span>
               </li>
             </ul>
             <div class="mt-6">
@@ -532,7 +527,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                   </svg>
                 </span>
-                <span>Até 10 usuários</span>
+                <span>Usuários ilimitados</span>
               </li>
               <li class="font-light grid grid-cols-[auto,1fr] gap-2 items-center">
                 <span class="text-blue-600 w-6">
@@ -540,7 +535,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                   </svg>
                 </span>
-                <span>1 GB de armazenamento ou 300 artigos</span>
+                <span>2 GB de armazenamento ou 600 artigos</span>
               </li>
               <li class="font-light grid grid-cols-[auto,1fr] gap-2 items-center">
                 <span class="text-blue-600 w-6">
@@ -588,7 +583,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                   </svg>
                 </span>
-                <span>Busca FULL TEXT na Central de Ajuda</span>
+                <span>Busca avançada na Central de Ajuda</span>
               </li>
               <li class="font-light grid grid-cols-[auto,1fr] gap-2 items-center">
                 <span class="text-blue-600 w-6">
@@ -620,15 +615,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                   </svg>
                 </span>
-                <span>Link personalizado para redirecionamento para sua empresa</span>
-              </li>
-              <li class="font-light grid grid-cols-[auto,1fr] gap-2 items-center">
-                <span class="text-blue-600 w-6">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                  </svg>
-                </span>
-                <span>Personalização da ordem de artigos, blocos de conteúdo e categorias</span>
+                <span>Link para redirecionamento para sua empresa</span>
               </li>
               <li class="font-light grid grid-cols-[auto,1fr] gap-2 items-center">
                 <span class="text-blue-600 w-6">
@@ -644,7 +631,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                   </svg>
                 </span>
-                <span>14 dias de teste grátis (sem necessidade de cartão de crédito)</span>
+                <span>14 dias de teste grátis <span class="text-xs font-extralight">*sem necessidade de cartão de crédito</span></span>
               </li>
             </ul>
             <div class="mt-6">
@@ -656,41 +643,110 @@
         </div>
       </section>
 
-
-      <section class="py-16 mx-auto w-full max-w-[1140px]">
+      <section class="px-4 xl:px-0 py-16 mx-auto w-full max-w-[1140px]">
         <h2 class="text-3xl font-semibold text-center text-gray-800">Perguntas Frequentes</h2>
-      <div class="mt-8 space-y-4">
-        <details class="bg-gray-100 p-4 rounded-lg">
-          <summary class="font-semibold text-gray-700">Como posso mudar meu plano?</summary>
-          <p class="mt-2 text-gray-600">Trocar de plano é super fácil! Basta acessar as configurações na sua conta e escolher o que mais atende às suas necessidades.</p>
-        </details>
+        <div class="mt-8 space-y-4">
 
-        <details class="bg-gray-100 p-4 rounded-lg">
-          <summary class="font-semibold text-gray-700">Quais formas de pagamento vocês aceitam?</summary>
-          <p class="mt-2 text-gray-600">Por enquanto, aceitamos cartões de crédito para facilitar sua vida.</p>
-        </details>
+          <details class="bg-gray-100 p-4 rounded-lg">
+            <summary class="cursor-pointer font-semibold text-gray-700">Para quem é a plataforma?</summary>
+            <p class="mt-2 text-gray-600">
+              Nossa plataforma é ideal para pequenas e médias empresas, startups e profissionais autônomos que buscam uma solução prática e acessível para compartilhar informações com clientes, equipes ou parceiros. Oferece recursos como artigos públicos e privados, organização em categorias e personalização para refletir a identidade da sua empresa.
+            </p>
+          </details>
 
-        <details class="bg-gray-100 p-4 rounded-lg">
-          <summary class="font-semibold text-gray-700">Como posso cancelar minha assinatura?</summary>
-          <p class="mt-2 text-gray-600">Claro, você pode cancelar sua assinatura a qualquer momento! Basta nos enviar um e-mail para <span class="font-semibold">suporte@360help.com.br</span>, mas esperamos que você não precise fazer isso!</p>
-        </details>
+          <details class="bg-gray-100 p-4 rounded-lg">
+            <summary class="cursor-pointer font-semibold text-gray-700">Por que essa plataforma é ideal para pequenas e médias empresas?</summary>
+            <p class="mt-2 text-gray-600">
+              Oferecemos uma solução simples e eficaz, com foco no custo-benefício e nas necessidades de empresas menores. Dispensa grandes investimentos e suporte técnico especializado, garantindo uma central de ajuda funcional e fácil de usar.
+            </p>
+          </details>
 
-        <details class="bg-gray-100 p-4 rounded-lg">
-          <summary class="font-semibold text-gray-700">E se eu ultrapassar o limite de dados do meu plano?</summary>
-          <p class="mt-2 text-gray-600">Não se preocupe! Você receberá uma notificação e poderá facilmente ajustar seu plano ou pagar pelos dados extras que precisar.</p>
-        </details>
+          <details class="bg-gray-100 p-4 rounded-lg">
+            <summary class="cursor-pointer font-semibold text-gray-700">Como a plataforma se compara a outras soluções do mercado?</summary>
+            <p class="mt-2 text-gray-600">
+              Diferente de outras ferramentas complexas e caras, nossa plataforma é prática e focada no essencial: base de conhecimento eficiente, personalizável e acessível, com preços competitivos e recursos úteis para o dia a dia.
+            </p>
+          </details>
 
-        <details class="bg-gray-100 p-4 rounded-lg">
-          <summary class="font-semibold text-gray-700">Posso adicionar mais usuários ao meu plano?</summary>
-          <p class="mt-2 text-gray-600">Sim, claro! Vá até o menu "Usuários" para gerenciar os acessos de todos que você deseja incluir no seu plano.</p>
-        </details>
+          <details class="bg-gray-100 p-4 rounded-lg">
+            <summary class="cursor-pointer font-semibold text-gray-700">Por que escolher uma solução mais simples como a nossa?</summary>
+            <p class="mt-2 text-gray-600">
+              Desenvolvemos uma plataforma fácil de usar e implementar, sem distrações ou custos desnecessários. Ideal para quem valoriza agilidade, eficiência e praticidade.
+            </p>
+          </details>
 
-        <details class="bg-gray-100 p-4 rounded-lg">
-          <summary class="font-semibold text-gray-700">Como a plataforma pode beneficiar minha empresa?</summary>
-          <p class="mt-2 text-gray-600">Nossa plataforma foi pensada para te ajudar a otimizar a distribuição de conteúdo e oferecer um atendimento ágil e eficiente. Deixe seus clientes mais satisfeitos com uma central de ajuda profissional e organizada!</p>
-        </details>
-      </div>
-    </section>
+          <details class="bg-gray-100 p-4 rounded-lg">
+            <summary class="cursor-pointer font-semibold text-gray-700">Como funciona o suporte da plataforma?</summary>
+            <p class="mt-2 text-gray-600">
+              Oferecemos suporte rápido via <span class="font-semibold">e-mail</span> e <span class="font-semibold">WhatsApp</span>. Nossa equipe está pronta para ajudar com dúvidas, configurações e garantir a melhor experiência.
+              <br><br>
+              <span class="font-light text-sm">
+                Email: suporte@360help.com.br<br>
+                WhatsApp: (11) 93433-2319
+              </span>
+            </p>
+          </details>
+
+          <details class="bg-gray-100 p-4 rounded-lg">
+            <summary class="cursor-pointer font-semibold text-gray-700">Como posso mudar meu plano?</summary>
+            <p class="mt-2 text-gray-600">É simples! Acesse as configurações da sua conta e escolha o plano mais adequado às suas necessidades.</p>
+          </details>
+
+          <details class="bg-gray-100 p-4 rounded-lg">
+            <summary class="cursor-pointer font-semibold text-gray-700">Quais formas de pagamento vocês aceitam?</summary>
+            <p class="mt-2 text-gray-600">Atualmente, aceitamos cartões de crédito.</p>
+          </details>
+
+          <details class="bg-gray-100 p-4 rounded-lg">
+            <summary class="cursor-pointer font-semibold text-gray-700">Como posso cancelar minha assinatura?</summary>
+            <p class="mt-2 text-gray-600">
+              Você pode cancelar a qualquer momento enviando um e-mail para <span class="font-semibold">suporte@360help.com.br</span>. Mas esperamos que não precise fazer isso!
+            </p>
+          </details>
+
+          <details class="bg-gray-100 p-4 rounded-lg">
+            <summary class="cursor-pointer font-semibold text-gray-700">E se eu ultrapassar o limite de dados do meu plano?</summary>
+            <p class="mt-2 text-gray-600">
+              Você será notificado e poderá ajustar seu plano ou adquirir dados adicionais conforme necessário.
+            </p>
+          </details>
+
+          <details class="bg-gray-100 p-4 rounded-lg">
+            <summary class="cursor-pointer font-semibold text-gray-700">Posso adicionar mais usuários ao meu plano?</summary>
+            <p class="mt-2 text-gray-600">Sim! Gerencie acessos pelo menu "Usuários" na plataforma.</p>
+          </details>
+
+          <details class="bg-gray-100 p-4 rounded-lg">
+            <summary class="cursor-pointer font-semibold text-gray-700">Posso personalizar a aparência da minha central de ajuda?</summary>
+            <p class="mt-2 text-gray-600">
+              Sim! Personalize logo, favicon, cores e organize categorias para alinhar sua central à identidade da empresa.
+            </p>
+          </details>
+
+          <details class="bg-gray-100 p-4 rounded-lg">
+            <summary class="cursor-pointer font-semibold text-gray-700">A plataforma é segura para armazenar meus dados?</summary>
+            <p class="mt-2 text-gray-600">
+              Utilizamos práticas robustas de segurança e controle de acessos para garantir a proteção dos seus dados e informações sensíveis.
+            </p>
+          </details>
+
+          <details class="bg-gray-100 p-4 rounded-lg">
+            <summary class="cursor-pointer font-semibold text-gray-700">Como funciona o período de teste?</summary>
+            <p class="mt-2 text-gray-600">
+              Você terá 14 dias gratuitos para explorar todos os recursos, sem necessidade de cartão de crédito.
+            </p>
+          </details>
+
+          <details class="bg-gray-100 p-4 rounded-lg">
+            <summary class="cursor-pointer font-semibold text-gray-700">A plataforma pode ser integrada com outras ferramentas?</summary>
+            <p class="mt-2 text-gray-600">
+              Atualmente, é possível adicionar links externos. Estamos desenvolvendo integrações mais avançadas com base no feedback dos usuários.
+            </p>
+          </details>
+
+        </div>
+      </section>
+
 
   </main>
 
