@@ -12,7 +12,7 @@
 
     <?php if ($categoriaNome and $categoriaIcone and $this->iconeExiste($categoriaIcone)) { ?>
       <div class="w-8 pers-publico-icones template-cor-<?php echo $corPrimaria; ?>">
-        <?php echo file_get_contents($categoriaIcone); ?>
+        <?php echo $this->renderIcone($categoriaIcone); ?>
       </div>
     <?php } elseif ($categoriaNome) { ?>
       <span class="pers-publico-icones template-cor-<?php echo $corPrimaria; ?>">

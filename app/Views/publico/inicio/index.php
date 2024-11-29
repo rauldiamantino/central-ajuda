@@ -7,7 +7,7 @@
           <?php if ($linha['Categoria']['icone'] and $this->iconeExiste($linha['Categoria']['icone'])) { ?>
             <div class="w-full flex items-center justify-center">
               <div class="w-12 h-12 pers-publico-icones template-cor-<?php echo $corPrimaria; ?>">
-                <?php echo file_get_contents($linha['Categoria']['icone']); ?>
+                <?php echo $this->renderIcone($linha['Categoria']['icone']); ?>
               </div>
             </div>
           <?php } ?>

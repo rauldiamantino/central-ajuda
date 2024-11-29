@@ -22,7 +22,7 @@
               <td class="py-6 px-6 font-semibold text-gray-900">
                 <?php if ($linha['Categoria']['icone'] and $this->iconeExiste($linha['Categoria']['icone'])) { ?>
                   <div class="w-6">
-                    <?php echo file_get_contents($linha['Categoria']['icone']); ?>
+                    <?php echo $this->renderIcone($linha['Categoria']['icone']); ?>
                   </div>
                 <?php } else { ?>
                   <div class="w-6 text-gray-200">

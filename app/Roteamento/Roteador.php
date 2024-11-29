@@ -299,6 +299,8 @@ class Roteador
     if (empty($requisicoes)) {
       $requisicoes = [];
     }
+    $this->sessaoUsuario->apagar('requisicoes');
+    return;
 
     $bloqueioTimestamp = $bloqueio ? strtotime($bloqueio) : 0;
 

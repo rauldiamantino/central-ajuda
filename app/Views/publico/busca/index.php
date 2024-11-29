@@ -17,7 +17,7 @@
                 <div class="pb-0 flex gap-2 items-center font-light text-sm publico-migalhas">
                   <?php if ($linha['Categoria']['icone'] and $this->iconeExiste($linha['Categoria']['icone'])) { ?>
                     <div class="w-6 pers-publico-icones template-cor-<?php echo $corPrimaria; ?>">
-                      <?php echo file_get_contents($linha['Categoria']['icone']); ?>
+                      <?php echo $this->renderIcone($linha['Categoria']['icone']); ?>
                     </div>
                   <?php } else { ?>
                     <span class="pers-publico-tag-cate template-cor-<?php echo $corPrimaria; ?>">

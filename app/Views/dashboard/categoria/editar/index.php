@@ -4,7 +4,7 @@
       <h2 class="text-3xl font-semibold flex flex-wrap gap-2 items-center">
         <?php if ($categoria[0]['Categoria']['icone'] and $this->iconeExiste($categoria[0]['Categoria']['icone'])) { ?>
           <div class="w-8">
-            <?php echo file_get_contents($categoria[0]['Categoria']['icone']); ?>
+            <?php echo $this->renderIcone($categoria[0]['Categoria']['icone']); ?>
           </div>
         <?php } ?>
         <?php echo $categoria[0]['Categoria']['nome'] ?></h2>

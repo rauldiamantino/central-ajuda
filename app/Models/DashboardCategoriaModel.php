@@ -172,6 +172,7 @@ class DashboardCategoriaModel extends Model
     if (empty($msgErro['erro']['mensagem'])) {
       $campos['ativo'] = filter_var($campos['ativo'], FILTER_SANITIZE_NUMBER_INT);
       $campos['nome'] = htmlspecialchars($campos['nome']);
+      $campos['icone'] = htmlspecialchars($campos['icone']);
       $campos['empresa_id'] = filter_var($campos['empresa_id'], FILTER_SANITIZE_NUMBER_INT);
 
       if (isset($params['ativo']) and ! in_array($campos['ativo'], [INATIVO, ATIVO])) {
@@ -182,14 +183,10 @@ class DashboardCategoriaModel extends Model
         $campos['icone'] = '';
       }
 
-      if ($campos['icone'] and filter_var($campos['icone'], FILTER_VALIDATE_URL) == false) {
-        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('icone', 'valInvalido');
-      }
-
       $ativoCaracteres = 1;
       $nomeCaracteres = 255;
       $descricaoCaracteres = 255;
-      $iconeCaracteres = 255;
+      $iconeCaracteres = 50;
       $empresaIdCaracteres = 999999999;
       $ordemCaracteres = 999999999;
 

@@ -198,27 +198,25 @@ class Controller
     foreach ($arquivos as $arquivo):
 
       if (pathinfo($arquivo, PATHINFO_EXTENSION) === 'svg') {
-        $icones[] = [
-          'nome' => pathinfo($arquivo, PATHINFO_FILENAME),
-          'caminho' => PROTOCOLO . $_SERVER['HTTP_HOST'] . '/icones/' . $arquivo,
-        ];
+        $iconeNome = pathinfo($arquivo, PATHINFO_FILENAME);
+        $icones[ $iconeNome ] = $iconeNome;
       }
     endforeach;
 
     return $icones;
   }
 
-  public function iconeExiste($iconeCaminho)
+  public function iconeExiste($iconeNome)
   {
-    if (filter_var($iconeCaminho, FILTER_VALIDATE_URL)) {
-      $cabecalhos = get_headers($iconeCaminho);
-      $iconeExiste = strpos($cabecalhos[0] ?? '', '200') !== false;
-
-      if ($iconeExiste) {
-        return true;
-      }
+    if (file_exists('./icones/' . $iconeNome . '.svg')) {
+      return true;
     }
 
     return false;
+  }
+
+  public function renderIcone($iconeNome)
+  {
+    return file_get_contents('./icones/' . $iconeNome . '.svg');
   }
 }
