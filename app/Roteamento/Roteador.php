@@ -42,6 +42,11 @@ class Roteador
     $metodo = $_SERVER['REQUEST_METHOD'];
     $metodoOculto = $_POST['_method'] ?? null;
 
+    if ($url === '/favicon.ico') {
+      http_response_code(204);
+      exit;
+    }
+
     // Formulário HTML
     if ($metodoOculto and in_array(strtoupper($metodoOculto), ['PUT', 'DELETE'])) {
       $metodo = strtoupper($metodoOculto);

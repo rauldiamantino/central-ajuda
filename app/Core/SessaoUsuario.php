@@ -11,10 +11,16 @@ class SessaoUsuario
       $lifetime = 14400; // 4 horas
       $cookieParams = session_get_cookie_params();
 
+      $dominio = '.360help.com.br';
+
+      if (HOST_LOCAL) {
+        $dominio = 'localhost';
+      }
+
       session_set_cookie_params([
           'lifetime' => $lifetime,
           'path' => $cookieParams['path'],
-          'domain' => '.360help.com.br',
+          'domain' => $dominio,
           'secure' => isset($_SERVER['HTTPS']),
           'httponly' => true,
           'samesite' => 'Strict', // Ou 'Lax'
