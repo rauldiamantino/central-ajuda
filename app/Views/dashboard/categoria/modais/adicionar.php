@@ -1,15 +1,8 @@
-<?php
-$icones = $this->buscarIcones();
-
-if (! is_array($icones)) {
-  $icones = [];
-}
-?>
-
 <dialog class="border border-slate-300 w-full md:w-[500px] rounded-md shadow ease-in-out menu-adicionar-categoria">
   <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/categoria'); ?>" class="w-full flex flex-col gap-4 p-4 rounded-lg shadow bg-white" onsubmit="evitarDuploClique(event)">
     <?php if (isset($ordem['prox'])) { ?>
       <input type="hidden" name="ordem" value="<?php echo $ordem['prox'] ?>">
+      <input type="hidden" name="referer" value="<?php echo urlencode(baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categorias?pagina=' . $pagina)); ?>">
     <?php } ?>
     <div class="w-full flex gap-4">
       <div>
@@ -50,17 +43,18 @@ if (! is_array($icones)) {
                   <span class="text-xs">Nenhum</span>
                 </div>
               </label>
-              <?php foreach ($icones as $icone): ?>
-                <?php if (! isset($icone['nome']) || ! isset($icone['caminho'])) { continue; } ?>
-                <label class="p-2 border border-gray-100 w-full hover:bg-gray-50 duration-100 cursor-pointer rounded-lg">
-                  <div class="w-full grid grid-cols-[auto,1fr] items-center gap-2">
-                    <input type="radio" name="icone" value="<?php echo htmlspecialchars($icone['caminho']) ?>" class="hidden peer" >
-                    <div class="w-8 h-8 flex items-center justify-center border border-gray-300 peer-checked:border-blue-800 peer-checked:ring-2 peer-checked:ring-blue-800 rounded-lg">
-                      <img src="<?php echo htmlspecialchars($icone['caminho']) ?>" alt="<?php echo htmlspecialchars($icone['nome']) ?>" class="w-6 h-6">
+              <?php foreach ($this->buscarIcones() as $chave => $linha): ?>
+                <?php if ($this->iconeExiste($linha)) { ?>
+                  <label class="p-2 border border-gray-100 w-full hover:bg-gray-50 duration-100 cursor-pointer rounded-lg">
+                    <div class="w-full grid grid-cols-[auto,1fr] items-center gap-2">
+                      <input type="radio" name="icone" value="<?php echo $chave; ?>" class="hidden peer" >
+                      <div class="w-8 h-8 flex items-center justify-center border border-gray-300 peer-checked:border-blue-800 peer-checked:ring-2 peer-checked:ring-blue-800 rounded-lg">
+                        <?php echo $this->renderIcone($linha); ?>
+                      </div>
+                      <span class="text-xs"><?php echo $chave; ?></span>
                     </div>
-                    <span class="text-xs"><?php echo htmlspecialchars($icone['nome']) ?></span>
-                  </div>
-                </label>
+                  </label>
+                <?php } ?>
               <?php endforeach; ?>
             </div>
           </div>

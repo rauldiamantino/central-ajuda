@@ -60,13 +60,19 @@ document.addEventListener('DOMContentLoaded', function() {
       return
     }
 
+    const url = new URL(window.location.href)
+    let referer = url?.searchParams.get('referer')
+
+    if (! referer) {
+      referer = `/${empresa}/dashboard/categorias`
+    }
+
     fetch(baseUrl(`/${empresa}/d/categoria/${categoriaId}`), { method: 'DELETE' })
       .then(resposta => resposta.json())
       .then(resposta => {
 
         if (resposta.linhasAfetadas == 1) {
-          window.location.href = baseUrl(`/${empresa}/dashboard/categorias`)
-          return
+          window.location.href = baseUrl(referer)
         }
         else if (resposta.erro) {
           throw new Error(resposta.erro)
@@ -77,7 +83,6 @@ document.addEventListener('DOMContentLoaded', function() {
       })
       .catch(error => {
         window.location.href = window.location.href
-        return
       })
   }
 

@@ -268,14 +268,23 @@ class DashboardCategoriaController extends DashboardController
     $dados = $this->receberJson();
     $resultado = $this->categoriaModel->adicionar($dados);
 
-    if (isset($resultado['erro'])) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categorias', $resultado['erro']);
+    $botaoVoltar = $_GET['referer'] ?? '';
+    $botaoVoltar = htmlspecialchars($botaoVoltar);
+    $botaoVoltar = urldecode($botaoVoltar);
+
+    if (isset($_POST['referer']) and $_POST['referer'] and ! is_array($_POST['referer'])) {
+      $botaoVoltar = $_POST['referer'];
+      $botaoVoltar = htmlspecialchars($botaoVoltar);
+    }
+
+    if (! isset($resultado['id']) or empty($resultado['id'])) {
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categorias', $resultado['erro'] ?? '');
     }
 
     Cache::apagar('publico-categorias', $this->usuarioLogado['empresaId']);
     Cache::apagar('publico-categorias-inicio', $this->usuarioLogado['empresaId']);
 
-    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categorias?acao=adicionado', 'Categoria criada com sucesso');
+    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categoria/editar/' . $resultado['id'] . '?referer=' . $botaoVoltar, 'Categoria criada com sucesso');
   }
 
   public function buscar(int $id = 0)
