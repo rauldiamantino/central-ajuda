@@ -220,18 +220,8 @@ class Controller
     return file_get_contents('./icones/' . $iconeNome . '.svg');
   }
 
-  public function renderImagem(int $empresaId, string $imagemNome = '', int $artigoId = 0, int $conteudoId = 0): string
+  public function renderImagem(string $caminhoImagem): string
   {
-    // Endereço padrão
-    $caminho = $empresaId . '/';
-
-    if ($imagemNome) {
-      $caminho .= $imagemNome;
-    }
-    elseif ($artigoId and $conteudoId) {
-      $caminho .= $artigoId . '/' . $conteudoId;
-    }
-
-    return 'https://firebasestorage.googleapis.com/v0/b/' . FIREBASE_BUCKET . '/o/' . urlencode($caminho) . '?alt=media';
+    return 'https://firebasestorage.googleapis.com/v0/b/' . FIREBASE_BUCKET . '/o/' . urlencode($caminhoImagem) . '?alt=media';
   }
 }

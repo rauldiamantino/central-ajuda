@@ -79,7 +79,7 @@
                   <h2 class="pointer-events-none"><?php echo $linha['Conteudo']['titulo'] ?></h2>
                 <?php } ?>
 
-                <img src="<?php echo $this->renderImagem($this->empresaPadraoId, '', $artigo['Artigo']['id'] ,$linha['Conteudo']['id']); ?>" class="pointer-events-none w-full" onerror="this.onerror=null; this.src='/img/sem-imagem.svg';">
+                <img src="<?php echo $this->renderImagem($linha['Conteudo']['url']); ?>" class="pointer-events-none w-full" onerror="this.onerror=null; this.src='/img/sem-imagem.svg';">
               </button>
 
               <?php // Edição escondido ?>

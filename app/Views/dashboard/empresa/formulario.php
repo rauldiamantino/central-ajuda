@@ -74,7 +74,7 @@
 
     <?php // Logo ?>
     <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
-      <input type="hidden" name="logo" value="" class="url-imagem">
+      <input type="hidden" name="logo" value="<?php echo $empresa['Empresa']['logo']; ?>" class="url-imagem">
       <input type="file" accept="image/*" id="empresa-editar-imagem" name="arquivo-logo" class="hidden empresa-editar-imagem-escolher" onchange="mostrarImagemLogo(event)">
       <div class="flex flex-col text-sm font-medium text-gray-700">
         <span>Logo</span>
@@ -82,7 +82,7 @@
       </div>
       <button type="button" for="empresa-editar-imagem" class="w-full h-24 flex items-center justify-center <?php echo CLASSES_DASH_INPUT; ?> empresa-btn-imagem-editar-escolher" onclick="alterarLogo(event)">
         <div class="h-full">
-          <img src="<?php echo $this->renderImagem($this->empresaPadraoId, 'logo'); ?>" class="w-full h-full empresa-alterar-logo" onerror="this.onerror=null; this.src='/img/sem-imagem.svg';">
+          <img src="<?php echo $this->renderImagem($empresa['Empresa']['logo']); ?>" class="w-full h-full empresa-alterar-logo" onerror="this.onerror=null; this.src='/img/sem-imagem.svg';">
         </div>
         <span class="ml-2 text-gray-700 h-max w-max empresa-txt-imagem-editar-escolher"><?php echo $empresa['Empresa']['logo'] ? '' : 'Adicionar'; ?></span>
         <h3 class="hidden font-light text-left text-sm text-red-800 erro-empresa-imagem"></h3>
@@ -91,7 +91,7 @@
 
     <?php // Favicon ?>
     <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
-      <input type="hidden" name="favicon" value="" class="url-favicon">
+      <input type="hidden" name="favicon" value="<?php echo $empresa['Empresa']['favicon']; ?>" class="url-favicon">
       <input type="file" accept="image/*" id="empresa-editar-favicon" name="arquivo-favicon"  class="hidden empresa-editar-favicon-escolher" onchange="mostrarImagemFavicon(event)">
       <div class="flex flex-col text-sm font-medium text-gray-700">
         <span>Favicon</span>
@@ -99,7 +99,7 @@
       </div>
       <button type="button" for="empresa-editar-favicon" class="w-full h-24 flex items-center justify-center <?php echo CLASSES_DASH_INPUT; ?> empresa-btn-favicon-editar-escolher" onclick="alterarFavicon(event)">
         <div class="h-full">
-          <img src="<?php echo $this->renderImagem($this->empresaPadraoId, $empresa['Empresa']['favicon']); ?>" class="w-full h-full empresa-alterar-favicon <?php echo $empresa['Empresa']['favicon'] ? '' : 'hidden' ?>" onerror="this.onerror=null; this.src='/img/sem-imagem.svg';">
+          <img src="<?php echo $this->renderImagem($empresa['Empresa']['favicon']); ?>" class="w-full h-full empresa-alterar-favicon" onerror="this.onerror=null; this.src='/img/sem-imagem.svg';">
         </div>
         <span class="ml-2 text-gray-700 h-max w-max empresa-txt-favicon-editar-escolher"><?php echo $empresa['Empresa']['favicon'] ? '' : 'Adicionar'; ?></span>
         <h3 class="hidden font-light text-left text-sm text-red-800 erro-empresa-favicon"></h3>

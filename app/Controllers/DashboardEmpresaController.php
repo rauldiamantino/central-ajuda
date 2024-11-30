@@ -261,38 +261,51 @@ class DashboardEmpresaController extends DashboardController
     }
 
     $json = $this->receberJson();
-    $firebase = new DatabaseFirebaseComponent();
-
     $formLogo = false;
     $formFavicon = false;
-    $adicionarLogo = false;
-    $adicionarFavicon = false;
-    $msgErroImagem = [];
 
     if (isset($_FILES)) {
+      $firebase = new DatabaseFirebaseComponent();
+
       foreach ($_FILES as $chave => $linha):
+        $extensao = pathinfo($linha['name'], PATHINFO_EXTENSION);
 
         if ($chave == 'arquivo-logo' and $linha['error'] === UPLOAD_ERR_OK) {
+          $params = [
+            'nome' => 'logo',
+            'imagemAtual' => $json['logo'] ?? '',
+          ];
+
+          if ($firebase->adicionarImagem($this->empresaPadraoId, $linha, $params) == false) {
+            $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Erro ao fazer upload do logo');
+          }
+
           $formLogo = true;
-          $adicionarLogo = $firebase->adicionarImagem($this->empresaPadraoId, $linha, ['nome' => 'logo']);
+          $json['logo'] = $this->empresaPadraoId . '/' . $params['nome'] . '.' . $extensao;
         }
         elseif ($chave == 'arquivo-favicon' and $linha['error'] === UPLOAD_ERR_OK) {
+          $params = [
+            'nome' => 'favicon',
+            'imagemAtual' => $json['favicon'] ?? '',
+          ];
+
+          if ($firebase->adicionarImagem($this->empresaPadraoId, $linha, $params) == false) {
+            $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Erro ao fazer upload do favicon');
+          }
+
           $formFavicon = true;
-          $adicionarFavicon = $firebase->adicionarImagem($this->empresaPadraoId, $linha, ['nome' => 'favicon']);
+          $json['favicon'] = $this->empresaPadraoId . '/' . $params['nome'] . '.' . $extensao;
         }
       endforeach;
     }
 
-    if ($formLogo == true and $adicionarLogo == false) {
-      $msgErroImagem[] = 'Erro ao fazer upload do Logo';
+    // Grava apenas se alterar no Firebase
+    if ($formLogo == false and isset($json['logo'])) {
+      unset($json['logo']);
     }
 
-    if ($formFavicon == true and $adicionarFavicon == false) {
-      $msgErroImagem[] = 'Erro ao fazer upload do Favicon';
-    }
-
-    if ($msgErroImagem) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', $msgErroImagem);
+    if ($formFavicon == false and isset($json['favicon'])) {
+      unset($json['favicon']);
     }
 
     $resultado = $this->empresaModel->atualizar($json, $id);
@@ -301,7 +314,7 @@ class DashboardEmpresaController extends DashboardController
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', $resultado['erro']);
     }
 
-    if ((! isset($resultado['linhasAfetadas']) or $resultado['linhasAfetadas'] == 0) and $adicionarLogo == false and $adicionarFavicon == false) {
+    if ((! isset($resultado['linhasAfetadas']) or $resultado['linhasAfetadas'] == 0) and $formLogo == false and $formFavicon == false) {
       $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Nenhuma alteração realizada');
     }
 

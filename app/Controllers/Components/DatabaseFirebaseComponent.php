@@ -32,6 +32,7 @@ class DatabaseFirebaseComponent extends DashboardController
 
     $arquivoTemp = $arquivo['tmp_name'];
     $conteudoArquivo = file_get_contents($arquivoTemp);
+    $extensao = pathinfo($arquivo['name'], PATHINFO_EXTENSION);
 
     // Endereço padrão
     $caminhoImagem = $empresaId . '/';
@@ -40,6 +41,7 @@ class DatabaseFirebaseComponent extends DashboardController
     $artigoId = $params['artigoId'] ?? 0;
     $conteudoId = $params['conteudoId'] ?? 0;
     $nome = $params['nome'] ?? 0;
+    $imagemAtual = $params['imagemAtual'] ?? '';
 
     if ($artigoId and $conteudoId) {
       $caminhoImagem .= $artigoId . '/' . $conteudoId;
@@ -49,7 +51,19 @@ class DatabaseFirebaseComponent extends DashboardController
     }
 
     try {
-      $this->bucket->upload($conteudoArquivo, ['name' => $caminhoImagem, 'metadata' => ['contentType' => $arquivo['type']]]);
+      // Apaga antes
+      if ($imagemAtual) {
+        $objetoAtual = $this->bucket->object($imagemAtual);
+
+        if ($objetoAtual->exists()) {
+          $objetoAtual->delete();
+        }
+      }
+
+      $this->bucket->upload($conteudoArquivo, [
+        'name' => $caminhoImagem . '.' . $extensao,
+        'metadata' => ['contentType' => $arquivo['type']],
+      ]);
 
       return true;
     }
@@ -61,25 +75,10 @@ class DatabaseFirebaseComponent extends DashboardController
     }
   }
 
-  public function apagarImagem(int $empresaId, array $params = []): bool
+  public function apagarImagem(string $caminhoImagem): bool
   {
-    if (empty($empresaId)) {
+    if (empty($caminhoImagem)) {
       return false;
-    }
-
-    // Endereço padrão
-    $caminhoImagem = $empresaId . '/';
-
-    // Somente para remoção de conteúdo
-    $artigoId = $params['artigoId'] ?? 0;
-    $conteudoId = $params['conteudoId'] ?? 0;
-    $nome = $params['nome'] ?? 0;
-
-    if ($artigoId and $conteudoId) {
-      $caminhoImagem .= $artigoId . '/' . $conteudoId;
-    }
-    elseif ($nome) {
-      $caminhoImagem .= $nome;
     }
 
     try {

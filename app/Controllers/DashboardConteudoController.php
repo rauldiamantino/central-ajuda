@@ -59,11 +59,22 @@ class DashboardConteudoController extends DashboardController
 
     if ($dados['tipo'] == 2) {
       $firebase = new DatabaseFirebaseComponent();
+      $extensao = pathinfo($_FILES['arquivo-imagem']['name'], PATHINFO_EXTENSION);
 
       if ($firebase->adicionarImagem($this->empresaPadraoId, $_FILES['arquivo-imagem'], $paramsImagem) == false) {
         $this->redirecionarErro($urlRetorno, 'Erro ao fazer upload do arquivo');
       }
+
+      // Armazena no banco sempre com a extensão
+      $caminhoComExtensao = $this->empresaPadraoId . '/' . $dados['artigo_id'] . '/' . $resultado['id'] . '.' . $extensao;
+
+      $camposConteudo = [
+        'url' => $caminhoComExtensao,
+      ];
+
+      $this->conteudoModel->atualizar($camposConteudo, $resultado['id']);
     }
+
 
     $camposArtigo = [
       'modificado' => (new DateTime())->format('Y-m-d H:i:s'),
@@ -141,12 +152,25 @@ class DashboardConteudoController extends DashboardController
       $paramsImagem = [
         'artigoId' => $artigoId,
         'conteudoId' => $id,
+        'imagemAtual' => $json['url'] ?? '',
       ];
 
-      $firebase = new DatabaseFirebaseComponent();
+      if (isset($_FILES['arquivo-imagem']) and $_FILES['arquivo-imagem']['error'] === UPLOAD_ERR_OK) {
+        $firebase = new DatabaseFirebaseComponent();
+        $extensao = pathinfo($_FILES['arquivo-imagem']['name'], PATHINFO_EXTENSION);
 
-      if (isset($_FILES['arquivo-imagem']) and $_FILES['arquivo-imagem']['error'] === UPLOAD_ERR_OK and $firebase->adicionarImagem($this->empresaPadraoId, $_FILES['arquivo-imagem'], $paramsImagem) == false) {
-        $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId . $referer, 'Erro ao fazer upload do arquivo');
+        if ($firebase->adicionarImagem($this->empresaPadraoId, $_FILES['arquivo-imagem'], $paramsImagem) == false) {
+          $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId . $referer, 'Erro ao fazer upload do arquivo');
+        }
+
+        // Armazena no banco sempre com a extensão
+        $caminhoComExtensao = $this->empresaPadraoId . '/' . $artigoId . '/' . $id . '.' . $extensao;
+
+        $camposConteudo = [
+          'url' => $caminhoComExtensao,
+        ];
+
+        $this->conteudoModel->atualizar($camposConteudo, $id);
       }
 
       $camposArtigo = [
@@ -216,6 +240,7 @@ class DashboardConteudoController extends DashboardController
 
     $colunas = [
       'Conteudo.artigo_id',
+      'Conteudo.url',
     ];
 
     $buscarConteudo = $this->conteudoModel->selecionar($colunas)
@@ -225,12 +250,13 @@ class DashboardConteudoController extends DashboardController
     $artigoId = $buscarConteudo[0]['Conteudo']['artigo_id'] ?? 0;
 
     // Apaga imagem
-    $firebase = new DatabaseFirebaseComponent();
-    $apagarFirebase = $firebase->apagarImagem($this->empresaPadraoId, ['artigoId' => $artigoId, 'conteudoId' => $id]);
+    if (isset($buscarConteudo[0]['Conteudo']['url'])) {
+      $firebase = new DatabaseFirebaseComponent();
 
-    if ($apagarFirebase == false) {
-      $this->sessaoUsuario->definir('erro', 'Erro ao apagar imagem');
-      $this->responderJson(['erro' => 'Erro ao apagar imagem'], 500);
+      if ($firebase->apagarImagem($buscarConteudo[0]['Conteudo']['url']) == false) {
+        $this->sessaoUsuario->definir('erro', 'Erro ao apagar imagem');
+        $this->responderJson(['erro' => 'Erro ao apagar imagem'], 500);
+      }
     }
 
     // Apagar

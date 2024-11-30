@@ -8,7 +8,7 @@
     <input type="hidden" name="_method" value="PUT">
     <input type="hidden" name="artigo_id" value="<?php echo $linha['Conteudo']['artigo_id'] ?>">
     <input type="hidden" name="tipo" value="2">
-    <input type="hidden" name="url" value="" class="url-imagem">
+    <input type="hidden" name="url" value="<?php echo $linha['Conteudo']['url'] ?>" class="url-imagem">
     <input type="hidden" name="referer" value="<?php echo urlencode($botaoVoltar); ?>">
 
     <div class="w-full">
@@ -25,7 +25,7 @@
         <span class="ml-2 text-gray-700 conteudo-txt-imagem-editar-escolher">Alterar Imagem</span>
       </button>
       <div class="border border-slate-300 p-4 relative flex flex-col gap-2 w-full bg-white rounded-md">
-        <img src="<?php echo $this->renderImagem($this->empresaPadraoId, '', $linha['Conteudo']['artigo_id'], $linha['Conteudo']['id']); ?>" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>" class="object-cover w-full h-full min-h-48 bloco-imagem-elemento" onerror="this.onerror=null; this.src='/img/sem-imagem.svg';">
+        <img src="<?php echo $this->renderImagem($linha['Conteudo']['url'], $linha['Conteudo']['id']); ?>" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>" class="object-cover w-full h-full min-h-48 bloco-imagem-elemento" onerror="this.onerror=null; this.src='/img/sem-imagem.svg';">
       </div>
     </div>
     <div class="sticky bottom-0 py-4 px-2 w-full h-max flex flex-col lg:flex-row justify-between gap-4 bg-white rounded-lg">
