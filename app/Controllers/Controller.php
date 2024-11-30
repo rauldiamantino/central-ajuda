@@ -232,7 +232,7 @@ class Controller
       $caminho .= $artigoId . '/' . $conteudoId;
     }
 
-    return $imagemUrl = 'https://firebasestorage.googleapis.com/v0/b/' . FIREBASE_BUCKET . '/o/' . urlencode($caminho) . '?alt=media';
+    return $imagemUrl = 'https://firebasestorage.googleapis.com/v0/b2/' . FIREBASE_BUCKET . '/o/' . urlencode($caminho) . '?alt=media';
 
     // Remove provisoriamente
 

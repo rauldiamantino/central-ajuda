@@ -193,12 +193,15 @@ const evitarDuploClique = (event) => {
   event.preventDefault()
 
   const form = event.target
+  const submitButton = form.querySelector('button[type="submit"]')
 
-  const botoes = form.querySelectorAll('button')
-    botoes.forEach(botao => {
-      botao.disabled = true
-      botao.classList.add('opacity-50')
-  })
+  if (submitButton.disabled) {
+    return
+  }
+
+  submitButton.disabled = true
+  submitButton.textContent = 'Gravando...'
+  submitButton.classList.add('opacity-50')
 
   form.submit()
 }
@@ -369,7 +372,7 @@ const fecharAdicionarAtual = () => {
   const btnFechar = modal.querySelector('.modal-conteudo-btn-fechar')
 
   if (! modal || ! btnContinuar || ! btnFechar) {
-    return Promise.resolve(false);
+    return Promise.resolve(false)
   }
 
   modal.showModal()
@@ -400,7 +403,7 @@ const fecharAdicionarAtual = () => {
 const fecharDemaisAdicionar = (demaisBlocosAdicionar) => {
 
   if (! demaisBlocosAdicionar) {
-    return Promise.resolve(false);
+    return Promise.resolve(false)
   }
 
   const modal = document.querySelector('.modal-conteudo-fechar')
@@ -408,7 +411,7 @@ const fecharDemaisAdicionar = (demaisBlocosAdicionar) => {
   const btnFechar = modal.querySelector('.modal-conteudo-btn-fechar')
 
   if (! modal || ! btnContinuar || ! btnFechar) {
-    return Promise.resolve(false);
+    return Promise.resolve(false)
   }
 
   modal.showModal()
