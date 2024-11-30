@@ -232,13 +232,15 @@ class Controller
       $caminho .= $artigoId . '/' . $conteudoId;
     }
 
-    $imagemUrl = 'https://firebasestorage.googleapis.com/v0/b/' . FIREBASE_BUCKET . '/o/' . urlencode($caminho) . '?alt=media';
+    return $imagemUrl = 'https://firebasestorage.googleapis.com/v0/b/' . FIREBASE_BUCKET . '/o/' . urlencode($caminho) . '?alt=media';
 
-    if ($this->curlImagem($imagemUrl)) {
-       return $imagemUrl;
-    }
+    // Remove provisoriamente
 
-    return '/img/sem-imagem.svg';
+    // if ($this->curlImagem($imagemUrl)) {
+    //    return $imagemUrl;
+    // }
+
+    // return '/img/sem-imagem.svg';
   }
 
   // Revisar
