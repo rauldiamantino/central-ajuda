@@ -7,13 +7,21 @@ use app\Roteamento\Roteador;
 use app\Controllers\Components\PagamentoAsaasComponent;
 
 // Rollbar
-if (! HOST_LOCAL) {
-  $config = [
-    'access_token' => ROLLBAR_TOKEN,
-    'environment' => 'production',
-  ];
+// if (! HOST_LOCAL) {
+//   $config = [
+//     'access_token' => ROLLBAR_TOKEN,
+//     'environment' => 'production',
+//   ];
 
-  \Rollbar\Rollbar::init($config);
+//   \Rollbar\Rollbar::init($config);
+// }
+
+// Sentry
+if (! HOST_LOCAL) {
+  \Sentry\init([
+    'dsn' => SENTRY_TOKEN,
+    'traces_sample_rate' => 1.0,
+  ]);
 }
 
 $sessaoUsuario = new SessaoUsuario();

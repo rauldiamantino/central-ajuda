@@ -26,7 +26,8 @@ class Database
     catch (Exception $e) {
       $log['erro'] = $e->getMessage();
 
-      Rollbar::log(Level::ERROR, $e);
+      // Rollbar::log(Level::ERROR, $e);
+      registrarSentry($e);
       registrarLog('database-conexao', $log);
     }
   }
@@ -116,7 +117,8 @@ class Database
         'msg' => $e->getMessage(),
       ];
 
-      Rollbar::log(Level::ERROR, $e, [ $e->getMessage() ]);
+      // Rollbar::log(Level::ERROR, $e, [ $e->getMessage() ]);
+      registrarSentry($e);
     }
 
     $log = [

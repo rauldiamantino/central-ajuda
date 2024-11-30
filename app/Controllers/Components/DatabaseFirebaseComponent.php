@@ -20,7 +20,9 @@ class DatabaseFirebaseComponent extends DashboardController
     ];
 
     if ($this->acessoPermitido() == false) {
-      Rollbar::log(Level::ERROR, 'Firebase - Acesso não permitido', $_REQUEST);
+      // Rollbar::log(Level::ERROR, 'Firebase - Acesso não permitido', $_REQUEST);
+      registrarSentry('Firebase - Acesso negado', $_REQUEST, 'warning');
+
       $this->responderJson('Acesso negado', 403);
     }
 

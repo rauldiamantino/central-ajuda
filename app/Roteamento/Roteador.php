@@ -102,7 +102,8 @@ class Roteador
     $rotaRequisitada = $this->acessarRota($chaveRota);
 
     if (empty($subdominio_2) and empty($rotaRequisitada)) {
-      Rollbar::log(Level::ERROR, 'Rota não encontrada', $_SESSION);
+      // Rollbar::log(Level::ERROR, 'Rota não encontrada', $_SESSION);
+      registrarSentry('Rota não encontrada', $_SESSION);
 
       return $this->paginaErro->erroVer();
     }
@@ -147,7 +148,9 @@ class Roteador
       $rotaRequisitada = $this->acessarRotaSubdominio($chaveRota);
 
       if (empty($rotaRequisitada)) {
-        Rollbar::log(Level::ERROR, 'Rota não encontrada (domínio personalizado)', $_SESSION);
+        // Rollbar::log(Level::ERROR, 'Rota não encontrada (domínio personalizado)', $_SESSION);
+        registrarSentry('Rota não encontrada (domínio personalizado)', $_SESSION);
+
         return $this->paginaErro->erroVer();
       }
     }
@@ -186,7 +189,9 @@ class Roteador
       $empresaId = $usuarioLogado['empresaId'];
 
       if (empty($empresa) and ! $this->rotaLogin($chaveRota)) {
-        Rollbar::log(Level::ERROR, 'Rota não encontrada (sem empresaId)', $_SESSION);
+        // Rollbar::log(Level::ERROR, 'Rota não encontrada (sem empresaId)', $_SESSION);
+        registrarSentry('Rota não encontrada (sem empresaId)', $_SESSION);
+
         return $this->paginaErro->erroVer();
       }
     }
@@ -247,7 +252,9 @@ class Roteador
 
       // Limita o acesso à empresa correta
       if ($usuarioLogado['empresaId'] !== $empresaId) {
-        Rollbar::log(Level::ERROR, 'Tentou acessar outra empresa', $_SESSION);
+        // Rollbar::log(Level::ERROR, 'Tentou acessar outra empresa', $_SESSION);
+        registrarSentry('Tentou acessar outra empresa', $_SESSION);
+
         return $this->paginaErro->erroVer();
       }
 
@@ -265,7 +272,9 @@ class Roteador
 
     // Acesso sem subdomínio
     if ($empresaId == 0 and ! $this->rotaPermitida($chaveRota)) {
-      Rollbar::log(Level::ERROR, 'Rota pública não encontrada', $_SESSION);
+      // Rollbar::log(Level::ERROR, 'Rota pública não encontrada', $_SESSION);
+      registrarSentry('Rota pública não encontrada', $_SESSION);
+
       return $this->paginaErro->erroVer();
     }
 
@@ -316,7 +325,9 @@ class Roteador
         'protocolo' => isset($_SERVER['HTTPS']) ? 'HTTPS' : 'HTTP',
       ];
 
-      Rollbar::log(Level::ERROR, $erro, array_merge($acesso, $_SESSION));
+      // Rollbar::log(Level::ERROR, $erro, array_merge($acesso, $_SESSION));
+      registrarSentry($erro, array_merge($acesso, $_SESSION));
+
       exit;
     }
 
@@ -349,7 +360,8 @@ class Roteador
 
       $this->paginaErro->erroVer('Too Many Requests', 429);
 
-      Rollbar::log(Level::ERROR, $erro, array_merge($acesso, $_SESSION));
+      // Rollbar::log(Level::ERROR, $erro, array_merge($acesso, $_SESSION));
+      registrarSentry($erro, array_merge($acesso, $_SESSION));
       exit;
     }
 

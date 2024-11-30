@@ -231,7 +231,8 @@ class PagamentoAsaasComponent extends DashboardController
       $camposReq['resposta']['codigo'] = $e->getCode();
       $camposReq['resposta']['dados'] = json_decode($e->getResponse()->getBody()->getContents(), true);
 
-      Rollbar::log(Level::ERROR, $e, $camposReq);
+      // Rollbar::log(Level::ERROR, $e, $camposReq);
+      registrarSentry($e, $camposReq);
     }
 
     $camposReq['body'] = json_decode($camposReq['body'], true);

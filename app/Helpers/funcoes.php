@@ -93,3 +93,31 @@ function subdominioDominio(string $subdominio = '', $protocolo = true) {
 
   return $dominio;
 }
+
+function registrarSentry($erro, $params = [], $nivel = null) {
+  if ($erro instanceof Exception) {
+    Sentry\configureScope(function (Sentry\State\Scope $scope) use ($params, $nivel) {
+      $scope->setExtras($params);
+
+      if ($nivel) {
+        $scope->setLevel(new Sentry\Severity($nivel));
+      }
+    });
+
+    Sentry\captureException($erro);
+  }
+  elseif (is_string($erro)) {
+    Sentry\configureScope(function (Sentry\State\Scope $scope) use ($params, $nivel) {
+      $scope->setExtras($params);
+
+      if ($nivel) {
+        $scope->setLevel(new Sentry\Severity($nivel));
+      }
+    });
+
+    Sentry\captureMessage($erro);
+  }
+  else {
+    throw new InvalidArgumentException('O parâmetro $erro deve ser uma string ou uma instância de Exception.');
+  }
+}
