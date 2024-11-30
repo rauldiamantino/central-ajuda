@@ -3,9 +3,169 @@ namespace app\Controllers\Components;
 use Rollbar\Rollbar;
 use Rollbar\Payload\Level;
 use app\Controllers\DashboardController;
+use Google\Cloud\Storage\StorageClient;
 
 class DatabaseFirebaseComponent extends DashboardController
 {
+  public $bucket;
+
+  public function __construct()
+  {
+    $credenciais = '../app/Config/firebase.json';
+    $storage = new StorageClient(['keyFilePath' => $credenciais]);
+    $this->bucket = $storage->bucket(FIREBASE_BUCKET);
+  }
+
+  public function adicionarImagem(int $empresaId, array $arquivo, string $nome, array $params = []): bool
+  {
+    if (empty($empresaId)) {
+      return false;
+    }
+
+    if (empty($arquivo)) {
+      return false;
+    }
+
+    if (empty($nome)) {
+      return false;
+    }
+
+    if (! isset($arquivo['imagem']) or $arquivo['imagem']['error'] !== UPLOAD_ERR_OK) {
+      return false;
+    }
+
+    // Upload no navegador OK
+    $arquivoTemp = $arquivo['imagem']['tmp_name'];
+
+    // Endereço padrão
+    $caminhoImagem = $empresaId . '/';
+
+    // Somente para inserção de conteúdo
+    $artigoId = $params['artigoId'] ?? 0;
+    $conteudoId = $params['conteudoId'] ?? 0;
+
+    if ($artigoId and $conteudoId) {
+      $caminhoImagem .= $artigoId . '/' . $conteudoId;
+    }
+
+    // Endereço final
+    $caminhoImagem .= $nome;
+
+    try {
+      $this->bucket->upload(fopen($arquivoTemp, 'r'), ['name' => $caminhoImagem]);
+
+      return true;
+    }
+    catch (Google\Cloud\Core\Exception\ServiceException $e) {
+      registrarLog('Erro no upload', $e->getMessage());
+      registrarSentry($e);
+
+      return false;
+    }
+  }
+
+  public function apagarImagem(int $empresaId, string $nome, array $params = []): bool
+  {
+    if (empty($empresaId)) {
+      return false;
+    }
+
+    if (empty($nome)) {
+      return false;
+    }
+
+    // Endereço padrão
+    $caminhoImagem = $empresaId . '/';
+
+    // Somente para remoção de conteúdo
+    $artigoId = $params['artigoId'] ?? 0;
+    $conteudoId = $params['conteudoId'] ?? 0;
+
+    if ($artigoId and $conteudoId) {
+      $caminhoImagem .= $artigoId . '/' . $conteudoId;
+    }
+
+    // Endereço final
+    $caminhoImagem .= $nome;
+
+    try {
+      $objeto = $this->bucket->object($caminhoImagem);
+
+      if (! $objeto->exists()) {
+        return true;
+      }
+      else {
+        $objeto->delete();
+
+        return true;
+      }
+    }
+    catch (Google\Cloud\Core\Exception\NotFoundException $e) {
+      registrarLog('Arquivo não encontrado', $e->getMessage());
+      registrarSentry($e);
+
+      return false;
+    }
+    catch (Google\Cloud\Core\Exception\ServiceException $e) {
+      registrarLog('Erro no serviço', $e->getMessage());
+      registrarSentry($e);
+
+      return false;
+    }
+    catch (\Exception $e) {
+      registrarLog('Erro ao apagar', $e->getMessage());
+      registrarSentry($e);
+
+      return false;
+    }
+  }
+
+  public function apagarImagens(int $empresaId, int $artigoId): bool
+  {
+    if (empty($empresaId)) {
+      return false;
+    }
+
+    if (empty($artigoId)) {
+      return false;
+    }
+
+    // Endereço final
+    $caminhoImagem = $empresaId . '/' . $artigoId;
+
+    try {
+      $objetos = $this->bucket->objects(['prefix' => $caminhoImagem]);
+
+      if (iterator_count($objetos) === 0) {
+        return true;
+      }
+
+      foreach ($objetos as $linha):
+        $linha->delete();
+      endforeach;
+
+      return true;
+    }
+    catch (Google\Cloud\Core\Exception\NotFoundException $e) {
+      registrarLog('Arquivos não encontrados', $e->getMessage());
+      registrarSentry($e);
+
+      return false;
+    }
+    catch (Google\Cloud\Core\Exception\ServiceException $e) {
+      registrarLog('Erro no serviço', $e->getMessage());
+      registrarSentry($e);
+
+      return false;
+    }
+    catch (\Exception $e) {
+      registrarLog('Erro ao apagar', $e->getMessage());
+      registrarSentry($e);
+
+      return false;
+    }
+  }
+
   public function credenciais()
   {
     $credenciais = [
