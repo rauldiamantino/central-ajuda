@@ -295,14 +295,6 @@ class DashboardEmpresaController extends DashboardController
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', $msgErroImagem);
     }
 
-    if ($adicionarLogo == true) {
-      $json['logo'] = 'logo';
-    }
-
-    if ($adicionarFavicon == true) {
-      $json['favicon'] = 'favicon';
-    }
-
     $resultado = $this->empresaModel->atualizar($json, $id);
 
     if (isset($resultado['erro'])) {

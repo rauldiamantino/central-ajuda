@@ -122,7 +122,7 @@ class DashboardConteudoModel extends Model
 
     foreach ($params as $chave => $linha) :
 
-      if ($chave == 'tipo' and $linha == 1) {
+      if ($chave == 'tipo' and in_array($linha, [1, 2])) {
         array_push($permitidos, 'url');
         break;
       }

@@ -78,11 +78,11 @@
       <input type="file" accept="image/*" id="empresa-editar-imagem" name="arquivo-logo" class="hidden empresa-editar-imagem-escolher" onchange="mostrarImagemLogo(event)">
       <div class="flex flex-col text-sm font-medium text-gray-700">
         <span>Logo</span>
-        <span class="font-extralight">Envie uma imagem para representar a sua empresa. O arquivo deve ter até 2MB e estar no formato .jpg ou .png. Tamanho ideal: 200px de largura por 70px de altura.</span>
+        <span class="font-extralight">Envie uma imagem para representar a sua empresa. O arquivo deve ter até 2MB e estar no formato .svg, .jpg ou .png. Tamanho ideal: 200px de largura por 70px de altura.</span>
       </div>
       <button type="button" for="empresa-editar-imagem" class="w-full h-24 flex items-center justify-center <?php echo CLASSES_DASH_INPUT; ?> empresa-btn-imagem-editar-escolher" onclick="alterarLogo(event)">
         <div class="h-full">
-          <img src="<?php echo $empresa['Empresa']['logo'] ? $this->renderImagem($empresa['Empresa']['logo']) : ''; ?>" class="w-full h-full empresa-alterar-logo <?php echo $empresa['Empresa']['logo'] ? '' : 'hidden' ?>">
+          <img src="<?php echo $this->renderImagem('logo'); ?>" class="w-full h-full empresa-alterar-logo">
         </div>
         <span class="ml-2 text-gray-700 h-max w-max empresa-txt-imagem-editar-escolher"><?php echo $empresa['Empresa']['logo'] ? '' : 'Adicionar'; ?></span>
         <h3 class="hidden font-light text-left text-sm text-red-800 erro-empresa-imagem"></h3>
@@ -95,7 +95,7 @@
       <input type="file" accept="image/*" id="empresa-editar-favicon" name="arquivo-favicon"  class="hidden empresa-editar-favicon-escolher" onchange="mostrarImagemFavicon(event)">
       <div class="flex flex-col text-sm font-medium text-gray-700">
         <span>Favicon</span>
-        <span class="font-extralight">Adicione um ícone personalizado para a barra de navegação. Deve ser uma imagem .jpg ou .png com 48px de largura por 48px de altura.</span>
+        <span class="font-extralight">Adicione um ícone personalizado para a barra de navegação. Deve ser uma imagem .svg, .jpg ou .png.</span>
       </div>
       <button type="button" for="empresa-editar-favicon" class="w-full h-24 flex items-center justify-center <?php echo CLASSES_DASH_INPUT; ?> empresa-btn-favicon-editar-escolher" onclick="alterarFavicon(event)">
         <div class="h-full">

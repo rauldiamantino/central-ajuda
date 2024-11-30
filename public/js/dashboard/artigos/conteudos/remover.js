@@ -1,5 +1,3 @@
-import { apagarImagem } from '../../firebase/funcoes.js'
-
 let conteudoId = null
 let conteudoTipo = null
 let conteudoUrl = null
@@ -42,7 +40,7 @@ const fecharModalConteudoRemover = () => {
   modalConteudoRemover.close()
 }
 
-const requisicaoConteudoRemover = async (conteudoId) => {
+const requisicaoConteudoRemover = (conteudoId) => {
 
   if (! conteudoId) {
     return
@@ -52,20 +50,30 @@ const requisicaoConteudoRemover = async (conteudoId) => {
     return
   }
 
-  if (conteudoUrl && conteudoTipo == 2) {
-    const apagar = await apagarImagem(conteudoUrl);
+  const elementosFiltrados = document.querySelector(`.js-dashboard-conteudo-remover[data-conteudo-id="${conteudoId}"]`)
 
-    if (apagar == false) {
-      return;
-    }
+  if (! elementosFiltrados) {
+    return
   }
+
+  const elementoPai = elementosFiltrados.closest('form')
+
+  if (! elementoPai) {
+    return
+  }
+
+  const botoes = elementoPai.querySelectorAll('button')
+    botoes.forEach(botao => {
+      botao.disabled = true
+      botao.classList.add('opacity-50')
+  })
 
   fetch(baseUrl(`/${empresa}/d/conteudo/${conteudoId}`), { method: 'DELETE' })
     .then(resposta => resposta.json())
     .then(resposta => {
 
       if (resposta.linhasAfetadas == 1) {
-        window.location.href = window.location.href;
+        window.location.href = window.location.href
       }
       else if (resposta.erro) {
         throw new Error(resposta.erro)
@@ -75,6 +83,21 @@ const requisicaoConteudoRemover = async (conteudoId) => {
       }
     })
     .catch(error => {
-      window.location.href = window.location.href;
+      console.error(error)
+      window.location.href = window.location.href
+    })
+    .finally(() => {
+
+      setTimeout(() => {
+
+        if (! botoes) {
+          return
+        }
+
+        botoes.forEach(botao => {
+          botao.disabled = false
+          botao.classList.remove('opacity-50')
+        })
+      }, 500);
     })
 }

@@ -1,5 +1,3 @@
-import { apagarImgsArtigo } from '../firebase/funcoes.js'
-
 document.addEventListener('DOMContentLoaded', function() {
   // Redir início rápido
   const urlParams = new URLSearchParams(window.location.search)
@@ -31,7 +29,7 @@ if (btnsArtigoRemover) {
     artigo.addEventListener('click', () => {
       artigoId = artigo.dataset.artigoId
       empresaId = artigo.dataset.empresaId
-      urlVoltar = validarReferer(artigo.dataset.botaoVoltar)
+      urlVoltar = artigo.dataset.botaoVoltar ? validarReferer(artigo.dataset.botaoVoltar) : ''
 
       abrirModalRemover()
     })
@@ -76,12 +74,6 @@ const fecharModalRemover = () => {
 const requisicaoRemover = async (artigoId) => {
 
   if (artigoId === undefined || empresaId === undefined) {
-    return
-  }
-
-  const apagar = await apagarImgsArtigo(`imagens/empresa-${empresaId}/artigo-${artigoId}`)
-
-  if (apagar == false) {
     return
   }
 

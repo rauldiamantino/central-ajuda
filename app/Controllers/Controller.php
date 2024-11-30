@@ -234,6 +234,13 @@ class Controller
 
     $imagemUrl = 'https://firebasestorage.googleapis.com/v0/b/' . FIREBASE_BUCKET . '/o/' . urlencode($caminho) . '?alt=media';
 
-    return $imagemUrl;
+    // Confirma se a imagem ainda existe
+    $headers = @get_headers($imagemUrl, 1);
+
+    if ($headers and strpos($headers[0], '200') !== false and isset($headers['Content-Type']) and strpos($headers['Content-Type'], 'image/') !== false) {
+       return $imagemUrl;
+    }
+
+    return '/img/sem-imagem.svg';
   }
 }

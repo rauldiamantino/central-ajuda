@@ -61,13 +61,9 @@ class DatabaseFirebaseComponent extends DashboardController
     }
   }
 
-  public function apagarImagem(int $empresaId, string $nome, array $params = []): bool
+  public function apagarImagem(int $empresaId, array $params = []): bool
   {
     if (empty($empresaId)) {
-      return false;
-    }
-
-    if (empty($nome)) {
       return false;
     }
 
@@ -77,13 +73,14 @@ class DatabaseFirebaseComponent extends DashboardController
     // Somente para remoção de conteúdo
     $artigoId = $params['artigoId'] ?? 0;
     $conteudoId = $params['conteudoId'] ?? 0;
+    $nome = $params['nome'] ?? 0;
 
     if ($artigoId and $conteudoId) {
       $caminhoImagem .= $artigoId . '/' . $conteudoId;
     }
-
-    // Endereço final
-    $caminhoImagem .= $nome;
+    elseif ($nome) {
+      $caminhoImagem .= $nome;
+    }
 
     try {
       $objeto = $this->bucket->object($caminhoImagem);
