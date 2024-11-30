@@ -16,7 +16,7 @@ class DatabaseFirebaseComponent extends DashboardController
     $this->bucket = $storage->bucket(FIREBASE_BUCKET);
   }
 
-  public function adicionarImagem(int $empresaId, array $arquivo, string $nome, array $params = []): bool
+  public function adicionarImagem(int $empresaId, array $arquivo, array $params = []): bool
   {
     if (empty($empresaId)) {
       return false;
@@ -26,16 +26,12 @@ class DatabaseFirebaseComponent extends DashboardController
       return false;
     }
 
-    if (empty($nome)) {
+    if (! isset($arquivo['tmp_name']) or $arquivo['error'] !== UPLOAD_ERR_OK) {
       return false;
     }
 
-    if (! isset($arquivo['imagem']) or $arquivo['imagem']['error'] !== UPLOAD_ERR_OK) {
-      return false;
-    }
-
-    // Upload no navegador OK
-    $arquivoTemp = $arquivo['imagem']['tmp_name'];
+    $arquivoTemp = $arquivo['tmp_name'];
+    $conteudoArquivo = file_get_contents($arquivoTemp);
 
     // Endereço padrão
     $caminhoImagem = $empresaId . '/';
@@ -43,16 +39,17 @@ class DatabaseFirebaseComponent extends DashboardController
     // Somente para inserção de conteúdo
     $artigoId = $params['artigoId'] ?? 0;
     $conteudoId = $params['conteudoId'] ?? 0;
+    $nome = $params['nome'] ?? 0;
 
     if ($artigoId and $conteudoId) {
       $caminhoImagem .= $artigoId . '/' . $conteudoId;
     }
-
-    // Endereço final
-    $caminhoImagem .= $nome;
+    elseif ($nome) {
+      $caminhoImagem .= $nome;
+    }
 
     try {
-      $this->bucket->upload(fopen($arquivoTemp, 'r'), ['name' => $caminhoImagem]);
+      $this->bucket->upload($conteudoArquivo, ['name' => $caminhoImagem, 'metadata' => ['contentType' => $arquivo['type']]]);
 
       return true;
     }

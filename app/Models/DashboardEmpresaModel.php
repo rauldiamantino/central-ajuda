@@ -211,6 +211,8 @@ class DashboardEmpresaModel extends Model
     if (empty($msgErro['erro']['mensagem'])) {
       $campos['ativo'] = filter_var($campos['ativo'], FILTER_SANITIZE_NUMBER_INT);
       $campos['nome'] = htmlspecialchars($campos['nome']);
+      $campos['logo'] = htmlspecialchars($campos['logo']);
+      $campos['favicon'] = htmlspecialchars($campos['favicon']);
       $campos['subdominio'] = htmlspecialchars($campos['subdominio']);
       $campos['subdominio_2'] = filter_var($campos['subdominio_2'], FILTER_SANITIZE_URL);
       $campos['telefone'] = filter_var($campos['telefone'], FILTER_SANITIZE_NUMBER_INT);
@@ -234,22 +236,6 @@ class DashboardEmpresaModel extends Model
       }
       elseif (isset($params['cnpj']) and $params['cnpj'] != '') {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('cnpj', 'valInvalido');
-      }
-
-      if ($campos['logo'] == 'undefined') {
-        $campos['logo'] = '';
-      }
-
-      if ($campos['favicon'] == 'undefined') {
-        $campos['favicon'] = '';
-      }
-
-      if ($campos['logo'] and filter_var($campos['logo'], FILTER_VALIDATE_URL) == false) {
-        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('logo', 'valInvalido');
-      }
-
-      if ($campos['favicon'] and filter_var($campos['favicon'], FILTER_VALIDATE_URL) == false) {
-        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('favicon', 'valInvalido');
       }
 
       if ($campos['url_site'] and filter_var($campos['url_site'], FILTER_VALIDATE_URL) == false) {
@@ -277,8 +263,8 @@ class DashboardEmpresaModel extends Model
       $subdominio2Caracteres = 255;
       $telefoneCaracteresMin = 10;
       $telefoneCaracteresMax = 11;
-      $logoCaracteres = 255;
-      $faviconCaracteres = 255;
+      $logoCaracteres = 50;
+      $faviconCaracteres = 50;
       $urlSiteCaracteres = 255;
       $assinaturaIdAsaasCaracteres = 255;
       $assinaturaCicloCaracteres = 50;
@@ -391,11 +377,11 @@ class DashboardEmpresaModel extends Model
     }
 
     if (isset($camposValidados['logo']) and empty($camposValidados['logo'])) {
-      $camposValidados['logo'] = null;
+      unset($camposValidados['logo']);
     }
 
     if (isset($camposValidados['favicon']) and empty($camposValidados['favicon'])) {
-      $camposValidados['favicon'] = null;
+      unset($camposValidados['favicon']);
     }
 
     if (isset($camposValidados['gratis_prazo']) and empty($camposValidados['gratis_prazo'])) {
