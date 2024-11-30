@@ -82,7 +82,7 @@
       </div>
       <button type="button" for="empresa-editar-imagem" class="w-full h-24 flex items-center justify-center <?php echo CLASSES_DASH_INPUT; ?> empresa-btn-imagem-editar-escolher" onclick="alterarLogo(event)">
         <div class="h-full">
-          <img src="<?php echo $this->renderImagem('logo'); ?>" class="w-full h-full empresa-alterar-logo">
+          <img src="<?php echo $this->renderImagem($this->empresaPadraoId, 'logo'); ?>" class="w-full h-full empresa-alterar-logo">
         </div>
         <span class="ml-2 text-gray-700 h-max w-max empresa-txt-imagem-editar-escolher"><?php echo $empresa['Empresa']['logo'] ? '' : 'Adicionar'; ?></span>
         <h3 class="hidden font-light text-left text-sm text-red-800 erro-empresa-imagem"></h3>
@@ -99,7 +99,7 @@
       </div>
       <button type="button" for="empresa-editar-favicon" class="w-full h-24 flex items-center justify-center <?php echo CLASSES_DASH_INPUT; ?> empresa-btn-favicon-editar-escolher" onclick="alterarFavicon(event)">
         <div class="h-full">
-          <img src="<?php echo $empresa['Empresa']['favicon'] ? $this->renderImagem($empresa['Empresa']['favicon']) : ''; ?>" class="w-full h-full empresa-alterar-favicon <?php echo $empresa['Empresa']['favicon'] ? '' : 'hidden' ?>">
+          <img src="<?php echo $this->renderImagem($this->empresaPadraoId, $empresa['Empresa']['favicon']); ?>" class="w-full h-full empresa-alterar-favicon <?php echo $empresa['Empresa']['favicon'] ? '' : 'hidden' ?>">
         </div>
         <span class="ml-2 text-gray-700 h-max w-max empresa-txt-favicon-editar-escolher"><?php echo $empresa['Empresa']['favicon'] ? '' : 'Adicionar'; ?></span>
         <h3 class="hidden font-light text-left text-sm text-red-800 erro-empresa-favicon"></h3>

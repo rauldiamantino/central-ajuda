@@ -25,7 +25,7 @@
         <span class="ml-2 text-gray-700 conteudo-txt-imagem-editar-escolher">Alterar Imagem</span>
       </button>
       <div class="border border-slate-300 p-4 relative flex flex-col gap-2 w-full bg-white rounded-md">
-        <img src="<?php echo $this->renderImagem('', $linha['Conteudo']['artigo_id'], $linha['Conteudo']['id']); ?>" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>" class="object-cover w-full h-full min-h-48 bloco-imagem-elemento">
+        <img src="<?php echo $this->renderImagem($this->empresaPadraoId, '', $linha['Conteudo']['artigo_id'], $linha['Conteudo']['id']); ?>" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>" class="object-cover w-full h-full min-h-48 bloco-imagem-elemento">
       </div>
     </div>
     <div class="sticky bottom-0 py-4 px-2 w-full h-max flex flex-col lg:flex-row justify-between gap-4 bg-white rounded-lg">

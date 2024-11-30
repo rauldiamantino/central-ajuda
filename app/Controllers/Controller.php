@@ -220,10 +220,10 @@ class Controller
     return file_get_contents('./icones/' . $iconeNome . '.svg');
   }
 
-  public function renderImagem(string $imagemNome = '', int $artigoId = 0, int $conteudoId = 0): string
+  public function renderImagem(int $empresaId, string $imagemNome = '', int $artigoId = 0, int $conteudoId = 0): string
   {
     // Endereço padrão
-    $caminho = $this->empresaPadraoId . '/';
+    $caminho = $empresaId . '/';
 
     if ($imagemNome) {
       $caminho .= $imagemNome;
