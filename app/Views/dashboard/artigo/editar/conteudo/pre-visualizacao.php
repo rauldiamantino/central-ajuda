@@ -79,11 +79,7 @@
                   <h2 class="pointer-events-none"><?php echo $linha['Conteudo']['titulo'] ?></h2>
                 <?php } ?>
 
-                <?php $imagemUrl = $this->renderImagem($this->empresaPadraoId, '', $artigo['Artigo']['id'] ,$linha['Conteudo']['id']); ?>
-
-                <?php if ($imagemUrl) { ?>
-                  <img src="<?php echo $imagemUrl; ?>" class="pointer-events-none w-full">
-                <?php } ?>
+                <img src="<?php echo $this->renderImagem($this->empresaPadraoId, '', $artigo['Artigo']['id'] ,$linha['Conteudo']['id']); ?>" class="pointer-events-none w-full">
               </button>
 
               <?php // Edição escondido ?>
