@@ -1,4 +1,4 @@
-<form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/empresa/editar/' . $empresa['Empresa']['id']); ?>" class="border-t border-slate-300 w-full h-full flex flex-col gap-4 form-editar-empresa" id="form-editar-empresa" data-empresa-id="<?php echo $empresa['Empresa']['id'] ?>" data-imagem-atual="<?php echo $empresa['Empresa']['logo']; ?>" data-favicon-atual="<?php echo $empresa['Empresa']['favicon']; ?>">
+<form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/empresa/editar/' . $empresa['Empresa']['id']); ?>" class="border-t border-slate-300 w-full h-full flex flex-col gap-4 form-editar-empresa" id="form-editar-empresa" data-empresa-id="<?php echo $empresa['Empresa']['id'] ?>" data-imagem-atual="<?php echo $empresa['Empresa']['logo']; ?>" data-favicon-atual="<?php echo $empresa['Empresa']['favicon']; ?>" enctype="multipart/form-data">
   <input type="hidden" name="_method" value="PUT">
   <div class="w-full flex flex-col divide-y">
     <?php // Nome da empresa ?>
@@ -75,14 +75,14 @@
     <?php // Logo ?>
     <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
       <input type="hidden" name="logo" value="" class="url-imagem">
-      <input type="file" accept="image/*" id="empresa-editar-imagem" class="hidden empresa-editar-imagem-escolher">
+      <input type="file" accept="image/*" id="empresa-editar-imagem" name="arquivo-logo" class="hidden empresa-editar-imagem-escolher" onchange="mostrarImagemLogo(event)">
       <div class="flex flex-col text-sm font-medium text-gray-700">
         <span>Logo</span>
-        <span class="font-extralight">Envie uma imagem para representar a sua empresa. O arquivo deve ter até 2MB e estar no formato .jpg ou .png. Tamanho ideal: 200px de largura por 70px de altura.</span>
+        <span class="font-extralight">Envie uma imagem para representar a sua empresa. O arquivo deve ter até 2MB e estar no formato .svg, .jpg ou .png. Tamanho ideal: 200px de largura por 70px de altura.</span>
       </div>
-      <button type="button" for="empresa-editar-imagem" class="w-full h-24 flex items-center justify-center <?php echo CLASSES_DASH_INPUT; ?> empresa-btn-imagem-editar-escolher">
+      <button type="button" for="empresa-editar-imagem" class="w-full h-24 flex items-center justify-center <?php echo CLASSES_DASH_INPUT; ?> empresa-btn-imagem-editar-escolher" onclick="alterarLogo(event)">
         <div class="h-full">
-          <img src="<?php echo $empresa['Empresa']['logo']; ?>" class="w-full h-full empresa-alterar-logo <?php echo $empresa['Empresa']['logo'] ? '' : 'hidden' ?>">
+          <img src="<?php echo $this->renderImagem('logo'); ?>" class="w-full h-full empresa-alterar-logo">
         </div>
         <span class="ml-2 text-gray-700 h-max w-max empresa-txt-imagem-editar-escolher"><?php echo $empresa['Empresa']['logo'] ? '' : 'Adicionar'; ?></span>
         <h3 class="hidden font-light text-left text-sm text-red-800 erro-empresa-imagem"></h3>
@@ -92,14 +92,14 @@
     <?php // Favicon ?>
     <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
       <input type="hidden" name="favicon" value="" class="url-favicon">
-      <input type="file" accept="image/*" id="empresa-editar-favicon" class="hidden empresa-editar-favicon-escolher">
+      <input type="file" accept="image/*" id="empresa-editar-favicon" name="arquivo-favicon"  class="hidden empresa-editar-favicon-escolher" onchange="mostrarImagemFavicon(event)">
       <div class="flex flex-col text-sm font-medium text-gray-700">
         <span>Favicon</span>
-        <span class="font-extralight">Adicione um ícone personalizado para a barra de navegação. Deve ser uma imagem .jpg ou .png com 48px de largura por 48px de altura.</span>
+        <span class="font-extralight">Adicione um ícone personalizado para a barra de navegação. Deve ser uma imagem .svg, .jpg ou .png.</span>
       </div>
-      <button type="button" for="empresa-editar-favicon" class="w-full h-24 flex items-center justify-center <?php echo CLASSES_DASH_INPUT; ?> empresa-btn-favicon-editar-escolher">
+      <button type="button" for="empresa-editar-favicon" class="w-full h-24 flex items-center justify-center <?php echo CLASSES_DASH_INPUT; ?> empresa-btn-favicon-editar-escolher" onclick="alterarFavicon(event)">
         <div class="h-full">
-          <img src="<?php echo $empresa['Empresa']['favicon'] ? $empresa['Empresa']['favicon'] : ''; ?>" class="w-full h-full empresa-alterar-favicon <?php echo $empresa['Empresa']['favicon'] ? '' : 'hidden' ?>">
+          <img src="<?php echo $empresa['Empresa']['favicon'] ? $this->renderImagem($empresa['Empresa']['favicon']) : ''; ?>" class="w-full h-full empresa-alterar-favicon <?php echo $empresa['Empresa']['favicon'] ? '' : 'hidden' ?>">
         </div>
         <span class="ml-2 text-gray-700 h-max w-max empresa-txt-favicon-editar-escolher"><?php echo $empresa['Empresa']['favicon'] ? '' : 'Adicionar'; ?></span>
         <h3 class="hidden font-light text-left text-sm text-red-800 erro-empresa-favicon"></h3>

@@ -1,5 +1,7 @@
 <?php
 namespace app\Controllers;
+
+use app\Controllers\Components\DatabaseFirebaseComponent;
 use DateTime;
 use app\Core\Cache;
 use app\Models\DashboardEmpresaModel;
@@ -259,13 +261,47 @@ class DashboardEmpresaController extends DashboardController
     }
 
     $json = $this->receberJson();
+    $firebase = new DatabaseFirebaseComponent();
+
+    $formLogo = false;
+    $formFavicon = false;
+    $adicionarLogo = false;
+    $adicionarFavicon = false;
+    $msgErroImagem = [];
+
+    if (isset($_FILES)) {
+      foreach ($_FILES as $chave => $linha):
+
+        if ($chave == 'arquivo-logo' and $linha['error'] === UPLOAD_ERR_OK) {
+          $formLogo = true;
+          $adicionarLogo = $firebase->adicionarImagem($this->empresaPadraoId, $linha, ['nome' => 'logo']);
+        }
+        elseif ($chave == 'arquivo-favicon' and $linha['error'] === UPLOAD_ERR_OK) {
+          $formFavicon = true;
+          $adicionarFavicon = $firebase->adicionarImagem($this->empresaPadraoId, $linha, ['nome' => 'favicon']);
+        }
+      endforeach;
+    }
+
+    if ($formLogo == true and $adicionarLogo == false) {
+      $msgErroImagem[] = 'Erro ao fazer upload do Logo';
+    }
+
+    if ($formFavicon == true and $adicionarFavicon == false) {
+      $msgErroImagem[] = 'Erro ao fazer upload do Favicon';
+    }
+
+    if ($msgErroImagem) {
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', $msgErroImagem);
+    }
+
     $resultado = $this->empresaModel->atualizar($json, $id);
 
     if (isset($resultado['erro'])) {
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', $resultado['erro']);
     }
 
-    if (! isset($resultado['linhasAfetadas']) or $resultado['linhasAfetadas'] == 0) {
+    if ((! isset($resultado['linhasAfetadas']) or $resultado['linhasAfetadas'] == 0) and $adicionarLogo == false and $adicionarFavicon == false) {
       $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Nenhuma alteração realizada');
     }
 

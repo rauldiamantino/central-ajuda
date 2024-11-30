@@ -1,9 +1,11 @@
 <?php
 namespace app\Controllers;
+use DateTime;
 use app\Core\Cache;
 use app\Models\DashboardArtigoModel;
 use app\Models\DashboardConteudoModel;
-use DateTime;
+use app\Controllers\DashboardController;
+use app\Controllers\Components\DatabaseFirebaseComponent;
 
 class DashboardConteudoController extends DashboardController
 {
@@ -29,6 +31,11 @@ class DashboardConteudoController extends DashboardController
     }
 
     $dados = $this->receberJson();
+
+    if (isset($dados['tipo']) and $dados['tipo'] == 2 and (! isset($_FILES['arquivo-imagem']) or $_FILES['arquivo-imagem']['error'] !== UPLOAD_ERR_OK)) {
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', 'Imagem inválida');
+    }
+
     $resultado = $this->conteudoModel->adicionar($dados);
 
     $urlRetorno = '/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos';
@@ -41,27 +48,21 @@ class DashboardConteudoController extends DashboardController
       $urlRetorno .= '?referer=' . $botaoVoltar;
     }
 
-    // Formulário via POST
-    if ($_POST and isset($resultado['erro'])) {
-      $this->redirecionarErro($urlRetorno, $resultado['erro']);
-    }
-    elseif ($_POST and isset($resultado['id'])) {
-      $camposArtigo = [
-        'modificado' => (new DateTime())->format('Y-m-d H:i:s'),
-      ];
-
-      $this->artigoModel->atualizar($camposArtigo, $dados['artigo_id']);
-
-      Cache::apagar('publico-artigo-' . $dados['artigo_id'], $this->usuarioLogado['empresaId']);
-      Cache::apagar('publico-artigo-' . $dados['artigo_id'] . '-conteudos', $this->usuarioLogado['empresaId']);
-
-      $this->redirecionarSucesso($urlRetorno, 'Conteúdo adicionado com sucesso');
+    if (! isset($resultado['id']) or empty($resultado['id'])) {
+      $this->redirecionarErro($urlRetorno, $resultado['erro'] ?? '');
     }
 
-    // Formulário via Fetch
-    if (isset($resultado['erro'])) {
-      $codigo = $resultado['erro']['codigo'] ?? 500;
-      $this->responderJson($resultado, $codigo);
+    $paramsImagem = [
+      'artigoId' => $dados['artigo_id'],
+      'conteudoId' => $resultado['id'],
+    ];
+
+    if ($dados['tipo'] == 2) {
+      $firebase = new DatabaseFirebaseComponent();
+
+      if ($firebase->adicionarImagem($this->empresaPadraoId, $_FILES['arquivo-imagem'], $paramsImagem) == false) {
+        $this->redirecionarErro($urlRetorno, 'Erro ao fazer upload do arquivo');
+      }
     }
 
     $camposArtigo = [
@@ -73,7 +74,7 @@ class DashboardConteudoController extends DashboardController
     Cache::apagar('publico-artigo-' . $dados['artigo_id'], $this->usuarioLogado['empresaId']);
     Cache::apagar('publico-artigo-' . $dados['artigo_id'] . '-conteudos', $this->usuarioLogado['empresaId']);
 
-    $this->responderJson($resultado);
+    $this->redirecionarSucesso($urlRetorno, 'Conteúdo adicionado com sucesso');
   }
 
   public function buscar(int $artigoId)
@@ -120,21 +121,34 @@ class DashboardConteudoController extends DashboardController
       $botaoVoltar = htmlspecialchars($botaoVoltar);
     }
 
-    $id = (int) $id;
-    $json = $this->receberJson();
-    $resultado = $this->conteudoModel->atualizar($json, $id);
-    $artigoId = intval($json['artigo_id'] ?? 0);
-
     $referer = '';
 
     if ($botaoVoltar) {
       $referer = '?referer=' . urlencode($botaoVoltar);
     }
 
-    if ($_POST and isset($resultado['erro'])) {
+
+    $id = (int) $id;
+    $json = $this->receberJson();
+    $artigoId = intval($json['artigo_id'] ?? 0);
+
+    $resultado = $this->conteudoModel->atualizar($json, $id);
+
+    if (isset($resultado['erro'])) {
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId . $referer, $resultado['erro']);
     }
-    elseif ($_POST and $resultado) {
+    elseif ($resultado) {
+      $paramsImagem = [
+        'artigoId' => $artigoId,
+        'conteudoId' => $id,
+      ];
+
+      $firebase = new DatabaseFirebaseComponent();
+
+      if (isset($_FILES['arquivo-imagem']) and $_FILES['arquivo-imagem']['error'] === UPLOAD_ERR_OK and $firebase->adicionarImagem($this->empresaPadraoId, $_FILES['arquivo-imagem'], $paramsImagem) == false) {
+        $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId . $referer, 'Erro ao fazer upload do arquivo');
+      }
+
       $camposArtigo = [
         'modificado' => (new DateTime())->format('Y-m-d H:i:s'),
       ];
@@ -145,9 +159,8 @@ class DashboardConteudoController extends DashboardController
 
       $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId . $referer, 'Conteúdo editado com sucesso');
     }
-    elseif ($_POST) {
-      $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId . $referer, 'Nenhuma alteração realizada');
-    }
+
+    $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId . $referer, 'Nenhuma alteração realizada');
   }
 
   public function atualizarOrdem()
@@ -210,6 +223,15 @@ class DashboardConteudoController extends DashboardController
                                           ->executarConsulta();
 
     $artigoId = $buscarConteudo[0]['Conteudo']['artigo_id'] ?? 0;
+
+    // Apaga imagem
+    $firebase = new DatabaseFirebaseComponent();
+    $apagarFirebase = $firebase->apagarImagem($this->empresaPadraoId, ['artigoId' => $artigoId, 'conteudoId' => $id]);
+
+    if ($apagarFirebase == false) {
+      $this->sessaoUsuario->definir('erro', 'Erro ao apagar imagem');
+      $this->responderJson(['erro' => 'Erro ao apagar imagem'], 500);
+    }
 
     // Apagar
     $resultado = $this->conteudoModel->apagar($id);

@@ -1,4 +1,16 @@
 document.addEventListener('DOMContentLoaded', function () {
+  const containerEmpresa = document.querySelector('.container-empresa')
+  const efeitoLoader = document.querySelector('.efeito-loader')
+
+  if (! containerEmpresa || ! efeitoLoader) {
+    return
+  }
+
+  setTimeout(() => {
+    efeitoLoader.classList.add('hidden')
+    containerEmpresa.classList.remove('hidden')
+  }, 300);
+
   mascararCnpj()
   mascararCelular()
 })

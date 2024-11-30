@@ -152,8 +152,6 @@ class DashboardEmpresaModel extends Model
       'subdominio' => $params['subdominio'] ?? '',
       'subdominio_2' => $params['subdominio_2'] ?? '',
       'telefone' => $params['telefone'] ?? '',
-      'logo' => $params['logo'] ?? '',
-      'favicon' => $params['favicon'] ?? '',
       'cnpj' => $params['cnpj'] ?? '',
       'assinatura_id_asaas' => $params['assinatura_id_asaas'] ?? '',
       'assinatura_status' => $params['assinatura_status'] ?? 0,
@@ -180,8 +178,6 @@ class DashboardEmpresaModel extends Model
         'telefone',
         'subdominio',
         'subdominio_2',
-        'logo',
-        'favicon',
         'assinatura_id_asaas',
         'assinatura_status',
         'assinatura_ciclo',
@@ -236,22 +232,6 @@ class DashboardEmpresaModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('cnpj', 'valInvalido');
       }
 
-      if ($campos['logo'] == 'undefined') {
-        $campos['logo'] = '';
-      }
-
-      if ($campos['favicon'] == 'undefined') {
-        $campos['favicon'] = '';
-      }
-
-      if ($campos['logo'] and filter_var($campos['logo'], FILTER_VALIDATE_URL) == false) {
-        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('logo', 'valInvalido');
-      }
-
-      if ($campos['favicon'] and filter_var($campos['favicon'], FILTER_VALIDATE_URL) == false) {
-        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('favicon', 'valInvalido');
-      }
-
       if ($campos['url_site'] and filter_var($campos['url_site'], FILTER_VALIDATE_URL) == false) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('url_site', 'valInvalido');
       }
@@ -277,8 +257,6 @@ class DashboardEmpresaModel extends Model
       $subdominio2Caracteres = 255;
       $telefoneCaracteresMin = 10;
       $telefoneCaracteresMax = 11;
-      $logoCaracteres = 255;
-      $faviconCaracteres = 255;
       $urlSiteCaracteres = 255;
       $assinaturaIdAsaasCaracteres = 255;
       $assinaturaCicloCaracteres = 50;
@@ -327,14 +305,6 @@ class DashboardEmpresaModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('telefone', 'caracteres', $telefoneCaracteresMin);
       }
 
-      if (strlen($campos['logo']) > $logoCaracteres) {
-        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('logo', 'caracteres', $logoCaracteres);
-      }
-
-      if (strlen($campos['favicon']) > $faviconCaracteres) {
-        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('favicon', 'caracteres', $faviconCaracteres);
-      }
-
       if (strlen($campos['url_site']) > $urlSiteCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('url_site', 'caracteres', $urlSiteCaracteres);
       }
@@ -362,8 +332,6 @@ class DashboardEmpresaModel extends Model
       'subdominio_2' => $campos['subdominio_2'],
       'telefone' => $campos['telefone'],
       'cnpj' => $campos['cnpj'],
-      'logo' => $campos['logo'],
-      'favicon' => $campos['favicon'],
       'assinatura_id_asaas' => $campos['assinatura_id_asaas'],
       'assinatura_status' => $campos['assinatura_status'],
       'assinatura_ciclo' => $campos['assinatura_ciclo'],
@@ -388,14 +356,6 @@ class DashboardEmpresaModel extends Model
 
     if (isset($camposValidados['subdominio']) and empty($camposValidados['subdominio'])) {
       $camposValidados['subdominio'] = null;
-    }
-
-    if (isset($camposValidados['logo']) and empty($camposValidados['logo'])) {
-      $camposValidados['logo'] = null;
-    }
-
-    if (isset($camposValidados['favicon']) and empty($camposValidados['favicon'])) {
-      $camposValidados['favicon'] = null;
     }
 
     if (isset($camposValidados['gratis_prazo']) and empty($camposValidados['gratis_prazo'])) {

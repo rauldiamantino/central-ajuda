@@ -219,4 +219,28 @@ class Controller
   {
     return file_get_contents('./icones/' . $iconeNome . '.svg');
   }
+
+  public function renderImagem(string $imagemNome = '', int $artigoId = 0, int $conteudoId = 0): string
+  {
+    // Endereço padrão
+    $caminho = $this->empresaPadraoId . '/';
+
+    if ($imagemNome) {
+      $caminho .= $imagemNome;
+    }
+    elseif ($artigoId and $conteudoId) {
+      $caminho .= $artigoId . '/' . $conteudoId;
+    }
+
+    $imagemUrl = 'https://firebasestorage.googleapis.com/v0/b/' . FIREBASE_BUCKET . '/o/' . urlencode($caminho) . '?alt=media';
+
+    // Confirma se a imagem ainda existe
+    $headers = @get_headers($imagemUrl, 1);
+
+    if ($headers and strpos($headers[0], '200') !== false and isset($headers['Content-Type']) and strpos($headers['Content-Type'], 'image/') !== false) {
+       return $imagemUrl;
+    }
+
+    return '/img/sem-imagem.svg';
+  }
 }

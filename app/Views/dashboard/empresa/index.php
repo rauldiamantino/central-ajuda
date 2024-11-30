@@ -12,7 +12,7 @@
           <button type="submit">Reprocessar</button>
         </form>
       <?php } ?>
-      <button type="submit" class="<?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> btn-gravar-empresa" form="form-editar-empresa">Gravar</button>
+      <button type="submit" class="<?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> btn-gravar-empresa" form="form-editar-empresa" onclick="evitarDuploCliqueRedirect(event, '.form-editar-empresa');">Gravar</button>
     </div>
   </div>
 

@@ -78,7 +78,12 @@
                 <?php if ($linha['Conteudo']['titulo'] and $linha['Conteudo']['titulo_ocultar'] == INATIVO) { ?>
                   <h2 class="pointer-events-none"><?php echo $linha['Conteudo']['titulo'] ?></h2>
                 <?php } ?>
-                <img src="<?php echo $linha['Conteudo']['url'] ?>" class="pointer-events-none w-full">
+
+                <?php $imagemUrl = $this->renderImagem('', $artigo['Artigo']['id'] ,$linha['Conteudo']['id']); ?>
+
+                <?php if ($imagemUrl) { ?>
+                  <img src="<?php echo $imagemUrl; ?>" class="pointer-events-none w-full">
+                <?php } ?>
               </button>
 
               <?php // Edição escondido ?>

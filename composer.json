@@ -23,6 +23,7 @@
         "ext-pdo_pgsql": "*",
         "rollbar/rollbar": "~4.0",
         "guzzlehttp/guzzle": "^7.9",
-        "sentry/sentry": "^4.10"
+        "sentry/sentry": "^4.10",
+        "google/cloud-storage": "^1.44"
     }
 }

@@ -7,4 +7,5 @@ mysql-dev
 .env
 apache.conf
 app/Config/app.php
+app/Config/firebase.json
 .htaccess

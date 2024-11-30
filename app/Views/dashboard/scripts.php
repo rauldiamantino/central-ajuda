@@ -4,12 +4,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
 <script type="importmap">{"imports": {"ckeditor5": "/ckeditor/ckeditor5/ckeditor5.js","ckeditor5/": "/ckeditor5/"}}</script>
 <script src="<?php echo baseUrl('/js/dashboard/ckeditor.js'); ?>" type="module"></script>
-<script src="<?php echo baseUrl('/js/dashboard/firebase/inicializar.js'); ?>" type="module"></script>
 
 <!------------------- scripts ------------------->
 <script src="<?php echo baseUrl('/js/dashboard/index.js'); ?>"></script>
 <script src="<?php echo baseUrl('/js/dashboard/empresas/index.js'); ?>"></script>
-<script src="<?php echo baseUrl('/js/dashboard/empresas/imagens.js'); ?>" type="module"></script>
+<script src="<?php echo baseUrl('/js/dashboard/empresas/uploads.js'); ?>"></script>
 <script src="<?php echo baseUrl('/js/dashboard/usuarios/index.js'); ?>"></script>
 <script src="<?php echo baseUrl('/js/dashboard/categorias/index.js'); ?>"></script>
 <script src="<?php echo baseUrl('/js/dashboard/categorias/organizar.js'); ?>"></script>
@@ -20,4 +19,4 @@
 <script src="<?php echo baseUrl('/js/dashboard/artigos/conteudos/organizar.js'); ?>"></script>
 <script src="<?php echo baseUrl('/js/dashboard/artigos/conteudos/remover.js'); ?>" type="module"></script>
 <script src="<?php echo baseUrl('/js/dashboard/artigos/conteudos/editar.js'); ?>" type="module"></script>
-<script src="<?php echo baseUrl('/js/dashboard/artigos/conteudos/adicionar.js'); ?>" type="module"></script>
+<script src="<?php echo baseUrl('/js/dashboard/artigos/conteudos/uploads.js'); ?>"></script>

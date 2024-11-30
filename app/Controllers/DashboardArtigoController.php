@@ -4,6 +4,8 @@ use app\Core\Cache;
 use app\Models\DashboardArtigoModel;
 use app\Models\DashboardConteudoModel;
 use app\Models\DashboardCategoriaModel;
+use app\Controllers\DashboardController;
+use app\Controllers\Components\DatabaseFirebaseComponent;
 
 class DashboardArtigoController extends DashboardController
 {
@@ -519,6 +521,14 @@ class DashboardArtigoController extends DashboardController
                                       ->executarConsulta();
 
     $categoriaId = $buscarArtigo[0]['Artigo']['categoria_id'] ?? 0;
+
+    $firebase = new DatabaseFirebaseComponent();
+    $apagarImagens = $firebase->apagarImagens($this->empresaPadraoId, $id);
+
+    if ($apagarImagens == false) {
+      $this->sessaoUsuario->definir('erro', 'Erro ao apagar imagens');
+      $this->responderJson(['erro' => 'Erro ao apagar Imagens'], 500);
+    }
 
     // Apagar
     $resultado = $this->artigoModel->apagar($id);

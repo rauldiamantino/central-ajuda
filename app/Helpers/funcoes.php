@@ -95,6 +95,11 @@ function subdominioDominio(string $subdominio = '', $protocolo = true) {
 }
 
 function registrarSentry($erro, $params = [], $nivel = null) {
+
+  if (HOST_LOCAL) {
+    return;
+  }
+
   if ($erro instanceof Exception) {
     Sentry\configureScope(function (Sentry\State\Scope $scope) use ($params, $nivel) {
       $scope->setExtras($params);
