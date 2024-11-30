@@ -10,7 +10,6 @@ return array(
     'Symfony\\Component\\OptionsResolver\\' => array($vendorDir . '/symfony/options-resolver'),
     'Stripe\\' => array($vendorDir . '/stripe/stripe-php/lib'),
     'Sentry\\' => array($vendorDir . '/sentry/sentry/src'),
-    'Rollbar\\' => array($vendorDir . '/rollbar/rollbar/src'),
     'Rize\\' => array($vendorDir . '/rize/uri-template/src/Rize'),
     'Ramsey\\Uuid\\' => array($vendorDir . '/ramsey/uuid/src'),
     'Ramsey\\Collection\\' => array($vendorDir . '/ramsey/collection/src'),

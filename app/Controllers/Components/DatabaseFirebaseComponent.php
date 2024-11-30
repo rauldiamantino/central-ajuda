@@ -1,7 +1,5 @@
 <?php
 namespace app\Controllers\Components;
-use Rollbar\Rollbar;
-use Rollbar\Payload\Level;
 use app\Controllers\DashboardController;
 use Google\Cloud\Storage\StorageClient;
 
@@ -173,7 +171,6 @@ class DatabaseFirebaseComponent extends DashboardController
     ];
 
     if ($this->acessoPermitido() == false) {
-      // Rollbar::log(Level::ERROR, 'Firebase - Acesso não permitido', $_REQUEST);
       registrarSentry('Firebase - Acesso negado', $_REQUEST, 'warning');
 
       $this->responderJson('Acesso negado', 403);

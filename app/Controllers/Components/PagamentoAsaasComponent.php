@@ -1,7 +1,5 @@
 <?php
 namespace app\Controllers\Components;
-use Rollbar\Rollbar;
-use Rollbar\Payload\Level;
 use app\Controllers\DashboardController;
 use DateTime;
 
@@ -231,7 +229,6 @@ class PagamentoAsaasComponent extends DashboardController
       $camposReq['resposta']['codigo'] = $e->getCode();
       $camposReq['resposta']['dados'] = json_decode($e->getResponse()->getBody()->getContents(), true);
 
-      // Rollbar::log(Level::ERROR, $e, $camposReq);
       registrarSentry($e, $camposReq);
     }
 

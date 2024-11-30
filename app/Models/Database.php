@@ -3,8 +3,6 @@ namespace app\Models;
 
 use \PDO;
 use Exception;
-use Rollbar\Rollbar;
-use Rollbar\Payload\Level;
 
 class Database
 {
@@ -26,7 +24,6 @@ class Database
     catch (Exception $e) {
       $log['erro'] = $e->getMessage();
 
-      // Rollbar::log(Level::ERROR, $e);
       registrarSentry($e);
       registrarLog('database-conexao', $log);
     }
@@ -117,7 +114,6 @@ class Database
         'msg' => $e->getMessage(),
       ];
 
-      // Rollbar::log(Level::ERROR, $e, [ $e->getMessage() ]);
       registrarSentry($e);
     }
 

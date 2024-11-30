@@ -30,7 +30,6 @@ class ComposerStaticInit86860897b725342a598e52c3c04c14d5
         ),
         'R' => 
         array (
-            'Rollbar\\' => 8,
             'Rize\\' => 5,
             'Ramsey\\Uuid\\' => 12,
             'Ramsey\\Collection\\' => 18,
@@ -105,10 +104,6 @@ class ComposerStaticInit86860897b725342a598e52c3c04c14d5
         'Sentry\\' => 
         array (
             0 => __DIR__ . '/..' . '/sentry/sentry/src',
-        ),
-        'Rollbar\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/rollbar/rollbar/src',
         ),
         'Rize\\' => 
         array (
