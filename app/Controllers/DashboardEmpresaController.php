@@ -112,7 +112,6 @@ class DashboardEmpresaController extends DashboardController
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'ID da assinatura não informado.');
     }
 
-    // sub_s7e1bsgfijoaw7qp
     $buscarAssinatura = $this->pagamentoAsaas->buscarAssinatura($assinaturaId);
     $assinaturaStatus = $buscarAssinatura['status'] ?? '';
     $assinaturaCiclo = $buscarAssinatura['cycle'] ?? '';
@@ -239,15 +238,20 @@ class DashboardEmpresaController extends DashboardController
       'assinatura_status' => ATIVO,
     ];
 
+    // Atualiza no banco de dados
     $resultado = $this->empresaModel->atualizar($campos, $this->empresaPadraoId, true);
 
     if (isset($resultado['erro'])) {
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', $resultado['erro']);
     }
 
-    if (! isset($resultado['linhasAfetadas']) or $resultado['linhasAfetadas'] != 1) {
+    if (! isset($resultado['linhasAfetadas']) or $resultado['linhasAfetadas'] < 1) {
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Não foi possível gravar os dados da sua assinatura, por favor, entre em contato com o nosso suporte');
     }
+
+    // Atualiza para uso imediato
+    $this->usuarioLogado['assinaturaStatus'] = ATIVO;
+    $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
 
     Cache::apagar('roteador-' . $this->usuarioLogado['subdominio']);
 

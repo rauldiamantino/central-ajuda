@@ -19,5 +19,7 @@ class PaginaErroController extends Controller
     $this->visao->variavel('codigoErro', $codigo);
     $this->visao->variavel('paginaMenuLateral', 'erro');
     $this->visao->renderizar('/index');
+
+    exit; // Sempre encerra a comunicação
   }
 }
