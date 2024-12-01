@@ -193,15 +193,22 @@ const evitarDuploClique = (event) => {
   event.preventDefault()
 
   const form = event.target
-  const submitButton = form.querySelector('button[type="submit"]')
 
-  if (submitButton.disabled) {
+  if (! form) {
     return
   }
 
-  submitButton.disabled = true
-  submitButton.textContent = 'Gravando...'
-  submitButton.classList.add('opacity-50')
+  const botoes = form.querySelectorAll('.div-botoes > button')
+
+  if (! botoes) {
+    return
+  }
+
+  botoes.forEach(botao => {
+
+    botao.disabled = true
+    botao.classList.add('opacity-50')
+  })
 
   form.submit()
 }

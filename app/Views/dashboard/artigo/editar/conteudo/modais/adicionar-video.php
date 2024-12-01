@@ -31,7 +31,7 @@
           <span class="block text-sm font-medium text-gray-700">Ocultar título na publicação</span>
         </label>
       </div>
-      <div class="w-full flex flex-col sm:flex-row gap-1 justify-end sm:gap-2 bg-white">
+      <div class="w-full flex flex-col sm:flex-row gap-1 justify-end sm:gap-2 bg-white div-botoes">
         <button type="button" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?> botao-fechar-menu-adicionar-video" onclick="fecharModalAdicionar('video')">Cancelar</button>
         <button type="submit" class="w-full lg:w-max <?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> modal-conteudo-video-btn-enviar">Gravar</button>
       </div>
