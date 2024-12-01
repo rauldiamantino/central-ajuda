@@ -2,10 +2,10 @@
 
 body { font-family: 'Inter', sans-serif; margin: 0; padding: 0; line-height: 1.6; }
 .ck-content { min-height: 300px; line-height: 1.6; word-break: break-word; }
-.ck-content h1 { font-size: 1.9rem; font-weight: 500; } /* Peso suavizado para h1 */
-.ck-content h2 { font-size: 1.75rem; font-weight: 400; margin-top: 1.25rem; margin-bottom: 0.75rem; } /* Peso suavizado para h2 */
-.ck-content h3 { font-size: 1.5rem; font-weight: 300; margin-top: 1rem; margin-bottom: 0.5rem; } /* Peso suavizado para h3 */
-.ck-content h4 { font-size: 1.15rem; font-weight: 300; margin-top: 1rem; margin-bottom: 0.5rem; } /* Peso suavizado para h4 */
+.ck-content h1 { font-size: 1.9rem; font-weight: 500; }
+.ck-content h2 { font-size: 1.75rem; font-weight: 400; margin-top: 1.25rem; margin-bottom: 0.75rem; }
+.ck-content h3 { font-size: 1.5rem; font-weight: 300; margin-top: 1rem; margin-bottom: 0.5rem; }
+.ck-content h4 { font-size: 1.15rem; font-weight: 300; margin-top: 1rem; margin-bottom: 0.5rem; }
 .ck-content ul, .ck-content ol { padding-left: 1.5rem; margin-bottom: 1rem; }
 .ck-content ul li, .ck-content ol li { margin-bottom: 0.5rem; line-height: 1.6; }
 .editor-container_classic-editor { width: 100%; }
@@ -16,15 +16,15 @@ dialog::backdrop { background-color: rgba(0, 0, 0, 0.692); transition: backgroun
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
 /* Cabeçalhos */
-.dashboard-pre-visualizacao h1 { font-size: 1.9rem; font-weight: 500; } /* Peso suavizado para h1 */
-.dashboard-pre-visualizacao h2 { font-size: 1.75rem; font-weight: 400; margin-top: 1.25rem; margin-bottom: 0.75rem; } /* Peso suavizado para h2 */
-.dashboard-pre-visualizacao h3 { font-size: 1.5rem; font-weight: 300; margin-top: 1rem; margin-bottom: 0.5rem; } /* Peso suavizado para h3 */
-.dashboard-pre-visualizacao h4 { font-size: 1.15rem; font-weight: 300; margin-top: 1rem; margin-bottom: 0.5rem; } /* Peso suavizado para h4 */
+.dashboard-pre-visualizacao h1 { font-size: 1.9rem; font-weight: 500; }
+.dashboard-pre-visualizacao h2 { font-size: 1.75rem; font-weight: 400; margin-top: 1.25rem; margin-bottom: 0.75rem; }
+.dashboard-pre-visualizacao h3 { font-size: 1.5rem; font-weight: 300; margin-top: 1rem; margin-bottom: 0.5rem; }
+.dashboard-pre-visualizacao h4 { font-size: 1.15rem; font-weight: 300; margin-top: 1rem; margin-bottom: 0.5rem; }
 .dashboard-pre-visualizacao p  { margin-bottom: 1.05rem; }
 .dashboard-pre-visualizacao ul { list-style-type: disc; margin-left: 1.5rem; }
 .dashboard-pre-visualizacao ol { list-style-type: decimal; margin-left: 1.5rem; }
 .dashboard-pre-visualizacao li { margin-bottom: 0.75rem; font-size: 1rem; }
-.dashboard-pre-visualizacao blockquote { padding-top: 0.9rem; padding-bottom: 0.2rem; padding-left: 1rem; padding-right: 1rem; background-color: #fff9e6; border-left: 4px solid #ffb84d; color: #000; font-style: normal; }
+.dashboard-pre-visualizacao blockquote { padding-top: 0.9rem; padding-bottom: 0.2rem; padding-left: 1rem; padding-right: 1rem; background-color: #fff9e6; border-left: 4px solid #ffb84d; color: #000; font-style: normal; min-width: 100%;}
 .dashboard-pre-visualizacao code { padding: 2px 4px; border-radius: 4px; font-family: 'Courier New', Courier, monospace; font-size: 0.95em; background-color: #f9fafb; color: #374151; }
 .dashboard-pre-visualizacao pre { background-color: #f9fafb; color: #374151; padding: 1rem; border-radius: 8px; font-family: 'Courier New', Courier, monospace; font-size: 1rem; white-space: pre; overflow-x: auto; border: 1px solid #d1d5db; }
 .dashboard-pre-visualizacao pre::-webkit-scrollbar { height: 8px; }
@@ -33,8 +33,8 @@ dialog::backdrop { background-color: rgba(0, 0, 0, 0.692); transition: backgroun
 .dashboard-pre-visualizacao pre:hover::-webkit-scrollbar-thumb { background-color: #9ca3af; }
 .dashboard-pre-visualizacao table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
 .dashboard-pre-visualizacao th, .dashboard-pre-visualizacao td { padding: 0.75rem; border: 1px solid #ddd; }
-.dashboard-pre-visualizacao th { background-color: #f3f3f3; font-weight: 500; text-align: left; } /* Peso suavizado para o th */
-.dashboard-pre-visualizacao strong { font-weight: 500; } /* Peso suavizado para strong */
+.dashboard-pre-visualizacao th { background-color: #f3f3f3; font-weight: 500; text-align: left; }
+.dashboard-pre-visualizacao strong { font-weight: 500; }
 .dashboard-pre-visualizacao em { font-style: italic; }
 
 .input-number-none::-webkit-outer-spin-button, .input-number-none::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }

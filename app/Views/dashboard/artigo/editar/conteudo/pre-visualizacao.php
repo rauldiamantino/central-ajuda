@@ -52,7 +52,7 @@
                 <?php if ($linha['Conteudo']['titulo'] and $linha['Conteudo']['titulo_ocultar'] == INATIVO) { ?>
                   <h2 class="max-w-full pointer-events-none"><?php echo $linha['Conteudo']['titulo'] ?></h2>
                 <?php } ?>
-                <div class="max-w-full pointer-events-none">
+                <div class="w-full pointer-events-none">
                   <?php if (empty($linha['Conteudo']['conteudo'])) { ?><br>
                   <?php } else { echo htmlspecialchars_decode($linha['Conteudo']['conteudo']); } ?>
                 </div>
