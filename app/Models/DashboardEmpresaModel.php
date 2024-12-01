@@ -70,7 +70,7 @@ class DashboardEmpresaModel extends Model
     return $resultado;
   }
 
-  public function atualizar(array $params, int $id, bool $webhook = false): array
+  public function atualizar(array $params, int $id, bool $sistema = false): array
   {
     if (! is_int($id) or empty($id)) {
       $msgErro = [
@@ -84,7 +84,7 @@ class DashboardEmpresaModel extends Model
     }
 
     $atualizar = true;
-    $campos = $this->validarCampos($params, $atualizar, $webhook);
+    $campos = $this->validarCampos($params, $atualizar, $sistema);
 
     if (isset($campos['erro'])) {
       return $campos;
@@ -144,7 +144,7 @@ class DashboardEmpresaModel extends Model
   }
 
   // --- Métodos auxiliares
-  private function validarCampos(array $params, bool $atualizar = false, bool $webhook = false): array
+  private function validarCampos(array $params, bool $atualizar = false, bool $sistema = false): array
   {
     $campos = [
       'ativo' => $params['ativo'] ?? 0,
@@ -388,11 +388,11 @@ class DashboardEmpresaModel extends Model
       unset($camposValidados['gratis_prazo']);
     }
 
-    if ($webhook == false and $this->usuarioLogado['padrao'] != USUARIO_SUPORTE and isset($camposValidados['ativo'])) {
+    if ($sistema == false and $this->usuarioLogado['padrao'] != USUARIO_SUPORTE and isset($camposValidados['ativo'])) {
       unset($camposValidados['ativo']);
     }
 
-    if ($webhook == false and $this->usuarioLogado['padrao'] != USUARIO_SUPORTE and isset($camposValidados['assinatura_status'])) {
+    if ($sistema == false and $this->usuarioLogado['padrao'] != USUARIO_SUPORTE and isset($camposValidados['assinatura_status'])) {
       unset($camposValidados['assinatura_status']);
     }
 

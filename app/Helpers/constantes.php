@@ -30,6 +30,7 @@ define('USUARIO_SUPORTE', 99);
 define('USUARIO_SISTEMA', 98);
 define('USUARIO_PADRAO', 1);
 define('USUARIO_COMUM', 2);
+
 define('USUARIO_TOTAL', 1);
 define('USUARIO_RESTRITO', 2);
 define('ATIVO', 1);

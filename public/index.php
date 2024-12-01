@@ -1,10 +1,8 @@
 <?php
 require '../vendor/autoload.php';
 
-use app\Core\Cache;
 use app\Core\SessaoUsuario;
 use app\Roteamento\Roteador;
-use app\Controllers\Components\PagamentoAsaasComponent;
 
 // Sentry
 if (! HOST_LOCAL) {
