@@ -48,6 +48,26 @@ class DatabaseFirebaseComponent extends DashboardController
       $caminhoImagem .= $nome;
     }
 
+    // Local
+    if (HOST_LOCAL) {
+
+      // Apaga antes
+      if ($imagemAtual and file_exists('img/local/' . $imagemAtual)) {
+        unlink('img/local/' . $imagemAtual);
+      }
+
+      $diretorio = 'img/local/' . dirname($caminhoImagem);
+
+      if (! is_dir($diretorio)) {
+         mkdir($diretorio, 0777, true);
+      }
+
+      $caminhoFinal = 'img/local/' . $caminhoImagem . '.' . $extensao;
+      file_put_contents($caminhoFinal, $conteudoArquivo);
+      return true;
+    }
+
+    // Produção
     try {
       // Apaga antes
       if ($imagemAtual) {
@@ -76,6 +96,22 @@ class DatabaseFirebaseComponent extends DashboardController
   public function apagarImagem(string $caminhoImagem): bool
   {
     if (empty($caminhoImagem)) {
+      return false;
+    }
+
+    // Local
+    if (HOST_LOCAL) {
+      $caminhoLocal = 'img/local/' . $caminhoImagem;
+
+      if (! file_exists($caminhoLocal)) {
+        return true;
+      }
+
+      if (unlink($caminhoLocal)) {
+        return true;
+      }
+
+      registrarLog('Erro ao apagar arquivo local', $caminhoLocal);
       return false;
     }
 
@@ -124,6 +160,18 @@ class DatabaseFirebaseComponent extends DashboardController
     // Endereço final
     $caminhoImagem = $empresaId . '/' . $artigoId;
 
+    // Local
+    if (HOST_LOCAL) {
+      $caminhoLocal = 'img/local/' . $caminhoImagem;
+
+      if (! is_dir($caminhoLocal)) {
+        return true;
+      }
+
+      return $this->apagarPastaRecursiva($caminhoLocal);
+    }
+
+    // Produção
     try {
       $objetos = $this->bucket->objects(['prefix' => $caminhoImagem]);
 
@@ -157,26 +205,23 @@ class DatabaseFirebaseComponent extends DashboardController
     }
   }
 
-  public function credenciais()
+  // Local
+  private function apagarPastaRecursiva(string $caminho): bool
   {
-    $credenciais = [
-      'firebase' => [
-        'apiKey' => 'AIzaSyBXAg4u_hFmkaEaqifkknJaD4Lnx42EvHE',
-        'authDomain' => 'central-ajuda-5f40a.firebaseapp.com',
-        'projectId' => 'central-ajuda-5f40a',
-        'storageBucket' => 'central-ajuda-5f40a.appspot.com',
-        'messagingSenderId' => '83629854813',
-        'appId' => '1:83629854813:web:3c99764aef3aba36a27db4'
-      ],
-    ];
+    $arquivos = array_diff(scandir($caminho), ['.', '..']);
 
-    if ($this->acessoPermitido() == false) {
-      registrarSentry('Firebase - Acesso negado', $_REQUEST, 'warning');
+    foreach ($arquivos as $arquivo) {
+      $arquivoCompleto = $caminho . DIRECTORY_SEPARATOR . $arquivo;
 
-      $this->responderJson('Acesso negado', 403);
+      if (is_dir($arquivoCompleto)) {
+        $this->apagarPastaRecursiva($arquivoCompleto);
+      }
+      else {
+        unlink($arquivoCompleto);
+      }
     }
 
-    $this->responderJson($credenciais);
+    return rmdir($caminho);
   }
 
   public function uploadLocal()

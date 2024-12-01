@@ -222,6 +222,16 @@ class Controller
 
   public function renderImagem(string $caminhoImagem): string
   {
+    if (HOST_LOCAL) {
+      $caminhoLocal = 'img/local/' . $caminhoImagem;
+
+      if (file_exists($caminhoLocal)) {
+        return '/img/local/' . $caminhoImagem;
+      }
+
+      return '';
+    }
+
     return 'https://firebasestorage.googleapis.com/v0/b/' . FIREBASE_BUCKET . '/o/' . urlencode($caminhoImagem) . '?alt=media';
   }
 }

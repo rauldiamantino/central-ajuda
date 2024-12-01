@@ -240,6 +240,7 @@ class DashboardConteudoController extends DashboardController
 
     $colunas = [
       'Conteudo.artigo_id',
+      'Conteudo.tipo',
       'Conteudo.url',
     ];
 
@@ -252,7 +253,6 @@ class DashboardConteudoController extends DashboardController
     // Apaga imagem
     if (isset($buscarConteudo[0]['Conteudo']['tipo']) and $buscarConteudo[0]['Conteudo']['tipo'] == 2 and isset($buscarConteudo[0]['Conteudo']['url'])) {
       $firebase = new DatabaseFirebaseComponent();
-
       if ($firebase->apagarImagem($buscarConteudo[0]['Conteudo']['url']) == false) {
         $this->sessaoUsuario->definir('erro', 'Erro ao apagar imagem');
         $this->responderJson(['erro' => 'Erro ao apagar imagem'], 500);
