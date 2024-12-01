@@ -151,15 +151,21 @@ class Roteador
           $controlNome = 'app\\Core\\' . $subLinha['controlador'][0];
         }
 
-        $controlador = new $controlNome();
-        $metodo = $subLinha['controlador'][1];
-        $sucesso = true;
+        try {
+          $controlador = new $controlNome();
+          $metodo = $subLinha['controlador'][1];
+          $sucesso = true;
 
-        if ($this->parametroId) {
-          $controlador->$metodo($this->parametroId);
+          if ($this->parametroId) {
+            $controlador->$metodo($this->parametroId);
+          }
+          else {
+            $controlador->$metodo();
+          }
         }
-        else {
-          $controlador->$metodo();
+        catch (\Exception $e) {
+          registrarSentry('Erro ao acessar rota', $_SESSION);
+          $this->paginaErro->erroVer();
         }
       endforeach;
     endforeach;
