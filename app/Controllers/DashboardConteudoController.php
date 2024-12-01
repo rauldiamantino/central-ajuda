@@ -250,7 +250,7 @@ class DashboardConteudoController extends DashboardController
     $artigoId = $buscarConteudo[0]['Conteudo']['artigo_id'] ?? 0;
 
     // Apaga imagem
-    if (isset($buscarConteudo[0]['Conteudo']['url'])) {
+    if (isset($buscarConteudo[0]['Conteudo']['tipo']) and $buscarConteudo[0]['Conteudo']['tipo'] == 2 and isset($buscarConteudo[0]['Conteudo']['url'])) {
       $firebase = new DatabaseFirebaseComponent();
 
       if ($firebase->apagarImagem($buscarConteudo[0]['Conteudo']['url']) == false) {
