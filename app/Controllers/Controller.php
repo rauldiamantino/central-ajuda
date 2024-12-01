@@ -220,7 +220,7 @@ class Controller
     return file_get_contents('./icones/' . $iconeNome . '.svg');
   }
 
-  public function renderImagem(string $caminhoImagem): string
+  public function renderImagem(?string $caminhoImagem): string
   {
     if (HOST_LOCAL) {
       $caminhoLocal = 'img/local/' . $caminhoImagem;
