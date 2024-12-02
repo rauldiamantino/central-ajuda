@@ -81,7 +81,7 @@
     <h3 class="mt-12 text-lg font-semibold">Armazenamento</h3>
     <div class="text-sm text-gray-700">Confira quanto espaço você já utilizou até agora</div>
     <div class="pt-5 w-full flex flex-col gap-5 armazenamento-geral">
-      <div class="border border-gray-200 w-full lg:w-[700px] p-8 flex flex-col gap-2 md:flex-row justify-between md:items-center rounded-lg bg-white hover:bg-gray-100">
+      <div class="border border-gray-200 w-full lg:w-[700px] p-8 flex gap-2 justify-between md:items-center rounded-lg bg-white hover:bg-gray-100">
         <span class="flex items-center p-3 text-blue-800 bg-blue-100/75 rounded-lg">
           <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
