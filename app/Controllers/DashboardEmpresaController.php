@@ -49,6 +49,7 @@ class DashboardEmpresaController extends DashboardController
       'Empresa.cor_primaria',
       'Empresa.url_site',
       'Empresa.gratis_prazo',
+      'Empresa.espaco',
       'Empresa.assinatura_id_asaas',
       'Empresa.assinatura_status',
       'Empresa.criado',
@@ -337,6 +338,7 @@ class DashboardEmpresaController extends DashboardController
       'Empresa.gratis_prazo',
       'Empresa.cor_primaria',
       'Empresa.url_site',
+      'Empresa.espaco',
       'Empresa.assinatura_status',
     ];
 
@@ -353,6 +355,7 @@ class DashboardEmpresaController extends DashboardController
       $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
     }
 
+    Cache::apagar('calcular-consumo', $this->empresaPadraoId);
     Cache::apagar('publico-dados-empresa', $this->usuarioLogado['empresaId']);
     Cache::apagar('roteador-' . $this->usuarioLogado['subdominio']);
 
@@ -361,23 +364,55 @@ class DashboardEmpresaController extends DashboardController
 
   public function calcularConsumo()
   {
-    $consumoBanco = $this->empresaModel->calcularConsumoBanco($this->empresaPadraoId);
-    $consumoBancoTotal = $consumoBanco[0]['total_mb'] ?? 0;
-    $consumoBancoTotal = (float) $consumoBancoTotal;
+    $cacheTempo = 60*60*24;
+    $cacheNome = 'calcular-consumo';
+    $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
 
-    $consumoFirebase = $this->firebase->calcularConsumoFirebase($this->empresaPadraoId);
-    $consumoFirebaseTotal = (float) $consumoFirebase;
+    if ($resultado == null) {
+      // Máximo
+      $condicao[] = [
+        'campo' => 'Empresa.id',
+        'operador' => '=',
+        'valor' => (int) $this->empresaPadraoId,
+      ];
 
-    $total = $consumoBancoTotal + $consumoFirebaseTotal;
-    $total = (float) number_format($total, 2, '.');
+      $colunas = [
+        'Empresa.espaco',
+      ];
 
-    $retorno = [
-      'total' => $total,
-      'banco' => $consumoBancoTotal,
-      'firebase' => $consumoFirebaseTotal,
-      'maximo' => 2048,
-    ];
+      $empresa = $this->empresaModel->selecionar($colunas)
+                                    ->condicao($condicao)
+                                    ->executarConsulta();
 
-    $this->responderJson($retorno);
+      $maximoMb = $empresa[0]['Empresa']['espaco'] ?? 0;
+
+      // Consumo MySQL
+      $consumoBanco = $this->empresaModel->calcularConsumoBanco($this->empresaPadraoId);
+      $consumoBancoTotal = $consumoBanco[0]['total_mb'] ?? 0;
+      $consumoBancoTotal = (float) $consumoBancoTotal;
+
+      // Consumo Firebase
+      $consumoFirebase = $this->firebase->calcularConsumoFirebase($this->empresaPadraoId);
+      $consumoFirebaseTotal = (float) $consumoFirebase;
+
+      $totalMb = $consumoBancoTotal + $consumoFirebaseTotal;
+      $totalMb = (float) number_format($totalMb, 2, '.');
+
+      $resultado = [
+        'total' => $totalMb,
+        'maximo' => $maximoMb,
+      ];
+
+      Cache::definir($cacheNome, $resultado, $cacheTempo, $this->empresaPadraoId);
+    }
+
+    if ($resultado['total'] > $resultado['maximo']) {
+      $this->sessaoUsuario->definir('bloqueio-espaco-' . $this->empresaPadraoId, true);
+    }
+    else {
+      $this->sessaoUsuario->apagar('bloqueio-espaco-' . $this->empresaPadraoId);
+    }
+
+    $this->responderJson($resultado);
   }
 }

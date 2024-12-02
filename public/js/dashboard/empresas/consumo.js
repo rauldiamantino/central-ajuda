@@ -62,11 +62,6 @@ document.addEventListener("DOMContentLoaded", function() {
     fetch(`/${empresa}/d/calcular_consumo`)
       .then(response => response.json())
       .then(data => {
-
-        if (! data.maximo) {
-          throw new Error('Não foi possível obter os dados')
-        }
-
         let maximoMb = data.maximo
         let consumoTotalMb = data.total
 

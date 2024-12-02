@@ -19,34 +19,8 @@ if ($horaAtual >= 5 and $horaAtual < 12) {
     </div>
   </div>
 
-  <!-- Conteúdo da dashboard -->
   <div class="border-t border-gray-300 w-full flex flex-col py-6">
-
-    <?php // Teste grátis expirado
-    ?>
-    <?php if ($this->sessaoUsuario->buscar('teste-expirado-' . $this->empresaPadraoId) == true) { ?>
-      <div class="p-10 w-full lg:w-[700px] flex flex-col bg-red-600/5 rounded-xl">
-        <div class="w-full text-red-800 font-semibold flex gap-2">
-          <div class="w-6">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 0 0 5.636 5.636m12.728 12.728A9 9 0 0 1 5.636 5.636m12.728 12.728L5.636 5.636" />
-            </svg>
-          </div>
-          <span class="w-full">Ops! Seu acesso foi bloqueado</span>
-        </div>
-        <div class="mt-2 text-sm text-gray-700 font-light">
-          Para desbloquear, assine um dos planos disponíveis no menu <a href="<?php echo '/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar?acao=assinar'; ?>" class="hover:underline text-blue-600">Empresa</a>.<br>
-          <div class="mt-2 text-xs">
-            Caso tenha alguma dúvida, entre em contato com o nosso suporte:<br>
-            Email: suporte@360help.com.br<br>
-            WhatsApp: (11) 93433-2319
-          </div>
-        </div>
-      </div>
-    <?php } ?>
-
-    <?php // Início rápido
-    ?>
+    <?php // Início rápido ?>
     <div class="w-full py-4">
       <h3 class="py-3 text-lg font-semibold">O que gostaria de fazer?</h3>
       <div class="flex flex-col sm:flex-row gap-6 sm:gap-4 lg:gap-6 inicio-rapido-blocos">
@@ -121,6 +95,24 @@ if ($horaAtual >= 5 and $horaAtual < 12) {
         <div class="flex flex-col justify-center items-start">
           <span>Usuários</span>
           <span class="text-2xl font-bold"><?php echo $totalUsuarios; ?></span>
+        </div>
+      </div>
+      <div class="w-full sm:col-span-2 lg:col-span-1 border border-gray-200 flex gap-4 items-center p-6 bg-white rounded-xl shadow armazenamento-geral">
+        <span class="flex items-center p-3 text-blue-800 bg-blue-100/75 rounded-lg">
+          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
+          </svg>
+        </span>
+        <div class="w-full flex flex-col justify-center items-start">
+          <span class="font-semibold text-gray-800">Espaço utilizado</span>
+          <div class="w-full h-full flex flex-col justify-start">
+            <div class="h-full flex mb-2 w-full">
+              <div class="w-full bg-gray-200 rounded-full">
+                <div class="max-w-full p-1 rounded-md barra-progresso transition-all duration-300"></div>
+              </div>
+            </div>
+            <p class="h-full block text-xs text-gray-600 espaco-utilizado opacity-50 transition-all duration-300">Calculando...</p>
+          </div>
         </div>
       </div>
     </div>

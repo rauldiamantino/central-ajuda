@@ -13,6 +13,17 @@ class DashboardArtigoModel extends Model
   // --- CRUD ---
   public function adicionar(array $params = []): array
   {
+    if ($this->sessaoUsuario->buscar('bloqueio-espaco-' . $this->empresaPadraoId)) {
+      $msgErro = [
+        'erro' => [
+          'codigo' => 409,
+          'mensagem' => 'Não foi possível adicionar, pois o limite de armazenamento foi atingido',
+        ],
+      ];
+
+      return $msgErro;
+    }
+
     $campos = $this->validarCampos($params);
 
     if (isset($campos['erro'])) {

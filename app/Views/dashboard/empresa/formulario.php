@@ -150,6 +150,15 @@
         </div>
         <input type="datetime-local" id="empresa-gratis-prazo" name="gratis_prazo" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $empresa['Empresa']['gratis_prazo']; ?>">
       </div>
+
+      <?php // Espaço de armazenamento ?>
+      <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
+        <div class="flex flex-col text-sm font-medium text-gray-700">
+          <span class="block text-sm font-medium text-gray-700">Espaço de armazenamento</span>
+          <span class="font-extralight">Campo restrito somente para o suporte. Exemplo: 1024(1GB), 2048(2GB), 4096(4GB), etc.</span>
+        </div>
+        <input type="text" id="empresa-espaco" name="espaco" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $empresa['Empresa']['espaco']; ?>">
+       </div>
     <?php } ?>
   </div>
 </form>

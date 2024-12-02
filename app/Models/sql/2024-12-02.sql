@@ -1,0 +1,1 @@
+ALTER TABLE `empresas` ADD COLUMN `espaco` INT UNSIGNED DEFAULT 0 AFTER `assinatura_ciclo`;
