@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function() {
       .then(response => response.json())
       .then(data => {
 
-        if (!data.total) {
+        if (! data.maximo) {
           throw new Error('Não foi possível obter os dados')
         }
 
