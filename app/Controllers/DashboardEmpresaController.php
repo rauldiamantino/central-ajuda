@@ -406,7 +406,7 @@ class DashboardEmpresaController extends DashboardController
       Cache::definir($cacheNome, $resultado, $cacheTempo, $this->empresaPadraoId);
     }
 
-    if ($resultado['total'] > $resultado['maximo']) {
+    if ($resultado['total'] >= $resultado['maximo']) {
       $this->sessaoUsuario->definir('bloqueio-espaco-' . $this->empresaPadraoId, true);
     }
     else {
