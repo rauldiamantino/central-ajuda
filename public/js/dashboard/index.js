@@ -184,9 +184,9 @@ const rolagemVerticalAutomatica = () => {
       alvo.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }, 800)
   }
-  else {
-    setTimeout(() => window.scrollTo({top: 0, left: 0, behavior: 'smooth'}), 60)
-  }
+  // else {
+  //   setTimeout(() => window.scrollTo({top: 0, left: 0, behavior: 'smooth'}), 60)
+  // }
 }
 
 const evitarDuploClique = (event) => {
