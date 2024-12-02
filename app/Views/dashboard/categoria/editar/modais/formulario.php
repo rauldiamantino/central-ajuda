@@ -57,7 +57,7 @@
         </div>
       </div>
     </div>
-    <div class="w-full flex justify-between">
+    <div class="w-full flex justify-between div-botoes">
       <div class="flex gap-2">
         <button type="button" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>" onclick="document.querySelector('.menu-editar-categoria').close()">Fechar</a>
         <button type="submit" class="<?php echo CLASSES_DASH_BUTTON_GRAVAR; ?>">Gravar</button>
