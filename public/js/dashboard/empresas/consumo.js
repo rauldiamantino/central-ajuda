@@ -23,9 +23,16 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   function atualizarBarraProgresso(consumoTotalMb, maximoMb) {
-    let consumoTotalPercentual = (consumoTotalMb / maximoMb) * 100
-    let barraProgresso = document.querySelector(".barra-progresso")
+    let consumoTotalPercentual
 
+    if (maximoMb === 0) {
+      consumoTotalPercentual = 100
+    }
+    else {
+      consumoTotalPercentual = (consumoTotalMb / maximoMb) * 100
+    }
+
+    let barraProgresso = document.querySelector(".barra-progresso")
     barraProgresso.classList.remove("bg-blue-600", "bg-yellow-600", "bg-red-600", "bg-red-700")
 
     if (consumoTotalMb > maximoMb) {
