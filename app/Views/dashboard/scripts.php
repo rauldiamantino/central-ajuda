@@ -7,6 +7,7 @@
 
 <!------------------- scripts ------------------->
 <script src="<?php echo baseUrl('/js/dashboard/index.js'); ?>"></script>
+<script src="<?php echo baseUrl('/js/dashboard/dashboard/index.js'); ?>"></script>
 <script src="<?php echo baseUrl('/js/dashboard/empresas/index.js'); ?>"></script>
 <script src="<?php echo baseUrl('/js/dashboard/empresas/uploads.js'); ?>"></script>
 <script src="<?php echo baseUrl('/js/dashboard/usuarios/index.js'); ?>"></script>

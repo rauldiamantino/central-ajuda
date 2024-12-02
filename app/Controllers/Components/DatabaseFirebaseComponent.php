@@ -223,4 +223,32 @@ class DatabaseFirebaseComponent extends DashboardController
 
     return rmdir($caminho);
   }
+
+  public function calcularConsumoFirebase(int $empresaId): string
+  {
+    return round($this->listarArquivos($empresaId) / (1024 * 1024), 2);
+  }
+
+  private function listarArquivos($empresaId)
+  {
+    $tamanhoTotal = 0;
+    $objetos = $this->bucket->objects([
+        'prefix' => $empresaId,
+        'delimiter' => '/'
+    ]);
+
+    foreach ($objetos as $linha):
+      $metadata = $linha->info();
+
+      if (isset($metadata['size'])) {
+        $tamanhoTotal += $metadata['size'];
+      }
+    endforeach;
+
+    foreach ($objetos->prefixes() as $linha):
+      $tamanhoTotal += $this->listarArquivos($linha);
+    endforeach;
+
+    return $tamanhoTotal;
+  }
 }

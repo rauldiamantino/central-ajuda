@@ -460,4 +460,106 @@ class DashboardEmpresaModel extends Model
 
     return 'Campo inválido';
   }
+
+  public function calcularConsumoBanco(int $id): array
+  {
+    $sql = <<<SQL
+            SELECT
+                ROUND(SUM(tamanho_artigos), 2) AS `artigos_mb`,
+                ROUND(SUM(tamanho_categorias), 2) AS `categorias_mb`,
+                ROUND(SUM(tamanho_usuarios), 2) AS `usuarios_mb`,
+                ROUND(SUM(tamanho_conteudos), 2) AS `conteudos_mb`,
+                ROUND(SUM(tamanho_artigos + tamanho_categorias + tamanho_usuarios + tamanho_conteudos), 2) AS `total_mb`
+            FROM (
+                -- Tamanho dos artigos
+                SELECT
+                    empresa_id,
+                    SUM(
+                        CHAR_LENGTH(titulo) +
+                        IFNULL(CHAR_LENGTH(titulo), 0) +
+                        4 + 4 + 4 + 4 + 8 + 8 -- Tamanho fixo dos campos INT e TIMESTAMP
+                    ) / 1024 / 1024 AS tamanho_artigos,
+                    0 AS tamanho_categorias,
+                    0 AS tamanho_usuarios,
+                    0 AS tamanho_conteudos
+                FROM artigos
+                WHERE empresa_id = ?
+                GROUP BY empresa_id
+
+                UNION ALL
+
+                -- Tamanho das categorias
+                SELECT
+                    empresa_id,
+                    0 AS tamanho_artigos,
+                    SUM(
+                        CHAR_LENGTH(nome) +
+                        IFNULL(CHAR_LENGTH(descricao), 0) +
+                        IFNULL(CHAR_LENGTH(icone), 0) +
+                        4 + 4 + 4 + 4 + 8 + 8 -- Tamanho fixo dos campos INT e TIMESTAMP
+                    ) / 1024 / 1024 AS tamanho_categorias,
+                    0 AS tamanho_usuarios,
+                    0 AS tamanho_conteudos
+                FROM categorias
+                WHERE empresa_id = ?
+                GROUP BY empresa_id
+
+                UNION ALL
+
+                -- Tamanho dos usuários
+                SELECT
+                    empresa_id,
+                    0 AS tamanho_artigos,
+                    0 AS tamanho_categorias,
+                    SUM(
+                        IFNULL(CHAR_LENGTH(nome), 0) +
+                        CHAR_LENGTH(email) +
+                        CHAR_LENGTH(senha) +
+                        IFNULL(LENGTH(ultimo_acesso), 0) +
+                        4 + 4 + 4 + 4 + 4 + 1 + 8 + 8 -- Tamanho fixo de INT, TINYINT e TIMESTAMP
+                    ) / 1024 / 1024 AS tamanho_usuarios,
+                    0 AS tamanho_conteudos
+                FROM usuarios
+                WHERE empresa_id = ?
+                GROUP BY empresa_id
+
+                UNION ALL
+
+                -- Tamanho dos conteudos
+                SELECT
+                    empresa_id,
+                    0 AS tamanho_artigos,
+                    0 AS tamanho_categorias,
+                    0 AS tamanho_usuarios,
+                    SUM(
+                        CHAR_LENGTH(titulo) +
+                        CHAR_LENGTH(conteudo) +
+                        IFNULL(CHAR_LENGTH(url), 0) +
+                        4 + 4 + 4 + 4 + 8 + 8 -- Tamanho fixo dos campos INT e TIMESTAMP
+                    ) / 1024 / 1024 AS tamanho_conteudos
+                FROM conteudos
+                WHERE empresa_id = ?
+                GROUP BY empresa_id
+            ) AS resultados
+            GROUP BY empresa_id;
+           SQL;
+
+    $sqlParams = [
+      $id, // empresa_id
+      $id, // empresa_id
+      $id, // empresa_id
+      $id, // empresa_id
+    ];
+
+    $busca = $this->executarQuery($sql, $sqlParams);
+
+    if (is_array($busca) and ! isset($busca['erro'])) {
+      $busca = $this->organizarResultado($busca);
+    }
+    else {
+      $busca = [];;
+    }
+
+    return $busca;
+  }
 }

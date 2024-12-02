@@ -1,15 +1,16 @@
 <?php
 namespace app\Controllers;
 
-use app\Controllers\Components\DatabaseFirebaseComponent;
 use DateTime;
 use app\Core\Cache;
 use app\Models\DashboardEmpresaModel;
 use app\Controllers\DashboardController;
 use app\Controllers\Components\PagamentoAsaasComponent;
+use app\Controllers\Components\DatabaseFirebaseComponent;
 
 class DashboardEmpresaController extends DashboardController
 {
+  protected $firebase;
   protected $empresaModel;
   protected $pagamentoAsaas;
   protected $pagamentoStripe;
@@ -19,6 +20,7 @@ class DashboardEmpresaController extends DashboardController
     parent::__construct();
 
     $this->pagamentoAsaas = new PagamentoAsaasComponent();
+    $this->firebase = new DatabaseFirebaseComponent();
     $this->empresaModel = new DashboardEmpresaModel($this->usuarioLogado, $this->empresaPadraoId);
   }
 
@@ -355,5 +357,27 @@ class DashboardEmpresaController extends DashboardController
     Cache::apagar('roteador-' . $this->usuarioLogado['subdominio']);
 
     $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Registro alterado com sucesso');
+  }
+
+  public function calcularConsumo()
+  {
+    $consumoBanco = $this->empresaModel->calcularConsumoBanco($this->empresaPadraoId);
+    $consumoBancoTotal = $consumoBanco[0]['total_mb'] ?? 0;
+    $consumoBancoTotal = (float) $consumoBancoTotal;
+
+    $consumoFirebase = $this->firebase->calcularConsumoFirebase($this->empresaPadraoId);
+    $consumoFirebaseTotal = (float) $consumoFirebase;
+
+    $total = $consumoBancoTotal + $consumoFirebaseTotal;
+    $total = (float) number_format($total, 2, '.');
+
+    $retorno = [
+      'total' => $total,
+      'banco' => $consumoBancoTotal,
+      'firebase' => $consumoFirebaseTotal,
+      'maximo' => 2048,
+    ];
+
+    $this->responderJson($retorno);
   }
 }

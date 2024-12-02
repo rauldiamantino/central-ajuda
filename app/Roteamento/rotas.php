@@ -61,6 +61,7 @@ return [
     'GET:/{empresa}/dashboard/usuario/editar/{id}'   => ['controlador' => [DashboardUsuarioController::class,   'usuarioEditarVer'],            'permissao' => $acessoTotal],
     'GET:/{empresa}/dashboard/usuario/adicionar'     => ['controlador' => [DashboardUsuarioController::class,   'usuarioAdicionarVer'],         'permissao' => $acessoTotal],
     'GET:/{empresa}/dashboard/validar_assinatura'    => ['controlador' => [DashboardEmpresaController::class,   'reprocessarAssinaturaAsaas'],  'permissao' => $suporteTotal],
+    'GET:/{empresa}/d/calcular_consumo'              => ['controlador' => [DashboardEmpresaController::class,   'calcularConsumo'],             'permissao' => $acessoTodos],
     'PUT:/{empresa}/d/ajustes'                       => ['controlador' => [DashboardAjusteController::class,    'atualizar'],                   'permissao' => $acessoTodos],
     'GET:/{empresa}/d/firebase'                      => ['controlador' => [DatabaseFirebaseComponent::class,    'credenciais'],                 'permissao' => $acessoTodos],
     'POST:/{empresa}/d/apagar-local'                 => ['controlador' => [DatabaseFirebaseComponent::class,    'apagarLocal'],                 'permissao' => $acessoTodos],
