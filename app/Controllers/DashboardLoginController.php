@@ -3,11 +3,13 @@
 namespace app\Controllers;
 use app\Models\DashboardLoginModel;
 use app\Models\DashboardEmpresaModel;
+use app\Models\DashboardAssinaturaModel;
 
 class DashboardLoginController extends DashboardController
 {
   protected $loginModel;
   protected $empresaModel;
+  protected $assinaturaModel;
   protected $visao;
 
   public function __construct()
@@ -16,6 +18,7 @@ class DashboardLoginController extends DashboardController
 
     $this->loginModel = new DashboardLoginModel($this->usuarioLogado, $this->empresaPadraoId);
     $this->empresaModel = new DashboardEmpresaModel($this->usuarioLogado, $this->empresaPadraoId);
+    $this->assinaturaModel = new DashboardAssinaturaModel($this->usuarioLogado, $this->empresaPadraoId);
   }
 
   public function loginVer()
@@ -44,13 +47,20 @@ class DashboardLoginController extends DashboardController
       'Empresa.subdominio_2',
       'Empresa.ativo',
       'Empresa.id',
-      'Empresa.gratis_prazo',
       'Empresa.criado',
-      'Empresa.assinatura_id_asaas',
-      'Empresa.assinatura_status',
+      'Assinatura.asaas_id',
+      'Assinatura.status',
+      'Assinatura.gratis_prazo',
+    ];
+
+    $uniaoAssinatura = [
+      'tabelaJoin' => 'Assinatura',
+      'campoA' => 'Assinatura.empresa_id',
+      'campoB' => 'Empresa.id',
     ];
 
     $empresas = $this->empresaModel->selecionar($colunas)
+                                   ->juntar($uniaoAssinatura, 'LEFT')
                                    ->executarConsulta();
 
     if (isset($empresas['erro'])) {
@@ -82,11 +92,11 @@ class DashboardLoginController extends DashboardController
           continue;
         }
 
-        if (! isset($linha['Empresa']['assinatura_id_asaas'])) {
+        if (! isset($linha['Assinatura']['asaas_id'])) {
           continue;
         }
 
-        if (! isset($linha['Empresa']['assinatura_status'])) {
+        if (! isset($linha['Assinatura']['status'])) {
           continue;
         }
 
@@ -98,11 +108,11 @@ class DashboardLoginController extends DashboardController
         $this->usuarioLogado['empresaId'] = $linha['Empresa']['id'];
         $this->usuarioLogado['empresaAtivo'] = $linha['Empresa']['ativo'];
         $this->usuarioLogado['empresaCriado'] = $linha['Empresa']['criado'];
-        $this->usuarioLogado['gratisPrazo'] = $linha['Empresa']['gratis_prazo'] ?? '';
+        $this->usuarioLogado['gratisPrazo'] = $linha['Assinatura']['gratis_prazo'] ?? '';
         $this->usuarioLogado['corPrimaria'] = intval($linha['Empresa']['cor_primaria'] ?? 1);
         $this->usuarioLogado['urlSite'] = $linha['Empresa']['url_site'] ?? '';
-        $this->usuarioLogado['assinaturaStatus'] = $linha['Empresa']['assinatura_status'];
-        $this->usuarioLogado['assinaturaIdAsaas'] = $linha['Empresa']['assinatura_id_asaas'];
+        $this->usuarioLogado['assinaturaStatus'] = $linha['Assinatura']['status'];
+        $this->usuarioLogado['assinaturaIdAsaas'] = $linha['Assinatura']['asaas_id'];
         $this->usuarioLogado['subdominio'] = $linha['Empresa']['subdominio'];
         $this->usuarioLogado['subdominio_2'] = $linha['Empresa']['subdominio_2'] ?? '';
         $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
@@ -147,11 +157,11 @@ class DashboardLoginController extends DashboardController
       'empresaId' => $resultado['ok']['empresa_id'],
       'empresaAtivo' => $resultado['ok']['Empresa.ativo'],
       'empresaCriado' => $resultado['ok']['Empresa.criado'],
-      'gratisPrazo' => $resultado['ok']['Empresa.gratis_prazo'],
+      'gratisPrazo' => $resultado['ok']['Assinatura.gratis_prazo'],
       'corPrimaria' => $resultado['ok']['Empresa.cor_primaria'],
       'urlSite' => $resultado['ok']['Empresa.url_site'],
-      'assinaturaIdAsaas' => $resultado['ok']['Empresa.assinatura_id_asaas'],
-      'assinaturaStatus' => $resultado['ok']['Empresa.assinatura_status'],
+      'assinaturaIdAsaas' => $resultado['ok']['Assinatura.asaas_id'],
+      'assinaturaStatus' => $resultado['ok']['Assinatura.status'],
       'subdominio' => $resultado['ok']['Empresa.subdominio'],
       'subdominio_2' => $resultado['ok']['Empresa.subdominio_2'],
       'nivel' => $resultado['ok']['nivel'],

@@ -239,7 +239,7 @@ class Roteador
     $this->testeExpirado = $this->sessaoUsuario->buscar('teste-expirado-' . $this->empresaId);
 
     if ($this->testeExpirado and ! isset($this->rotas['dashboardVencida'][ $this->chaveRota ]) and (int) $this->usuarioLogado['padrao'] != USUARIO_SUPORTE) {
-      header('Location: /' . $this->empresa . '/dashboard/empresa/editar?acao=assinar');
+      header('Location: /' . $this->empresa . '/dashboard/assinatura/editar');
       exit;
     }
   }
@@ -408,8 +408,8 @@ class Roteador
     $this->empresa = $buscarEmpresa[0]['Empresa']['subdominio'] ?? '';
     $this->empresaId = intval($buscarEmpresa[0]['Empresa']['id'] ?? 0);
     $this->empresaAtivo = intval($buscarEmpresa[0]['Empresa']['ativo'] ?? 0);
-    $this->assinaturaStatus = intval($buscarEmpresa[0]['Empresa']['assinatura_status'] ?? 0);
-    $this->gratisPrazo = $buscarEmpresa[0]['Empresa']['gratis_prazo'] ?? '';
+    $this->assinaturaStatus = intval($buscarEmpresa[0]['Assinatura']['status'] ?? 0);
+    $this->gratisPrazo = $buscarEmpresa[0]['Assinatura']['gratis_prazo'] ?? '';
 
     // Acesso negado
     if ($this->empresaAtivo == INATIVO) {

@@ -33,16 +33,18 @@ class DashboardLoginModel extends Model
               Empresa.subdominio AS "Empresa.subdominio",
               Empresa.subdominio_2 AS "Empresa.subdominio_2",
               Empresa.ativo AS "Empresa.ativo",
-              Empresa.gratis_prazo AS "Empresa.gratis_prazo",
               Empresa.cor_primaria AS "Empresa.cor_primaria",
               Empresa.url_site AS "Empresa.url_site",
-              Empresa.assinatura_id_asaas AS "Empresa.assinatura_id_asaas",
-              Empresa.assinatura_status AS "Empresa.assinatura_status",
-              Empresa.criado AS "Empresa.criado"
+              Empresa.criado AS "Empresa.criado",
+              Assinatura.gratis_prazo AS "Assinatura.gratis_prazo",
+              Assinatura.asaas_id AS "Assinatura.asaas_id",
+              Assinatura.status AS "Assinatura.status"
             FROM
               usuarios AS Usuario
             LEFT JOIN
               empresas AS Empresa ON Usuario.empresa_id = Empresa.id
+            LEFT JOIN
+              assinaturas AS Assinatura ON Usuario.empresa_id = Assinatura.empresa_id
             WHERE
               Usuario.email = ?
             AND
@@ -85,11 +87,11 @@ class DashboardLoginModel extends Model
       $loginSucesso = false;
     }
 
-    if (! isset($usuario[0]['Empresa.assinatura_id_asaas'])) {
+    if (! isset($usuario[0]['Assinatura.asaas_id'])) {
       $loginSucesso = false;
     }
 
-    if (! isset($usuario[0]['Empresa.assinatura_status'])) {
+    if (! isset($usuario[0]['Assinatura.status'])) {
       $loginSucesso = false;
     }
 
@@ -126,8 +128,8 @@ class DashboardLoginModel extends Model
 
     // Teste grátis expirado
     $id = (int) $usuario[0]['Empresa.ativo'];
-    $assinaturaStatus = (int) $usuario[0]['Empresa.assinatura_status'];
-    $gratisPrazo = $usuario[0]['Empresa.gratis_prazo'];
+    $assinaturaStatus = (int) $usuario[0]['Assinatura.status'];
+    $gratisPrazo = $usuario[0]['Assinatura.gratis_prazo'];
 
     if ($gratisPrazo) {
       $dataHoje = new DateTime('now');

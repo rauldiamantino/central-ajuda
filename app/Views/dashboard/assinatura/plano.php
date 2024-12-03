@@ -1,7 +1,7 @@
 <div class="border-t border-gray-300 w-full h-full flex flex-col gap-4 editar-plano">
   <div class="py-8">
     <h3 class="text-lg font-semibold">Plano</h3>
-    <?php if ($assinaturaId and $cobrancas) { ?>
+    <?php if ($assinaturaId and isset($assinatura['Assinatura']['status']) and $assinatura['Assinatura']['status']) { ?>
       <div class="text-sm text-gray-700">Gostaria de alterar o plano? <a href="https://api.whatsapp.com/send/?phone=5511934332319&text=Olá!%20Tudo%20bem?%20Gostaria%20de%20saber%20como%20posso%20alterar%20meu%20plano.%20Obrigado!&type=phone_number&app_absent=0" target="_blank" class="underline font-semibold">Fale com a gente! :)</a></div>
     <?php } elseif ($assinaturaId) { ?>
       <div class="text-sm text-gray-700">Ops! Algo deu errado. Por favor, entre em contato para atualizar sua assinatura.</div>

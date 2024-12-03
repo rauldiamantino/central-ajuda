@@ -58,13 +58,20 @@ class DashboardEmpresaModel extends Model
       'Empresa.ativo',
       'Empresa.subdominio',
       'Empresa.subdominio_2',
-      'Empresa.assinatura_id_asaas',
-      'Empresa.assinatura_status',
-      'Empresa.gratis_prazo',
+      'Assinatura.asaas_id',
+      'Assinatura.status',
+      'Assinatura.gratis_prazo',
+    ];
+
+    $juntarAssinatura = [
+      'tabelaJoin' => 'Assinatura',
+      'campoA' => 'Assinatura.empresa_id',
+      'campoB' => 'Empresa.id',
     ];
 
     $resultado = $this->selecionar($colunas)
                       ->condicao($condicoes)
+                      ->juntar($juntarAssinatura, 'left')
                       ->executarConsulta();
 
     return $resultado;
@@ -155,13 +162,7 @@ class DashboardEmpresaModel extends Model
       'logo' => $params['logo'] ?? '',
       'favicon' => $params['favicon'] ?? '',
       'cnpj' => $params['cnpj'] ?? '',
-      'assinatura_id_asaas' => $params['assinatura_id_asaas'] ?? '',
-      'assinatura_status' => $params['assinatura_status'] ?? 0,
-      'assinatura_valor' => $params['assinatura_valor'] ?? 0.00,
-      'assinatura_ciclo' => $params['assinatura_ciclo'] ?? '',
-      'gratis_prazo' => $params['gratis_prazo'] ?? '',
       'cor_primaria' => intval($params['cor_primaria'] ?? 1),
-      'espaco' => intval($params['espaco'] ?? 0),
       'url_site' => $params['url_site'] ?? '',
     ];
 
@@ -183,13 +184,7 @@ class DashboardEmpresaModel extends Model
         'subdominio_2',
         'logo',
         'favicon',
-        'assinatura_id_asaas',
-        'assinatura_status',
-        'assinatura_ciclo',
-        'assinatura_valor',
-        'gratis_prazo',
         'cor_primaria',
-        'espaco',
         'url_site',
       ];
 
@@ -219,19 +214,10 @@ class DashboardEmpresaModel extends Model
       $campos['subdominio_2'] = filter_var($campos['subdominio_2'], FILTER_SANITIZE_URL);
       $campos['telefone'] = filter_var($campos['telefone'], FILTER_SANITIZE_NUMBER_INT);
       $cnpjValido = preg_match('/^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/', $campos['cnpj']);
-      $campos['assinatura_id_asaas'] = htmlspecialchars($campos['assinatura_id_asaas']);
-      $campos['assinatura_ciclo'] = htmlspecialchars($campos['assinatura_ciclo']);
-      $campos['gratis_prazo'] = htmlspecialchars($campos['gratis_prazo']);
-      $campos['assinatura_status'] = filter_var($campos['assinatura_status'], FILTER_SANITIZE_NUMBER_INT);
       $campos['cor_primaria'] = filter_var($campos['cor_primaria'], FILTER_SANITIZE_NUMBER_INT);
-      $campos['espaco'] = filter_var($campos['espaco'], FILTER_SANITIZE_NUMBER_INT);
 
       if (isset($params['ativo']) and ! in_array($campos['ativo'], [INATIVO, ATIVO])) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('ativo', 'valInvalido');
-      }
-
-      if (isset($params['assinatura_status']) and ! in_array($campos['assinatura_status'], [INATIVO, ATIVO])) {
-        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('assinatura_status', 'valInvalido');
       }
 
       if (isset($params['cnpj']) and $cnpjValido) {
@@ -249,17 +235,6 @@ class DashboardEmpresaModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('subdominio_2', 'valInvalido');
       }
 
-      if ($campos['gratis_prazo']) {
-
-        try {
-          $campos['gratis_prazo'] = new DateTime($campos['gratis_prazo']);
-          $campos['gratis_prazo'] = $campos['gratis_prazo']->format('Y-m-d H:i:s');
-        }
-        catch (Exception $e) {
-          $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('gratis_prazo', 'valInvalido');
-        }
-      }
-
       $ativoCaracteres = 1;
       $nomeCaracteres = 255;
       $subdominioCaracteres = 255;
@@ -269,32 +244,10 @@ class DashboardEmpresaModel extends Model
       $logoCaracteres = 50;
       $faviconCaracteres = 50;
       $urlSiteCaracteres = 255;
-      $assinaturaIdAsaasCaracteres = 255;
-      $assinaturaCicloCaracteres = 50;
-      $assinaturaValorCaracteres = 12;
-      $assinaturaStatusCaracteres = 1;
-      $gratisPrazoCaracteres = 19;
       $corPrimariaCaracteres = 2;
-      $espacoCaracteres = 51200;
-
-      if (strlen($campos['assinatura_id_asaas']) > $assinaturaIdAsaasCaracteres) {
-        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('assinatura_id_asaas', 'caracteres', $assinaturaIdAsaasCaracteres);
-      }
-
-      if (strlen($campos['assinatura_ciclo']) > $assinaturaCicloCaracteres) {
-        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('assinatura_ciclo', 'caracteres', $assinaturaCicloCaracteres);
-      }
-
-      if (strlen($campos['assinatura_valor']) > $assinaturaValorCaracteres) {
-        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('assinatura_valor', 'caracteres', $assinaturaValorCaracteres);
-      }
 
       if (strlen($campos['ativo']) > $ativoCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('id', 'caracteres', $ativoCaracteres);
-      }
-
-      if (strlen($campos['assinatura_status']) > $assinaturaStatusCaracteres) {
-        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('assinatura_status', 'caracteres', $assinaturaStatusCaracteres);
       }
 
       if (strlen($campos['nome']) > $nomeCaracteres) {
@@ -379,10 +332,6 @@ class DashboardEmpresaModel extends Model
       unset($camposValidados['favicon']);
     }
 
-    if (isset($camposValidados['gratis_prazo']) and empty($camposValidados['gratis_prazo'])) {
-      unset($camposValidados['gratis_prazo']);
-    }
-
     if ($sistema == false and $this->usuarioLogado['padrao'] != USUARIO_SUPORTE and isset($camposValidados['ativo'])) {
       unset($camposValidados['ativo']);
     }
@@ -406,32 +355,8 @@ class DashboardEmpresaModel extends Model
       $campo = 'CNPJ';
     }
 
-    if ($campo == 'assinatura_id_asaas') {
-      $campo = 'Assinatura ID';
-    }
-
-    if ($campo == 'assinatura_status') {
-      $campo = 'Status da assinatura';
-    }
-
-    if ($campo == 'assinatura_ciclo') {
-      $campo = 'Ciclo da assinatura';
-    }
-
-    if ($campo == 'assinatura_valor') {
-      $campo = 'Valor da assinatura';
-    }
-
-    if ($campo == 'gratis_prazo') {
-      $campo = 'Prazo do teste grátis';
-    }
-
     if ($campo == 'cor_primaria') {
       $campo = 'Cor primária';
-    }
-
-    if ($campo == 'espaco') {
-      $campo = 'Espaço de armazenamento';
     }
 
     if ($campo == 'url_site') {
@@ -458,107 +383,5 @@ class DashboardEmpresaModel extends Model
     }
 
     return 'Campo inválido';
-  }
-
-  public function calcularConsumoBanco(int $id): array
-  {
-    $sql = <<<SQL
-            SELECT
-                ROUND(SUM(tamanho_artigos), 2) AS `artigos_mb`,
-                ROUND(SUM(tamanho_categorias), 2) AS `categorias_mb`,
-                ROUND(SUM(tamanho_usuarios), 2) AS `usuarios_mb`,
-                ROUND(SUM(tamanho_conteudos), 2) AS `conteudos_mb`,
-                ROUND(SUM(tamanho_artigos + tamanho_categorias + tamanho_usuarios + tamanho_conteudos), 2) AS `total_mb`
-            FROM (
-                -- Tamanho dos artigos
-                SELECT
-                    empresa_id,
-                    SUM(
-                        CHAR_LENGTH(titulo) +
-                        IFNULL(CHAR_LENGTH(titulo), 0) +
-                        4 + 4 + 4 + 4 + 8 + 8 -- Tamanho fixo dos campos INT e TIMESTAMP
-                    ) / 1024 / 1024 AS tamanho_artigos,
-                    0 AS tamanho_categorias,
-                    0 AS tamanho_usuarios,
-                    0 AS tamanho_conteudos
-                FROM artigos
-                WHERE empresa_id = ?
-                GROUP BY empresa_id
-
-                UNION ALL
-
-                -- Tamanho das categorias
-                SELECT
-                    empresa_id,
-                    0 AS tamanho_artigos,
-                    SUM(
-                        CHAR_LENGTH(nome) +
-                        IFNULL(CHAR_LENGTH(descricao), 0) +
-                        IFNULL(CHAR_LENGTH(icone), 0) +
-                        4 + 4 + 4 + 4 + 8 + 8 -- Tamanho fixo dos campos INT e TIMESTAMP
-                    ) / 1024 / 1024 AS tamanho_categorias,
-                    0 AS tamanho_usuarios,
-                    0 AS tamanho_conteudos
-                FROM categorias
-                WHERE empresa_id = ?
-                GROUP BY empresa_id
-
-                UNION ALL
-
-                -- Tamanho dos usuários
-                SELECT
-                    empresa_id,
-                    0 AS tamanho_artigos,
-                    0 AS tamanho_categorias,
-                    SUM(
-                        IFNULL(CHAR_LENGTH(nome), 0) +
-                        CHAR_LENGTH(email) +
-                        CHAR_LENGTH(senha) +
-                        IFNULL(LENGTH(ultimo_acesso), 0) +
-                        4 + 4 + 4 + 4 + 4 + 1 + 8 + 8 -- Tamanho fixo de INT, TINYINT e TIMESTAMP
-                    ) / 1024 / 1024 AS tamanho_usuarios,
-                    0 AS tamanho_conteudos
-                FROM usuarios
-                WHERE empresa_id = ?
-                GROUP BY empresa_id
-
-                UNION ALL
-
-                -- Tamanho dos conteudos
-                SELECT
-                    empresa_id,
-                    0 AS tamanho_artigos,
-                    0 AS tamanho_categorias,
-                    0 AS tamanho_usuarios,
-                    SUM(
-                        CHAR_LENGTH(titulo) +
-                        CHAR_LENGTH(conteudo) +
-                        IFNULL(CHAR_LENGTH(url), 0) +
-                        4 + 4 + 4 + 4 + 8 + 8 -- Tamanho fixo dos campos INT e TIMESTAMP
-                    ) / 1024 / 1024 AS tamanho_conteudos
-                FROM conteudos
-                WHERE empresa_id = ?
-                GROUP BY empresa_id
-            ) AS resultados
-            GROUP BY empresa_id;
-           SQL;
-
-    $sqlParams = [
-      $id, // empresa_id
-      $id, // empresa_id
-      $id, // empresa_id
-      $id, // empresa_id
-    ];
-
-    $busca = $this->executarQuery($sql, $sqlParams);
-
-    if (is_array($busca) and ! isset($busca['erro'])) {
-      $busca = $this->organizarResultado($busca);
-    }
-    else {
-      $busca = [];;
-    }
-
-    return $busca;
   }
 }

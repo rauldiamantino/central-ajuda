@@ -79,7 +79,6 @@ class DashboardAssinaturaController extends DashboardController
       }
     }
 
-    $this->visao->variavel('cobrancas', []);
     $this->visao->variavel('assinaturaId', $asaasId);
     $this->visao->variavel('assinatura', reset($assinatura));
     $this->visao->variavel('titulo', 'Editar assinatura');
@@ -273,18 +272,19 @@ class DashboardAssinaturaController extends DashboardController
     ];
 
     $colunas = [
+      'Assinatura.id',
       'Assinatura.gratis_prazo',
       'Assinatura.espaco',
       'Assinatura.status',
     ];
 
-    $empresa = $this->assinaturaModel->selecionar($colunas)
-                                     ->condicao($condicao)
-                                     ->executarConsulta();
+    $assinatura = $this->assinaturaModel->selecionar($colunas)
+                                        ->condicao($condicao)
+                                        ->executarConsulta();
 
-    if (isset($empresa[0]['Assinatura']['id'])) {
-      $this->usuarioLogado['gratisPrazo'] = $empresa[0]['Assinatura']['gratis_prazo'];
-      $this->usuarioLogado['assinaturaStatus'] = $empresa[0]['Assinatura']['status'];
+    if (isset($assinatura[0]['Assinatura']['id'])) {
+      $this->usuarioLogado['gratisPrazo'] = $assinatura[0]['Assinatura']['gratis_prazo'];
+      $this->usuarioLogado['assinaturaStatus'] = $assinatura[0]['Assinatura']['status'];
       $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
     }
 
