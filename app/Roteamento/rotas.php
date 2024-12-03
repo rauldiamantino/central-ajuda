@@ -60,8 +60,8 @@ return [
     'GET:/{empresa}/dashboard/usuarios'              => ['controlador' => [DashboardUsuarioController::class,   'UsuariosVer'],                 'permissao' => $acessoTodos],
     'GET:/{empresa}/dashboard/usuario/editar/{id}'   => ['controlador' => [DashboardUsuarioController::class,   'usuarioEditarVer'],            'permissao' => $acessoTotal],
     'GET:/{empresa}/dashboard/usuario/adicionar'     => ['controlador' => [DashboardUsuarioController::class,   'usuarioAdicionarVer'],         'permissao' => $acessoTotal],
-    'GET:/{empresa}/dashboard/validar_assinatura'    => ['controlador' => [DashboardEmpresaController::class,   'reprocessarAssinaturaAsaas'],  'permissao' => $suporteTotal],
-    'GET:/{empresa}/d/calcular_consumo'              => ['controlador' => [DashboardEmpresaController::class,   'calcularConsumo'],             'permissao' => $acessoTodos],
+    'GET:/{empresa}/dashboard/validar_assinatura'    => ['controlador' => [DashboardAssinaturaController::class,'reprocessarAssinaturaAsaas'],  'permissao' => $suporteTotal],
+    'GET:/{empresa}/d/calcular_consumo'              => ['controlador' => [DashboardAssinaturaController::class,'calcularConsumo'],             'permissao' => $acessoTodos],
     'PUT:/{empresa}/d/ajustes'                       => ['controlador' => [DashboardAjusteController::class,    'atualizar'],                   'permissao' => $acessoTodos],
     'GET:/{empresa}/d/firebase'                      => ['controlador' => [DatabaseFirebaseComponent::class,    'credenciais'],                 'permissao' => $acessoTodos],
     'POST:/{empresa}/d/apagar-local'                 => ['controlador' => [DatabaseFirebaseComponent::class,    'apagarLocal'],                 'permissao' => $acessoTodos],
@@ -70,6 +70,7 @@ return [
     'POST:/{empresa}/d/upload-multiplas-local'       => ['controlador' => [DatabaseFirebaseComponent::class,    'uploadMultiplasLocal'],        'permissao' => $acessoTodos],
     'POST:/{empresa}/d/assinatura'                   => ['controlador' => [DashboardEmpresaController::class,   'buscarAssinatura'],            'permissao' => $acessoTodos],
     'PUT:/{empresa}/d/empresa/editar/{id}'           => ['controlador' => [DashboardEmpresaController::class,   'atualizar'],                   'permissao' => $acessoTotal],
+    'PUT:/{empresa}/d/assinatura/editar/{id}'        => ['controlador' => [DashboardassinaturaController::class,'atualizar'],                   'permissao' => $acessoTotal],
     'GET:/{empresa}/d/artigos'                       => ['controlador' => [DashboardArtigoController::class,    'buscar'],                      'permissao' => $acessoTodos],
     'GET:/{empresa}/d/artigo/{id}'                   => ['controlador' => [DashboardArtigoController::class,    'buscar'],                      'permissao' => $acessoTodos],
     'POST:/{empresa}/d/artigo'                       => ['controlador' => [DashboardArtigoController::class,    'adicionar'],                   'permissao' => $acessoTodos],
@@ -97,7 +98,8 @@ return [
   ],
   'dashboardVencida' => [
     'GET:/{empresa}/dashboard'                       => ['controlador' => [DashboardController::class,          'dashboardVer'],                'permissao' => $acessoTodos],
-    'GET:/{empresa}/dashboard/empresa/editar'        => ['controlador' => [DashboardEmpresaController::class,   'empresaEditarVer'],            'permissao' => $acessoTotal],
+    'GET:/{empresa}/dashboard/empresa/editar'        => ['controlador' => [DashboardEmpresaController::class,   'empresaEditarVer'],            'permissao' => $acessoTodos],
+    'GET:/{empresa}/dashboard/assinatura/editar'     => ['controlador' => [DashboardAssinaturaController::class,'assinaturaEditarVer'],         'permissao' => $acessoTotal],
     'GET:/{empresa}/d/assinaturas/gerar'             => ['controlador' => [DashboardEmpresaController::class,   'criarAssinaturaAsaas'],        'permissao' => $acessoTodos],
   ],
 ];

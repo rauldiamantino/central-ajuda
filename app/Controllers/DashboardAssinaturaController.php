@@ -1,0 +1,346 @@
+<?php
+namespace app\Controllers;
+
+use DateTime;
+use app\Core\Cache;
+use app\Models\DashboardAssinaturaModel;
+use app\Controllers\DashboardController;
+use app\Controllers\Components\PagamentoAsaasComponent;
+use app\Controllers\Components\DatabaseFirebaseComponent;
+
+class DashboardAssinaturaController extends DashboardController
+{
+  protected $assinaturaModel;
+  protected $pagamentoAsaas;
+  protected $firebase;
+
+  public function __construct()
+  {
+    parent::__construct();
+
+    $this->pagamentoAsaas = new PagamentoAsaasComponent();
+    $this->firebase = new DatabaseFirebaseComponent();
+    $this->assinaturaModel = new DashboardAssinaturaModel($this->usuarioLogado, $this->empresaPadraoId);
+  }
+
+  public function assinaturaEditarVer()
+  {
+    if ($this->usuarioLogado['nivel'] == USUARIO_RESTRITO) {
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard', 'Você não tem permissão para realizar esta ação.');
+    }
+
+    $condicao[] = [
+      'campo' => 'Assinatura.empresa_id',
+      'operador' => '=',
+      'valor' => (int) $this->empresaPadraoId,
+    ];
+
+    $colunas = [
+      'Assinatura.id',
+      'Assinatura.asaas_id',
+      'Assinatura.gratis_prazo',
+      'Assinatura.valor',
+      'Assinatura.ciclo',
+      'Assinatura.espaco',
+      'Assinatura.empresa_id',
+      'Assinatura.status',
+      'Assinatura.criado',
+      'Assinatura.modificado',
+    ];
+
+    $assinatura = $this->assinaturaModel->selecionar($colunas)
+                                        ->condicao($condicao)
+                                        ->executarConsulta();
+
+    if (isset($assinatura['erro']) and $assinatura['erro']) {
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard', $assinatura['erro']);
+    }
+
+    // Recupera assinatura e cobranças no Asaas
+    $asaasId = $assinatura[0]['Assinatura']['asaas_id'] ?? '';
+    $buscarCobrancas = [];
+
+    if ($asaasId) {
+      $this->pagamentoAsaas = new PagamentoAsaasComponent();
+      $buscarCobrancas = $this->pagamentoAsaas->buscarCobrancas($asaasId);
+    }
+
+    // Teste grátis expirado
+    $assinaturaStatus = intval($assinatura[0]['Assinatura']['status'] ?? 0);
+    $gratisPrazo = $assinatura[0]['Assinatura']['gratis_prazo'] ?? '';
+
+    if ($gratisPrazo) {
+      $dataHoje = new DateTime('now');
+      $dataGratis = new DateTime($gratisPrazo);
+
+      if ((int) $assinaturaStatus == INATIVO and $dataHoje > $dataGratis) {
+        $this->sessaoUsuario->definir('teste-expirado-' . $this->empresaPadraoId, true);
+      }
+      else {
+        $this->sessaoUsuario->apagar('teste-expirado-' . $this->empresaPadraoId);
+      }
+    }
+
+    $this->visao->variavel('assinatura', reset($assinatura));
+    $this->visao->variavel('assinaturaId', $asaasId);
+    $this->visao->variavel('cobrancas', $buscarCobrancas);
+    $this->visao->variavel('titulo', 'Editar assinatura');
+    $this->visao->variavel('loader', true);
+    $this->visao->variavel('paginaMenuLateral', 'assinatura');
+    $this->visao->renderizar('/assinatura/index');
+  }
+
+  public function reprocessarAssinaturaAsaas(): void
+  {
+    $assinaturaId = $_GET['asaas_id'] ?? '';
+
+    if (empty($assinaturaId)) {
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', 'ID da assinatura não informado.');
+    }
+
+    $buscarAssinatura = $this->pagamentoAsaas->buscarAssinatura($assinaturaId);
+    $assinaturaStatus = $buscarAssinatura['status'] ?? '';
+    $assinaturaCiclo = $buscarAssinatura['cycle'] ?? '';
+    $assinaturaValor = $buscarAssinatura['value'] ?? 0;
+    $assinaturaValor = number_format($assinaturaValor, 2, '.', '');
+
+    if (isset($buscarAssinatura['erro'])) {
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', $buscarAssinatura['erro']);
+    }
+
+    if ($assinaturaStatus == 'ACTIVE') {
+      $novoStatus = ATIVO;
+    }
+    else {
+      $novoStatus = INATIVO;
+    }
+
+    if ($assinaturaCiclo == 'YEARLY') {
+      $novoCiclo = 'Anual';
+    }
+    elseif ($assinaturaCiclo == 'MONT') {
+      $novoCiclo = 'Mensal';
+    }
+    else {
+      $novoCiclo = '';
+    }
+
+    // Atualiza banco de dados
+    if ($assinaturaStatus) {
+      $campos = [
+        'status' => $novoStatus,
+        'ciclo' => $novoCiclo,
+        'valor' => $assinaturaValor,
+      ];
+
+      $this->assinaturaModel->atualizar($campos, $this->empresaPadraoId);
+
+      // Atualiza sessão para uso imediato
+      $this->usuarioLogado['assinaturaStatus'] = $novoStatus;
+      $this->usuarioLogado['assinaturaId'] = $assinaturaId;
+      $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
+      Cache::apagar('roteador-' . $this->usuarioLogado['subdominio']);
+
+      $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', 'Assinatura reprocessada');
+    }
+
+    $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', 'Assinatura não encontrada');
+  }
+
+  public function criarAssinaturaAsaas()
+  {
+    $plano = strtolower($_GET['plano'] ?? '');
+
+    $msgErro = [
+      'erro' => [
+        'codigo' => 400,
+        'mensagem' => '',
+      ],
+    ];
+
+    $condicao[] = [
+      'campo' => 'Empresa.id',
+      'operador' => '=',
+      'valor' => (int) $this->empresaPadraoId,
+    ];
+
+    $condicao[] = [
+      'campo' => 'Usuario.padrao',
+      'operador' => '=',
+      'valor' => (int) USUARIO_PADRAO,
+    ];
+
+    $colunas = [
+      'Empresa.id',
+      'Empresa.nome',
+      'Empresa.cnpj',
+      'Empresa.telefone',
+      'Empresa.subdominio',
+      'Empresa.subdominio_2',
+      'Usuario.email',
+      'Usuario.padrao',
+    ];
+
+    $juntarUsuario = [
+      'tabelaJoin' => 'Usuario',
+      'campoA' => 'Usuario.empresa_id',
+      'campoB' => 'Empresa.id',
+    ];
+
+    $empresa = $this->empresaModel->selecionar($colunas)
+                                  ->condicao($condicao)
+                                  ->juntar($juntarUsuario, 'LEFT')
+                                  ->executarConsulta();
+
+    if (empty($empresa)) {
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', 'Não foi possível gerar a assinatura, por favor, entre em contato com o nosso suporte.');
+    }
+
+    if (is_array($plano) or ! in_array($plano, ['mensal', 'anual'])) {
+      $msgErro['erro']['mensagem'] = 'Plano inválido';
+    }
+
+    if (! isset($empresa[0]['Empresa']['nome'])) {
+      $msgErro['erro']['mensagem'] = 'Para realizar a assinatura, é necessário preencher o nome da empresa';
+    }
+
+    if (! isset($empresa[0]['Empresa']['cnpj'])) {
+      $msgErro['erro']['mensagem'] = 'Para realizar a assinatura, é necessário preencher o CNPJ da empresa';
+    }
+
+    if ($msgErro['erro']['mensagem']) {
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', $msgErro['erro']);
+    }
+
+    $this->pagamentoAsaas = new PagamentoAsaasComponent();
+    $criarAssinatura = $this->pagamentoAsaas->criarAssinatura($empresa, $plano);
+
+    if (isset($criarAssinatura['erro'])) {
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', 'Não foi possível gerar a assinatura, por favor, entre em contato com o nosso suporte');
+    }
+
+    $campos = [
+      'id' => $criarAssinatura['id'],
+      'status' => ATIVO,
+    ];
+
+    // Atualiza no banco de dados
+    $resultado = $this->assinaturaModel->atualizar($campos, $this->empresaPadraoId, true);
+
+    if (isset($resultado['erro'])) {
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', $resultado['erro']);
+    }
+
+    if (! isset($resultado['linhasAfetadas']) or $resultado['linhasAfetadas'] < 1) {
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', 'Não foi possível gravar os dados da sua assinatura, por favor, entre em contato com o nosso suporte');
+    }
+
+    // Atualiza para uso imediato
+    $this->usuarioLogado['assinaturaStatus'] = ATIVO;
+    $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
+
+    Cache::apagar('roteador-' . $this->usuarioLogado['subdominio']);
+
+    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', 'Assinatura criada com sucesso!');
+  }
+
+  public function atualizar(int $id)
+  {
+    if ($this->usuarioLogado['nivel'] == USUARIO_RESTRITO) {
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard', 'Você não tem permissão para realizar esta ação.');
+    }
+
+    $json = $this->receberJson();
+    $resultado = $this->assinaturaModel->atualizar($json, $id);
+
+    if (isset($resultado['erro'])) {
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', $resultado['erro']);
+    }
+
+    if (! isset($resultado['linhasAfetadas']) or $resultado['linhasAfetadas'] == 0) {
+      $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', 'Nenhuma alteração realizada');
+    }
+
+    $condicao[] = [
+      'campo' => 'Assinatura.id',
+      'operador' => '=',
+      'valor' => (int) $id,
+    ];
+
+    $colunas = [
+      'Assinatura.gratis_prazo',
+      'Assinatura.espaco',
+      'Assinatura.status',
+    ];
+
+    $empresa = $this->assinaturaModel->selecionar($colunas)
+                                  ->condicao($condicao)
+                                  ->executarConsulta();
+
+    if (isset($empresa[0]['Assinatura']['id'])) {
+      $this->usuarioLogado['gratisPrazo'] = $empresa[0]['Assinatura']['gratis_prazo'];
+      $this->usuarioLogado['assinaturaStatus'] = $empresa[0]['Assinatura']['status'];
+      $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
+    }
+
+    Cache::apagar('calcular-consumo', $this->empresaPadraoId);
+    Cache::apagar('publico-dados-empresa', $this->usuarioLogado['empresaId']);
+    Cache::apagar('roteador-' . $this->usuarioLogado['subdominio']);
+
+    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', 'Registro alterado com sucesso');
+  }
+
+  public function calcularConsumo()
+  {
+    $cacheTempo = 60*60*24;
+    $cacheNome = 'calcular-consumo';
+    $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
+
+    if ($resultado == null) {
+      // Máximo
+      $condicao[] = [
+        'campo' => 'Assinatura.empresa_id',
+        'operador' => '=',
+        'valor' => (int) $this->empresaPadraoId,
+      ];
+
+      $colunas = [
+        'Assinatura.espaco',
+      ];
+
+      $assinatura = $this->assinaturaModel->selecionar($colunas)
+                                          ->condicao($condicao)
+                                          ->executarConsulta();
+
+      $maximoMb = $assinatura[0]['Assinatura']['espaco'] ?? 0;
+
+      // Consumo MySQL
+      $consumoBanco = $this->assinaturaModel->calcularConsumoBanco($this->empresaPadraoId);
+      $consumoBancoTotal = $consumoBanco[0]['total_mb'] ?? 0;
+      $consumoBancoTotal = (float) $consumoBancoTotal;
+
+      // Consumo Firebase
+      $consumoFirebase = $this->firebase->calcularConsumoFirebase($this->empresaPadraoId);
+      $consumoFirebaseTotal = (float) $consumoFirebase;
+
+      $totalMb = $consumoBancoTotal + $consumoFirebaseTotal;
+      $totalMb = (float) number_format($totalMb, 2, '.');
+
+      $resultado = [
+        'total' => $totalMb,
+        'maximo' => $maximoMb,
+      ];
+
+      Cache::definir($cacheNome, $resultado, $cacheTempo, $this->empresaPadraoId);
+    }
+
+    if ($resultado['total'] >= $resultado['maximo']) {
+      $this->sessaoUsuario->definir('bloqueio-espaco-' . $this->empresaPadraoId, true);
+    }
+    else {
+      $this->sessaoUsuario->apagar('bloqueio-espaco-' . $this->empresaPadraoId);
+    }
+
+    $this->responderJson($resultado);
+  }
+}

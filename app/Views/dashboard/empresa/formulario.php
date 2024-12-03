@@ -119,48 +119,6 @@
           <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
         </label>
       </div>
-
-      <?php // Status da assinatura ?>
-      <div class="w-full lg:w-[700px] py-8 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
-        <div class="flex flex-col text-sm font-medium text-gray-700">
-          <span class="block text-sm font-medium text-gray-700">Status assinatura</span>
-          <span class="font-extralight">Campo restrito somente para o suporte. Ao desativá-lo, a página pública é desativada e apenas as telas de início e empresa estarão liberadas</span>
-        </div>
-        <label class="w-max flex flex-col items-start gap-1 cursor-pointer">
-          <input type="hidden" name="assinatura_status" value="0">
-          <input type="checkbox" name="assinatura_status" value="1" class="sr-only peer" <?php echo $empresa['Empresa']['assinatura_status'] ? 'checked' : '' ?> <?php echo $this->usuarioLogado['padrao'] != USUARIO_SUPORTE ? 'disabled' : '' ?>>
-          <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
-        </label>
-      </div>
-
-      <?php // Assinatura ID Asaas ?>
-      <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
-        <div class="flex flex-col text-sm font-medium text-gray-700">
-          <span class="block text-sm font-medium text-gray-700">ID da assinatura</span>
-          <span class="font-extralight">Campo restrito somente para o suporte.</span>
-        </div>
-        <input type="text" id="empresa-assinatura-id" name="assinatura_id_asaas" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $empresa['Empresa']['assinatura_id_asaas']; ?>">
-      </div>
-
-      <?php // Prazo do teste grátis ?>
-      <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
-        <div class="flex flex-col text-sm font-medium text-gray-700">
-          <span class="block text-sm font-medium text-gray-700">Prazo do teste grátis</span>
-          <span class="font-extralight">Campo restrito somente para o suporte.</span>
-        </div>
-        <input type="datetime-local" id="empresa-gratis-prazo" name="gratis_prazo" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $empresa['Empresa']['gratis_prazo']; ?>">
-      </div>
-
-      <?php // Espaço de armazenamento ?>
-      <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
-        <div class="flex flex-col text-sm font-medium text-gray-700">
-          <span class="block text-sm font-medium text-gray-700">Espaço de armazenamento</span>
-          <span class="font-extralight">Campo restrito somente para o suporte. Exemplo: 1024(1GB), 2048(2GB), 4096(4GB), etc.</span>
-        </div>
-        <input type="text" id="empresa-espaco" name="espaco" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $empresa['Empresa']['espaco']; ?>">
-       </div>
     <?php } ?>
   </div>
 </form>
-
-<span class="my-10 alvo-plano"></span>
