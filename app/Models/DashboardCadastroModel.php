@@ -167,13 +167,26 @@ class DashboardCadastroModel extends Model
 
   public function gerarEmpresa(string $subdominio): int
   {
-    $sql = 'INSERT INTO `empresas` (`ativo`, `subdominio`, `gratis_prazo`, `espaco`) VALUES (?, ?, ?, ?)';
+    $sql = 'INSERT INTO `empresas` (`ativo`, `subdominio`) VALUES (?, ?)';
 
     $params = [
       0 => ATIVO,
       1 => $subdominio,
-      2 => date('Y-m-d H:i:s', strtotime('+14 days')),
-      3 => 2048, // 2GB
+    ];
+
+    $resultado = parent::executarQuery($sql, $params);
+
+    return $resultado['id'] ?? 0;
+  }
+
+  public function gerarAssinatura(int $empresa_id): int
+  {
+    $sql = 'INSERT INTO `assinaturas` (`gratis_prazo`, `espaco`, `empresa_id`) VALUES (?, ?, ?)';
+
+    $params = [
+      0 => date('Y-m-d H:i:s', strtotime('+14 days')),
+      1 => 2048, // 2GB
+      2 => $empresa_id,
     ];
 
     $resultado = parent::executarQuery($sql, $params);
@@ -187,6 +200,18 @@ class DashboardCadastroModel extends Model
 
     $params = [
       0 => $empresaId,
+    ];
+
+    parent::executarQuery($sql, $params);
+  }
+
+  public function apagarAssinatura(int $assinaturaId, int $empresaId): void
+  {
+    $sql = 'DELETE FROM assinaturas WHERE id = ? AND empresa_id = ?';
+
+    $params = [
+      0 => $assinaturaId,
+      1 => $empresaId,
     ];
 
     parent::executarQuery($sql, $params);
