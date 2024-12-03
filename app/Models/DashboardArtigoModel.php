@@ -183,7 +183,7 @@ class DashboardArtigoModel extends Model
       $usuarioIdCaracteres = 999999999;
       $categoriaIdCaracteres = 999999999;
       $ordemCaracteres = 999999999;
-      $gratisPrazoCaracteres = 19;
+      $modificadoCaracteres = 19;
 
       if (strlen($campos['ativo']) > $ativoCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('id', 'caracteres', $ativoCaracteres);
@@ -209,8 +209,8 @@ class DashboardArtigoModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('ordem', 'caracteres', $ordemCaracteres);
       }
 
-      if (strlen($campos['modificado']) > $gratisPrazoCaracteres) {
-        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('modificado', 'caracteres', $gratisPrazoCaracteres);
+      if (strlen($campos['modificado']) > $modificadoCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('modificado', 'caracteres', $modificadoCaracteres);
       }
     }
 

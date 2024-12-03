@@ -24,6 +24,24 @@
           <input type="text" id="assinatura-asaas-id" name="asaas_id" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $assinatura['Assinatura']['asaas_id']; ?>">
         </div>
 
+        <?php // Assinatura ciclo ?>
+        <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
+          <div class="flex flex-col text-sm font-medium text-gray-700">
+            <span class="block text-sm font-medium text-gray-700">Ciclo da assinatura</span>
+            <span class="font-extralight">Campo restrito somente para o suporte.</span>
+          </div>
+          <input type="text" id="assinatura-ciclo" name="ciclo" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $assinatura['Assinatura']['ciclo']; ?>">
+        </div>
+
+        <?php // Assinatura valor ?>
+        <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
+          <div class="flex flex-col text-sm font-medium text-gray-700">
+            <span class="block text-sm font-medium text-gray-700">Valor da assinatura</span>
+            <span class="font-extralight">Campo restrito somente para o suporte.</span>
+          </div>
+          <input type="text" id="assinatura-valor" name="valor" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $assinatura['Assinatura']['valor'] ? str_replace('.', ',', $assinatura['Assinatura']['valor']) : $assinatura['Assinatura']['valor']; ?>">
+        </div>
+
         <?php // Prazo do teste grátis ?>
         <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
           <div class="flex flex-col text-sm font-medium text-gray-700">

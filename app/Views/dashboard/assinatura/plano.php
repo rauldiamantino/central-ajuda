@@ -80,77 +80,10 @@
               <th class="py-4 px-4"></th>
             </tr>
           </thead>
-          <tbody class="divide-y">
-            <?php $temCobranca = false ?>
-            <?php foreach($cobrancas as $chave => $linha): ?>
-
-              <?php
-              if (! isset($linha['dueDate']) or empty($linha['dueDate'])) {
-                continue;
-              }
-
-              if (! isset($linha['description']) or empty($linha['description'])) {
-                continue;
-              }
-
-              if (! isset($linha['status']) or empty($linha['status'])) {
-                continue;
-              }
-
-              if (! isset($linha['value']) or empty($linha['value'])) {
-                continue;
-              }
-
-              if (! isset($linha['invoiceUrl']) or empty($linha['invoiceUrl'])) {
-                continue;
-              }
-
-              $botao = '';
-              $status = $linha['status'];
-              $valor = number_format($linha['value'], 2, ',', '.');
-              $vencimento = $linha['dueDate'];
-              $vencimento = new DateTime($vencimento);
-              $vencimento = $vencimento->format('d/m/Y');
-              $pagamentoLink = $linha['invoiceUrl'];
-
-              $temCobranca = true;
-
-              if ($status == 'CONFIRMED') {
-                $status = 'Pago';
-                $classeStatus = 'bg-green-50 text-green-600';
-              }
-              elseif ($status == 'OVERDUE') {
-                $botao = 'Pagar';
-                $status = 'Vencido';
-                $classeStatus = 'bg-red-50 text-red-600';
-              }
-              else {
-                $botao = 'Pagar';
-                $status = 'Pendente';
-                $classeStatus = 'bg-orange-50 text-orange-600';
-              }
-              ?>
-
-              <tr class="hover:bg-gray-100">
-                <td class="py-6 px-6"><?php echo $vencimento ?></td>
-                <td class="py-6 px-4 font-semibold"><?php echo $linha['description'] ?></td>
-                <td class="py-6 px-4">
-                  <div class="flex items-center gap-2">
-                    <span class="px-3 py-1 text-xs rounded-full <?php echo $classeStatus; ?>"><?php echo $status ?></span>
-                  </div>
-                </td>
-                <td class="py-6 px-4 text-green-700 whitespace-nowrap">R$ <?php echo $valor ?></td>
-                <td class="py-6 px-4 font-semibold text-blue-800">
-                  <a href="<?php echo $pagamentoLink; ?>" target="_blank" class="font-semibold hover:underline"><?php echo $botao ?></a>
-                </td>
-              </tr>
-            <?php endforeach; ?>
+          <tbody class="divide-y tabela-assinatura" data-assinatura-id="<?php echo $assinaturaId; ?>">
           </tbody>
         </table>
-
-        <?php if ($temCobranca == false) { ?>
-          <div class="w-full p-4 flex justify-center items-center text-gray-700 text-xs">...</div>
-        <?php } ?>
+        <div class="w-full p-4 flex justify-center items-center text-gray-700 text-xs opacity-50 div-buscando">Buscando cobranças...</div>
       </div>
     </div>
   </div>

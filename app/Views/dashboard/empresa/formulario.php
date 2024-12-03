@@ -1,6 +1,22 @@
 <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/empresa/editar/' . $empresa['Empresa']['id']); ?>" class="border-t border-slate-300 w-full h-full flex flex-col gap-4 form-editar-empresa" id="form-editar-empresa" data-empresa-id="<?php echo $empresa['Empresa']['id'] ?>" data-imagem-atual="<?php echo $empresa['Empresa']['logo']; ?>" data-favicon-atual="<?php echo $empresa['Empresa']['favicon']; ?>" enctype="multipart/form-data">
   <input type="hidden" name="_method" value="PUT">
   <div class="w-full flex flex-col divide-y">
+
+    <?php if ((int) $this->usuarioLogado['padrao'] == USUARIO_SUPORTE) { ?>
+      <?php // Status da empresa ?>
+      <div class="w-full lg:w-[700px] py-6 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
+        <div class="flex flex-col text-sm font-medium text-gray-700">
+          <span class="block text-sm font-medium text-gray-700">Status plataforma</span>
+          <span class="font-extralight">Campo restrito somente para o suporte. Ao desativá-lo, todos os usuários perdem o acesso e a página pública é desativada</span>
+        </div>
+        <label class="w-max flex flex-col items-start gap-1 cursor-pointer">
+          <input type="hidden" name="ativo" value="0">
+          <input type="checkbox" name="ativo" value="1" class="sr-only peer" <?php echo $empresa['Empresa']['ativo'] ? 'checked' : '' ?> <?php echo $this->usuarioLogado['padrao'] != USUARIO_SUPORTE ? 'disabled' : '' ?>>
+          <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
+        </label>
+      </div>
+    <?php } ?>
+
     <?php // Nome da empresa ?>
     <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
       <label for="empresa-editar-assinatura-id" class="w-full block text-sm font-medium text-gray-700">Nome da empresa <span class="text-red-800 font-extralight">(obrigatório)</span></label>
@@ -105,20 +121,5 @@
         <h3 class="hidden font-light text-left text-sm text-red-800 erro-empresa-favicon"></h3>
       </button>
     </div>
-
-    <?php if ((int) $this->usuarioLogado['padrao'] == USUARIO_SUPORTE) { ?>
-      <?php // Status da empresa ?>
-      <div class="w-full lg:w-[700px] py-8 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
-        <div class="flex flex-col text-sm font-medium text-gray-700">
-          <span class="block text-sm font-medium text-gray-700">Status plataforma</span>
-          <span class="font-extralight">Campo restrito somente para o suporte. Ao desativá-lo, todos os usuários perdem o acesso e a página pública é desativada</span>
-        </div>
-        <label class="w-max flex flex-col items-start gap-1 cursor-pointer">
-          <input type="hidden" name="ativo" value="0">
-          <input type="checkbox" name="ativo" value="1" class="sr-only peer" <?php echo $empresa['Empresa']['ativo'] ? 'checked' : '' ?> <?php echo $this->usuarioLogado['padrao'] != USUARIO_SUPORTE ? 'disabled' : '' ?>>
-          <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
-        </label>
-      </div>
-    <?php } ?>
   </div>
 </form>

@@ -74,8 +74,8 @@ class DashboardAssinaturaModel extends Model
   {
     $campos = [
       'asaas_id' => $params['asaas_id'] ?? '',
-      'status' => $params['status'] ?? 0,
-      'valor' => $params['valor'] ?? 0.00,
+      'status' => intval($params['status'] ?? 0),
+      'valor' => floatval($params['valor'] ?? 0.00),
       'ciclo' => $params['ciclo'] ?? '',
       'gratis_prazo' => $params['gratis_prazo'] ?? '',
       'espaco' => intval($params['espaco'] ?? 0),
@@ -121,10 +121,18 @@ class DashboardAssinaturaModel extends Model
       $campos['ciclo'] = htmlspecialchars($campos['ciclo']);
       $campos['gratis_prazo'] = htmlspecialchars($campos['gratis_prazo']);
       $campos['status'] = filter_var($campos['status'], FILTER_SANITIZE_NUMBER_INT);
+      $campos['valor'] = filter_var($campos['valor'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
       $campos['espaco'] = filter_var($campos['espaco'], FILTER_SANITIZE_NUMBER_INT);
 
       if (isset($params['status']) and ! in_array($campos['status'], [INATIVO, ATIVO])) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('status', 'valInvalido');
+      }
+
+      if ($campos['valor'] and filter_var($campos['valor'], FILTER_VALIDATE_FLOAT) === false) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('valor', 'valInvalido');
+      }
+      elseif ($campos['valor']) {
+        $campos['valor'] = (float) $campos['valor'];
       }
 
       if ($campos['gratis_prazo']) {
@@ -142,6 +150,7 @@ class DashboardAssinaturaModel extends Model
       $cicloCaracteres = 50;
       $valorCaracteres = 12;
       $statusCaracteres = 1;
+      $asaasStatusCaracteres = 1;
       $gratisPrazoCaracteres = 19;
       $espacoCaracteres = 51200;
 

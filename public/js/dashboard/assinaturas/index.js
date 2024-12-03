@@ -1,30 +1,35 @@
 document.addEventListener('DOMContentLoaded', function () {
-  const containerAssinatura = document.querySelector('.container-assinatura')
-  const efeitoLoader = document.querySelector('.efeito-loader')
+   mascararValor()
+})
 
-  if (! containerAssinatura || ! efeitoLoader) {
+const mascararValor = () => {
+  const valor = document.querySelector('#assinatura-valor')
+
+  if (! valor) {
     return
   }
 
-  setTimeout(() => {
-    efeitoLoader.classList.add('hidden')
-    containerAssinatura.classList.remove('hidden')
-  }, 300);
-})
+  new Cleave(valor, {
+    numeral: true,
+    numeralDecimalMark: ',',
+    delimiter: '.'
+  });
+}
 
 const assinarPlano = (plano) => {
   const modal = document.querySelector('.modal-plano-assinar')
   const btnAssinar = modal.querySelector('.modal-plano-btn-assinar')
   const btnFechar = modal.querySelector('.modal-plano-btn-fechar')
+  const assinaturaId = modal.dataset.assinaturaId
 
-  if (! modal || ! btnAssinar || ! btnFechar) {
+  if (! modal || ! btnAssinar || ! btnFechar || ! assinaturaId) {
     return false;
   }
 
   modal.showModal()
 
   const clicouAssinar = () => {
-    window.location.href= `/${empresa}/d/assinaturas/gerar?plano=${plano}`;
+    window.location.href= `/${empresa}/d/assinaturas/gerar/${assinaturaId}?plano=${plano}`;
   }
 
   const clicouFechar = () => {

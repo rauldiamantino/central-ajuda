@@ -1,5 +1,5 @@
 <?php // Modal assinar ?>
-<dialog class="p-4 sm:w-[440px] rounded-lg shadow modal-plano-assinar">
+<dialog class="p-4 sm:w-[440px] rounded-lg shadow modal-plano-assinar" data-assinatura-id="<?php echo $assinatura['Assinatura']['id']; ?>">
   <div class="w-full flex gap-4">
     <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-orange-100 sm:mx-0 sm:h-10 sm:w-10">
       <svg class="h-6 w-6 text-orange-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">

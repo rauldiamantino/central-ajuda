@@ -1,25 +1,29 @@
 <?php
 namespace app\Controllers;
 
+use app\Controllers\Components\DatabaseFirebaseComponent as ComponentsDatabaseFirebaseComponent;
 use DateTime;
 use app\Core\Cache;
+use app\Models\DashboardEmpresaModel;
 use app\Models\DashboardAssinaturaModel;
+use app\Models\DatabaseFirebaseComponent;
 use app\Controllers\DashboardController;
 use app\Controllers\Components\PagamentoAsaasComponent;
-use app\Controllers\Components\DatabaseFirebaseComponent;
 
 class DashboardAssinaturaController extends DashboardController
 {
-  protected $assinaturaModel;
-  protected $pagamentoAsaas;
   protected $firebase;
+  protected $empresaModel;
+  protected $pagamentoAsaas;
+  protected $assinaturaModel;
 
   public function __construct()
   {
     parent::__construct();
 
     $this->pagamentoAsaas = new PagamentoAsaasComponent();
-    $this->firebase = new DatabaseFirebaseComponent();
+    $this->firebase = new ComponentsDatabaseFirebaseComponent();
+    $this->empresaModel = new DashboardEmpresaModel($this->usuarioLogado, $this->empresaPadraoId);
     $this->assinaturaModel = new DashboardAssinaturaModel($this->usuarioLogado, $this->empresaPadraoId);
   }
 
@@ -58,12 +62,6 @@ class DashboardAssinaturaController extends DashboardController
 
     // Recupera assinatura e cobranças no Asaas
     $asaasId = $assinatura[0]['Assinatura']['asaas_id'] ?? '';
-    $buscarCobrancas = [];
-
-    if ($asaasId) {
-      $this->pagamentoAsaas = new PagamentoAsaasComponent();
-      $buscarCobrancas = $this->pagamentoAsaas->buscarCobrancas($asaasId);
-    }
 
     // Teste grátis expirado
     $assinaturaStatus = intval($assinatura[0]['Assinatura']['status'] ?? 0);
@@ -81,28 +79,26 @@ class DashboardAssinaturaController extends DashboardController
       }
     }
 
-    $this->visao->variavel('assinatura', reset($assinatura));
+    $this->visao->variavel('cobrancas', []);
     $this->visao->variavel('assinaturaId', $asaasId);
-    $this->visao->variavel('cobrancas', $buscarCobrancas);
+    $this->visao->variavel('assinatura', reset($assinatura));
     $this->visao->variavel('titulo', 'Editar assinatura');
-    $this->visao->variavel('loader', true);
     $this->visao->variavel('paginaMenuLateral', 'assinatura');
     $this->visao->renderizar('/assinatura/index');
   }
 
   public function reprocessarAssinaturaAsaas(): void
   {
-    $assinaturaId = $_GET['asaas_id'] ?? '';
+    $asaasId = $_GET['asaas_id'] ?? '';
 
-    if (empty($assinaturaId)) {
+    if (empty($asaasId)) {
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', 'ID da assinatura não informado.');
     }
 
-    $buscarAssinatura = $this->pagamentoAsaas->buscarAssinatura($assinaturaId);
+    $buscarAssinatura = $this->pagamentoAsaas->buscarAssinatura($asaasId);
     $assinaturaStatus = $buscarAssinatura['status'] ?? '';
     $assinaturaCiclo = $buscarAssinatura['cycle'] ?? '';
     $assinaturaValor = $buscarAssinatura['value'] ?? 0;
-    $assinaturaValor = number_format($assinaturaValor, 2, '.', '');
 
     if (isset($buscarAssinatura['erro'])) {
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', $buscarAssinatura['erro']);
@@ -116,10 +112,10 @@ class DashboardAssinaturaController extends DashboardController
     }
 
     if ($assinaturaCiclo == 'YEARLY') {
-      $novoCiclo = 'Anual';
+      $novoCiclo = 'anual';
     }
-    elseif ($assinaturaCiclo == 'MONT') {
-      $novoCiclo = 'Mensal';
+    elseif ($assinaturaCiclo == 'MONTHLY') {
+      $novoCiclo = 'mensal';
     }
     else {
       $novoCiclo = '';
@@ -129,15 +125,15 @@ class DashboardAssinaturaController extends DashboardController
     if ($assinaturaStatus) {
       $campos = [
         'status' => $novoStatus,
-        'ciclo' => $novoCiclo,
         'valor' => $assinaturaValor,
+        'ciclo' => $novoCiclo,
       ];
 
       $this->assinaturaModel->atualizar($campos, $this->empresaPadraoId);
 
       // Atualiza sessão para uso imediato
       $this->usuarioLogado['assinaturaStatus'] = $novoStatus;
-      $this->usuarioLogado['assinaturaId'] = $assinaturaId;
+      $this->usuarioLogado['assinaturaId'] = $asaasId;
       $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
       Cache::apagar('roteador-' . $this->usuarioLogado['subdominio']);
 
@@ -147,8 +143,9 @@ class DashboardAssinaturaController extends DashboardController
     $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', 'Assinatura não encontrada');
   }
 
-  public function criarAssinaturaAsaas()
+  public function criarAssinaturaAsaas(int $id)
   {
+    $id = (int) $id;
     $plano = strtolower($_GET['plano'] ?? '');
 
     $msgErro = [
@@ -193,7 +190,7 @@ class DashboardAssinaturaController extends DashboardController
                                   ->executarConsulta();
 
     if (empty($empresa)) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', 'Não foi possível gerar a assinatura, por favor, entre em contato com o nosso suporte.');
+      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', 'Falha ao buscar dados da empresa.');
     }
 
     if (is_array($plano) or ! in_array($plano, ['mensal', 'anual'])) {
@@ -220,12 +217,14 @@ class DashboardAssinaturaController extends DashboardController
     }
 
     $campos = [
-      'id' => $criarAssinatura['id'],
       'status' => ATIVO,
+      'asaas_id' => $criarAssinatura['id'],
+      'ciclo' => $plano,
+      'valor' => floatval($criarAssinatura['value'] ?? 0),
     ];
 
     // Atualiza no banco de dados
-    $resultado = $this->assinaturaModel->atualizar($campos, $this->empresaPadraoId, true);
+    $resultado = $this->assinaturaModel->atualizar($campos, $id);
 
     if (isset($resultado['erro'])) {
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', $resultado['erro']);
@@ -238,6 +237,7 @@ class DashboardAssinaturaController extends DashboardController
     // Atualiza para uso imediato
     $this->usuarioLogado['assinaturaStatus'] = ATIVO;
     $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
+    $this->sessaoUsuario->apagar('teste-expirado-' . $this->empresaPadraoId);
 
     Cache::apagar('roteador-' . $this->usuarioLogado['subdominio']);
 
@@ -251,6 +251,11 @@ class DashboardAssinaturaController extends DashboardController
     }
 
     $json = $this->receberJson();
+
+    if (isset($json['valor'])) {
+      $json['valor'] = str_replace(',', '.', $json['valor']);
+    }
+
     $resultado = $this->assinaturaModel->atualizar($json, $id);
 
     if (isset($resultado['erro'])) {
@@ -274,8 +279,8 @@ class DashboardAssinaturaController extends DashboardController
     ];
 
     $empresa = $this->assinaturaModel->selecionar($colunas)
-                                  ->condicao($condicao)
-                                  ->executarConsulta();
+                                     ->condicao($condicao)
+                                     ->executarConsulta();
 
     if (isset($empresa[0]['Assinatura']['id'])) {
       $this->usuarioLogado['gratisPrazo'] = $empresa[0]['Assinatura']['gratis_prazo'];
@@ -284,10 +289,19 @@ class DashboardAssinaturaController extends DashboardController
     }
 
     Cache::apagar('calcular-consumo', $this->empresaPadraoId);
-    Cache::apagar('publico-dados-empresa', $this->usuarioLogado['empresaId']);
     Cache::apagar('roteador-' . $this->usuarioLogado['subdominio']);
 
     $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', 'Registro alterado com sucesso');
+  }
+
+  public function buscarCobrancas()
+  {
+    $asaasId = $_GET['asaas_id'] ?? '';
+    $asaasId = htmlspecialchars($asaasId);
+
+    $this->pagamentoAsaas = new PagamentoAsaasComponent();
+    $buscarCobrancas = $this->pagamentoAsaas->buscarCobrancas($asaasId);
+    $this->responderJson($buscarCobrancas);
   }
 
   public function calcularConsumo()

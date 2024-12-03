@@ -329,16 +329,8 @@ class DashboardEmpresaModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('url_site', 'caracteres', $urlSiteCaracteres);
       }
 
-      if (strlen($campos['gratis_prazo']) > $gratisPrazoCaracteres) {
-        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('gratis_prazo', 'caracteres', $gratisPrazoCaracteres);
-      }
-
       if (strlen($campos['cor_primaria']) > $corPrimariaCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('cor_primaria', 'caracteres', $corPrimariaCaracteres);
-      }
-
-      if (strlen($campos['espaco']) > $espacoCaracteres) {
-        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('espaco', 'caracteres', $espacoCaracteres);
       }
 
       $campos['cnpj'] = trim($campos['cnpj']);
@@ -358,13 +350,7 @@ class DashboardEmpresaModel extends Model
       'cnpj' => $campos['cnpj'],
       'logo' => $campos['logo'],
       'favicon' => $campos['favicon'],
-      'assinatura_id_asaas' => $campos['assinatura_id_asaas'],
-      'assinatura_status' => $campos['assinatura_status'],
-      'assinatura_valor' => $campos['assinatura_valor'],
-      'assinatura_ciclo' => $campos['assinatura_ciclo'],
-      'gratis_prazo' => $campos['gratis_prazo'],
       'cor_primaria' => $campos['cor_primaria'],
-      'espaco' => $campos['espaco'],
       'url_site' => $campos['url_site'],
     ];
 
