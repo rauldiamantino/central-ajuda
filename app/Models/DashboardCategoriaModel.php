@@ -142,6 +142,8 @@ class DashboardCategoriaModel extends Model
       'icone' => $params['icone'] ?? '',
       'empresa_id' => $this->empresaPadraoId,
       'ordem' => $params['ordem'] ?? 0,
+      'meta_titulo' => $params['meta_titulo'] ?? '',
+      'meta_descricao' => $params['meta_descricao'] ?? '',
     ];
 
     $msgErro = [
@@ -157,6 +159,8 @@ class DashboardCategoriaModel extends Model
         'ativo',
         'descricao',
         'icone',
+        'meta_titulo',
+        'meta_descricao',
       ];
 
       if ($atualizar and ! isset($params[ $chave ])) {
@@ -183,8 +187,11 @@ class DashboardCategoriaModel extends Model
     if (empty($msgErro['erro']['mensagem'])) {
       $campos['ativo'] = filter_var($campos['ativo'], FILTER_SANITIZE_NUMBER_INT);
       $campos['nome'] = htmlspecialchars($campos['nome']);
+      $campos['descricao'] = htmlspecialchars($campos['descricao']);
       $campos['icone'] = htmlspecialchars($campos['icone']);
       $campos['empresa_id'] = filter_var($campos['empresa_id'], FILTER_SANITIZE_NUMBER_INT);
+      $campos['meta_titulo'] = htmlspecialchars($campos['meta_titulo']);
+      $campos['meta_descricao'] = htmlspecialchars($campos['meta_descricao']);
 
       if (isset($params['ativo']) and ! in_array($campos['ativo'], [INATIVO, ATIVO])) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('ativo', 'valInvalido');
@@ -200,6 +207,8 @@ class DashboardCategoriaModel extends Model
       $iconeCaracteres = 50;
       $empresaIdCaracteres = 999999999;
       $ordemCaracteres = 999999999;
+      $metaTituloCaracteres = 255;
+      $metaDescricaoCaracteres = 255;
 
       if (strlen($campos['ativo']) > $ativoCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('id', 'caracteres', $ativoCaracteres);
@@ -224,6 +233,14 @@ class DashboardCategoriaModel extends Model
       if (strlen($campos['ordem']) > $ordemCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('ordem', 'caracteres', $ordemCaracteres);
       }
+
+      if (strlen($campos['meta_titulo']) > $metaTituloCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('meta_titulo', 'caracteres', $metaTituloCaracteres);
+      }
+
+      if (strlen($campos['meta_descricao']) > $metaDescricaoCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('meta_descricao', 'caracteres', $metaDescricaoCaracteres);
+      }
     }
 
     if ($msgErro['erro']['mensagem']) {
@@ -237,6 +254,8 @@ class DashboardCategoriaModel extends Model
       'icone' => $campos['icone'],
       'empresa_id' => $campos['empresa_id'],
       'ordem' => $campos['ordem'],
+      'meta_titulo' => $campos['meta_titulo'],
+      'meta_descricao' => $campos['meta_descricao'],
     ];
 
     if ($atualizar) {
@@ -265,6 +284,14 @@ class DashboardCategoriaModel extends Model
 
     if ($campo == 'icone') {
       $campo = 'ícone';
+    }
+
+    if ($campo == 'meta_titulo') {
+      $campo = 'meta título';
+    }
+
+    if ($campo == 'meta_descricao') {
+      $campo = 'meta descrição';
     }
 
     $msgErro = [

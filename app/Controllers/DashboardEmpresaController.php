@@ -44,6 +44,8 @@ class DashboardEmpresaController extends DashboardController
       'Empresa.favicon',
       'Empresa.cor_primaria',
       'Empresa.url_site',
+      'Empresa.meta_titulo',
+      'Empresa.meta_descricao',
       'Empresa.criado',
       'Empresa.modificado',
     ];

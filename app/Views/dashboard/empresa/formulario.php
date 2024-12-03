@@ -55,6 +55,30 @@
       <input type="text" id="empresa-editar-url_site" name="url_site" class="<?php echo CLASSES_DASH_INPUT; ?>" placeholder="https://www.seusite.com.br" value="<?php echo $empresa['Empresa']['url_site']; ?>">
     </div>
 
+    <?php // Meta Title ?>
+    <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
+      <div class="flex flex-col text-sm font-medium text-gray-700">
+        <span>Meta Title</span>
+        <span class="font-extralight">
+          Defina o título padrão que será exibido nos resultados de busca para esta página.
+          Essas configurações serão aplicadas a todas as páginas da Central de Ajuda, exceto artigos e categorias.
+        </span>
+      </div>
+      <input type="text" name="meta_titulo" class="<?php echo CLASSES_DASH_INPUT; ?>" placeholder="Ex.: Central de Ajuda - Nome da Empresa" value="<?php echo $empresa['Empresa']['meta_titulo']; ?>">
+    </div>
+
+    <?php // Meta Description ?>
+    <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
+      <div class="flex flex-col text-sm font-medium text-gray-700">
+        <span>Meta Description</span>
+        <span class="font-extralight">
+          Insira uma descrição breve que resuma o propósito desta página.
+          Essas configurações serão aplicadas a todas as páginas da Central de Ajuda, exceto artigos e categorias.
+        </span>
+      </div>
+      <input type="text" name="meta_descricao" class="<?php echo CLASSES_DASH_INPUT; ?>" placeholder="Ex.: Saiba mais sobre nossos serviços e como podemos ajudar sua empresa." value="<?php echo $empresa['Empresa']['meta_descricao']; ?>">
+    </div>
+
     <?php // Cor primária ?>
     <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
       <div class="flex flex-col text-sm font-medium text-gray-700">

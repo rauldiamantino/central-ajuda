@@ -115,6 +115,8 @@ class DashboardArtigoModel extends Model
       'visualizacoes' => $params['visualizacoes'] ?? 0,
       'ordem' => $params['ordem'] ?? 0,
       'modificado' => $params['modificado'] ?? '',
+      'meta_titulo' => $params['meta_titulo'] ?? '',
+      'meta_descricao' => $params['meta_descricao'] ?? '',
     ];
 
     $msgErro = [
@@ -131,6 +133,8 @@ class DashboardArtigoModel extends Model
         'categoria_id',
         'visualizacoes',
         'modificado',
+        'meta_titulo',
+        'meta_descricao',
       ];
 
       if ($atualizar and ! isset($params[ $chave ])) {
@@ -161,6 +165,8 @@ class DashboardArtigoModel extends Model
       $campos['empresa_id'] = filter_var($campos['empresa_id'], FILTER_SANITIZE_NUMBER_INT);
       $campos['categoria_id'] = filter_var($campos['categoria_id'], FILTER_SANITIZE_NUMBER_INT);
       $campos['modificado'] = htmlspecialchars($campos['modificado']);
+      $campos['meta_titulo'] = htmlspecialchars($campos['meta_titulo']);
+      $campos['meta_descricao'] = htmlspecialchars($campos['meta_descricao']);
 
       if (isset($params['ativo']) and ! in_array($campos['ativo'], [INATIVO, ATIVO])) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('ativo', 'valInvalido');
@@ -184,6 +190,8 @@ class DashboardArtigoModel extends Model
       $categoriaIdCaracteres = 999999999;
       $ordemCaracteres = 999999999;
       $modificadoCaracteres = 19;
+      $metaTituloCaracteres = 255;
+      $metaDescricaoCaracteres = 255;
 
       if (strlen($campos['ativo']) > $ativoCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('id', 'caracteres', $ativoCaracteres);
@@ -212,6 +220,14 @@ class DashboardArtigoModel extends Model
       if (strlen($campos['modificado']) > $modificadoCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('modificado', 'caracteres', $modificadoCaracteres);
       }
+
+      if (strlen($campos['meta_titulo']) > $metaTituloCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('meta_titulo', 'caracteres', $metaTituloCaracteres);
+      }
+
+      if (strlen($campos['meta_descricao']) > $metaDescricaoCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('meta_descricao', 'caracteres', $metaDescricaoCaracteres);
+      }
     }
 
     if ($msgErro['erro']['mensagem']) {
@@ -227,6 +243,8 @@ class DashboardArtigoModel extends Model
       'visualizacoes' => $campos['visualizacoes'],
       'ordem' => $campos['ordem'],
       'modificado' => $campos['modificado'],
+      'meta_titulo' => $campos['meta_titulo'],
+      'meta_descricao' => $campos['meta_descricao'],
     ];
 
     if ($atualizar) {
@@ -271,6 +289,14 @@ class DashboardArtigoModel extends Model
 
     if ($campo == 'categoria_id') {
       $campo = 'categoria';
+    }
+
+    if ($campo == 'meta_titulo') {
+      $campo = 'meta título';
+    }
+
+    if ($campo == 'meta_descricao') {
+      $campo = 'meta descrição';
     }
 
     $msgErro = [

@@ -191,6 +191,8 @@ class DashboardCategoriaController extends DashboardController
       'Categoria.ativo',
       'Categoria.criado',
       'Categoria.modificado',
+      'Categoria.meta_titulo',
+      'Categoria.meta_descricao',
       'Artigo.id',
       'Artigo.titulo',
       'Artigo.ativo',

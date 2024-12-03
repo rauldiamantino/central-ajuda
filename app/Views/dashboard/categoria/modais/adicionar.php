@@ -1,4 +1,4 @@
-<dialog class="border border-slate-300 w-full md:w-[500px] rounded-md shadow ease-in-out menu-adicionar-categoria">
+<dialog class="border border-slate-300 w-full md:w-[700px] rounded-md shadow ease-in-out menu-adicionar-categoria">
   <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/categoria'); ?>" class="w-full flex flex-col gap-4 p-4 rounded-lg shadow bg-white" onsubmit="evitarDuploClique(event)">
     <?php if (isset($ordem['prox'])) { ?>
       <input type="hidden" name="ordem" value="<?php echo $ordem['prox'] ?>">
@@ -25,6 +25,17 @@
         <div class="w-full">
           <label for="descricao" class="block text-sm font-medium text-gray-700">Breve descrição</label>
           <input name="descricao" id="descricao" class="<?php echo CLASSES_DASH_INPUT; ?>"></input>
+        </div>
+        <div class="p-4 bg-gray-100 rounded-lg">
+          <span class="text-gray-700">Meta tags (SEO)</span>
+          <div class="mt-4 w-full">
+            <label for="meta_titulo" class="block text-sm font-medium text-gray-700">Title</label>
+            <input name="meta_titulo" id="meta_titulo" class="<?php echo CLASSES_DASH_INPUT; ?>"></input>
+          </div>
+          <div class="mt-4 w-full">
+            <label for="meta_descricao" class="block text-sm font-medium text-gray-700">Description</label>
+            <input name="meta_descricao" id="meta_descricao" class="<?php echo CLASSES_DASH_INPUT; ?>"></input>
+          </div>
         </div>
         <div class="flex flex-col">
           <span class="block text-sm font-medium text-gray-700">Ícone</span>

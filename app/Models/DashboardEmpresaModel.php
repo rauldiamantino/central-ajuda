@@ -164,6 +164,8 @@ class DashboardEmpresaModel extends Model
       'cnpj' => $params['cnpj'] ?? '',
       'cor_primaria' => intval($params['cor_primaria'] ?? 1),
       'url_site' => $params['url_site'] ?? '',
+      'meta_titulo' => $params['meta_titulo'] ?? '',
+      'meta_descricao' => $params['meta_descricao'] ?? '',
     ];
 
     $msgErro = [
@@ -186,6 +188,8 @@ class DashboardEmpresaModel extends Model
         'favicon',
         'cor_primaria',
         'url_site',
+        'meta_titulo',
+        'meta_descricao',
       ];
 
       if ($atualizar and ! isset($params[ $chave ])) {
@@ -215,6 +219,8 @@ class DashboardEmpresaModel extends Model
       $campos['telefone'] = filter_var($campos['telefone'], FILTER_SANITIZE_NUMBER_INT);
       $cnpjValido = preg_match('/^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/', $campos['cnpj']);
       $campos['cor_primaria'] = filter_var($campos['cor_primaria'], FILTER_SANITIZE_NUMBER_INT);
+      $campos['meta_titulo'] = htmlspecialchars($campos['meta_titulo']);
+      $campos['meta_descricao'] = htmlspecialchars($campos['meta_descricao']);
 
       if (isset($params['ativo']) and ! in_array($campos['ativo'], [INATIVO, ATIVO])) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('ativo', 'valInvalido');
@@ -245,6 +251,8 @@ class DashboardEmpresaModel extends Model
       $faviconCaracteres = 50;
       $urlSiteCaracteres = 255;
       $corPrimariaCaracteres = 2;
+      $metaTituloCaracteres = 255;
+      $metaDescricaoCaracteres = 255;
 
       if (strlen($campos['ativo']) > $ativoCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('id', 'caracteres', $ativoCaracteres);
@@ -286,6 +294,14 @@ class DashboardEmpresaModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('cor_primaria', 'caracteres', $corPrimariaCaracteres);
       }
 
+      if (strlen($campos['meta_titulo']) > $metaTituloCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('meta_titulo', 'caracteres', $metaTituloCaracteres);
+      }
+
+      if (strlen($campos['meta_descricao']) > $metaDescricaoCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('meta_descricao', 'caracteres', $metaDescricaoCaracteres);
+      }
+
       $campos['cnpj'] = trim($campos['cnpj']);
       $campos['subdominio'] = trim($campos['subdominio']);
     }
@@ -305,6 +321,8 @@ class DashboardEmpresaModel extends Model
       'favicon' => $campos['favicon'],
       'cor_primaria' => $campos['cor_primaria'],
       'url_site' => $campos['url_site'],
+      'meta_titulo' => $campos['meta_titulo'],
+      'meta_descricao' => $campos['meta_descricao'],
     ];
 
     if ($atualizar) {
@@ -365,6 +383,14 @@ class DashboardEmpresaModel extends Model
 
     if ($campo == 'subdominio_2') {
       $campo = 'Subdomínio personalizado';
+    }
+
+    if ($campo == 'meta_titulo') {
+      $campo = 'meta título';
+    }
+
+    if ($campo == 'meta_descricao') {
+      $campo = 'meta descrição';
     }
 
     $msgErro = [
