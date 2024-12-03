@@ -97,7 +97,7 @@ return [
   'dashboardVencida' => [
     'GET:/{empresa}/dashboard'                       => ['controlador' => [DashboardController::class,            'dashboardVer'],                'permissao' => $acessoTodos],
     'GET:/{empresa}/dashboard/assinatura/editar'     => ['controlador' => [DashboardAssinaturaController::class,  'assinaturaEditarVer'],         'permissao' => $acessoTotal],
-    'PUT:/{empresa}/d/assinatura/editar/{id}'        => ['controlador' => [DashboardassinaturaController::class,  'atualizar'],                   'permissao' => $acessoTotal],
+    'PUT:/{empresa}/d/assinatura/editar/{id}'        => ['controlador' => [DashboardAssinaturaController::class,  'atualizar'],                   'permissao' => $acessoTotal],
     'GET:/{empresa}/d/assinaturas/gerar/{id}'        => ['controlador' => [DashboardAssinaturaController::class,  'criarAssinaturaAsaas'],        'permissao' => $acessoTotal],
     'POST:/{empresa}/d/assinatura'                   => ['controlador' => [DashboardAssinaturaController::class,  'buscarAssinatura'],            'permissao' => $acessoTotal],
     'GET:/{empresa}/dashboard/empresa/editar'        => ['controlador' => [DashboardEmpresaController::class,     'empresaEditarVer'],            'permissao' => $acessoTodos],
