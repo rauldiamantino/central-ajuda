@@ -1,12 +1,13 @@
 document.addEventListener("DOMContentLoaded", function() {
   let divAssinatura = document.querySelector('.tabela-assinatura')
   let divBuscando = document.querySelector('.div-buscando')
-  let assinaturaId = divAssinatura.dataset.assinaturaId
-  let cobrancaOk = false
 
   if (! divAssinatura) {
     return
   }
+
+  let assinaturaId = divAssinatura.dataset.assinaturaId
+  let cobrancaOk = false
 
   if (! divBuscando) {
     return
