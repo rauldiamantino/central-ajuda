@@ -5,21 +5,17 @@ use DateTime;
 use app\Core\Cache;
 use app\Models\DashboardEmpresaModel;
 use app\Controllers\DashboardController;
-use app\Controllers\Components\PagamentoAsaasComponent;
 use app\Controllers\Components\DatabaseFirebaseComponent;
 
 class DashboardEmpresaController extends DashboardController
 {
   protected $firebase;
   protected $empresaModel;
-  protected $pagamentoAsaas;
-  protected $pagamentoStripe;
 
   public function __construct()
   {
     parent::__construct();
 
-    $this->pagamentoAsaas = new PagamentoAsaasComponent();
     $this->firebase = new DatabaseFirebaseComponent();
     $this->empresaModel = new DashboardEmpresaModel($this->usuarioLogado, $this->empresaPadraoId);
   }
@@ -48,10 +44,6 @@ class DashboardEmpresaController extends DashboardController
       'Empresa.favicon',
       'Empresa.cor_primaria',
       'Empresa.url_site',
-      'Empresa.gratis_prazo',
-      'Empresa.espaco',
-      'Empresa.assinatura_id_asaas',
-      'Empresa.assinatura_status',
       'Empresa.criado',
       'Empresa.modificado',
     ];
@@ -64,36 +56,8 @@ class DashboardEmpresaController extends DashboardController
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard', $empresa['erro']);
     }
 
-    // Recupera assinatura e cobranças no Asaas
-    $buscarCobrancas = [];
-    $assinaturaId = $empresa[0]['Empresa']['assinatura_id_asaas'];
-
-    if ($assinaturaId) {
-      $this->pagamentoAsaas = new PagamentoAsaasComponent();
-      $buscarCobrancas = $this->pagamentoAsaas->buscarCobrancas($assinaturaId);
-    }
-
-    // Teste grátis expirado
-    $assinaturaStatus = (int) $empresa[0]['Empresa']['assinatura_status'];
-    $gratisPrazo = $empresa[0]['Empresa']['gratis_prazo'];
-
-    if ($gratisPrazo) {
-      $dataHoje = new DateTime('now');
-      $dataGratis = new DateTime($gratisPrazo);
-
-      if ((int) $assinaturaStatus == INATIVO and $dataHoje > $dataGratis) {
-        $this->sessaoUsuario->definir('teste-expirado-' . $this->empresaPadraoId, true);
-      }
-      else {
-        $this->sessaoUsuario->apagar('teste-expirado-' . $this->empresaPadraoId);
-      }
-    }
-
     $this->visao->variavel('empresa', reset($empresa));
-    $this->visao->variavel('assinaturaId', $assinaturaId);
-    $this->visao->variavel('cobrancas', $buscarCobrancas);
     $this->visao->variavel('titulo', 'Editar empresa');
-    $this->visao->variavel('loader', true);
     $this->visao->variavel('paginaMenuLateral', 'empresa');
     $this->visao->renderizar('/empresa/index');
   }
@@ -105,160 +69,6 @@ class DashboardEmpresaController extends DashboardController
     }
 
     return $this->empresaModel->buscarEmpresaSemId($coluna, $valor);
-  }
-
-  public function reprocessarAssinaturaAsaas(): void
-  {
-    $assinaturaId = $_GET['assinatura_id'] ?? '';
-
-    if (empty($assinaturaId)) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'ID da assinatura não informado.');
-    }
-
-    $buscarAssinatura = $this->pagamentoAsaas->buscarAssinatura($assinaturaId);
-    $assinaturaStatus = $buscarAssinatura['status'] ?? '';
-    $assinaturaCiclo = $buscarAssinatura['cycle'] ?? '';
-    $assinaturaValor = $buscarAssinatura['value'] ?? 0;
-    $assinaturaValor = number_format($assinaturaValor, 2, '.', '');
-
-    if (isset($buscarAssinatura['erro'])) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', $buscarAssinatura['erro']);
-    }
-
-    if ($assinaturaStatus == 'ACTIVE') {
-      $novoStatus = ATIVO;
-    }
-    else {
-      $novoStatus = INATIVO;
-    }
-
-    if ($assinaturaCiclo == 'YEARLY') {
-      $novoCiclo = 'Anual';
-    }
-    elseif ($assinaturaCiclo == 'MONT') {
-      $novoCiclo = 'Mensal';
-    }
-    else {
-      $novoCiclo = '';
-    }
-
-    // Atualiza banco de dados
-    if ($assinaturaStatus) {
-      $campos = [
-        'assinatura_status' => $novoStatus,
-        'assinatura_ciclo' => $novoCiclo,
-        'assinatura_valor' => $assinaturaValor,
-      ];
-
-      $this->empresaModel->atualizar($campos, $this->empresaPadraoId);
-
-      // Atualiza sessão para uso imediato
-      $this->usuarioLogado['assinaturaStatus'] = $novoStatus;
-      $this->usuarioLogado['assinaturaId'] = $assinaturaId;
-      $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
-      Cache::apagar('roteador-' . $this->usuarioLogado['subdominio']);
-
-      $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Assinatura reprocessada');
-    }
-
-    $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Assinatura não encontrada');
-  }
-
-  public function criarAssinaturaAsaas()
-  {
-    $plano = strtolower($_GET['plano'] ?? '');
-
-    $msgErro = [
-      'erro' => [
-        'codigo' => 400,
-        'mensagem' => '',
-      ],
-    ];
-
-    $condicao[] = [
-      'campo' => 'Empresa.id',
-      'operador' => '=',
-      'valor' => (int) $this->empresaPadraoId,
-    ];
-
-    $condicao[] = [
-      'campo' => 'Usuario.padrao',
-      'operador' => '=',
-      'valor' => (int) USUARIO_PADRAO,
-    ];
-
-    $colunas = [
-      'Empresa.id',
-      'Empresa.nome',
-      'Empresa.cnpj',
-      'Empresa.telefone',
-      'Empresa.subdominio',
-      'Empresa.subdominio_2',
-      'Usuario.email',
-      'Usuario.padrao',
-    ];
-
-    $juntarUsuario = [
-      'tabelaJoin' => 'Usuario',
-      'campoA' => 'Usuario.empresa_id',
-      'campoB' => 'Empresa.id',
-    ];
-
-    $empresa = $this->empresaModel->selecionar($colunas)
-                                  ->condicao($condicao)
-                                  ->juntar($juntarUsuario, 'LEFT')
-                                  ->executarConsulta();
-
-    if (empty($empresa)) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Não foi possível gerar a assinatura, por favor, entre em contato com o nosso suporte.');
-    }
-
-    if (is_array($plano) or ! in_array($plano, ['mensal', 'anual'])) {
-      $msgErro['erro']['mensagem'] = 'Plano inválido';
-    }
-
-    if (! isset($empresa[0]['Empresa']['nome'])) {
-      $msgErro['erro']['mensagem'] = 'Para realizar a assinatura, é necessário preencher o nome da empresa';
-    }
-
-    if (! isset($empresa[0]['Empresa']['cnpj'])) {
-      $msgErro['erro']['mensagem'] = 'Para realizar a assinatura, é necessário preencher o CNPJ da empresa';
-    }
-
-    if ($msgErro['erro']['mensagem']) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', $msgErro['erro']);
-    }
-
-    $this->pagamentoAsaas = new PagamentoAsaasComponent();
-    $criarAssinatura = $this->pagamentoAsaas->criarAssinatura($empresa, $plano);
-
-    if (isset($criarAssinatura['erro'])) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Não foi possível gerar a assinatura, por favor, entre em contato com o nosso suporte');
-    }
-
-    $campos = [
-      'assinatura_id_asaas' => $criarAssinatura['id'],
-      'assinatura_status' => ATIVO,
-    ];
-
-    // Atualiza no banco de dados
-    $resultado = $this->empresaModel->atualizar($campos, $this->empresaPadraoId, true);
-
-    if (isset($resultado['erro'])) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', $resultado['erro']);
-    }
-
-    if (! isset($resultado['linhasAfetadas']) or $resultado['linhasAfetadas'] < 1) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Não foi possível gravar os dados da sua assinatura, por favor, entre em contato com o nosso suporte');
-    }
-
-    // Atualiza para uso imediato
-    $this->usuarioLogado['assinaturaStatus'] = ATIVO;
-    $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
-
-    Cache::apagar('roteador-' . $this->usuarioLogado['subdominio']);
-
-    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Assinatura criada com sucesso!');
   }
 
   public function atualizar(int $id)
@@ -335,11 +145,8 @@ class DashboardEmpresaController extends DashboardController
       'Empresa.ativo',
       'Empresa.subdominio',
       'Empresa.subdominio_2',
-      'Empresa.gratis_prazo',
       'Empresa.cor_primaria',
       'Empresa.url_site',
-      'Empresa.espaco',
-      'Empresa.assinatura_status',
     ];
 
     $empresa = $this->empresaModel->selecionar($colunas)
@@ -348,71 +155,14 @@ class DashboardEmpresaController extends DashboardController
 
     if (isset($empresa[0]['Empresa']['ativo'])) {
       $this->usuarioLogado['empresaAtivo'] = $empresa[0]['Empresa']['ativo'];
-      $this->usuarioLogado['gratisPrazo'] = $empresa[0]['Empresa']['gratis_prazo'];
       $this->usuarioLogado['corPrimaria'] = $empresa[0]['Empresa']['cor_primaria'];
       $this->usuarioLogado['urlSite'] = $empresa[0]['Empresa']['url_site'];
-      $this->usuarioLogado['assinaturaStatus'] = $empresa[0]['Empresa']['assinatura_status'];
       $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
     }
 
-    Cache::apagar('calcular-consumo', $this->empresaPadraoId);
     Cache::apagar('publico-dados-empresa', $this->usuarioLogado['empresaId']);
     Cache::apagar('roteador-' . $this->usuarioLogado['subdominio']);
 
     $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Registro alterado com sucesso');
-  }
-
-  public function calcularConsumo()
-  {
-    $cacheTempo = 60*60*24;
-    $cacheNome = 'calcular-consumo';
-    $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
-
-    if ($resultado == null) {
-      // Máximo
-      $condicao[] = [
-        'campo' => 'Empresa.id',
-        'operador' => '=',
-        'valor' => (int) $this->empresaPadraoId,
-      ];
-
-      $colunas = [
-        'Empresa.espaco',
-      ];
-
-      $empresa = $this->empresaModel->selecionar($colunas)
-                                    ->condicao($condicao)
-                                    ->executarConsulta();
-
-      $maximoMb = $empresa[0]['Empresa']['espaco'] ?? 0;
-
-      // Consumo MySQL
-      $consumoBanco = $this->empresaModel->calcularConsumoBanco($this->empresaPadraoId);
-      $consumoBancoTotal = $consumoBanco[0]['total_mb'] ?? 0;
-      $consumoBancoTotal = (float) $consumoBancoTotal;
-
-      // Consumo Firebase
-      $consumoFirebase = $this->firebase->calcularConsumoFirebase($this->empresaPadraoId);
-      $consumoFirebaseTotal = (float) $consumoFirebase;
-
-      $totalMb = $consumoBancoTotal + $consumoFirebaseTotal;
-      $totalMb = (float) number_format($totalMb, 2, '.');
-
-      $resultado = [
-        'total' => $totalMb,
-        'maximo' => $maximoMb,
-      ];
-
-      Cache::definir($cacheNome, $resultado, $cacheTempo, $this->empresaPadraoId);
-    }
-
-    if ($resultado['total'] >= $resultado['maximo']) {
-      $this->sessaoUsuario->definir('bloqueio-espaco-' . $this->empresaPadraoId, true);
-    }
-    else {
-      $this->sessaoUsuario->apagar('bloqueio-espaco-' . $this->empresaPadraoId);
-    }
-
-    $this->responderJson($resultado);
   }
 }

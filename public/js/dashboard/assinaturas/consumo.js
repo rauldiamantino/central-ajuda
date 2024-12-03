@@ -1,7 +1,8 @@
 document.addEventListener("DOMContentLoaded", function() {
   const divArmazenamento = document.querySelector('.armazenamento-geral')
+  const divNotificacaoEspaco = document.querySelector('.notificacao-espaco')
 
-  if (! divArmazenamento) {
+  if (! divArmazenamento || ! divNotificacaoEspaco) {
     return
   }
 
@@ -13,10 +14,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if (espacoMb >= 1024) {
       let espacoGb = espacoMb / 1024
-      espacoTexto = (espacoGb % 1 === 0) ? `${espacoGb} GB` : `${espacoGb.toFixed(2)} GB`
+      espacoTexto = (espacoGb % 1 === 0) ? `${espacoGb}GB` : `${espacoGb.toFixed(2)}GB`
     }
     else {
-      espacoTexto = `${espacoMb} MB`
+      espacoTexto = `${espacoMb}MB`
     }
 
     return espacoTexto
@@ -30,6 +31,13 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     else {
       consumoTotalPercentual = (consumoTotalMb / maximoMb) * 100
+    }
+
+    if (consumoTotalPercentual >= 100) {
+      divNotificacaoEspaco.classList.remove('hidden')
+    }
+    else {
+      divNotificacaoEspaco.classList.add('hidden')
     }
 
     let barraProgresso = document.querySelector(".barra-progresso")
@@ -61,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function() {
     let espacoUtilizadoTextoExibido = formatarEspaco(consumoTotalMb)
     let espacoTotalTextoExibido = formatarEspaco(maximoMb)
 
-    espacoUtilizadoTexto.textContent = `Espaço utilizado: ${espacoUtilizadoTextoExibido} de ${espacoTotalTextoExibido}`
+    espacoUtilizadoTexto.textContent = `${espacoUtilizadoTextoExibido} de ${espacoTotalTextoExibido}`
     espacoUtilizadoTexto.classList.remove('opacity-50')
   }
 

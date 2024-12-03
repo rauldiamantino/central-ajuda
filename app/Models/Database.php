@@ -54,6 +54,9 @@ class Database
         elseif (is_int($parametro)) {
           $sqlFormatado = preg_replace('/\?/', (int)$parametro, $sqlFormatado, 1);
         }
+        elseif (is_float($parametro)) {
+          $sqlFormatado = preg_replace('/\?/', (float)$parametro, $sqlFormatado, 1);
+        }
         elseif (is_null($parametro)) {
           $sqlFormatado = preg_replace('/\?/', 'NULL', $sqlFormatado, 1);
         }

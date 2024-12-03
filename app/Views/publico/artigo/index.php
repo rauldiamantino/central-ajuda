@@ -86,7 +86,7 @@
   </div>
 </div>
 
-<?php if ($this->usuarioLogado['id'] and $this->usuarioLogado['subdominio']) { ?>
+<?php if ($this->usuarioLogado['id'] and $this->usuarioLogado['subdominio'] and $this->usuarioLogado['empresaId'] and $this->usuarioLogado['empresaId'] == $this->empresaPadraoId) { ?>
   <div class="fixed bottom-32 right-4 sm:right-6 md:right-10 z-20 rounded-full hover:scale-110 duration-100 pers-publico-botao-editar template-cor-<?php echo $corPrimaria; ?>">
     <button type="button" onclick="window.open('/<?php echo $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigo['Artigo']['id']; ?>')" class="flex items-center p-3 bg-black/15 rounded-full">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-10 h-10">

@@ -69,17 +69,22 @@ class DashboardCadastroController extends DashboardController
       $this->redirecionarErro('/cadastro', 'Erro ao realizar cadastro (C500#EMP)');
     }
 
+    $assinaturaId = $this->cadastroModel->gerarAssinatura($empresaId);
+
+    if (intval($assinaturaId) < 1) {
+      $this->redirecionarErro('/cadastro', 'Erro ao realizar cadastro (C500#EMP#ASS)');
+    }
+
     // Somente para gerar empresa
     unset($resultado['subdominio']);
 
     $resultado = array_merge($resultado, ['empresa_id' => $empresaId]);
     $usuario = $this->cadastroModel->gerarUsuarioPadrao($resultado);
 
-    if (isset($usuario['erro']['mensagem'])) {
-      $this->redirecionarErro('/cadastro', $usuario['erro']);
-    }
-
     if (intval($usuario) < 1) {
+      $this->cadastroModel->apagarEmpresa($empresaId);
+      $this->cadastroModel->apagarAssinatura($assinaturaId, $empresaId);
+
       $this->redirecionarErro('/cadastro', 'Erro ao cadastrar usuário (C500#USR)');
     }
 

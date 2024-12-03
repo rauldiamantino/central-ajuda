@@ -183,12 +183,12 @@ class DashboardUsuarioModel extends Model
         'Usuario.tentativas_login',
         'Empresa.subdominio',
         'Empresa.ativo',
-        'Empresa.gratis_prazo',
         'Empresa.cor_primaria',
         'Empresa.url_site',
-        'Empresa.assinatura_id_asaas',
-        'Empresa.assinatura_status',
         'Empresa.criado',
+        'Assinatura.gratis_prazo',
+        'Assinatura.asaas_id',
+        'Assinatura.status',
       ];
 
       $juntar = [
@@ -197,8 +197,15 @@ class DashboardUsuarioModel extends Model
         'campoB' => 'Usuario.empresa_id',
       ];
 
+      $juntarAssinatura = [
+        'tabelaJoin' => 'Assinatura',
+        'campoA' => 'Assinatura.empresa_id',
+        'campoB' => 'Usuario.empresa_id',
+      ];
+
       $usuario = $this->selecionar($colunas)
                       ->juntar($juntar)
+                      ->juntar($juntarAssinatura)
                       ->condicao($condicoes)
                       ->executarConsulta();
 
@@ -210,11 +217,11 @@ class DashboardUsuarioModel extends Model
           'empresaId' => $usuario[0]['Usuario']['empresa_id'],
           'empresaAtivo' => $usuario[0]['Empresa']['ativo'],
           'empresaCriado' => $usuario[0]['Empresa']['criado'],
-          'gratisPrazo' => $usuario[0]['Empresa']['gratis_prazo'],
+          'gratisPrazo' => $usuario[0]['Assinatura']['gratis_prazo'],
           'corPrimaria' => $usuario[0]['Empresa']['cor_primaria'],
           'urlSite' => $usuario[0]['Empresa']['url_site'],
-          'assinaturaIdAsaas' => $usuario[0]['Empresa']['assinatura_id_asaas'],
-          'assinaturaStatus' => $usuario[0]['Empresa']['assinatura_status'],
+          'assinaturaIdAsaas' => $usuario[0]['Assinatura']['asaas_id'],
+          'assinaturaStatus' => $usuario[0]['Assinatura']['status'],
           'subdominio' => $usuario[0]['Empresa']['subdominio'],
           'nivel' => $usuario[0]['Usuario']['nivel'],
           'padrao' => $usuario[0]['Usuario']['padrao'],
