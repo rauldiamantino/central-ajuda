@@ -29,10 +29,6 @@ class DashboardAssinaturaController extends DashboardController
 
   public function assinaturaEditarVer()
   {
-    if ($this->usuarioLogado['nivel'] == USUARIO_RESTRITO) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard', 'Você não tem permissão para realizar esta ação.');
-    }
-
     $condicao[] = [
       'campo' => 'Assinatura.empresa_id',
       'operador' => '=',
@@ -245,10 +241,6 @@ class DashboardAssinaturaController extends DashboardController
 
   public function atualizar(int $id)
   {
-    if ($this->usuarioLogado['nivel'] == USUARIO_RESTRITO) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard', 'Você não tem permissão para realizar esta ação.');
-    }
-
     $json = $this->receberJson();
 
     if (isset($json['valor'])) {

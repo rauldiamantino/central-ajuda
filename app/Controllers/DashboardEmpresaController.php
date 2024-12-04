@@ -22,10 +22,6 @@ class DashboardEmpresaController extends DashboardController
 
   public function empresaEditarVer()
   {
-    if ($this->usuarioLogado['nivel'] == USUARIO_RESTRITO) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard', 'Você não tem permissão para realizar esta ação.');
-    }
-
     $condicao[] = [
       'campo' => 'Empresa.id',
       'operador' => '=',
@@ -75,10 +71,6 @@ class DashboardEmpresaController extends DashboardController
 
   public function atualizar(int $id)
   {
-    if ($this->usuarioLogado['nivel'] == USUARIO_RESTRITO) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard', 'Você não tem permissão para realizar esta ação.');
-    }
-
     $json = $this->receberJson();
     $formLogo = false;
     $formFavicon = false;
