@@ -11,8 +11,8 @@
           <input type="hidden" name="asaas_id" value="<?php echo $assinatura['Assinatura']['asaas_id']; ?>">
           <button type="submit">Reprocessar</button>
         </form>
+        <button type="submit" class="<?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> btn-gravar-assinatura" form="form-editar-assinatura" onclick="evitarDuploCliqueRedirect(event, '.form-editar-assinatura');">Gravar</button>
       <?php } ?>
-      <button type="submit" class="<?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> btn-gravar-assinatura" form="form-editar-assinatura" onclick="evitarDuploCliqueRedirect(event, '.form-editar-assinatura');">Gravar</button>
     </div>
   </div>
 

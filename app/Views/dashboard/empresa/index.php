@@ -3,7 +3,7 @@
     <div class="mb-5 w-full h-full flex flex-col justify-end">
       <h2 class="text-3xl font-semibold flex gap-2">Editar <span class="flex items-center gap-2 text-gray-400 font-light italic text-sm">#<?php echo $empresa['Empresa']['id']; ?></span>
       </h2>
-      <p class="text-gray-600">Gerencie seu plano, extrato e configurações para otimizar sua experiência.</p>
+      <p class="text-gray-600">Ajuste as configurações da sua empresa e personalize a Central de Ajuda</p>
     </div>
     <div class="py-2 w-full h-full flex gap-2 items-start justify-end">
       <button type="submit" class="<?php echo CLASSES_DASH_BUTTON_GRAVAR; ?> btn-gravar-empresa" form="form-editar-empresa" onclick="evitarDuploCliqueRedirect(event, '.form-editar-empresa');">Gravar</button>

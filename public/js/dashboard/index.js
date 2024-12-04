@@ -214,7 +214,7 @@ const evitarDuploClique = (event) => {
 }
 
 const evitarDuploCliqueRedirect = (event, classeAlvo) => {
-  event.preventDefault()
+   event.preventDefault()
 
   const submitButton = event.target
   const formularioAlvo = document.querySelector(classeAlvo)
