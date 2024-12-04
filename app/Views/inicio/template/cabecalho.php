@@ -9,9 +9,4 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
 
   <title><?php echo $metaTitulo ?></title>
-  <meta name="description" content="Uma base de conhecimento prática e eficiente. Organize, compartilhe e ofereça soluções rápidas, aliviando a sobrecarga do seu time de suporte.">
-  <meta property="og:title" content="<?php echo htmlspecialchars($metaTitulo); ?>">
-  <meta property="og:description" content="Uma base de conhecimento prática e eficiente. Organize, compartilhe e ofereça soluções rápidas, aliviando a sobrecarga do seu time de suporte.">
-  <meta property="twitter:title" content="<?php echo htmlspecialchars($metaTitulo); ?>">
-  <meta property="twitter:description" content="Uma base de conhecimento prática e eficiente. Organize, compartilhe e ofereça soluções rápidas, aliviando a sobrecarga do seu time de suporte.">
 </head>

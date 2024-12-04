@@ -6,7 +6,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-  <title><?php echo $titulo ?></title>
+  <title><?php echo $metaTitulo ?></title>
   <style>
     body {font-family: 'Inter', sans-serif;}
     .publico-artigo-blocos h1 { font-size: 2rem; font-weight: 700; margin-top: 1rem; margin-bottom: 0.5rem; }
