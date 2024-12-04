@@ -35,13 +35,19 @@ $ultimoAcesso = json_decode($ultimoAcesso, true);
         <span>Foto</span>
         <span class="font-extralight">Envie uma imagem para representar o seu usuário. O arquivo deve ter até 2MB e estar no formato .svg, .jpg ou .png. Tamanho ideal: 200px de largura por 200px de altura.</span>
       </div>
-      <button type="button" for="usuario-editar-foto" class="mt-2 lg:mt-0 w-max h-max flex items-center justify-center border border-gray-200 hover:border-gray-300 rounded-full usuario-btn-foto-editar-escolher" onclick="alterarImagemUsuario(event)">
-        <div class="w-max h-max">
-          <img src="<?php echo $this->renderImagem($usuario['Usuario']['foto']); ?>" class="p-1 w-20 h-20 rounded-full usuario-alterar-foto" onerror="this.onerror=null; this.src='/img/sem-imagem-perfil.svg';">
-        </div>
-        <span class="text-gray-700 h-max w-max empresa-txt-imagem-editar-escolher"><?php echo $usuario['Usuario']['foto'] ? '' : ''; ?></span>
-        <h3 class="hidden font-light text-left text-sm text-red-800 erro-usuario-foto"></h3>
-      </button>
+      <div class="w-max flex flex-col items-center justify-center gap-4">
+        <button type="button" for="usuario-editar-foto" class="mt-2 lg:mt-0 w-max h-max flex items-center justify-center border border-gray-200 hover:border-gray-300 rounded-full usuario-btn-foto-editar-escolher" onclick="alterarImagemUsuario(event)">
+          <div class="w-max h-max">
+            <img src="<?php echo $this->renderImagem($usuario['Usuario']['foto']); ?>" class="p-1 w-20 h-20 rounded-full usuario-alterar-foto" onerror="this.onerror=null; this.src='/img/sem-imagem-perfil.svg';">
+          </div>
+          <span class="text-gray-700 h-max w-max empresa-txt-imagem-editar-escolher"><?php echo $usuario['Usuario']['foto'] ? '' : ''; ?></span>
+          <h3 class="hidden font-light text-left text-sm text-red-800 erro-usuario-foto"></h3>
+        </button>
+
+        <?php if ($usuario['Usuario']['foto']) { ?>
+          <button type="button" class="text-xs text-red-600 hover:underline duration-150 usuario-remover-foto" onclick="removerFotoUsuario(<?php echo $usuario['Usuario']['id']; ?>)">Remover</button>
+        <?php } ?>
+      </div>
     </div>
 
     <?php // Nível de acesso?>

@@ -210,7 +210,7 @@ class DashboardUsuarioController extends DashboardController
 
     $json = $this->receberJson();
 
-    // Apagar foto de perfil
+    // Atualiza foto de perfil
     if (isset($_FILES['arquivo-foto']) and $_FILES['arquivo-foto']['error'] === UPLOAD_ERR_OK) {
       $firebase = new DatabaseFirebaseComponent();
       $extensao = pathinfo($_FILES['arquivo-foto']['name'], PATHINFO_EXTENSION);
@@ -223,6 +223,9 @@ class DashboardUsuarioController extends DashboardController
       if ($firebase->adicionarImagem($this->empresaPadraoId, $_FILES['arquivo-foto'], $params) == false) {
         $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/usuario/editar/' . $id, 'Erro ao fazer upload da foto de perfil');
       }
+
+      // Limpa cache de artigos públicos
+      $this->limparCacheTodos(['publico-artigo_'], $this->empresaPadraoId);
 
       $json['foto'] = $this->empresaPadraoId . '/' . $params['nome'] . '.' . $extensao;
     }
@@ -280,5 +283,44 @@ class DashboardUsuarioController extends DashboardController
 
     $this->sessaoUsuario->definir('ok', 'Usuário excluído com sucesso');
     $this->responderJson($resultado);
+  }
+
+  public function apagarFoto(int $id)
+  {
+    $condicoes[] = [
+      'campo' => 'Usuario.id',
+      'operador' => '=',
+      'valor' => $id,
+    ];
+
+    $colunas = [
+      'Usuario.foto',
+    ];
+
+    $usuario = $this->usuarioModel->selecionar($colunas)
+                                  ->condicao($condicoes)
+                                  ->executarConsulta();
+
+    if (! isset($usuario[0]['Usuario']['foto']) or empty($usuario[0]['Usuario']['foto'])) {
+      $this->sessaoUsuario->definir('erro', 'Usuário não encontrado');
+      $this->responderJson(['erro' => 'Usuário não encontrado'], 404);
+    }
+
+    $firebase = new DatabaseFirebaseComponent();
+
+    // Apaga Firebase
+    if ($firebase->apagarImagem($usuario[0]['Usuario']['foto']) == false) {
+      $this->sessaoUsuario->definir('erro', 'Erro ao apagar imagem');
+      $this->responderJson(['erro' => 'Erro ao apagar imagem'], 500);
+    }
+
+    // Apaga Banco de dados
+    $this->usuarioModel->atualizar(['foto' => ''], $id);
+
+    // Limpa cache de artigos públicos
+    $this->limparCacheTodos(['publico-artigo_'], $this->empresaPadraoId);
+
+    $this->sessaoUsuario->definir('ok', 'Foto removida com sucesso');
+    $this->responderJson(['ok' => true]);
   }
 }

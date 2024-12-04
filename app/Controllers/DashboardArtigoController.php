@@ -458,7 +458,7 @@ class DashboardArtigoController extends DashboardController
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $id . $referer, $resultado['erro']);
     }
 
-    Cache::apagar('publico-artigo-' . $id, $this->usuarioLogado['empresaId']);
+    Cache::apagar('publico-artigo_' . $id, $this->usuarioLogado['empresaId']);
     Cache::apagar('publico-categorias', $this->usuarioLogado['empresaId']);
     Cache::apagar('publico-categorias-inicio', $this->usuarioLogado['empresaId']);
     Cache::apagar('publico-categoria-' . $json['categoria_id'] . '-artigos', $this->usuarioLogado['empresaId']);
@@ -544,7 +544,7 @@ class DashboardArtigoController extends DashboardController
     }
 
     if ($categoriaId) {
-      Cache::apagar('publico-artigo-' . $id, $this->usuarioLogado['empresaId']);
+      Cache::apagar('publico-artigo_' . $id, $this->usuarioLogado['empresaId']);
       Cache::apagar('publico-categorias', $this->usuarioLogado['empresaId']);
       Cache::apagar('publico-categorias-inicio', $this->usuarioLogado['empresaId']);
       Cache::apagar('publico-categoria-' . $categoriaId . '-artigos', $this->usuarioLogado['empresaId']);

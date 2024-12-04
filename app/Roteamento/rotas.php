@@ -92,6 +92,7 @@ return [
     'POST:/{empresa}/d/usuario'                         => ['controlador' => [DashboardUsuarioController::class,        'adicionar'],                     'permissao' => $total],
     'PUT:/{empresa}/d/usuario/{id}'                     => ['controlador' => [DashboardUsuarioController::class,        'atualizar'],                     'permissao' => $total],
     'DELETE:/{empresa}/d/usuario/{id}'                  => ['controlador' => [DashboardUsuarioController::class,        'apagar'],                        'permissao' => $total],
+    'DELETE:/{empresa}/d/usuario/foto/{id}'             => ['controlador' => [DashboardUsuarioController::class,        'apagarFoto'],                    'permissao' => $total],
     'GET:/{empresa}/d/usuario/desbloquear/{id}'         => ['controlador' => [DashboardUsuarioController::class,        'desbloquear'],                   'permissao' => $suporteTotal],
   ],
   'dashboardVencida' => [

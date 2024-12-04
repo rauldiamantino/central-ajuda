@@ -502,10 +502,6 @@ class DashboardUsuarioModel extends Model
       endforeach;
     }
 
-    if (isset($camposValidados['foto']) and empty($camposValidados['foto'])) {
-      unset($camposValidados['foto']);
-    }
-
     if (empty($camposValidados)) {
       $msgErro['erro']['mensagem'][] = 'Nenhum campo informado';
       return $msgErro;

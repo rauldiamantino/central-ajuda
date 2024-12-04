@@ -258,6 +258,7 @@ class Roteador
     $rotasPermitidasUsuario = [
       'GET:/{empresa}/dashboard/usuario/editar/{id}',
       'PUT:/{empresa}/d/usuario/{id}',
+      'DELETE:/{empresa}/d/usuario/foto/{id}'
     ];
 
     $acessoOk = false;

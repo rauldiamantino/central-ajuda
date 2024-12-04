@@ -65,7 +65,7 @@ class PublicoArtigoController extends PublicoController
       'Artigo.ordem' => 'ASC',
     ];
 
-    $cacheNome = 'publico-artigo-' . $id;
+    $cacheNome = 'publico-artigo_' . $id;
     $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
 
     if ($resultado == null) {
@@ -107,7 +107,7 @@ class PublicoArtigoController extends PublicoController
         'Conteudo.ordem' => 'ASC',
       ];
 
-      $cacheNome = 'publico-artigo-' . $id . '-conteudos';
+      $cacheNome = 'publico-artigo_' . $id . '-conteudos';
       $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
 
       if ($resultado == null) {

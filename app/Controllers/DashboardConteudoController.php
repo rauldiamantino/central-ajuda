@@ -82,8 +82,8 @@ class DashboardConteudoController extends DashboardController
 
     $this->artigoModel->atualizar($camposArtigo, $dados['artigo_id']);
 
-    Cache::apagar('publico-artigo-' . $dados['artigo_id'], $this->usuarioLogado['empresaId']);
-    Cache::apagar('publico-artigo-' . $dados['artigo_id'] . '-conteudos', $this->usuarioLogado['empresaId']);
+    Cache::apagar('publico-artigo_' . $dados['artigo_id'], $this->usuarioLogado['empresaId']);
+    Cache::apagar('publico-artigo_' . $dados['artigo_id'] . '-conteudos', $this->usuarioLogado['empresaId']);
 
     $this->redirecionarSucesso($urlRetorno, 'Conteúdo adicionado com sucesso');
   }
@@ -179,7 +179,7 @@ class DashboardConteudoController extends DashboardController
 
       $this->artigoModel->atualizar($camposArtigo, $artigoId);
 
-      Cache::apagar('publico-artigo-' . $artigoId . '-conteudos', $this->usuarioLogado['empresaId']);
+      Cache::apagar('publico-artigo_' . $artigoId . '-conteudos', $this->usuarioLogado['empresaId']);
 
       $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId . $referer, 'Conteúdo editado com sucesso');
     }
@@ -223,7 +223,7 @@ class DashboardConteudoController extends DashboardController
 
       $this->artigoModel->atualizar($camposArtigo, $artigoId);
 
-      Cache::apagar('publico-artigo-' . $artigoId . '-conteudos', $this->usuarioLogado['empresaId']);
+      Cache::apagar('publico-artigo_' . $artigoId . '-conteudos', $this->usuarioLogado['empresaId']);
     }
 
     $this->responderJson($resultado);
@@ -276,7 +276,7 @@ class DashboardConteudoController extends DashboardController
 
       $this->artigoModel->atualizar($camposArtigo, $artigoId);
 
-      Cache::apagar('publico-artigo-' . $artigoId . '-conteudos', $this->usuarioLogado['empresaId']);
+      Cache::apagar('publico-artigo_' . $artigoId . '-conteudos', $this->usuarioLogado['empresaId']);
     }
 
     $this->sessaoUsuario->definir('ok', 'Conteúdo excluído com sucesso');

@@ -57,3 +57,25 @@ const mostrarImagemUsuario = (event) => {
 
   objetoReader.readAsDataURL(anexo)
 }
+
+const removerFotoUsuario = (usuarioId) => {
+
+  if (! usuarioId) {
+    return
+  }
+
+  fetch(`/${empresa}/d/usuario/foto/${usuarioId}`, { method: 'DELETE' })
+  .then(response => response.json())
+  .then(data => {
+
+    if (data.erro) {
+      throw new Error(data.erro)
+    }
+
+    window.location.href = `/${empresa}/dashboard/usuario/editar/${usuarioId}`
+  })
+  .catch(error => {
+    console.log(error)
+    window.location.href = `/${empresa}/dashboard/usuario/editar/${usuarioId}`
+  })
+}
