@@ -61,7 +61,6 @@
         <span>Meta Title</span>
         <span class="font-extralight">
           Defina o título padrão que será exibido nos resultados de busca para esta página.
-          Essas configurações serão aplicadas a todas as páginas da Central de Ajuda, exceto artigos e categorias.
         </span>
       </div>
       <input type="text" name="meta_titulo" class="<?php echo CLASSES_DASH_INPUT; ?>" placeholder="Ex.: Central de Ajuda - Nome da Empresa" value="<?php echo $empresa['Empresa']['meta_titulo']; ?>">
@@ -73,7 +72,6 @@
         <span>Meta Description</span>
         <span class="font-extralight">
           Insira uma descrição breve que resuma o propósito desta página.
-          Essas configurações serão aplicadas a todas as páginas da Central de Ajuda, exceto artigos e categorias.
         </span>
       </div>
       <input type="text" name="meta_descricao" class="<?php echo CLASSES_DASH_INPUT; ?>" placeholder="Ex.: Saiba mais sobre nossos serviços e como podemos ajudar sua empresa." value="<?php echo $empresa['Empresa']['meta_descricao']; ?>">
