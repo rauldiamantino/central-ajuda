@@ -81,7 +81,7 @@ class DashboardAssinaturaController extends DashboardController
 
     $this->visao->variavel('assinaturaId', $asaasId);
     $this->visao->variavel('assinatura', reset($assinatura));
-    $this->visao->variavel('titulo', 'Editar assinatura');
+    $this->visao->variavel('metaTitulo', 'Editar assinatura - 360Help');
     $this->visao->variavel('paginaMenuLateral', 'assinatura');
     $this->visao->renderizar('/assinatura/index');
   }

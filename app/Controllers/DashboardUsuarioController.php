@@ -82,7 +82,7 @@ class DashboardUsuarioController extends DashboardController
     $this->visao->variavel('paginasTotal', $paginasTotal);
     $this->visao->variavel('intervaloInicio', $intervaloInicio);
     $this->visao->variavel('intervaloFim', $intervaloFim);
-    $this->visao->variavel('titulo', 'Usuários');
+    $this->visao->variavel('metaTitulo', 'Usuários - 360Help');
     $this->visao->variavel('paginaMenuLateral', 'usuarios');
     $this->visao->renderizar('/usuario/index');
   }
@@ -138,7 +138,7 @@ class DashboardUsuarioController extends DashboardController
     }
 
     $this->visao->variavel('usuario', reset($usuario));
-    $this->visao->variavel('titulo', 'Editar usuario');
+    $this->visao->variavel('metaTitulo', 'Editar usuario - 360Help');
     $this->visao->renderizar('/usuario/editar/index');
   }
 
@@ -148,7 +148,7 @@ class DashboardUsuarioController extends DashboardController
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard', 'Você não tem permissão para realizar esta ação.');
     }
 
-    $this->visao->variavel('titulo', 'Adicionar usuário');
+    $this->visao->variavel('metaTitulo', 'Adicionar usuário - 360Help');
     $this->visao->variavel('paginaMenuLateral', 'usuarios');
     $this->visao->renderizar('/usuario/adicionar/index');
   }

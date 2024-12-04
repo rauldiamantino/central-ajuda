@@ -55,7 +55,7 @@ class DashboardController extends Controller
     $this->visao->variavel('totalUsuarios', $usuariosTotal['total'] ?? 0);
     $this->visao->variavel('totalArtigos', $artigosTotal['total'] ?? 0);
     $this->visao->variavel('totalCategorias', $categoriasTotal['total'] ?? 0);
-    $this->visao->variavel('titulo', 'Início');
+    $this->visao->variavel('metaTitulo', 'Início - 360Help');
     $this->visao->variavel('paginaMenuLateral', 'dashboard');
     $this->visao->renderizar('/dashboard/index');
   }

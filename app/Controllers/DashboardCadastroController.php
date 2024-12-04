@@ -22,7 +22,7 @@ class DashboardCadastroController extends DashboardController
       exit();
     }
 
-    $this->visao->variavel('titulo', 'Cadastro');
+    $this->visao->variavel('metaTitulo', 'Cadastro - 360Help');
     $this->visao->variavel('pagCadastro', true);
     $this->visao->renderizar('/cadastro/index');
   }
@@ -41,7 +41,7 @@ class DashboardCadastroController extends DashboardController
     }
 
     $this->visao->variavel('protocolo', $protocolo);
-    $this->visao->variavel('titulo', 'Cadastro');
+    $this->visao->variavel('metaTitulo', 'Cadastro - 360Help');
     $this->visao->variavel('pagCadastro', true);
     $this->visao->variavel('pagCadastroSucesso', true);
     $this->visao->variavel('paginaMenuLateral', 'cadastro');

@@ -22,6 +22,8 @@ class PublicoController extends Controller
   protected $corPrimaria;
   protected $urlSite;
   protected $visao;
+  protected $metaTituloEmpresa;
+  protected $metaDescricaoEmpresa;
 
   public function __construct()
   {
@@ -47,6 +49,8 @@ class PublicoController extends Controller
     $this->visao->variavel('empresaCnpj', $this->empresaCnpj);
     $this->visao->variavel('telefoneEmpresa', $this->telefone);
     $this->visao->variavel('urlSite', $this->urlSite);
+    $this->visao->variavel('metaTituloEmpresa', $this->metaTituloEmpresa);
+    $this->visao->variavel('metaDescricaoEmpresa', $this->metaDescricaoEmpresa);
 
   }
 
@@ -99,8 +103,16 @@ class PublicoController extends Controller
       $this->redirecionar('/' . $this->subdominio . '/categoria/' . $resultado[0]['Categoria']['id']);
     }
 
+    $metaTitulo = $this->metaTituloEmpresa ? $this->metaTituloEmpresa : '';
+    $metaDescricao = $this->metaDescricaoEmpresa ? $this->metaDescricaoEmpresa : '';
+
+    if (empty($metaTitulo)) {
+      $metaTitulo = 'Início';
+    }
+
     $this->visao->variavel('categorias', $resultado);
-    $this->visao->variavel('titulo', 'Público');
+    $this->visao->variavel('metaTitulo', $metaTitulo);
+    $this->visao->variavel('metaDescricao', $metaDescricao);
     $this->visao->variavel('menuLateral', true);
     $this->visao->variavel('inicio', true);
     $this->visao->renderizar('/inicio/index');
@@ -124,6 +136,8 @@ class PublicoController extends Controller
       'Empresa.cor_primaria',
       'Empresa.telefone',
       'Empresa.url_site',
+      'Empresa.meta_titulo',
+      'Empresa.meta_descricao',
     ];
 
     $cacheNome = 'publico-dados-empresa';
@@ -146,6 +160,8 @@ class PublicoController extends Controller
     $this->subdominio = $this->sessaoUsuario->buscar('subdominio');
     $this->subdominio_2 = $this->sessaoUsuario->buscar('subdominio_2');
     $this->empresaId = $this->sessaoUsuario->buscar('empresaPadraoId');
+    $this->metaTituloEmpresa = $resultado[0]['Empresa']['meta_titulo'] ?? '';
+    $this->metaDescricaoEmpresa = $resultado[0]['Empresa']['meta_descricao'] ?? '';
 
     $cnpj = $resultado[0]['Empresa']['cnpj'] ?? '';
 

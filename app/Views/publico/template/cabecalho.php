@@ -9,5 +9,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
 
-  <title><?php echo $titulo ?></title>
+  <title><?php echo htmlspecialchars($metaTitulo); ?></title>
+  <meta name="description" content="<?php echo htmlspecialchars($metaDescricao); ?>">
+  <meta property="og:title" content="<?php echo htmlspecialchars($metaTitulo); ?>">
+  <meta property="og:description" content="<?php echo htmlspecialchars($metaDescricao); ?>">
+  <meta property="twitter:title" content="<?php echo htmlspecialchars($metaTitulo); ?>">
+  <meta property="twitter:description" content="<?php echo htmlspecialchars($metaDescricao); ?>">
 </head>

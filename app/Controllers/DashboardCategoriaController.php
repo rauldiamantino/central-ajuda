@@ -141,7 +141,7 @@ class DashboardCategoriaController extends DashboardController
     $this->visao->variavel('paginasTotal', $paginasTotal);
     $this->visao->variavel('intervaloInicio', $intervaloInicio);
     $this->visao->variavel('intervaloFim', $intervaloFim);
-    $this->visao->variavel('titulo', 'Categorias');
+    $this->visao->variavel('metaTitulo', 'Categorias - 360Help');
     $this->visao->variavel('paginaMenuLateral', 'categorias');
     $this->visao->renderizar('/categoria/index');
   }
@@ -260,7 +260,7 @@ class DashboardCategoriaController extends DashboardController
     $this->visao->variavel('paginasTotal', $paginasTotal);
     $this->visao->variavel('intervaloInicio', $intervaloInicio);
     $this->visao->variavel('intervaloFim', $intervaloFim);
-    $this->visao->variavel('titulo', 'Editar categoria');
+    $this->visao->variavel('metaTitulo', 'Editar categoria - 360Help');
     $this->visao->variavel('paginaMenuLateral', 'categorias');
     $this->visao->renderizar('/categoria/editar/index');
   }

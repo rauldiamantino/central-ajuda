@@ -109,7 +109,8 @@ class PublicoBuscaController extends PublicoController
     $this->visao->variavel('intervaloFim', $intervaloFim);
     $this->visao->variavel('textoBusca', $textoBusca);
     $this->visao->variavel('resultadoBuscar', $resultadoBuscar);
-    $this->visao->variavel('titulo', 'Buscar');
+    $this->visao->variavel('metaTitulo', 'Busca');
+    $this->visao->variavel('metaDescricao', '');
     $this->visao->variavel('menuLateral', $menuLateral);
     $this->visao->renderizar('/busca/index');
   }

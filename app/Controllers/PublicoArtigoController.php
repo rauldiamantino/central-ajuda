@@ -39,6 +39,8 @@ class PublicoArtigoController extends PublicoController
       'Artigo.usuario_id',
       'Artigo.empresa_id',
       'Artigo.categoria_id',
+      'Artigo.meta_titulo',
+      'Artigo.meta_descricao',
       'Artigo.criado',
       'Artigo.modificado',
       'Categoria.ativo',
@@ -168,10 +170,18 @@ class PublicoArtigoController extends PublicoController
       $this->redirecionarErro('/' . $this->subdominio, 'Desculpe, este artigo não está disponível');
     }
 
+    $metaTitulo = $artigo[0]['Artigo']['meta_titulo'] ? $artigo[0]['Artigo']['meta_titulo'] : $this->metaTituloEmpresa;
+    $metaDescricao = $artigo[0]['Artigo']['meta_descricao'] ?? '';
+
+    if (empty($metaTitulo)) {
+      $metaTitulo = 'Artigo';
+    }
+
     $this->visao->variavel('demaisArtigos', $demaisArtigos);
     $this->visao->variavel('artigo', reset($artigo));
     $this->visao->variavel('conteudos', $conteudos);
-    $this->visao->variavel('titulo', 'Artigos');
+    $this->visao->variavel('metaTitulo', $metaTitulo);
+    $this->visao->variavel('metaDescricao', $metaDescricao);
     $this->visao->variavel('menuLateral', true);
     $this->visao->renderizar('/artigo/index');
   }

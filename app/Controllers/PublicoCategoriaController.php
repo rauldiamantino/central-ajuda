@@ -94,7 +94,10 @@ class PublicoCategoriaController extends PublicoController
         'Categoria.id',
         'Categoria.ativo',
         'Categoria.nome',
+        'Categoria.descricao',
         'Categoria.icone',
+        'Categoria.meta_titulo',
+        'Categoria.meta_descricao',
       ];
 
       $uniArtigos = [
@@ -137,9 +140,17 @@ class PublicoCategoriaController extends PublicoController
       $this->redirecionarErro('/' . $this->subdominio, 'Desculpe, esta categoria não está disponível');
     }
 
+    $metaTitulo = $resultado[0]['Categoria']['meta_titulo'] ? $resultado[0]['Categoria']['meta_titulo'] : $this->metaTituloEmpresa;
+    $metaDescricao = $resultado[0]['Categoria']['meta_descricao'] ? $resultado[0]['Categoria']['meta_descricao'] : $resultado[0]['Categoria']['descricao'];
+
+    if (empty($metaTitulo)) {
+      $metaTitulo = 'Categoria';
+    }
+
+    $this->visao->variavel('metaTitulo', $metaTitulo);
+    $this->visao->variavel('metaDescricao', $metaDescricao);
     $this->visao->variavel('categorias', $categorias);
     $this->visao->variavel('artigos', $artigos);
-    $this->visao->variavel('titulo', 'Artigos');
     $this->visao->variavel('menuLateral', true);
     $this->visao->renderizar('/categoria/index');
   }
