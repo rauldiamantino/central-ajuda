@@ -15,5 +15,5 @@
   <meta property="twitter:title" content="<?php echo htmlspecialchars($metaTitulo); ?>">
   <meta property="twitter:description" content="<?php echo htmlspecialchars($metaDescricao); ?>">
 
-  <meta name="robots" content="noindex, nofollow">
+  <meta name="robots" content="noindex, follow">
 </head>
