@@ -13,7 +13,7 @@
 
     <div class="w-full">
       <label for="conteudo-editar-imagem-titulo-<?php echo $linha['Conteudo']['id'] ?>" class="block text-sm font-medium text-gray-700">Título</label>
-      <input type="text" id="conteudo-editar-imagem-titulo" name="titulo" class="<?php echo CLASSES_DASH_INPUT; ?>" value="">
+      <input type="text" id="conteudo-editar-imagem-titulo" name="titulo" class="<?php echo CLASSES_DASH_INPUT; ?>" value="<?php echo $linha['Conteudo']['titulo']; ?>">
     </div>
     <div class="w-full items-start flex flex-col gap-2">
       <input type="file" accept="image/*" id="conteudo-editar-imagem" name="arquivo-imagem" class="hidden conteudo-editar-imagem-escolher" onchange="mostrarImagemConteudoEditar(event)">

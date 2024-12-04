@@ -63,7 +63,7 @@
               <?php if ($linha['Conteudo']['titulo'] and $linha['Conteudo']['titulo_ocultar'] == 0) { ?>
                 <h2><?php echo $linha['Conteudo']['titulo'] ?></h2>
               <?php } ?>
-              <img src="<?php echo $this->renderImagem($linha['Conteudo']['url']); ?>" class="w-full" onerror="this.onerror=null; this.src='/img/sem-imagem.svg';">
+              <img src="<?php echo $this->renderImagem($linha['Conteudo']['url']); ?>" alt="<?php echo $linha['Conteudo']['titulo']; ?>" class="w-full" onerror="this.onerror=null; this.src='/img/sem-imagem.svg';">
             </div>
           <?php } ?>
           <?php if ($linha['Conteudo']['tipo'] == 3) { ?>
