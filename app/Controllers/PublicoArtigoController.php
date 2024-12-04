@@ -173,11 +173,8 @@ class PublicoArtigoController extends PublicoController
     $metaTitulo = $artigo[0]['Artigo']['meta_titulo'];
     $metaDescricao = $artigo[0]['Artigo']['meta_descricao'];
 
-    if (empty($metaTitulo) and $this->metaTituloEmpresa and $artigo[0]['Artigo']['titulo']) {
-      $metaTitulo = $this->metaTituloEmpresa . ' - ' . $artigo[0]['Artigo']['titulo'];
-    }
-    elseif (empty($metaTitulo) and $this->metaTituloEmpresa) {
-      $metaTitulo = $this->metaTituloEmpresa;
+    if (empty($metaTitulo) and $this->empresaNome and $artigo[0]['Artigo']['titulo']) {
+      $metaTitulo = $artigo[0]['Artigo']['titulo'] . ' - ' . $this->empresaNome;
     }
     elseif (empty($metaTitulo)) {
       $metaTitulo = $artigo[0]['Artigo']['titulo'];
