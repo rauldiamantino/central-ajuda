@@ -60,7 +60,7 @@
       <div class="flex flex-col text-sm font-medium text-gray-700">
         <span>Meta Title</span>
         <span class="font-extralight">
-          Defina o título padrão que será exibido nos resultados de busca para esta página.
+          Defina o título padrão que será exibido nos resultados de busca para a página de início da sua Central de Ajuda.
         </span>
       </div>
       <input type="text" name="meta_titulo" class="<?php echo CLASSES_DASH_INPUT; ?>" placeholder="Ex.: Central de Ajuda - Nome da Empresa" value="<?php echo $empresa['Empresa']['meta_titulo']; ?>">
@@ -71,7 +71,7 @@
       <div class="flex flex-col text-sm font-medium text-gray-700">
         <span>Meta Description</span>
         <span class="font-extralight">
-          Insira uma descrição breve que resuma o propósito desta página.
+          Insira uma descrição breve que resuma o propósito da página de início da sua Central de Ajuda.
         </span>
       </div>
       <input type="text" name="meta_descricao" class="<?php echo CLASSES_DASH_INPUT; ?>" placeholder="Ex.: Saiba mais sobre nossos serviços e como podemos ajudar sua empresa." value="<?php echo $empresa['Empresa']['meta_descricao']; ?>">
