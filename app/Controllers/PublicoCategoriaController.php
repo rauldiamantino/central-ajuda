@@ -145,7 +145,12 @@ class PublicoCategoriaController extends PublicoController
     if (empty($metaTitulo) and $this->metaTituloEmpresa) {
       $metaTitulo = $this->metaTituloEmpresa;
     }
-    elseif (empty($metaTitulo)) {
+
+    if (empty($metaTitulo)) {
+      $metaTitulo = $resultado[0]['Categoria']['nome'];
+    }
+
+    if (empty($metaTitulo)) {
       $metaTitulo = 'Categoria';
     }
 
