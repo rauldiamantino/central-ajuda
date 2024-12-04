@@ -20,23 +20,20 @@
           </div>
         <?php } ?>
       </div>
-      <div class="text-xs font-light publico-artigo-datas">
-        <?php if ((! isset($artigo['Usuario']['nome']) or empty($artigo['Usuario']['nome'])) and $this->buscarAjuste('artigo_criado') == ATIVO and $this->buscarAjuste('artigo_autor') == ATIVO) { ?>
-          <div>Criado em <?php echo traduzirDataPtBr($artigo['Artigo']['criado']); ?></div>
+    <div class="w-max flex items-center gap-2 pt-4 publico-artigo-datas">
+
+      <?php if (isset($artigo['Usuario']['nome']) and $artigo['Usuario']['nome'] and isset($artigo['Usuario']['foto']) and $artigo['Usuario']['foto'] and (int) $this->buscarAjuste('artigo_autor') == ATIVO) { ?>
+        <span class="w-10 h-10">
+          <img src="<?php echo $this->renderImagem($artigo['Usuario']['foto']) ?>" alt="foto-usuario" onerror="this.onerror=null; this.src='/img/sem-imagem-perfil.svg';">
+        </span>
+      <?php } ?>
+      <div class="w-max h-full flex flex-col justify-center items-start">
+        <?php if (isset($artigo['Usuario']['nome']) and $artigo['Usuario']['nome'] and (int) $this->buscarAjuste('artigo_autor') == ATIVO) { ?>
+          <span><?php echo $artigo['Usuario']['nome'] ?></span>
         <?php } ?>
-        <?php if (isset($artigo['Usuario']['nome']) and $artigo['Usuario']['nome'] and $this->buscarAjuste('artigo_criado') == ATIVO and $this->buscarAjuste('artigo_autor') == ATIVO) { ?>
-          <div>Criado por <span class="font-semibold"> <?php echo $artigo['Usuario']['nome'] ?> </span> em <?php echo traduzirDataPtBr($artigo['Artigo']['criado']); ?></div>
-        <?php } ?>
-        <?php if (isset($artigo['Usuario']['nome']) and $artigo['Usuario']['nome'] and $this->buscarAjuste('artigo_criado') == INATIVO and $this->buscarAjuste('artigo_autor') == ATIVO) { ?>
-          <div>Criado por <span class="font-semibold"> <?php echo $artigo['Usuario']['nome'] ?> </span></div>
-        <?php } ?>
-        <?php if (isset($artigo['Artigo']['criado']) and $artigo['Artigo']['criado'] and $this->buscarAjuste('artigo_criado') == ATIVO and $this->buscarAjuste('artigo_autor') == INATIVO) { ?>
-          <div>Criado em <?php echo traduzirDataPtBr($artigo['Artigo']['criado']); ?></div>
-        <?php } ?>
-        <?php if (isset($artigo['Artigo']['modificado']) and $artigo['Artigo']['modificado'] and $this->buscarAjuste('artigo_modificado') == ATIVO) { ?>
-          <div>Última atualização: <?php echo traduzirDataPtBr($artigo['Artigo']['modificado']); ?></div>
-        <?php } ?>
+        <div class="text-xs font-light">Atualizado há <?php echo traduzirDataPtBrAmigavel($artigo['Artigo']['modificado']); ?></div>
       </div>
+    </div>
     </div>
     <div class="w-full flex flex-col gap-2 py-10 pers-publico-artigo template-cor-<?php echo $corPrimaria; ?> publico-artigo-blocos">
       <?php if ($conteudos) { ?>

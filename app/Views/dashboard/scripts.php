@@ -12,6 +12,7 @@
 <script src="<?php echo baseUrl('/js/dashboard/assinaturas/consumo.js'); ?>"></script>
 <script src="<?php echo baseUrl('/js/dashboard/assinaturas/cobrancas.js'); ?>"></script>
 <script src="<?php echo baseUrl('/js/dashboard/empresas/uploads.js'); ?>"></script>
+<script src="<?php echo baseUrl('/js/dashboard/usuarios/uploads.js'); ?>"></script>
 <script src="<?php echo baseUrl('/js/dashboard/usuarios/index.js'); ?>"></script>
 <script src="<?php echo baseUrl('/js/dashboard/categorias/index.js'); ?>"></script>
 <script src="<?php echo baseUrl('/js/dashboard/categorias/organizar.js'); ?>"></script>

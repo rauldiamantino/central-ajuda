@@ -30,6 +30,7 @@ class DashboardLoginModel extends Model
               Usuario.nivel,
               Usuario.padrao,
               Usuario.tentativas_login,
+              Usuario.foto,
               Empresa.subdominio AS "Empresa.subdominio",
               Empresa.subdominio_2 AS "Empresa.subdominio_2",
               Empresa.ativo AS "Empresa.ativo",

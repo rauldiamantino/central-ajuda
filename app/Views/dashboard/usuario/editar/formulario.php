@@ -8,7 +8,7 @@ $ultimoAcesso = $usuario['Usuario']['ultimo_acesso'] ?? '';
 $ultimoAcesso = json_decode($ultimoAcesso, true);
 ?>
 
-<form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/usuario/' . $usuario['Usuario']['id']); ?>" class="border-t border-slate-300 w-full h-full flex flex-col gap-4 form-editar-usuario">
+<form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/usuario/' . $usuario['Usuario']['id']); ?>" class="border-t border-slate-300 w-full h-full flex flex-col gap-4 form-editar-usuario" enctype="multipart/form-data">
   <input type="hidden" name="_method" value="PUT">
   <input type="hidden" name="empresa_id" value="<?php echo $usuario['Usuario']['empresa_id']; ?>">
 
@@ -25,6 +25,23 @@ $ultimoAcesso = json_decode($ultimoAcesso, true);
         <input type="checkbox" value="1" class="sr-only peer" <?php echo $usuario['Usuario']['ativo'] ? 'checked' : '' ?> name="ativo">
         <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
       </label>
+    </div>
+
+    <?php // Foto ?>
+    <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
+      <input type="hidden" name="foto" value="<?php echo $usuario['Usuario']['foto']; ?>" class="url-imagem">
+      <input type="file" accept="image/*" id="usuario-editar-foto" name="arquivo-foto" class="hidden usuario-editar-foto-escolher" onchange="mostrarImagemUsuario(event)">
+      <div class="flex flex-col text-sm font-medium text-gray-700">
+        <span>Foto</span>
+        <span class="font-extralight">Envie uma imagem para representar o seu usuário. O arquivo deve ter até 2MB e estar no formato .svg, .jpg ou .png. Tamanho ideal: 200px de largura por 200px de altura.</span>
+      </div>
+      <button type="button" for="usuario-editar-foto" class="mt-2 lg:mt-0 w-max h-max flex items-center justify-center border border-gray-200 hover:border-gray-300 rounded-full usuario-btn-foto-editar-escolher" onclick="alterarImagemUsuario(event)">
+        <div class="w-max h-max">
+          <img src="<?php echo $this->renderImagem($usuario['Usuario']['foto']); ?>" class="p-1 w-20 h-20 rounded-full usuario-alterar-foto" onerror="this.onerror=null; this.src='/img/sem-imagem-perfil.svg';">
+        </div>
+        <span class="text-gray-700 h-max w-max empresa-txt-imagem-editar-escolher"><?php echo $usuario['Usuario']['foto'] ? '' : ''; ?></span>
+        <h3 class="hidden font-light text-left text-sm text-red-800 erro-usuario-foto"></h3>
+      </button>
     </div>
 
     <?php // Nível de acesso?>

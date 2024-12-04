@@ -9,16 +9,6 @@
             <input type="checkbox" value="1" class="sr-only peer" <?php echo $linha['Ajuste']['ativo'] == ATIVO ? 'checked' : '' ?> name="artigo_autor">
             <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
             <span class="block text-sm font-medium text-gray-700">Exibir autor do artigo</span>
-          <?php } elseif ($linha['Ajuste']['nome'] == 'artigo_criado') { ?>
-            <input type="hidden" name="artigo_criado" value="0">
-            <input type="checkbox" value="1" class="sr-only peer" <?php echo $linha['Ajuste']['ativo'] == ATIVO ? 'checked' : '' ?> name="artigo_criado">
-            <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
-            <span class="block text-sm font-medium text-gray-700">Exibir data de criação do artigo</span>
-          <?php } elseif ($linha['Ajuste']['nome'] == 'artigo_modificado') { ?>
-            <input type="hidden" name="artigo_modificado" value="0">
-            <input type="checkbox" value="1" class="sr-only peer" <?php echo $linha['Ajuste']['ativo'] == ATIVO ? 'checked' : '' ?> name="artigo_modificado">
-            <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
-            <span class="block text-sm font-medium text-gray-700">Exibir data de atualização do artigo</span>
           <?php } elseif ($linha['Ajuste']['nome'] == 'botao_whatsapp') { ?>
             <input type="hidden" name="botao_whatsapp" value="0">
             <input type="checkbox" value="1" class="sr-only peer" <?php echo $linha['Ajuste']['ativo'] == ATIVO ? 'checked' : '' ?> name="botao_whatsapp">

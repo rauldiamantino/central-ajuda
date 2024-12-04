@@ -38,6 +38,44 @@ function traduzirDataPtBr($data) {
   return $formatter->format($dateTime);
 }
 
+function traduzirDataPtBrAmigavel($data) {
+
+  if (empty($data)) {
+     return '';
+  }
+
+  $dataAtual = new DateTime();
+  $dataAlvo = new DateTime($data);
+  $diferenca = $dataAtual->diff($dataAlvo);
+
+  if ($diferenca->invert === 1) { // Data passada
+    if ($diferenca->y > 0) {
+      return "{$diferenca->y} ano" . ($diferenca->y > 1 ? 's' : '');
+    }
+
+    if ($diferenca->m > 0) {
+      return "{$diferenca->m} mês" . ($diferenca->m > 1 ? 'es' : '');
+    }
+
+    if ($diferenca->d > 0) {
+      return "{$diferenca->d} dia" . ($diferenca->d > 1 ? 's' : '');
+    }
+
+    if ($diferenca->h > 0) {
+      return "{$diferenca->h} hora" . ($diferenca->h > 1 ? 's' : '');
+    }
+
+    if ($diferenca->i > 0) {
+      return "{$diferenca->i} minuto" . ($diferenca->i > 1 ? 's' : '');
+    }
+
+    return "poucos segundos";
+  }
+
+  return "no futuro";
+}
+
+
 function traduzirDataTimestamp($timestamp) {
   return date('d/m/Y \à\s H:i', $timestamp);
 }

@@ -12,3 +12,6 @@ ADD COLUMN `meta_descricao` VARCHAR(255) DEFAULT '' AFTER `meta_titulo`;
 ALTER TABLE `empresas`
 ADD COLUMN `meta_titulo` VARCHAR(255) DEFAULT '' AFTER `cor_primaria`,
 ADD COLUMN `meta_descricao` VARCHAR(255) DEFAULT '' AFTER `meta_titulo`;
+
+-- foto de perfil do usuário
+ALTER TABLE `usuarios` ADD COLUMN `foto` VARCHAR(255) DEFAULT '' AFTER `tentativas_login`

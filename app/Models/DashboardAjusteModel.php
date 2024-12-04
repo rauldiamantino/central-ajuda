@@ -14,8 +14,6 @@ class DashboardAjusteModel extends Model
   {
     $permitidos = [
       'artigo_autor',
-      'artigo_criado',
-      'artigo_modificado',
       'botao_whatsapp',
       'publico_cate_busca',
       'publico_cate_abrir_primeira',
@@ -82,12 +80,10 @@ class DashboardAjusteModel extends Model
 
     $resultado = [
       0 => ['Ajuste' => ['nome' => 'artigo_autor', 'ativo' => ATIVO, ]],
-      1 => ['Ajuste' => ['nome' => 'artigo_criado', 'ativo' => ATIVO, ]],
-      2 => ['Ajuste' => ['nome' => 'artigo_modificado', 'ativo' => ATIVO, ]],
-      3 => ['Ajuste' => ['nome' => 'botao_whatsapp', 'ativo' => ATIVO, ]],
-      4 => ['Ajuste' => ['nome' => 'publico_cate_busca', 'ativo' => ATIVO, ]],
-      5 => ['Ajuste' => ['nome' => 'publico_cate_abrir_primeira', 'ativo' => INATIVO, ]],
-      6 => ['Ajuste' => ['nome' => 'publico_topo_fixo', 'ativo' => INATIVO, ]],
+      1 => ['Ajuste' => ['nome' => 'botao_whatsapp', 'ativo' => ATIVO, ]],
+      2 => ['Ajuste' => ['nome' => 'publico_cate_busca', 'ativo' => ATIVO, ]],
+      3 => ['Ajuste' => ['nome' => 'publico_cate_abrir_primeira', 'ativo' => INATIVO, ]],
+      4 => ['Ajuste' => ['nome' => 'publico_topo_fixo', 'ativo' => INATIVO, ]],
     ];
 
     // Substitui ajuste conforme DB

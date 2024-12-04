@@ -46,6 +46,7 @@ class PublicoArtigoController extends PublicoController
       'Categoria.ativo',
       'Categoria.nome',
       'Usuario.nome',
+      'Usuario.foto',
     ];
 
     $juntarCategoria = [

@@ -38,7 +38,7 @@ class DatabaseFirebaseComponent extends DashboardController
     // Somente para inserção de conteúdo
     $artigoId = $params['artigoId'] ?? 0;
     $conteudoId = $params['conteudoId'] ?? 0;
-    $nome = $params['nome'] ?? 0;
+    $nome = $params['nome'] ?? '';
     $imagemAtual = $params['imagemAtual'] ?? '';
 
     if ($artigoId and $conteudoId) {

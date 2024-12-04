@@ -1,6 +1,7 @@
 <?php
 namespace app\Controllers;
 use app\Models\DashboardUsuarioModel;
+use app\Controllers\Components\DatabaseFirebaseComponent;
 
 class DashboardUsuarioController extends DashboardController
 {
@@ -122,6 +123,7 @@ class DashboardUsuarioController extends DashboardController
       'Usuario.ultimo_acesso',
       'Usuario.criado',
       'Usuario.modificado',
+      'Usuario.foto',
     ];
 
     $usuario = $this->usuarioModel->selecionar($colunas)
@@ -207,6 +209,27 @@ class DashboardUsuarioController extends DashboardController
     }
 
     $json = $this->receberJson();
+
+    // Apagar foto de perfil
+    if (isset($_FILES['arquivo-foto']) and $_FILES['arquivo-foto']['error'] === UPLOAD_ERR_OK) {
+      $firebase = new DatabaseFirebaseComponent();
+      $extensao = pathinfo($_FILES['arquivo-foto']['name'], PATHINFO_EXTENSION);
+
+      $params = [
+        'nome' => 'us-' . $id,
+        'imagemAtual' => $json['foto'] ?? '',
+      ];
+
+      if ($firebase->adicionarImagem($this->empresaPadraoId, $_FILES['arquivo-foto'], $params) == false) {
+        $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/usuario/editar/' . $id, 'Erro ao fazer upload da foto de perfil');
+      }
+
+      $json['foto'] = $this->empresaPadraoId . '/' . $params['nome'] . '.' . $extensao;
+    }
+    else {
+      unset($json['foto']);
+    }
+
     $resultado = $this->usuarioModel->atualizar($json, $id);
 
     if (isset($resultado['erro'])) {
@@ -220,6 +243,30 @@ class DashboardUsuarioController extends DashboardController
   {
     if ($this->usuarioLogado['nivel'] == USUARIO_RESTRITO) {
       $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard', 'Você não tem permissão para realizar esta ação.');
+    }
+
+    $condicoes[] = [
+      'campo' => 'Usuario.id',
+      'operador' => '=',
+      'valor' => $id,
+    ];
+
+    $colunas = [
+      'Usuario.foto',
+    ];
+
+    $usuario = $this->usuarioModel->selecionar($colunas)
+                                  ->condicao($condicoes)
+                                  ->executarConsulta();
+
+    // Apaga imagem
+    if (isset($usuario[0]['Usuario']['foto']) and $usuario[0]['Usuario']['foto']) {
+      $firebase = new DatabaseFirebaseComponent();
+
+      if ($firebase->apagarImagem($usuario[0]['Usuario']['foto']) == false) {
+        $this->sessaoUsuario->definir('erro', 'Erro ao apagar imagem');
+        $this->responderJson(['erro' => 'Erro ao apagar imagem'], 500);
+      }
     }
 
     $resultado = $this->usuarioModel->apagarUsuario($id);

@@ -181,6 +181,7 @@ class DashboardUsuarioModel extends Model
         'Usuario.nivel',
         'Usuario.padrao',
         'Usuario.tentativas_login',
+        'Usuario.foto',
         'Empresa.subdominio',
         'Empresa.ativo',
         'Empresa.cor_primaria',
@@ -226,6 +227,7 @@ class DashboardUsuarioModel extends Model
           'nivel' => $usuario[0]['Usuario']['nivel'],
           'padrao' => $usuario[0]['Usuario']['padrao'],
           'tentativasLogin' => $usuario[0]['Usuario']['tentativas_login'],
+          'foto' => $usuario[0]['Usuario']['foto'],
         ];
 
         $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
@@ -356,6 +358,7 @@ class DashboardUsuarioModel extends Model
       'email' => $params['email'] ?? '',
       'senha' => $params['senha'] ?? '',
       'tentativas_login' => $params['tentativas_login'] ?? 0,
+      'foto' => $params['foto'] ?? '',
     ];
 
     $msgErro = [
@@ -373,6 +376,7 @@ class DashboardUsuarioModel extends Model
         'nome',
         'padrao',
         'tentativas_login',
+        'foto',
       ];
 
       if ($atualizar and ! isset($params[ $chave ])) {
@@ -402,6 +406,7 @@ class DashboardUsuarioModel extends Model
       $campos['empresa_id'] = filter_var($campos['empresa_id'], FILTER_SANITIZE_NUMBER_INT);
       $campos['padrao'] = filter_var($campos['padrao'], FILTER_SANITIZE_NUMBER_INT);
       $campos['tentativas_login'] = filter_var($campos['tentativas_login'], FILTER_SANITIZE_NUMBER_INT);
+      $campos['foto'] = htmlspecialchars($campos['foto']);
       $campos['nome'] = htmlspecialchars($campos['nome']);
       $campos['email'] = filter_Var($campos['email'], FILTER_SANITIZE_EMAIL);
       $emailValidado = filter_Var($campos['email'], FILTER_VALIDATE_EMAIL);
@@ -437,6 +442,7 @@ class DashboardUsuarioModel extends Model
       $tentativasCaracteres = 20;
       $nomeCaracteres = 25;
       $emailCaracteres = 50;
+      $fotoCaracteres = 50;
 
       if (strlen($campos['ativo']) > $ativoCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('ativo', 'caracteres', $ativoCaracteres);
@@ -465,6 +471,10 @@ class DashboardUsuarioModel extends Model
       if (strlen($campos['email']) > $emailCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('email', 'caracteres', $emailCaracteres);
       }
+
+      if (strlen($campos['foto']) > $fotoCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('foto', 'caracteres', $fotoCaracteres);
+      }
     }
 
     if (isset($msgErro['erro']['mensagem']) and $msgErro['erro']['mensagem']) {
@@ -480,6 +490,7 @@ class DashboardUsuarioModel extends Model
       'email' => $campos['email'],
       'senha' => $campos['senha'],
       'tentativas_login' => $campos['tentativas_login'],
+      'foto' => $campos['foto'],
     ];
 
     if ($atualizar) {
@@ -489,6 +500,10 @@ class DashboardUsuarioModel extends Model
           unset($camposValidados[ $chave ]);
         }
       endforeach;
+    }
+
+    if (isset($camposValidados['foto']) and empty($camposValidados['foto'])) {
+      unset($camposValidados['foto']);
     }
 
     if (empty($camposValidados)) {

@@ -38,6 +38,7 @@ class Controller
       'subdominio' => $resultado['subdominio'] ?? '',
       'subdominio_2' => $resultado['subdominio_2'] ?? '',
       'tentativasLogin' => intval($resultado['tentativas_login'] ?? 0),
+      'foto' => $resultado['foto'] ?? '',
     ];
 
     $this->empresaPadraoId = (int) $this->sessaoUsuario->buscar('empresaPadraoId');
