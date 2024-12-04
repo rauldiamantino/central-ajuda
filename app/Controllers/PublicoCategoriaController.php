@@ -140,11 +140,19 @@ class PublicoCategoriaController extends PublicoController
       $this->redirecionarErro('/' . $this->subdominio, 'Desculpe, esta categoria não está disponível');
     }
 
-    $metaTitulo = $resultado[0]['Categoria']['meta_titulo'] ? $resultado[0]['Categoria']['meta_titulo'] : $this->metaTituloEmpresa;
-    $metaDescricao = $resultado[0]['Categoria']['meta_descricao'] ? $resultado[0]['Categoria']['meta_descricao'] : $resultado[0]['Categoria']['descricao'];
+    $metaTitulo = $resultado[0]['Categoria']['meta_titulo'];
 
-    if (empty($metaTitulo)) {
+    if (empty($metaTitulo) and $this->metaTituloEmpresa) {
+      $metaTitulo = $this->metaTituloEmpresa;
+    }
+    elseif (empty($metaTitulo)) {
       $metaTitulo = 'Categoria';
+    }
+
+    $metaDescricao = $resultado[0]['Categoria']['meta_descricao'];
+
+    if (empty($metaDescricao)) {
+      $metaDescricao = $resultado[0]['Categoria']['descricao'];
     }
 
     $this->visao->variavel('metaTitulo', $metaTitulo);

@@ -177,6 +177,17 @@ class PublicoArtigoController extends PublicoController
       $metaTitulo = 'Artigo';
     }
 
+
+    $metaTitulo = $artigo[0]['Artigo']['meta_titulo'];
+    $metaDescricao = $artigo[0]['Artigo']['meta_descricao'];
+
+    if (empty($metaTitulo) and $this->metaTituloEmpresa) {
+      $metaTitulo = $this->metaTituloEmpresa;
+    }
+    elseif (empty($metaTitulo)) {
+      $metaTitulo = 'Artigo';
+    }
+
     $this->visao->variavel('demaisArtigos', $demaisArtigos);
     $this->visao->variavel('artigo', reset($artigo));
     $this->visao->variavel('conteudos', $conteudos);

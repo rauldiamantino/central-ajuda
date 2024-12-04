@@ -102,8 +102,8 @@ class PublicoController extends Controller
       $this->redirecionar('/' . $this->subdominio . '/categoria/' . $resultado[0]['Categoria']['id']);
     }
 
-    $metaTitulo = $this->metaTituloEmpresa ? $this->metaTituloEmpresa : '';
-    $metaDescricao = $this->metaDescricaoEmpresa ? $this->metaDescricaoEmpresa : '';
+    $metaTitulo = $this->metaTituloEmpresa;
+    $metaDescricao = $this->metaDescricaoEmpresa;
 
     if (empty($metaTitulo)) {
       $metaTitulo = 'Início';
