@@ -49,9 +49,8 @@ class PublicoController extends Controller
     $this->visao->variavel('empresaCnpj', $this->empresaCnpj);
     $this->visao->variavel('telefoneEmpresa', $this->telefone);
     $this->visao->variavel('urlSite', $this->urlSite);
-    $this->visao->variavel('metaTituloEmpresa', $this->metaTituloEmpresa);
-    $this->visao->variavel('metaDescricaoEmpresa', $this->metaDescricaoEmpresa);
-
+    $this->visao->variavel('metaTitulo', $this->metaTituloEmpresa);
+    $this->visao->variavel('metaDescricao', $this->metaDescricaoEmpresa);
   }
 
   public function publicoVer()
