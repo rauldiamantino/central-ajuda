@@ -9,4 +9,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
 
   <title><?php echo $metaTitulo ?></title>
+  <meta name="description" content="<?php echo htmlspecialchars($metaDescricao); ?>">
+  <meta property="og:title" content="<?php echo htmlspecialchars($metaTitulo); ?>">
+  <meta property="og:description" content="<?php echo htmlspecialchars($metaDescricao); ?>">
+  <meta property="twitter:title" content="<?php echo htmlspecialchars($metaTitulo); ?>">
+  <meta property="twitter:description" content="<?php echo htmlspecialchars($metaDescricao); ?>">
 </head>

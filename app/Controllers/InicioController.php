@@ -18,7 +18,7 @@ class InicioController extends Controller
   public function inicioVer()
   {
     $this->visao->variavel('metaTitulo', '360Help - Base de conhecimento profissional');
-    $this->visao->variavel('metaDescricao', '360Help - Base de conhecimento profissional');
+    $this->visao->variavel('metaDescricao', 'Uma base de conhecimento prática e eficiente. Organize, compartilhe e ofereça soluções rápidas, aliviando a sobrecarga do seu time de suporte.');
     $this->visao->renderizar('/index');
   }
 }
