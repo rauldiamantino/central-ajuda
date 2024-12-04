@@ -170,27 +170,17 @@ class PublicoArtigoController extends PublicoController
       $this->redirecionarErro('/' . $this->subdominio, 'Desculpe, este artigo não está disponível');
     }
 
-    $metaTitulo = $artigo[0]['Artigo']['meta_titulo'] ? $artigo[0]['Artigo']['meta_titulo'] : $this->metaTituloEmpresa;
-    $metaDescricao = $artigo[0]['Artigo']['meta_descricao'] ?? '';
-
-    if (empty($metaTitulo)) {
-      $metaTitulo = 'Artigo';
-    }
-
-
     $metaTitulo = $artigo[0]['Artigo']['meta_titulo'];
     $metaDescricao = $artigo[0]['Artigo']['meta_descricao'];
 
-    if (empty($metaTitulo) and $this->metaTituloEmpresa) {
+    if (empty($metaTitulo) and $this->metaTituloEmpresa and $artigo[0]['Artigo']['titulo']) {
+      $metaTitulo = $this->metaTituloEmpresa . ' - ' . $artigo[0]['Artigo']['titulo'];
+    }
+    elseif (empty($metaTitulo) and $this->metaTituloEmpresa) {
       $metaTitulo = $this->metaTituloEmpresa;
     }
-
-    if (empty($metaTitulo)) {
+    elseif (empty($metaTitulo)) {
       $metaTitulo = $artigo[0]['Artigo']['titulo'];
-    }
-
-    if (empty($metaTitulo)) {
-      $metaTitulo = 'Artigo';
     }
 
     $this->visao->variavel('demaisArtigos', $demaisArtigos);

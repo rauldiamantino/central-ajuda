@@ -141,20 +141,17 @@ class PublicoCategoriaController extends PublicoController
     }
 
     $metaTitulo = $resultado[0]['Categoria']['meta_titulo'];
+    $metaDescricao = $resultado[0]['Categoria']['meta_descricao'];
 
-    if (empty($metaTitulo) and $this->metaTituloEmpresa) {
+    if (empty($metaTitulo) and $this->metaTituloEmpresa and $resultado[0]['Categoria']['nome']) {
+      $metaTitulo = $this->metaTituloEmpresa . ' - ' . $resultado[0]['Categoria']['nome'];
+    }
+    elseif (empty($metaTitulo) and $this->metaTituloEmpresa) {
       $metaTitulo = $this->metaTituloEmpresa;
     }
-
-    if (empty($metaTitulo)) {
+    elseif (empty($metaTitulo)) {
       $metaTitulo = $resultado[0]['Categoria']['nome'];
     }
-
-    if (empty($metaTitulo)) {
-      $metaTitulo = 'Categoria';
-    }
-
-    $metaDescricao = $resultado[0]['Categoria']['meta_descricao'];
 
     if (empty($metaDescricao)) {
       $metaDescricao = $resultado[0]['Categoria']['descricao'];
