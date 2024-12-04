@@ -123,7 +123,7 @@ $classeRestrito = $this->usuarioLogado['nivel'] == USUARIO_RESTRITO ? 'text-gray
         </div>
       </a>
     </li>
-    <li class="<?php echo $classeRestrito; ?> px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'empresa' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
+    <li class="px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'empresa' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
       <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar'); ?>" class="w-full p-2">
         <div class="w-full flex items-center gap-3">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="" viewBox="0 0 16 16">
