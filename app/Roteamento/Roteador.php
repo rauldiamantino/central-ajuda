@@ -21,6 +21,7 @@ class Roteador
   private $empresaController;
   private $usuarioLogado;
   private $parametroId;
+  private $slug;
 
   public function __construct()
   {
@@ -48,6 +49,7 @@ class Roteador
     $this->recuperarChaveRota();
     $this->recuperarDominioPersonalizado();
     $this->validarAcessoDominioPadrao();
+
     $this->recuperarEmpresa();
     $this->validarAcessoCentral();
     $this->validarGratisExpirado();
@@ -422,7 +424,6 @@ class Roteador
   {
     $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-    // Bug rota não encontrada
     if ($url === '/favicon.ico') {
       http_response_code(204);
       exit;
@@ -431,41 +432,56 @@ class Roteador
     $metodo = $_SERVER['REQUEST_METHOD'];
     $metodoOculto = $_POST['_method'] ?? null;
 
-    // Formulário HTML
     if ($metodoOculto and in_array(strtoupper($metodoOculto), ['PUT', 'DELETE'])) {
       $metodo = strtoupper($metodoOculto);
     }
 
-    // Prepara padrão de rota aceita
     $this->chaveRota = $metodo . ':' . $url;
     $partesRota = explode('/', trim($url, '/'));
 
     $this->empresa = '';
-    $parteFinal = '';
+    $this->slug = '';
     $this->parametroId = 0;
 
-    // Apenas letras e números entre as barras
-    $this->chaveRota = preg_replace_callback('/\/([^\/]*)\//', function ($matches) {
-        return '/' . preg_replace('/[^a-zA-Z0-9]/', '', $matches[1]) . '/';
-      }, $this->chaveRota
+    // Apenas letras ou números entre as barras
+    $this->chaveRota = preg_replace_callback(
+      '/\/([^\/]*)\//',
+      function ($matches) {
+          return '/' . preg_replace('/[^a-zA-Z0-9\-]/', '', $matches[1]) . '/';
+      },
+      $this->chaveRota
     );
 
     if (count($partesRota) > 1) {
-      $this->empresa = reset($partesRota);
-      $parteFinal = end($partesRota);
-      $this->parametroId = is_numeric($parteFinal) ? (int) $parteFinal : 0;
+      $this->empresa = $partesRota[0];
+      $ultimaParte = end($partesRota);
+
+      if (is_numeric($ultimaParte)) {
+        $this->parametroId = (int) $ultimaParte;
+      }
+      else {
+        $penultimaParte = prev($partesRota);
+
+        if (is_numeric($penultimaParte)) {
+          $this->parametroId = (int) $penultimaParte;
+          $this->slug = $ultimaParte;
+        }
+      }
     }
-    elseif (count($partesRota) == 1) {
+    elseif (count($partesRota) === 1) {
       $this->empresa = reset($partesRota);
-      $parteFinal = '';
-      $this->parametroId = 0;
     }
 
     // Exemplo: {1} > {id}
     $this->chaveRota = preg_replace('/\b' . preg_quote($this->parametroId, '/') . '\b/', '{id}', $this->chaveRota, 1);
 
+    // Exemplo: {como-configurar} > {slug}
+    if ($this->slug) {
+      $this->chaveRota = str_replace($this->slug, '{slug}', $this->chaveRota);
+    }
+
     // Exemplo: {padrao} > {empresa}
-    if (empty($this->subdominio_2) and ! isset($this->rotas['publico'][ $this->chaveRota ])) {
+    if (empty($this->subdominio_2) and ! isset($this->rotas['publico'][$this->chaveRota])) {
       $this->chaveRota = preg_replace('/\b' . preg_quote($this->empresa, '/') . '\b/', '{empresa}', $this->chaveRota, 1);
     }
   }

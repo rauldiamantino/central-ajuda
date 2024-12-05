@@ -128,6 +128,21 @@ class Controller
     exit;
   }
 
+  protected function gerarSlug(string $titulo): string
+  {
+    $slug = strtolower(trim($titulo));
+    $slug = preg_replace('/[áàâãä]/u', 'a', $slug);
+    $slug = preg_replace('/[éèêë]/u', 'e', $slug);
+    $slug = preg_replace('/[íìîï]/u', 'i', $slug);
+    $slug = preg_replace('/[óòôõö]/u', 'o', $slug);
+    $slug = preg_replace('/[úùûü]/u', 'u', $slug);
+    $slug = preg_replace('/ç/u', 'c', $slug);
+    $slug = preg_replace('/[^a-z0-9]+/u', '-', $slug);
+    $slug = preg_replace('/^-+|-+$/', '', $slug);
+
+    return $slug;
+  }
+
   protected function renderizarView(string $template, array $dados = [])
   {
     echo $this->view->render($template, $dados);

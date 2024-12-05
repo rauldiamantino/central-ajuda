@@ -15,7 +15,7 @@ $artigoAtual = intval($artigo['Artigo']['id'] ?? 0);
 
         <?php foreach ($categorias as $chave => $linha) : ?>
           <li class="<?php echo isset($inicio) ? 'hidden md:block ' : '' ?> w-full flex <?php echo $categoriaAtual == $linha['Categoria']['id'] ? ' font-bold' : '';?> hover:underline rounded-md">
-            <a href="<?php echo baseUrl('/' . $subdominio . '/categoria/' . $linha['Categoria']['id']); ?>" class="w-full flex gap-2 items-center px-4 py-3">
+            <a href="<?php echo baseUrl('/' . $subdominio . '/categoria/' . $linha['Categoria']['id'] . '/' . $this->gerarSlug($linha['Categoria']['nome'])); ?>" class="w-full flex gap-2 items-center px-4 py-3">
               <?php echo $linha['Categoria']['nome'] ?>
 
               <?php if ($linha['Categoria']['ativo'] == INATIVO) { ?>
@@ -34,7 +34,7 @@ $artigoAtual = intval($artigo['Artigo']['id'] ?? 0);
         <h3 class="<?php echo isset($inicio) ? 'hidden md:block ' : '' ?>w-full text-start mb-2 px-4 py-4 text-lg text-gray-600 font-light text-xs">ARTIGOS RELACIONADOS</h3>
         <?php foreach ($demaisArtigos as $chave => $linha) : ?>
           <li class="<?php echo isset($inicio) ? 'hidden md:block ' : '' ?>w-full flex <?php echo $artigoAtual == $linha['Artigo']['id'] ? ' font-bold' : '';?> hover:underline rounded-md">
-            <a href="<?php echo baseUrl('/' . $subdominio . '/artigo/' . $linha['Artigo']['id']); ?>" class="w-full flex items-center gap-2 px-4 py-3"><?php echo $linha['Artigo']['titulo'] ?>
+            <a href="<?php echo baseUrl('/' . $subdominio . '/artigo/' . $linha['Artigo']['id'] . '/' . $this->gerarSlug($linha['Artigo']['titulo'])); ?>" class="w-full flex items-center gap-2 px-4 py-3"><?php echo $linha['Artigo']['titulo'] ?>
               <?php if ($linha['Artigo']['ativo'] == INATIVO) { ?>
                 <div class="text-red-800">
                   <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 16 16">

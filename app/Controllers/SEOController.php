@@ -111,7 +111,7 @@ class SEOController extends Controller
       }
 
       echo "  <url>\n";
-      echo "    <loc>https://360help.com.br/" . $subdominio . "/categoria/" . $linha['Categoria']['id'] . "</loc>\n";
+      echo "    <loc>https://360help.com.br/" . $subdominio . "/categoria/" . $linha['Categoria']['id'] . '/' . $this->gerarSlug($linha['Categoria']['nome']) . "</loc>\n";
       echo "    <changefreq>weekly</changefreq>\n";
       echo "    <priority>0.8</priority>\n";
       echo "  </url>\n";
@@ -125,7 +125,7 @@ class SEOController extends Controller
       }
 
       echo "  <url>\n";
-      echo "    <loc>https://360help.com.br/" . $subdominio . "/artigo/" . $linha['Artigo']['id'] . "</loc>\n";
+      echo "    <loc>https://360help.com.br/" . $subdominio . "/artigo/" . $linha['Artigo']['id'] . '/' . $this->gerarSlug($linha['Artigo']['titulo']) . "</loc>\n";
       echo "    <changefreq>monthly</changefreq>\n";
       echo "    <priority>0.7</priority>\n";
       echo "  </url>\n";

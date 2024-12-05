@@ -3,7 +3,7 @@
     <a href="<?php echo baseUrl('/' . $subdominio); ?>" class="hover:underline whitespace-nowrap">Início</a>
     <?php if (isset($artigo['Categoria']['nome'])) { ?>
       <span>></span>
-      <a href="<?php echo baseUrl('/' . $subdominio . '/categoria/' . $artigo['Artigo']['categoria_id']); ?>" class="hover:underline whitespace-nowrap"><?php echo $artigo['Categoria']['nome'] ?></a>
+      <a href="<?php echo baseUrl('/' . $subdominio . '/categoria/' . $artigo['Artigo']['categoria_id'] . '/' . $this->gerarSlug($artigo['Categoria']['nome'])); ?>" class="hover:underline whitespace-nowrap"><?php echo $artigo['Categoria']['nome'] ?></a>
     <?php } ?>
     <span>></span>
     <span class="underline whitespace-nowrap truncate"><?php echo $artigo['Artigo']['titulo'] ?></span>
