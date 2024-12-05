@@ -186,6 +186,7 @@ class PublicoArtigoController extends PublicoController
     $this->visao->variavel('conteudos', $conteudos);
     $this->visao->variavel('metaTitulo', $metaTitulo);
     $this->visao->variavel('metaDescricao', $metaDescricao);
+    $this->visao->variavel('urlCanonica', $this->subdominio . '/artigo/' . $id);
     $this->visao->variavel('menuLateral', true);
     $this->visao->renderizar('/artigo/index');
   }

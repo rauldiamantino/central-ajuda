@@ -117,6 +117,7 @@ class PublicoCategoriaController extends PublicoController
         $resultado = $this->artigoModel->selecionar($colArtigos)
                                        ->condicao($condArtigos)
                                        ->juntar($uniArtigos, 'LEFT')
+
                                        ->ordem($ordArtigos)
                                        ->executarConsulta();
 
@@ -156,6 +157,7 @@ class PublicoCategoriaController extends PublicoController
 
     $this->visao->variavel('metaTitulo', $metaTitulo);
     $this->visao->variavel('metaDescricao', $metaDescricao);
+    $this->visao->variavel('urlCanonica', $this->subdominio . '/categoria/' . $id);
     $this->visao->variavel('categorias', $categorias);
     $this->visao->variavel('artigos', $artigos);
     $this->visao->variavel('menuLateral', true);

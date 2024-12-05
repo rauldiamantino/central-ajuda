@@ -426,12 +426,21 @@ class DashboardArtigoController extends DashboardController
                                    ->limite($limite)
                                    ->executarConsulta();
 
-    if (isset($resultado['erro'])) {
-      $codigo = $resultado['erro']['codigo'] ?? 500;
-      $this->responderJson($resultado, $codigo);
+    if ($this->requisicaoFetch()) {
+
+      if (isset($resultado['erro'])) {
+        $codigo = $resultado['erro']['codigo'] ?? 500;
+        $this->responderJson($resultado, $codigo);
+      }
+
+      $this->responderJson($resultado);
     }
 
-    $this->responderJson($resultado);
+    if (! is_array($resultado)) {
+      $resultado = [];
+    }
+
+    return $resultado;
   }
 
   public function atualizar(int $id)

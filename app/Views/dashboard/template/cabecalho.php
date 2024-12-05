@@ -12,4 +12,5 @@
   <link rel="stylesheet" href="<?php echo baseUrl('/css/dashboard/index.css'); ?>">
   <link rel="stylesheet" href="<?php echo baseUrl('/css/publico/pers.css'); ?>">
   <title><?php echo $metaTitulo ?></title>
+  <meta name="robots" content="noindex, nofollow">
 </head>

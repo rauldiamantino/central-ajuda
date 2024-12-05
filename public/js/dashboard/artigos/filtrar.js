@@ -25,7 +25,12 @@ const filtrarArtigos = () => {
   let categoriaNome = ''
   let categorias = {}
 
-  fetch(baseUrl(`/${empresa}/d/categorias`), { method: 'GET' })
+  fetch(baseUrl(`/${empresa}/d/categorias`), {
+    method: 'GET',
+    headers: {
+      'X-Requested-With': 'fetch' ,
+    },
+  })
     .then(resposta => resposta.json())
     .then(resposta => {
 

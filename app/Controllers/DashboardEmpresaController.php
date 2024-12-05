@@ -60,13 +60,34 @@ class DashboardEmpresaController extends DashboardController
     $this->visao->renderizar('/empresa/index');
   }
 
-  public function buscarEmpresaSemId(string $coluna, string $valor = ''): array
+  public function buscarEmpresaSemId(string $coluna, $valor = ''): array
   {
     if (empty($valor)) {
       return [];
     }
 
     return $this->empresaModel->buscarEmpresaSemId($coluna, $valor);
+  }
+
+  public function buscarEmpresas(): array
+  {
+    $condicao[] = [
+      'campo' => 'Empresa.ativo',
+      'operador' => '=',
+      'valor' => ATIVO,
+    ];
+
+    $colunas = [
+      'Empresa.id',
+      'Empresa.ativo',
+      'Empresa.subdominio',
+    ];
+
+    $empresa = $this->empresaModel->selecionar($colunas)
+                                  ->condicao($condicao)
+                                  ->executarConsulta();
+
+    return $empresa;
   }
 
   public function atualizar(int $id)

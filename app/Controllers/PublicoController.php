@@ -51,6 +51,7 @@ class PublicoController extends Controller
     $this->visao->variavel('urlSite', $this->urlSite);
     $this->visao->variavel('metaTitulo', $this->metaTituloEmpresa);
     $this->visao->variavel('metaDescricao', $this->metaDescricaoEmpresa);
+    $this->visao->variavel('urlCanonica', $this->subdominio);
   }
 
   public function publicoVer()
@@ -112,6 +113,7 @@ class PublicoController extends Controller
     $this->visao->variavel('categorias', $resultado);
     $this->visao->variavel('metaTitulo', $metaTitulo);
     $this->visao->variavel('metaDescricao', $metaDescricao);
+    $this->visao->variavel('urlCanonica', $this->subdominio);
     $this->visao->variavel('menuLateral', true);
     $this->visao->variavel('inicio', true);
     $this->visao->renderizar('/inicio/index');

@@ -7,7 +7,7 @@ class Controller
 {
   protected $sessaoUsuario;
   protected $usuarioLogado;
-  protected $empresaPadraoId;
+  public $empresaPadraoId;
 
   public function __construct()
   {
@@ -92,6 +92,15 @@ class Controller
 
     header('Location: ' . $rota);
     exit();
+  }
+
+  protected function requisicaoFetch(): bool
+  {
+    if (! isset($_SERVER['HTTP_X_REQUESTED_WITH']) or $_SERVER['HTTP_X_REQUESTED_WITH'] !== 'fetch') {
+      return false;
+    }
+
+    return true;
   }
 
   protected function receberJson(): array

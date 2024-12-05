@@ -14,6 +14,9 @@
   <meta property="og:description" content="<?php echo htmlspecialchars($metaDescricao); ?>">
   <meta property="twitter:title" content="<?php echo htmlspecialchars($metaTitulo); ?>">
   <meta property="twitter:description" content="<?php echo htmlspecialchars($metaDescricao); ?>">
-
+  <meta property="og:url" content="https://360help.com.br">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="360Help">
   <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://360help.com.br">
 </head>

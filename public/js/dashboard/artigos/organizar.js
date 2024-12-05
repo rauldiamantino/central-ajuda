@@ -32,7 +32,12 @@ const buscarArtigos = () => {
 
   modalOrganizarCancelar.addEventListener('click', () => modalOrganizar.close())
 
-  fetch(urlBuscar, { method: 'GET' })
+  fetch(urlBuscar, {
+    method: 'GET',
+    headers: {
+      'X-Requested-With': 'fetch' ,
+    },
+  })
     .then(resposta => resposta.json())
     .then(resposta => {
 

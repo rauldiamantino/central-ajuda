@@ -112,6 +112,7 @@ class PublicoBuscaController extends PublicoController
     $this->visao->variavel('metaTitulo', 'Busca');
     $this->visao->variavel('metaDescricao', '');
     $this->visao->variavel('menuLateral', $menuLateral);
+    $this->visao->variavel('urlCanonica', $this->subdominio . '/buscar');
     $this->visao->renderizar('/busca/index');
   }
 }

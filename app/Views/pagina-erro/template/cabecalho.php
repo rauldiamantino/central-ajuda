@@ -18,4 +18,5 @@
     .publico-artigo-blocos p { margin-bottom: 1rem; }
     .publico-artigo-blocos a { color: #1E40AF; cursor: pointer; text-decoration: underline; }
   </style>
+  <meta name="robots" content="noindex, nofollow">
 </head>
