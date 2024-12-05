@@ -17,7 +17,16 @@ $classeRestrito = $this->usuarioLogado['nivel'] == USUARIO_RESTRITO ? 'text-gray
     <div class="py-5 border-y border-slate-700/70 w-full flex justify-between items-center gap-3 rounded-lg">
       <div class="w-2/3 flex gap-3 items-center">
         <div class="min-w-max border border-gray-600 rounded-full text-gray-500">
-          <img src="<?php echo $this->renderImagem($this->usuarioLogado['foto']); ?>" class="p-1 w-10 h-10 rounded-full" alt="foto-perfil-<?php echo $this->usuarioLogado['id']; ?>" onerror="this.onerror=null; this.src='/img/sem-imagem-perfil.svg';">
+          <?php if ($this->usuarioLogado['foto']) { ?>
+            <img src="<?php echo $this->renderImagem($this->usuarioLogado['foto']); ?>" class="p-1 w-10 h-10 rounded-full" alt="foto-perfil-<?php echo $this->usuarioLogado['id']; ?>" onerror="this.onerror=null; this.src='/img/sem-imagem-perfil.svg';">
+          <?php } else { ?>
+            <div class="p-1 w-10 h-10 rounded-full">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#E5E7EB">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </div>
+          <?php } ?>
         </div>
         <div class="w-full pr-4 flex flex-col gap-1">
           <div class="w-full truncate"><?php echo $this->usuarioLogado['nome'] ?></div>

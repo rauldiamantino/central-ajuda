@@ -1,7 +1,16 @@
 <div class="flex xl:hidden">
   <button type="button" class="outline-none xl:mx-5 w-max flex justify-end items-center gap-4 btn-menu-topo-usuario">
     <div class="border border-slate-200 w-12 h-12 bg-gray-50 rounded-full text-gray-500">
+    <?php if ($this->usuarioLogado['foto']) { ?>
       <img src="<?php echo $this->renderImagem($this->usuarioLogado['foto']); ?>" class="p-1 rounded-full" alt="foto-perfil-<?php echo $this->usuarioLogado['id']; ?>" onerror="this.onerror=null; this.src='/img/sem-imagem-perfil.svg';">
+    <?php } else { ?>
+      <div class="p-1 rounded-full">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#E5E7EB">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+      </div>
+    <?php } ?>
     </div>
 
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="perfil-usuario-baixo">
