@@ -1,6 +1,7 @@
 <?php
 
 namespace app\Controllers;
+use app\Core\Cache;
 use app\Models\DashboardLoginModel;
 use app\Models\DashboardEmpresaModel;
 use app\Models\DashboardAssinaturaModel;
@@ -104,6 +105,9 @@ class DashboardLoginController extends DashboardController
           continue;
         }
 
+        // Sessão antiga
+        Cache::apagar('sessao', $this->empresaPadraoId);
+
         // Aplica empresa na sessão
         $this->usuarioLogado['empresaId'] = $linha['Empresa']['id'];
         $this->usuarioLogado['empresaAtivo'] = $linha['Empresa']['ativo'];
@@ -187,6 +191,7 @@ class DashboardLoginController extends DashboardController
   public function logout()
   {
     $this->sessaoUsuario->apagar('usuario');
+    Cache::apagar('sessao', $this->empresaPadraoId);
 
     header('Location: ' . baseUrl('/'));
     exit();
