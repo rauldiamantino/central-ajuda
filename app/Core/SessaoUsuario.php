@@ -26,7 +26,7 @@ class SessaoUsuario
       }
 
       ini_set('session.save_handler', 'memcached');
-      ini_set('session.save_path', 'memcached:11211');
+      ini_set('session.save_path', MEMCACHED_HOST . ':11211');
 
       session_set_cookie_params([
           'lifetime' => $lifetime,
