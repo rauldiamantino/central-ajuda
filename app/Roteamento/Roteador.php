@@ -139,6 +139,10 @@ class Roteador
         continue;
       }
 
+      if (empty($this->subdominio_2) and $chave == 'centralPersonalizado') {
+        continue;
+      }
+
       foreach ($linha as $subChave => $subLinha):
 
         if ($subChave !== $this->chaveRota) {
