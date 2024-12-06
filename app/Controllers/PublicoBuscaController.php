@@ -30,7 +30,8 @@ class PublicoBuscaController extends PublicoController
 
     $limite = 10;
     $pagina = intval($_GET['pagina'] ?? 1);
-    $textoBusca = htmlspecialchars($_GET['texto_busca'] ?? '');
+    $textoBusca = $_GET['texto_busca'] ?? '';
+    $textoBusca = $this->filtrarInjection($textoBusca);
 
     if (mb_strlen($textoBusca) > 2) {
       $cacheNome = 'publico-busca-resultado-buscar-' . md5(serialize($textoBusca . $pagina));
@@ -107,7 +108,7 @@ class PublicoBuscaController extends PublicoController
     $this->visao->variavel('paginasTotal', $paginasTotal);
     $this->visao->variavel('intervaloInicio', $intervaloInicio);
     $this->visao->variavel('intervaloFim', $intervaloFim);
-    $this->visao->variavel('textoBusca', $textoBusca);
+    $this->visao->variavel('textoBusca', htmlspecialchars($textoBusca));
     $this->visao->variavel('resultadoBuscar', $resultadoBuscar);
     $this->visao->variavel('metaTitulo', 'Busca');
     $this->visao->variavel('metaDescricao', '');

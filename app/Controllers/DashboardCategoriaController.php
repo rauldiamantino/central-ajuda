@@ -20,19 +20,13 @@ class DashboardCategoriaController extends DashboardController
   public function categoriasVer()
   {
     $limite = 10;
-    $acao = htmlspecialchars($_GET['acao'] ?? '');
-    $paginaAtual = intval($_GET['pagina'] ?? 0);
     $resultado = [];
     $condicoes = [];
 
-    $botaoVoltar = $_GET['referer'] ?? '';
-    $botaoVoltar = htmlspecialchars($botaoVoltar);
-    $botaoVoltar = urldecode($botaoVoltar);
+    $acao = htmlspecialchars($_GET['acao'] ?? '');
+    $paginaAtual = intval($_GET['pagina'] ?? 0);
+    $botaoVoltar = $this->obterReferer();
 
-    if (isset($_POST['referer']) and $_POST['referer'] and ! is_array($_POST['referer'])) {
-      $botaoVoltar = $_POST['referer'];
-      $botaoVoltar = htmlspecialchars($botaoVoltar);
-    }
 
     // Filtros
     $categoriaId = $_GET['id'] ?? '';
@@ -153,15 +147,7 @@ class DashboardCategoriaController extends DashboardController
     $intervaloInicio = 0;
     $intervaloFim = 0;
     $paginaAtual = intval($_GET['pagina'] ?? 0);
-
-    $botaoVoltar = $_GET['referer'] ?? '';
-    $botaoVoltar = htmlspecialchars($botaoVoltar);
-    $botaoVoltar = urldecode($botaoVoltar);
-
-    if (isset($_POST['referer']) and $_POST['referer'] and ! is_array($_POST['referer'])) {
-      $botaoVoltar = $_POST['referer'];
-      $botaoVoltar = htmlspecialchars($botaoVoltar);
-    }
+    $botaoVoltar = $this->obterReferer();
 
     $condContarArtigos = [
       'campo' => 'Artigo.categoria_id',
@@ -270,13 +256,11 @@ class DashboardCategoriaController extends DashboardController
     $dados = $this->receberJson();
     $resultado = $this->categoriaModel->adicionar($dados);
 
-    $botaoVoltar = $_GET['referer'] ?? '';
-    $botaoVoltar = htmlspecialchars($botaoVoltar);
-    $botaoVoltar = urldecode($botaoVoltar);
+    $referer = '';
+    $botaoVoltar = $this->obterReferer();
 
-    if (isset($_POST['referer']) and $_POST['referer'] and ! is_array($_POST['referer'])) {
-      $botaoVoltar = $_POST['referer'];
-      $botaoVoltar = htmlspecialchars($botaoVoltar);
+    if ($botaoVoltar) {
+      $referer = '?referer=' . urlencode($botaoVoltar);
     }
 
     if (! isset($resultado['id']) or empty($resultado['id'])) {
@@ -286,7 +270,7 @@ class DashboardCategoriaController extends DashboardController
     Cache::apagar('publico-categorias', $this->usuarioLogado['empresaId']);
     Cache::apagar('publico-categorias-inicio', $this->usuarioLogado['empresaId']);
 
-    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categoria/editar/' . $resultado['id'] . '?referer=' . $botaoVoltar, 'Categoria criada com sucesso');
+    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categoria/editar/' . $resultado['id'] . $referer, 'Categoria criada com sucesso');
   }
 
   public function buscar(int $id = 0)
@@ -337,19 +321,11 @@ class DashboardCategoriaController extends DashboardController
 
   public function atualizar(int $id)
   {
-    $botaoVoltar = $_GET['referer'] ?? '';
-    $botaoVoltar = htmlspecialchars($botaoVoltar);
-    $botaoVoltar = urldecode($botaoVoltar);
-
-    if (isset($_POST['referer']) and $_POST['referer'] and ! is_array($_POST['referer'])) {
-      $botaoVoltar = $_POST['referer'];
-      $botaoVoltar = htmlspecialchars($botaoVoltar);
-    }
-
     $json = $this->receberJson();
     $resultado = $this->categoriaModel->atualizar($json, $id);
 
     $referer = '';
+    $botaoVoltar = $this->obterReferer();
 
     if ($botaoVoltar) {
       $referer = '?referer=' . urlencode($botaoVoltar);

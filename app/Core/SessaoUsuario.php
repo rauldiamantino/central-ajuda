@@ -6,10 +6,11 @@ class SessaoUsuario
   public function __construct()
   {
     if (session_status() === PHP_SESSION_NONE) {
-      ini_set('session.gc_maxlifetime', 14400);
-
       $lifetime = 14400; // 4 horas
       $cookieParams = session_get_cookie_params();
+
+      ini_set('session.gc_maxlifetime', $lifetime);
+      ini_set('session.cookie_lifetime', $lifetime);
 
       $dominio = '.360help.com.br';
 

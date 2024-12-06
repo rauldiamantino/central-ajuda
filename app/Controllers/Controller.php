@@ -103,6 +103,55 @@ class Controller
     return true;
   }
 
+  protected function obterReferer(): string
+  {
+    $referer = '';
+
+    if (isset($_GET['referer']) and ! is_array($_GET['referer'])) {
+      $referer = $_GET['referer'];
+    }
+
+    if (isset($_POST['referer']) and ! is_array($_POST['referer'])) {
+      $referer = $_POST['referer'];
+    }
+
+    $referer = urldecode($referer);
+    $referer = $this->filtrarInjection($referer);
+
+    return $referer;
+  }
+
+  // Proteção contra injection
+  protected function filtrarInjection($textoEntrada): string
+  {
+    if (is_array($textoEntrada)) {
+      $textoEntrada = '';
+    }
+
+    // Injection via Path traversal
+    if (preg_match('/\.\.(\/|%2F)/', $textoEntrada)) {
+      return '';
+    }
+
+    $textoEntrada = preg_replace('/[^a-zA-Z0-9\s\/\.&?=]/', '', $textoEntrada);
+
+    $proibidos = [
+      'SELECT', 'INSERT', 'DELETE', 'UPDATE', 'DROP', 'ALTER', 'CREATE', 'REPLACE',
+      'UNION', 'TRUNCATE', 'JOIN', 'WHERE', 'FROM', 'LIKE', 'HAVING', 'ORDER', 'GROUP', 'LIMIT',
+      '--', '#', ';', '/*', '*/',
+    ];
+
+    $proibidosEscapados = [];
+    foreach ($proibidos as $termo):
+      $proibidosEscapados[] = preg_quote($termo, '/');
+    endforeach;
+
+    $padrao = '/\b(' . implode('|', $proibidosEscapados) . ')\b/i';
+    $textoEntrada = preg_replace($padrao, '', $textoEntrada);
+
+    return trim($textoEntrada);
+  }
+
   protected function receberJson(): array
   {
     $dados = $_POST;

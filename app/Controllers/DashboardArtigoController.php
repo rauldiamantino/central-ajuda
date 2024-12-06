@@ -24,30 +24,32 @@ class DashboardArtigoController extends DashboardController
 
   public function artigosVer()
   {
-    $botaoVoltar = $_GET['referer'] ?? '';
-    $botaoVoltar = htmlspecialchars($botaoVoltar);
-    $botaoVoltar = urldecode($botaoVoltar);
-
-    if (isset($_POST['referer']) and $_POST['referer'] and ! is_array($_POST['referer'])) {
-      $botaoVoltar = $_POST['referer'];
-      $botaoVoltar = htmlspecialchars($botaoVoltar);
-    }
-
     $limite = 10;
     $paginasTotal = 0;
     $intervaloInicio = 0;
     $intervaloFim = 0;
     $paginaAtual = intval($_GET['pagina'] ?? 0);
+    $botaoVoltar = $this->obterReferer();
+
     $resultado = [];
     $condicoes = [];
+    $filtroAtual = [];
 
     // Filtros
     $artigoId = $_GET['id'] ?? '';
+    $artigoId = $this->filtrarInjection($artigoId);
+
     $artigoTitulo = urldecode($_GET['titulo'] ?? '');
+    $artigoTitulo = $this->filtrarInjection($artigoTitulo);
+
     $artigoStatus = $_GET['status'] ?? '';
+    $artigoStatus = $this->filtrarInjection($artigoStatus);
+
     $categoriaId = $_GET['categoria_id'] ?? '';
+    $categoriaId = $this->filtrarInjection($categoriaId);
+
     $categoriaNome = urldecode($_GET['categoria_nome'] ?? '');
-    $filtroAtual = [];
+    $categoriaNome = $this->filtrarInjection($categoriaNome);
 
     // Filtrar por categoria
     if (isset($_GET['categoria_id'])) {
@@ -199,14 +201,7 @@ class DashboardArtigoController extends DashboardController
     $artigo = [];
     $categorias = [];
     $conteudos = [];
-    $botaoVoltar = $_GET['referer'] ?? '';
-    $botaoVoltar = htmlspecialchars($botaoVoltar);
-    $botaoVoltar = urldecode($botaoVoltar);
-
-    if (isset($_POST['referer']) and $_POST['referer'] and ! is_array($_POST['referer'])) {
-      $botaoVoltar = $_POST['referer'];
-      $botaoVoltar = htmlspecialchars($botaoVoltar);
-    }
+    $botaoVoltar = $this->obterReferer();
 
     $ordemNum = [
       'prox' => 1,
@@ -344,19 +339,11 @@ class DashboardArtigoController extends DashboardController
 
   public function adicionar(): array
   {
-    $botaoVoltar = $_GET['referer'] ?? '';
-    $botaoVoltar = htmlspecialchars($botaoVoltar);
-    $botaoVoltar = urldecode($botaoVoltar);
-
-    if (isset($_POST['referer']) and $_POST['referer'] and ! is_array($_POST['referer'])) {
-      $botaoVoltar = $_POST['referer'];
-      $botaoVoltar = htmlspecialchars($botaoVoltar);
-    }
-
     $dados = $this->receberJson();
     $resultado = $this->artigoModel->adicionar($dados);
 
     $referer = '';
+    $botaoVoltar = $this->obterReferer();
 
     if ($botaoVoltar) {
       $referer = '?referer=' . urlencode($botaoVoltar);
@@ -445,19 +432,11 @@ class DashboardArtigoController extends DashboardController
 
   public function atualizar(int $id)
   {
-    $botaoVoltar = $_GET['referer'] ?? '';
-    $botaoVoltar = htmlspecialchars($botaoVoltar);
-    $botaoVoltar = urldecode($botaoVoltar);
-
-    if (isset($_POST['referer']) and $_POST['referer'] and ! is_array($_POST['referer'])) {
-      $botaoVoltar = $_POST['referer'];
-      $botaoVoltar = htmlspecialchars($botaoVoltar);
-    }
-
     $json = $this->receberJson();
     $resultado = $this->artigoModel->atualizar($json, $id);
 
     $referer = '';
+    $botaoVoltar = $this->obterReferer();
 
     if ($botaoVoltar) {
       $referer = '?referer=' . urlencode($botaoVoltar);
