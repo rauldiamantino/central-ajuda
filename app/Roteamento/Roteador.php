@@ -70,16 +70,14 @@ class Roteador
     // Sessão cache
     $logadoSessaoId = $sessao['id'] ?? null;
     $logadoSessaoIp = $sessao['ip'] ?? null;
-    $logadoTokenSessao = $sessao['tokenUnico'] ?? null;
     $logadoNavegador = $sessao['navegador'] ?? null;
 
     // Nova sessão
     $novoNavegador = $_SERVER['HTTP_USER_AGENT'] ?? null;
-    $novoTokenUnico = $_COOKIE['token_unico'] ?? null;
     $novoIp = $_SERVER['REMOTE_ADDR'] ?? null;
     $sessaoId = null;
 
-    if (($this->subdominio_2 and $logadoSessaoId) and ($logadoNavegador and $logadoNavegador == $novoNavegador) and ($logadoTokenSessao and $logadoTokenSessao == $novoTokenUnico) and ($logadoSessaoIp and $logadoSessaoIp == $novoIp)) {
+    if (($this->subdominio_2 and $logadoSessaoId) and ($logadoNavegador and $logadoNavegador == $novoNavegador) and ($logadoSessaoIp and $logadoSessaoIp == $novoIp)) {
       $sessaoId = $logadoSessaoId;
     }
 
@@ -153,18 +151,24 @@ class Roteador
   {
     $novoIp = $_SERVER['REMOTE_ADDR'] ?? '';
     $novoNavegador = $_SERVER['HTTP_USER_AGENT'] ?? '';
-    $novoTokenUnico = bin2hex(random_bytes(32));
 
-    if (empty($this->subdominio_2) and $novoIp and $novoNavegador and $novoTokenUnico) {
-      $sessao = [
-        'id' => session_id(),
-        'navegador' => $novoNavegador,
-        'tokenUnico' => $novoTokenUnico,
-        'ip' => $novoIp,
-      ];
+    if (empty($this->subdominio_2) and $novoIp and $novoNavegador) {
+      $sessao = Cache::buscar('sessao', $this->empresaId);
 
-      Cache::definir('sessao', $sessao, 14400, $this->empresaId);
-      setcookie('token_unico', $novoTokenUnico, time() + 14400, '/', '.360help.com.br', true, true);
+      // Troca token somente em novo login
+      $sessaoAtualId = $sessao['id'] ?? null;
+      $sessaoAtualIp = $sessao['ip'] ?? null;
+      $sessaoAtualNavegador = $sessao['navegador'] ?? null;
+
+      if ($sessaoAtualId != session_id() or $sessaoAtualIp != $novoIp or $sessaoAtualNavegador != $novoNavegador) {
+        $sessao = [
+          'id' => session_id(),
+          'navegador' => $novoNavegador,
+          'ip' => $novoIp,
+        ];
+
+        Cache::definir('sessao', $sessao, 14400, $this->empresaId);
+      }
     }
 
     $sucesso = false;
