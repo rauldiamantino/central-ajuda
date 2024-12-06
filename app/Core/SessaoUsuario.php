@@ -24,7 +24,7 @@ class SessaoUsuario
           'domain' => $dominio,
           'secure' => isset($_SERVER['HTTPS']),
           'httponly' => true,
-          'samesite' => 'Strict', // Ou 'Lax'
+          'samesite' => 'Lax', // Ou 'Strict'
       ]);
 
       session_start();
