@@ -93,12 +93,19 @@ class SEOController extends Controller
       return ['erro' => 'Empresa não encontrada'];
     }
 
+    // Domínio personalizado
+    $dominio = $empresa[0]['Empresa']['subdominio_2'] ?? '';
+
+    if (empty($dominio)) {
+      $dominio = 'https://360help.com.br/' . $subdominio;
+    }
+
     echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
     echo "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
 
     // Base
     echo "  <url>\n";
-    echo "    <loc>https://360help.com.br/" . $subdominio . "</loc>\n";
+    echo "    <loc>" . $dominio . "</loc>\n";
     echo "    <changefreq>daily</changefreq>\n";
     echo "    <priority>1.0</priority>\n";
     echo "  </url>\n";
@@ -111,7 +118,7 @@ class SEOController extends Controller
       }
 
       echo "  <url>\n";
-      echo "    <loc>https://360help.com.br/" . $subdominio . "/categoria/" . $linha['Categoria']['id'] . '/' . $this->gerarSlug($linha['Categoria']['nome']) . "</loc>\n";
+      echo "    <loc>" . $dominio . "/categoria/" . $linha['Categoria']['id'] . '/' . $this->gerarSlug($linha['Categoria']['nome']) . "</loc>\n";
       echo "    <changefreq>weekly</changefreq>\n";
       echo "    <priority>0.8</priority>\n";
       echo "  </url>\n";
@@ -125,7 +132,7 @@ class SEOController extends Controller
       }
 
       echo "  <url>\n";
-      echo "    <loc>https://360help.com.br/" . $subdominio . "/artigo/" . $linha['Artigo']['id'] . '/' . $this->gerarSlug($linha['Artigo']['titulo']) . "</loc>\n";
+      echo "    <loc>" . $dominio . "/artigo/" . $linha['Artigo']['id'] . '/' . $this->gerarSlug($linha['Artigo']['titulo']) . "</loc>\n";
       echo "    <changefreq>monthly</changefreq>\n";
       echo "    <priority>0.7</priority>\n";
       echo "  </url>\n";

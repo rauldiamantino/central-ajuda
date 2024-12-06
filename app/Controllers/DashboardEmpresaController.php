@@ -81,6 +81,7 @@ class DashboardEmpresaController extends DashboardController
       'Empresa.id',
       'Empresa.ativo',
       'Empresa.subdominio',
+      'Empresa.subdominio_2',
     ];
 
     $empresa = $this->empresaModel->selecionar($colunas)

@@ -53,6 +53,15 @@ return [
     'GET:/{empresa}/buscar'                             => ['controlador' => [PublicoBuscaController::class,            'buscar'],                        'permissao' => $publico],
     'GET:/{empresa}/sitemap.xml'                        => ['controlador' => [SEOController::class,                     'sitemapEmpresa'],                'permissao' => $publico],
   ],
+  'centralPersonalizado' => [
+    'GET:/'                                             => ['controlador' => [PublicoController::class,                 'publicoVer'],                    'permissao' => $publico],
+    'GET:/categoria/{id}/{slug}'                        => ['controlador' => [PublicoCategoriaController::class,        'categoriaVer'],                  'permissao' => $publico],
+    'GET:/artigo/{id}/{slug}'                           => ['controlador' => [PublicoArtigoController::class,           'artigoVer'],                     'permissao' => $publico],
+    'GET:/categoria/{id}'                               => ['controlador' => [PublicoCategoriaController::class,        'categoriaVer'],                  'permissao' => $publico],
+    'GET:/artigo/{id}'                                  => ['controlador' => [PublicoArtigoController::class,           'artigoVer'],                     'permissao' => $publico],
+    'POST:/buscar'                                      => ['controlador' => [PublicoBuscaController::class,            'buscar'],                        'permissao' => $publico],
+    'GET:/buscar'                                       => ['controlador' => [PublicoBuscaController::class,            'buscar'],                        'permissao' => $publico],
+  ],
   'dashboard' => [
     'GET:/{empresa}/dashboard/ajustes'                  => ['controlador' => [DashboardAjusteController::class,         'ajustesVer'],                    'permissao' => $todos],
     'GET:/{empresa}/dashboard/artigos'                  => ['controlador' => [DashboardArtigoController::class,         'artigosVer'],                    'permissao' => $todos],

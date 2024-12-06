@@ -46,8 +46,8 @@ class Roteador
     $this->usuarioLogado = [];
 
     $this->limiteRequisicoes();
-    $this->recuperarChaveRota();
     $this->recuperarDominioPersonalizado();
+    $this->recuperarChaveRota();
     $this->validarAcessoDominioPadrao();
 
     $this->recuperarEmpresa();
@@ -133,6 +133,12 @@ class Roteador
   {
     $sucesso = false;
     foreach ($this->rotas as $chave => $linha):
+
+      // Domínio personalizado acessa apenas central personalizado
+      if ($this->subdominio_2 and $chave != 'centralPersonalizado') {
+        continue;
+      }
+
       foreach ($linha as $subChave => $subLinha):
 
         if ($subChave !== $this->chaveRota) {
@@ -325,7 +331,7 @@ class Roteador
       return;
     }
 
-    if (isset($this->rotas['central'][ $this->chaveRota ])) {
+    if (isset($this->rotas['centralPersonalizado'][ $this->chaveRota ])) {
       return;
     }
 
@@ -389,15 +395,16 @@ class Roteador
 
     $coluna = 'subdominio';
     $valor = $this->empresa;
+    $cacheNome = 'roteador-' . $valor;
 
     if ($this->subdominio_2) {
       $coluna = 'subdominio_2';
       $valor = $_SERVER['REQUEST_SCHEME'] . '://' . $this->subdominio_2;
+      $cacheNome = 'roteador-' . $this->subdominio_2;
     }
 
     // Cache 1 hora
     $cacheTempo = 60 * 60;
-    $cacheNome = 'roteador-' . $valor;
     $buscarEmpresa = Cache::buscar($cacheNome);
 
     if ($buscarEmpresa == null) {
