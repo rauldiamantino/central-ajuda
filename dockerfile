@@ -32,6 +32,8 @@ RUN apt-get update && \
 RUN pecl install memcached && \
     docker-php-ext-enable memcached
 
+RUN apt-get update && apt-get install -y telnet
+
 # Ativa o módulo de reescrita do Apache
 RUN a2enmod rewrite
 

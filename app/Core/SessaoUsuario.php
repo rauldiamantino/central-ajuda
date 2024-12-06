@@ -1,10 +1,17 @@
 <?php
 namespace app\Core;
 
+use app\Roteamento\Roteador;
+
 class SessaoUsuario
 {
-  public function __construct()
+  public function __construct($sessaoId = null)
   {
+    if ($sessaoId and $sessaoId != session_id()) {
+      session_destroy();
+      session_id($sessaoId);
+    }
+
     if (session_status() === PHP_SESSION_NONE) {
       $lifetime = 14400; // 4 horas
       $cookieParams = session_get_cookie_params();
@@ -17,6 +24,9 @@ class SessaoUsuario
       if (HOST_LOCAL) {
         $dominio = 'localhost';
       }
+
+      ini_set('session.save_handler', 'memcached');
+      ini_set('session.save_path', 'memcached:11211');
 
       session_set_cookie_params([
           'lifetime' => $lifetime,

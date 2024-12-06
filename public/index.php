@@ -1,6 +1,7 @@
 <?php
 require '../vendor/autoload.php';
 
+use app\Core\Cache;
 use app\Core\SessaoUsuario;
 use app\Roteamento\Roteador;
 

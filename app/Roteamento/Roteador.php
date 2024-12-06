@@ -2,6 +2,7 @@
 namespace app\Roteamento;
 use DateTime;
 use app\Core\Cache;
+use app\Core\SessaoUsuario;
 use app\Controllers\PaginaErroController;
 use app\Controllers\DashboardEmpresaController;
 
@@ -25,8 +26,6 @@ class Roteador
 
   public function __construct()
   {
-    global $sessaoUsuario;
-    $this->sessaoUsuario = $sessaoUsuario;
     $this->rotas = require_once 'rotas.php';
 
     $this->paginaErro = new PaginaErroController();
@@ -45,17 +44,14 @@ class Roteador
     $this->testeExpirado = false;
     $this->usuarioLogado = [];
 
-    $this->limiteRequisicoes();
     $this->recuperarDominioPersonalizado();
     $this->recuperarChaveRota();
     $this->validarAcessoDominioPadrao();
-
     $this->recuperarEmpresa();
     $this->validarAcessoCentral();
     $this->validarGratisExpirado();
-
-    $this->usuarioLogado = $this->sessaoUsuario->buscar('usuario');
-
+    $this->recuperarSessaoLogado();
+    $this->limiteRequisicoes();
     $this->permitirDebugSuporte();
     $this->permitirAcessoSuporte();
 
@@ -65,6 +61,19 @@ class Roteador
     $this->validarAcessoNegado();
     $this->gravarEmpresaIdSessao();
     $this->acessarRota();
+  }
+
+  private function recuperarSessaoLogado(): void
+  {
+    $sessao = Cache::buscar('sessao', $this->empresaId);
+    $sessaoId = null;
+
+    if ($this->subdominio_2 and isset($sessao['id']) and $sessao['id']) {
+      $sessaoId = $sessao['id'];
+    }
+
+    $this->sessaoUsuario = new SessaoUsuario($sessaoId);
+    $this->usuarioLogado = $this->sessaoUsuario->buscar('usuario');
   }
 
   private function permitirAcessoSuporte(): void
@@ -131,6 +140,10 @@ class Roteador
 
   private function acessarRota(): void
   {
+    if (empty($this->subdominio_2)) {
+      Cache::definir('sessao', ['id' => session_id()], 14400, $this->empresaId);
+    }
+
     $sucesso = false;
     foreach ($this->rotas as $chave => $linha):
 
