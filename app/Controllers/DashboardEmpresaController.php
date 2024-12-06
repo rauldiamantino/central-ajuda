@@ -77,6 +77,12 @@ class DashboardEmpresaController extends DashboardController
       'valor' => ATIVO,
     ];
 
+    $condicao[] = [
+      'campo' => 'Assinatura.status',
+      'operador' => '=',
+      'valor' => ATIVO,
+    ];
+
     $colunas = [
       'Empresa.id',
       'Empresa.ativo',
@@ -84,8 +90,15 @@ class DashboardEmpresaController extends DashboardController
       'Empresa.subdominio_2',
     ];
 
+    $condJoin = [
+      'tabelaJoin' => 'Assinatura',
+      'campoA' => 'Assinatura.empresa_id',
+      'campoB' => 'Empresa.id',
+    ];
+
     $empresa = $this->empresaModel->selecionar($colunas)
                                   ->condicao($condicao)
+                                  ->juntar($condJoin, 'INNER')
                                   ->executarConsulta();
 
     return $empresa;
