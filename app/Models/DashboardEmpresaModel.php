@@ -294,11 +294,11 @@ class DashboardEmpresaModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('cor_primaria', 'caracteres', $corPrimariaCaracteres);
       }
 
-      if (strlen($campos['meta_titulo']) > $metaTituloCaracteres) {
+      if (mb_strlen($campos['meta_titulo']) > $metaTituloCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('meta_titulo', 'caracteres', $metaTituloCaracteres);
       }
 
-      if (strlen($campos['meta_descricao']) > $metaDescricaoCaracteres) {
+      if (mb_strlen($campos['meta_descricao']) > $metaDescricaoCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('meta_descricao', 'caracteres', $metaDescricaoCaracteres);
       }
 
