@@ -58,7 +58,7 @@
   <?php } ?>
 </div>
 
-<?php $dominio = HOST_LOCAL ? 'http://localhost' : ''; ?>
+<?php $dominio = HOST_LOCAL ? 'http://localhost' : 'https://360help.com.br'; ?>
 <?php if ($this->usuarioLogado['id'] and $this->usuarioLogado['subdominio'] and $this->usuarioLogado['empresaId'] and $this->usuarioLogado['empresaId'] == $this->empresaPadraoId) { ?>
   <div class="fixed bottom-32 right-4 sm:right-6 md:right-10 z-20 rounded-full hover:scale-110 duration-100 pers-publico-botao-editar template-cor-<?php echo $corPrimaria; ?>">
     <button type="button" onclick="window.open('<?php echo $dominio . '/' . $this->usuarioLogado['subdominio'] . '/dashboard/categoria/editar/' . $artigos[0]['Categoria']['id']; ?>')" class="flex items-center p-3 bg-black/15 rounded-full">
