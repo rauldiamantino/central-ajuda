@@ -109,6 +109,18 @@ class SEOController extends Controller
     echo "    <changefreq>daily</changefreq>\n";
     echo "    <priority>1.0</priority>\n";
     echo "  </url>\n";
+
+    echo "  <url>\n";
+    echo "    <loc>https://360help.com.br/privacidade</loc>\n";
+    echo "    <changefreq>daily</changefreq>\n";
+    echo "    <priority>1.0</priority>\n";
+    echo "  </url>\n";
+
+    echo "  <url>\n";
+    echo "    <loc>https://360help.com.br/termos</loc>\n";
+    echo "    <changefreq>daily</changefreq>\n";
+    echo "    <priority>1.0</priority>\n";
+    echo "  </url>\n";
     echo "</urlset>";
   }
 
