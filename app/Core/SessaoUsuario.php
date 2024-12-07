@@ -8,7 +8,7 @@ class SessaoUsuario
   public function __construct($sessaoId = null)
   {
     if ($sessaoId and $sessaoId != session_id()) {
-      session_destroy();
+      $this->destruir();
       session_id($sessaoId);
     }
 
@@ -29,12 +29,12 @@ class SessaoUsuario
       ini_set('session.save_path', MEMCACHED_HOST . ':11211');
 
       session_set_cookie_params([
-          'lifetime' => $lifetime,
-          'path' => $cookieParams['path'],
-          'domain' => $dominio,
-          'secure' => isset($_SERVER['HTTPS']),
-          'httponly' => true,
-          'samesite' => 'Lax', // Ou 'Strict'
+        'lifetime' => $lifetime,
+        'path' => $cookieParams['path'],
+        'domain' => $dominio,
+        'secure' => isset($_SERVER['HTTPS']),
+        'httponly' => true,
+        'samesite' => 'Lax', // Ou 'Strict'
       ]);
 
       session_start();
