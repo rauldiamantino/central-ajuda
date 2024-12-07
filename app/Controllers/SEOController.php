@@ -18,7 +18,56 @@ class SEOController extends Controller
     $this->empresaId = $this->empresaController->empresaPadraoId;
   }
 
-  public function robots()
+  public function robotsEmpresa()
+  {
+    if (HOST_LOCAL) {
+      header('Location: /');
+      exit;
+    }
+
+    $empresa = $this->empresaController->buscarEmpresaSemId('id', $this->empresaId);
+    $subdominio = $empresa[0]['Empresa']['subdominio'] ?? '';
+
+    if (empty($subdominio)) {
+      return ['erro' => 'Empresa não encontrada'];
+    }
+
+    // Domínio personalizado
+    $dominio = $empresa[0]['Empresa']['subdominio_2'] ?? '';
+
+    if (empty($dominio)) {
+      $dominio = 'https://360help.com.br/' . $subdominio;
+    }
+
+    header('Content-Type: text/plain');
+
+    echo "User-agent: *\n";
+
+    if (isset($empresa[0]['Empresa']['subdominio_2']) and $empresa[0]['Empresa']['subdominio_2'])  {
+      echo "Disallow: /dashboard/\n";
+      echo "Disallow: /buscar/\n";
+      echo "Disallow: /d/\n";
+      echo "Disallow: /cache/limpar\n";
+
+      echo "Allow: /artigo/\n";
+      echo "Allow: /categoria/\n";
+      echo "Allow: /\n";
+    }
+    else {
+      echo "Disallow: /{$subdominio}/dashboard/\n";
+      echo "Disallow: /{$subdominio}/buscar/\n";
+      echo "Disallow: /{$subdominio}/d/\n";
+      echo "Disallow: /{$subdominio}/cache/limpar\n";
+
+      echo "Allow: /{$subdominio}/artigo/\n";
+      echo "Allow: /{$subdominio}/categoria/\n";
+      echo "Allow: /{$subdominio}/\n";
+    }
+
+    echo "Sitemap: {$dominio}/sitemap.xml\n";
+  }
+
+  public function robotsGeral()
   {
     if (HOST_LOCAL) {
       header('Location: /');
@@ -53,28 +102,14 @@ class SEOController extends Controller
     header('Content-Type: application/xml');
 
     echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-    echo "<sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
-    echo "  <sitemap>\n";
-    echo "    <loc>https://360help.com.br/sitemap-360help.xml</loc>\n";
-    echo "  </sitemap>\n";
+    echo "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
 
-    $empresas = $this->empresaController->buscarEmpresas();
-
-    // Dinâmico com todas as empresas
-    if (isset($empresas[0]['Empresa']['id']) and $empresas[0]['Empresa']['id']) {
-      foreach ($empresas as $linha):
-
-        if (! isset($linha['Empresa']['subdominio']) or empty($linha['Empresa']['subdominio'])) {
-          continue;
-        }
-
-        echo "  <sitemap>\n";
-        echo "    <loc>https://360help.com.br/" . $linha['Empresa']['subdominio'] . '/sitemap.xml' . "</loc>\n";
-        echo "  </sitemap>\n";
-      endforeach;
-    }
-
-    echo "</sitemapindex>";
+    echo "  <url>\n";
+    echo "    <loc>https://360help.com.br/</loc>\n";
+    echo "    <changefreq>daily</changefreq>\n";
+    echo "    <priority>1.0</priority>\n";
+    echo "  </url>\n";
+    echo "</urlset>";
   }
 
   public function sitemapEmpresa()

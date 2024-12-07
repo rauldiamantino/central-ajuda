@@ -39,7 +39,7 @@ return [
     'POST:/login'                                       => ['controlador' => [DashboardLoginController::class,          'login'],                         'permissao' => $publico],
     'GET:/logout'                                       => ['controlador' => [DashboardLoginController::class,          'logout'],                        'permissao' => $publico],
     'POST:/d/assinaturas/receber'                       => ['controlador' => [AssinaturaReceberComponent::class,        'receberWebhook'],                'permissao' => $todos],
-    'GET:/robots.txt'                                   => ['controlador' => [SEOController::class,                     'robots'],                        'permissao' => $publico],
+    'GET:/robots.txt'                                   => ['controlador' => [SEOController::class,                     'robotsGeral'],                   'permissao' => $publico],
     'GET:/sitemap.xml'                                  => ['controlador' => [SEOController::class,                     'sitemapGeral'],                  'permissao' => $publico],
     'GET:/cache/limpar'                                 => ['controlador' => [Cache::class,                             'resetarCacheTodos'],             'permissao' => $suporteTotal],
     'GET:/cache/limpar/{id}'                            => ['controlador' => [Cache::class,                             'resetarCacheEmpresa'],           'permissao' => $suporteTotal],
@@ -52,6 +52,7 @@ return [
     'GET:/{empresa}/artigo/{id}'                        => ['controlador' => [PublicoArtigoController::class,           'artigoVer'],                     'permissao' => $publico],
     'POST:/{empresa}/buscar'                            => ['controlador' => [PublicoBuscaController::class,            'buscar'],                        'permissao' => $publico],
     'GET:/{empresa}/buscar'                             => ['controlador' => [PublicoBuscaController::class,            'buscar'],                        'permissao' => $publico],
+    'GET:/{empresa}/robots.txt'                         => ['controlador' => [SEOController::class,                     'robotsEmpresa'],                 'permissao' => $publico],
     'GET:/{empresa}/sitemap.xml'                        => ['controlador' => [SEOController::class,                     'sitemapEmpresa'],                'permissao' => $publico],
   ],
   'centralPersonalizado' => [
@@ -62,6 +63,8 @@ return [
     'GET:/artigo/{id}'                                  => ['controlador' => [PublicoArtigoController::class,           'artigoVer'],                     'permissao' => $publico],
     'POST:/buscar'                                      => ['controlador' => [PublicoBuscaController::class,            'buscar'],                        'permissao' => $publico],
     'GET:/buscar'                                       => ['controlador' => [PublicoBuscaController::class,            'buscar'],                        'permissao' => $publico],
+    'GET:/robots.txt'                                   => ['controlador' => [SEOController::class,                     'robotsEmpresa'],                 'permissao' => $publico],
+    'GET:/sitemap.xml'                                  => ['controlador' => [SEOController::class,                     'sitemapEmpresa'],                'permissao' => $publico],
   ],
   'dashboard' => [
     'GET:/{empresa}/cache/limpar'                       => ['controlador' => [Cache::class,                             'resetarCacheSemId'],             'permissao' => $suporteTotal],
