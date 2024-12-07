@@ -38,10 +38,11 @@ return [
     'GET:/cadastro/sucesso'                             => ['controlador' => [DashboardCadastroController::class,       'cadastroSucessoVer'],            'permissao' => $publico],
     'POST:/login'                                       => ['controlador' => [DashboardLoginController::class,          'login'],                         'permissao' => $publico],
     'GET:/logout'                                       => ['controlador' => [DashboardLoginController::class,          'logout'],                        'permissao' => $publico],
-    'GET:/cache/limpar'                                 => ['controlador' => [Cache::class,                             'resetarCache'],                  'permissao' => $todos],
     'POST:/d/assinaturas/receber'                       => ['controlador' => [AssinaturaReceberComponent::class,        'receberWebhook'],                'permissao' => $todos],
     'GET:/robots.txt'                                   => ['controlador' => [SEOController::class,                     'robots'],                        'permissao' => $publico],
     'GET:/sitemap.xml'                                  => ['controlador' => [SEOController::class,                     'sitemapGeral'],                  'permissao' => $publico],
+    'GET:/cache/limpar'                                 => ['controlador' => [Cache::class,                             'resetarCacheTodos'],             'permissao' => $suporteTotal],
+    'GET:/cache/limpar/{id}'                            => ['controlador' => [Cache::class,                             'resetarCacheEmpresa'],           'permissao' => $suporteTotal],
   ],
   'central' => [
     'GET:/{empresa}'                                    => ['controlador' => [PublicoController::class,                 'publicoVer'],                    'permissao' => $publico],
@@ -63,6 +64,7 @@ return [
     'GET:/buscar'                                       => ['controlador' => [PublicoBuscaController::class,            'buscar'],                        'permissao' => $publico],
   ],
   'dashboard' => [
+    'GET:/{empresa}/cache/limpar'                       => ['controlador' => [Cache::class,                             'resetarCacheSemId'],             'permissao' => $suporteTotal],
     'GET:/{empresa}/dashboard/ajustes'                  => ['controlador' => [DashboardAjusteController::class,         'ajustesVer'],                    'permissao' => $todos],
     'GET:/{empresa}/dashboard/artigos'                  => ['controlador' => [DashboardArtigoController::class,         'artigosVer'],                    'permissao' => $todos],
     'GET:/{empresa}/dashboard/artigo/editar/{id}'       => ['controlador' => [DashboardArtigoController::class,         'artigoEditarVer'],               'permissao' => $todos],

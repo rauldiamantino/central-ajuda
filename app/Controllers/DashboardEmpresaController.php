@@ -157,7 +157,6 @@ class DashboardEmpresaController extends DashboardController
     // Remove sessão com subdomínio antigo
     $subdominio_2 = str_replace('https://', '', $this->usuarioLogado['subdominio_2']);
     $subdominio_2 = str_replace('http://', '', $subdominio_2);
-
     $resultado = $this->empresaModel->atualizar($json, $id);
 
     if (isset($resultado['erro'])) {
@@ -190,12 +189,13 @@ class DashboardEmpresaController extends DashboardController
       $this->usuarioLogado['empresaAtivo'] = $empresa[0]['Empresa']['ativo'];
       $this->usuarioLogado['corPrimaria'] = $empresa[0]['Empresa']['cor_primaria'];
       $this->usuarioLogado['urlSite'] = $empresa[0]['Empresa']['url_site'];
+      $this->usuarioLogado['subdominio_2'] = $empresa[0]['Empresa']['subdominio_2'];
       $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
     }
 
     Cache::apagar('publico-dados-empresa', $this->usuarioLogado['empresaId']);
-    Cache::apagar('roteador-' . $this->usuarioLogado['subdominio']);
-    Cache::apagar('roteador-' . $subdominio_2);
+    Cache::apagarSemId('roteador-' . $this->usuarioLogado['subdominio']);
+    Cache::apagarSemId('roteador-' . $subdominio_2);
 
     $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Registro alterado com sucesso');
   }

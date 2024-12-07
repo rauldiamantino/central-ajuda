@@ -1,6 +1,7 @@
 <?php
 namespace app\Controllers;
 use app\Core\Cache;
+use app\Core\SessaoUsuario;
 use app\Models\DashboardAjusteModel;
 
 class Controller
@@ -16,9 +17,7 @@ class Controller
 
   private function recuperarSessao()
   {
-    global $sessaoUsuario;
-    $this->sessaoUsuario = $sessaoUsuario;
-
+    $this->sessaoUsuario = new SessaoUsuario();
     $resultado = $this->sessaoUsuario->buscar('usuario');
 
     $this->usuarioLogado = [

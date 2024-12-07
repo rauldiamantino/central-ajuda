@@ -1,6 +1,7 @@
 <?php
 namespace app\Models;
 use app\Models\Database;
+use app\Core\SessaoUsuario;
 
 class Model
 {
@@ -21,7 +22,7 @@ class Model
 
   public function __construct($usuarioLogado, $empresaPadraoId, string $tabela)
   {
-    global $sessaoUsuario;
+    $sessaoUsuario = new SessaoUsuario();
     $this->sessaoUsuario = $sessaoUsuario;
 
     $this->usuarioLogado = $usuarioLogado;

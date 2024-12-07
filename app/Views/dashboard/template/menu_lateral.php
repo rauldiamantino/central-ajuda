@@ -196,13 +196,41 @@ if (empty($dominio)) {
     <?php if ($this->usuarioLogado['id'] > 0 and $this->usuarioLogado['padrao'] == USUARIO_SUPORTE) { ?>
       <h3 class="mt-4 px-6 py-2 text-xs font-extralight text-slate-300">SUPORTE</h3>
       <li class="px-4 hover:bg-gray-700 rounded-lg cursor-pointer flex justify-between group">
+        <button type="button" onclick="window.location.href='<?php echo baseUrl('/cache/limpar/' . $this->empresaPadraoId); ?>'" class="w-full p-2">
+          <div class="flex justify-start items-center gap-3">
+            <div class="text-green-600">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
+                <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41m-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9"/>
+                <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5 5 0 0 0 8 3M3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9z"/>
+              </svg>
+            </div>
+            <span>Reset Cache <span class="text-xs font-extralight">empresa</span></span>
+          </div>
+        </button>
+      </li>
+      <li class="px-4 hover:bg-gray-700 rounded-lg cursor-pointer flex justify-between group">
+        <button type="button" onclick="window.location.href='<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/cache/limpar'); ?>'" class="w-full p-2">
+          <div class="flex justify-start items-center gap-3">
+            <div class="text-orange-600">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
+                <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41m-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9"/>
+                <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5 5 0 0 0 8 3M3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9z"/>
+              </svg>
+            </div>
+            <span>Reset Cache <span class="text-xs font-extralight">sem ID</span></span>
+          </div>
+        </button>
+      </li>
+      <li class="px-4 hover:bg-gray-700 rounded-lg cursor-pointer flex justify-between group">
         <button type="button" onclick="window.location.href='<?php echo baseUrl('/cache/limpar'); ?>'" class="w-full p-2">
           <div class="flex justify-start items-center gap-3">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
-              <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41m-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9"/>
-              <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5 5 0 0 0 8 3M3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9z"/>
-            </svg>
-            <span>Reset Cache</span>
+            <div class="text-red-600">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
+                <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41m-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9"/>
+                <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5 5 0 0 0 8 3M3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9z"/>
+              </svg>
+            </div>
+            <span>Reset Cache <span class="text-xs font-extralight">todos</span></span>
           </div>
         </button>
       </li>

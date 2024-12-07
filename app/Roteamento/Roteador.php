@@ -83,6 +83,7 @@ class Roteador
 
     $this->sessaoUsuario = new SessaoUsuario($sessaoId);
     $this->usuarioLogado = $this->sessaoUsuario->buscar('usuario');
+    $this->sessaoUsuario->apagar('debug');
   }
 
   private function permitirAcessoSuporte(): void
@@ -449,13 +450,13 @@ class Roteador
 
     // Cache 1 hora
     $cacheTempo = 60 * 60;
-    $buscarEmpresa = Cache::buscar($cacheNome);
+    $buscarEmpresa = Cache::buscarSemId($cacheNome);
 
     if ($buscarEmpresa == null) {
       $buscarEmpresa = $this->empresaController->buscarEmpresaSemId($coluna, $valor);
 
       if ($buscarEmpresa) {
-        Cache::definir($cacheNome, $buscarEmpresa, $cacheTempo);
+        Cache::definirSemId($cacheNome, $buscarEmpresa, $cacheTempo);
       }
     }
 
