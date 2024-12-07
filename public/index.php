@@ -13,8 +13,8 @@ if (! HOST_LOCAL) {
   ]);
 }
 
-$sessaoUsuario = new SessaoUsuario();
-$sessaoUsuario->apagar('debug');
+// $sessaoUsuario = new SessaoUsuario();
+// $debug = $sessaoUsuario->buscar('debug');
 
 $roteador = new Roteador();
 $roteador->rotear();

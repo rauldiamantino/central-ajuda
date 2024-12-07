@@ -1,183 +1,224 @@
 <?php
-
 namespace app\Core;
+
+use app\Core\SessaoUsuario;
 
 class Cache
 {
   private static $memcached;
 
-  public static function iniciarMemcached()
+  private static function iniciarMemcached()
   {
     if (self::$memcached === null) {
       self::$memcached = new \Memcached();
 
-      // Adiciona o servidor Memcached
-      self::$memcached->addServer(MEMCACHED_HOST, MEMCACHED_PORT);
+      if (! self::$memcached->addServer(MEMCACHED_HOST, MEMCACHED_PORT)) {
+        self::registrarErro('Erro ao conectar ao servidor Memcached', self::$memcached->getResultMessage());
+        throw new \RuntimeException('Conexão com Memcached falhou');
+      }
     }
   }
 
-  public static function definir(string $nome, array $dados, int $tempo, int $empresaId = 0)
+  private static function registrarErro(string $mensagem, string $detalhes)
+  {
+    registrarLog($mensagem, $detalhes);
+    registrarSentry($mensagem . ' - ' . $detalhes);
+  }
+
+  private static function verificarAtivo(array $parametros): bool
   {
     if (GRAVAR_CACHE == INATIVO) {
+      return false;
+    }
+
+    foreach ($parametros as $linha):
+
+      if (empty($linha)) {
+        return false;
+      }
+    endforeach;
+
+    return true;
+  }
+
+  // Usar com atenção
+  public static function definirSemId(string $nome, array $dados, int $tempo)
+  {
+    if (! self::verificarAtivo([$nome, $dados, $tempo])) {
       return;
     }
 
-    if (HOST_LOCAL) {
-      $diretorio = 'cache/';
+    if (! is_array($dados)) {
+      return false;
+    }
 
-      if ($empresaId) {
-        $diretorio .= $empresaId . '/';
+    self::iniciarMemcached();
+
+    if (! self::$memcached->set($nome, $dados, $tempo)) {
+      self::registrarErro('Erro ao definir cache', self::$memcached->getResultMessage());
+    }
+  }
+
+  // Usar com atenção
+  public static function buscarSemId(string $nome)
+  {
+    if (! self::verificarAtivo([$nome])) {
+      return;
+    }
+
+    self::iniciarMemcached();
+    $resultado = self::$memcached->get($nome);
+
+    if ($resultado === false and self::$memcached->getResultCode() !== \Memcached::RES_NOTFOUND) {
+      self::registrarErro('Erro ao buscar cache', self::$memcached->getResultMessage());
+    }
+
+    return $resultado ? $resultado : null;
+  }
+
+  // Usar com atenção
+  public static function apagarSemId(string $nome)
+  {
+    if (! self::verificarAtivo([$nome])) {
+      return;
+    }
+
+    self::iniciarMemcached();
+
+    if (! self::$memcached->delete($nome)) {
+
+      if (self::$memcached->getResultCode() !== \Memcached::RES_NOTFOUND) {
+        self::registrarErro("Erro ao apagar cache", self::$memcached->getResultMessage());
       }
+    }
+  }
 
-      if (!is_dir($diretorio)) {
-        mkdir($diretorio, 0777, true);
-      }
+  public static function definir(string $nome, array $dados, int $tempo, int $empresaId)
+  {
+    if (! self::verificarAtivo([$nome, $dados, $tempo, $empresaId])) {
+      return;
+    }
 
-      $arquivo = $diretorio . $nome . '.txt';
+    if (! is_array($dados)) {
+      return false;
+    }
 
-      $dadosComTempo = [
-        'validade' => time() + $tempo,
-        'dados' => $dados
-      ];
+    self::iniciarMemcached();
 
-      file_put_contents($arquivo, serialize($dadosComTempo));
+    $chave = $empresaId . '-' . $nome;
 
+    if (! self::$memcached->set($chave, $dados, $tempo)) {
+      self::registrarErro('Erro ao definir cache', self::$memcached->getResultMessage());
+    }
+
+    // Lista de chaves para cada empresa
+    $chaves = self::$memcached->get($empresaId . '-keys');
+
+    if (! is_array($chaves)) {
+      $chaves = [];
+    }
+
+    $chaves[] = $chave;
+
+    if (! self::$memcached->set($empresaId . '-keys', $chaves)) {
+      self::registrarErro('Erro ao atualizar lista de chaves', self::$memcached->getResultMessage());
+    }
+  }
+
+  public static function buscar(string $nome, int $empresaId)
+  {
+    if (! self::verificarAtivo([$nome, $empresaId])) {
       return;
     }
 
     self::iniciarMemcached();
 
-    if (strpos($nome, '_') !== false) {
-      $temp = explode('_', $nome);
-      $prefixo = $temp[0];
+    $chave = $empresaId . '-' . $nome;
+    $resultado = self::$memcached->get($chave);
 
-      $resultado = self::$memcached->get($prefixo . '-' . $empresaId);
-
-      if (! is_array($resultado)) {
-        $resultado = [];
-      }
-
-      $resultado[] = $nome;
-
-      self::$memcached->set($prefixo . '-' . $empresaId, array_unique($resultado), $tempo);
+    if ($resultado === false and self::$memcached->getResultCode() !== \Memcached::RES_NOTFOUND) {
+      self::registrarErro('Erro ao buscar cache', self::$memcached->getResultMessage());
     }
 
-    self::$memcached->set($empresaId . '-' . $nome, $dados, $tempo);
+    return $resultado ? $resultado : null;
   }
 
-  public static function buscar(string $nome, int $empresaId = 0)
+  public static function apagar(string $nome, int $empresaId)
   {
-    if (GRAVAR_CACHE == INATIVO) {
-      return null;
-    }
-
-    if (HOST_LOCAL) {
-      $diretorio = 'cache/';
-
-      if ($empresaId) {
-        $diretorio .= $empresaId . '/';
-      }
-
-      $arquivo = $diretorio . $nome . '.txt';
-
-      if (! file_exists($arquivo)) {
-        return null;
-      }
-
-      $dados = unserialize(file_get_contents($arquivo));
-
-      if (time() > $dados['validade']) {
-        unlink($arquivo);
-        return null;
-      }
-
-      return $dados['dados'];
-    }
-
-    self::iniciarMemcached();
-    $resultado = self::$memcached->get($empresaId . '-' . $nome);
-
-    if (empty($resultado)) {
-      $resultado = null;
-    }
-
-    return $resultado;
-  }
-
-  public static function apagar(string $nome, int $empresaId = 0)
-  {
-    if (GRAVAR_CACHE == INATIVO) {
-      return null;
-    }
-
-    if (HOST_LOCAL) {
-      $diretorio = 'cache/';
-
-      if ($empresaId) {
-        $diretorio .= $empresaId . '/';
-      }
-
-      $arquivo = $diretorio . $nome . '.txt';
-
-      if (file_exists($arquivo)) {
-        unlink($arquivo);
-      }
-
+    if (! self::verificarAtivo([$nome, $empresaId])) {
       return;
     }
 
     self::iniciarMemcached();
-    self::$memcached->delete($empresaId . '-' . $nome);
+
+    $chave = $empresaId . '-' . $nome;
+
+    if (! self::$memcached->delete($chave)) {
+
+      if (self::$memcached->getResultCode() !== \Memcached::RES_NOTFOUND) {
+        self::registrarErro("Erro ao apagar cache", self::$memcached->getResultMessage());
+      }
+    }
+
+    // Atualizar lista de chaves da Empresa
+    $chaves = self::$memcached->get($empresaId . '-keys');
+
+    if ($chaves and is_array($chaves)) {
+      $chavesAtualizadas = [];
+      foreach ($chaves as $item):
+
+        if ($item !== $chave) {
+          $chavesAtualizadas[] = $item;
+        }
+      endforeach;
+
+      if (! self::$memcached->set($empresaId . '-keys', $chavesAtualizadas)) {
+        self::registrarErro('Erro ao atualizar lista de chaves após exclusão', self::$memcached->getResultMessage());
+      }
+    }
+  }
+
+  private static function apagarChavesPrefixo($prefixo)
+  {
+    if (empty($prefixo)) {
+      return;
+    }
+
+    $chaves = self::$memcached->get($prefixo . '-keys');
+
+    if ($chaves and is_array($chaves)) {
+      foreach ($chaves as $chave):
+
+        if (strpos($chave, $prefixo . '-') === 0) {
+
+          if (! self::$memcached->delete($chave)) {
+
+            if (self::$memcached->getResultCode() !== \Memcached::RES_NOTFOUND) {
+              self::registrarErro("Erro ao apagar cache", self::$memcached->getResultMessage());
+            }
+          }
+        }
+      endforeach;
+    }
   }
 
   public static function apagarTodos(string $nome, int $empresaId)
   {
-    if (GRAVAR_CACHE == INATIVO) {
-      return null;
-    }
-
-    if (empty($empresaId)) {
+    if (! self::verificarAtivo([$nome, $empresaId])) {
       return;
     }
-
-    if (HOST_LOCAL) {
-      $diretorio = 'cache/' . $empresaId . '/';
-      $padrao = $diretorio . $nome . '*.txt';
-      $arquivos = glob($padrao);
-
-      foreach ($arquivos as $arquivo):
-
-        if (file_exists($arquivo)) {
-          unlink($arquivo);
-        }
-      endforeach;
-
-      return;
-    }
-
-    if (strpos($nome, '_') === false) {
-      return;
-    }
-
-    $temp = explode('_', $nome);
-    $prefixo = $temp[0];
 
     self::iniciarMemcached();
-    $chave = $prefixo . '-' . $empresaId;
-    $chaves = self::$memcached->get($prefixo . '-' . $empresaId);
-
-    if ($chaves and is_array($chaves)) {
-      foreach ($chaves as $cacheNome):
-        self::$memcached->delete($empresaId . '-' . $cacheNome);
-      endforeach;
-
-      self::$memcached->delete($chave);
-    }
+    self::apagarChavesPrefixo((string) $empresaId . '-' . $nome);
   }
 
-  public static function resetarCache()
+  public static function resetarCacheEmpresa(int $empresaId)
   {
-    global $sessaoUsuario;
+    if (! self::verificarAtivo([$empresaId])) {
+      return;
+    }
+
+    $sessaoUsuario = new SessaoUsuario();
     $sessaoUsuario = $sessaoUsuario;
 
     $empresa = $sessaoUsuario->buscar('subdominio');
@@ -187,24 +228,34 @@ class Cache
       exit();
     }
 
-    $usuarioLogado = $sessaoUsuario->buscar('usuario');
+    self::iniciarMemcached();
+    self::apagarChavesPrefixo((string) $empresaId);
 
-    // if (! isset($usuarioLogado['padrao']) or $usuarioLogado['padrao'] != 99) {
-    //   header('Location: /erro');
-    //   exit();
-    // }
+    $sessaoUsuario->definir('ok', 'Reset cache empresa');
 
-    if (HOST_LOCAL) {
-      $diretorio = 'cache/';
-      $comando = "rm -rf " . escapeshellarg($diretorio);
-      system($comando);
+    header('Location: ' . REFERER);
+    exit();
+  }
+
+  public static function resetarCacheTodos()
+  {
+    $sessaoUsuario = new SessaoUsuario();
+    $sessaoUsuario = $sessaoUsuario;
+
+    $empresa = $sessaoUsuario->buscar('subdominio');
+
+    if (empty($empresa)) {
+      header('Location: /erro');
+      exit();
     }
-    else {
-      self::iniciarMemcached();
-      self::$memcached->flush();
+
+    self::iniciarMemcached();
+
+    if (! self::$memcached->flush()) {
+      self::registrarErro('Erro ao resetar todo o cache', self::$memcached->getResultMessage());
     }
 
-    $sessaoUsuario->definir('ok', 'Reset cache');
+    $sessaoUsuario->definir('ok', 'Reset cache todos');
 
     header('Location: ' . REFERER);
     exit();

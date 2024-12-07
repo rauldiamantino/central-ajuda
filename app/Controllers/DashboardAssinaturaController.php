@@ -130,7 +130,7 @@ class DashboardAssinaturaController extends DashboardController
       $this->usuarioLogado['assinaturaStatus'] = $novoStatus;
       $this->usuarioLogado['assinaturaId'] = $asaasId;
       $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
-      Cache::apagar('roteador-' . $this->usuarioLogado['subdominio']);
+      Cache::apagarSemId('roteador-' . $this->usuarioLogado['subdominio']);
 
       $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', 'Assinatura reprocessada');
     }
@@ -234,7 +234,7 @@ class DashboardAssinaturaController extends DashboardController
     $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
     $this->sessaoUsuario->apagar('teste-expirado-' . $this->empresaPadraoId);
 
-    Cache::apagar('roteador-' . $this->usuarioLogado['subdominio']);
+    Cache::apagarSemId('roteador-' . $this->usuarioLogado['subdominio']);
 
     $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', 'Assinatura criada com sucesso!');
   }
@@ -281,7 +281,7 @@ class DashboardAssinaturaController extends DashboardController
     }
 
     Cache::apagar('calcular-consumo', $this->empresaPadraoId);
-    Cache::apagar('roteador-' . $this->usuarioLogado['subdominio']);
+    Cache::apagarSemId('roteador-' . $this->usuarioLogado['subdominio']);
 
     $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', 'Registro alterado com sucesso');
   }

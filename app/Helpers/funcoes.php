@@ -1,4 +1,6 @@
 <?php
+
+use app\Core\SessaoUsuario;
 function pr($valor, $dump = false) {
 
   echo '<pre>';
@@ -97,8 +99,7 @@ function registrarLog($nome, $arquivo, $debug = false) {
   $logMensagem .= date('Y-m-d H:i:s') . ' - ' . $nome . PHP_EOL . PHP_EOL;
   $logMensagem .= json_encode($arquivo, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . PHP_EOL . PHP_EOL;
 
-  global $sessaoUsuario;
-  $sessaoUsuario = $sessaoUsuario;
+  $sessaoUsuario = new SessaoUsuario();
   $debugAtivo = $sessaoUsuario->buscar('debugAtivo');
 
   if ($debugAtivo) {
