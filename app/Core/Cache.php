@@ -247,7 +247,7 @@ class Cache
 
     $sessaoUsuario->definir('ok', 'Reset cache empresa');
 
-    header('Location: ' . REFERER);
+    header('Location: /logout');
     exit();
   }
 
@@ -264,7 +264,7 @@ class Cache
 
     $sessaoUsuario->definir('ok', 'Reset cache todos');
 
-    header('Location: ' . REFERER);
+    header('Location: /logout');
     exit();
   }
 }

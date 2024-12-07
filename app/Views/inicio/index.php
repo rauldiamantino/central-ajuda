@@ -10,6 +10,7 @@
   <main class="w-full h-full">
     <div class="w-full bg-white rounded-b-[90px]">
       <?php require_once $visao ?>
+      <?php require_once 'notificacoes.php' ?>
     </div>
   </main>
 

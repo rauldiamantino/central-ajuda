@@ -1,8 +1,6 @@
 <?php
 namespace app\Core;
 
-use app\Roteamento\Roteador;
-
 class SessaoUsuario
 {
   public function __construct($sessaoId = null)
