@@ -175,7 +175,7 @@ class Roteador
     foreach ($this->rotas as $chave => $linha):
 
       // Domínio personalizado acessa apenas central personalizado
-      if ($this->subdominio_2 and $chave != 'centralPersonalizado') {
+      if ($this->subdominio_2 and ($chave != 'centralPersonalizado' or empty($this->empresaId))) {
         continue;
       }
 
