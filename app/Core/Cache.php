@@ -212,12 +212,8 @@ class Cache
     self::apagarChavesPrefixo((string) $empresaId . '-' . $nome);
   }
 
-  public static function resetarCacheEmpresa(int $empresaId)
+  public static function resetarCacheSemId()
   {
-    if (! self::verificarAtivo([$empresaId])) {
-      return;
-    }
-
     $sessaoUsuario = new SessaoUsuario();
     $sessaoUsuario = $sessaoUsuario;
 
@@ -227,6 +223,24 @@ class Cache
       header('Location: /erro');
       exit();
     }
+
+    self::iniciarMemcached();
+    self::apagarChavesPrefixo('roteador-' . $empresa);
+
+    $sessaoUsuario->definir('ok', 'Reset cache sem ID');
+
+    header('Location: ' . REFERER);
+    exit();
+  }
+
+  public static function resetarCacheEmpresa(int $empresaId)
+  {
+    if (! self::verificarAtivo([$empresaId])) {
+      return;
+    }
+
+    $sessaoUsuario = new SessaoUsuario();
+    $sessaoUsuario = $sessaoUsuario;
 
     self::iniciarMemcached();
     self::apagarChavesPrefixo((string) $empresaId);
@@ -241,13 +255,6 @@ class Cache
   {
     $sessaoUsuario = new SessaoUsuario();
     $sessaoUsuario = $sessaoUsuario;
-
-    $empresa = $sessaoUsuario->buscar('subdominio');
-
-    if (empty($empresa)) {
-      header('Location: /erro');
-      exit();
-    }
 
     self::iniciarMemcached();
 
