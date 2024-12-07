@@ -161,7 +161,7 @@ class PublicoCategoriaController extends PublicoController
       $urlCanonica = 'https://360help.com.br/' . $this->subdominio;
     }
 
-    $urlCanonica . '/categoria/' . $id . '/' . $this->gerarSlug($resultado[0]['Categoria']['nome']);
+    $urlCanonica = $urlCanonica . '/categoria/' . $id . '/' . $this->gerarSlug($resultado[0]['Categoria']['nome']);
 
     $this->visao->variavel('metaTitulo', $metaTitulo);
     $this->visao->variavel('metaDescricao', $metaDescricao);
