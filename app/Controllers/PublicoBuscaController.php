@@ -101,6 +101,12 @@ class PublicoBuscaController extends PublicoController
       $menuLateral = true;
     }
 
+    $urlCanonica = 'https://' . $this->subdominio_2;
+
+    if ($this->subdominio) {
+      $urlCanonica = 'https://360help.com.br/' . $this->subdominio;
+    }
+
     $this->visao->variavel('categorias', $categorias);
     $this->visao->variavel('pagina', $pagina);
     $this->visao->variavel('artigosTotal', $artigosTotal);
@@ -112,8 +118,8 @@ class PublicoBuscaController extends PublicoController
     $this->visao->variavel('resultadoBuscar', $resultadoBuscar);
     $this->visao->variavel('metaTitulo', 'Busca');
     $this->visao->variavel('metaDescricao', '');
+    $this->visao->variavel('urlCanonica', $urlCanonica . '/buscar');
     $this->visao->variavel('menuLateral', $menuLateral);
-    $this->visao->variavel('urlCanonica', $this->subdominio . '/buscar');
     $this->visao->renderizar('/busca/index');
   }
 }

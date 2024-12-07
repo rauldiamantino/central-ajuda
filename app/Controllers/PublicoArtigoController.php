@@ -181,12 +181,20 @@ class PublicoArtigoController extends PublicoController
       $metaTitulo = $artigo[0]['Artigo']['titulo'];
     }
 
+    $urlCanonica = 'https://' . $this->subdominio_2;
+
+    if ($this->subdominio) {
+      $urlCanonica = 'https://360help.com.br/' . $this->subdominio;
+    }
+
+    $urlCanonica = $urlCanonica . '/artigo/' . $id . '/' . $this->gerarSlug($artigo[0]['Artigo']['titulo']);
+
     $this->visao->variavel('demaisArtigos', $demaisArtigos);
     $this->visao->variavel('artigo', reset($artigo));
     $this->visao->variavel('conteudos', $conteudos);
     $this->visao->variavel('metaTitulo', $metaTitulo);
     $this->visao->variavel('metaDescricao', $metaDescricao);
-    $this->visao->variavel('urlCanonica', $this->subdominio . '/artigo/' . $id);
+    $this->visao->variavel('urlCanonica', $urlCanonica);
     $this->visao->variavel('menuLateral', true);
     $this->visao->renderizar('/artigo/index');
   }

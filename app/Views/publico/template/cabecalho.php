@@ -19,5 +19,5 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="<?php echo $metaTitulo; ?>">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://360help.com.br/<?php echo $urlCanonica; ?>">
+  <link rel="canonical" href="<?php echo $urlCanonica; ?>">
 </head>

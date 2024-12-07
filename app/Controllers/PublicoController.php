@@ -110,10 +110,16 @@ class PublicoController extends Controller
       $metaTitulo = 'Início';
     }
 
+    $urlCanonica = 'https://' . $this->subdominio_2;
+
+    if ($this->subdominio) {
+      $urlCanonica = 'https://360help.com.br/' . $this->subdominio;
+    }
+
+    $this->visao->variavel('urlCanonica', $urlCanonica);
     $this->visao->variavel('categorias', $resultado);
     $this->visao->variavel('metaTitulo', $metaTitulo);
     $this->visao->variavel('metaDescricao', $metaDescricao);
-    $this->visao->variavel('urlCanonica', $this->subdominio);
     $this->visao->variavel('menuLateral', true);
     $this->visao->variavel('inicio', true);
     $this->visao->renderizar('/inicio/index');
