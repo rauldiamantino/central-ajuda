@@ -1,4 +1,4 @@
-<a href="<?php echo baseUrl('/'); ?>" class="mt-5 md:mt-10 w-full justify-center flex items-center">
+<a href="<?php echo baseUrl('/'); ?>" class="mt-2 w-full justify-center flex items-center">
   <img src="<?php echo baseUrl('/img/360help-branco.svg')?>" class="w-28">
 </a>
 <div class="mt-5 w-full h-full shadow-2xl rounded-md bg-white">

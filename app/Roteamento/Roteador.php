@@ -54,7 +54,6 @@ class Roteador
     $this->limiteRequisicoes();
     $this->permitirDebugSuporte();
     $this->permitirAcessoSuporte();
-
     $this->validarAcessoPorNivel();
     $this->validarAcessoDashboard();
     $this->validarCentralTesteExpirado();

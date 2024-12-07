@@ -29,6 +29,8 @@ $publico['nivel'][] = 0;
 return [
   'publico' => [
     'GET:/'                                             => ['controlador' => [InicioController::class,                  'inicioVer'],                     'permissao' => $publico],
+    'GET:/privacidade'                                  => ['controlador' => [InicioController::class,                  'privacidadeVer'],                'permissao' => $publico],
+    'GET:/termos'                                       => ['controlador' => [InicioController::class,                  'termosVer'],                     'permissao' => $publico],
     'GET:/erro'                                         => ['controlador' => [PaginaErroController::class,              'erroVer'],                       'permissao' => $publico],
     'GET:/login'                                        => ['controlador' => [DashboardLoginController::class,          'loginVer'],                      'permissao' => $publico],
     'GET:/login/suporte'                                => ['controlador' => [DashboardLoginController::class,          'loginSuporteVer'],               'permissao' => $suporteTotal],
