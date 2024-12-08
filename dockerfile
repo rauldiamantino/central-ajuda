@@ -23,11 +23,6 @@ RUN docker-php-ext-configure intl && \
     docker-php-ext-install pdo pdo_mysql && \
     docker-php-ext-install intl
 
-# Instala a extensão PDO para PostgreSQL
-RUN apt-get update && \
-    apt-get install -y libpq-dev && \
-    docker-php-ext-install pdo_pgsql
-
 # Instala o memcached
 RUN pecl install memcached && \
     docker-php-ext-enable memcached
