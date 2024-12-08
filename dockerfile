@@ -42,6 +42,7 @@ COPY ./public /var/www/html
 COPY ./vendor /var/www/vendor
 COPY ./app /var/www/app
 COPY ./apache.conf /etc/apache2/sites-available/000-default.conf
+COPY ./config/php.ini /usr/local/etc/php/
 
 # Comando padrão
 CMD ["apache2-foreground"]

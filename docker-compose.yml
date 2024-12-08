@@ -10,7 +10,7 @@ services:
       - ./vendor:/var/www/vendor
       - ./app:/var/www/app
       - ./app/logs/:/var/log/apache2
-      - ./php.ini:/usr/local/etc/php/php.ini
+      - ./config/php.ini:/usr/local/etc/php/php.ini
     links:
       - db
       - memcached
