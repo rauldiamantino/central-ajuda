@@ -439,7 +439,6 @@ class Roteador
 
     $coluna = 'subdominio';
     $valor = $this->empresa;
-
     $cacheNome = 'roteador-' . $valor;
 
     if ($this->subdominio_2) {
