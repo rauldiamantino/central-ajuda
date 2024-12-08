@@ -1,11 +1,11 @@
-let indiceAtual = 0;
+let indiceAtual = 0
 
 const moveSlide = (direcao) => {
-  const imagens = document.querySelector('#carrossel-imagens');
-  const totalImagens = document.querySelectorAll('#carrossel-imagens img').length;
+  const imagens = document.querySelector('#carrossel-imagens')
+  const totalImagens = document.querySelectorAll('#carrossel-imagens img').length
 
-  indiceAtual = (indiceAtual + direcao + totalImagens) % totalImagens;
-  imagens.style.transform = `translateX(-${indiceAtual * 100}%)`;
+  indiceAtual = (indiceAtual + direcao + totalImagens) % totalImagens
+  imagens.style.transform = `translateX(-${indiceAtual * 100}%)`
 }
 
 const fecharNotificacao = (notificacao) => {
@@ -52,4 +52,25 @@ document.addEventListener('DOMContentLoaded', function() {
       fecharNotificacao(notificacaoNeutra)
     })
   }
+
+  window.addEventListener('scroll', function() {
+    const header = document.querySelector('#header')
+    const logo = document.querySelector('#logo-img')
+    const botaoLogin = document.querySelector('#login-btn')
+
+    if (window.scrollY > 0) {
+      header.classList.add('bg-gray-800', 'text-white', 'border-gray-800')
+      header.classList.remove('bg-white', 'border-gray-100')
+      botaoLogin.classList.remove('text-gray-800', 'bg-gray-100')
+      botaoLogin.classList.add('text-white', 'bg-gray-700/50')
+      logo.classList.add('invert')
+    }
+    else {
+      header.classList.remove('bg-gray-800', 'text-white', 'border-gray-800')
+      header.classList.add('bg-white', 'border-gray-100')
+      botaoLogin.classList.add('text-gray-800', 'bg-gray-100')
+      botaoLogin.classList.remove('text-white', 'bg-gray-700/50')
+      logo.classList.remove('invert')
+    }
+  })
 })
