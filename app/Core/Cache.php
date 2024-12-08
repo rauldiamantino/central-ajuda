@@ -6,9 +6,12 @@ use app\Core\SessaoUsuario;
 class Cache
 {
   private static $memcached;
+  private static $sessaoUsuario;
 
   private static function iniciarMemcached()
   {
+    self::$sessaoUsuario = new SessaoUsuario();
+
     if (self::$memcached === null) {
       self::$memcached = new \Memcached();
 
@@ -214,10 +217,7 @@ class Cache
 
   public static function resetarCacheSemId()
   {
-    $sessaoUsuario = new SessaoUsuario();
-    $sessaoUsuario = $sessaoUsuario;
-
-    $empresa = $sessaoUsuario->buscar('subdominio');
+    $empresa = self::$sessaoUsuario->buscar('subdominio');
 
     if (empty($empresa)) {
       header('Location: /erro');
@@ -227,7 +227,7 @@ class Cache
     self::iniciarMemcached();
     self::apagarChavesPrefixo('roteador-' . $empresa);
 
-    $sessaoUsuario->definir('ok', 'Reset cache sem ID');
+    self::$sessaoUsuario->definir('ok', 'Reset cache sem ID');
 
     header('Location: ' . REFERER);
     exit();
@@ -239,13 +239,10 @@ class Cache
       return;
     }
 
-    $sessaoUsuario = new SessaoUsuario();
-    $sessaoUsuario = $sessaoUsuario;
-
     self::iniciarMemcached();
     self::apagarChavesPrefixo((string) $empresaId);
 
-    $sessaoUsuario->definir('ok', 'Reset cache empresa');
+    self::$sessaoUsuario->definir('ok', 'Reset cache empresa');
 
     header('Location: /logout');
     exit();
@@ -253,16 +250,13 @@ class Cache
 
   public static function resetarCacheTodos()
   {
-    $sessaoUsuario = new SessaoUsuario();
-    $sessaoUsuario = $sessaoUsuario;
-
     self::iniciarMemcached();
 
     if (! self::$memcached->flush()) {
       self::registrarErro('Erro ao resetar todo o cache', self::$memcached->getResultMessage());
     }
 
-    $sessaoUsuario->definir('ok', 'Reset cache todos');
+    self::$sessaoUsuario->definir('ok', 'Reset cache todos');
 
     header('Location: /logout');
     exit();
