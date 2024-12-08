@@ -11,7 +11,10 @@ const imagem2Webp = async (file) => {
 
     return new Promise((resolve, reject) => {
       canvas.toBlob((blob) => {
-    console.log('Blob gerado:', blob);
+
+      // Debug em produção
+      console.log('Blob gerado:', blob);
+
         if (blob) {
             resolve(blob)
         }

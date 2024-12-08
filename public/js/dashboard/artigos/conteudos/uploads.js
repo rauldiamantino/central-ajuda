@@ -58,7 +58,7 @@ const mostrarImagemConteudo = async (event) => {
     editarTextoImagemEscolher.textContent = 'Imagem escolhida';
   }
   catch (error) {
-    msgErroImagem.textContent = 'Erro ao processar a imagem: ' + error.message;
+    msgErroImagem.textContent = error.message;
     msgErroImagem.dataset.sucesso = 'false';
     msgErroImagem.classList.remove('hidden');
   }
@@ -92,7 +92,7 @@ const mostrarImagemConteudoEditar = async (event) => {
     editarTextoImagemEscolher.textContent = 'Imagem escolhida';
   }
   catch (error) {
-    msgErroImagem.textContent = 'Erro ao processar a imagem: ' + error.message;
+    msgErroImagem.textContent = error.message;
     msgErroImagem.dataset.sucesso = 'false';
     msgErroImagem.classList.remove('hidden');
   }
