@@ -1,7 +1,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
   <link href="/tailwindcss/output.css" rel="stylesheet">
   <link rel="icon" sizes="16x16" href="/img/favicon-preto-branco.png" type="image/png">
   <link rel="stylesheet" href="/css/inicio/index.css">

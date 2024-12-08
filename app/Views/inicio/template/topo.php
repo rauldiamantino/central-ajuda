@@ -9,28 +9,3 @@
     </div>
   </nav>
 </header>
-
-<!-- <script>
-  window.addEventListener('scroll', function() {
-    const header = document.querySelector('#header');
-    const logo = document.querySelector('#logo-img');
-    const botaoLogin = document.querySelector('#login-btn');
-
-    if (window.scrollY > 0) {
-      header.classList.add('bg-gray-800', 'text-white');
-      header.classList.remove('border-gray-100');
-      header.classList.add('border-gray-800');
-      botaoLogin.classList.remove('text-gray-800', 'bg-gray-100');
-      botaoLogin.classList.add('text-white', 'bg-gray-700/50');
-      logo.classList.add('invert');
-    }
-    else {
-      header.classList.remove('bg-gray-800', 'text-white');
-      header.classList.remove('border-gray-800');
-      header.classList.add('border-gray-100');
-      botaoLogin.classList.add('text-gray-800', 'bg-gray-100');
-      botaoLogin.classList.remove('text-white', 'bg-gray-700/50');
-      logo.classList.remove('invert');
-    }
-  });
-</script> -->
