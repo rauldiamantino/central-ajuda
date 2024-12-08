@@ -523,6 +523,12 @@ class Roteador
       $this->empresa = reset($partesRota);
     }
 
+    // Provisório (Google Search)
+    if ($this->empresa == 'padrao') {
+      header('Location: /technology');
+      exit;
+    }
+
     // Exemplo: {1} > {id}
     $this->chaveRota = preg_replace('/\b' . preg_quote($this->parametroId, '/') . '\b/', '{id}', $this->chaveRota, 1);
 
