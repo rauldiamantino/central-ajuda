@@ -30,7 +30,7 @@ const alterarImagemConteudoEditar = (event) => {
   editarImagemEscolher.click();
 }
 
-const mostrarImagemConteudo = (event) => {
+const mostrarImagemConteudo = async (event) => {
   const elementoPai = event.target.closest('.modal-conteudo-imagem-adicionar');
   const anexo = event.target.files[0];
 
@@ -45,20 +45,26 @@ const mostrarImagemConteudo = (event) => {
     return;
   }
 
-  const imagem = new Image()
-  imagem.src = URL.createObjectURL(anexo)
+  try {
+    const webpBlob = await imagem2Webp(anexo);
+    const webpFile = new File([webpBlob], 'nova-imagem.webp', { type: 'image/webp' });
+    const dataTransfer = new DataTransfer();
+    const webpURL = URL.createObjectURL(webpBlob);
 
-  const objetoReader = new FileReader();
-  objetoReader.onload = (e) => {
-    imgElemento.src = e.target.result;
+    dataTransfer.items.add(webpFile);
+    event.target.files = dataTransfer.files;
+    imgElemento.src = webpURL;
     imgElemento.classList.remove('hidden');
-  };
-
-  objetoReader.readAsDataURL(anexo);
-  editarTextoImagemEscolher.textContent = 'Imagem escolhida';
+    editarTextoImagemEscolher.textContent = 'Imagem escolhida';
+  }
+  catch (error) {
+    msgErroImagem.textContent = 'Erro ao processar a imagem: ' + error.message;
+    msgErroImagem.dataset.sucesso = 'false';
+    msgErroImagem.classList.remove('hidden');
+  }
 }
 
-const mostrarImagemConteudoEditar = (event) => {
+const mostrarImagemConteudoEditar = async (event) => {
   const elementoPai = event.target.closest('.container-conteudo-imagem-editar');
   const anexo = event.target.files[0];
 
@@ -73,15 +79,21 @@ const mostrarImagemConteudoEditar = (event) => {
     return;
   }
 
-  const imagem = new Image()
-  imagem.src = URL.createObjectURL(anexo)
+  try {
+    const webpBlob = await imagem2Webp(anexo);
+    const webpFile = new File([webpBlob], 'nova-imagem.webp', { type: 'image/webp' });
+    const dataTransfer = new DataTransfer();
+    const webpURL = URL.createObjectURL(webpBlob);
 
-  const objetoReader = new FileReader();
-  objetoReader.onload = (e) => {
-    imgElemento.src = e.target.result;
+    dataTransfer.items.add(webpFile);
+    event.target.files = dataTransfer.files;
+    imgElemento.src = webpURL;
     imgElemento.classList.remove('hidden');
-  };
-
-  objetoReader.readAsDataURL(anexo);
-  editarTextoImagemEscolher.textContent = 'Imagem escolhida';
+    editarTextoImagemEscolher.textContent = 'Imagem escolhida';
+  }
+  catch (error) {
+    msgErroImagem.textContent = 'Erro ao processar a imagem: ' + error.message;
+    msgErroImagem.dataset.sucesso = 'false';
+    msgErroImagem.classList.remove('hidden');
+  }
 }

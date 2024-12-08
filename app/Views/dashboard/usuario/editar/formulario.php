@@ -41,13 +41,13 @@ $ultimoAcesso = json_decode($ultimoAcesso, true);
             <img src="<?php echo $this->renderImagem($usuario['Usuario']['foto']); ?>" class="p-1 w-20 h-20 rounded-full usuario-alterar-foto" onerror="this.onerror=null; this.src='/img/sem-imagem-perfil.svg';">
           </div>
           <span class="text-gray-700 h-max w-max empresa-txt-imagem-editar-escolher"><?php echo $usuario['Usuario']['foto'] ? '' : ''; ?></span>
-          <h3 class="hidden font-light text-left text-sm text-red-800 erro-usuario-foto"></h3>
         </button>
 
         <?php if ($usuario['Usuario']['foto']) { ?>
           <button type="button" class="text-xs text-red-600 hover:underline duration-150 usuario-remover-foto" onclick="removerFotoUsuario(<?php echo $usuario['Usuario']['id']; ?>)">Remover</button>
         <?php } ?>
       </div>
+      <h3 class="mt-4 hidden font-light text-left text-sm text-red-800 erro-usuario-foto">Erro</h3>
     </div>
 
     <?php // Nível de acesso?>

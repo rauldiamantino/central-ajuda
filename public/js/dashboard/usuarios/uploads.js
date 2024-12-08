@@ -8,8 +8,7 @@ const alterarImagemUsuario = () => {
   editarImagemEscolher.click()
 }
 
-const mostrarImagemUsuario = (event) => {
-  console.log(event.target.files)
+const mostrarImagemUsuario = async (event) => {
   const anexo = event.target.files[0]
   const imgElemento = document.querySelector('.usuario-alterar-foto')
   const msgErroImagem = document.querySelector('.erro-usuario-foto')
@@ -45,17 +44,22 @@ const mostrarImagemUsuario = (event) => {
     msgErroImagem.classList.add('hidden')
   }
 
-  const imagem = new Image()
-  imagem.src = URL.createObjectURL(anexo)
+  try {
+    const webpBlob = await imagem2Webp(anexo);
+    const webpFile = new File([webpBlob], 'nova-imagem.webp', { type: 'image/webp' });
+    const dataTransfer = new DataTransfer();
+    const webpURL = URL.createObjectURL(webpBlob);
 
-  const objetoReader = new FileReader()
-  objetoReader.onload = (e) => {
-    imgElemento.src = e.target.result
-    imgElemento.classList.remove('hidden')
-    imgElemento.classList.remove('p-2')
+    dataTransfer.items.add(webpFile);
+    event.target.files = dataTransfer.files;
+    imgElemento.src = webpURL;
+    imgElemento.classList.remove('hidden');
   }
-
-  objetoReader.readAsDataURL(anexo)
+  catch (error) {
+    msgErroImagem.textContent = error.message;
+    msgErroImagem.dataset.sucesso = 'false';
+    msgErroImagem.classList.remove('hidden');
+  }
 }
 
 const removerFotoUsuario = (usuarioId) => {

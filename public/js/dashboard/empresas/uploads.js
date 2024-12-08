@@ -18,7 +18,7 @@ const alterarFavicon = () => {
   editarFaviconEscolher.click()
 }
 
-const mostrarImagemLogo = (event) => {
+const mostrarImagemLogo = async (event) => {
   const anexo = event.target.files[0]
   const editarTextoImagemEscolher = document.querySelector('.empresa-txt-imagem-editar-escolher')
   const imgElemento = document.querySelector('.empresa-alterar-logo')
@@ -55,20 +55,26 @@ const mostrarImagemLogo = (event) => {
     msgErroImagem.classList.add('hidden')
   }
 
-  const imagem = new Image()
-  imagem.src = URL.createObjectURL(anexo)
+  try {
+    const webpBlob = await imagem2Webp(anexo);
+    const webpFile = new File([webpBlob], 'nova-imagem.webp', { type: 'image/webp' });
+    const dataTransfer = new DataTransfer();
+    const webpURL = URL.createObjectURL(webpBlob);
 
-  const objetoReader = new FileReader()
-  objetoReader.onload = (e) => {
-    imgElemento.src = e.target.result
-    imgElemento.classList.remove('hidden')
+    dataTransfer.items.add(webpFile);
+    event.target.files = dataTransfer.files;
+    imgElemento.src = webpURL;
+    imgElemento.classList.remove('hidden');
+    editarTextoImagemEscolher.textContent = 'Imagem escolhida';
   }
-
-  objetoReader.readAsDataURL(anexo)
-  editarTextoImagemEscolher.textContent = 'Imagem escolhida'
+  catch (error) {
+    msgErroImagem.textContent = 'Erro ao processar a imagem: ' + error.message;
+    msgErroImagem.dataset.sucesso = 'false';
+    msgErroImagem.classList.remove('hidden');
+  }
 }
 
-const mostrarImagemFavicon = (event) => {
+const mostrarImagemFavicon = async (event) => {
   const anexo = event.target.files[0]
   const editarTextoImagemEscolher = document.querySelector('.empresa-txt-favicon-editar-escolher')
   const imgElemento = document.querySelector('.empresa-alterar-favicon')
@@ -105,15 +111,21 @@ const mostrarImagemFavicon = (event) => {
     msgErroImagem.classList.add('hidden')
   }
 
-  const imagem = new Image()
-  imagem.src = URL.createObjectURL(anexo)
+  try {
+    const webpBlob = await imagem2Webp(anexo);
+    const webpFile = new File([webpBlob], 'nova-imagem.webp', { type: 'image/webp' });
+    const dataTransfer = new DataTransfer();
+    const webpURL = URL.createObjectURL(webpBlob);
 
-  const objetoReader = new FileReader()
-  objetoReader.onload = (e) => {
-    imgElemento.src = e.target.result
-    imgElemento.classList.remove('hidden')
+    dataTransfer.items.add(webpFile);
+    event.target.files = dataTransfer.files;
+    imgElemento.src = webpURL;
+    imgElemento.classList.remove('hidden');
+    editarTextoImagemEscolher.textContent = 'Imagem escolhida';
   }
-
-  objetoReader.readAsDataURL(anexo)
-  editarTextoImagemEscolher.textContent = 'Imagem escolhida'
+  catch (error) {
+    msgErroImagem.textContent = 'Erro ao processar a imagem: ' + error.message;
+    msgErroImagem.dataset.sucesso = 'false';
+    msgErroImagem.classList.remove('hidden');
+  }
 }
