@@ -41,22 +41,10 @@ class SessaoUsuario
 
   public function definir($chave, $valor, $array = false)
   {
-    $valorAtual = $this->buscar($chave);
-
     if ($array) {
-
-      if (! is_array($valorAtual)) {
-        $_SESSION[ $chave ] = [];
-      }
-
-      if (! in_array($valor, $_SESSION[$chave], true)) {
-        $_SESSION[ $chave ][] = $valor;
-      }
-
-      return;
+      $_SESSION[ $chave ][] = $valor;
     }
-
-    if ($valorAtual !== $valor) {
+    else {
       $_SESSION[ $chave ] = $valor;
     }
   }
