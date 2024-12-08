@@ -439,12 +439,19 @@ class Roteador
 
     $coluna = 'subdominio';
     $valor = $this->empresa;
+
     $cacheNome = 'roteador-' . $valor;
 
     if ($this->subdominio_2) {
       $coluna = 'subdominio_2';
       $valor = $_SERVER['REQUEST_SCHEME'] . '://' . $this->subdominio_2;
       $cacheNome = 'roteador-' . $this->subdominio_2;
+    }
+
+    // Provisório (Google Search)
+    if (! HOST_LOCAL and empty($this->subdominio_2) and $valor == 'padrao') {
+      header('Location: /technology');
+      exit;
     }
 
     // Cache 1 hora
@@ -521,12 +528,6 @@ class Roteador
     }
     elseif (count($partesRota) === 1) {
       $this->empresa = reset($partesRota);
-    }
-
-    // Provisório (Google Search)
-    if ($this->empresa == 'padrao') {
-      header('Location: /technology');
-      exit;
     }
 
     // Exemplo: {1} > {id}
