@@ -53,7 +53,7 @@ class DashboardAssinaturaController extends DashboardController
                                         ->executarConsulta();
 
     if (isset($assinatura['erro']) and $assinatura['erro']) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard', $assinatura['erro']);
+      $this->redirecionarErro('/dashboard', $assinatura['erro']);
     }
 
     // Recupera assinatura e cobranças no Asaas
@@ -87,7 +87,7 @@ class DashboardAssinaturaController extends DashboardController
     $asaasId = $_GET['asaas_id'] ?? '';
 
     if (empty($asaasId)) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', 'ID da assinatura não informado.');
+      $this->redirecionarErro('/dashboard/assinatura/editar', 'ID da assinatura não informado.');
     }
 
     $buscarAssinatura = $this->pagamentoAsaas->buscarAssinatura($asaasId);
@@ -96,7 +96,7 @@ class DashboardAssinaturaController extends DashboardController
     $assinaturaValor = $buscarAssinatura['value'] ?? 0;
 
     if (isset($buscarAssinatura['erro'])) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', $buscarAssinatura['erro']);
+      $this->redirecionarErro('/dashboard/assinatura/editar', $buscarAssinatura['erro']);
     }
 
     if ($assinaturaStatus == 'ACTIVE') {
@@ -132,10 +132,10 @@ class DashboardAssinaturaController extends DashboardController
       $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
       Cache::apagarSemId('roteador-' . $this->usuarioLogado['subdominio']);
 
-      $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', 'Assinatura reprocessada');
+      $this->redirecionarSucesso('/dashboard/assinatura/editar', 'Assinatura reprocessada');
     }
 
-    $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', 'Assinatura não encontrada');
+    $this->redirecionarErro('/dashboard/assinatura/editar', 'Assinatura não encontrada');
   }
 
   public function criarAssinaturaAsaas(int $id)
@@ -185,7 +185,7 @@ class DashboardAssinaturaController extends DashboardController
                                   ->executarConsulta();
 
     if (empty($empresa)) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', 'Falha ao buscar dados da empresa.');
+      $this->redirecionarErro('/dashboard/assinatura/editar', 'Falha ao buscar dados da empresa.');
     }
 
     if (is_array($plano) or ! in_array($plano, ['mensal', 'anual'])) {
@@ -201,14 +201,14 @@ class DashboardAssinaturaController extends DashboardController
     }
 
     if ($msgErro['erro']['mensagem']) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', $msgErro['erro']);
+      $this->redirecionarErro('/dashboard/assinatura/editar', $msgErro['erro']);
     }
 
     $this->pagamentoAsaas = new PagamentoAsaasComponent();
     $criarAssinatura = $this->pagamentoAsaas->criarAssinatura($empresa, $plano);
 
     if (isset($criarAssinatura['erro'])) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', 'Não foi possível gerar a assinatura, por favor, entre em contato com o nosso suporte');
+      $this->redirecionarErro('/dashboard/assinatura/editar', 'Não foi possível gerar a assinatura, por favor, entre em contato com o nosso suporte');
     }
 
     $campos = [
@@ -222,11 +222,11 @@ class DashboardAssinaturaController extends DashboardController
     $resultado = $this->assinaturaModel->atualizar($campos, $id);
 
     if (isset($resultado['erro'])) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', $resultado['erro']);
+      $this->redirecionarErro('/dashboard/assinatura/editar', $resultado['erro']);
     }
 
     if (! isset($resultado['linhasAfetadas']) or $resultado['linhasAfetadas'] < 1) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', 'Não foi possível gravar os dados da sua assinatura, por favor, entre em contato com o nosso suporte');
+      $this->redirecionarErro('/dashboard/assinatura/editar', 'Não foi possível gravar os dados da sua assinatura, por favor, entre em contato com o nosso suporte');
     }
 
     // Atualiza para uso imediato
@@ -236,7 +236,7 @@ class DashboardAssinaturaController extends DashboardController
 
     Cache::apagarSemId('roteador-' . $this->usuarioLogado['subdominio']);
 
-    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', 'Assinatura criada com sucesso!');
+    $this->redirecionarSucesso('/dashboard/assinatura/editar', 'Assinatura criada com sucesso!');
   }
 
   public function atualizar(int $id)
@@ -250,11 +250,11 @@ class DashboardAssinaturaController extends DashboardController
     $resultado = $this->assinaturaModel->atualizar($json, $id);
 
     if (isset($resultado['erro'])) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', $resultado['erro']);
+      $this->redirecionarErro('/dashboard/assinatura/editar', $resultado['erro']);
     }
 
     if (! isset($resultado['linhasAfetadas']) or $resultado['linhasAfetadas'] == 0) {
-      $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', 'Nenhuma alteração realizada');
+      $this->redirecionar('/dashboard/assinatura/editar', 'Nenhuma alteração realizada');
     }
 
     $condicao[] = [
@@ -283,7 +283,7 @@ class DashboardAssinaturaController extends DashboardController
     Cache::apagar('calcular-consumo', $this->empresaPadraoId);
     Cache::apagarSemId('roteador-' . $this->usuarioLogado['subdominio']);
 
-    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar', 'Registro alterado com sucesso');
+    $this->redirecionarSucesso('/dashboard/assinatura/editar', 'Registro alterado com sucesso');
   }
 
   public function buscarCobrancas()

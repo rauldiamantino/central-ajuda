@@ -17,35 +17,9 @@ class DashboardCadastroController extends DashboardController
 
   public function cadastroVer()
   {
-    if ($this->usuarioLogado['id'] > 0) {
-      header('Location: ' . baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard'));
-      exit();
-    }
-
     $this->visao->variavel('metaTitulo', 'Cadastro - 360Help');
     $this->visao->variavel('pagCadastro', true);
     $this->visao->renderizar('/cadastro/index');
-  }
-
-  public function cadastroSucessoVer()
-  {
-    if ($this->usuarioLogado['id'] > 0 and $this->usuarioLogado['empresaAtivo'] == ATIVO) {
-      $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard');
-    }
-
-    $protocolo = $this->sessaoUsuario->buscar('protocolo');
-    $this->sessaoUsuario->apagar('protocolo');
-
-    if (empty($protocolo)) {
-      $this->redirecionar('/login');
-    }
-
-    $this->visao->variavel('protocolo', $protocolo);
-    $this->visao->variavel('metaTitulo', 'Cadastro - 360Help');
-    $this->visao->variavel('pagCadastro', true);
-    $this->visao->variavel('pagCadastroSucesso', true);
-    $this->visao->variavel('paginaMenuLateral', 'cadastro');
-    $this->visao->renderizar('/cadastro/sucesso');
   }
 
   public function adicionar()
@@ -55,12 +29,6 @@ class DashboardCadastroController extends DashboardController
 
     if (isset($resultado['erro'])) {
       $this->redirecionarErro('/cadastro', $resultado['erro']);
-    }
-
-    $usuarioExiste = $this->cadastroModel->usuarioExiste($resultado['email']);
-
-    if ($usuarioExiste) {
-      $this->redirecionarErro('/cadastro', 'Email já cadastrado');
     }
 
     $empresaId = $this->cadastroModel->gerarEmpresa($resultado['subdominio']);
@@ -79,13 +47,23 @@ class DashboardCadastroController extends DashboardController
     unset($resultado['subdominio']);
 
     $resultado = array_merge($resultado, ['empresa_id' => $empresaId]);
-    $usuario = $this->cadastroModel->gerarUsuarioPadrao($resultado);
+    $usuarioId = $this->cadastroModel->gerarUsuarioPadrao($resultado);
 
-    if (intval($usuario) < 1) {
+    if (intval($usuarioId) < 1) {
       $this->cadastroModel->apagarEmpresa($empresaId);
       $this->cadastroModel->apagarAssinatura($assinaturaId, $empresaId);
 
       $this->redirecionarErro('/cadastro', 'Erro ao cadastrar usuário (C500#USR)');
+    }
+
+    $usuarioSuporte = $this->cadastroModel->gerarUsuarioSuporte($resultado);
+
+    if (intval($usuarioSuporte) < 1) {
+      $this->cadastroModel->apagarEmpresa($empresaId);
+      $this->cadastroModel->apagarAssinatura($assinaturaId, $empresaId);
+      $this->cadastroModel->apagarUsuario($empresaId, $usuarioId);
+
+      $this->redirecionarErro('/cadastro', 'Erro ao cadastrar usuário (C500#USR#SUP)');
     }
 
     $this->loginController->login($dados);

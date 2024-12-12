@@ -7,7 +7,7 @@
     </div>
     <div class="py-2 w-full h-full flex gap-2 items-start justify-end">
       <?php if ((int) $this->usuarioLogado['padrao'] == USUARIO_SUPORTE) { ?>
-        <form action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/validar_assinatura'); ?>" method="GET" class="<?php echo CLASSES_DASH_BUTTON_LIMPAR; ?> flex justify-start items-center gap-2">
+        <form action="/dashboard/validar_assinatura" method="GET" class="<?php echo CLASSES_DASH_BUTTON_LIMPAR; ?> flex justify-start items-center gap-2">
           <input type="hidden" name="asaas_id" value="<?php echo $assinatura['Assinatura']['asaas_id']; ?>">
           <button type="submit">Reprocessar</button>
         </form>

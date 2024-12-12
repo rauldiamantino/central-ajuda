@@ -1,5 +1,5 @@
-<a href="<?php echo baseUrl('/'); ?>" class="w-full justify-center flex items-center">
-  <img src="<?php echo baseUrl('/img/360help-branco.svg')?>" class="w-28">
+<a href="/" class="w-full justify-center flex items-center">
+  <img src="/img/360help-branco.svg" class="w-28">
 </a>
 <div class="mt-5 w-full h-full shadow-2xl rounded-md bg-white">
   <div class="w-full flex min-h-full flex-col justify-center px-6 py-12 md:px-10">
@@ -9,7 +9,7 @@
       <?php require_once 'formulario.php' ?>
       <p class="mt-10 text-center text-sm text-gray-500">
         Não possui cadastro?
-        <a href="<?php echo baseUrl('/cadastro'); ?>" class="font-semibold leading-6 text-blue-900 hover:text-blue-500">Junte-se a nós!</a>
+        <a href="/cadastro" class="font-semibold leading-6 text-blue-900 hover:text-blue-500">Junte-se a nós!</a>
       </p>
     </div>
   </div>

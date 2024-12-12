@@ -1,6 +1,6 @@
 <div class="w-full flex flex-col py-14">
   <div class="pb-6 flex gap-2 font-light text-sm publico-migalhas">
-    <a href="<?php echo baseUrl('/' . $subdominio); ?>" class="hover:underline">Início</a>
+    <a href="/" class="hover:underline">Início</a>
     <span>></span>
     <span class="underline">Busca</span>
   </div>
@@ -31,11 +31,11 @@
                     <a href="" class="italic hover:underline">Sem categoria</a>
                   <?php } ?>
                   <?php if ($linha['Categoria']['nome'] and $linha['Artigo']['categoria_id']) { ?>
-                    <a href="<?php echo baseUrl('/' . $subdominio . '/categoria/' . $linha['Artigo']['categoria_id'] . '/' . $this->gerarSlug($linha['Categoria']['nome'])); ?>" class="italic hover:underline"><?php echo $linha['Categoria']['nome'] ?></a>
+                    <a href="<?php echo '/categoria/' . $linha['Artigo']['categoria_id'] . '/' . $this->gerarSlug($linha['Categoria']['nome']); ?>" class="italic hover:underline"><?php echo $linha['Categoria']['nome'] ?></a>
                   <?php } ?>
                 </div>
               <h2 class="text-xl flex gap-2 items-center">
-                <a href="<?php echo baseUrl('/' . $subdominio . '/artigo/' . $linha['Artigo']['id'] . '/' . $this->gerarSlug($linha['Artigo']['titulo'])); ?>" class="hover:underline"><?php echo $linha['Artigo']['titulo'] ?></a>
+                <a href="<?php echo '/artigo/' . $linha['Artigo']['id'] . '/' . $this->gerarSlug($linha['Artigo']['titulo']); ?>" class="hover:underline"><?php echo $linha['Artigo']['titulo'] ?></a>
 
                 <?php if ($linha['Artigo']['ativo'] == INATIVO) { ?>
                   <div class="text-red-800">

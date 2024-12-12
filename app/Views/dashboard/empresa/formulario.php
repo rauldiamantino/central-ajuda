@@ -1,4 +1,4 @@
-<form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/empresa/editar/' . $empresa['Empresa']['id']); ?>" class="border-t border-slate-300 w-full h-full flex flex-col gap-4 form-editar-empresa" id="form-editar-empresa" data-empresa-id="<?php echo $empresa['Empresa']['id'] ?>" data-imagem-atual="<?php echo $empresa['Empresa']['logo']; ?>" data-favicon-atual="<?php echo $empresa['Empresa']['favicon']; ?>" enctype="multipart/form-data">
+<form method="POST" action="<?php echo '/d/empresa/editar/' . $empresa['Empresa']['id']; ?>" class="border-t border-slate-300 w-full h-full flex flex-col gap-4 form-editar-empresa" id="form-editar-empresa" data-empresa-id="<?php echo $empresa['Empresa']['id'] ?>" data-imagem-atual="<?php echo $empresa['Empresa']['logo']; ?>" data-favicon-atual="<?php echo $empresa['Empresa']['favicon']; ?>" enctype="multipart/form-data">
   <input type="hidden" name="_method" value="PUT">
   <div class="w-full flex flex-col divide-y">
 

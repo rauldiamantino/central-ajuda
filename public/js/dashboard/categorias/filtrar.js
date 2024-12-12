@@ -41,18 +41,18 @@ const filtrarCategorias = () => {
   }
 
   function clicouLimpar() {
-    modalFiltrarLimpar.addEventListener('click', () => window.location.href = `/${empresa}/dashboard/categorias`)
+    modalFiltrarLimpar.addEventListener('click', () => window.location.href = `/dashboard/categorias`)
   }
 
   function clicouConfirmar(cliqueEnter = false) {
     modalFiltrarConfirmar.addEventListener('click', () => {
       const params = paramsFiltro()
-      window.location.href = `/${empresa}/dashboard/categorias${params ? '?' + params : ''}`
+      window.location.href = `/dashboard/categorias${params ? '?' + params : ''}`
     })
 
     if (cliqueEnter) {
       const params = paramsFiltro()
-      window.location.href = `/${empresa}/dashboard/categorias${params ? '?' + params : ''}`
+      window.location.href = `/dashboard/categorias${params ? '?' + params : ''}`
     }
   }
 

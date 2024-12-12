@@ -3,6 +3,6 @@
     <?php if ($urlSite) { ?>
       <li class="flex items-center justify-center hover:opacity-95"><a href="<?php echo $urlSite ?>" target="_blank" class="px-4 py-2 rounded-lg pers-publico-botao template-cor-<?php echo $corPrimaria; ?>">Website</a></li>
     <?php } ?>
-    <li class="flex items-center justify-center"><a href="<?php echo HOST_LOCAL ? 'http://localhost/login' : 'https://www.360help.com.br/login'; ?>" target="_blank" class="px-4 py-2 hover:bg-slate-100 rounded-lg">Login</a></li>
+    <li class="flex items-center justify-center"><a href="/dashboard/login" target="_blank" class="px-4 py-2 hover:bg-slate-100 rounded-lg">Login</a></li>
   </ul>
 </nav>

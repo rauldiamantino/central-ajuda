@@ -68,7 +68,7 @@ const requisicaoConteudoRemover = (conteudoId) => {
       botao.classList.add('opacity-50')
   })
 
-  fetch(baseUrl(`/${empresa}/d/conteudo/${conteudoId}`), { method: 'DELETE' })
+  fetch(`/d/conteudo/${conteudoId}`, { method: 'DELETE' })
     .then(resposta => resposta.json())
     .then(resposta => {
 

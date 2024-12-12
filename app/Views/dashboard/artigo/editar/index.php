@@ -5,10 +5,10 @@ if ($botaoVoltar) {
   $referer = '?referer=' . urlencode($botaoVoltar);
 }
 
-$dominio = $this->usuarioLogado['subdominio_2'];
+$dominio = '';
 
-if (empty($dominio)) {
-  $dominio = '/' . $this->usuarioLogado['subdominio'];
+if ($dominio) {
+  $dominio = $this->usuarioLogado['subdominio_2'];
 }
 ?>
 
@@ -19,7 +19,7 @@ if (empty($dominio)) {
       <p class="text-gray-600">Vamos deixar seus tutoriais ainda melhores?</p>
     </div>
     <div class="py-2 w-full h-full flex gap-2 items-start justify-end">
-      <a href="<?php echo baseUrl($botaoVoltar ? $botaoVoltar : '/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos' . $referer); ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>">Voltar</a>
+      <a href="<?php echo $botaoVoltar ? $botaoVoltar : '/dashboard/artigos' . $referer; ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>">Voltar</a>
 
       <?php // Menu auxiliar ?>
       <div class="relative text-sm">
@@ -65,7 +65,7 @@ if (empty($dominio)) {
     </div>
   </div>
 
-  <div class="w-full border-t border-slate-300 pt-4 w-full flex flex-col lg:justify-between gap-5">
+  <div class="w-full border-t border-slate-300 pt-4 flex flex-col lg:justify-between gap-5">
 
     <?php require_once 'conteudo/menu-adicionar.php' ?>
 

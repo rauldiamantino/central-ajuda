@@ -29,5 +29,5 @@ else {
     </div>
   <?php } ?>
 
-  <button onclick="window.location.href='/<?php echo $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar?acao=assinar'; ?>';" class="mt-5 <?php echo CLASSES_DASH_BUTTON_ASSINAR ?>">Assinar 360Help</button>
+  <button onclick="window.location.href='/dashboard/empresa/editar?acao=assinar';" class="mt-5 <?php echo CLASSES_DASH_BUTTON_ASSINAR ?>">Assinar 360Help</button>
 </li>

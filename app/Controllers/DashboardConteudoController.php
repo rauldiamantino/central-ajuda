@@ -33,15 +33,15 @@ class DashboardConteudoController extends DashboardController
     $dados = $this->receberJson();
 
     if (isset($dados['tipo']) and $dados['tipo'] == 2 and (! isset($_FILES['arquivo-imagem']) or $_FILES['arquivo-imagem']['error'] !== UPLOAD_ERR_OK)) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', 'Imagem inválida');
+      $this->redirecionarErro('/dashboard/artigos', 'Imagem inválida');
     }
 
     $resultado = $this->conteudoModel->adicionar($dados);
 
-    $urlRetorno = '/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos';
+    $urlRetorno = '/dashboard/artigos';
 
     if (isset($dados['artigo_id'])) {
-      $urlRetorno = '/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $dados['artigo_id'];
+      $urlRetorno = '/dashboard/artigo/editar/' . $dados['artigo_id'];
     }
 
     if ($botaoVoltar) {
@@ -146,7 +146,7 @@ class DashboardConteudoController extends DashboardController
     $resultado = $this->conteudoModel->atualizar($json, $id);
 
     if (isset($resultado['erro'])) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId . $referer, $resultado['erro']);
+      $this->redirecionarErro('/dashboard/artigo/editar/' . $artigoId . $referer, $resultado['erro']);
     }
     elseif ($resultado) {
       $paramsImagem = [
@@ -160,7 +160,7 @@ class DashboardConteudoController extends DashboardController
         $extensao = pathinfo($_FILES['arquivo-imagem']['name'], PATHINFO_EXTENSION);
 
         if ($firebase->adicionarImagem($this->empresaPadraoId, $_FILES['arquivo-imagem'], $paramsImagem) == false) {
-          $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId . $referer, 'Erro ao fazer upload do arquivo');
+          $this->redirecionarErro('/dashboard/artigo/editar/' . $artigoId . $referer, 'Erro ao fazer upload do arquivo');
         }
 
         // Armazena no banco sempre com a extensão
@@ -181,10 +181,10 @@ class DashboardConteudoController extends DashboardController
 
       Cache::apagar('publico-artigo_' . $artigoId . '-conteudos', $this->usuarioLogado['empresaId']);
 
-      $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId . $referer, 'Conteúdo editado com sucesso');
+      $this->redirecionarSucesso('/dashboard/artigo/editar/' . $artigoId . $referer, 'Conteúdo editado com sucesso');
     }
 
-    $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $artigoId . $referer, 'Nenhuma alteração realizada');
+    $this->redirecionar('/dashboard/artigo/editar/' . $artigoId . $referer, 'Nenhuma alteração realizada');
   }
 
   public function atualizarOrdem()

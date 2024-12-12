@@ -51,7 +51,7 @@ class DashboardEmpresaController extends DashboardController
                                   ->executarConsulta();
 
     if (isset($empresa['erro']) and $empresa['erro']) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard', $empresa['erro']);
+      $this->redirecionarErro('/dashboard', $empresa['erro']);
     }
 
     $this->visao->variavel('empresa', reset($empresa));
@@ -123,7 +123,7 @@ class DashboardEmpresaController extends DashboardController
           ];
 
           if ($firebase->adicionarImagem($this->empresaPadraoId, $linha, $params) == false) {
-            $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Erro ao fazer upload do logo');
+            $this->redirecionarErro('/dashboard/empresa/editar', 'Erro ao fazer upload do logo');
           }
 
           $formLogo = true;
@@ -136,7 +136,7 @@ class DashboardEmpresaController extends DashboardController
           ];
 
           if ($firebase->adicionarImagem($this->empresaPadraoId, $linha, $params) == false) {
-            $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Erro ao fazer upload do favicon');
+            $this->redirecionarErro('/dashboard/empresa/editar', 'Erro ao fazer upload do favicon');
           }
 
           $formFavicon = true;
@@ -160,11 +160,11 @@ class DashboardEmpresaController extends DashboardController
     $resultado = $this->empresaModel->atualizar($json, $id);
 
     if (isset($resultado['erro'])) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', $resultado['erro']);
+      $this->redirecionarErro('/dashboard/empresa/editar', $resultado['erro']);
     }
 
     if ((! isset($resultado['linhasAfetadas']) or $resultado['linhasAfetadas'] == 0) and $formLogo == false and $formFavicon == false) {
-      $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Nenhuma alteração realizada');
+      $this->redirecionar('/dashboard/empresa/editar', 'Nenhuma alteração realizada');
     }
 
     $condicao[] = [
@@ -197,6 +197,6 @@ class DashboardEmpresaController extends DashboardController
     Cache::apagarSemId('roteador-' . $this->usuarioLogado['subdominio']);
     Cache::apagarSemId('roteador-' . $subdominio_2);
 
-    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar', 'Registro alterado com sucesso');
+    $this->redirecionarSucesso('/dashboard/empresa/editar', 'Registro alterado com sucesso');
   }
 }

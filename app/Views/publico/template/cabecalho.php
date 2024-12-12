@@ -3,8 +3,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="/tailwindcss/output.css" rel="stylesheet">
   <link rel="icon" sizes="16x16" href="<?php echo $this->renderImagem($favicon); ?>">
-  <link rel="stylesheet" href="<?php echo baseUrl('/css/publico/index.css'); ?>">
-  <link rel="stylesheet" href="<?php echo baseUrl('/css/publico/pers.css'); ?>">
+  <link rel="stylesheet" href="/css/publico/index.css">
+  <link rel="stylesheet" href="/css/publico/pers.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">

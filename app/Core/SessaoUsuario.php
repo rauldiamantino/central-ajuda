@@ -20,7 +20,7 @@ class SessaoUsuario
       $dominio = '.360help.com.br';
 
       if (HOST_LOCAL) {
-        $dominio = 'localhost';
+        $dominio = $_SERVER['SERVER_NAME'];
       }
 
       ini_set('session.save_handler', 'memcached');

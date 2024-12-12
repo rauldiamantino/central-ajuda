@@ -64,15 +64,15 @@ document.addEventListener('DOMContentLoaded', function() {
     let referer = url?.searchParams.get('referer')
 
     if (! referer) {
-      referer = `/${empresa}/dashboard/categorias`
+      referer = `/dashboard/categorias`
     }
 
-    fetch(baseUrl(`/${empresa}/d/categoria/${categoriaId}`), { method: 'DELETE' })
+    fetch(`/d/categoria/${categoriaId}`, { method: 'DELETE' })
       .then(resposta => resposta.json())
       .then(resposta => {
 
         if (resposta.linhasAfetadas == 1) {
-          window.location.href = baseUrl(referer)
+          window.location.href = referer
         }
         else if (resposta.erro) {
           throw new Error(resposta.erro)

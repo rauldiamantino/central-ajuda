@@ -54,12 +54,12 @@ const requisicaoUsuarioRemover = (usuarioId) => {
     return
   }
 
-  fetch(baseUrl(`/${empresa}/d/usuario/${usuarioId}`), { method: 'DELETE' })
+  fetch(`/d/usuario/${usuarioId}`, { method: 'DELETE' })
     .then(resposta => resposta.json())
     .then(resposta => {
 
       if (resposta.linhasAfetadas == 1) {
-        window.location.href = baseUrl(`/${empresa}/dashboard/usuarios`)
+        window.location.href = `/dashboard/usuarios`
         return
       }
       else if (resposta.erro) {

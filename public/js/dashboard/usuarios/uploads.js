@@ -68,7 +68,7 @@ const removerFotoUsuario = (usuarioId) => {
     return
   }
 
-  fetch(`/${empresa}/d/usuario/foto/${usuarioId}`, { method: 'DELETE' })
+  fetch(`/d/usuario/foto/${usuarioId}`, { method: 'DELETE' })
   .then(response => response.json())
   .then(data => {
 
@@ -76,10 +76,10 @@ const removerFotoUsuario = (usuarioId) => {
       throw new Error(data.erro)
     }
 
-    window.location.href = `/${empresa}/dashboard/usuario/editar/${usuarioId}`
+    window.location.href = `/dashboard/usuario/editar/${usuarioId}`
   })
   .catch(error => {
     console.log(error)
-    window.location.href = `/${empresa}/dashboard/usuario/editar/${usuarioId}`
+    window.location.href = `/dashboard/usuario/editar/${usuarioId}`
   })
 }

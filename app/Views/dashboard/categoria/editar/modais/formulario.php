@@ -1,5 +1,5 @@
 <dialog class="border border-slate-300 w-full md:w-[700px] rounded-md shadow menu-editar-categoria">
-  <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/categoria/' . $categoria[0]['Categoria']['id']); ?>" class="w-full flex flex-col gap-4 p-4 rounded-lg shadow bg-white" onsubmit="evitarDuploClique(event)">
+  <form method="POST" action="<?php echo '/d/categoria/' . $categoria[0]['Categoria']['id']; ?>" class="w-full flex flex-col gap-4 p-4 rounded-lg shadow bg-white" onsubmit="evitarDuploClique(event)">
     <input type="hidden" name="_method" value="PUT">
     <input type="hidden" name="referer" value="<?php echo $botaoVoltar; ?>">
     <div class="w-full flex gap-4">

@@ -1,4 +1,4 @@
-<form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/ajustes'); ?>" class="border-t border-slate-300 w-full flex flex-col gap-4 py-6 form-dashboard-ajustes">
+<form method="POST" action="/d/ajustes" class="border-t border-slate-300 w-full flex flex-col gap-4 py-6 form-dashboard-ajustes">
   <input type="hidden" name="_method" value="PUT">
   <div class="w-full flex">
     <div class="w-full flex flex-col gap-6">

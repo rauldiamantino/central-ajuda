@@ -50,6 +50,8 @@ class DashboardLoginModel extends Model
               Usuario.email = ?
             AND
               Usuario.ativo = ?
+            AND
+              Usuario.empresa_id = ?
             ORDER BY
               Usuario.id ASC
             LIMIT ?';
@@ -57,12 +59,17 @@ class DashboardLoginModel extends Model
     $sqlParam = [
       0 => $campos['email'],
       1 => ATIVO,
-      2 => 1,
+      3 => $this->empresaPadraoId,
+      4 => 1,
     ];
 
     $usuario = parent::executarQueryLogin($sql, $sqlParam);
 
     $loginSucesso = true;
+
+    if (empty($this->empresaPadraoId)) {
+      $loginSucesso = false;
+    }
 
     if (! isset($usuario[0]['id']) or empty($usuario[0]['id'])) {
       $loginSucesso = false;

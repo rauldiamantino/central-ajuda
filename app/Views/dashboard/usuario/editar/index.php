@@ -1,9 +1,9 @@
 <?php
 if ($this->usuarioLogado['nivel'] == USUARIO_COMUM) {
-  $urlVoltar = '/' . $this->usuarioLogado['subdominio'] . '/dashboard';
+  $urlVoltar = '/dashboard';
 }
 else {
-$urlVoltar = '/' . $this->usuarioLogado['subdominio'] . '/dashboard/usuarios';
+$urlVoltar = '/dashboard/usuarios';
 }
 ?>
 
@@ -17,7 +17,7 @@ $urlVoltar = '/' . $this->usuarioLogado['subdominio'] . '/dashboard/usuarios';
 
     <div class="w-full h-full flex gap-2 items-center">
       <div class="py-2 w-full flex gap-2 items-center justify-end">
-        <a href="<?php echo baseUrl($urlVoltar); ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>">Voltar</a>
+        <a href="<?php echo $urlVoltar; ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>">Voltar</a>
         <button type="button" class="<?php echo CLASSES_DASH_BUTTON_GRAVAR; ?>" onclick="evitarDuploCliqueRedirect(event, '.form-editar-usuario');">Gravar</button>
       </div>
 

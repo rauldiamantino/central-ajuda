@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   const processarDados = (empresa) => {
-    fetch(`/${empresa}/d/buscar_cobrancas?asaas_id=${assinaturaId}`)
+    fetch(`/d/buscar_cobrancas?asaas_id=${assinaturaId}`)
       .then(response => response.json())
       .then(data => {
 

@@ -1,5 +1,5 @@
 <?php if ((int) $this->usuarioLogado['padrao'] == USUARIO_SUPORTE) { ?>
-  <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/assinatura/editar/' . $assinatura['Assinatura']['id']); ?>" class="border-t border-slate-300 w-full h-full flex flex-col gap-4 form-editar-assinatura" id="form-editar-assinatura" data-assinatura-id="<?php echo $assinatura['Assinatura']['empresa_id'] ?>">
+  <form method="POST" action="<?php echo '/d/assinatura/editar/' . $assinatura['Assinatura']['id']; ?>" class="border-t border-slate-300 w-full h-full flex flex-col gap-4 form-editar-assinatura" id="form-editar-assinatura" data-assinatura-id="<?php echo $assinatura['Assinatura']['empresa_id'] ?>">
     <input type="hidden" name="_method" value="PUT">
     <div class="w-full flex flex-col divide-y">
         <?php // Status da assinatura ?>

@@ -1,5 +1,5 @@
-<a href="<?php echo baseUrl('/'); ?>" class="mt-2 w-full justify-center flex items-center">
-  <img src="<?php echo baseUrl('/img/360help-branco.svg')?>" class="w-28">
+<a href="/" class="mt-2 w-full justify-center flex items-center">
+  <img src="/img/360help-branco.svg" class="w-28">
 </a>
 <div class="mt-5 w-full h-full shadow-2xl rounded-md bg-white">
   <div class="flex w-full h-full flex-col justify-center px-6 py-12 md:px-10">

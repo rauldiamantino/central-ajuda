@@ -1,1 +1,1 @@
-<script src="<?php echo baseUrl('/js/inicio/index.js')?>"></script>
+<script src="/js/inicio/index.js"></script>

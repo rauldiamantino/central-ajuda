@@ -25,7 +25,7 @@ class DashboardLoginController extends DashboardController
   public function loginVer()
   {
     if ($this->usuarioLogado['id'] > 0) {
-      header('Location: ' . baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard'));
+      header('Location: /dashboard');
       exit();
     }
 
@@ -38,7 +38,7 @@ class DashboardLoginController extends DashboardController
   public function loginSuporteVer(int $id = 0)
   {
     if ($this->usuarioLogado['padrao'] != USUARIO_SUPORTE) {
-      header('Location: ' . baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard'));
+      header('Location: /dashboard');
       exit();
     }
 
@@ -66,7 +66,7 @@ class DashboardLoginController extends DashboardController
 
     if (isset($empresas['erro'])) {
       $this->sessaoUsuario->apagar('usuario');
-      $this->redirecionarErro('/login', $empresas['erro']);
+      $this->redirecionarErro('/dashboard/login', $empresas['erro']);
     }
 
     if (! is_array($empresas)) {
@@ -121,10 +121,10 @@ class DashboardLoginController extends DashboardController
         $this->usuarioLogado['subdominio_2'] = $linha['Empresa']['subdominio_2'] ?? '';
         $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);
 
-        $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard');
+        $this->redirecionar('/dashboard');
       endforeach;
 
-      $this->redirecionarErro('/login/suporte', 'Empresa não encontrada');
+      $this->redirecionarErro('/dashboard/login/suporte', 'Empresa não encontrada');
     }
 
     $this->visao->variavel('metaTitulo', 'Login Suporte - 360Help');
@@ -137,9 +137,15 @@ class DashboardLoginController extends DashboardController
   public function login(array $loginCadastro = [])
   {
     $json = $this->receberJson();
+    $baseUrl = '';
 
     if ($loginCadastro) {
       $json = $loginCadastro;
+      $baseUrl = 'https://' . $loginCadastro['subdominio'] . '.360help.com.br';
+
+      if (HOST_LOCAL) {
+        $baseUrl = 'http://' . $loginCadastro['subdominio'] . '.localhost';
+      }
     }
 
     $resultado = $this->loginModel->login($json);
@@ -151,7 +157,7 @@ class DashboardLoginController extends DashboardController
 
     if (isset($resultado['erro'])) {
       $this->sessaoUsuario->apagar('usuario');
-      $this->redirecionarErro('/login', $resultado['erro']);
+      $this->redirecionarErro($baseUrl . '/dashboard/login', $resultado['erro']);
     }
 
     $this->usuarioLogado = [
@@ -178,14 +184,15 @@ class DashboardLoginController extends DashboardController
     $this->sessaoUsuario->regenerarId();
 
     if ($this->usuarioLogado['empresaId'] == 1 and $this->usuarioLogado['padrao'] == USUARIO_SUPORTE) {
-      $this->redirecionar('/login/suporte');
+      // $this->redirecionar($baseUrl . '/dashboard/login/suporte');
     }
 
+    // Revisar e direcionar para tela intermediaria onde anota os dados de acesso
     if ($loginCadastro) {
       $this->sessaoUsuario->definir('ok', 'Cadastro realizado com sucesso!');
     }
 
-    $this->redirecionar('/' . $this->usuarioLogado['subdominio'] . '/dashboard');
+    $this->redirecionar($baseUrl . '/dashboard');
   }
 
   public function logout()
@@ -193,7 +200,7 @@ class DashboardLoginController extends DashboardController
     $this->sessaoUsuario->apagar('usuario');
     Cache::apagar('sessao', $this->empresaPadraoId);
 
-    header('Location: ' . baseUrl('/'));
+    header('Location: /');
     exit();
   }
 }
