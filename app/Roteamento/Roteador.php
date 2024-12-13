@@ -368,13 +368,13 @@ class Roteador
   private function recuperarSubdominio(): void
   {
     $partesHost = explode('.', $_SERVER['SERVER_NAME']);
-    $hostPadrao = '360help.com.br';
+    $hostPadrao = '360help';
 
     if (HOST_LOCAL) {
       $hostPadrao = 'localhost';
     }
 
-    if (count($partesHost) == 2 and $partesHost[1] == $hostPadrao) {
+    if (count($partesHost) >= 2 and $partesHost[1] == $hostPadrao) {
       $this->subdominio = $partesHost[0];
     }
   }
@@ -395,8 +395,8 @@ class Roteador
     $this->subdominio_2 = $_SERVER['SERVER_NAME'];
 
     $dominiosPadrao = [
-      '360help.com.br',
-      'www.360help.com.br',
+      '360help',
+      'www.360help',
     ];
 
     if (HOST_LOCAL) {
