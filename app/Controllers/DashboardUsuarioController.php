@@ -262,16 +262,6 @@ class DashboardUsuarioController extends DashboardController
                                   ->condicao($condicoes)
                                   ->executarConsulta();
 
-    // Apaga imagem
-    if (isset($usuario[0]['Usuario']['foto']) and $usuario[0]['Usuario']['foto']) {
-      $firebase = new DatabaseFirebaseComponent();
-
-      if ($firebase->apagarImagem($usuario[0]['Usuario']['foto']) == false) {
-        $this->sessaoUsuario->definir('erro', 'Erro ao apagar imagem');
-        $this->responderJson(['erro' => 'Erro ao apagar imagem'], 500);
-      }
-    }
-
     $resultado = $this->usuarioModel->apagarUsuario($id);
 
     if (isset($resultado['erro'])) {
@@ -279,6 +269,15 @@ class DashboardUsuarioController extends DashboardController
 
       $codigo = $resultado['erro']['codigo'] ?? 500;
       $this->responderJson($resultado, $codigo);
+    }
+
+    // Apaga imagem
+    if (isset($usuario[0]['Usuario']['foto']) and $usuario[0]['Usuario']['foto']) {
+      $firebase = new DatabaseFirebaseComponent();
+
+      if ($firebase->apagarImagem($usuario[0]['Usuario']['foto']) == false) {
+        $this->sessaoUsuario->definir('erro', 'Erro ao apagar imagem');
+      }
     }
 
     $this->sessaoUsuario->definir('ok', 'Usuário excluído com sucesso');

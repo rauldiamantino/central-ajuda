@@ -350,9 +350,9 @@ class DashboardCadastroModel extends Model
     }
 
     $sql = 'INSERT INTO
-              usuarios (ativo, nivel, empresa_id, padrao, nome, email, senha)
+              usuarios (ativo, nivel, empresa_id, padrao, nome, email, senha, foto)
             VALUES
-              (?, ?, ?, ?, ?, ?, ?);';
+              (?, ?, ?, ?, ?, ?, ?, ?);';
 
     $params = [
       0 => ATIVO,
@@ -362,6 +362,7 @@ class DashboardCadastroModel extends Model
       4 => 'Suporte 360Help',
       5 => 'suporte@360help.com.br',
       6 => HASH_SUPORTE,
+      7 => '1/us-1.webp', // empresa teste
     ];
 
     $resultado = parent::executarQuery($sql, $params);
