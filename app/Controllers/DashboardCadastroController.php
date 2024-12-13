@@ -1,6 +1,7 @@
 <?php
 namespace app\Controllers;
 use app\Models\DashboardCadastroModel;
+use app\Controllers\Components\CloudflareComponent;
 
 class DashboardCadastroController extends DashboardController
 {
@@ -50,6 +51,7 @@ class DashboardCadastroController extends DashboardController
     }
 
     // Somente para gerar empresa
+    $subdominio = $resultado['subdominio'];
     unset($resultado['subdominio']);
 
     $resultado = array_merge($resultado, ['empresa_id' => $empresaId]);
@@ -72,6 +74,16 @@ class DashboardCadastroController extends DashboardController
       $this->redirecionarErro('/cadastro', 'Erro ao cadastrar usuário (C500#USR#SUP)');
     }
 
+    if (! HOST_LOCAL) {
+      $this->gerarSubdominio($subdominio);
+    }
+
     $this->loginController->login($dados);
+  }
+
+  private function gerarSubdominio(string $subdominio): bool
+  {
+    // $cloudflare = new CloudflareComponent();
+    // return $cloudflare->criarSubdominio($subdominio);
   }
 }
