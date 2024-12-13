@@ -74,19 +74,9 @@ class DashboardCadastroController extends DashboardController
       $this->redirecionarErro('/cadastro', 'Erro ao cadastrar usuário (C500#USR#SUP)');
     }
 
-    if (! HOST_LOCAL) {
-      $this->gerarSubdominio($subdominio);
-    }
-
     $this->redirecionarSucesso('/login', 'Cadastro realizado com sucesso');
 
     // Revisar em produção
     // $this->loginController->login($dados);
-  }
-
-  private function gerarSubdominio(string $subdominio): bool
-  {
-    // $cloudflare = new CloudflareComponent();
-    // return $cloudflare->criarSubdominio($subdominio);
   }
 }
