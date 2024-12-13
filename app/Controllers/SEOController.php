@@ -27,6 +27,7 @@ class SEOController extends Controller
 
     $empresa = $this->empresaController->buscarEmpresaSemId('id', $this->empresaId);
     $subdominio = $empresa[0]['Empresa']['subdominio'] ?? '';
+    $empresaId = $empresa[0]['Empresa']['id'] ?? 0;
 
     if (empty($subdominio)) {
       return ['erro' => 'Empresa não encontrada'];
@@ -43,7 +44,11 @@ class SEOController extends Controller
 
     echo "User-agent: *\n";
 
-    if (isset($empresa[0]['Empresa']['subdominio_2']) and $empresa[0]['Empresa']['subdominio_2'])  {
+    if ($empresaId == 1) {
+      echo 'User-agent: *';
+      echo 'Disallow: /';
+    }
+    elseif (isset($empresa[0]['Empresa']['subdominio_2']) and $empresa[0]['Empresa']['subdominio_2']) {
       echo "Disallow: /dashboard/\n";
       echo "Disallow: /buscar/\n";
       echo "Disallow: /d/\n";
@@ -52,6 +57,7 @@ class SEOController extends Controller
       echo "Allow: /artigo/\n";
       echo "Allow: /categoria/\n";
       echo "Allow: /\n";
+      echo "Sitemap: {$dominio}/sitemap.xml\n";
     }
     else {
       echo "Disallow: /dashboard/\n";
@@ -61,9 +67,9 @@ class SEOController extends Controller
       echo "Allow: /artigo/\n";
       echo "Allow: /categoria/\n";
       echo "Allow: /\n";
+      echo "Sitemap: {$dominio}/sitemap.xml\n";
     }
 
-    echo "Sitemap: {$dominio}/sitemap.xml\n";
   }
 
   public function robotsGeral()
@@ -133,6 +139,11 @@ class SEOController extends Controller
 
     $empresa = $this->empresaController->buscarEmpresaSemId('id', $this->empresaId);
     $subdominio = $empresa[0]['Empresa']['subdominio'] ?? '';
+    $empresaId = $empresa[0]['Empresa']['id'] ?? 0;
+
+    if ($empresaId == 1) {
+      return ['erro' => 'Empresa não indexada'];
+    }
 
     if (empty($subdominio)) {
       return ['erro' => 'Empresa não encontrada'];
