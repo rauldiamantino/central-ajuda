@@ -43,7 +43,7 @@ class Controller
     $this->empresaPadraoId = (int) $this->sessaoUsuario->buscar('empresaPadraoId');
   }
 
-  protected function redirecionarErro(string $rota, $mensagem = [], $rotaOriginal = false): void
+  protected function redirecionarErro(string $rota, $mensagem = [], $rotaBase = false): void
   {
     if (isset($mensagem['mensagem'])) {
       $mensagem = $mensagem['mensagem'];
@@ -51,15 +51,16 @@ class Controller
 
     $this->sessaoUsuario->definir('erro', $mensagem);
 
-    if ($rotaOriginal == false) {
+    if ($rotaBase == true) {
       $rota = baseUrl($rota);
     }
+
 
     header('Location: ' . $rota);
     exit();
   }
 
-  protected function redirecionarSucesso(string $rota, $mensagem = [], $rotaOriginal = false): void
+  protected function redirecionarSucesso(string $rota, $mensagem = [], $rotaBase = false): void
   {
     if (isset($mensagem['mensagem'])) {
       $mensagem = $mensagem['mensagem'];
@@ -67,7 +68,7 @@ class Controller
 
     $this->sessaoUsuario->definir('ok', $mensagem);
 
-    if ($rotaOriginal == false) {
+    if ($rotaBase == true) {
       $rota = baseUrl($rota);
     }
 
@@ -75,7 +76,7 @@ class Controller
     exit();
   }
 
-  protected function redirecionar(string $rota, $mensagem = [], $rotaOriginal = false): void
+  protected function redirecionar(string $rota, $mensagem = [], $rotaBase = false): void
   {
     if (isset($mensagem['mensagem'])) {
       $mensagem = $mensagem['mensagem'];
@@ -85,7 +86,7 @@ class Controller
       $this->sessaoUsuario->definir('neutra', $mensagem);
     }
 
-    if ($rotaOriginal == false) {
+    if ($rotaBase == true) {
       $rota = baseUrl($rota);
     }
 

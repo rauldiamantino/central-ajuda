@@ -2,6 +2,7 @@ logs/
 app/logs/
 public/cache/
 public/img/local
+public/php_errors.log
 certificados-dev
 mysql-dev
 .env

@@ -168,7 +168,7 @@ class PublicoArtigoController extends PublicoController
       }
     }
     else {
-      $this->redirecionarErro('/' . $this->subdominio, 'Desculpe, este artigo não está disponível');
+      $this->redirecionarErro('/', 'Desculpe, este artigo não está disponível');
     }
 
     $metaTitulo = $artigo[0]['Artigo']['meta_titulo'];

@@ -5,15 +5,15 @@ $classeRestrito = $this->usuarioLogado['nivel'] == USUARIO_RESTRITO ? 'text-gray
 $dominio = $this->usuarioLogado['subdominio_2'];
 
 if (empty($dominio)) {
-  $dominio = '/' . $this->usuarioLogado['subdominio'];
+  $dominio = '/';
 }
 ?>
 
 <asside class="pb-20 md:pb-0 fixed inset-y-0 left-0 z-20 transform -translate-x-full transition-transform duration-100 xl:translate-x-0 border-r border-slate-200 flex flex-col justify-start bg-gray-800 w-full md:w-96 lg:w-72 min-h-screen overflow-y-auto overflow-estilo dashboard-menu-lateral">
-  <div class="px-4 py-10 flex flex-col gap-6 w-full w-full text-gray-200 text-sm group">
+  <div class="px-4 py-10 flex flex-col gap-6 w-full text-gray-200 text-sm group">
     <div class="w-full flex justify-between xl:justify-center gap-8 items-center text-gray-400">
-      <a href="<?php echo baseUrl('/login'); ?>" class="w-max justify-start flex items-center">
-        <img src="<?php echo baseUrl('/img/360help-preto.svg')?>" class="w-36">
+      <a href="/dashboard" class="w-max justify-start flex items-center">
+        <img src="/img/360help-preto.svg" class="w-36">
       </a>
 
       <button class="h-max w-max xl:hidden btn-dashboard-menu-lateral-fechar">
@@ -48,7 +48,7 @@ if (empty($dominio)) {
         </button>
         <ul class="border border-slate-300 lg:mx-10 absolute top-12 right-0 lg:-right-10 flex flex-col justify-center bg-white text-gray-600 rounded-md shadow hidden menu-lateral-usuario">
           <li class="px-4 py-3">
-            <button type="button" onclick="window.location.href='<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/usuario/editar/' . $this->usuarioLogado['id']); ?>'" class="flex gap-2 items-center hover:text-gray-950">
+            <button type="button" onclick="window.location.href='<?php echo '/dashboard/usuario/editar/' . $this->usuarioLogado['id']; ?>'" class="flex gap-2 items-center hover:text-gray-950">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
                 <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
               </svg>
@@ -62,7 +62,7 @@ if (empty($dominio)) {
             </button>
           </li>
           <li class="px-4 py-3">
-            <button type="button" onclick="window.location.href='<?php echo baseUrl('/logout'); ?>'" class="w-max flex gap-3 items-center text-red-800 hover:text-red-950">
+            <button type="button" onclick="window.location.href='/dashboard/logout'" class="w-max flex gap-3 items-center text-red-800 hover:text-red-950">
               <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20" fill="currentColor"><path d="M186.67-120q-27 0-46.84-19.83Q120-159.67 120-186.67v-586.66q0-27 19.83-46.84Q159.67-840 186.67-840h292.66v66.67H186.67v586.66h292.66V-120H186.67Zm470.66-176.67-47-48 102-102H360v-66.66h351l-102-102 47-48 184 184-182.67 182.66Z"/></svg>
               <span class="whitespace-nowrap">Sair</span>
             </button type="button">
@@ -71,7 +71,7 @@ if (empty($dominio)) {
 
         <ul class="border border-slate-300 lg:mx-10 absolute top-10 right-5 xl:-right-6 flex flex-col justify-center bg-white text-gray-600 rounded-md shadow hidden menu-lateral-usuario">
           <li class="px-4 py-3">
-            <button type="button" onclick="window.location.href='<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/usuario/editar/' . $this->usuarioLogado['id']); ?>'" class="flex gap-2 items-center hover:text-gray-950">
+            <button type="button" onclick="window.location.href='<?php echo '/dashboard/usuario/editar/' . $this->usuarioLogado['id']; ?>'" class="flex gap-2 items-center hover:text-gray-950">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
                 <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
               </svg>
@@ -79,13 +79,13 @@ if (empty($dominio)) {
             </button>
           </li>
           <li class="px-4 py-3">
-            <button type="button" onclick="window.open('/<?php echo $this->usuarioLogado['subdominio']; ?>')" class="flex gap-3 items-center hover:text-gray-950">
+            <button type="button" onclick="window.open('/')" class="flex gap-3 items-center hover:text-gray-950">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book" viewBox="0 0 16 16"><path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/></svg>
               Ver central
             </button>
           </li>
           <li class="px-4 py-3">
-            <button type="button" onclick="window.location.href='<?php echo baseUrl('/logout'); ?>'" class="w-max flex gap-3 items-center text-red-800 hover:text-red-950">
+            <button type="button" onclick="window.location.href='/dashboard/logout'" class="w-max flex gap-3 items-center text-red-800 hover:text-red-950">
               <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20" fill="currentColor"><path d="M186.67-120q-27 0-46.84-19.83Q120-159.67 120-186.67v-586.66q0-27 19.83-46.84Q159.67-840 186.67-840h292.66v66.67H186.67v586.66h292.66V-120H186.67Zm470.66-176.67-47-48 102-102H360v-66.66h351l-102-102 47-48 184 184-182.67 182.66Z"/></svg>
               Sair
             </button type="button">
@@ -97,7 +97,7 @@ if (empty($dominio)) {
   <ul class="flex flex-col gap-2 text-gray-200 px-4 pb-4">
     <h3 class="px-6 pb-2 text-xs font-extralight text-slate-300">MENU</h3>
     <li class="px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'dashboard' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
-      <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard'); ?>" class="w-full p-2">
+      <a href="/dashboard" class="w-full p-2">
         <div class="flex items-center gap-3">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
             <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
@@ -107,7 +107,7 @@ if (empty($dominio)) {
       </a>
     </li>
     <li class="px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'categorias' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
-      <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categorias'); ?>" class="w-full p-2">
+      <a href="/dashboard/categorias" class="w-full p-2">
         <div class="flex items-center gap-3">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="" viewBox="0 0 16 16">
             <path d="M3 2v4.586l7 7L14.586 9l-7-7zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586z"/>
@@ -118,7 +118,7 @@ if (empty($dominio)) {
       </a>
     </li>
     <li class="px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'artigos' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
-      <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos'); ?>" class="w-full p-2">
+      <a href="/dashboard/artigos" class="w-full p-2">
         <div class="flex items-center gap-3">
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16"><path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/></svg>
           <span>Artigos</span>
@@ -126,7 +126,7 @@ if (empty($dominio)) {
       </a>
     </li>
     <li class="px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'ajustes' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
-      <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/ajustes'); ?>" class="w-full p-2">
+      <a href="/dashboard/ajustes" class="w-full p-2">
         <div class="flex items-center gap-3">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="" viewBox="0 0 16 16">
             <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0"/>
@@ -137,7 +137,7 @@ if (empty($dominio)) {
       </a>
     </li>
     <li class="px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'empresa' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
-      <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/empresa/editar'); ?>" class="w-full p-2">
+      <a href="/dashboard/empresa/editar" class="w-full p-2">
         <div class="w-full flex items-center gap-3">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="" viewBox="0 0 16 16">
             <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6.5a.5.5 0 0 1-1 0V1H3v14h3v-2.5a.5.5 0 0 1 .5-.5H8v4H3a1 1 0 0 1-1-1z"/>
@@ -152,7 +152,7 @@ if (empty($dominio)) {
       </a>
     </li>
     <li class="<?php echo $classeRestrito; ?> px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'usuarios' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
-      <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/usuarios'); ?>" class="w-full p-2">
+      <a href="/dashboard/usuarios" class="w-full p-2">
         <div class="flex items-center gap-3">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="" viewBox="0 0 16 16">
             <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1L7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002-.014.002zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4q0 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/>
@@ -169,7 +169,7 @@ if (empty($dominio)) {
       </a>
     </li>
     <li class="<?php echo $classeRestrito; ?> px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'assinatura' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
-      <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar'); ?>" class="w-full p-2">
+      <a href="/dashboard/assinatura/editar" class="w-full p-2">
         <div class="w-full flex items-center gap-3">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16">
             <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5z"/>
@@ -192,11 +192,12 @@ if (empty($dominio)) {
     if (! isset($this->usuarioLogado['assinaturaStatus']) or (int) $this->usuarioLogado['assinaturaStatus'] == INATIVO) {
       require_once 'teste-gratis.php';
     }
+
     ?>
     <?php if ($this->usuarioLogado['id'] > 0 and $this->usuarioLogado['padrao'] == USUARIO_SUPORTE) { ?>
       <h3 class="mt-4 px-6 py-2 text-xs font-extralight text-slate-300">SUPORTE</h3>
       <li class="px-4 hover:bg-gray-700 rounded-lg cursor-pointer flex justify-between group">
-        <button type="button" onclick="window.location.href='<?php echo baseUrl('/cache/limpar/' . $this->empresaPadraoId); ?>'" class="w-full p-2">
+        <button type="button" onclick="window.location.href='<?php echo '/dashboard/cache/limpar/' . $this->empresaPadraoId; ?>'" class="w-full p-2">
           <div class="flex justify-start items-center gap-3">
             <div class="text-green-600">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
@@ -209,7 +210,7 @@ if (empty($dominio)) {
         </button>
       </li>
       <li class="px-4 hover:bg-gray-700 rounded-lg cursor-pointer flex justify-between group">
-        <button type="button" onclick="window.location.href='<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/cache/limpar'); ?>'" class="w-full p-2">
+        <button type="button" onclick="window.location.href='/dashboard/cache/limpar/roteador'" class="w-full p-2">
           <div class="flex justify-start items-center gap-3">
             <div class="text-orange-600">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
@@ -222,7 +223,7 @@ if (empty($dominio)) {
         </button>
       </li>
       <li class="px-4 hover:bg-gray-700 rounded-lg cursor-pointer flex justify-between group">
-        <button type="button" onclick="window.location.href='<?php echo baseUrl('/cache/limpar'); ?>'" class="w-full p-2">
+        <button type="button" onclick="window.location.href='/dashboard/cache/limpar/todos'" class="w-full p-2">
           <div class="flex justify-start items-center gap-3">
             <div class="text-red-600">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
@@ -255,8 +256,8 @@ if (empty($dominio)) {
           </div>
         </button>
       </li>
-      <li class="px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'login' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
-        <button type="button" onclick="window.location.href='<?php echo baseUrl('/login/suporte'); ?>'" class="w-full p-2">
+      <!-- <li class="px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'login' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
+        <button type="button" onclick="window.location.href='/login/suporte'" class="w-full p-2">
           <div class="flex justify-start items-center gap-3">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="" viewBox="0 0 16 16">
               <path fill-rule="evenodd" d="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5m14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5"/>
@@ -264,7 +265,7 @@ if (empty($dominio)) {
             <span>Trocar empresa</span>
           </div>
         </button>
-      </li>
+      </li> -->
     <?php } ?>
     <?php $diasGratis = 10 ?>
   </ul>

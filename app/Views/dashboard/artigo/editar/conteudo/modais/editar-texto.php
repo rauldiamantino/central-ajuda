@@ -4,7 +4,7 @@
     <div class="font-normal text-2xl">Edição de texto</div>
     <span>Não esqueca de clicar em gravar :)</span>
   </div>
-  <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/conteudo/' . $linha['Conteudo']['id']); ?>" class="flex flex-col items-end gap-2 editor-container__editor form-conteudo-texto-editar" enctype="multipart/form-data" onsubmit="evitarDuploClique(event)">
+  <form method="POST" action="<?php echo '/d/conteudo/' . $linha['Conteudo']['id']; ?>" class="flex flex-col items-end gap-2 editor-container__editor form-conteudo-texto-editar" enctype="multipart/form-data" onsubmit="evitarDuploClique(event)">
     <input type="hidden" name="_method" value="PUT">
     <input type="hidden" name="referer" value="<?php echo urlencode($botaoVoltar) ?>">
     <input type="hidden" name="artigo_id" value="<?php echo $linha['Conteudo']['artigo_id'] ?>">

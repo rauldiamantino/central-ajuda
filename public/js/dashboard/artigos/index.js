@@ -77,17 +77,17 @@ const requisicaoRemover = async (artigoId) => {
     return
   }
 
-  fetch(baseUrl(`/${empresa}/d/artigo/${artigoId}`), { method: 'DELETE' })
+  fetch(`/d/artigo/${artigoId}`, { method: 'DELETE' })
     .then(resposta => resposta.json())
     .then(resposta => {
 
       if (resposta.linhasAfetadas == 1) {
 
         if (urlVoltar) {
-          window.location.href = baseUrl(urlVoltar)
+          window.location.href = urlVoltar
         }
         else {
-          window.location.href = baseUrl(`/${empresa}/dashboard/artigos`)
+          window.location.href = `/dashboard/artigos`
         }
         return
       }

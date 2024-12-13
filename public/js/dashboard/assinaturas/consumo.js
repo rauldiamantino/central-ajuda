@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   function processarDados(empresa) {
-    fetch(`/${empresa}/d/calcular_consumo`)
+    fetch(`/d/calcular_consumo`)
       .then(response => response.json())
       .then(data => {
         let maximoMb = data.maximo

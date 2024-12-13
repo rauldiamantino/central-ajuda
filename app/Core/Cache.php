@@ -228,8 +228,7 @@ class Cache
     self::apagarChavesPrefixo('roteador-' . $empresa);
 
     self::$sessaoUsuario->definir('ok', 'Reset cache sem ID');
-
-    header('Location: ' . REFERER);
+    header('Location: /dashboard');
     exit();
   }
 
@@ -243,8 +242,7 @@ class Cache
     self::apagarChavesPrefixo((string) $empresaId);
 
     self::$sessaoUsuario->definir('ok', 'Reset cache empresa');
-
-    header('Location: /logout');
+    header('Location: /dashboard');
     exit();
   }
 
@@ -257,8 +255,7 @@ class Cache
     }
 
     self::$sessaoUsuario->definir('ok', 'Reset cache todos');
-
-    header('Location: /logout');
+    header('Location: /dashboard');
     exit();
   }
 }

@@ -31,12 +31,15 @@ class DashboardUsuarioModel extends Model
 
     // Apenas um usuário padrão por empresa
     if ($campos['padrao'] == USUARIO_PADRAO) {
-      $condicao = [
-        'Usuario.padrao' => USUARIO_PADRAO,
+      $condicao[] = [
+        'campo' => 'Usuario.padrao',
+        'operador' => '=',
+        'valor' => USUARIO_PADRAO,
       ];
 
-      $usuarioPadrao = parent::condicao($condicao)
-                             ->contar('Usuario.id');
+      $usuarioPadrao = $this->contar('Usuario.id')
+                            ->condicao($condicao)
+                            ->executarConsulta();
 
       if (isset($usuarioPadrao['total']) and (int) $usuarioPadrao['total'] > 0) {
         $msgErro = [
@@ -86,6 +89,49 @@ class DashboardUsuarioModel extends Model
       return $msgErro;
     }
 
+    // Suporte e-mail único por empresa
+    if (isset($campos['padrao']) and $campos['padrao'] == USUARIO_SUPORTE) {
+      $condicoes = [
+        'campo' => 'Usuario.email',
+        'operador' => '=',
+        'valor' => $campos['email'],
+      ];
+
+      $emailExiste = parent::contar('Usuario.id')
+                           ->condicao($condicoes)
+                           ->executarConsulta();
+
+      if (isset($emailExiste['total']) and (int) $emailExiste['total'] > 0) {
+        $msgErro = [
+          'erro' => [
+            'codigo' => 400,
+            'mensagem' => 'Email já cadastrado',
+          ],
+        ];
+
+        return $msgErro;
+      }
+    }
+
+    // Usuário e-mail único geral
+    if (isset($campos['padrao']) and $campos['padrao'] != USUARIO_SUPORTE) {
+      $sql = 'SELECT 1 FROM usuarios WHERE email = ? LIMIT 1';
+      $params = [ $campos['email'] ];
+
+      $resultado = parent::executarQuery($sql, $params);
+
+      if (boolval($resultado)) {
+        $msgErro = [
+          'erro' => [
+            'codigo' => 400,
+            'mensagem' => 'Email já cadastrado',
+          ],
+        ];
+
+        return $msgErro;
+      }
+    }
+
     return parent::adicionar($campos, true);
   }
 
@@ -112,6 +158,7 @@ class DashboardUsuarioModel extends Model
       'Usuario.id',
       'Usuario.nivel',
       'Usuario.padrao',
+      'Usuario.email',
     ];
 
     $usuarioEditado = $this->selecionar($colunas)
@@ -621,7 +668,35 @@ class DashboardUsuarioModel extends Model
       ],
     ];
 
-    $resultado = [];
+    $emailExiste = false;
+
+    // Suporte e-mail único por empresa
+    if (isset($campos['email']) and $campos['email'] != $usuarioEditado[0]['Usuario']['email'] and $usuarioEditado[0]['Usuario']['padrao'] == USUARIO_SUPORTE) {
+      $condicoes = [
+        'campo' => 'Usuario.email',
+        'operador' => '=',
+        'valor' => $campos['email'],
+      ];
+
+      $emailExiste = $this->contar('Usuario.id')
+                          ->condicao($condicoes)
+                          ->executarConsulta();
+
+      if (isset($resultado['total']) and (int) $resultado['total'] > 0) {
+        $emailExiste = true;
+      }
+    }
+
+    // Usuário e-mail único geral
+    if (isset($campos['email']) and $campos['email'] != $usuarioEditado[0]['Usuario']['email'] and $usuarioEditado[0]['Usuario']['padrao'] != USUARIO_SUPORTE) {
+      $sql = 'SELECT 1 FROM usuarios WHERE email = ? LIMIT 1';
+      $params = [ $campos['email'] ];
+
+      $resultado = parent::executarQuery($sql, $params);
+      $emailExiste = boolval($resultado);
+    }
+
+    $padraoExiste = [];
 
     if (isset($campos['padrao']) and $campos['padrao'] == USUARIO_PADRAO) {
       $condicao = [
@@ -629,12 +704,16 @@ class DashboardUsuarioModel extends Model
         ['campo' => 'Usuario.id', 'operador' => '!=', 'valor' => (int) $id],
       ];
 
-      $resultado = $this->contar('Usuario.id')
-                        ->condicao($condicao)
-                        ->executarConsulta();
+      $padraoExiste = $this->contar('Usuario.id')
+                           ->condicao($condicao)
+                           ->executarConsulta();
     }
 
-    if (isset($resultado['total']) and (int) $resultado['total'] > 0) {
+    if ($emailExiste == true) {
+      // E-mail único
+      $msgErro['erro']['mensagem'] = $this->gerarMsgErro('email', 'unico');
+    }
+    elseif (isset($padraoExiste['total']) and (int) $padraoExiste['total'] > 0) {
       // Apenas um usuário padrão por empresa
       $msgErro['erro']['mensagem'] = $this->gerarMsgErro('padrao', 'permissaoCampo');
     }
@@ -715,6 +794,7 @@ class DashboardUsuarioModel extends Model
       'invalido' => 'Campo ' . $campo . ' com formato inválido',
       'valInvalido' => 'Campo ' . $campo . ' com valor inválido',
       'caracteres' => 'Campo ' . $campo . ' excedeu o limite de ' . $quantidade . ' caracteres',
+      'unico' => 'O campo ' . $campo . ' já foi cadastrado para outro usuário',
       'permissao' => 'Você não tem permissão para realizar esta ação',
       'permissaoCampo' => 'Não é permitido alterar o ' . $campo . ' deste usuário',
       'permissaoCampoProprio' => 'Não é permitido alterar o ' . $campo . ' do próprio usuário',

@@ -3,7 +3,7 @@
 
 <div class="w-full flex flex-col py-14">
   <div class="pb-6 flex gap-2 font-light text-sm publico-migalhas">
-    <a href="<?php echo baseUrl('/' . $subdominio); ?>" class="hover:underline">Início</a>
+    <a href="/" class="hover:underline">Início</a>
     <span>></span>
     <span class="underline"><?php echo $categoriaNome ?></span>
   </div>
@@ -35,7 +35,7 @@
       <ul class="leading-9 flex flex-col gap-2">
         <?php foreach ($artigos as $chave => $linha): ?>
           <li class="flex gap-3 items-center border border-slate-100 rounded-lg bg-white shadow">
-            <a href="<?php echo baseUrl('/' . $subdominio . '/artigo/' . $linha['Artigo']['id'] . '/' . $this->gerarSlug($linha['Artigo']['titulo'])); ?>" class="flex gap-2 justify-between items-center w-full h-full px-4 py-2 hover:bg-gray-100 rounded-md transition-colors duration-200 text-gray-800">
+            <a href="<?php echo'/artigo/' . $linha['Artigo']['id'] . '/' . $this->gerarSlug($linha['Artigo']['titulo']); ?>" class="flex gap-2 justify-between items-center w-full h-full px-4 py-2 hover:bg-gray-100 rounded-md transition-colors duration-200 text-gray-800">
               <?php echo $linha['Artigo']['titulo'] ?>
               <span class="pers-publico-seta-artigo template-cor-<?php echo $corPrimaria; ?>">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="M530-481 332-679l43-43 241 241-241 241-43-43 198-198Z" fill="currentColor" /></svg>
@@ -58,10 +58,9 @@
   <?php } ?>
 </div>
 
-<?php $dominio = HOST_LOCAL ? 'http://localhost' : 'https://360help.com.br'; ?>
 <?php if ($this->usuarioLogado['id'] and $this->usuarioLogado['subdominio'] and $this->usuarioLogado['empresaId'] and $this->usuarioLogado['empresaId'] == $this->empresaPadraoId) { ?>
   <div class="fixed bottom-32 right-4 sm:right-6 md:right-10 z-20 rounded-full hover:scale-110 duration-100 pers-publico-botao-editar template-cor-<?php echo $corPrimaria; ?>">
-    <button type="button" onclick="window.open('<?php echo $dominio . '/' . $this->usuarioLogado['subdominio'] . '/dashboard/categoria/editar/' . $artigos[0]['Categoria']['id']; ?>')" class="flex items-center p-3 bg-black/15 rounded-full">
+    <button type="button" onclick="window.open('<?php echo '/dashboard/categoria/editar/' . $artigos[0]['Categoria']['id']; ?>')" class="flex items-center p-3 bg-black/15 rounded-full">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-10 h-10">
         <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
       </svg>

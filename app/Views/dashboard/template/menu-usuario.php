@@ -23,7 +23,7 @@
   </button>
   <ul class="border border-slate-300 lg:mx-10 absolute top-20 right-0 flex flex-col justify-center bg-white text-gray-600 rounded-md shadow hidden menu-topo-usuario">
     <li class="px-4 py-3">
-      <button type="button" onclick="window.location.href='<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/usuario/editar/' . $this->usuarioLogado['id']); ?>'" class="flex gap-2 items-center hover:text-gray-950">
+      <button type="button" onclick="window.location.href='<?php echo '/dashboard/usuario/editar/' . $this->usuarioLogado['id']; ?>'" class="flex gap-2 items-center hover:text-gray-950">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
           <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
         </svg>
@@ -35,7 +35,7 @@
       $dominio = $this->usuarioLogado['subdominio_2'];
 
       if (empty($dominio)) {
-        $dominio = '/' . $this->usuarioLogado['subdominio'];
+        $dominio = '/';
       }
       ?>
       <button type="button" onclick="window.open('<?php echo $dominio; ?>')" class="flex gap-3 items-center hover:text-gray-950">
@@ -44,7 +44,7 @@
       </button>
     </li>
     <li class="px-4 py-3">
-      <button type="button" onclick="window.location.href='<?php echo baseUrl('/logout'); ?>'" class="w-max flex gap-3 items-center text-red-800 hover:text-red-950">
+      <button type="button" onclick="window.location.href='/dashboard/logout'" class="w-max flex gap-3 items-center text-red-800 hover:text-red-950">
         <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20" fill="currentColor"><path d="M186.67-120q-27 0-46.84-19.83Q120-159.67 120-186.67v-586.66q0-27 19.83-46.84Q159.67-840 186.67-840h292.66v66.67H186.67v586.66h292.66V-120H186.67Zm470.66-176.67-47-48 102-102H360v-66.66h351l-102-102 47-48 184 184-182.67 182.66Z"/></svg>
         Sair
       </button type="button">

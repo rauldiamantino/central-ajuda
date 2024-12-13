@@ -17,7 +17,7 @@ if ($this->usuarioLogado['padrao'] != USUARIO_SUPORTE or $this->sessaoUsuario->b
 ?>
 
 <dialog class="border border-slate-300 w-full md:w-[500px] rounded-md shadow menu-adicionar-usuario">
-  <form method="POST" class="w-full flex flex-col gap-4 p-4 menu-adicionar-usuario-form" data-action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/usuario'); ?>">
+  <form method="POST" class="w-full flex flex-col gap-4 p-4 menu-adicionar-usuario-form" data-action="/d/usuario">
     <div class="w-full flex flex-col gap-4">
       <div class="flex gap-10">
         <div class="w-full flex gap-4">

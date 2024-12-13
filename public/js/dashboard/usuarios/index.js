@@ -54,12 +54,12 @@ const requisicaoUsuarioRemover = (usuarioId) => {
     return
   }
 
-  fetch(baseUrl(`/${empresa}/d/usuario/${usuarioId}`), { method: 'DELETE' })
+  fetch(`/d/usuario/${usuarioId}`, { method: 'DELETE' })
     .then(resposta => resposta.json())
     .then(resposta => {
 
       if (resposta.linhasAfetadas == 1) {
-        window.location.href = baseUrl(`/${empresa}/dashboard/usuarios`)
+        window.location.href = `/dashboard/usuarios`
         return
       }
       else if (resposta.erro) {
@@ -170,19 +170,30 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function exibirErros(erros) {
-    if (erros.mensagem) {
-      erros.mensagem.forEach(mensagem => {
 
-        if (mensagem.includes('email')) {
-          exibirErroCampo('usuario-editar-email', mensagem)
+    if (erros.mensagem) {
+      const mensagem = erros.mensagem;
+
+      if (typeof mensagem === 'string') {
+
+        if (mensagem.includes('email') || mensagem.includes('Email')) {
+          exibirErroCampo('usuario-editar-email', mensagem);
         }
-        else if (mensagensAmigaveis[mensagem]) {
-          exibirErroCampo('usuario-editar-senha', mensagensAmigaveis[mensagem])
-        }
-        else if (mensagem.includes('nome')) {
-          exibirErroCampo('usuario-editar-nome', mensagem)
-        }
-      })
+      }
+      else if (Array.isArray(mensagem)) {
+        mensagem.forEach(mensagem => {
+
+          if (mensagem.includes('email') || mensagem.includes('Email')) {
+            exibirErroCampo('usuario-editar-email', mensagem);
+          }
+          else if (mensagensAmigaveis[mensagem]) {
+            exibirErroCampo('usuario-editar-senha', mensagensAmigaveis[mensagem]);
+          }
+          else if (mensagem.includes('nome')) {
+            exibirErroCampo('usuario-editar-nome', mensagem);
+          }
+        });
+      }
     }
   }
 

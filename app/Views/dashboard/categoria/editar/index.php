@@ -11,7 +11,7 @@
       <p class="text-gray-600">Pronto! Aqui estão todos os artigos desta categoria.</p>
     </div>
     <div class="py-2 w-full h-full flex gap-2 items-start justify-end">
-      <a href="<?php echo baseUrl($botaoVoltar ? $botaoVoltar : '/' . $this->usuarioLogado['subdominio'] . '/dashboard/categorias'); ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>">Voltar</a>
+      <a href="<?php echo $botaoVoltar ? $botaoVoltar : '/dashboard/categorias'; ?>" class="<?php echo CLASSES_DASH_BUTTON_VOLTAR; ?>">Voltar</a>
       <button type="button" class="<?php echo CLASSES_DASH_BUTTON_ADICIONAR; ?>" onclick="document.querySelector('.menu-editar-categoria-novo-artigo').showModal()">
         Novo artigo
       </button>
@@ -26,10 +26,10 @@
         <ul class="absolute top-12 right-0 lg:-right-10 border border-slate-300 lg:mx-10 flex flex-col justify-center bg-white text-gray-600 rounded-md shadow hidden menu-auxiliar menu-auxiliar-categoria">
           <li class="px-4 py-3">
             <?php
-            $dominio = $this->usuarioLogado['subdominio_2'];
+            $dominio = '';
 
-            if (empty($dominio)) {
-              $dominio = '/' . $this->usuarioLogado['subdominio'];
+            if ($dominio) {
+              $dominio = $this->usuarioLogado['subdominio_2'];
             }
             ?>
             <button type="button" onclick="window.open('<?php echo $dominio . '/categoria/' . $categoria[0]['Categoria']['id'] . '/' . $this->gerarSlug($categoria[0]['Categoria']['nome']);; ?>')" class="flex gap-3 items-center hover:text-gray-950">

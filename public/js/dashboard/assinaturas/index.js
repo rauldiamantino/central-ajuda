@@ -29,7 +29,7 @@ const assinarPlano = (plano) => {
   modal.showModal()
 
   const clicouAssinar = () => {
-    window.location.href= `/${empresa}/d/assinaturas/gerar/${assinaturaId}?plano=${plano}`;
+    window.location.href= `/d/assinaturas/gerar/${assinaturaId}?plano=${plano}`;
   }
 
   const clicouFechar = () => {

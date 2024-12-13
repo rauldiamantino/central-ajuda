@@ -1,6 +1,6 @@
 <dialog class="border border-slate-300 w-full md:w-[700px] rounded-md shadow ease-in-out menu-editar-categoria-novo-artigo">
-  <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/artigo'); ?>" class="border border-slate-200 w-full flex flex-col gap-4 p-4 rounded-lg shadow bg-white" onsubmit="evitarDuploClique(event)">
-    <input type="hidden" name="referer" value="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categoria/editar/' . $categoria[0]['Categoria']['id']) ?>">
+  <form method="POST" action="/d/artigo" class="border border-slate-200 w-full flex flex-col gap-4 p-4 rounded-lg shadow bg-white" onsubmit="evitarDuploClique(event)">
+    <input type="hidden" name="referer" value="<?php echo '/dashboard/categoria/editar/' . $categoria[0]['Categoria']['id'] ?>">
     <input type="hidden" name="usuario_id" value="<?php echo $this->usuarioLogado['id'] ?>">
     <?php if (isset($ordem['prox'])) { ?>
       <input type="hidden" name="ordem" value="<?php echo $ordem['prox'] ?>">

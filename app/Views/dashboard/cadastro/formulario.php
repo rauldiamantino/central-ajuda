@@ -1,4 +1,4 @@
-<form class="w-full" action="<?php echo baseUrl('/cadastro'); ?>" method="POST" onsubmit="evitarDuploClique(event)">
+<form class="w-full" action="/cadastro" method="POST" onsubmit="evitarDuploClique(event)">
   <div class="w-full flex flex-col gap-4">
     <div class="flex flex-col gap-2">
       <label for="email" class="text-sm font-medium text-gray-800">Email do responsável</label>
@@ -35,6 +35,6 @@
   </div>
   <div class="mt-2 text-center text-gray-500 flex flex-col gap-4">
     <span class="text-xs">Ao clicar em "Criar conta", você declara que leu e concorda com os <a class="text-blue-600 hover:underline" href="/termos" target="_blank">Termos de Uso</a> e <a class="text-blue-600 hover:underline" href="/privacidade" target="_blank"> Política de Privacidade</a> da plataforma.</span>
-    <span class="text-sm">Já possui uma conta? <a href="<?php echo baseUrl('/login'); ?>" class="font-semibold text-blue-800 hover:text-blue-600">Entrar</a></span>
+    <!-- <span class="text-sm">Já possui uma conta? <a href="<?php echo baseUrl('/login'); ?>" class="font-semibold text-blue-800 hover:text-blue-600">Entrar</a></span> -->
   </div>
 </form>

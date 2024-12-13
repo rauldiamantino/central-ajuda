@@ -23,7 +23,7 @@
         <tbody class="divide-y">
           <?php foreach ($categoria as $chave => $linha) : ?>
             <?php if (isset($linha['Artigo']['id'])) { ?>
-              <tr class="hover:bg-gray-100 cursor-pointer select-none lg:select-auto" onclick="window.location='<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $linha['Artigo']['id']) . '?referer=' . urlencode(baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categoria/editar/' . $linha['Categoria']['id'])); ?>';">
+              <tr class="hover:bg-gray-100 cursor-pointer select-none lg:select-auto" onclick="window.location='<?php echo '/dashboard/artigo/editar/' . $linha['Artigo']['id'] . '?referer=' . urlencode('/dashboard/categoria/editar/' . $linha['Categoria']['id']); ?>';">
                 <td class="py-6 px-6"><?php echo $linha['Artigo']['id'] ?></td>
                 <td class="py-6 px-4 font-semibold text-gray-900 break-words"><?php echo $linha['Artigo']['titulo'] ?></td>
                 <td class="py-6 px-4 break-words"><?php echo $linha['Categoria']['nome'] ?></td>

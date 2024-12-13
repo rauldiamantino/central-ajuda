@@ -98,7 +98,7 @@ $notificacaoNeutra = $this->sessaoUsuario->buscar('neutra');
     <span class="w-full">Ops! Seu acesso foi bloqueado</span>
   </div>
   <div class="mt-2 text-sm text-gray-700 font-light">
-    Para desbloquear, assine um dos planos disponíveis no menu <a href="<?php echo '/' . $this->usuarioLogado['subdominio'] . '/dashboard/assinatura/editar'; ?>" class="hover:underline text-blue-600">Assinatura</a>.<br>
+    Para desbloquear, assine um dos planos disponíveis no menu <a href="/dashboard/assinatura/editar" class="hover:underline text-blue-600">Assinatura</a>.<br>
     <div class="mt-2 text-xs">
       Caso tenha alguma dúvida, entre em contato com o nosso suporte:<br>
       Email: suporte@360help.com.br<br>

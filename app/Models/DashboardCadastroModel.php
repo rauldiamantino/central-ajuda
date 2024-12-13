@@ -99,6 +99,10 @@ class DashboardCadastroModel extends Model
 
   private function validarSenhaSegura(string $senha): array
   {
+    if (HOST_LOCAL) {
+      return ['ok' => true];
+    }
+
     $msgErro = [
       'erro' => [
         'codigo' => 400,
@@ -205,12 +209,16 @@ class DashboardCadastroModel extends Model
     parent::executarQuery($sql, $params);
   }
 
-  public function apagarAssinatura(int $assinaturaId, int $empresaId): void
+  public function apagarUsuario(int $usuarioId, int $empresaId): void
   {
-    $sql = 'DELETE FROM assinaturas WHERE id = ? AND empresa_id = ?';
+    if (empty($usuarioId) or empty($empresaId)) {
+      return;
+    }
+
+    $sql = 'DELETE FROM usuarios WHERE id = ? AND empresa_id = ?';
 
     $params = [
-      0 => $assinaturaId,
+      0 => $usuarioId,
       1 => $empresaId,
     ];
 
@@ -225,6 +233,18 @@ class DashboardCadastroModel extends Model
     $resultado = parent::executarQuery($sql, $params);
 
     return boolval($resultado);
+  }
+
+  public function apagarAssinatura(int $assinaturaId, int $empresaId): void
+  {
+    $sql = 'DELETE FROM assinaturas WHERE id = ? AND empresa_id = ?';
+
+    $params = [
+      0 => $assinaturaId,
+      1 => $empresaId,
+    ];
+
+    parent::executarQuery($sql, $params);
   }
 
   public function gerarUsuarioPadrao(array $params = []): array
@@ -277,7 +297,77 @@ class DashboardCadastroModel extends Model
     $resultado = parent::executarQuery($sql, $params);
 
     if (! isset($resultado['id']) or empty($resultado['id'])) {
+      return [];
+    }
 
+    $sql = 'SELECT
+              Usuario.id, Usuario.nome, Usuario.email, Usuario.empresa_id
+            FROM
+              usuarios AS Usuario
+            WHERE
+              Usuario.id = ?
+            ORDER BY Usuario.id ASC
+            LIMIT 1';
+
+    $params = [ $resultado['id'] ];
+
+    $resultado = parent::executarQuery($sql, $params);
+
+    return $resultado;
+  }
+
+  public function gerarUsuarioSuporte(array $params = []): array
+  {
+    $camposSucesso = true;
+
+    // Revalida por segurança
+    if (! isset($params['ativo']) or empty($params['ativo'])) {
+      $camposSucesso = false;
+    }
+
+    if (! isset($params['nivel']) or empty($params['nivel'])) {
+      $camposSucesso = false;
+    }
+
+    if (! isset($params['padrao']) or empty($params['padrao'])) {
+      $camposSucesso = false;
+    }
+
+    if (! isset($params['email']) or empty($params['email'])) {
+      $camposSucesso = false;
+    }
+
+    if (! isset($params['senha']) or empty($params['senha'])) {
+      $camposSucesso = false;
+    }
+
+    if (! isset($params['empresa_id']) or empty($params['empresa_id'])) {
+      $camposSucesso = false;
+    }
+
+    if ($camposSucesso == false) {
+      return 0;
+    }
+
+    $sql = 'INSERT INTO
+              usuarios (ativo, nivel, empresa_id, padrao, nome, email, senha)
+            VALUES
+              (?, ?, ?, ?, ?, ?, ?);';
+
+    $params = [
+      0 => ATIVO,
+      1 => USUARIO_TOTAL,
+      2 => $params['empresa_id'],
+      3 => USUARIO_SUPORTE,
+      4 => 'Suporte 360Help',
+      5 => 'suporte@360help.com.br',
+      6 => HASH_SUPORTE,
+    ];
+
+    $resultado = parent::executarQuery($sql, $params);
+
+    if (! isset($resultado['id']) or empty($resultado['id'])) {
+      return [];
     }
 
     $sql = 'SELECT

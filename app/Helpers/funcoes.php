@@ -16,7 +16,13 @@ function pr($valor, $dump = false) {
 }
 
 function baseUrl($url = '') {
-  return RAIZ . ltrim($url, '/');
+  $dominio = 'https://360help.com.br/';
+
+  if (HOST_LOCAL) {
+    $dominio = 'http://localhost/';
+  }
+
+  return $dominio . ltrim($url, '/');
 }
 
 

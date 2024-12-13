@@ -225,7 +225,7 @@ class DashboardCategoriaController extends DashboardController
     $intervaloFim = min($paginaAtual * $limite, $artigosTotal);
 
     if (isset($categoria['erro']) and $categoria['erro']) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categorias', $categoria['erro']);
+      $this->redirecionarErro('/dashboard/categorias', $categoria['erro']);
     }
 
     // Adicionar artigo
@@ -264,13 +264,13 @@ class DashboardCategoriaController extends DashboardController
     }
 
     if (! isset($resultado['id']) or empty($resultado['id'])) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categorias', $resultado['erro'] ?? '');
+      $this->redirecionarErro('/dashboard/categorias', $resultado['erro'] ?? '');
     }
 
     Cache::apagar('publico-categorias', $this->usuarioLogado['empresaId']);
     Cache::apagar('publico-categorias-inicio', $this->usuarioLogado['empresaId']);
 
-    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categoria/editar/' . $resultado['id'] . $referer, 'Categoria criada com sucesso');
+    $this->redirecionarSucesso('/dashboard/categoria/editar/' . $resultado['id'] . $referer, 'Categoria criada com sucesso');
   }
 
   public function buscar(int $id = 0)
@@ -332,7 +332,7 @@ class DashboardCategoriaController extends DashboardController
     }
 
     if (isset($resultado['erro'])) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categoria/editar/'. $id . $referer, $resultado['erro']);
+      $this->redirecionarErro('/dashboard/categoria/editar/'. $id . $referer, $resultado['erro']);
     }
 
     Cache::apagar('publico-categorias', $this->usuarioLogado['empresaId']);
@@ -340,7 +340,7 @@ class DashboardCategoriaController extends DashboardController
     Cache::apagar('publico-categoria-' . $id, $this->usuarioLogado['empresaId']);
     Cache::apagar('publico-categoria-' . $id . '-artigos', $this->usuarioLogado['empresaId']);
 
-    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categoria/editar/' . $id . $referer, 'Registro alterado com sucesso');
+    $this->redirecionarSucesso('/dashboard/categoria/editar/' . $id . $referer, 'Registro alterado com sucesso');
   }
 
   public function atualizarOrdem()

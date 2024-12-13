@@ -8,7 +8,7 @@ $ultimoAcesso = $usuario['Usuario']['ultimo_acesso'] ?? '';
 $ultimoAcesso = json_decode($ultimoAcesso, true);
 ?>
 
-<form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/usuario/' . $usuario['Usuario']['id']); ?>" class="border-t border-slate-300 w-full h-full flex flex-col gap-4 form-editar-usuario" enctype="multipart/form-data">
+<form method="POST" action="<?php echo '/d/usuario/' . $usuario['Usuario']['id']; ?>" class="border-t border-slate-300 w-full h-full flex flex-col gap-4 form-editar-usuario" enctype="multipart/form-data">
   <input type="hidden" name="_method" value="PUT">
   <input type="hidden" name="empresa_id" value="<?php echo $usuario['Usuario']['empresa_id']; ?>">
 
@@ -120,7 +120,7 @@ $ultimoAcesso = json_decode($ultimoAcesso, true);
       <?php if ($usuario['Usuario']['tentativas_login'] >= 10) { ?>
         <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
           <div class="w-max flex flex-col text-sm font-medium text-gray-700">
-            <a href="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/usuario/desbloquear/' . $usuario['Usuario']['id']); ?>" class="py-2 flex gap-2 text-sm underline text-red-600 hover:text-red-900">Desbloquear acesso</a>
+            <a href="<?php echo '/d/usuario/desbloquear/' . $usuario['Usuario']['id']; ?>" class="py-2 flex gap-2 text-sm underline text-red-600 hover:text-red-900">Desbloquear acesso</a>
           </div>
 
         </div>

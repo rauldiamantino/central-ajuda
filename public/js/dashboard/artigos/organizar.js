@@ -24,7 +24,7 @@ const buscarArtigos = () => {
     return modalAlertaFiltro.showModal()
   }
 
-  const urlBuscar = baseUrl(`/${empresa}/d/artigos?categoria_id=${categoriaSelecionadaId}`)
+  const urlBuscar = `/d/artigos?categoria_id=${categoriaSelecionadaId}`
 
   if (! modalOrganizar || ! modalOrganizarCancelar || ! modalOrganizarBlocos || ! modalOrganizarConfirmar) {
     return
@@ -73,7 +73,7 @@ const buscarArtigos = () => {
             }
 
             modalOrganizarConfirmar.addEventListener('click', () => {
-              fetch(baseUrl(`/${empresa}/d/artigo/ordem`), {
+              fetch(`/d/artigo/ordem`, {
                 method: 'PUT',
                 body: JSON.stringify(ordem)
                 })

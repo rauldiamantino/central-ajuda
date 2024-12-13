@@ -25,7 +25,7 @@ const filtrarArtigos = () => {
   let categoriaNome = ''
   let categorias = {}
 
-  fetch(baseUrl(`/${empresa}/d/categorias`), {
+  fetch('/d/categorias', {
     method: 'GET',
     headers: {
       'X-Requested-With': 'fetch' ,
@@ -81,18 +81,18 @@ const filtrarArtigos = () => {
         }
 
         function clicouLimpar() {
-          modalFiltrarLimpar.addEventListener('click', () => window.location.href = `/${empresa}/dashboard/artigos`)
+          modalFiltrarLimpar.addEventListener('click', () => window.location.href = `/dashboard/artigos`)
         }
 
         function clicouConfirmar(cliqueEnter = false) {
           modalFiltrarConfirmar.addEventListener('click', () => {
             const params = paramsFiltro()
-            window.location.href = `/${empresa}/dashboard/artigos${params ? '?' + params : ''}`
+            window.location.href = `/dashboard/artigos${params ? '?' + params : ''}`
           })
 
           if (cliqueEnter) {
             const params = paramsFiltro()
-            window.location.href = `/${empresa}/dashboard/artigos${params ? '?' + params : ''}`
+            window.location.href = `/dashboard/artigos${params ? '?' + params : ''}`
           }
         }
 

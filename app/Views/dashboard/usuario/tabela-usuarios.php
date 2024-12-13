@@ -34,7 +34,7 @@ $nivelAcesso = [
       </thead>
       <tbody class="divide-y">
         <?php foreach ($usuarios as $chave => $linha) : ?>
-          <tr class="hover:bg-gray-100 cursor-pointer select-none md:select-auto" onclick="window.location='<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/usuario/editar/' . $linha['Usuario']['id']); ?>';">
+          <tr class="hover:bg-gray-100 cursor-pointer select-none md:select-auto" onclick="window.location='<?php echo '/dashboard/usuario/editar/' . $linha['Usuario']['id']; ?>';">
             <?php if (isset($linha['Usuario']['id'])) { ?>
               <td class="py-4 px-4">
                 <?php echo $linha['Usuario']['id'] ?>

@@ -100,7 +100,7 @@ class PublicoController extends Controller
     }
 
     if ((int) $this->buscarAjuste('publico_cate_abrir_primeira') == ATIVO and isset($resultado[0]['Categoria']['id']) and $this->subdominio) {
-      $this->redirecionar('/' . $this->subdominio . '/categoria/' . $resultado[0]['Categoria']['id']);
+      $this->redirecionar('/categoria/' . $resultado[0]['Categoria']['id']);
     }
 
     $metaTitulo = $this->metaTituloEmpresa;

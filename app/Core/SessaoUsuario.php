@@ -3,13 +3,8 @@ namespace app\Core;
 
 class SessaoUsuario
 {
-  public function __construct($sessaoId = null)
+  public function __construct()
   {
-    if ($sessaoId and $sessaoId != session_id()) {
-      $this->destruir();
-      session_id($sessaoId);
-    }
-
     if (session_status() === PHP_SESSION_NONE) {
       $lifetime = 14400; // 4 horas
       $cookieParams = session_get_cookie_params();
@@ -20,11 +15,8 @@ class SessaoUsuario
       $dominio = '.360help.com.br';
 
       if (HOST_LOCAL) {
-        $dominio = 'localhost';
+        $dominio = $_SERVER['SERVER_NAME'];
       }
-
-      ini_set('session.save_handler', 'memcached');
-      ini_set('session.save_path', MEMCACHED_HOST . ':11211');
 
       session_set_cookie_params([
         'lifetime' => $lifetime,

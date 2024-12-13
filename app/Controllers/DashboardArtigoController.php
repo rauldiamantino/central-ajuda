@@ -247,10 +247,10 @@ class DashboardArtigoController extends DashboardController
                                    ->executarConsulta();
 
     if (isset($resultado['erro']) and $resultado['erro']) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', $resultado['erro']);
+      $this->redirecionarErro('/dashboard/artigos', $resultado['erro']);
     }
     elseif (! isset($resultado[0]['Artigo']['id'])) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', 'Artigo não encontrado');
+      $this->redirecionarErro('/dashboard/artigos', 'Artigo não encontrado');
     }
     else {
       $artigo = $resultado;
@@ -350,7 +350,7 @@ class DashboardArtigoController extends DashboardController
     }
 
     if ($_POST and isset($resultado['erro'])) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigos', $resultado['erro']);
+      $this->redirecionarErro('/dashboard/artigos', $resultado['erro']);
     }
     elseif ($_POST and isset($resultado['id'])) {
       Cache::apagar('publico-categorias', $this->usuarioLogado['empresaId']);
@@ -359,7 +359,7 @@ class DashboardArtigoController extends DashboardController
       Cache::apagar('publico-categoria-' . $dados['categoria_id'] . '-artigos', $this->usuarioLogado['empresaId']);
       Cache::apagar('publico-artigos-categoria-' . $dados['categoria_id'], $this->usuarioLogado['empresaId']);
 
-      $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $resultado['id'] . $referer, 'Artigo criado com sucesso');
+      $this->redirecionarSucesso('/dashboard/artigo/editar/' . $resultado['id'] . $referer, 'Artigo criado com sucesso');
     }
   }
 
@@ -443,7 +443,7 @@ class DashboardArtigoController extends DashboardController
     }
 
     if (isset($resultado['erro'])) {
-      $this->redirecionarErro('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $id . $referer, $resultado['erro']);
+      $this->redirecionarErro('/dashboard/artigo/editar/' . $id . $referer, $resultado['erro']);
     }
 
     Cache::apagar('publico-artigo_' . $id, $this->usuarioLogado['empresaId']);
@@ -452,7 +452,7 @@ class DashboardArtigoController extends DashboardController
     Cache::apagar('publico-categoria-' . $json['categoria_id'] . '-artigos', $this->usuarioLogado['empresaId']);
     Cache::apagar('publico-artigos-categoria-' . $json['categoria_id'], $this->usuarioLogado['empresaId']);
 
-    $this->redirecionarSucesso('/' . $this->usuarioLogado['subdominio'] . '/dashboard/artigo/editar/' . $id . $referer, 'Registro alterado com sucesso');
+    $this->redirecionarSucesso('/dashboard/artigo/editar/' . $id . $referer, 'Registro alterado com sucesso');
   }
 
   public function atualizarOrdem()

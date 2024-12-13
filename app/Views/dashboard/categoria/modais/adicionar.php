@@ -1,8 +1,8 @@
 <dialog class="border border-slate-300 w-full md:w-[700px] rounded-md shadow ease-in-out menu-adicionar-categoria">
-  <form method="POST" action="<?php echo baseUrl('/' . $this->usuarioLogado['subdominio'] . '/d/categoria'); ?>" class="w-full flex flex-col gap-4 p-4 rounded-lg shadow bg-white" onsubmit="evitarDuploClique(event)">
+  <form method="POST" action="/d/categoria" class="w-full flex flex-col gap-4 p-4 rounded-lg shadow bg-white" onsubmit="evitarDuploClique(event)">
     <?php if (isset($ordem['prox'])) { ?>
       <input type="hidden" name="ordem" value="<?php echo $ordem['prox'] ?>">
-      <input type="hidden" name="referer" value="<?php echo urlencode(baseUrl('/' . $this->usuarioLogado['subdominio'] . '/dashboard/categorias?pagina=' . $pagina)); ?>">
+      <input type="hidden" name="referer" value="<?php echo urlencode('/dashboard/categorias?pagina=' . $pagina); ?>">
     <?php } ?>
     <div class="w-full flex gap-4">
       <div>

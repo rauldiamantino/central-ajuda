@@ -9,12 +9,12 @@ use app\Controllers\DashboardEmpresaController;
 class Roteador
 {
   private $rotas;
-  private $empresa;
   private $empresaId;
   private $chaveRota;
   private $paginaErro;
   private $gratisPrazo;
   private $empresaAtivo;
+  private $subdominio;
   private $subdominio_2;
   private $testeExpirado;
   private $sessaoUsuario;
@@ -34,16 +34,17 @@ class Roteador
 
   public function rotear()
   {
-    $this->empresa = '';
     $this->empresaId = 0;
     $this->chaveRota = '';
     $this->empresaAtivo = 0;
     $this->gratisPrazo = '';
+    $this->subdominio = '';
     $this->subdominio_2 = '';
     $this->assinaturaStatus = 0;
     $this->testeExpirado = false;
     $this->usuarioLogado = [];
 
+    $this->recuperarSubdominio();
     $this->recuperarDominioPersonalizado();
     $this->recuperarChaveRota();
     $this->validarAcessoDominioPadrao();
@@ -64,23 +65,7 @@ class Roteador
 
   private function recuperarSessaoLogado(): void
   {
-    $sessao = Cache::buscar('sessao', $this->empresaId);
-
-    // Sessão cache
-    $logadoSessaoId = $sessao['id'] ?? null;
-    $logadoSessaoIp = $sessao['ip'] ?? null;
-    $logadoNavegador = $sessao['navegador'] ?? null;
-
-    // Nova sessão
-    $novoNavegador = $_SERVER['HTTP_USER_AGENT'] ?? null;
-    $novoIp = $_SERVER['REMOTE_ADDR'] ?? null;
-    $sessaoId = null;
-
-    if (($this->subdominio_2 and $logadoSessaoId) and ($logadoNavegador and $logadoNavegador == $novoNavegador) and ($logadoSessaoIp and $logadoSessaoIp == $novoIp)) {
-      $sessaoId = $logadoSessaoId;
-    }
-
-    $this->sessaoUsuario = new SessaoUsuario($sessaoId);
+    $this->sessaoUsuario = new SessaoUsuario();
     $this->usuarioLogado = $this->sessaoUsuario->buscar('usuario');
     $this->sessaoUsuario->apagar('debug');
   }
@@ -103,7 +88,8 @@ class Roteador
     // Permite acesso a qualquer empresa
     $this->empresaId = $this->usuarioLogado['empresaId'];
 
-    if (empty($this->empresa) and ! isset($this->rotas['publico'][ $this->chaveRota ])) {
+    // Sempre precisa do subdomínio para acessar rotas que não sejam públicas
+    if (empty($this->subdominio) and ! isset($this->rotas['publico'][ $this->chaveRota ])) {
       registrarSentry('Rota não encontrada (sem domínio)', $_SESSION);
       $this->paginaErro->erroVer();
     }
@@ -133,9 +119,9 @@ class Roteador
 
   private function gravarEmpresaIdSessao(): void
   {
-    $this->sessaoUsuario->definir('subdominio', $this->empresa);
-    $this->sessaoUsuario->definir('empresaPadraoId', $this->empresaId);
+    $this->sessaoUsuario->definir('subdominio', $this->subdominio);
     $this->sessaoUsuario->definir('subdominio_2', $this->subdominio_2);
+    $this->sessaoUsuario->definir('empresaPadraoId', $this->empresaId);
   }
 
   private function validarAcessoNegado(): void
@@ -149,37 +135,16 @@ class Roteador
 
   private function acessarRota(): void
   {
-    $novoIp = $_SERVER['REMOTE_ADDR'] ?? '';
-    $novoNavegador = $_SERVER['HTTP_USER_AGENT'] ?? '';
-
-    if (empty($this->subdominio_2) and $novoIp and $novoNavegador) {
-      $sessao = Cache::buscar('sessao', $this->empresaId);
-
-      // Troca token somente em novo login
-      $sessaoAtualId = $sessao['id'] ?? null;
-      $sessaoAtualIp = $sessao['ip'] ?? null;
-      $sessaoAtualNavegador = $sessao['navegador'] ?? null;
-
-      if ($sessaoAtualId != session_id() or $sessaoAtualIp != $novoIp or $sessaoAtualNavegador != $novoNavegador) {
-        $sessao = [
-          'id' => session_id(),
-          'navegador' => $novoNavegador,
-          'ip' => $novoIp,
-        ];
-
-        Cache::definir('sessao', $sessao, 14400, $this->empresaId);
-      }
-    }
-
     $sucesso = false;
     foreach ($this->rotas as $chave => $linha):
 
-      // Domínio personalizado acessa apenas central personalizado
-      if ($this->subdominio_2 and ($chave != 'centralPersonalizado' or empty($this->empresaId))) {
+      // Subdomínio padrão ou personalizado acessa apenas central e dashboard
+      if (($this->subdominio or $this->subdominio_2) and $chave == 'publico') {
         continue;
       }
 
-      if (empty($this->subdominio_2) and $chave == 'centralPersonalizado') {
+      // Rotas públicas apenas sem subdomínio
+      if (empty($this->subdominio) and empty($this->subdominio_2) and $chave != 'publico') {
         continue;
       }
 
@@ -248,50 +213,53 @@ class Roteador
 
   private function validarAcessoDashboard()
   {
-    if (strpos($this->chaveRota, '/{empresa}/dashboard') === false and strpos($this->chaveRota, '/{empresa}/d/') === false) {
+    if (strpos($this->chaveRota, '/dashboard') === false and strpos($this->chaveRota, '/dashboard/login') === false and strpos($this->chaveRota, '/d/') === false) {
       return;
     }
 
     $sucesso = true;
 
-    // Usuário deslogado
-    if (! isset($this->usuarioLogado['nivel'])) {
-      $sucesso = false;
-    }
-    elseif (! isset($this->usuarioLogado['id']) or (int) $this->usuarioLogado['id'] == 0) {
-      $sucesso = false;
-    }
-    elseif (! isset($this->usuarioLogado['empresaId']) or empty($this->usuarioLogado['empresaId'])) {
-      $sucesso = false;
-    }
-    elseif ($this->empresaAtivo == INATIVO and $this->usuarioLogado['padrao'] != USUARIO_SUPORTE) {
-      $this->sessaoUsuario->definir('erro', 'Acesso não autorizado, por favor, entre em contato conosco através do e-mail <span class="font-bold">suporte@360help.com.br</span>');
-      $sucesso = false;
-    }
+    // Acesso somente para usuário logado
+    if (isset($this->rotas['dashboard'][ $this->chaveRota ])) {
 
-    // Usuário deslogado
-    if ($sucesso == false) {
-      $this->sessaoUsuario->apagar('usuario');
-      header('Location: /login');
-      exit;
+      if (! isset($this->usuarioLogado['nivel'])) {
+        $sucesso = false;
+      }
+      elseif (! isset($this->usuarioLogado['id']) or (int) $this->usuarioLogado['id'] == 0) {
+        $sucesso = false;
+      }
+      elseif (! isset($this->usuarioLogado['empresaId']) or empty($this->usuarioLogado['empresaId'])) {
+        $sucesso = false;
+      }
+      elseif ($this->empresaAtivo == INATIVO and $this->usuarioLogado['padrao'] != USUARIO_SUPORTE) {
+        $this->sessaoUsuario->definir('erro', 'Acesso não autorizado, por favor, entre em contato conosco através do e-mail <span class="font-bold">suporte@360help.com.br</span>');
+        $sucesso = false;
+      }
+
+      if ($sucesso == false) {
+        $this->sessaoUsuario->apagar('usuario');
+        header('Location: /dashboard/login');
+        exit;
+      }
+
+      // Limita o acesso à empresa correta
+      if ($this->usuarioLogado['empresaId'] !== $this->empresaId) {
+        registrarSentry('Tentou acessar outra empresa', $_SESSION);
+        $this->paginaErro->erroVer();
+      }
+
+      $this->testeExpirado = $this->sessaoUsuario->buscar('teste-expirado-' . $this->empresaId);
+
+      if ($this->testeExpirado and ! isset($this->rotas['dashboardVencida'][ $this->chaveRota ]) and (int) $this->usuarioLogado['padrao'] != USUARIO_SUPORTE) {
+        header('Location: /dashboard/assinatura/editar');
+        exit;
+      }
     }
 
     // Tentativas de senha
-    if ($this->sessaoUsuario->buscar('acessoBloqueado-' . $this->usuarioLogado['id'])) {
+    if (isset($this->usuarioLogado['id']) and $this->sessaoUsuario->buscar('acessoBloqueado-' . $this->usuarioLogado['id'])) {
       $this->sessaoUsuario->definir('erro', 'Acesso bloqueado.');
-      $sucesso = false;
-    }
-
-    // Limita o acesso à empresa correta
-    if ($this->usuarioLogado['empresaId'] !== $this->empresaId) {
-      registrarSentry('Tentou acessar outra empresa', $_SESSION);
-      $this->paginaErro->erroVer();
-    }
-
-    $this->testeExpirado = $this->sessaoUsuario->buscar('teste-expirado-' . $this->empresaId);
-
-    if ($this->testeExpirado and ! isset($this->rotas['dashboardVencida'][ $this->chaveRota ]) and (int) $this->usuarioLogado['padrao'] != USUARIO_SUPORTE) {
-      header('Location: /' . $this->empresa . '/dashboard/assinatura/editar');
+      header('Location: /dashboard/login');
       exit;
     }
   }
@@ -308,9 +276,9 @@ class Roteador
     $usuarioLogadoId = (int) $usuarioLogadoId;
 
     $rotasPermitidasUsuario = [
-      'GET:/{empresa}/dashboard/usuario/editar/{id}',
-      'PUT:/{empresa}/d/usuario/{id}',
-      'DELETE:/{empresa}/d/usuario/foto/{id}'
+      'GET:/dashboard/usuario/editar/{id}',
+      'PUT:/d/usuario/{id}',
+      'DELETE:/d/usuario/foto/{id}'
     ];
 
     $acessoOk = false;
@@ -347,7 +315,7 @@ class Roteador
       $this->sessaoUsuario->definir('erro', 'Você não tem permissão para realizar esta ação.');
     }
 
-    header('Location: /login');
+    header('Location: /dashboard/login');
     exit;
   }
 
@@ -367,38 +335,76 @@ class Roteador
 
   private function validarAcessoCentral(): void
   {
-    if (empty($this->empresa)) {
+    // Acesso público
+    if (empty($this->subdominio) and empty($this->subdominio_2)) {
       return;
     }
 
-    if (empty($this->subdominio_2)) {
+    // Acesso dashboard
+    if ($this->empresaId and isset($this->rotas['dashboard'][ $this->chaveRota ])) {
       return;
     }
 
-    if (isset($this->rotas['centralPersonalizado'][ $this->chaveRota ])) {
+    // Acesso dashboard
+    if ($this->empresaId and isset($this->rotas['dashboardLogin'][ $this->chaveRota ])) {
       return;
     }
 
+    // Acesso dashboard
+    if ($this->empresaId and isset($this->rotas['dashboardVencida'][ $this->chaveRota ])) {
+      return;
+    }
+
+    // Rota existe na central
+    if ($this->empresaId and isset($this->rotas['central'][ $this->chaveRota ])) {
+      return;
+    }
+
+    // Acesso à central com rota inexistente
     registrarSentry('Rota não encontrada (domínio personalizado)', $_SESSION);
     $this->paginaErro->erroVer();
   }
 
+  private function recuperarSubdominio(): void
+  {
+    $partesHost = explode('.', $_SERVER['SERVER_NAME']);
+    $hostPadrao = '360help.com.br';
+
+    if (HOST_LOCAL) {
+      $hostPadrao = 'localhost';
+    }
+
+    if (count($partesHost) == 2 and $partesHost[1] == $hostPadrao) {
+      $this->subdominio = $partesHost[0];
+    }
+  }
+
   private function recuperarDominioPersonalizado(): void
   {
-    // Domínio personalizado
+    // Apenas subdominio padrao
+    if (HOST_LOCAL) {
+      return;
+    }
+
+    // Acesso via subdomínio padrão
+    if ($this->subdominio) {
+      return;
+    }
+
+    // Acesso via domínio personalizado
     $this->subdominio_2 = $_SERVER['SERVER_NAME'];
 
     $dominiosPadrao = [
-      'www.360help.com.br',
       '360help.com.br',
+      'www.360help.com.br',
     ];
 
     if (HOST_LOCAL) {
-      $this->chaveRota = str_replace(RAIZ, '/', $this->chaveRota);
-
       $dominiosPadrao = [
         'localhost',
       ];
+
+      $this->subdominio = '';
     }
 
     // Acesso via domínio padrão
@@ -432,13 +438,13 @@ class Roteador
 
   private function recuperarEmpresa(): void
   {
-    // Busca empresa para central e dashboard
-    if (empty($this->subdominio_2) and isset($this->rotas['publico'][ $this->chaveRota ])) {
+    // Busca empresa apenas para central e dashboard
+    if (empty($this->subdominio_2) and empty($this->subdominio) and isset($this->rotas['publico'][ $this->chaveRota ])) {
       return;
     }
 
     $coluna = 'subdominio';
-    $valor = $this->empresa;
+    $valor = $this->subdominio;
     $cacheNome = 'roteador-' . $valor;
 
     if ($this->subdominio_2) {
@@ -465,7 +471,10 @@ class Roteador
       }
     }
 
-    $this->empresa = $buscarEmpresa[0]['Empresa']['subdominio'] ?? '';
+    if ($this->subdominio_2) {
+      $this->subdominio = $buscarEmpresa[0]['Empresa']['subdominio'] ?? '';
+    }
+
     $this->empresaId = intval($buscarEmpresa[0]['Empresa']['id'] ?? 0);
     $this->empresaAtivo = intval($buscarEmpresa[0]['Empresa']['ativo'] ?? 0);
     $this->assinaturaStatus = intval($buscarEmpresa[0]['Assinatura']['status'] ?? 0);
@@ -496,7 +505,6 @@ class Roteador
     $this->chaveRota = $metodo . ':' . $url;
     $partesRota = explode('/', trim($url, '/'));
 
-    $this->empresa = '';
     $this->slug = '';
     $this->parametroId = 0;
 
@@ -510,7 +518,6 @@ class Roteador
     );
 
     if (count($partesRota) > 1) {
-      $this->empresa = $partesRota[0];
       $ultimaParte = end($partesRota);
 
       if (is_numeric($ultimaParte)) {
@@ -525,9 +532,6 @@ class Roteador
         }
       }
     }
-    elseif (count($partesRota) === 1) {
-      $this->empresa = reset($partesRota);
-    }
 
     // Exemplo: {1} > {id}
     $this->chaveRota = preg_replace('/\b' . preg_quote($this->parametroId, '/') . '\b/', '{id}', $this->chaveRota, 1);
@@ -535,11 +539,6 @@ class Roteador
     // Exemplo: {como-configurar} > {slug}
     if ($this->slug) {
       $this->chaveRota = str_replace($this->slug, '{slug}', $this->chaveRota);
-    }
-
-    // Exemplo: {padrao} > {empresa}
-    if (empty($this->subdominio_2) and ! isset($this->rotas['publico'][$this->chaveRota])) {
-      $this->chaveRota = preg_replace('/\b' . preg_quote($this->empresa, '/') . '\b/', '{empresa}', $this->chaveRota, 1);
     }
   }
 
