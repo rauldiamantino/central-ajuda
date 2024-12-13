@@ -35,6 +35,42 @@ class DashboardLoginController extends DashboardController
     $this->visao->renderizar('/login/index');
   }
 
+  public function loginRedirVer()
+  {
+    $this->visao->variavel('metaTitulo', 'Login - 360Help');
+    $this->visao->variavel('pagLogin', true);
+    $this->visao->variavel('paginaMenuLateral', 'login');
+    $this->visao->renderizar('/loginRedir/index');
+  }
+
+  public function loginRedir()
+  {
+    $json = $this->receberJson();
+    $subdominio = $json['empresa'] ?? '';
+    $subdominio = $this->filtrarInjection($subdominio);
+
+    $resultado = $this->empresaModel->buscarEmpresaSemId('subdominio', $subdominio);
+
+    $resultadoSubdominio = $resultado[0]['Empresa']['subdominio'] ?? '';
+    $resultadoSubdominio2 = $resultado[0]['Empresa']['subdominio_2'] ?? '';
+
+    if (empty($resultadoSubdominio) and empty($resultadoSubdominio2)) {
+      $this->redirecionarErro('/login', 'Empresa não encontrada');
+    }
+
+    $redirecionar = 'https://' . $resultadoSubdominio . '.360help.com.br/dashboard/login';
+
+    if (HOST_LOCAL) {
+      $redirecionar = 'http://' . $resultadoSubdominio . '.localhost/dashboard/login';
+    }
+
+    if ($resultadoSubdominio2) {
+      $redirecionar = $resultadoSubdominio2 . '/dashboard/login';
+    }
+
+    $this->redirecionar($redirecionar);
+  }
+
   public function loginSuporteVer(int $id = 0)
   {
     if ($this->usuarioLogado['padrao'] != USUARIO_SUPORTE) {

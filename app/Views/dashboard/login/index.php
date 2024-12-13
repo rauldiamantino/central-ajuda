@@ -1,4 +1,11 @@
-<a href="/" class="w-full justify-center flex items-center">
+<?php
+$inicio = 'https://360help.com.br';
+
+if (HOST_LOCAL) {
+  $inicio = 'http://localhost';
+}
+?>
+<a href="<?php echo $inicio ?>" class="w-full justify-center flex items-center">
   <img src="/img/360help-branco.svg" class="w-28">
 </a>
 <div class="mt-5 w-full h-full shadow-2xl rounded-md bg-white">
