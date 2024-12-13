@@ -18,7 +18,7 @@ class SessaoUsuario
         $dominio = $_SERVER['SERVER_NAME'];
       }
 
-      $dominio = $_SERVER['SERVER_NAME'];
+      // $dominio = $_SERVER['SERVER_NAME'];
 
       session_set_cookie_params([
         'lifetime' => $lifetime,
@@ -26,7 +26,7 @@ class SessaoUsuario
         'domain' => $dominio,
         'secure' => isset($_SERVER['HTTPS']),
         'httponly' => true,
-        'samesite' => 'Strict', // Ou 'Strict'
+        'samesite' => 'Lax', // Ou 'Strict'
       ]);
 
       session_start();
