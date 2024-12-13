@@ -18,6 +18,12 @@
   <meta property="og:url" content="https://360help.com.br/<?php echo $subdominio; ?>">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="<?php echo $metaTitulo; ?>">
-  <meta name="robots" content="index, follow">
+
+  <?php if ($empresaId == 1) { ?>
+    <meta name="robots" content="noindex, nofollow">
+  <?php } else { ?>
+    <meta name="robots" content="index, follow">
+  <?php } ?>
+
   <link rel="canonical" href="<?php echo $urlCanonica; ?>">
 </head>
