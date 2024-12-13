@@ -49,17 +49,6 @@ return [
     'GET:/robots.txt'                                   => ['controlador' => [SEOController::class,                     'robotsEmpresa'],                 'permissao' => $publico],
     'GET:/sitemap.xml'                                  => ['controlador' => [SEOController::class,                     'sitemapEmpresa'],                'permissao' => $publico],
   ],
-  'centralPersonalizado' => [
-    'GET:/'                                             => ['controlador' => [PublicoController::class,                 'publicoVer'],                    'permissao' => $publico],
-    'GET:/categoria/{id}/{slug}'                        => ['controlador' => [PublicoCategoriaController::class,        'categoriaVer'],                  'permissao' => $publico],
-    'GET:/artigo/{id}/{slug}'                           => ['controlador' => [PublicoArtigoController::class,           'artigoVer'],                     'permissao' => $publico],
-    'GET:/categoria/{id}'                               => ['controlador' => [PublicoCategoriaController::class,        'categoriaVer'],                  'permissao' => $publico],
-    'GET:/artigo/{id}'                                  => ['controlador' => [PublicoArtigoController::class,           'artigoVer'],                     'permissao' => $publico],
-    'POST:/buscar'                                      => ['controlador' => [PublicoBuscaController::class,            'buscar'],                        'permissao' => $publico],
-    'GET:/buscar'                                       => ['controlador' => [PublicoBuscaController::class,            'buscar'],                        'permissao' => $publico],
-    'GET:/robots.txt'                                   => ['controlador' => [SEOController::class,                     'robotsEmpresa'],                 'permissao' => $publico],
-    'GET:/sitemap.xml'                                  => ['controlador' => [SEOController::class,                     'sitemapEmpresa'],                'permissao' => $publico],
-  ],
   'dashboardLogin' => [
     'GET:/dashboard/login'                              => ['controlador' => [DashboardLoginController::class,          'loginVer'],                      'permissao' => $publico],
     'GET:/dashboard/login/suporte'                      => ['controlador' => [DashboardLoginController::class,          'loginSuporteVer'],               'permissao' => $suporteTotal],

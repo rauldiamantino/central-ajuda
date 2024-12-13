@@ -67,3 +67,6 @@ Stack trace:
 #2 /var/www/html/index.php(15): app\Roteamento\Roteador->rotear()
 #3 {main}
   thrown in /var/www/app/Core/Cache.php on line 220
+[13-Dec-2024 01:41:59 UTC] PHP Warning:  Undefined array key "GET:/dashboard/login" in /var/www/app/Roteamento/Roteador.php on line 351
+[13-Dec-2024 01:46:42 UTC] PHP Warning:  http_response_code(): Cannot set response code - headers already sent (output started at /var/www/app/Helpers/funcoes.php:12) in /var/www/app/Controllers/PaginaErroController.php on line 17
+[13-Dec-2024 01:52:54 UTC] PHP Warning:  http_response_code(): Cannot set response code - headers already sent (output started at /var/www/app/Helpers/funcoes.php:12) in /var/www/app/Controllers/PaginaErroController.php on line 17

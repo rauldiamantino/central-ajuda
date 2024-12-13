@@ -45,7 +45,7 @@ class Roteador
     $this->usuarioLogado = [];
 
     $this->recuperarSubdominio();
-    // $this->recuperarDominioPersonalizado();
+    $this->recuperarDominioPersonalizado();
     $this->recuperarChaveRota();
     $this->validarAcessoDominioPadrao();
     $this->recuperarEmpresa();
@@ -65,37 +65,8 @@ class Roteador
 
   private function recuperarSessaoLogado(): void
   {
-    $sessao = Cache::buscar('sessao', $this->empresaId);
-
-    // Sessão cache
-    $logadoSessaoId = $sessao['id'] ?? null;
-    $logadoSessaoIp = $sessao['ip'] ?? null;
-    $logadoNavegador = $sessao['navegador'] ?? null;
-
-    // Nova sessão
-    $novoNavegador = $_SERVER['HTTP_USER_AGENT'] ?? null;
-    $novoIp = $_SERVER['REMOTE_ADDR'] ?? null;
-    $sessaoId = null;
-
-    $acessoCentral = false;
-
-    if ($this->subdominio and (isset($this->rotas['central'][ $this->chaveRota ]))) {
-      // Acesso à Central com subdomínio padrão
-      $acessoCentral = true;
-    }
-    elseif ($this->subdominio_2 and (isset($this->rotas['centralPersonalizado'][ $this->chaveRota ]))) {
-      // Acesso à Central com domínio personalizado
-      $acessoCentral = true;
-    }
-
-    // Recupera sessão da dashboard logada para a Central
-    if (($acessoCentral and $logadoSessaoId) and ($logadoNavegador and $logadoNavegador == $novoNavegador) and ($logadoSessaoIp and $logadoSessaoIp == $novoIp)) {
-      $sessaoId = $logadoSessaoId;
-    }
-
-    $this->sessaoUsuario = new SessaoUsuario($sessaoId);
+    $this->sessaoUsuario = new SessaoUsuario();
     $this->usuarioLogado = $this->sessaoUsuario->buscar('usuario');
-
     $this->sessaoUsuario->apagar('debug');
   }
 
@@ -164,53 +135,16 @@ class Roteador
 
   private function acessarRota(): void
   {
-    $novoIp = $_SERVER['REMOTE_ADDR'] ?? '';
-    $novoNavegador = $_SERVER['HTTP_USER_AGENT'] ?? '';
-
-    $acessoDashboard = false;
-
-    if ($this->subdominio and (strpos($this->chaveRota, '/dashboard') !== false or strpos($this->chaveRota, '/dashboard/login') !== false or strpos($this->chaveRota, '/d/') !== false)) {
-      $acessoDashboard = true;
-    }
-
-    if ($acessoDashboard and $novoIp and $novoNavegador) {
-      $sessao = Cache::buscar('sessao', $this->empresaId);
-
-      // Troca token somente em novo login
-      $sessaoAtualId = $sessao['id'] ?? null;
-      $sessaoAtualIp = $sessao['ip'] ?? null;
-      $sessaoAtualNavegador = $sessao['navegador'] ?? null;
-
-      if ($sessaoAtualId != session_id() or $sessaoAtualIp != $novoIp or $sessaoAtualNavegador != $novoNavegador) {
-        $sessao = [
-          'id' => session_id(),
-          'navegador' => $novoNavegador,
-          'ip' => $novoIp,
-        ];
-
-        Cache::definir('sessao', $sessao, 14400, $this->empresaId);
-      }
-    }
-
     $sucesso = false;
     foreach ($this->rotas as $chave => $linha):
 
-      // Domínio personalizado acessa apenas central personalizado
-      if ($this->subdominio_2 and ($chave != 'centralPersonalizado' or empty($this->empresaId))) {
-        continue;
-      }
-
-      if (empty($this->subdominio_2) and $chave == 'centralPersonalizado') {
-        continue;
-      }
-
-      // Subdomínio padrão acessa apenas central e dashboard
-      if ($this->subdominio and $chave == 'publico') {
+      // Subdomínio padrão ou personalizado acessa apenas central e dashboard
+      if (($this->subdominio or $this->subdominio_2) and $chave == 'publico') {
         continue;
       }
 
       // Rotas públicas apenas sem subdomínio
-      if (empty($this->subdominio) and $chave != 'publico') {
+      if (empty($this->subdominio) and empty($this->subdominio_2) and $chave != 'publico') {
         continue;
       }
 
@@ -422,7 +356,7 @@ class Roteador
     }
 
     // Rota existe na central
-    if ($this->empresaId and isset($this->rotas['centralPersonalizado'][ $this->chaveRota ])) {
+    if ($this->empresaId and isset($this->rotas['central'][ $this->chaveRota ])) {
       return;
     }
 
@@ -447,20 +381,30 @@ class Roteador
 
   private function recuperarDominioPersonalizado(): void
   {
-    // Domínio personalizado
+    // Apenas subdominio padrao
+    if (HOST_LOCAL) {
+      return;
+    }
+
+    // Acesso via subdomínio padrão
+    if ($this->subdominio) {
+      return;
+    }
+
+    // Acesso via domínio personalizado
     $this->subdominio_2 = $_SERVER['SERVER_NAME'];
 
     $dominiosPadrao = [
-      'www.360help.com.br',
       '360help.com.br',
+      'www.360help.com.br',
     ];
 
     if (HOST_LOCAL) {
-      $this->chaveRota = str_replace(RAIZ, '/', $this->chaveRota);
-
       $dominiosPadrao = [
         'localhost',
       ];
+
+      $this->subdominio = '';
     }
 
     // Acesso via domínio padrão

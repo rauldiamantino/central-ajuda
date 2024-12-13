@@ -61,15 +61,15 @@ document.addEventListener('DOMContentLoaded', function() {
     if (window.scrollY > 0) {
       header.classList.add('bg-gray-800', 'text-white', 'border-gray-800')
       header.classList.remove('bg-white', 'border-gray-100')
-      botaoLogin.classList.remove('text-gray-800', 'bg-gray-100')
-      botaoLogin.classList.add('text-white', 'bg-gray-700/50')
+      botaoLogin?.classList.remove('text-gray-800', 'bg-gray-100')
+      botaoLogin?.classList.add('text-white', 'bg-gray-700/50')
       logo.classList.add('invert')
     }
     else {
       header.classList.remove('bg-gray-800', 'text-white', 'border-gray-800')
       header.classList.add('bg-white', 'border-gray-100')
-      botaoLogin.classList.add('text-gray-800', 'bg-gray-100')
-      botaoLogin.classList.remove('text-white', 'bg-gray-700/50')
+      botaoLogin?.classList.add('text-gray-800', 'bg-gray-100')
+      botaoLogin?.classList.remove('text-white', 'bg-gray-700/50')
       logo.classList.remove('invert')
     }
   })
