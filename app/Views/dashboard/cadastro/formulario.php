@@ -8,7 +8,7 @@
     <div class="flex flex-col gap-2">
       <label for="subdominio" class="text-sm font-medium text-gray-800">Identificação da sua empresa</label>
       <input id="subdominio" name="subdominio" type="text" required class="<?php echo CLASSES_LOGIN_INPUT; ?>">
-      <div class="pt-1 text-xs text-gray-500">Exemplo: 360help.com.br/<span class="font-bold text-blue-800">nome-empresa</span></div>
+      <div class="pt-1 text-xs text-gray-500">Exemplo: <span class="font-bold text-blue-800">nome-empresa</span>.360help.com.br</div>
     </div>
 
     <div class="flex flex-col gap-2">

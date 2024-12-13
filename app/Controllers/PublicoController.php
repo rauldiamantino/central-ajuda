@@ -38,6 +38,12 @@ class PublicoController extends Controller
       $this->subdominio = '';
     }
 
+    $urlCanonica = 'https://' . $this->subdominio . '.360help.com.br';
+
+    if ($this->subdominio_2) {
+      $urlCanonica = $this->subdominio_2;
+    }
+
     $this->visao = new ViewRenderer('/publico');
     $this->visao->variavel('logo', $this->logo);
     $this->visao->variavel('favicon', $this->favicon);
@@ -51,7 +57,7 @@ class PublicoController extends Controller
     $this->visao->variavel('urlSite', $this->urlSite);
     $this->visao->variavel('metaTitulo', $this->metaTituloEmpresa);
     $this->visao->variavel('metaDescricao', $this->metaDescricaoEmpresa);
-    $this->visao->variavel('urlCanonica', $this->subdominio);
+    $this->visao->variavel('urlCanonica', $urlCanonica);
   }
 
   public function publicoVer()
@@ -110,10 +116,10 @@ class PublicoController extends Controller
       $metaTitulo = 'Início';
     }
 
-    $urlCanonica = 'https://' . $this->subdominio_2;
+    $urlCanonica = 'https://' . $this->subdominio . '.360help.com.br';
 
-    if ($this->subdominio) {
-      $urlCanonica = 'https://360help.com.br/' . $this->subdominio;
+    if ($this->subdominio_2) {
+      $urlCanonica = $this->subdominio_2;
     }
 
     $this->visao->variavel('urlCanonica', $urlCanonica);

@@ -101,10 +101,10 @@ class PublicoBuscaController extends PublicoController
       $menuLateral = true;
     }
 
-    $urlCanonica = 'https://' . $this->subdominio_2;
+    $urlCanonica = 'https://' . $this->subdominio . '.360help.com.br';
 
-    if ($this->subdominio) {
-      $urlCanonica = 'https://360help.com.br/' . $this->subdominio;
+    if ($this->subdominio_2) {
+      $urlCanonica = $this->subdominio_2;
     }
 
     $this->visao->variavel('categorias', $categorias);

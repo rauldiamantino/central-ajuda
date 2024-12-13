@@ -181,10 +181,10 @@ class PublicoArtigoController extends PublicoController
       $metaTitulo = $artigo[0]['Artigo']['titulo'];
     }
 
-    $urlCanonica = 'https://' . $this->subdominio_2;
+    $urlCanonica = 'https://' . $this->subdominio . '.360help.com.br';
 
-    if ($this->subdominio) {
-      $urlCanonica = 'https://360help.com.br/' . $this->subdominio;
+    if ($this->subdominio_2) {
+      $urlCanonica = $this->subdominio_2;
     }
 
     $urlCanonica = $urlCanonica . '/artigo/' . $id . '/' . $this->gerarSlug($artigo[0]['Artigo']['titulo']);
