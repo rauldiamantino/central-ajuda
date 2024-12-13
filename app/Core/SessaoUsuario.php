@@ -12,7 +12,7 @@ class SessaoUsuario
       ini_set('session.gc_maxlifetime', $lifetime);
       ini_set('session.cookie_lifetime', $lifetime);
 
-      $dominio = '360help.com.br';
+      $dominio = '.360help.com.br';
 
       if (HOST_LOCAL) {
         $dominio = $_SERVER['SERVER_NAME'];
@@ -26,7 +26,7 @@ class SessaoUsuario
         'domain' => $dominio,
         'secure' => isset($_SERVER['HTTPS']),
         'httponly' => true,
-        'samesite' => 'Lax', // Ou 'Strict'
+        'samesite' => 'Strict', // Ou 'Strict'
       ]);
 
       session_start();
