@@ -78,7 +78,10 @@ class DashboardCadastroController extends DashboardController
       $this->gerarSubdominio($subdominio);
     }
 
-    $this->loginController->login($dados);
+    $this->redirecionarSucesso('/login', 'Cadastro realizado com sucesso');
+
+    // Revisar em produção
+    // $this->loginController->login($dados);
   }
 
   private function gerarSubdominio(string $subdominio): bool

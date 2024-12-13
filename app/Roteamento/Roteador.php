@@ -360,8 +360,6 @@ class Roteador
       return;
     }
 
-    // Acesso à central com rota inexistente
-    registrarSentry('Rota não encontrada (domínio personalizado)', $_SESSION);
     $this->paginaErro->erroVer();
   }
 
