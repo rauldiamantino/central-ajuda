@@ -31,12 +31,15 @@ class DashboardUsuarioModel extends Model
 
     // Apenas um usuário padrão por empresa
     if ($campos['padrao'] == USUARIO_PADRAO) {
-      $condicao = [
-        'Usuario.padrao' => USUARIO_PADRAO,
+      $condicao[] = [
+        'campo' => 'Usuario.padrao',
+        'operador' => '=',
+        'valor' => USUARIO_PADRAO,
       ];
 
-      $usuarioPadrao = parent::condicao($condicao)
-                             ->contar('Usuario.id');
+      $usuarioPadrao = $this->contar('Usuario.id')
+                            ->condicao($condicao)
+                            ->executarConsulta();
 
       if (isset($usuarioPadrao['total']) and (int) $usuarioPadrao['total'] > 0) {
         $msgErro = [
@@ -134,6 +137,7 @@ class DashboardUsuarioModel extends Model
       'Usuario.id',
       'Usuario.nivel',
       'Usuario.padrao',
+      'Usuario.email',
     ];
 
     $usuarioEditado = $this->selecionar($colunas)
@@ -645,14 +649,14 @@ class DashboardUsuarioModel extends Model
 
     $emailExiste = [];
 
-    if (isset($campos['email']) and $campos['email']) {
+    if (isset($campos['email']) and $campos['email'] != $usuarioEditado[0]['Usuario']['email']) {
       $condicoes = [
         'campo' => 'Usuario.email',
         'operador' => '=',
         'valor' => $campos['email'],
       ];
 
-      $emailExiste = parent::contar('Usuario.id')
+      $emailExiste = $this->contar('Usuario.id')
                           ->condicao($condicoes)
                           ->executarConsulta();
     }
