@@ -12,6 +12,9 @@ class SessaoUsuario
       ini_set('session.gc_maxlifetime', $lifetime);
       ini_set('session.cookie_lifetime', $lifetime);
 
+      $sessionName = 'sess_' . str_replace('.', '_', $_SERVER['SERVER_NAME']);
+      session_name($sessionName);
+
       $dominio = '.360help.com.br';
 
       if (HOST_LOCAL) {
