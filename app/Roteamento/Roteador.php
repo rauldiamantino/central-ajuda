@@ -395,8 +395,8 @@ class Roteador
     $this->subdominio_2 = $_SERVER['SERVER_NAME'];
 
     $dominiosPadrao = [
-      '360help',
-      'www.360help',
+      '360help.com.br',
+      'www.360help.com.br',
     ];
 
     if (HOST_LOCAL) {
