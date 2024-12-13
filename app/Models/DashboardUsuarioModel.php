@@ -89,26 +89,47 @@ class DashboardUsuarioModel extends Model
       return $msgErro;
     }
 
-    // E-mail único por empresa
-    $condicoes = [
-      'campo' => 'Usuario.email',
-      'operador' => '=',
-      'valor' => $campos['email'],
-    ];
-
-    $emailExiste = parent::contar('Usuario.id')
-                         ->condicao($condicoes)
-                         ->executarConsulta();
-
-    if (isset($emailExiste['total']) and (int) $emailExiste['total'] > 0) {
-      $msgErro = [
-        'erro' => [
-          'codigo' => 400,
-          'mensagem' => 'Email já cadastrado',
-        ],
+    // Suporte e-mail único por empresa
+    if (isset($campos['padrao']) and $campos['padrao'] == USUARIO_SUPORTE) {
+      $condicoes = [
+        'campo' => 'Usuario.email',
+        'operador' => '=',
+        'valor' => $campos['email'],
       ];
 
-      return $msgErro;
+      $emailExiste = parent::contar('Usuario.id')
+                           ->condicao($condicoes)
+                           ->executarConsulta();
+
+      if (isset($emailExiste['total']) and (int) $emailExiste['total'] > 0) {
+        $msgErro = [
+          'erro' => [
+            'codigo' => 400,
+            'mensagem' => 'Email já cadastrado',
+          ],
+        ];
+
+        return $msgErro;
+      }
+    }
+
+    // Usuário e-mail único geral
+    if (isset($campos['padrao']) and $campos['padrao'] != USUARIO_SUPORTE) {
+      $sql = 'SELECT 1 FROM usuarios WHERE email = ? LIMIT 1';
+      $params = [ $campos['email'] ];
+
+      $resultado = parent::executarQuery($sql, $params);
+
+      if (boolval($resultado)) {
+        $msgErro = [
+          'erro' => [
+            'codigo' => 400,
+            'mensagem' => 'Email já cadastrado',
+          ],
+        ];
+
+        return $msgErro;
+      }
     }
 
     return parent::adicionar($campos, true);
@@ -647,9 +668,10 @@ class DashboardUsuarioModel extends Model
       ],
     ];
 
-    $emailExiste = [];
+    $emailExiste = false;
 
-    if (isset($campos['email']) and $campos['email'] != $usuarioEditado[0]['Usuario']['email']) {
+    // Suporte e-mail único por empresa
+    if (isset($campos['email']) and $campos['email'] != $usuarioEditado[0]['Usuario']['email'] and $usuarioEditado[0]['Usuario']['padrao'] == USUARIO_SUPORTE) {
       $condicoes = [
         'campo' => 'Usuario.email',
         'operador' => '=',
@@ -659,6 +681,19 @@ class DashboardUsuarioModel extends Model
       $emailExiste = $this->contar('Usuario.id')
                           ->condicao($condicoes)
                           ->executarConsulta();
+
+      if (isset($resultado['total']) and (int) $resultado['total'] > 0) {
+        $emailExiste = true;
+      }
+    }
+
+    // Usuário e-mail único geral
+    if (isset($campos['email']) and $campos['email'] != $usuarioEditado[0]['Usuario']['email'] and $usuarioEditado[0]['Usuario']['padrao'] != USUARIO_SUPORTE) {
+      $sql = 'SELECT 1 FROM usuarios WHERE email = ? LIMIT 1';
+      $params = [ $campos['email'] ];
+
+      $resultado = parent::executarQuery($sql, $params);
+      $emailExiste = boolval($resultado);
     }
 
     $padraoExiste = [];
@@ -674,8 +709,8 @@ class DashboardUsuarioModel extends Model
                            ->executarConsulta();
     }
 
-    if (isset($emailExiste['total']) and (int) $emailExiste['total'] > 0) {
-      // E-mail único por empresa
+    if ($emailExiste == true) {
+      // E-mail único
       $msgErro['erro']['mensagem'] = $this->gerarMsgErro('email', 'unico');
     }
     elseif (isset($padraoExiste['total']) and (int) $padraoExiste['total'] > 0) {

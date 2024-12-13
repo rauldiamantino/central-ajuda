@@ -31,6 +31,12 @@ class DashboardCadastroController extends DashboardController
       $this->redirecionarErro('/cadastro', $resultado['erro']);
     }
 
+    $usuarioExiste = $this->cadastroModel->usuarioExiste($resultado['email']);
+
+    if ($usuarioExiste) {
+      $this->redirecionarErro('/cadastro', 'Email já cadastrado');
+    }
+
     $empresaId = $this->cadastroModel->gerarEmpresa($resultado['subdominio']);
 
     if (intval($empresaId) < 1) {

@@ -170,19 +170,30 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function exibirErros(erros) {
-    if (erros.mensagem) {
-      erros.mensagem.forEach(mensagem => {
 
-        if (mensagem.includes('email')) {
-          exibirErroCampo('usuario-editar-email', mensagem)
+    if (erros.mensagem) {
+      const mensagem = erros.mensagem;
+
+      if (typeof mensagem === 'string') {
+
+        if (mensagem.includes('email') || mensagem.includes('Email')) {
+          exibirErroCampo('usuario-editar-email', mensagem);
         }
-        else if (mensagensAmigaveis[mensagem]) {
-          exibirErroCampo('usuario-editar-senha', mensagensAmigaveis[mensagem])
-        }
-        else if (mensagem.includes('nome')) {
-          exibirErroCampo('usuario-editar-nome', mensagem)
-        }
-      })
+      }
+      else if (Array.isArray(mensagem)) {
+        mensagem.forEach(mensagem => {
+
+          if (mensagem.includes('email') || mensagem.includes('Email')) {
+            exibirErroCampo('usuario-editar-email', mensagem);
+          }
+          else if (mensagensAmigaveis[mensagem]) {
+            exibirErroCampo('usuario-editar-senha', mensagensAmigaveis[mensagem]);
+          }
+          else if (mensagem.includes('nome')) {
+            exibirErroCampo('usuario-editar-nome', mensagem);
+          }
+        });
+      }
     }
   }
 

@@ -225,6 +225,16 @@ class DashboardCadastroModel extends Model
     parent::executarQuery($sql, $params);
   }
 
+  public function usuarioExiste(string $email): int
+  {
+    $sql = 'SELECT 1 FROM usuarios WHERE email = ? LIMIT 1';
+    $params = [ $email ];
+
+    $resultado = parent::executarQuery($sql, $params);
+
+    return boolval($resultado);
+  }
+
   public function apagarAssinatura(int $assinaturaId, int $empresaId): void
   {
     $sql = 'DELETE FROM assinaturas WHERE id = ? AND empresa_id = ?';
