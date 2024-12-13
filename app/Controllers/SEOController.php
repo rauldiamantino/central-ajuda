@@ -36,7 +36,7 @@ class SEOController extends Controller
     $dominio = $empresa[0]['Empresa']['subdominio_2'] ?? '';
 
     if (empty($dominio)) {
-      $dominio = 'https://360help.com.br/' . $subdominio;
+      $dominio = 'https://' . $subdominio . '.360help.com.br';
     }
 
     header('Content-Type: text/plain');
@@ -54,14 +54,13 @@ class SEOController extends Controller
       echo "Allow: /\n";
     }
     else {
-      echo "Disallow: /{$subdominio}/dashboard/\n";
-      echo "Disallow: /{$subdominio}/buscar/\n";
-      echo "Disallow: /{$subdominio}/d/\n";
-      echo "Disallow: /{$subdominio}/cache/limpar\n";
+      echo "Disallow: /dashboard/\n";
+      echo "Disallow: /buscar/\n";
+      echo "Disallow: /d/\n";
 
-      echo "Allow: /{$subdominio}/artigo/\n";
-      echo "Allow: /{$subdominio}/categoria/\n";
-      echo "Allow: /{$subdominio}/\n";
+      echo "Allow: /artigo/\n";
+      echo "Allow: /categoria/\n";
+      echo "Allow: /\n";
     }
 
     echo "Sitemap: {$dominio}/sitemap.xml\n";
@@ -77,15 +76,14 @@ class SEOController extends Controller
     header('Content-Type: text/plain');
 
     echo "User-agent: *\n";
-    echo "Disallow: /*/dashboard/\n";
-    echo "Disallow: /*/buscar/\n";
-    echo "Disallow: /*/d/\n";
+    echo "Disallow: /dashboard/\n";
+    echo "Disallow: /buscar/\n";
+    echo "Disallow: /d/\n";
     echo "Disallow: /login\n";
     echo "Disallow: /login/suporte\n";
     echo "Disallow: /cadastro\n";
     echo "Disallow: /cadastro/sucesso\n";
     echo "Disallow: /logout\n";
-    echo "Disallow: /cache/limpar\n";
     echo "Disallow: /erro\n";
 
     echo "Allow: /\n";
@@ -144,7 +142,7 @@ class SEOController extends Controller
     $dominio = $empresa[0]['Empresa']['subdominio_2'] ?? '';
 
     if (empty($dominio)) {
-      $dominio = 'https://360help.com.br/' . $subdominio;
+      $dominio = 'https://' . $subdominio . '.360help.com.br';
     }
 
     echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
