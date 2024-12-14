@@ -14,7 +14,12 @@ const buscarCategorias = () => {
 
   modalOrganizarCancelar.addEventListener('click', () => modalOrganizar.close())
 
-  fetch(`/d/categorias`, { method: 'GET' })
+  fetch('/d/categorias', {
+    method: 'GET',
+    headers: {
+      'X-Requested-With': 'fetch' ,
+    },
+  })
     .then(resposta => resposta.json())
     .then(resposta => {
 
