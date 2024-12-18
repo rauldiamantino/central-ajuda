@@ -380,8 +380,8 @@
   <div class="w-full grid gap-8 mt-8 sm:grid-cols-2">
     <div class="p-6 border border-gray-300 flex flex-col items-center justify-between rounded-xl shadow-sm hover:shadow-md transition duration-300">
       <h3 class="text-2xl font-semibold text-gray-800">Mensal</h3>
-      <p class="mt-2 text-gray-500 line-through">R$ 119,00/mês</p>
-      <p class="mt-2 mb-6 text-3xl font-bold text-blue-600">R$ 99,00/mês</p>
+      <p class="mt-2 text-gray-500 line-through">R$ 89,00/mês</p>
+      <p class="mt-2 mb-6 text-3xl font-bold text-blue-600">R$ 69,00/mês</p>
       <ul class="mt-4 text-gray-600">
         <li class="font-light grid grid-cols-[auto,1fr] gap-2 items-center">
           <span class="text-blue-600 w-6">
@@ -513,9 +513,9 @@
 
     <div class="p-6 border border-gray-300 flex flex-col items-center justify-between rounded-xl shadow-sm hover:shadow-md transition duration-300">
       <h3 class="text-2xl font-semibold text-gray-800">Anual</h3>
-      <p class="mt-2 text-gray-500 line-through">R$ 99,00/mês</p>
-      <p class="mt-2 text-3xl font-bold text-blue-600">R$ 79,00/mês</p>
-      <p class="mt-1 text-sm text-gray-500">(Cobrado anualmente: R$ 948/ano)</p>
+      <p class="mt-2 text-gray-500 line-through">R$ 69,00/mês</p>
+      <p class="mt-2 text-3xl font-bold text-blue-600">R$ 57,00/mês</p>
+      <p class="mt-1 text-sm text-gray-500">(Cobrado anualmente: R$ 684/ano)</p>
       <ul class="mt-4 text-gray-600">
         <li class="font-light grid grid-cols-[auto,1fr] gap-2 items-center">
           <span class="text-blue-600 w-6">

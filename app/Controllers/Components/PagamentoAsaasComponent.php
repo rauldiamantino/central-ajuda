@@ -105,16 +105,16 @@ class PagamentoAsaasComponent extends DashboardController
     }
 
     // Criar tabela
-    $planoValor = 99;
+    $planoValor = 69;
     $ciclo = 'MONTHLY';
 
     if ($plano == 'anual') {
-      $planoValor = 948;
+      $planoValor = 684;
       $ciclo = 'YEARLY';
     }
 
     $data = new DateTime('now');
-    $data->modify('+2 days');  // Adiciona 2 dias à data atual
+    $data->modify('+2 days'); // Adiciona 2 dias à data atual
     $vencimento = $data->format('Y-m-d');
 
     $campos = [
