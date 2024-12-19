@@ -11,7 +11,7 @@ const filtrarArtigos = () => {
 
   const urlParams = new URLSearchParams(window.location.search)
   const categoriaSelecionadaId = urlParams.get('categoria_id')
-  const inputId = modalFiltrarBlocos.querySelector('#filtrar-id')
+  const inputCodigo = modalFiltrarBlocos.querySelector('#filtrar-codigo')
   const inputTitulo = modalFiltrarBlocos.querySelector('#filtrar-titulo')
   const selectStatus = modalFiltrarBlocos.querySelector('#filtrar-status')
   const selectCategoria = modalFiltrarBlocos.querySelector('#filtrar-categoria')
@@ -42,7 +42,7 @@ const filtrarArtigos = () => {
           gerarOptionCategorias(categoria['Categoria']['nome'], categoria['Categoria']['id'])
         })
 
-        inputId.addEventListener('keypress', (event) => {
+        inputCodigo.addEventListener('keypress', (event) => {
 
           if (event.key === 'Enter') {
             clicouConfirmar(true)
@@ -103,8 +103,8 @@ const filtrarArtigos = () => {
             params = `categoria_id=${selectCategoria.value}&categoria_nome=${encodeURI(categorias[ selectCategoria.value ])}`
           }
 
-          if (inputId.value !== undefined && inputId.value != '') {
-            params += `&id=${inputId.value}`
+          if (inputCodigo.value !== undefined && inputCodigo.value != '') {
+            params += `&codigo=${inputCodigo.value}`
           }
 
           if (inputTitulo.value !== undefined && inputTitulo.value != '') {

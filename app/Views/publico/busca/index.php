@@ -13,7 +13,7 @@
     <div class="flex flex-col gap-2">
       <?php foreach ($resultadoBuscar as $chave => $linha) : ?>
           <div class="flex flex-col gap-1 publico-artigo-bloco bg-white hover:bg-gray-100 p-4 shadow rounded-lg">
-            <?php if (isset($linha['Artigo']['id']) and $linha['Artigo']['id'] > 0) { ?>
+            <?php if (isset($linha['Artigo']['codigo']) and $linha['Artigo']['codigo'] > 0) { ?>
                 <div class="pb-0 flex gap-2 items-center font-light text-sm publico-migalhas">
                   <?php if ($linha['Categoria']['icone'] and $this->iconeExiste($linha['Categoria']['icone'])) { ?>
                     <div class="w-6 pers-publico-icones template-cor-<?php echo $corPrimaria; ?>">
@@ -35,7 +35,7 @@
                   <?php } ?>
                 </div>
               <h2 class="text-xl flex gap-2 items-center">
-                <a href="<?php echo '/artigo/' . $linha['Artigo']['id'] . '/' . $this->gerarSlug($linha['Artigo']['titulo']); ?>" class="hover:underline"><?php echo $linha['Artigo']['titulo'] ?></a>
+                <a href="<?php echo '/artigo/' . $linha['Artigo']['codigo'] . '/' . $this->gerarSlug($linha['Artigo']['titulo']); ?>" class="hover:underline"><?php echo $linha['Artigo']['titulo'] ?></a>
 
                 <?php if ($linha['Artigo']['ativo'] == INATIVO) { ?>
                   <div class="text-red-800">

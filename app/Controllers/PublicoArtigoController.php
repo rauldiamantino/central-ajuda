@@ -20,16 +20,18 @@ class PublicoArtigoController extends PublicoController
     $this->conteudoModel = new DashboardConteudoModel($this->usuarioLogado, $this->empresaPadraoId);
   }
 
-  public function artigoVer(int $id)
+  public function artigoVer(int $codigo)
   {
     $artigo = [];
+    $artigoId = 0;
     $conteudos = [];
     $demaisArtigos = [];
 
     // Artigo
     $condicoes = [
-      0 => ['campo' => 'Artigo.id', 'operador' => '=', 'valor' => (int) $id],
+      0 => ['campo' => 'Artigo.codigo', 'operador' => '=', 'valor' => (int) $codigo],
       1 => ['campo' => 'Artigo.ativo', 'operador' => '=', 'valor' => ATIVO],
+      3 => ['campo' => 'Artigo.excluido', 'operador' => '=', 'valor' => INATIVO],
     ];
 
     if ($this->exibirInativos()) {
@@ -38,6 +40,7 @@ class PublicoArtigoController extends PublicoController
 
     $colunas = [
       'Artigo.id',
+      'Artigo.codigo',
       'Artigo.ativo',
       'Artigo.titulo',
       'Artigo.usuario_id',
@@ -69,7 +72,7 @@ class PublicoArtigoController extends PublicoController
       'Artigo.ordem' => 'ASC',
     ];
 
-    $cacheNome = 'publico-artigo_' . $id;
+    $cacheNome = 'publico-artigo_' . $codigo;
     $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
 
     if ($resultado == null) {
@@ -85,6 +88,7 @@ class PublicoArtigoController extends PublicoController
 
     if (isset($resultado[0]['Artigo']['id'])) {
       $artigo = $resultado;
+      $artigoId = (int) $resultado[0]['Artigo']['id'];
     }
 
     // Conteúdos do artigo
@@ -92,7 +96,7 @@ class PublicoArtigoController extends PublicoController
       $condConteudo[] = [
         'campo' => 'Conteudo.artigo_id',
         'operador' => '=',
-        'valor' => $id,
+        'valor' => $artigoId,
       ];
 
       $colConteudo = [
@@ -112,7 +116,7 @@ class PublicoArtigoController extends PublicoController
         'Conteudo.ordem' => 'ASC',
       ];
 
-      $cacheNome = 'publico-artigo_' . $id . '-conteudos';
+      $cacheNome = 'publico-artigo_' . $codigo . '-conteudos';
       $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
 
       if ($resultado == null) {
@@ -132,6 +136,7 @@ class PublicoArtigoController extends PublicoController
       $condDemaisArtigos = [
         0 => ['campo' => 'Artigo.categoria_id', 'operador' => '=', 'valor' => intval($artigo[0]['Artigo']['categoria_id'] ?? 0)],
         1 => ['campo' => 'Artigo.ativo', 'operador' => '=', 'valor' => ATIVO],
+        2 => ['campo' => 'Artigo.excluido', 'operador' => '=', 'valor' => INATIVO],
       ];
 
       if ($this->exibirInativos()) {
@@ -175,7 +180,7 @@ class PublicoArtigoController extends PublicoController
 
       // Feedback
       $condFeedback = [
-        ['campo' => 'Feedback.artigo_id', 'operador' => '=', 'valor' => $id],
+        ['campo' => 'Feedback.artigo_id', 'operador' => '=', 'valor' => $artigoId],
         ['campo' => 'Feedback.sessao_id', 'operador' => '=', 'valor' => session_id()],
       ];
 
@@ -213,7 +218,7 @@ class PublicoArtigoController extends PublicoController
       $urlCanonica = $this->subdominio_2;
     }
 
-    $urlCanonica = $urlCanonica . '/artigo/' . $id . '/' . $this->gerarSlug($artigo[0]['Artigo']['titulo']);
+    $urlCanonica = $urlCanonica . '/artigo/' . $codigo . '/' . $this->gerarSlug($artigo[0]['Artigo']['titulo']);
 
     $this->visao->variavel('demaisArtigos', $demaisArtigos);
     $this->visao->variavel('artigo', reset($artigo));

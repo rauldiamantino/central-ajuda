@@ -30,7 +30,94 @@ class DashboardArtigoModel extends Model
       return $campos;
     }
 
-    return parent::adicionar($campos, true);
+    return $this->adicionarArtigo($campos, true);
+  }
+
+  private function adicionarArtigo(array $campos): array
+  {
+    $this->database->iniciar();
+
+    try {
+      $ativo = (int) $campos['ativo'];
+      $titulo = $campos['titulo'];
+      $usuarioId = (int) $campos['usuario_id'];
+      $empresaId = (int) $campos['empresa_id'];
+      $categoriaId = intval($campos['categoria_id'] ?? 0);
+      $visualizacoes = (int) $campos['visualizacoes'];
+      $ordem = (int) $campos['ordem'];
+      $metaTitulo = $campos['meta_titulo'];
+      $metaDescricao = $campos['meta_descricao'];
+
+      $sqlCodigo = 'SELECT IFNULL(MAX(codigo), 0) + 1 AS `proximo_codigo` FROM `artigos` WHERE `empresa_id` = ?';
+      $proximoCodigo = $this->database->operacoes($sqlCodigo, [ $empresaId ]);
+
+      if (empty($proximoCodigo) or ! isset($proximoCodigo[0]['proximo_codigo'])) {
+        throw new Exception("Erro ao obter próximo código sequencial.");
+      }
+
+      $colunasValores = [
+        'ativo' => $ativo,
+        'titulo' => $titulo,
+        'usuario_id' => $usuarioId,
+        'empresa_id' => $empresaId,
+        'categoria_id' => $categoriaId,
+        'visualizacoes' => $visualizacoes,
+        'ordem' => $ordem,
+        'meta_titulo' => $metaTitulo,
+        'meta_descricao' => $metaDescricao,
+        'codigo' => $proximoCodigo[0]['proximo_codigo'],
+      ];
+
+      if ($categoriaId == 0) {
+        unset($colunasValores['categoria_id']);
+      }
+
+      $placeholders = implode(', ', array_fill(0, count($colunasValores), '?'));
+      $sql = 'INSERT INTO `artigos` (' . implode(', ', array_keys($colunasValores)) . ') VALUES (' . $placeholders . ')';
+
+      $operacao = $this->database->operacoes($sql, $colunasValores);
+      $this->database->commit();
+
+      return $operacao;
+    }
+    catch (Exception $e) {
+      $this->database->rollback();
+      return ['erro' => $e->getMessage()];
+    }
+  }
+
+  public function apagarConteudos(int $artigoId, int $empresaId): array
+  {
+    if (empty($artigoId)) {
+      $msgErro = [
+        'erro' => [
+          'codigo' => 400,
+          'mensagem' => 'ID não informado',
+        ],
+      ];
+
+      return $msgErro;
+    }
+
+    if (empty($empresaId)) {
+      $msgErro = [
+        'erro' => [
+          'codigo' => 400,
+          'mensagem' => 'Empresa ID não informado',
+        ],
+      ];
+
+      return $msgErro;
+    }
+
+    $sql = 'DELETE FROM `conteudos` WHERE `artigo_id` = ? AND empresa_id = ?';
+
+    $params = [
+      0 => $artigoId,
+      1 => $empresaId,
+    ];
+
+    return parent::executarQuery($sql, $params);
   }
 
   public function atualizar(array $params, int $id): array
@@ -108,6 +195,7 @@ class DashboardArtigoModel extends Model
   {
     $campos = [
       'ativo' => $params['ativo'] ?? 0,
+      'excluido' => $params['excluido'] ?? 0,
       'titulo' => trim($params['titulo'] ?? ''),
       'usuario_id' => $params['usuario_id'] ?? 0,
       'empresa_id' => $this->empresaPadraoId,
@@ -130,6 +218,7 @@ class DashboardArtigoModel extends Model
     foreach ($campos as $chave => $linha):
       $permitidos = [
         'ativo',
+        'excluido',
         'categoria_id',
         'visualizacoes',
         'modificado',
@@ -160,6 +249,7 @@ class DashboardArtigoModel extends Model
 
     if (empty($msgErro['erro']['mensagem'])) {
       $campos['ativo'] = filter_var($campos['ativo'], FILTER_SANITIZE_NUMBER_INT);
+      $campos['excluido'] = filter_var($campos['excluido'], FILTER_SANITIZE_NUMBER_INT);
       $campos['titulo'] = htmlspecialchars($campos['titulo']);
       $campos['usuario_id'] = filter_var($campos['usuario_id'], FILTER_SANITIZE_NUMBER_INT);
       $campos['empresa_id'] = filter_var($campos['empresa_id'], FILTER_SANITIZE_NUMBER_INT);
@@ -170,6 +260,10 @@ class DashboardArtigoModel extends Model
 
       if (isset($params['ativo']) and ! in_array($campos['ativo'], [INATIVO, ATIVO])) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('ativo', 'valInvalido');
+      }
+
+      if (isset($params['excluido']) and ! in_array($campos['excluido'], [INATIVO, ATIVO])) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('excluido', 'valInvalido');
       }
 
       if ($campos['modificado']) {
@@ -184,6 +278,7 @@ class DashboardArtigoModel extends Model
       }
 
       $ativoCaracteres = 1;
+      $excluidoCaracteres = 1;
       $tituloCaracteres = 255;
       $empresaIdCaracteres = 999999999;
       $usuarioIdCaracteres = 999999999;
@@ -195,6 +290,10 @@ class DashboardArtigoModel extends Model
 
       if (strlen($campos['ativo']) > $ativoCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('id', 'caracteres', $ativoCaracteres);
+      }
+
+      if (strlen($campos['excluido']) > $excluidoCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('id', 'caracteres', $excluidoCaracteres);
       }
 
       if (strlen($campos['titulo']) > $tituloCaracteres) {
@@ -236,6 +335,7 @@ class DashboardArtigoModel extends Model
 
     $camposValidados = [
       'ativo' => $campos['ativo'],
+      'excluido' => $campos['excluido'],
       'titulo' => $campos['titulo'],
       'usuario_id' => $campos['usuario_id'],
       'empresa_id' => $campos['empresa_id'],
@@ -279,6 +379,10 @@ class DashboardArtigoModel extends Model
 
   private function gerarMsgErro(string $campo, string $tipo, int $quantidade = 0): string
   {
+    if ($campo == 'excluido') {
+      $campo = 'excluído';
+    }
+
     if ($campo == 'usuario_id') {
       $campo = 'ID do usuário';
     }

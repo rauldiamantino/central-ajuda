@@ -89,6 +89,7 @@ const requisicaoRemover = async (artigoId) => {
         else {
           window.location.href = `/dashboard/artigos`
         }
+
         return
       }
       else if (resposta.erro) {

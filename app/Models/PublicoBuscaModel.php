@@ -21,6 +21,7 @@ class PublicoBuscaModel extends PublicoModel
     $sql = <<<SQL
             SELECT SQL_CALC_FOUND_ROWS
               `Artigo`.`id` AS `Artigo.id`,
+              `Artigo`.`codigo` AS `Artigo.codigo`,
               `Artigo`.`ativo` AS `Artigo.ativo`,
               `Artigo`.`titulo` AS `Artigo.titulo`,
               `Artigo`.`categoria_id` AS `Artigo.categoria_id`,
@@ -49,6 +50,8 @@ class PublicoBuscaModel extends PublicoModel
                 `Artigo`.`empresa_id` = ?
               AND
                 `Artigo`.`ativo` = ?
+              AND
+                `Artigo`.`excluido` = ?
               AND (
                   MATCH(`Categoria`.`nome`, `Categoria`.`descricao`)
                     AGAINST(? IN NATURAL LANGUAGE MODE)
@@ -75,10 +78,11 @@ class PublicoBuscaModel extends PublicoModel
       $this->empresaPadraoId, // Categoria.empresa_id (usado no JOIN)
       $this->empresaPadraoId, // Conteudo.empresa_id (usado no JOIN)
       $this->empresaPadraoId, // Artigo.empresa_id
-      ATIVO,                  // Artigo.ativo (verifique se ATIVO é um valor numérico como 1)
+      ATIVO,                  // Artigo.ativo
+      INATIVO,                // Artigo.excluido
       $textoBusca,            // MATCH Categoria.nome
       $textoBusca,            // MATCH Artigo.titulo
-      INATIVO,                // Conteudo.titulo_ocultar (verifique se INATIVO é um valor numérico, como 0)
+      INATIVO,                // Conteudo.titulo_ocultar
       $textoBusca,            // MATCH Conteudo.titulo
       $textoBusca,            // MATCH Conteudo.conteudo
       $offset,                // OFFSET: Posição inicial dos resultados

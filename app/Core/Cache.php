@@ -181,7 +181,7 @@ class Cache
     }
   }
 
-  private static function apagarChavesPrefixo($prefixo)
+  private static function apagarChavesPrefixo($prefixo, $nome = '')
   {
     if (empty($prefixo)) {
       return;
@@ -189,10 +189,23 @@ class Cache
 
     $chaves = self::$memcached->get($prefixo . '-keys');
 
+    if ($nome) {
+      $prefixo = $nome;
+    }
+
     if ($chaves and is_array($chaves)) {
       foreach ($chaves as $chave):
 
-        if (strpos($chave, $prefixo . '-') === 0) {
+        if (strpos($chave, $prefixo . '-') !== false) {
+
+          if (! self::$memcached->delete($chave)) {
+
+            if (self::$memcached->getResultCode() !== \Memcached::RES_NOTFOUND) {
+              self::registrarErro("Erro ao apagar cache", self::$memcached->getResultMessage());
+            }
+          }
+        }
+        else if (strpos($chave, $prefixo) !== false) {
 
           if (! self::$memcached->delete($chave)) {
 
@@ -212,7 +225,7 @@ class Cache
     }
 
     self::iniciarMemcached();
-    self::apagarChavesPrefixo((string) $empresaId . '-' . $nome);
+    self::apagarChavesPrefixo((string) $empresaId, $nome);
   }
 
   public static function resetarCacheSemId()

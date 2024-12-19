@@ -3,6 +3,11 @@
     <table class="table-fixed min-w-full text-sm text-left text-gray-500">
       <thead class="text-xs font-light text-gray-500 uppercase">
         <colgroup>
+
+          <?php if ((int) $this->usuarioLogado['padrao'] == USUARIO_SUPORTE) { ?>
+            <col class="w-[60px]">
+          <?php } ?>
+
           <col class="w-[60px]">
           <col class="w-[400px]">
           <col class="w-[350px]">
@@ -11,7 +16,12 @@
           <col class="w-[100px]">
         </colgroup>
         <tr class="bg-gray-100 w-full border-b text-xs">
-          <th class="py-4 px-6">ID</th>
+
+          <?php if ((int) $this->usuarioLogado['padrao'] == USUARIO_SUPORTE) { ?>
+            <th class="text-gray-400 font-extralight py-4 px-6">ID</th>
+          <?php } ?>
+
+          <th class="py-4 px-6">Código</th>
           <th class="py-4 px-4">Título</th>
           <th class="py-4 px-4">Categoria</th>
           <th class="py-4 px-4">Autor</th>
@@ -22,8 +32,13 @@
       <tbody class="divide-y">
         <?php foreach ($artigos as $chave => $linha) : ?>
           <?php if (isset($linha['Artigo']['id'])) { ?>
-            <tr class="hover:bg-gray-100 cursor-pointer select-none lg:select-auto" onclick="window.location='<?php echo '/dashboard/artigo/editar/' . $linha['Artigo']['id']; ?>';">
-              <td class="py-6 px-6"><?php echo $linha['Artigo']['id'] ?></td>
+            <tr class="hover:bg-gray-100 cursor-pointer select-none lg:select-auto" onclick="window.location='<?php echo '/dashboard/artigo/editar/' . $linha['Artigo']['codigo']; ?>';">
+
+              <?php if ((int) $this->usuarioLogado['padrao'] == USUARIO_SUPORTE) { ?>
+                <td class="text-gray-400 font-extralight py-6 px-6"><?php echo $linha['Artigo']['id'] ?></td>
+              <?php } ?>
+
+              <td class="py-6 px-6"><?php echo $linha['Artigo']['codigo'] ?></td>
               <td class="py-6 px-4 font-semibold text-gray-900 break-words"><?php echo $linha['Artigo']['titulo'] ?></td>
               <td class="py-6 px-4 break-words"><?php echo $linha['Categoria']['nome'] ?></td>
               <td class="py-6 px-4 whitespace-nowrap flex flex-col">

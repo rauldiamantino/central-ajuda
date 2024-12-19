@@ -180,6 +180,7 @@ class DashboardCategoriaController extends DashboardController
       'Categoria.meta_titulo',
       'Categoria.meta_descricao',
       'Artigo.id',
+      'Artigo.codigo',
       'Artigo.titulo',
       'Artigo.ativo',
       'Artigo.criado',

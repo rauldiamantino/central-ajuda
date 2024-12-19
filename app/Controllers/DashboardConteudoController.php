@@ -31,18 +31,42 @@ class DashboardConteudoController extends DashboardController
     }
 
     $dados = $this->receberJson();
+    $artigoId = $dados['artigo_id'] ?? 0;
+    $artigoId = $this->filtrarInjection($artigoId);
+
+    // Busca artigo
+    $condicao[] = [
+      'campo' => 'Artigo.id',
+      'operador' => '=',
+      'valor' => (int) $artigoId,
+    ];
+
+    $colunas = [
+      'Artigo.id',
+      'Artigo.codigo',
+    ];
+
+    $limite = 1;
+
+    $resultado = $this->artigoModel->selecionar($colunas)
+                                   ->condicao($condicao)
+                                   ->limite($limite)
+                                   ->executarConsulta();
+
+    // Sempre busca o código para redirecionamentos
+    $artigoCodigo = $resultado[0]['Artigo']['codigo'] ?? 0;
+
+    if (empty($artigoCodigo)) {
+      $this->redirecionarErro('/dashboard/artigos', 'Artigo não encontrado');
+    }
 
     if (isset($dados['tipo']) and $dados['tipo'] == 2 and (! isset($_FILES['arquivo-imagem']) or $_FILES['arquivo-imagem']['error'] !== UPLOAD_ERR_OK)) {
-      $this->redirecionarErro('/dashboard/artigos', 'Imagem inválida');
+      $this->redirecionarErro('/dashboard/artigo/editar/' . $artigoCodigo, 'Imagem inválida');
     }
 
     $resultado = $this->conteudoModel->adicionar($dados);
 
-    $urlRetorno = '/dashboard/artigos';
-
-    if (isset($dados['artigo_id'])) {
-      $urlRetorno = '/dashboard/artigo/editar/' . $dados['artigo_id'];
-    }
+    $urlRetorno = '/dashboard/artigo/editar/' . $artigoCodigo;
 
     if ($botaoVoltar) {
       $urlRetorno .= '?referer=' . $botaoVoltar;
@@ -82,8 +106,8 @@ class DashboardConteudoController extends DashboardController
 
     $this->artigoModel->atualizar($camposArtigo, $dados['artigo_id']);
 
-    Cache::apagar('publico-artigo_' . $dados['artigo_id'], $this->usuarioLogado['empresaId']);
-    Cache::apagar('publico-artigo_' . $dados['artigo_id'] . '-conteudos', $this->usuarioLogado['empresaId']);
+    Cache::apagar('publico-artigo_' . $artigoCodigo, $this->usuarioLogado['empresaId']);
+    Cache::apagar('publico-artigo_' . $artigoCodigo . '-conteudos', $this->usuarioLogado['empresaId']);
 
     $this->redirecionarSucesso($urlRetorno, 'Conteúdo adicionado com sucesso');
   }
@@ -143,10 +167,36 @@ class DashboardConteudoController extends DashboardController
     $json = $this->receberJson();
     $artigoId = intval($json['artigo_id'] ?? 0);
 
+    // Busca artigo
+    $condicao[] = [
+      'campo' => 'Artigo.id',
+      'operador' => '=',
+      'valor' => (int) $artigoId,
+    ];
+
+    $colunas = [
+      'Artigo.id',
+      'Artigo.codigo',
+    ];
+
+    $limite = 1;
+
+    $resultado = $this->artigoModel->selecionar($colunas)
+                                   ->condicao($condicao)
+                                   ->limite($limite)
+                                   ->executarConsulta();
+
+    // Sempre busca o código para redirecionamentos
+    $artigoCodigo = $resultado[0]['Artigo']['codigo'] ?? 0;
+
+    if (empty($artigoCodigo)) {
+      $this->redirecionarErro('/dashboard/artigos', 'Artigo não encontrado');
+    }
+
     $resultado = $this->conteudoModel->atualizar($json, $id);
 
     if (isset($resultado['erro'])) {
-      $this->redirecionarErro('/dashboard/artigo/editar/' . $artigoId . $referer, $resultado['erro']);
+      $this->redirecionarErro('/dashboard/artigo/editar/' . $artigoCodigo . $referer, $resultado['erro']);
     }
     elseif ($resultado) {
       $paramsImagem = [
@@ -160,11 +210,11 @@ class DashboardConteudoController extends DashboardController
         $extensao = pathinfo($_FILES['arquivo-imagem']['name'], PATHINFO_EXTENSION);
 
         if ($firebase->adicionarImagem($this->empresaPadraoId, $_FILES['arquivo-imagem'], $paramsImagem) == false) {
-          $this->redirecionarErro('/dashboard/artigo/editar/' . $artigoId . $referer, 'Erro ao fazer upload do arquivo');
+          $this->redirecionarErro('/dashboard/artigo/editar/' . $artigoCodigo . $referer, 'Erro ao fazer upload do arquivo');
         }
 
         // Armazena no banco sempre com a extensão
-        $caminhoComExtensao = $this->empresaPadraoId . '/' . $artigoId . '/' . $id . '.' . $extensao;
+        $caminhoComExtensao = $this->empresaPadraoId . '/' . $artigoCodigo . '/' . $id . '.' . $extensao;
 
         $camposConteudo = [
           'url' => $caminhoComExtensao,
@@ -179,12 +229,12 @@ class DashboardConteudoController extends DashboardController
 
       $this->artigoModel->atualizar($camposArtigo, $artigoId);
 
-      Cache::apagar('publico-artigo_' . $artigoId . '-conteudos', $this->usuarioLogado['empresaId']);
+      Cache::apagar('publico-artigo_' . $artigoCodigo . '-conteudos', $this->usuarioLogado['empresaId']);
 
-      $this->redirecionarSucesso('/dashboard/artigo/editar/' . $artigoId . $referer, 'Conteúdo editado com sucesso');
+      $this->redirecionarSucesso('/dashboard/artigo/editar/' . $artigoCodigo . $referer, 'Conteúdo editado com sucesso');
     }
 
-    $this->redirecionar('/dashboard/artigo/editar/' . $artigoId . $referer, 'Nenhuma alteração realizada');
+    $this->redirecionar('/dashboard/artigo/editar/' . $artigoCodigo . $referer, 'Nenhuma alteração realizada');
   }
 
   public function atualizarOrdem()
@@ -222,8 +272,7 @@ class DashboardConteudoController extends DashboardController
       ];
 
       $this->artigoModel->atualizar($camposArtigo, $artigoId);
-
-      Cache::apagar('publico-artigo_' . $artigoId . '-conteudos', $this->usuarioLogado['empresaId']);
+      $this->limparCacheTodos(['publico-artigo_'], $this->empresaPadraoId);
     }
 
     $this->responderJson($resultado);
@@ -275,8 +324,7 @@ class DashboardConteudoController extends DashboardController
       ];
 
       $this->artigoModel->atualizar($camposArtigo, $artigoId);
-
-      Cache::apagar('publico-artigo_' . $artigoId . '-conteudos', $this->usuarioLogado['empresaId']);
+      $this->limparCacheTodos(['publico-artigo_'], $this->empresaPadraoId);
     }
 
     $this->sessaoUsuario->definir('ok', 'Conteúdo excluído com sucesso');

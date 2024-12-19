@@ -1,6 +1,7 @@
 <?php
 require '../vendor/autoload.php';
 
+use app\Core\Cache;
 use app\Roteamento\Roteador;
 
 // Sentry

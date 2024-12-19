@@ -84,6 +84,7 @@ class PublicoCategoriaController extends PublicoController
 
       $colArtigos = [
         'Artigo.id',
+        'Artigo.codigo',
         'Artigo.ativo',
         'Artigo.titulo',
         'Artigo.usuario_id',

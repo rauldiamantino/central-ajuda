@@ -5,7 +5,7 @@ use app\Core\SessaoUsuario;
 
 class Model
 {
-  private $database;
+  protected $database;
   private $tabela;
   private $sqlSelect;
   private $sqlCount;

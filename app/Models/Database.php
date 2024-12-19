@@ -36,7 +36,60 @@ class Database
 
   public function iniciar()
   {
-    return $this->conexao->beginTransaction();
+    try {
+        $this->conexao->beginTransaction();
+    }
+    catch (Exception $e) {
+      $this->registrarErro($e);
+      throw $e;
+    }
+  }
+
+  public function commit()
+  {
+    try {
+        $this->conexao->commit();
+    }
+    catch (Exception $e) {
+      $this->registrarErro($e);
+      throw $e;
+    }
+  }
+
+  public function rollback()
+  {
+    try {
+        $this->conexao->rollBack();
+    }
+    catch (Exception $e) {
+      $this->registrarErro($e);
+      throw $e;
+    }
+  }
+
+  private function registrarErro(Exception $e)
+  {
+    $resposta = [
+      'erro' => [
+        'codigo' => 400,
+        'mensagem' => 'Essa solicitação não pode ser atendida',
+      ],
+    ];
+
+    $erro = [
+      'cod' => $e->getCode(),
+      'msg' => $e->getMessage(),
+    ];
+
+    registrarSentry($e);
+
+    $log = [
+      'sql' => isset($sqlFormatado) ? $sqlFormatado : 'Não disponível',
+      'resposta' => $resposta,
+      'erro' => $erro,
+    ];
+
+    registrarLog('database-operacoes', $log);
   }
 
   public function operacoes($sql, $parametros = [])

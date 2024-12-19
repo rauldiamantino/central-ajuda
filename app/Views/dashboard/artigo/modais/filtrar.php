@@ -12,8 +12,8 @@ $statusFiltro = $filtroAtual['status'] ?? 'null';
   <div class="w-full flex flex-col gap-4 mb-4 modal-artigos-filtrar-cate-blocos">
     <div class="flex gap-4">
       <div class="w-full flex flex-col">
-        <label for="filtrar-id">ID</label>
-        <input type="number" id="filtrar-id" class="<?php echo CLASSES_DASH_INPUT_BUSCA; ?> input-number-none" value=<?php echo $filtroAtual['id'] ?? ''; ?>>
+        <label for="filtrar-codigo">Código</label>
+        <input type="number" id="filtrar-codigo" class="<?php echo CLASSES_DASH_INPUT_BUSCA; ?> input-number-none" value=<?php echo $filtroAtual['codigo'] ?? ''; ?>>
       </div>
     <div class="w-full flex flex-col">
       <label for="filtrar-status">Status</label>

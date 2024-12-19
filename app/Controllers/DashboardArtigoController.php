@@ -36,8 +36,8 @@ class DashboardArtigoController extends DashboardController
     $filtroAtual = [];
 
     // Filtros
-    $artigoId = $_GET['id'] ?? '';
-    $artigoId = $this->filtrarInjection($artigoId);
+    $artigoCodigo = $_GET['codigo'] ?? '';
+    $artigoCodigo = $this->filtrarInjection($artigoCodigo);
 
     $artigoTitulo = urldecode($_GET['titulo'] ?? '');
     $artigoTitulo = $this->filtrarInjection($artigoTitulo);
@@ -67,10 +67,10 @@ class DashboardArtigoController extends DashboardController
       $filtroAtual['categoria_nome'] = $categoriaNome;
     }
 
-    // Filtrar por ID
-    if (isset($_GET['id'])) {
-      $filtroAtual['id'] = $artigoId;
-      $condicoes[] = ['campo' => 'Artigo.id', 'operador' => '=', 'valor' => (int) $artigoId];
+    // Filtrar por Código
+    if (isset($_GET['codigo'])) {
+      $filtroAtual['codigo'] = $artigoCodigo;
+      $condicoes[] = ['campo' => 'Artigo.codigo', 'operador' => '=', 'valor' => (int) $artigoCodigo];
     }
 
     // Filtrar por status
@@ -84,6 +84,9 @@ class DashboardArtigoController extends DashboardController
       $filtroAtual['titulo'] = $artigoTitulo;
       $condicoes[] = ['campo' => 'Artigo.titulo', 'operador' => 'LIKE', 'valor' => '%' . $artigoTitulo . '%'];
     }
+
+    // Não retorna artigos excluídos
+    $condicoes[] = ['campo' => 'Artigo.excluido', 'operador' => '=', 'valor' => INATIVO];
 
     $artigosTotal = $this->artigoModel->contar('Artigo.id')
                                       ->condicao($condicoes)
@@ -99,6 +102,7 @@ class DashboardArtigoController extends DashboardController
 
       $colunas = [
         'Artigo.id',
+        'Artigo.codigo',
         'Artigo.titulo',
         'Artigo.usuario_id',
         'Artigo.categoria_id',
@@ -196,8 +200,9 @@ class DashboardArtigoController extends DashboardController
     $this->visao->renderizar('/artigo/index');
   }
 
-  public function artigoEditarVer(int $id)
+  public function artigoEditarVer(int $codigo)
   {
+    $artigoId = 0;
     $artigo = [];
     $categorias = [];
     $conteudos = [];
@@ -208,11 +213,13 @@ class DashboardArtigoController extends DashboardController
     ];
 
     $condicao = [
-      ['campo' => 'Artigo.id', 'operador' => '=', 'valor' => (int) $id],
+      ['campo' => 'Artigo.codigo', 'operador' => '=', 'valor' => (int) $codigo],
+      ['campo' => 'Artigo.excluido', 'operador' => '=', 'valor' => INATIVO],
     ];
 
     $colunas = [
       'Artigo.id',
+      'Artigo.codigo',
       'Artigo.titulo',
       'Artigo.usuario_id',
       'Artigo.categoria_id',
@@ -254,6 +261,7 @@ class DashboardArtigoController extends DashboardController
     }
     else {
       $artigo = $resultado;
+      $artigoId = (int) $artigo[0]['Artigo']['id'];
     }
 
     $colCategoria = [
@@ -269,7 +277,7 @@ class DashboardArtigoController extends DashboardController
     }
 
     $condicao = [
-      ['campo' => 'Conteudo.artigo_id', 'operador' => '=', 'valor' => (int) $id],
+      ['campo' => 'Conteudo.artigo_id', 'operador' => '=', 'valor' => (int) $artigoId],
     ];
 
     $colunas = [
@@ -300,7 +308,7 @@ class DashboardArtigoController extends DashboardController
       $conteudos = $resultado;
 
       $condicao = [
-        'campo' => 'Conteudo.artigo_id', 'operador' => '=', 'valor' => (int) $id,
+        'campo' => 'Conteudo.artigo_id', 'operador' => '=', 'valor' => (int) $artigoId,
       ];
 
       $colunas = [
@@ -353,13 +361,38 @@ class DashboardArtigoController extends DashboardController
       $this->redirecionarErro('/dashboard/artigos', $resultado['erro']);
     }
     elseif ($_POST and isset($resultado['id'])) {
+      $condicao[] = [
+        'campo' => 'Artigo.id',
+        'operador' => '=',
+        'valor' => (int) $resultado['id'],
+      ];
+
+      $colunas = [
+        'Artigo.id',
+        'Artigo.codigo',
+      ];
+
+      $limite = 1;
+
+      $resultado = $this->artigoModel->selecionar($colunas)
+                                     ->condicao($condicao)
+                                     ->limite($limite)
+                                     ->executarConsulta();
+
+      // Sempre busca o código para redirecionamentos
+      $artigoCodigo = $resultado[0]['Artigo']['codigo'] ?? 0;
+
+      if (empty($artigoCodigo)) {
+        $this->redirecionarErro('/dashboard/artigos', 'Falha ao buscar artigo');
+      }
+
       Cache::apagar('publico-categorias', $this->usuarioLogado['empresaId']);
       Cache::apagar('publico-categorias-inicio', $this->usuarioLogado['empresaId']);
       Cache::apagar('publico-categoria-' . $dados['categoria_id'], $this->usuarioLogado['empresaId']);
       Cache::apagar('publico-categoria-' . $dados['categoria_id'] . '-artigos', $this->usuarioLogado['empresaId']);
       Cache::apagar('publico-artigos-categoria-' . $dados['categoria_id'], $this->usuarioLogado['empresaId']);
 
-      $this->redirecionarSucesso('/dashboard/artigo/editar/' . $resultado['id'] . $referer, 'Artigo criado com sucesso');
+      $this->redirecionarSucesso('/dashboard/artigo/editar/' . $artigoCodigo . $referer, 'Artigo criado com sucesso');
     }
   }
 
@@ -368,11 +401,8 @@ class DashboardArtigoController extends DashboardController
     $condicao = [];
 
     if ($id) {
-      $condicao[] = [
-        'campo' => 'Artigo.id',
-        'operador' => '=',
-        'valor' => (int) $id,
-      ];
+      $condicao[] = ['campo' => 'Artigo.id', 'operador' => '=', 'valor' => (int) $id];
+      $condicao[] = ['campo' => 'Artigo.excluido', 'operador' => '=', 'valor' => INATIVO];
     }
 
     // Filtrar por categoria
@@ -433,6 +463,29 @@ class DashboardArtigoController extends DashboardController
   public function atualizar(int $id)
   {
     $json = $this->receberJson();
+
+    $condicao[] = ['campo' => 'Artigo.id', 'operador' => '=', 'valor' => (int) $id];
+    $condicao[] = ['campo' => 'Artigo.excluido', 'operador' => '=', 'valor' => INATIVO];
+
+    $colunas = [
+      'Artigo.id',
+      'Artigo.codigo',
+    ];
+
+    $limite = 1;
+
+    $resultado = $this->artigoModel->selecionar($colunas)
+                                   ->condicao($condicao)
+                                   ->limite($limite)
+                                   ->executarConsulta();
+
+    // Sempre busca o código para redirecionamentos
+    $artigoCodigo = $resultado[0]['Artigo']['codigo'] ?? 0;
+
+    if (empty($artigoCodigo)) {
+      $this->redirecionarErro('/dashboard/artigos', 'Artigo não encontrado');
+    }
+
     $resultado = $this->artigoModel->atualizar($json, $id);
 
     $referer = '';
@@ -443,16 +496,16 @@ class DashboardArtigoController extends DashboardController
     }
 
     if (isset($resultado['erro'])) {
-      $this->redirecionarErro('/dashboard/artigo/editar/' . $id . $referer, $resultado['erro']);
+      $this->redirecionarErro('/dashboard/artigo/editar/' . $artigoCodigo . $referer, $resultado['erro']);
     }
 
-    Cache::apagar('publico-artigo_' . $id, $this->usuarioLogado['empresaId']);
+    Cache::apagar('publico-artigo_' . $artigoCodigo, $this->usuarioLogado['empresaId']);
     Cache::apagar('publico-categorias', $this->usuarioLogado['empresaId']);
     Cache::apagar('publico-categorias-inicio', $this->usuarioLogado['empresaId']);
     Cache::apagar('publico-categoria-' . $json['categoria_id'] . '-artigos', $this->usuarioLogado['empresaId']);
     Cache::apagar('publico-artigos-categoria-' . $json['categoria_id'], $this->usuarioLogado['empresaId']);
 
-    $this->redirecionarSucesso('/dashboard/artigo/editar/' . $id . $referer, 'Registro alterado com sucesso');
+    $this->redirecionarSucesso('/dashboard/artigo/editar/' . $artigoCodigo . $referer, 'Registro alterado com sucesso');
   }
 
   public function atualizarOrdem()
@@ -505,6 +558,7 @@ class DashboardArtigoController extends DashboardController
 
     $colunas = [
       'Artigo.categoria_id',
+      'Artigo.codigo',
     ];
 
     $buscarArtigo = $this->artigoModel->selecionar($colunas)
@@ -512,6 +566,7 @@ class DashboardArtigoController extends DashboardController
                                       ->executarConsulta();
 
     $categoriaId = $buscarArtigo[0]['Artigo']['categoria_id'] ?? 0;
+    $artigoCodigo = $buscarArtigo[0]['Artigo']['codigo'] ?? 0;
 
     $firebase = new DatabaseFirebaseComponent();
     $apagarImagens = $firebase->apagarImagens($this->empresaPadraoId, $id);
@@ -521,8 +576,20 @@ class DashboardArtigoController extends DashboardController
       $this->responderJson(['erro' => 'Erro ao apagar Imagens'], 500);
     }
 
-    // Apagar
-    $resultado = $this->artigoModel->apagar($id);
+    $apagarConteudos = $this->artigoModel->apagarConteudos($id, $this->empresaPadraoId);
+
+    if (isset($apagarConteudos['erro'])) {
+      $this->sessaoUsuario->definir('erro', 'Erro ao apagar conteúdos');
+      $this->responderJson(['erro' => 'Erro ao apagar conteúdos'], 500);
+    }
+
+    // Remove artigo sem apagar do banco
+    $camposApagar = [
+      'ativo' => INATIVO,
+      'excluido' => ATIVO
+    ];
+
+    $resultado = $this->artigoModel->atualizar($camposApagar, $id);
 
     if (isset($resultado['erro'])) {
       $this->sessaoUsuario->definir('erro', $resultado['erro']);
@@ -532,13 +599,13 @@ class DashboardArtigoController extends DashboardController
     }
 
     if ($categoriaId) {
-      Cache::apagar('publico-artigo_' . $id, $this->usuarioLogado['empresaId']);
       Cache::apagar('publico-categorias', $this->usuarioLogado['empresaId']);
       Cache::apagar('publico-categorias-inicio', $this->usuarioLogado['empresaId']);
       Cache::apagar('publico-categoria-' . $categoriaId . '-artigos', $this->usuarioLogado['empresaId']);
       Cache::apagar('publico-artigos-categoria-' . $categoriaId, $this->usuarioLogado['empresaId']);
     }
 
+    Cache::apagar('publico-artigo_' . $artigoCodigo, $this->usuarioLogado['empresaId']);
     $this->sessaoUsuario->definir('ok', 'Artigo excluído com sucesso');
 
     $this->responderJson($resultado);
