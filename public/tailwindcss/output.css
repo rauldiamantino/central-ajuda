@@ -1523,8 +1523,8 @@ video {
   background-color: rgb(229 231 235 / var(--tw-bg-opacity, 1));
 }
 
-.bg-gray-200\/90 {
-  background-color: rgb(229 231 235 / 0.9);
+.bg-gray-200\/40 {
+  background-color: rgb(229 231 235 / 0.4);
 }
 
 .bg-gray-300 {
@@ -1662,18 +1662,6 @@ video {
 .bg-yellow-600 {
   --tw-bg-opacity: 1;
   background-color: rgb(202 138 4 / var(--tw-bg-opacity, 1));
-}
-
-.bg-gray-200\/50 {
-  background-color: rgb(229 231 235 / 0.5);
-}
-
-.bg-gray-200\/30 {
-  background-color: rgb(229 231 235 / 0.3);
-}
-
-.bg-gray-200\/40 {
-  background-color: rgb(229 231 235 / 0.4);
 }
 
 .fill-current {
