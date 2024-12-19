@@ -18,3 +18,6 @@ SET artigos.codigo = subquery.novo_codigo;
 
 -- Índice único
 ALTER TABLE `artigos` ADD UNIQUE KEY `empresa_codigo_unique` (`empresa_id`, `codigo`);
+
+-- coluna excluido
+ALTER TABLE `artigos` ADD COLUMN  `excluido` int DEFAULT '0' AFTER `ativo`;
