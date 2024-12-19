@@ -428,6 +428,7 @@ class DashboardArtigoController extends DashboardController
 
     $colunas = [
       'Artigo.id',
+      'Artigo.codigo',
       'Artigo.titulo',
     ];
 

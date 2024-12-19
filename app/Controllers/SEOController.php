@@ -20,10 +20,10 @@ class SEOController extends Controller
 
   public function robotsEmpresa()
   {
-    if (HOST_LOCAL) {
-      header('Location: /');
-      exit;
-    }
+    // if (HOST_LOCAL) {
+    //   header('Location: /');
+    //   exit;
+    // }
 
     $empresa = $this->empresaController->buscarEmpresaSemId('id', $this->empresaId);
     $subdominio = $empresa[0]['Empresa']['subdominio'] ?? '';
@@ -74,10 +74,10 @@ class SEOController extends Controller
 
   public function robotsGeral()
   {
-    if (HOST_LOCAL) {
-      header('Location: /');
-      exit;
-    }
+    // if (HOST_LOCAL) {
+    //   header('Location: /');
+    //   exit;
+    // }
 
     header('Content-Type: text/plain');
 
@@ -98,10 +98,10 @@ class SEOController extends Controller
 
   public function sitemapGeral()
   {
-    if (HOST_LOCAL) {
-      header('Location: /');
-      exit;
-    }
+    // if (HOST_LOCAL) {
+    //   header('Location: /');
+    //   exit;
+    // }
 
     header('Content-Type: application/xml');
 
@@ -130,10 +130,10 @@ class SEOController extends Controller
 
   public function sitemapEmpresa()
   {
-    if (HOST_LOCAL) {
-      header('Location: /');
-      exit;
-    }
+    // if (HOST_LOCAL) {
+    //   header('Location: /');
+    //   exit;
+    // }
 
     header('Content-Type: application/xml');
 
@@ -183,12 +183,12 @@ class SEOController extends Controller
     // Artigos
     foreach ($this->artigoController->buscar() as $linha):
 
-      if (! isset($linha['Artigo']['id']) or empty($linha['Artigo']['id'])) {
+      if (! isset($linha['Artigo']['codigo']) or empty($linha['Artigo']['codigo'])) {
         continue;
       }
 
       echo "  <url>\n";
-      echo "    <loc>" . $dominio . "/artigo/" . $linha['Artigo']['id'] . '/' . $this->gerarSlug($linha['Artigo']['titulo']) . "</loc>\n";
+      echo "    <loc>" . $dominio . "/artigo/" . $linha['Artigo']['codigo'] . '/' . $this->gerarSlug($linha['Artigo']['titulo']) . "</loc>\n";
       echo "    <changefreq>monthly</changefreq>\n";
       echo "    <priority>0.7</priority>\n";
       echo "  </url>\n";
