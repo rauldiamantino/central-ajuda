@@ -2,11 +2,13 @@
 namespace app\Controllers;
 use app\Models\DashboardConteudoModel;
 use app\Models\DashboardArtigoModel;
+use app\Models\DashboardFeedbackModel;
 use app\Core\Cache;
 
 class PublicoArtigoController extends PublicoController
 {
   protected $artigoModel;
+  protected $feedbackModel;
   protected $conteudoModel;
 
   public function __construct()
@@ -14,6 +16,7 @@ class PublicoArtigoController extends PublicoController
     parent::__construct();
 
     $this->artigoModel = new DashboardArtigoModel($this->usuarioLogado, $this->empresaPadraoId);
+    $this->feedbackModel = new DashboardFeedbackModel($this->usuarioLogado, $this->empresaPadraoId);
     $this->conteudoModel = new DashboardConteudoModel($this->usuarioLogado, $this->empresaPadraoId);
   }
 
@@ -23,6 +26,7 @@ class PublicoArtigoController extends PublicoController
     $conteudos = [];
     $demaisArtigos = [];
 
+    // Artigo
     $condicoes = [
       0 => ['campo' => 'Artigo.id', 'operador' => '=', 'valor' => (int) $id],
       1 => ['campo' => 'Artigo.ativo', 'operador' => '=', 'valor' => ATIVO],
@@ -83,6 +87,7 @@ class PublicoArtigoController extends PublicoController
       $artigo = $resultado;
     }
 
+    // Conteúdos do artigo
     if ($artigo) {
       $condConteudo[] = [
         'campo' => 'Conteudo.artigo_id',
@@ -123,6 +128,7 @@ class PublicoArtigoController extends PublicoController
         $conteudos = $resultado;
       }
 
+      // Artigos relacionados
       $condDemaisArtigos = [
         0 => ['campo' => 'Artigo.categoria_id', 'operador' => '=', 'valor' => intval($artigo[0]['Artigo']['categoria_id'] ?? 0)],
         1 => ['campo' => 'Artigo.ativo', 'operador' => '=', 'valor' => ATIVO],
@@ -165,6 +171,26 @@ class PublicoArtigoController extends PublicoController
 
       if (isset($resultado[0]['Artigo']['id'])) {
         $demaisArtigos = $resultado;
+      }
+
+      // Feedback
+      $condFeedback = [
+        ['campo' => 'Feedback.artigo_id', 'operador' => '=', 'valor' => $id],
+        ['campo' => 'Feedback.sessao_id', 'operador' => '=', 'valor' => session_id()],
+      ];
+
+      $colFeedback = [
+        'Feedback.util',
+      ];
+
+      $resultado = $this->feedbackModel->selecionar($colFeedback)
+                                        ->condicao($condFeedback)
+                                        ->limite(1)
+                                        ->executarConsulta();
+
+      if (isset($resultado[0]['Feedback']['util'])) {
+        $feedback = $resultado[0]['Feedback']['util'] ?? 0;
+        $this->visao->variavel('feedback', $feedback);
       }
     }
     else {

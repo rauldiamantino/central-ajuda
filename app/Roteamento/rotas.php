@@ -50,6 +50,7 @@ return [
     'GET:/buscar'                                       => ['controlador' => [PublicoBuscaController::class,            'buscar'],                        'permissao' => $publico],
     'GET:/robots.txt'                                   => ['controlador' => [SEOController::class,                     'robotsEmpresa'],                 'permissao' => $publico],
     'GET:/sitemap.xml'                                  => ['controlador' => [SEOController::class,                     'sitemapEmpresa'],                'permissao' => $publico],
+    'POST:/feedback'                                    => ['controlador' => [DashboardFeedbackController::class,       'adicionarAtualizar'],            'permissao' => $publico],
   ],
   'dashboardLogin' => [
     'GET:/dashboard/login'                              => ['controlador' => [DashboardLoginController::class,          'loginVer'],                      'permissao' => $publico],
