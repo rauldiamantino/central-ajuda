@@ -8,7 +8,7 @@
     <span>></span>
     <span class="underline whitespace-nowrap truncate"><?php echo $artigo['Artigo']['titulo'] ?></span>
   </div>
-  <div class="w-full flex flex-col px-4 xl:px-10 bg-white rounded-lg shadow">
+  <div class="w-full flex flex-col bg-white"> <?php // rounded-lg shadow px-4 xl:px-10 ?>
     <div class="flex flex-col justify-between items-start gap-2 pt-10 pers-publico-artigo template-cor-<?php echo $corPrimaria; ?> publico-artigo-blocos publico-artigo-topo">
       <div class="flex gap-2 items-center">
         <h1 class="publico-artigo-titulo"><?php echo $artigo['Artigo']['titulo'] ?></h1>
