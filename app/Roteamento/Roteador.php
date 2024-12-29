@@ -440,7 +440,11 @@ class Roteador
       return;
     }
 
-    registrarSentry('Rota não encontrada', $_SESSION);
+    // Provisório (Google Search)
+    if ($this->chaveRota != '/padrao') {
+      registrarSentry('Rota não encontrada', $_SESSION);
+    }
+
 
     $this->paginaErro->erroVer();
   }
@@ -464,7 +468,7 @@ class Roteador
 
     // Provisório (Google Search)
     if (! HOST_LOCAL and empty($this->subdominio_2) and $valor == 'padrao') {
-      header('Location: /technology');
+      header('Location: https://teste.360help.com.br');
       exit;
     }
 
