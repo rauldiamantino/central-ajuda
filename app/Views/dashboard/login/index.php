@@ -16,7 +16,7 @@ if (HOST_LOCAL) {
       <?php require_once 'formulario.php' ?>
       <p class="mt-10 text-center text-sm text-gray-500">
         Não possui cadastro?
-        <a href="/cadastro" class="font-semibold leading-6 text-blue-900 hover:text-blue-500">Junte-se a nós!</a>
+        <a href="<?php echo $inicio ?>/cadastro" class="font-semibold leading-6 text-blue-900 hover:text-blue-500">Junte-se a nós!</a>
       </p>
     </div>
   </div>
