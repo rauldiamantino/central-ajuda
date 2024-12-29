@@ -145,6 +145,7 @@ class PublicoArtigoController extends PublicoController
 
       $colDemaisArtigos = [
         'Artigo.id',
+        'Artigo.codigo',
         'Artigo.ativo',
         'Artigo.titulo',
         'Categoria.nome',
