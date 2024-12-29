@@ -1,4 +1,4 @@
-<div class="mx-auto w-full flex flex-col items-center gap-16 md:px-4 xl:px-6 py-12">
+<div class="mx-auto w-full flex flex-col items-center gap-16 py-12">
   <div class="w-full flex flex-col gap-2">
     <h3 class="font-extralight text-xs text-gray-800">CATEGORIAS</h3>
     <div class="w-full h-max grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 justify-start gap-4">

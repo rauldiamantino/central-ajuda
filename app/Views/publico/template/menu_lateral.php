@@ -11,11 +11,11 @@ $artigoAtual = intval($artigo['Artigo']['id'] ?? 0);
     <ul class="h-full py-10 px-0 flex flex-col">
 
       <?php if (isset($categorias[0]) and is_array($categorias[0])) { ?>
-        <h3 class="<?php echo isset($inicio) ? 'hidden md:block ' : '' ?>w-full text-start mb-2 px-4 py-4 text-lg text-gray-600 font-light text-xs">CATEGORIAS</h3>
+        <h3 class="<?php echo isset($inicio) ? 'hidden md:block ' : '' ?>w-full text-start mb-2 px-4 sm:pl-0 py-4 text-lg text-gray-600 font-light text-xs">CATEGORIAS</h3>
 
         <?php foreach ($categorias as $chave => $linha) : ?>
           <li class="<?php echo isset($inicio) ? 'hidden md:block ' : '' ?> w-full flex <?php echo $categoriaAtual == $linha['Categoria']['id'] ? ' font-bold' : '';?> hover:underline rounded-md">
-            <a href="<?php echo '/categoria/' . $linha['Categoria']['id'] . '/' . $this->gerarSlug($linha['Categoria']['nome']); ?>" class="w-full flex gap-2 items-center px-4 py-3">
+            <a href="<?php echo '/categoria/' . $linha['Categoria']['id'] . '/' . $this->gerarSlug($linha['Categoria']['nome']); ?>" class="w-full flex gap-2 items-center px-4 sm:pl-0 py-3">
               <?php echo $linha['Categoria']['nome'] ?>
 
               <?php if ($linha['Categoria']['ativo'] == INATIVO) { ?>
@@ -31,10 +31,10 @@ $artigoAtual = intval($artigo['Artigo']['id'] ?? 0);
       <?php } ?>
 
       <?php if (isset($demaisArtigos) and $demaisArtigos) { ?>
-        <h3 class="<?php echo isset($inicio) ? 'hidden md:block ' : '' ?>w-full text-start mb-2 px-4 py-4 text-lg text-gray-600 font-light text-xs">ARTIGOS RELACIONADOS</h3>
+        <h3 class="<?php echo isset($inicio) ? 'hidden md:block ' : '' ?>w-full text-start mb-2 px-4 sm:pl-0 py-4 text-lg text-gray-600 font-light text-xs">ARTIGOS RELACIONADOS</h3>
         <?php foreach ($demaisArtigos as $chave => $linha) : ?>
           <li class="<?php echo isset($inicio) ? 'hidden md:block ' : '' ?>w-full flex <?php echo $artigoAtual == $linha['Artigo']['id'] ? ' font-bold' : '';?> hover:underline rounded-md">
-            <a href="<?php echo '/artigo/' . $linha['Artigo']['codigo'] . '/' . $this->gerarSlug($linha['Artigo']['titulo']); ?>" class="w-full flex items-center gap-2 px-4 py-3"><?php echo $linha['Artigo']['titulo'] ?>
+            <a href="<?php echo '/artigo/' . $linha['Artigo']['codigo'] . '/' . $this->gerarSlug($linha['Artigo']['titulo']); ?>" class="w-full flex items-center gap-2 px-4 sm:pl-0 py-3"><?php echo $linha['Artigo']['titulo'] ?>
               <?php if ($linha['Artigo']['ativo'] == INATIVO) { ?>
                 <div class="text-red-800">
                   <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 16 16">
@@ -47,8 +47,8 @@ $artigoAtual = intval($artigo['Artigo']['id'] ?? 0);
         <?php endforeach; ?>
       <?php } ?>
 
-      <h3 class="<?php echo isset($inicio) ? '' : 'border-t border-gray-900 ' ?>w-full text-start mt-10 mb-2 px-4 py-8 text-lg text-gray-600 font-light text-xs md:hidden">MENU</h3>
-      <div class="w-full px-4 pb-10 md:hidden">
+      <h3 class="<?php echo isset($inicio) ? '' : 'border-t border-gray-900 ' ?>w-full text-start mt-10 mb-2 px-4 sm:pl-0 py-8 text-lg text-gray-600 font-light text-xs md:hidden">MENU</h3>
+      <div class="w-full px-4 sm:pl-0 pb-10 md:hidden">
         <ul class="flex justify-start h-full gap-6">
           <?php if ($urlSite) { ?>
             <li><a href="<?php echo $urlSite ?>" target="_blank" class="hover:underline">Website</a></li>

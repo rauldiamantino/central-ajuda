@@ -1,5 +1,5 @@
 <header class="border-b border-slate-200 <?php echo (int) $this->buscarAjuste('publico_topo_fixo') == ATIVO ? 'sticky' : '' ?> z-20 top-0 w-full h-20 flex justify-center items-center <?php echo isset($inicio) ? 'py-12' : 'py-20'; ?> md:py-4 px-4 xl:px-0 md:gap-10 bg-white text-black transition duration-300 topo-publico bg-white">
-  <div class="w-full lg:max-w-[1000px] flex flex-col md:flex-row gap-6 justify-between">
+  <div class="w-full lg:max-w-[1034px] flex flex-col md:flex-row gap-6 justify-between">
     <div class="md:w-max flex justify-between md:justify-start items-center gap-4 inverter transition-invert duration-300">
       <a href="/"><img src="<?php echo $this->renderImagem($logo); ?>" alt="<?php echo $empresaNome; ?>" class="w-full max-h-14" onerror="this.onerror=null; this.src='/img/sem-imagem.svg';"></a>
 

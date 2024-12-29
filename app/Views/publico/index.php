@@ -48,7 +48,7 @@
     <?php $this->sessaoUsuario->apagar('ok'); ?>
     <?php $this->sessaoUsuario->apagar('erro'); ?>
 
-    <div class="w-full max-w-[1244px] min-h-screen flex"> <?php // rounded-md ?>
+    <div class="w-full max-w-[1244px] min-h-screen flex gap-4"> <?php // rounded-md ?>
 
       <?php if ($menuLateral) { ?>
         <?php require_once 'template/menu_lateral.php' ?>
