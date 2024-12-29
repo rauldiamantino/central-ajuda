@@ -236,7 +236,7 @@ class DashboardLoginController extends DashboardController
     $this->sessaoUsuario->apagar('usuario');
     Cache::apagar('sessao', $this->empresaPadraoId);
 
-    header('Location: /');
+    header('Location: /dashboard/login');
     exit();
   }
 }

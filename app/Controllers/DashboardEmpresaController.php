@@ -194,8 +194,8 @@ class DashboardEmpresaController extends DashboardController
     }
 
     Cache::apagar('publico-dados-empresa', $this->usuarioLogado['empresaId']);
-    Cache::apagarSemId('roteador-' . $this->usuarioLogado['subdominio']);
-    Cache::apagarSemId('roteador-' . $subdominio_2);
+    Cache::apagarSemId('roteador-' . mb_strtolower($this->usuarioLogado['subdominio']));
+    Cache::apagarSemId('roteador-' . mb_strtolower($subdominio_2));
 
     $this->redirecionarSucesso('/dashboard/empresa/editar', 'Registro alterado com sucesso');
   }

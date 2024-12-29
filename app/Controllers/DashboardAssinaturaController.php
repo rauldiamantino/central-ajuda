@@ -247,6 +247,9 @@ class DashboardAssinaturaController extends DashboardController
       $json['valor'] = str_replace(',', '.', $json['valor']);
     }
 
+    // Remove sessão com subdomínio antigo
+    $subdominio_2 = str_replace('https://', '', $this->usuarioLogado['subdominio_2']);
+    $subdominio_2 = str_replace('http://', '', $subdominio_2);
     $resultado = $this->assinaturaModel->atualizar($json, $id);
 
     if (isset($resultado['erro'])) {
@@ -281,7 +284,8 @@ class DashboardAssinaturaController extends DashboardController
     }
 
     Cache::apagar('calcular-consumo', $this->empresaPadraoId);
-    Cache::apagarSemId('roteador-' . $this->usuarioLogado['subdominio']);
+    Cache::apagarSemId('roteador-' . mb_strtolower($this->usuarioLogado['subdominio']));
+    Cache::apagarSemId('roteador-' . mb_strtolower($subdominio_2));
 
     $this->redirecionarSucesso('/dashboard/assinatura/editar', 'Registro alterado com sucesso');
   }

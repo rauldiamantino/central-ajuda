@@ -14,3 +14,7 @@ if (! HOST_LOCAL) {
 
 $roteador = new Roteador();
 $roteador->rotear();
+
+// Testes
+// self::iniciarMemcached();
+// self::$memcached->flush();

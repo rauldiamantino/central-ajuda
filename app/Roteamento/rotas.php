@@ -60,6 +60,7 @@ return [
     'GET:/dashboard/logout'                             => ['controlador' => [DashboardLoginController::class,          'logout'],                        'permissao' => $publico],
   ],
   'dashboard' => [
+    'GET:/dashboard'                                    => ['controlador' => [DashboardController::class,               'dashboardVer'],                  'permissao' => $todos],
     'GET:/dashboard/cache/limpar/{id}'                  => ['controlador' => [Cache::class,                             'resetarCacheEmpresa'],           'permissao' => $suporteTodos],
     'GET:/dashboard/cache/limpar/roteador'              => ['controlador' => [Cache::class,                             'resetarCacheSemId'],             'permissao' => $suporteTodos],
     'GET:/dashboard/cache/limpar/todos'                 => ['controlador' => [Cache::class,                             'resetarCacheTodos'],             'permissao' => $suporteTodos],
@@ -115,6 +116,7 @@ return [
     'PUT:/d/assinatura/editar/{id}'                     => ['controlador' => [DashboardAssinaturaController::class,     'atualizar'],                     'permissao' => $total],
     'GET:/d/assinaturas/gerar/{id}'                     => ['controlador' => [DashboardAssinaturaController::class,     'criarAssinaturaAsaas'],          'permissao' => $total],
     'POST:/d/assinatura'                                => ['controlador' => [DashboardAssinaturaController::class,     'buscarAssinatura'],              'permissao' => $total],
+    'GET:/d/calcular_consumo'                           => ['controlador' => [DashboardAssinaturaController::class,     'calcularConsumo'],               'permissao' => $todos],
     'GET:/dashboard/empresa/editar'                     => ['controlador' => [DashboardEmpresaController::class,        'empresaEditarVer'],              'permissao' => $todos],
     'PUT:/d/empresa/editar/{id}'                        => ['controlador' => [DashboardEmpresaController::class,        'atualizar'],                     'permissao' => $todos],
   ],

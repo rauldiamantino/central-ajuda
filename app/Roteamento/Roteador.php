@@ -23,6 +23,7 @@ class Roteador
   private $usuarioLogado;
   private $parametroId;
   private $slug;
+  private $acessoNegado;
 
   public function __construct()
   {
@@ -49,9 +50,9 @@ class Roteador
     $this->recuperarChaveRota();
     $this->validarAcessoDominioPadrao();
     $this->recuperarEmpresa();
-    $this->validarAcessoCentral();
     $this->validarGratisExpirado();
     $this->recuperarSessaoLogado();
+    $this->validarAcessoCentral();
     $this->limiteRequisicoes();
     $this->permitirDebugSuporte();
     $this->permitirAcessoSuporte();
@@ -208,7 +209,7 @@ class Roteador
     }
 
     // Acesso negado
-    $this->empresaId = 0;
+    $this->paginaErro->erroVer();
   }
 
   private function validarAcessoDashboard()
@@ -340,6 +341,11 @@ class Roteador
       return;
     }
 
+    // Acesso liberado para suporte
+    if (isset($this->usuarioLogado['padrao']) and $this->usuarioLogado['padrao'] == USUARIO_SUPORTE) {
+      return;
+    }
+
     // Acesso dashboard
     if ($this->empresaId and isset($this->rotas['dashboard'][ $this->chaveRota ])) {
       return;
@@ -353,6 +359,11 @@ class Roteador
     // Acesso dashboard
     if ($this->empresaId and isset($this->rotas['dashboardVencida'][ $this->chaveRota ])) {
       return;
+    }
+
+    // Acesso negado
+    if ($this->empresaAtivo == INATIVO) {
+      $this->empresaId = 0;
     }
 
     // Rota existe na central
@@ -477,11 +488,6 @@ class Roteador
     $this->empresaAtivo = intval($buscarEmpresa[0]['Empresa']['ativo'] ?? 0);
     $this->assinaturaStatus = intval($buscarEmpresa[0]['Assinatura']['status'] ?? 0);
     $this->gratisPrazo = $buscarEmpresa[0]['Assinatura']['gratis_prazo'] ?? '';
-
-    // Acesso negado
-    if ($this->empresaAtivo == INATIVO) {
-      $this->empresaId = 0;
-    }
   }
 
   private function recuperarChaveRota()
