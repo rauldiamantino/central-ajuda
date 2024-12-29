@@ -34,7 +34,7 @@
     <div class="flex flex-col gap-2 leading-8">
       <ul class="leading-9 flex flex-col gap-2">
         <?php foreach ($artigos as $chave => $linha): ?>
-          <li class="flex gap-3 items-center border border-slate-100 rounded-lg bg-white shadow">
+          <li class="flex gap-3 items-center rounded-lg bg-white shadow">
             <a href="<?php echo'/artigo/' . $linha['Artigo']['codigo'] . '/' . $this->gerarSlug($linha['Artigo']['titulo']); ?>" class="flex gap-2 justify-between items-center w-full h-full px-4 py-2 hover:bg-gray-100 rounded-md transition-colors duration-200 text-gray-800">
               <?php echo $linha['Artigo']['titulo'] ?>
               <span class="pers-publico-seta-artigo template-cor-<?php echo $corPrimaria; ?>">
