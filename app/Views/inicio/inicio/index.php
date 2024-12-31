@@ -83,15 +83,15 @@
     </div>
     <div class="border-4 border-black relative w-full overflow-hidden rounded-2xl shadow-lg bg-black shadow-xl">
       <div class="flex transition-transform duration-500 ease-in-out" id="carrossel-imagens">
+        <img src="/img/inicio/publico-1.png" alt="Imagem 7" class="w-full rounded-xl">
+        <img src="/img/inicio/publico-2.png" alt="Imagem 8" class="w-full rounded-xl">
+        <img src="/img/inicio/publico-3.png" alt="Imagem 9" class="w-full rounded-xl">
         <img src="/img/inicio/dash-1.png" alt="Imagem 1" class="w-full rounded-xl">
         <img src="/img/inicio/dash-2.png" alt="Imagem 2" class="w-full rounded-xl">
         <img src="/img/inicio/dash-3.png" alt="Imagem 3" class="w-full rounded-xl">
         <img src="/img/inicio/dash-4.png" alt="Imagem 4" class="w-full rounded-xl">
         <img src="/img/inicio/dash-5.png" alt="Imagem 5" class="w-full rounded-xl">
         <img src="/img/inicio/dash-6.png" alt="Imagem 6" class="w-full rounded-xl">
-        <img src="/img/inicio/publico-1.png" alt="Imagem 7" class="w-full rounded-xl">
-        <img src="/img/inicio/publico-2.png" alt="Imagem 8" class="w-full rounded-xl">
-        <img src="/img/inicio/publico-3.png" alt="Imagem 9" class="w-full rounded-xl">
       </div>
       <button class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-800 text-white w-12 h-12 rounded-full shadow-lg opacity-70 hover:opacity-100 transition-opacity" onclick="moveSlide(-1)">&#10094;</button>
       <button class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-800 text-white w-12 h-12 rounded-full shadow-lg opacity-70 hover:opacity-100 transition-opacity" onclick="moveSlide(1)">&#10095;</button>
