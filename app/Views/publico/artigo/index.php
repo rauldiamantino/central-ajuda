@@ -1,3 +1,20 @@
+<?php
+// Preload perfil
+if (isset($artigo['Usuario']['foto']) and $artigo['Usuario']['foto']) {
+  echo '<link rel="preload" href="' . $this->renderImagem($artigo['Usuario']['foto']) . '" as="image">';
+}
+
+// Preload conteúdo
+if ($conteudos) {
+  foreach ($conteudos as $linha):
+
+    if (isset($linha['Conteudo']['url']) and $linha['Conteudo']['url']) {
+      echo '<link rel="preload" href="' . $this->renderImagem($linha['Conteudo']['url']) . '" as="image">';
+    }
+  endforeach;
+}
+?>
+
 <div class="w-full max-w-full flex flex-col py-14 overflow-x-hidden">
   <div class="pb-6 flex flex-wrap gap-2 font-light text-sm publico-migalhas">
     <a href="/" class="hover:underline whitespace-nowrap">Início</a>

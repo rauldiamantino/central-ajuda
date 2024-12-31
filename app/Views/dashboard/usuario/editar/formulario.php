@@ -1,4 +1,9 @@
 <?php
+// Preload
+if ($this->usuarioLogado['foto']) {
+  echo '<link rel="preload" href="' . $this->renderImagem($this->usuarioLogado['foto']) . '" as="image">';
+}
+
 $nivelAcesso = [
   USUARIO_TOTAL => 'Acesso total',
   USUARIO_RESTRITO => 'Acesso restrito',

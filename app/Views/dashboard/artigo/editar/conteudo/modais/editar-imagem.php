@@ -1,3 +1,10 @@
+<?php
+// Preload
+if (isset($linha['Conteudo']['url']) and $linha['Conteudo']['url']) {
+  echo '<link rel="preload" href="' . $this->renderImagem($linha['Conteudo']['url'], $linha['Conteudo']['id']) . '" as="image">';
+}
+?>
+
 <?php // Editar imagem ?>
 <div class="p-3 w-full hidden container-pre-visualizar container-conteudo-imagem-editar" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>" data-conteudo-tipo="<?php echo $linha['Conteudo']['tipo'] ?>">
   <div class="font-extralight pb-10 flex flex-col">

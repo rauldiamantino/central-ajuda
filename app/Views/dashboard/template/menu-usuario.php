@@ -1,3 +1,9 @@
+<?php
+if ($this->usuarioLogado['foto']) {
+  echo '<link rel="preload" href="' . $this->renderImagem($this->usuarioLogado['foto']) . '" as="image">';
+}
+?>
+
 <div class="flex xl:hidden">
   <button type="button" class="outline-none xl:mx-5 w-max flex justify-end items-center gap-4 btn-menu-topo-usuario">
     <div class="border border-slate-200 w-12 h-12 bg-gray-50 rounded-full text-gray-500">

@@ -1,3 +1,20 @@
+<?php
+// Preload perfil
+if (isset($artigo['Usuario']['foto']) and $artigo['Usuario']['foto']) {
+  echo '<link rel="preload" href="' . $this->renderImagem($artigo['Usuario']['foto']) . '" as="image">';
+}
+
+// Preload conteúdo
+if ($conteudos) {
+  foreach ($conteudos as $linha):
+
+    if (isset($linha['Conteudo']['url']) and $linha['Conteudo']['url']) {
+      echo '<link rel="preload" href="' . $this->renderImagem($linha['Conteudo']['url']) . '" as="image">';
+    }
+  endforeach;
+}
+?>
+
 <div class="w-full h-full bg-white py-5 lg:p-10 rounded-md pers-publico-artigo template-cor-<?php echo $this->usuarioLogado['corPrimaria']; ?> dashboard-pre-visualizacao">
   <div class="flex flex-col justify-between items-start gap-2 md:pt-5 px-3">
     <div class="px-3 flex gap-2 items-center">
