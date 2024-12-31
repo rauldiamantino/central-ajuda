@@ -441,11 +441,11 @@ class Roteador
     }
 
     // Provisório (Google Search)
-    if ($this->chaveRota != 'GET:/padrao') {
-      registrarSentry('Rota não encontrada', $_SESSION);
+    if (strpos($this->chaveRota, 'GET:/padrao') !== false or strpos($this->chaveRota, 'GET:/treinamento') !== false) {
+      $this->paginaErro->erroVer();
     }
 
-
+    registrarSentry('Rota não encontrada', $_SESSION);
     $this->paginaErro->erroVer();
   }
 
