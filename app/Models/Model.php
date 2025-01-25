@@ -1,5 +1,6 @@
 <?php
 namespace app\Models;
+use app\Core\Cache;
 use app\Models\Database;
 use app\Core\SessaoUsuario;
 
@@ -260,7 +261,15 @@ class Model
       return [];
     }
 
-    $resultado = $this->database->operacoes($sql, $this->sqlValores);
+    // Evita duplicidade de consulta
+    $cacheTempo = 5;
+    $cacheNome = md5(serialize($this->sqlValores) . $sql);
+    $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
+
+    if ($resultado == null) {
+      $resultado = $this->database->operacoes($sql, $this->sqlValores);
+      Cache::definir($cacheNome, $resultado, $cacheTempo, $this->empresaPadraoId);
+    }
 
     if (is_array($resultado) and ! isset($resultado['erro'])) {
       $resultado = $this->organizarResultado($resultado);
