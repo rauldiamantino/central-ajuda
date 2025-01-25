@@ -25,44 +25,4 @@ class DashboardController extends Controller
     $this->dashboardModel = new DashboardModel($this->usuarioLogado, $this->empresaPadraoId);
     $this->visao = new ViewRenderer('/dashboard');
   }
-
-  public function dashboardVer()
-  {
-    // Usuários
-    $condicoes = [];
-
-    // Oculta usuários de suporte
-    if ($this->usuarioLogado['padrao'] != USUARIO_SUPORTE) {
-      $condicoes[] = [
-        'campo' => 'Usuario.padrao',
-        'operador' => '!=',
-        'valor' => USUARIO_SUPORTE,
-      ];
-    }
-
-    $usuariosTotal = $this->usuarioModel->contar('Usuario.id')
-                                        ->condicao($condicoes)
-                                        ->executarConsulta();
-
-    // Artigos
-    $artigosTotal = $this->artigoModel->contar('Artigo.id')
-                                      ->executarConsulta();
-
-    // Categorias
-    $categoriasTotal = $this->categoriaModel->contar('Categoria.id')
-                                            ->executarConsulta();
-
-    // Feedbacks
-    $artigosPopulares = $this->dashboardModel->buscarFeedbacks(true);
-    $artigosMenosPopulares = $this->dashboardModel->buscarFeedbacks();
-
-    $this->visao->variavel('artigosPopulares', $artigosPopulares);
-    $this->visao->variavel('artigosMenosPopulares', $artigosMenosPopulares);
-    $this->visao->variavel('totalUsuarios', $usuariosTotal['total'] ?? 0);
-    $this->visao->variavel('totalArtigos', $artigosTotal['total'] ?? 0);
-    $this->visao->variavel('totalCategorias', $categoriasTotal['total'] ?? 0);
-    $this->visao->variavel('metaTitulo', 'Início - 360Help');
-    $this->visao->variavel('paginaMenuLateral', 'dashboard');
-    $this->visao->renderizar('/dashboard/index');
-  }
 }

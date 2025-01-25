@@ -10,19 +10,6 @@ class DashboardModel extends Model
     parent::__construct($usuarioLogado, $empresaPadraoId, 'Dashboard');
   }
 
-  public function dashboardVer()
-  {
-    $resultado = [
-      'titulo' => 'Dashboard',
-      'dashboard' => [
-        'artigos' => 9564,
-        'resumo' => 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dignissimos corrupti nihil eligendi, impedit illum commodi odio. Nulla quisquam cum qui corrupti maiores quasi dolorum, nihil distinctio doloribus earum modi? Enim. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dignissimos corrupti nihil eligendi, impedit illum commodi odio. Nulla quisquam cum qui corrupti maiores quasi dolorum, nihil distinctio doloribus earum modi? Enim. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dignissimos corrupti nihil eligendi, impedit illum commodi odio. Nulla quisquam cum qui corrupti maiores quasi dolorum, nihil distinctio doloribus earum modi? Enim. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dignissimos corrupti nihil eligendi, impedit illum commodi odio. Nulla quisquam cum qui corrupti maiores quasi dolorum, nihil distinctio doloribus earum modi? Enim.',
-      ],
-    ];
-
-    return $resultado;
-  }
-
   public function buscarFeedbacks(bool $gostou = false)
   {
     $ordem = '`Feedback.nao_gostou` DESC';
@@ -68,7 +55,7 @@ class DashboardModel extends Model
 
     // Evita duplicidade de consulta
     $cacheNome = 'dashboard-artigos-populares-' . md5(serialize($sqlParams) . $ordem);
-    $cacheTempo = 1;
+    $cacheTempo = 5;
     $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
 
     if ($resultado == null) {

@@ -60,7 +60,7 @@ return [
     'GET:/dashboard/logout'                             => ['controlador' => [DashboardLoginController::class,          'logout'],                        'permissao' => $publico],
   ],
   'dashboard' => [
-    'GET:/dashboard'                                    => ['controlador' => [DashboardController::class,               'dashboardVer'],                  'permissao' => $todos],
+    'GET:/dashboard'                                    => ['controlador' => [DashboardInicioController::class,         'dashboardVer'],                  'permissao' => $todos],
     'GET:/dashboard/cache/limpar/{id}'                  => ['controlador' => [Cache::class,                             'resetarCacheEmpresa'],           'permissao' => $suporteTodos],
     'GET:/dashboard/cache/limpar/roteador'              => ['controlador' => [Cache::class,                             'resetarCacheSemId'],             'permissao' => $suporteTodos],
     'GET:/dashboard/cache/limpar/todos'                 => ['controlador' => [Cache::class,                             'resetarCacheTodos'],             'permissao' => $suporteTodos],
@@ -111,7 +111,7 @@ return [
     'GET:/d/usuario/desbloquear/{id}'                   => ['controlador' => [DashboardUsuarioController::class,        'desbloquear'],                   'permissao' => $suporteTotal],
   ],
   'dashboardVencida' => [
-    'GET:/dashboard'                                    => ['controlador' => [DashboardController::class,               'dashboardVer'],                  'permissao' => $todos],
+    'GET:/dashboard'                                    => ['controlador' => [DashboardInicioController::class,         'dashboardVer'],                  'permissao' => $todos],
     'GET:/dashboard/assinatura/editar'                  => ['controlador' => [DashboardAssinaturaController::class,     'assinaturaEditarVer'],           'permissao' => $total],
     'PUT:/d/assinatura/editar/{id}'                     => ['controlador' => [DashboardAssinaturaController::class,     'atualizar'],                     'permissao' => $total],
     'GET:/d/assinaturas/gerar/{id}'                     => ['controlador' => [DashboardAssinaturaController::class,     'criarAssinaturaAsaas'],          'permissao' => $total],
