@@ -262,7 +262,7 @@ class Model
     }
 
     // Evita duplicidade de consulta
-    $cacheTempo = 5;
+    $cacheTempo = 2;
     $cacheNome = md5(serialize($this->sqlValores) . $sql);
     $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
 
