@@ -7,6 +7,7 @@
 
 <!------------------- scripts ------------------->
 <script src="<?php echo '/js/dashboard/index.js'; ?>"></script>
+<script src="<?php echo '/js/dashboard/dashboard/index.js'; ?>"></script>
 <script src="<?php echo '/js/dashboard/conversor-webp.js'; ?>"></script>
 <script src="<?php echo '/js/dashboard/empresas/index.js'; ?>"></script>
 <script src="<?php echo '/js/dashboard/assinaturas/index.js'; ?>"></script>

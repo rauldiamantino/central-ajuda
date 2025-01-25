@@ -52,6 +52,12 @@ class DashboardController extends Controller
     $categoriasTotal = $this->categoriaModel->contar('Categoria.id')
                                             ->executarConsulta();
 
+    // Feedbacks
+    $artigosPopulares = $this->dashboardModel->buscarFeedbacks(true);
+    $artigosMenosPopulares = $this->dashboardModel->buscarFeedbacks();
+
+    $this->visao->variavel('artigosPopulares', $artigosPopulares);
+    $this->visao->variavel('artigosMenosPopulares', $artigosMenosPopulares);
     $this->visao->variavel('totalUsuarios', $usuariosTotal['total'] ?? 0);
     $this->visao->variavel('totalArtigos', $artigosTotal['total'] ?? 0);
     $this->visao->variavel('totalCategorias', $categoriasTotal['total'] ?? 0);
