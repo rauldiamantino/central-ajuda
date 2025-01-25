@@ -441,7 +441,7 @@ class Roteador
     }
 
     // Provisório (Google Search)
-    if (strpos($this->chaveRota, 'GET:/padrao') !== false or strpos($this->chaveRota, 'GET:/treinamento') !== false) {
+    if (strpos($this->chaveRota, 'GET:/padrao') !== false or strpos($this->chaveRota, 'GET:/treinamento') !== false or strpos($this->chaveRota, 'GET:/technology') !== false) {
       $this->paginaErro->erroVer();
     }
 
