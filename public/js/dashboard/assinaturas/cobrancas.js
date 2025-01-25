@@ -38,21 +38,21 @@ document.addEventListener("DOMContentLoaded", function() {
             valor = valor.toFixed(2).replace('.', ',')
 
             botao = 'Pagar'
-            status = 'Pendente'
-            classeStatus = 'bg-orange-50 text-orange-60'
+            novoStatus = 'Pendente'
+            classeStatus = 'bg-orange-50 text-orange-600'
 
             if (status == 'CONFIRMED') {
               botao = ''
-              status = 'Pago'
-              classeStatus = 'bg-green-50 text-green-60'
+              novoStatus = 'Pago'
+              classeStatus = 'bg-green-50 text-green-600'
             }
             else if (status == 'OVERDUE') {
               botao = 'Pagar'
-              status = 'Vencido'
-              classeStatus = 'bg-red-50 text-red-60'
+              novoStatus = 'Vencido'
+              classeStatus = 'bg-red-50 text-red-600'
             }
 
-            criarLinhaTabela(vencimento, descricaoPlano, classeStatus, status, valor, pagamentoLink, botao)
+            criarLinhaTabela(vencimento, descricaoPlano, classeStatus, novoStatus, valor, pagamentoLink, botao)
 
             cobrancaOk = true
             divBuscando.classList.add('hidden')
