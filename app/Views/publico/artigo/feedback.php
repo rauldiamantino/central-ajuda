@@ -1,5 +1,5 @@
 <div class="relative w-full flex items-center justify-center">
-  <div class="w-full mt-6 border-y border-gray-200">
+  <div class="w-full mt-6 py-6 border-t border-gray-200">
     <div class="w-full p-6 <?php echo isset($feedback) ? ' hidden ' : ''; ?> flex gap-4 flex-col items-center container-feedback-inicio">
       <span class="text-gray-700 text-lg font-light">Esse artigo foi útil?</span>
       <div class="w-full h-full flex gap-4 items-center justify-center">
