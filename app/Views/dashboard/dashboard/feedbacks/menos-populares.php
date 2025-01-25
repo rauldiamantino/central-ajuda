@@ -27,7 +27,7 @@
             <th class="py-4 px-6">Código</th>
             <th class="py-4 px-4">Título</th>
             <th class="py-4 px-4">Categoria</th>
-            <th class="py-4 px-4 underline" onclick="alternarPopulares(true)"><span class="underline cursor-pointer">Gostou</span></th>
+            <th class="py-4 px-4 underline"><span class="underline cursor-pointer" onclick="alternarPopulares()">Gostou</span></th>
             <th class="py-4 px-4">Não gostou</th>
           </tr>
         </thead>

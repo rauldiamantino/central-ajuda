@@ -28,7 +28,7 @@
             <th class="py-4 px-4">Título</th>
             <th class="py-4 px-4">Categoria</th>
             <th class="py-4 px-4">Gostou</th>
-            <th class="py-4 px-4" onclick="alternarPopulares(true)"><span class="underline cursor-pointer">Não gostou</span></th>
+            <th class="py-4 px-4"><span class="underline cursor-pointer" onclick="alternarPopulares()">Não gostou</span></th>
           </tr>
         </thead>
         <tbody class="divide-y">
