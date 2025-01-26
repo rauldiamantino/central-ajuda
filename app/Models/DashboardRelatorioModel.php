@@ -32,7 +32,7 @@ class DashboardRelatorioModel extends Model
             GROUP BY
               `artigos`.`id`, `artigos`.`codigo`, `artigos`.`titulo`, `artigos`.`categoria_id`, `categorias`.`nome`
             ORDER BY
-              `Feedback.nao_gostou` DESC;
+              `Feedback.gostou` DESC;
            SQL;
 
     $sqlParams = [
