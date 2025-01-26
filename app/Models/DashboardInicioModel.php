@@ -36,7 +36,7 @@ class DashboardInicioModel extends Model
               `artigos`.`excluido` = ?
               AND `artigos`.`empresa_id` = ?
             GROUP BY
-              `artigos`.`id`, `artigos`.`codigo`, `artigos`.`titulo`, `artigos`.`categoria_id`, `categorias`.`nome`
+              `artigos`.`id`, `artigos`.`codigo`, `artigos`.`titulo`, `artigos`.`categoria_id`, `artigos`.`empresa_id`, `categorias`.`nome`
             ORDER BY
               $ordem
             LIMIT
@@ -53,9 +53,63 @@ class DashboardInicioModel extends Model
       3,                      // Limite
     ];
 
-    // Evita duplicidade de consulta
-    $cacheNome = 'dashboard-artigos-populares-' . md5(serialize($sqlParams) . $ordem);
     $cacheTempo = 5;
+    $cacheNome = 'dashboard-artigos-populares-' . md5(serialize($sqlParams) . $ordem);
+
+    // Evita duplicidade de consulta
+    $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
+
+    if ($resultado == null) {
+      $resultado = $this->executarQuery($sql, $sqlParams);
+      Cache::definir($cacheNome, $resultado, $cacheTempo, $this->empresaPadraoId);
+    }
+
+    if (is_array($resultado) and ! isset($resultado['erro'])) {
+      $resultado = $this->organizarResultado($resultado);
+    }
+    else {
+      $resultado = [];
+    }
+
+    return $resultado;
+  }
+
+  public function buscarVisualizacoes()
+  {
+    $sql = <<<SQL
+            SELECT
+              `artigos`.`id` AS `Artigo.id`,
+              `artigos`.`codigo` AS `Artigo.codigo`,
+              `artigos`.`titulo` AS `Artigo.titulo`,
+              `artigos`.`empresa_id` AS `Artigo.empresa_id`,
+              `artigos`.`categoria_id` AS `Artigo.categoria_id`,
+              `categorias`.`nome` AS `Categoria.nome`,
+              COUNT(`visualizacoes`.`id`) AS `Visualizacao.total`
+            FROM
+              `artigos`
+              LEFT JOIN `categorias` ON `categorias`.`id` = `artigos`.`categoria_id`
+              INNER JOIN `visualizacoes` ON `visualizacoes`.`artigo_id` = `artigos`.`id`
+            WHERE
+              `artigos`.`excluido` = ?
+              AND `artigos`.`empresa_id` = ?
+            GROUP BY
+              `artigos`.`id`, `artigos`.`codigo`, `artigos`.`titulo`, `artigos`.`categoria_id`, `artigos`.`empresa_id`, `categorias`.`nome`
+            ORDER BY
+              COUNT(`visualizacoes`.`id`) DESC
+            LIMIT
+              ?;
+           SQL;
+
+    $sqlParams = [
+      0,                      // Artigo.excluido
+      $this->empresaPadraoId, // Artigo.empresa_id
+      3,                      // Limite
+    ];
+
+    $cacheTempo = 5;
+    $cacheNome = 'dashboard-artigos-visualizados-' . md5(serialize($sqlParams) . $sql);
+
+    // Evita duplicidade de consulta
     $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
 
     if ($resultado == null) {

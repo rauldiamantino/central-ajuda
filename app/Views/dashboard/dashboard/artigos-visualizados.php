@@ -1,22 +1,22 @@
 <details class="bg-gray-100 p-4 rounded-lg" open>
   <summary class="w-max cursor-pointer font-semibold text-gray-700 py-3 text-lg flex items-center gap-2">
-    <span>Artigos mais populares</span>
+    <span>Artigos mais visualizados</span>
     <svg class="icon w-5 h-5 transition-transform transform rotate-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
       <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
     </svg>
   </summary>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-4 lg:gap-6">
-    <?php foreach ($artigosPopulares as $chave => $linha) : ?>
+    <?php foreach ($artigosVisualizados as $chave => $linha) : ?>
       <?php if (isset($linha['Artigo']['id'])) { ?>
         <div class="border border-gray-200 flex gap-4 items-start p-6 bg-white rounded-xl shadow">
           <?php
-          $classeTrofeu = 'text-purple-800 bg-purple-100/75';
+          $classeTrofeu = 'text-indigo-800 bg-indigo-100/75';
 
           if ($chave == 1) {
-            $classeTrofeu = 'text-pink-800 bg-pink-100/75';
+            $classeTrofeu = 'text-teal-800 bg-teal-100/75';
           }
           elseif ($chave == 2) {
-            $classeTrofeu = 'text-amber-800 bg-amber-100/75';
+            $classeTrofeu = 'text-red-800 bg-red-100/75';
           }
           ?>
           <span class="mt-2 flex items-center p-3 <?php echo $classeTrofeu; ?> rounded-lg">
@@ -31,7 +31,7 @@
             <ul class="h-full font-extralight text-xs">
               <li>Código: <?php echo $linha['Artigo']['codigo']; ?></li>
               <li>Categoria: <?php echo $linha['Categoria']['nome']; ?></li>
-              <li class="font-normal">Gostou: <?php echo $linha['Feedback']['gostou']; ?> | Não gostou: <?php echo $linha['Feedback']['nao_gostou']; ?></li>
+              <li class="font-normal">Visualizações: <?php echo $linha['Visualizacao']['total']; ?></li>
             </ul>
           </div>
         </div>
