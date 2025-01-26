@@ -76,6 +76,8 @@ return [
     'GET:/dashboard/usuario/editar/{id}'                => ['controlador' => [DashboardUsuarioController::class,        'usuarioEditarVer'],              'permissao' => $total],
     'GET:/dashboard/usuario/adicionar'                  => ['controlador' => [DashboardUsuarioController::class,        'usuarioAdicionarVer'],           'permissao' => $total],
     'GET:/dashboard/validar_assinatura'                 => ['controlador' => [DashboardAssinaturaController::class,     'reprocessarAssinaturaAsaas'],    'permissao' => $suporteTotal],
+    'GET:/dashboard/relatorios'                         => ['controlador' => [DashboardRelatorioController::class,      'relatoriosVer'],                 'permissao' => $todos],
+    'GET:/dashboard/relatorios/feedbacks'               => ['controlador' => [DashboardRelatorioController::class,      'feedbacks'],                     'permissao' => $todos],
     'GET:/d/calcular_consumo'                           => ['controlador' => [DashboardAssinaturaController::class,     'calcularConsumo'],               'permissao' => $todos],
     'GET:/d/buscar_cobrancas'                           => ['controlador' => [DashboardAssinaturaController::class,     'buscarCobrancas'],               'permissao' => $todos],
     'PUT:/d/ajustes'                                    => ['controlador' => [DashboardAjusteController::class,         'atualizar'],                     'permissao' => $todos],
