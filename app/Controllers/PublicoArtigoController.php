@@ -1,15 +1,17 @@
 <?php
 namespace app\Controllers;
-use app\Models\DashboardConteudoModel;
-use app\Models\DashboardArtigoModel;
-use app\Models\DashboardFeedbackModel;
 use app\Core\Cache;
+use app\Models\DashboardArtigoModel;
+use app\Models\DashboardConteudoModel;
+use app\Models\DashboardFeedbackModel;
+use app\Models\DashboardVisualizacaoModel;
 
 class PublicoArtigoController extends PublicoController
 {
   protected $artigoModel;
   protected $feedbackModel;
   protected $conteudoModel;
+  protected $visualizacaoModel;
 
   public function __construct()
   {
@@ -18,6 +20,7 @@ class PublicoArtigoController extends PublicoController
     $this->artigoModel = new DashboardArtigoModel($this->usuarioLogado, $this->empresaPadraoId);
     $this->feedbackModel = new DashboardFeedbackModel($this->usuarioLogado, $this->empresaPadraoId);
     $this->conteudoModel = new DashboardConteudoModel($this->usuarioLogado, $this->empresaPadraoId);
+    $this->visualizacaoModel = new DashboardVisualizacaoModel($this->usuarioLogado, $this->empresaPadraoId);
   }
 
   public function artigoVer(int $codigo)
@@ -190,19 +193,32 @@ class PublicoArtigoController extends PublicoController
       ];
 
       $resultado = $this->feedbackModel->selecionar($colFeedback)
-                                        ->condicao($condFeedback)
-                                        ->limite(1)
-                                        ->executarConsulta();
+                                       ->condicao($condFeedback)
+                                       ->limite(1)
+                                       ->executarConsulta();
 
       if (isset($resultado[0]['Feedback']['util'])) {
         $feedback = $resultado[0]['Feedback']['util'] ?? 0;
         $this->visao->variavel('feedback', $feedback);
+      }
+
+      // Atualizar visualizações
+      if ($this->usuarioLogado['id'] == 0) {
+        $cacheTempo = 60 * 60 * 3;
+        $cacheNome = 'timeout-visualizacao-' . $artigoId . md5(session_id());
+        $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
+
+        if ($resultado == null) {
+          $this->visualizacaoModel->atualizar([], $artigoId);
+          Cache::definir($cacheNome, ['timeout' => true], $cacheTempo, $this->empresaPadraoId);
+        }
       }
     }
     else {
       $this->redirecionarErro('/', 'Desculpe, este artigo não está disponível');
     }
 
+    // SEO
     $metaTitulo = $artigo[0]['Artigo']['meta_titulo'];
     $metaDescricao = $artigo[0]['Artigo']['meta_descricao'];
 

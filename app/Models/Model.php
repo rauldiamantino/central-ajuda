@@ -531,6 +531,10 @@ class Model
 
   private function pluralizar(string $texto)
   {
+    if ($texto == 'Visualizacao') {
+      return 'visualizacoes';
+    }
+
     return strtolower($texto) . 's';
   }
 
