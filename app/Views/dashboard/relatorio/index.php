@@ -16,10 +16,15 @@
   <?php if (isset($relInicio)) { ?>
     <ul class="pt-6 w-full">
       <li>1 . <a href="/dashboard/relatorios/feedbacks" class="underline text-blue-600">Feedbacks de artigos publicados</a></li>
+      <li>2 . <a href="/dashboard/relatorios/visualizacoes" class="underline text-blue-600">Visualizações de artigos publicados</a></li>
     </ul>
   <?php } ?>
 
   <?php if (isset($relFeedbacks)) { ?>
     <?php require_once 'feedbacks-1/tabela-feedbacks.php'; ?>
+  <?php } ?>
+
+  <?php if (isset($relVisualizacoes)) { ?>
+    <?php require_once 'visualizacoes-2/tabela-visualizacoes.php'; ?>
   <?php } ?>
 </div>

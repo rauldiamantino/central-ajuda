@@ -37,4 +37,17 @@ class DashboardRelatorioController extends DashboardController
     $this->visao->variavel('metaTitulo', 'Relatórios - Feedbacks de artigos publicados');
     $this->visao->renderizar('/relatorio/index');
   }
+
+  public function visualizacoes()
+  {
+    $botaoVoltar = $this->obterReferer();
+    $resultado = $this->dashboardRelatorioModel->buscarVisualizacoes();
+
+    $this->visao->variavel('botaoVoltar', $botaoVoltar);
+    $this->visao->variavel('relVisualizacoes', $resultado);
+    $this->visao->variavel('paginaMenuLateral', 'relatorios');
+    $this->visao->variavel('subtitulo', 'Visualizações de artigos publicados');
+    $this->visao->variavel('metaTitulo', 'Relatórios - Visualizações de artigos publicados');
+    $this->visao->renderizar('/relatorio/index');
+  }
 }

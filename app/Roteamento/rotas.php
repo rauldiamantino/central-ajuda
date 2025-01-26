@@ -78,6 +78,7 @@ return [
     'GET:/dashboard/validar_assinatura'                 => ['controlador' => [DashboardAssinaturaController::class,     'reprocessarAssinaturaAsaas'],    'permissao' => $suporteTotal],
     'GET:/dashboard/relatorios'                         => ['controlador' => [DashboardRelatorioController::class,      'relatoriosVer'],                 'permissao' => $todos],
     'GET:/dashboard/relatorios/feedbacks'               => ['controlador' => [DashboardRelatorioController::class,      'feedbacks'],                     'permissao' => $todos],
+    'GET:/dashboard/relatorios/visualizacoes'           => ['controlador' => [DashboardRelatorioController::class,      'visualizacoes'],                 'permissao' => $todos],
     'GET:/d/calcular_consumo'                           => ['controlador' => [DashboardAssinaturaController::class,     'calcularConsumo'],               'permissao' => $todos],
     'GET:/d/buscar_cobrancas'                           => ['controlador' => [DashboardAssinaturaController::class,     'buscarCobrancas'],               'permissao' => $todos],
     'PUT:/d/ajustes'                                    => ['controlador' => [DashboardAjusteController::class,         'atualizar'],                     'permissao' => $todos],
