@@ -50,7 +50,7 @@ class DashboardInicioModel extends Model
       1,                      // Feedback.nao_gostou - then
       0,                      // Artigo.excluido
       $this->empresaPadraoId, // Artigo.empresa_id
-      5,                      // Limite
+      3,                      // Limite
     ];
 
     // Evita duplicidade de consulta

@@ -16,10 +16,8 @@ class DashboardInicioController extends DashboardController
   public function dashboardVer()
   {
     $artigosPopulares = $this->dashboardInicioModel->buscarFeedbacks(true);
-    $artigosMenosPopulares = $this->dashboardInicioModel->buscarFeedbacks();
 
     $this->visao->variavel('artigosPopulares', $artigosPopulares);
-    $this->visao->variavel('artigosMenosPopulares', $artigosMenosPopulares);
     $this->visao->variavel('totalUsuarios', $this->contarUsuarios());
     $this->visao->variavel('totalArtigos', $this->contarArtigos());
     $this->visao->variavel('totalCategorias', $this->contarCategorias());
