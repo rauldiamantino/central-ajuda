@@ -2,7 +2,7 @@
   <?php $totalGostou = 0; ?>
   <?php $totalNaoGostou = 0; ?>
 
-  <div class="dashboard-tabela-feedbacks">
+  <div class="w-full dashboard-tabela-feedbacks">
     <div class="w-full min-h-max border border-gray-300 rounded-t-2xl rounded-b-lg shadow bg-white overflow-x-auto overflow-y-hidden overflow-estilo-tabela">
       <div class="inline-block min-w-full align-middle">
         <table class="table-fixed min-w-full text-sm text-left text-gray-500">
