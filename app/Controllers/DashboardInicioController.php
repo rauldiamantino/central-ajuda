@@ -1,17 +1,22 @@
 <?php
 namespace app\Controllers;
+use app\Models\DashboardInicioModel;
 
 class DashboardInicioController extends DashboardController
 {
+  private $dashboardInicioModel;
+
   public function __construct()
   {
     parent::__construct();
+
+    $this->dashboardInicioModel = new DashboardInicioModel($this->usuarioLogado, $this->empresaPadraoId);
   }
 
   public function dashboardVer()
   {
-    $artigosPopulares = $this->dashboardModel->buscarFeedbacks(true);
-    $artigosMenosPopulares = $this->dashboardModel->buscarFeedbacks();
+    $artigosPopulares = $this->dashboardInicioModel->buscarFeedbacks(true);
+    $artigosMenosPopulares = $this->dashboardInicioModel->buscarFeedbacks();
 
     $this->visao->variavel('artigosPopulares', $artigosPopulares);
     $this->visao->variavel('artigosMenosPopulares', $artigosMenosPopulares);
