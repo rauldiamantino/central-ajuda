@@ -1,4 +1,4 @@
-<details class="bg-gray-100 p-4 rounded-lg" open>
+<details class="bg-gray-100 py-4 rounded-lg" open>
   <summary class="w-max cursor-pointer font-semibold text-gray-700 py-3 text-lg flex items-center gap-2">
     <span>Armazenamento</span>
     <svg class="icon w-5 h-5 transition-transform transform rotate-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
