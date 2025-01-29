@@ -30,6 +30,7 @@ class DashboardRelatorioController extends DashboardController
   {
     // Filtros
     $condicoes = [];
+    $filtroAtual = [];
     $artigoCodigo = $_GET['codigo'] ?? '';
     $artigoCodigo = $this->filtrarInjection($artigoCodigo);
 
@@ -83,6 +84,7 @@ class DashboardRelatorioController extends DashboardController
     $resultado = $this->dashboardRelatorioModel->buscarFeedbacks($condicoes);
 
     $this->visao->variavel('tipo', 'feedbacks-1');
+    $this->visao->variavel('filtroAtual', $filtroAtual);
     $this->visao->variavel('botaoVoltar', $botaoVoltar);
     $this->visao->variavel('relFeedbacks', $resultado);
     $this->visao->variavel('paginaMenuLateral', 'relatorios');

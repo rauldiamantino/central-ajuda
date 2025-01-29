@@ -1,11 +1,5 @@
 <?php
-$status = [
-  'Ativo' => 1,
-  'Inativo' => 0,
-  'Todos' => 'null',
-];
-
-$statusFiltro = $filtroAtual['status'] ?? 'null';
+$codigoFiltro = $filtroAtual['codigo'] ?? 'null';
 ?>
 
 <dialog class="border border-slate-200 p-4 w-full sm:w-[440px] rounded-lg shadow modal-filtrar-feedbacks-1">
@@ -13,7 +7,7 @@ $statusFiltro = $filtroAtual['status'] ?? 'null';
     <div class="flex gap-4">
       <div class="w-full flex flex-col">
         <label for="filtrar-feedbacks-1-codigo">Código</label>
-        <input type="number" id="filtrar-feedbacks-1-codigo" class="<?php echo CLASSES_DASH_INPUT_BUSCA; ?> input-number-none" value=<?php echo $filtroAtual['codigo'] ?? ''; ?>>
+        <input type="number" id="filtrar-feedbacks-1-codigo" class="<?php echo CLASSES_DASH_INPUT_BUSCA; ?> input-number-none" value=<?php echo $codigoFiltro; ?>>
       </div>
     </div>
     <div>
