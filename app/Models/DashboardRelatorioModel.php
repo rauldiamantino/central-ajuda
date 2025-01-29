@@ -34,6 +34,7 @@ class DashboardRelatorioModel extends Model
           '=',
           '!=',
           'LIKE',
+          'IS',
         ];
 
         if (! isset($linha['campo']) or ! in_array($linha['campo'], $condicoesPermitidas)) {
@@ -44,11 +45,13 @@ class DashboardRelatorioModel extends Model
           continue;
         }
 
-        if (! isset($linha['valor']) or is_array($linha['valor'])) {
-          continue;
+        $valor = $linha['valor'] ?? null;
+
+        if (is_array($valor)) {
+          $valor = null;
         }
 
-        $where .= ' AND ' . $linha['campo'] . $linha['operador'] . '?';
+        $where .= ' AND ' . $linha['campo'] . ' ' . $linha['operador'] . ' ?';
         $sqlParams[] = $linha['valor'];
       endforeach;
     }
