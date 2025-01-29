@@ -9,8 +9,14 @@
 
 <?php
 $totalAvaliado = $totalGostou + $totalNaoGostou;
-$percentualGostou = ($totalGostou / $totalAvaliado) * 100;
-$percentualNaoGostou = ($totalNaoGostou / $totalAvaliado) * 100;
+
+$percentualGostou = 0;
+$percentualNaoGostou = 0;
+
+if ($totalAvaliado) {
+  $percentualGostou = ($totalGostou / $totalAvaliado) * 100;
+  $percentualNaoGostou = ($totalNaoGostou / $totalAvaliado) * 100;
+}
 
 $labelGostou = 'Gostou: ' . number_format($percentualGostou, 1) . '%';
 $labelNaoGostou = 'Não Gostou: ' . number_format($percentualNaoGostou, 1) . '%';

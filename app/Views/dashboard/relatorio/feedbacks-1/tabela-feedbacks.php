@@ -22,34 +22,36 @@
               <th class="py-4 px-4">Não gostou</th>
             </tr>
           </thead>
-          <tbody class="divide-y">
-            <?php foreach ($relFeedbacks as $chave => $linha) : ?>
-              <?php if (isset($linha['Artigo']['id'])) { ?>
-                <tr class="hover:bg-gray-100">
-                  <td class="py-6 px-6"><?php echo $linha['Artigo']['codigo']; ?></td>
-                  <td class="py-6 px-4 font-semibold text-gray-900 break-words"><?php echo $linha['Artigo']['titulo']; ?></td>
-                  <td class="py-6 px-4 break-words"><?php echo $linha['Categoria']['nome']; ?></td>
-                  <td class="py-6 px-4 whitespace-nowrap"><?php echo $linha['Feedback']['gostou']; ?></td>
-                  <td class="py-6 px-4 whitespace-nowrap"><?php echo $linha['Feedback']['nao_gostou']; ?></td>
-                </tr>
+          <?php if ($relFeedbacks and is_array($relFeedbacks)) { ?>
+            <tbody class="divide-y">
+              <?php foreach ($relFeedbacks as $chave => $linha) : ?>
+                <?php if (isset($linha['Artigo']['id'])) { ?>
+                  <tr class="hover:bg-gray-100">
+                    <td class="py-6 px-6"><?php echo $linha['Artigo']['codigo']; ?></td>
+                    <td class="py-6 px-4 font-semibold text-gray-900 break-words"><?php echo $linha['Artigo']['titulo']; ?></td>
+                    <td class="py-6 px-4 break-words"><?php echo $linha['Categoria']['nome']; ?></td>
+                    <td class="py-6 px-4 whitespace-nowrap"><?php echo $linha['Feedback']['gostou']; ?></td>
+                    <td class="py-6 px-4 whitespace-nowrap"><?php echo $linha['Feedback']['nao_gostou']; ?></td>
+                  </tr>
 
-                <?php $totalGostou += (int) $linha['Feedback']['gostou']; ?>
-                <?php $totalNaoGostou += (int) $linha['Feedback']['nao_gostou']; ?>
-              <?php } ?>
-            <?php endforeach; ?>
+                  <?php $totalGostou += (int) $linha['Feedback']['gostou']; ?>
+                  <?php $totalNaoGostou += (int) $linha['Feedback']['nao_gostou']; ?>
+                <?php } ?>
+              <?php endforeach; ?>
 
-            <tr class="hover:bg-gray-100 bg-gray-100">
-              <td class="py-6 px-6">Totais</td>
-              <td class="py-6 px-4 font-semibold text-gray-900 break-words"></td>
-              <td class="py-6 px-4 break-words"></td>
-              <td class="py-6 px-4 whitespace-nowrap font-bold"><?php echo $totalGostou; ?></td>
-              <td class="py-6 px-4 whitespace-nowrap font-bold"><?php echo $totalNaoGostou; ?></td>
-            </tr>
-          </tbody>
+              <tr class="hover:bg-gray-100 bg-gray-100">
+                <td class="py-6 px-6">Totais</td>
+                <td class="py-6 px-4 font-semibold text-gray-900 break-words"></td>
+                <td class="py-6 px-4 break-words"></td>
+                <td class="py-6 px-4 whitespace-nowrap font-bold"><?php echo $totalGostou; ?></td>
+                <td class="py-6 px-4 whitespace-nowrap font-bold"><?php echo $totalNaoGostou; ?></td>
+              </tr>
+            </tbody>
+          <?php } ?>
         </table>
       </div>
     </div>
   </div>
 
-  <?php require_once 'grafico-pizza.php' ?>
+  <?php require_once 'grafico-pizza.php'; ?>
 </div>
