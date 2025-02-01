@@ -57,12 +57,24 @@ class DashboardRelatorioController extends DashboardController
     // Filtrar por Data início
     if (isset($_GET['data_inicio']) and ! isset($_GET['data_fim'])) {
       $filtroAtual['data_inicio'] = $dataInicio;
+
+      // Sempre depois do filtro
+      if ($dataInicio) {
+        $dataInicio .= ' 23:59:59';
+      }
+
       $condicoes[] = ['campo' => 'Feedback.criado', 'operador' => 'BETWEEN', 'valor' => [(new DateTime($dataInicio))->format('Y-m-d H:i:s'), (new DateTime('now'))->format('Y-m-d H:i:s')]];
     }
 
     // Filtrar por Data fim
     if (isset($_GET['data_fim']) and ! isset($_GET['data_inicio'])) {
       $filtroAtual['data_fim'] = $dataFim;
+
+      // Sempre depois do filtro
+      if ($dataFim) {
+        $dataFim .= ' 23:59:59';
+      }
+
       $condicoes[] = ['campo' => 'Feedback.criado', 'operador' => '<=', 'valor' => (new DateTime($dataFim))->format('Y-m-d H:i:s')];
     }
 
@@ -70,6 +82,16 @@ class DashboardRelatorioController extends DashboardController
     if (isset($_GET['data_inicio']) and isset($_GET['data_fim'])) {
       $filtroAtual['data_inicio'] = $dataInicio;
       $filtroAtual['data_fim'] = $dataFim;
+
+      // Sempre depois do filtro
+      if ($dataInicio) {
+        $dataInicio .= ' 23:59:59';
+      }
+
+      if ($dataFim) {
+        $dataFim .= ' 23:59:59';
+      }
+
       $condicoes[] = ['campo' => 'Feedback.criado', 'operador' => 'BETWEEN', 'valor' => [(new DateTime($dataInicio))->format('Y-m-d H:i:s'), (new DateTime($dataFim))->format('Y-m-d H:i:s')]];
     }
 
