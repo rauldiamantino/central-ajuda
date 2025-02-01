@@ -1,7 +1,7 @@
 <?php
-$codigoFiltro = $filtroAtual['codigo'] ?? 'null';
-$dataInicioFiltro = $filtroAtual['data_inicio'] ?? 'null';
-$dataFimFiltro = $filtroAtual['data_fim'] ?? 'null';
+$codigoFiltro = $filtroAtual['codigo'] ?? '';
+$dataInicioFiltro = $filtroAtual['data_inicio'] ?? '';
+$dataFimFiltro = $filtroAtual['data_fim'] ?? '';
 ?>
 
 <dialog class="border border-slate-200 p-4 w-full sm:w-[440px] rounded-lg shadow modal-filtrar-feedbacks-1">
