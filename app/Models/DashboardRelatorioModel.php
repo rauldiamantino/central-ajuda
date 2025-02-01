@@ -26,8 +26,9 @@ class DashboardRelatorioModel extends Model
     if ($condicoes) {
       foreach ($condicoes as $chave => $linha):
         $condicoesPermitidas = [
-          'Artigo.codigo',
-          'Artigo.categoria_id',
+          'Artigo.codigo' => '`Artigo`.`codigo`',
+          'Artigo.categoria_id' => '`Artigo`.`categoria_id`',
+          'Feedback.criado' => '`feedbacks`.`criado`',
         ];
 
         $operadoresPermitidos = [
@@ -35,24 +36,39 @@ class DashboardRelatorioModel extends Model
           '!=',
           'LIKE',
           'IS',
+          'BETWEEN',
         ];
 
-        if (! isset($linha['campo']) or ! in_array($linha['campo'], $condicoesPermitidas)) {
+        if (! isset($linha['campo']) or ! isset($linha['campo'], $condicoesPermitidas)) {
           continue;
         }
 
-        if (! isset($linha['operador']) or ! in_array($linha['operador'], $operadoresPermitidos)) {
+        if (! isset($linha['operador']) or ! isset($linha['operador'], $operadoresPermitidos)) {
           continue;
         }
 
+        $campo = $condicoesPermitidas[ $linha['campo'] ];
+        $operador = $linha['operador'];
         $valor = $linha['valor'] ?? null;
 
-        if (is_array($valor)) {
+        if (is_array($valor) and $operador != 'BETWEEN' and $campo != 'Feedback.criado') {
           $valor = null;
         }
 
-        $where .= ' AND ' . $linha['campo'] . ' ' . $linha['operador'] . ' ?';
-        $sqlParams[] = $linha['valor'];
+        if ($operador == 'BETWEEN') {
+
+          if (! is_array($valor) or count($valor) != 2) {
+            continue;
+          }
+
+          $where .= ' AND (' . $campo . ' ' . $operador . ' ? AND ?)';
+          $sqlParams[] = $valor[0];
+          $sqlParams[] = $valor[1];
+        }
+        else {
+          $where .= ' AND ' . $campo . ' ' . $operador . ' ?';
+          $sqlParams[] = $valor;
+        }
       endforeach;
     }
 

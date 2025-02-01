@@ -12,6 +12,8 @@ const filtrarFeedbacks = () => {
   const urlParams = new URLSearchParams(window.location.search)
   const categoriaSelecionadaId = urlParams.get('categoria_id')
   const inputCodigo = modalFiltrarBlocos.querySelector('#filtrar-feedbacks-1-codigo')
+  const inputDataInicio = modalFiltrarBlocos.querySelector('#filtrar-feedbacks-1-data-inicio')
+  const inputDataFim = modalFiltrarBlocos.querySelector('#filtrar-feedbacks-1-data-fim')
   const selectCategoria = modalFiltrarBlocos.querySelector('#filtrar-feedbacks-1-categoria')
 
   if (! empresa) {
@@ -20,7 +22,6 @@ const filtrarFeedbacks = () => {
 
   // Sempre limpa
   selectCategoria.innerHTML = ''
-  let categoriaNome = ''
   let categorias = {}
 
   fetch('/d/categorias', {
@@ -41,6 +42,20 @@ const filtrarFeedbacks = () => {
         })
 
         inputCodigo.addEventListener('keypress', (event) => {
+
+          if (event.key === 'Enter') {
+            clicouConfirmar(true)
+          }
+        })
+
+        inputDataInicio.addEventListener('keypress', (event) => {
+
+          if (event.key === 'Enter') {
+            clicouConfirmar(true)
+          }
+        })
+
+        inputDataFim.addEventListener('keypress', (event) => {
 
           if (event.key === 'Enter') {
             clicouConfirmar(true)
@@ -96,6 +111,14 @@ const filtrarFeedbacks = () => {
 
           if (inputCodigo.value !== undefined && inputCodigo.value != '') {
             params += `&codigo=${inputCodigo.value}`
+          }
+
+          if (inputDataInicio.value !== undefined && inputDataInicio.value != '') {
+            params += `&data_inicio=${inputDataInicio.value}`
+          }
+
+          if (inputDataFim.value !== undefined && inputDataFim.value != '') {
+            params += `&data_fim=${inputDataFim.value}`
           }
 
           return params

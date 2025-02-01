@@ -134,7 +134,7 @@ class Controller
     }
 
     // Permitir letras, números, espaços, barras, ponto, &, ?, =, e acentos
-    $textoEntrada = preg_replace('/[^a-zA-Z0-9\s\/\.&?=\p{L}]/u', '', $textoEntrada);
+    $textoEntrada = preg_replace('/[^a-zA-Z0-9\s\/\.\-&?=\p{L}]/u', '', $textoEntrada);
 
     $proibidos = [
       'SELECT', 'INSERT', 'DELETE', 'UPDATE', 'DROP', 'ALTER', 'CREATE', 'REPLACE',

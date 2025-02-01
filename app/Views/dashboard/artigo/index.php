@@ -40,9 +40,9 @@
       <div class="mb-4 flex gap-2 flex-wrap">
         <?php foreach ($filtroAtual as $chave => $linha): ?>
 
-          <?php if ($chave == 'id') { ?>
+          <?php if ($chave == 'codigo') { ?>
             <div class="w-max border-dashed border border-blue-600 px-2 py-1 whitespace-nowrap cursor-pointer" onclick="filtrarArtigos()">
-              ID: <span class="font-semibold"><?php echo $linha ?></span>
+              Código: <span class="font-semibold"><?php echo $linha ?></span>
             </div>
           <?php } ?>
 

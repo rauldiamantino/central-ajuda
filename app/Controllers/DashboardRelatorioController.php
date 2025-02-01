@@ -1,5 +1,6 @@
 <?php
 namespace app\Controllers;
+use DateTime;
 use app\Models\DashboardRelatorioModel;
 
 class DashboardRelatorioController extends DashboardController
@@ -31,36 +32,21 @@ class DashboardRelatorioController extends DashboardController
     // Filtros
     $condicoes = [];
     $filtroAtual = [];
+
     $artigoCodigo = $_GET['codigo'] ?? '';
     $artigoCodigo = $this->filtrarInjection($artigoCodigo);
 
-    $artigoTitulo = urldecode($_GET['titulo'] ?? '');
-    $artigoTitulo = $this->filtrarInjection($artigoTitulo);
+    $dataInicio = $_GET['data_inicio'] ?? '';
+    $dataInicio = $this->filtrarInjection($dataInicio);
 
-    $artigoStatus = $_GET['status'] ?? '';
-    $artigoStatus = $this->filtrarInjection($artigoStatus);
+    $dataFim = $_GET['data_fim'] ?? '';
+    $dataFim = $this->filtrarInjection($dataFim);
 
     $categoriaId = $_GET['categoria_id'] ?? '';
     $categoriaId = $this->filtrarInjection($categoriaId);
 
-    $categoriaNome = urldecode($_GET['categoria_nome'] ?? '');
+    $categoriaNome = $_GET['categoria_nome'] ?? '';
     $categoriaNome = $this->filtrarInjection($categoriaNome);
-
-    // Filtrar por categoria
-    if (isset($_GET['categoria_id'])) {
-      $filtroAtual['categoria_id'] = $categoriaId;
-
-      if (intval($categoriaId) > 0) {
-        $condicoes[] = ['campo' => 'Artigo.categoria_id', 'operador' => '=', 'valor' => (int) $categoriaId];
-      }
-      elseif ($categoriaId === '0') {
-        $condicoes[] = ['campo' => 'Artigo.categoria_id', 'operador' => 'IS', 'valor' => NULL];
-      }
-    }
-
-    if (isset($_GET['categoria_nome'])) {
-      $filtroAtual['categoria_nome'] = $categoriaNome;
-    }
 
     // Filtrar por Código
     if (isset($_GET['codigo'])) {
@@ -68,16 +54,36 @@ class DashboardRelatorioController extends DashboardController
       $condicoes[] = ['campo' => 'Artigo.codigo', 'operador' => '=', 'valor' => (int) $artigoCodigo];
     }
 
-    // Filtrar por status
-    if (isset($_GET['status'])) {
-      $filtroAtual['status'] = $artigoStatus;
-      $condicoes[] = ['campo' => 'Artigo.ativo', 'operador' => '=', 'valor' => (int) $artigoStatus];
+    // Filtrar por Data início
+    if (isset($_GET['data_inicio']) and ! isset($_GET['data_fim'])) {
+      $filtroAtual['data_inicio'] = $dataInicio;
+      $condicoes[] = ['campo' => 'Feedback.criado', 'operador' => 'BETWEEN', 'valor' => [(new DateTime($dataInicio))->format('Y-m-d H:i:s'), (new DateTime('now'))->format('Y-m-d H:i:s')]];
     }
 
-    // Filtrar por título
-    if (isset($_GET['titulo'])) {
-      $filtroAtual['titulo'] = $artigoTitulo;
-      $condicoes[] = ['campo' => 'Artigo.titulo', 'operador' => 'LIKE', 'valor' => '%' . $artigoTitulo . '%'];
+    // Filtrar por Data fim
+    if (isset($_GET['data_fim']) and ! isset($_GET['data_inicio'])) {
+      $filtroAtual['data_fim'] = $dataFim;
+      $condicoes[] = ['campo' => 'Feedback.criado', 'operador' => 'BETWEEN', 'valor' => [(new DateTime('now'))->format('Y-m-d H:i:s'), (new DateTime($dataFim))->format('Y-m-d H:i:s')]];
+    }
+
+    // Filtrar por Data início e Data fim
+    if (isset($_GET['data_inicio']) and isset($_GET['data_fim'])) {
+      $filtroAtual['data_inicio'] = $dataInicio;
+      $filtroAtual['data_fim'] = $dataFim;
+      $condicoes[] = ['campo' => 'Feedback.criado', 'operador' => 'BETWEEN', 'valor' => [(new DateTime($dataInicio))->format('Y-m-d H:i:s'), (new DateTime($dataFim))->format('Y-m-d H:i:s')]];
+    }
+
+    // Filtrar por categoria
+    if (isset($_GET['categoria_id'])) {
+      $filtroAtual['categoria_id'] = $categoriaId;
+      $filtroAtual['categoria_nome'] = $categoriaNome;
+
+      if (intval($categoriaId) > 0) {
+        $condicoes[] = ['campo' => 'Artigo.categoria_id', 'operador' => '=', 'valor' => (int) $categoriaId];
+      }
+      elseif ($categoriaId === '0') {
+        $condicoes[] = ['campo' => 'Artigo.categoria_id', 'operador' => 'IS', 'valor' => NULL];
+      }
     }
 
     $botaoVoltar = $this->obterReferer();

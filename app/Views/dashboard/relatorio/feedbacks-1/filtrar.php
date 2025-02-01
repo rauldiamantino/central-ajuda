@@ -1,5 +1,7 @@
 <?php
 $codigoFiltro = $filtroAtual['codigo'] ?? 'null';
+$dataInicioFiltro = $filtroAtual['data_inicio'] ?? 'null';
+$dataFimFiltro = $filtroAtual['data_fim'] ?? 'null';
 ?>
 
 <dialog class="border border-slate-200 p-4 w-full sm:w-[440px] rounded-lg shadow modal-filtrar-feedbacks-1">
@@ -8,6 +10,16 @@ $codigoFiltro = $filtroAtual['codigo'] ?? 'null';
       <div class="w-full flex flex-col">
         <label for="filtrar-feedbacks-1-codigo">Código</label>
         <input type="number" id="filtrar-feedbacks-1-codigo" class="<?php echo CLASSES_DASH_INPUT_BUSCA; ?> input-number-none" value=<?php echo $codigoFiltro; ?>>
+      </div>
+    </div>
+    <div class="flex gap-4">
+      <div class="w-full flex flex-col">
+        <label for="filtrar-feedbacks-1-data-inicio">Data início</label>
+        <input type="date" id="filtrar-feedbacks-1-data-inicio" class="<?php echo CLASSES_DASH_INPUT_BUSCA; ?>" value=<?php echo $dataInicioFiltro; ?>>
+      </div>
+      <div class="w-full flex flex-col">
+        <label for="filtrar-feedbacks-1-data-fim">Data fim</label>
+        <input type="date" id="filtrar-feedbacks-1-data-fim" class="<?php echo CLASSES_DASH_INPUT_BUSCA; ?>" value=<?php echo $dataFimFiltro; ?>>
       </div>
     </div>
     <div>

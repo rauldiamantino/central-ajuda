@@ -1,3 +1,5 @@
+<?php require_once 'filtros-ativos.php'; ?>
+
 <div class="pt-6 w-full flex flex-col lg:flex-row gap-2">
   <?php $totalGostou = 0; ?>
   <?php $totalNaoGostou = 0; ?>
