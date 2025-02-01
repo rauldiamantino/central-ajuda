@@ -1,7 +1,7 @@
 <?php // Biblioteca Chart.js ?>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<div class="mt-10 w-full flex justify-center">
+<div class="mt-6 w-full flex justify-center">
   <div class="w-[400px] max-w-full">
     <canvas id="graficoPizza"></canvas>
   </div>
