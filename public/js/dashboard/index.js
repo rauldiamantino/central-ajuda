@@ -161,7 +161,7 @@ const removerAutocomplete = () => {
 
     setTimeout(function(){
       input.removeAttribute('disabled')
-    }, 500)
+    }, 800)
   })
 }
 
