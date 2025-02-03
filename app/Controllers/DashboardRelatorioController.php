@@ -59,11 +59,11 @@ class DashboardRelatorioController extends DashboardController
       $filtroAtual['data_inicio'] = $dataInicio;
 
       // Sempre depois do filtro
-      if ($dataInicio) {
-        $dataInicio .= ' 23:59:59';
-      }
+      $dataInicio = $this->converterDataParaBanco($dataInicio);
 
-      $condicoes[] = ['campo' => 'Feedback.criado', 'operador' => 'BETWEEN', 'valor' => [(new DateTime($dataInicio))->format('Y-m-d H:i:s'), (new DateTime('now'))->format('Y-m-d H:i:s')]];
+      if ($dataInicio) {
+        $condicoes[] = ['campo' => 'Feedback.criado', 'operador' => 'BETWEEN', 'valor' => [(new DateTime($dataInicio))->format('Y-m-d H:i:s'), (new DateTime('now'))->format('Y-m-d H:i:s')]];
+      }
     }
 
     // Filtrar por Data fim
@@ -71,11 +71,11 @@ class DashboardRelatorioController extends DashboardController
       $filtroAtual['data_fim'] = $dataFim;
 
       // Sempre depois do filtro
-      if ($dataFim) {
-        $dataFim .= ' 23:59:59';
-      }
+      $dataFim = $this->converterDataParaBanco($dataFim);
 
-      $condicoes[] = ['campo' => 'Feedback.criado', 'operador' => '<=', 'valor' => (new DateTime($dataFim))->format('Y-m-d H:i:s')];
+      if ($dataFim) {
+        $condicoes[] = ['campo' => 'Feedback.criado', 'operador' => '<=', 'valor' => (new DateTime($dataFim))->format('Y-m-d H:i:s')];
+      }
     }
 
     // Filtrar por Data início e Data fim
@@ -84,15 +84,13 @@ class DashboardRelatorioController extends DashboardController
       $filtroAtual['data_fim'] = $dataFim;
 
       // Sempre depois do filtro
-      if ($dataInicio) {
-        $dataInicio .= ' 23:59:59';
-      }
+      $dataInicio = $this->converterDataParaBanco($dataInicio);
+      $dataFim = $this->converterDataParaBanco($dataFim);
 
-      if ($dataFim) {
-        $dataFim .= ' 23:59:59';
+      // Sempre depois do filtro
+      if ($dataInicio and $dataFim) {
+        $condicoes[] = ['campo' => 'Feedback.criado', 'operador' => 'BETWEEN', 'valor' => [(new DateTime($dataInicio))->format('Y-m-d H:i:s'), (new DateTime($dataFim))->format('Y-m-d H:i:s')]];
       }
-
-      $condicoes[] = ['campo' => 'Feedback.criado', 'operador' => 'BETWEEN', 'valor' => [(new DateTime($dataInicio))->format('Y-m-d H:i:s'), (new DateTime($dataFim))->format('Y-m-d H:i:s')]];
     }
 
     // Filtrar por categoria
@@ -133,5 +131,15 @@ class DashboardRelatorioController extends DashboardController
     $this->visao->variavel('subtitulo', 'Visualizações de artigos publicados');
     $this->visao->variavel('metaTitulo', 'Relatórios - Visualizações de artigos publicados');
     $this->visao->renderizar('/relatorio/index');
+  }
+
+  public function converterDataParaBanco($data) {
+    $partes = explode('/', $data);
+
+    if (count($partes) === 3) {
+      return $partes[2] . '-' . $partes[1] . '-' . $partes[0] . ' 23:59:59';
+    }
+
+    return null;
   }
 }
