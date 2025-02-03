@@ -1,4 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
+  const efeitoLoaderDiv = document.querySelector('.efeito-loader-div')
+  const conteudoPublico = document.querySelector('#conteudo-publico')
+
+  setTimeout(() => {
+    efeitoLoaderDiv.classList.add('hidden')
+    conteudoPublico.classList.remove('hidden')
+  }, 1000)
+
   const topoPublico = document.querySelector('.topo-publico')
   const topoPublicoInverter = document.querySelector('.inverter')
   const menuLateral = document.querySelector('.publico-menu-lateral')

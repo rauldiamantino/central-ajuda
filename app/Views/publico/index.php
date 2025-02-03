@@ -4,74 +4,81 @@
 <?php require_once 'template/cabecalho.php' ?>
 
 <?php // echo isset($inicio) ? 'bg-gray-100' : 'bg-gray-100' ?>
+<div class="absolute w-full h-full flex items-center justify-center bg-gray-50 efeito-loader-div">
+  <div class="efeito-loader">
+
+  </div>
+</div>
+
 <body class="min-h-screen max-w-screen flex flex-col font-normal bg-white" data-base-url="<?php echo RAIZ; ?>">
+  <div class="hidden" id="conteudo-publico">
+    <?php require_once 'template/topo.php' ?>
 
-  <?php require_once 'template/topo.php' ?>
-
-  <?php if (isset($inicio)) { ?>
-    <div class="px-4 md:px-8 py-16 md:py-32 w-full flex items-center justify-center pers-publico-inicio-busca template-cor-<?php echo $corPrimaria; ?>">
-      <div class="w-full max-w-[800px] flex flex-col items-start gap-6">
-        <div class="flex flex-col gap-3">
-          <h2 class="font-bold text-3xl">Olá, como podemos te ajudar hoje?</h2>
-          <div class="font-light">Explore nossos <span class="font-semibold">guias, tutoriais e artigos</span> para encontrar rapidamente as informações que você precisa.</div>
-        </div>
-        <div class="w-full flex flex-col justify-center">
-          <?php require_once 'inicio/formulario-busca.php' ?>
-        </div>
-      </div>
-    </div>
-  <?php } ?>
-
-  <main class="p-4 w-full min-h-screen flex flex-col gap-4 items-center">
-    <?php $notificacaoSucesso = $this->sessaoUsuario->buscar('ok'); ?>
-    <?php $notificacaoErro = $this->sessaoUsuario->buscar('erro'); ?>
-
-    <?php // Notificação de Sucesso ?>
-    <?php if (isset($notificacaoSucesso) and $notificacaoSucesso) { ?>
-      <div class="fixed bottom-0 w-full z-30 flex justify-center items-center text-lg js-notificacao-sucesso-publico js-dashboard-notificacao-sucesso-btn-fechar">
-        <div class="w-full bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
-          <?php echo $notificacaoSucesso ?>
-        </div>
-      </div>
-    <?php } ?>
-
-    <?php // Notificação de erro ?>
-    <?php if (isset($notificacaoErro) and $notificacaoErro) { ?>
-      <div class="fixed bottom-0 w-full z-30 flex justify-center items-center text-lg js-notificacao-erro-publico js-dashboard-notificacao-erro-btn-fechar">
-        <div class="w-full bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-          <?php echo $notificacaoErro ?>
-        </div>
-      </div>
-    <?php } ?>
-
-    <?php // Limpar notificações ?>
-    <?php $this->sessaoUsuario->apagar('ok'); ?>
-    <?php $this->sessaoUsuario->apagar('erro'); ?>
-
-    <div class="w-full max-w-[1244px] min-h-screen flex gap-4"> <?php // rounded-md ?>
-
-      <?php if ($menuLateral) { ?>
-        <?php require_once 'template/menu_lateral.php' ?>
-      <?php } ?>
-
-      <?php require_once $visao ?>
-    </div>
-  </main>
-
-  <?php require_once 'template/rodape.php' ?>
-
-  <?php if ($this->usuarioLogado['padrao'] == USUARIO_SUPORTE and $this->sessaoUsuario->buscar('debugAtivo')) { ?>
-    <div class="my-10 px-4 lg:px-14 flex max-w-screen">
-      <div class="w-full">
-        <h2 class="mb-5 text-2xl font-semibold">Debug</h2>
-        <div class="border border-slate-300 w-full p-4 lg:p-10 bg-gray-200 text-gray-900 text-xs shadow rounded-md">
-          <div class="py-4 overflow-x-auto">
-            <?php pr($this->sessaoUsuario->buscar('debug')); ?>
+    <?php if (isset($inicio)) { ?>
+      <div class="px-4 md:px-8 py-16 md:py-32 w-full flex items-center justify-center pers-publico-inicio-busca template-cor-<?php echo $corPrimaria; ?>">
+        <div class="w-full max-w-[800px] flex flex-col items-start gap-6">
+          <div class="flex flex-col gap-3">
+            <h2 class="font-bold text-3xl">Olá, como podemos te ajudar hoje?</h2>
+            <div class="font-light">Explore nossos <span class="font-semibold">guias, tutoriais e artigos</span> para encontrar rapidamente as informações que você precisa.</div>
+          </div>
+          <div class="w-full flex flex-col justify-center">
+            <?php require_once 'inicio/formulario-busca.php' ?>
           </div>
         </div>
       </div>
-    </div>
-  <?php } ?>
+    <?php } ?>
+
+    <main class="p-4 w-full min-h-screen flex flex-col gap-4 items-center">
+      <?php $notificacaoSucesso = $this->sessaoUsuario->buscar('ok'); ?>
+      <?php $notificacaoErro = $this->sessaoUsuario->buscar('erro'); ?>
+
+      <?php // Notificação de Sucesso ?>
+      <?php if (isset($notificacaoSucesso) and $notificacaoSucesso) { ?>
+        <div class="fixed bottom-0 w-full z-30 flex justify-center items-center text-lg js-notificacao-sucesso-publico js-dashboard-notificacao-sucesso-btn-fechar">
+          <div class="w-full bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+            <?php echo $notificacaoSucesso ?>
+          </div>
+        </div>
+      <?php } ?>
+
+      <?php // Notificação de erro ?>
+      <?php if (isset($notificacaoErro) and $notificacaoErro) { ?>
+        <div class="fixed bottom-0 w-full z-30 flex justify-center items-center text-lg js-notificacao-erro-publico js-dashboard-notificacao-erro-btn-fechar">
+          <div class="w-full bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+            <?php echo $notificacaoErro ?>
+          </div>
+        </div>
+      <?php } ?>
+
+      <?php // Limpar notificações ?>
+      <?php $this->sessaoUsuario->apagar('ok'); ?>
+      <?php $this->sessaoUsuario->apagar('erro'); ?>
+
+      <div class="w-full max-w-[1244px] min-h-screen flex gap-4"> <?php // rounded-md ?>
+
+        <?php if ($menuLateral) { ?>
+          <?php require_once 'template/menu_lateral.php' ?>
+        <?php } ?>
+
+        <?php require_once $visao ?>
+      </div>
+    </main>
+
+    <?php require_once 'template/rodape.php' ?>
+
+    <?php if ($this->usuarioLogado['padrao'] == USUARIO_SUPORTE and $this->sessaoUsuario->buscar('debugAtivo')) { ?>
+      <div class="my-10 px-4 lg:px-14 flex max-w-screen">
+        <div class="w-full">
+          <h2 class="mb-5 text-2xl font-semibold">Debug</h2>
+          <div class="border border-slate-300 w-full p-4 lg:p-10 bg-gray-200 text-gray-900 text-xs shadow rounded-md">
+            <div class="py-4 overflow-x-auto">
+              <?php pr($this->sessaoUsuario->buscar('debug')); ?>
+            </div>
+          </div>
+        </div>
+      </div>
+    <?php } ?>
+  </div>
 
   <?php require_once 'scripts.php' ?>
 </body>
