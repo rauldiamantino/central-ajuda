@@ -157,8 +157,11 @@ const removerAutocomplete = () => {
   }
 
   inputs.forEach(input => {
-    let hashAleatorio = Math.random().toString(36).substring(2, 10)
-    input.setAttribute('autocomplete', hashAleatorio)
+    input.setAttribute('disabled', 'disabled')
+
+    setTimeout(function(){
+      input.removeAttribute('disabled')
+    }, 300)
   })
 }
 
