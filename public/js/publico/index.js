@@ -1,9 +1,11 @@
 document.addEventListener('DOMContentLoaded', function() {
   const efeitoLoaderDiv = document.querySelector('.efeito-loader-div')
+  const efeitoLoader = document.querySelector('.efeito-loader')
   const conteudoPublico = document.querySelector('#conteudo-publico')
 
   setTimeout(() => {
     efeitoLoaderDiv.classList.add('hidden')
+    efeitoLoader.classList.add('hidden')
     conteudoPublico.classList.remove('hidden')
   }, 1000)
 
