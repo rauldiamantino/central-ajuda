@@ -126,7 +126,7 @@ class DashboardRelatorioController extends DashboardController
     $botaoVoltar = $this->obterReferer();
     $resultado = $this->dashboardRelatorioModel->buscarVisualizacoes();
 
-    $this->visao->variavel('tipo', 'visualizacoes-1');
+    $this->visao->variavel('tipo', 'visualizacoes-2');
     $this->visao->variavel('botaoVoltar', $botaoVoltar);
     $this->visao->variavel('relVisualizacoes', $resultado);
     $this->visao->variavel('paginaMenuLateral', 'relatorios');
