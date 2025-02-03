@@ -152,16 +152,13 @@ const alternarSetas = (menuTopoUsuarioCima, menuTopoUsuarioBaixo) => {
 const removerAutocomplete = () => {
   let inputs = document.querySelectorAll('input[autocomplete="off"]')
 
-  if (! inputs) {
+  if (! inputs.length) {
     return
   }
 
   inputs.forEach(input => {
-    input.setAttribute('disabled', 'disabled')
-
-    setTimeout(function(){
-      input.removeAttribute('disabled')
-    }, 1000)
+    let hashAleatorio = Math.random().toString(36).substring(2, 10)
+    input.setAttribute('autocomplete', hashAleatorio)
   })
 }
 
