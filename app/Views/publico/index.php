@@ -5,7 +5,7 @@
 
 <?php // echo isset($inicio) ? 'bg-gray-100' : 'bg-gray-100' ?>
 <div class="absolute w-full h-full flex items-center justify-center bg-gray-50 efeito-loader-publico-div">
-  <div class="efeito-loader-publico efeito-loader">
+  <div class="efeito-loader-publico">
   </div>
 </div>
 
