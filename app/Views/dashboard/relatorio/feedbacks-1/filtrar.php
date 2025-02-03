@@ -15,11 +15,11 @@ $dataFimFiltro = $filtroAtual['data_fim'] ?? '';
     <div class="flex gap-4">
       <div class="w-full flex flex-col">
         <label for="filtrar-feedbacks-1-data-inicio">Data início</label>
-        <input type="date" id="filtrar-feedbacks-1-data-inicio" class="<?php echo CLASSES_DASH_INPUT_BUSCA; ?>" value=<?php echo $dataInicioFiltro; ?>>
+        <input type="text" placeholder="dd/mm/aaaa" id="filtrar-feedbacks-1-data-inicio" class="<?php echo CLASSES_DASH_INPUT_BUSCA; ?> data-feedback" value=<?php echo $dataInicioFiltro; ?>>
       </div>
       <div class="w-full flex flex-col">
         <label for="filtrar-feedbacks-1-data-fim">Data fim</label>
-        <input type="date" id="filtrar-feedbacks-1-data-fim" class="<?php echo CLASSES_DASH_INPUT_BUSCA; ?>" value=<?php echo $dataFimFiltro; ?>>
+        <input type="text" placeholder="dd/mm/aaaa" id="filtrar-feedbacks-1-data-fim" class="<?php echo CLASSES_DASH_INPUT_BUSCA; ?> data-feedback" value=<?php echo $dataFimFiltro; ?>>
       </div>
     </div>
     <div>

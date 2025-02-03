@@ -20,6 +20,8 @@ const filtrarFeedbacks = () => {
     return
   }
 
+  mascararData()
+
   // Sempre limpa
   selectCategoria.innerHTML = ''
   let categorias = {}
@@ -131,4 +133,20 @@ const filtrarFeedbacks = () => {
     .catch(error => {
       console.error(error)
     })
+}
+
+const mascararData = () => {
+  const $datas = document.querySelectorAll('.data-feedback')
+
+  if (! $datas) {
+    return
+  }
+
+  $datas.forEach(valor => {
+    new Cleave(valor, {
+      date: true,
+      delimiter: '/',
+      datePattern: ['d', 'm', 'Y']
+    })
+  })
 }
