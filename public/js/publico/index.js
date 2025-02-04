@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     efeitoLoaderDiv.classList.add('hidden')
     efeitoLoader.classList.add('hidden')
     conteudoPublico.classList.remove('hidden')
-  }, 1000)
+  }, 700)
 
   const topoPublico = document.querySelector('.topo-publico')
   const topoPublicoInverter = document.querySelector('.inverter')
