@@ -54,5 +54,6 @@ $filtrar = [
 
   <?php if (isset($relVisualizacoes)) { ?>
     <?php require_once 'visualizacoes-2/tabela-visualizacoes.php'; ?>
+    <?php require_once 'visualizacoes-2/filtrar.php'; ?>
   <?php } ?>
 </div>

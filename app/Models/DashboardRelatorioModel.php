@@ -51,7 +51,7 @@ class DashboardRelatorioModel extends Model
         $operador = $linha['operador'];
         $valor = $linha['valor'] ?? null;
 
-        if (is_array($valor) and $operador != 'BETWEEN' and $campo != 'Feedback.criado') {
+        if (is_array($valor) and $operador != 'BETWEEN' and $campo != '`feedbacks`.`criado`') {
           $valor = null;
         }
 
@@ -115,34 +115,84 @@ class DashboardRelatorioModel extends Model
     return $resultado;
   }
 
-  public function buscarVisualizacoes()
+  public function buscarVisualizacoes(array $condicoes = [])
   {
-    $sql = <<<SQL
-            SELECT
-              `artigos`.`id` AS `Artigo.id`,
-              `artigos`.`codigo` AS `Artigo.codigo`,
-              `artigos`.`titulo` AS `Artigo.titulo`,
-              `artigos`.`empresa_id` AS `Artigo.empresa_id`,
-              `artigos`.`categoria_id` AS `Artigo.categoria_id`,
-              `categorias`.`nome` AS `Categoria.nome`,
-              COUNT(`visualizacoes`.`id`) AS `Visualizacao.total`
-            FROM
-              `artigos`
-              LEFT JOIN `categorias` ON `categorias`.`id` = `artigos`.`categoria_id`
-              INNER JOIN `visualizacoes` ON `visualizacoes`.`artigo_id` = `artigos`.`id`
-            WHERE
-              `artigos`.`excluido` = ?
-              AND `artigos`.`empresa_id` = ?
-            GROUP BY
-              `artigos`.`id`, `artigos`.`codigo`, `artigos`.`titulo`, `artigos`.`categoria_id`, `artigos`.`empresa_id`, `categorias`.`nome`
-            ORDER BY
-              COUNT(`visualizacoes`.`id`) DESC
-           SQL;
+    $where = '`Artigo`.`excluido` = ? AND `Artigo`.`empresa_id` = ?';
 
     $sqlParams = [
       0,                      // Artigo.excluido
       $this->empresaPadraoId, // Artigo.empresa_id
     ];
+
+    if ($condicoes) {
+      foreach ($condicoes as $chave => $linha):
+        $condicoesPermitidas = [
+          'Artigo.codigo' => '`Artigo`.`codigo`',
+          'Artigo.categoria_id' => '`Artigo`.`categoria_id`',
+          'Visualizacao.criado' => '`visualizacoes`.`criado`',
+        ];
+
+        $operadoresPermitidos = [
+          '=',
+          '!=',
+          'LIKE',
+          'IS',
+          'BETWEEN',
+        ];
+
+        if (! isset($linha['campo']) or ! isset($linha['campo'], $condicoesPermitidas)) {
+          continue;
+        }
+
+        if (! isset($linha['operador']) or ! isset($linha['operador'], $operadoresPermitidos)) {
+          continue;
+        }
+
+        $campo = $condicoesPermitidas[ $linha['campo'] ];
+        $operador = $linha['operador'];
+        $valor = $linha['valor'] ?? null;
+
+        if (is_array($valor) and $operador != 'BETWEEN' and $campo != '`visualizacoes`.`criado`') {
+          $valor = null;
+        }
+
+        if ($operador == 'BETWEEN') {
+
+          if (! is_array($valor) or count($valor) != 2) {
+            continue;
+          }
+
+          $where .= ' AND (' . $campo . ' ' . $operador . ' ? AND ?)';
+          $sqlParams[] = $valor[0];
+          $sqlParams[] = $valor[1];
+        }
+        else {
+          $where .= ' AND ' . $campo . ' ' . $operador . ' ?';
+          $sqlParams[] = $valor;
+        }
+      endforeach;
+    }
+
+    $sql = <<<SQL
+            SELECT
+              `Artigo`.`id` AS `Artigo.id`,
+              `Artigo`.`codigo` AS `Artigo.codigo`,
+              `Artigo`.`titulo` AS `Artigo.titulo`,
+              `Artigo`.`empresa_id` AS `Artigo.empresa_id`,
+              `Artigo`.`categoria_id` AS `Artigo.categoria_id`,
+              `categorias`.`nome` AS `Categoria.nome`,
+              COUNT(`visualizacoes`.`id`) AS `Visualizacao.total`
+            FROM
+              `artigos` as `Artigo`
+              LEFT JOIN `categorias` ON `categorias`.`id` = `Artigo`.`categoria_id`
+              INNER JOIN `visualizacoes` ON `visualizacoes`.`artigo_id` = `Artigo`.`id`
+            WHERE
+              $where
+            GROUP BY
+              `Artigo`.`id`, `Artigo`.`codigo`, `Artigo`.`titulo`, `Artigo`.`categoria_id`, `Artigo`.`empresa_id`, `categorias`.`nome`
+            ORDER BY
+              COUNT(`visualizacoes`.`id`) DESC
+           SQL;
 
     $cacheTempo = 5;
     $cacheNome = md5(serialize($sqlParams) . $sql);
