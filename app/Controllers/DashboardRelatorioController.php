@@ -59,7 +59,7 @@ class DashboardRelatorioController extends DashboardController
       $filtroAtual['data_inicio'] = $dataInicio;
 
       // Sempre depois do filtro
-      $dataInicio = $this->converterDataParaBanco($dataInicio);
+      $dataInicio = $this->converterDataParaBanco($dataInicio, true);
 
       if ($dataInicio) {
         $condicoes[] = ['campo' => 'Feedback.criado', 'operador' => 'BETWEEN', 'valor' => [(new DateTime($dataInicio))->format('Y-m-d H:i:s'), (new DateTime('now'))->format('Y-m-d H:i:s')]];
@@ -84,7 +84,7 @@ class DashboardRelatorioController extends DashboardController
       $filtroAtual['data_fim'] = $dataFim;
 
       // Sempre depois do filtro
-      $dataInicio = $this->converterDataParaBanco($dataInicio);
+      $dataInicio = $this->converterDataParaBanco($dataInicio, true);
       $dataFim = $this->converterDataParaBanco($dataFim);
 
       // Sempre depois do filtro
@@ -133,13 +133,17 @@ class DashboardRelatorioController extends DashboardController
     $this->visao->renderizar('/relatorio/index');
   }
 
-  public function converterDataParaBanco($data) {
+  public function converterDataParaBanco(string $data, bool $inicio = false) {
     $partes = explode('/', $data);
 
-    if (count($partes) === 3) {
-      return $partes[2] . '-' . $partes[1] . '-' . $partes[0] . ' 23:59:59';
+    if (count($partes) != 3) {
+      return null;
     }
 
-    return null;
+    if ($inicio) {
+      return $partes[2] . '-' . $partes[1] . '-' . $partes[0] . ' 00:00:00';
+    }
+
+    return $partes[2] . '-' . $partes[1] . '-' . $partes[0] . ' 23:59:59';
   }
 }
