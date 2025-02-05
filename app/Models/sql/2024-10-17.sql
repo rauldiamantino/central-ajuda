@@ -95,7 +95,7 @@ CREATE TABLE `conteudos` (
 CREATE TABLE `ajustes` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nome` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `ativo` int DEFAULT '0',
+  `valor` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   `empresa_id` int NOT NULL,
   `criado` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `modificado` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

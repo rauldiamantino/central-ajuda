@@ -250,7 +250,7 @@ class Controller
         continue;
       }
 
-      if (! isset($linha['Ajuste']['ativo'])) {
+      if (! isset($linha['Ajuste']['valor'])) {
         continue;
       }
 
@@ -258,10 +258,10 @@ class Controller
         continue;
       }
 
-      return (int) $linha['Ajuste']['ativo'];
+      return $linha['Ajuste']['valor'];
     endforeach;
 
-    return 0;
+    return '';
   }
 
   public function buscarIcones()

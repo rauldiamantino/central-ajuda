@@ -7,6 +7,7 @@
 
 <!------------------- scripts ------------------->
 <script src="<?php echo '/js/dashboard/index.js'; ?>"></script>
+<script src="<?php echo '/js/dashboard/ajustes/uploads.js'; ?>"></script>
 <script src="<?php echo '/js/dashboard/dashboard/index.js'; ?>"></script>
 <script src="<?php echo '/js/dashboard/relatorios/filtrar-feedbacks-1.js'; ?>"></script>
 <script src="<?php echo '/js/dashboard/relatorios/filtrar-visualizacoes-2.js'; ?>"></script>

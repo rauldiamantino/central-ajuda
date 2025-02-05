@@ -82,6 +82,7 @@ return [
     'GET:/d/calcular_consumo'                           => ['controlador' => [DashboardAssinaturaController::class,     'calcularConsumo'],               'permissao' => $todos],
     'GET:/d/buscar_cobrancas'                           => ['controlador' => [DashboardAssinaturaController::class,     'buscarCobrancas'],               'permissao' => $todos],
     'PUT:/d/ajustes'                                    => ['controlador' => [DashboardAjusteController::class,         'atualizar'],                     'permissao' => $todos],
+    'DELETE:/d/ajustes/foto_inicio'                     => ['controlador' => [DashboardAjusteController::class,         'apagarFoto'],                    'permissao' => $total],
     'GET:/d/firebase'                                   => ['controlador' => [DatabaseFirebaseComponent::class,         'credenciais'],                   'permissao' => $todos],
     'POST:/d/apagar-local'                              => ['controlador' => [DatabaseFirebaseComponent::class,         'apagarLocal'],                   'permissao' => $todos],
     'POST:/d/apagar-artigos-local'                      => ['controlador' => [DatabaseFirebaseComponent::class,         'apagarArtigosLocal'],            'permissao' => $todos],

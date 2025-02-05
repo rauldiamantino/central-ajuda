@@ -20,6 +20,14 @@ class DashboardAjusteModel extends Model
       'publico_topo_fixo',
       'publico_inicio_template',
       'publico_inicio_template_alinhamento',
+      'publico_inicio_titulo',
+      'publico_inicio_subtitulo',
+      'publico_inicio_busca_tamanho',
+      'publico_inicio_busca_alinhamento',
+      'publico_inicio_foto',
+      'publico_inicio_texto_cor',
+      'publico_inicio_busca_cor',
+      'publico_inicio_busca_borda',
     ];
 
     $total = 0;
@@ -27,14 +35,20 @@ class DashboardAjusteModel extends Model
     foreach ($permitidos as $linha) :
 
       if (isset($json[ $linha ])) {
-        $campos[ $linha ] = (int) $json[ $linha ];
+        $campos[ $linha ] = $json[ $linha ];
       }
     endforeach;
 
     foreach ($campos as $chave => $valor):
+
+      // Previne injection de robô
+      if (is_array($valor)) {
+        continue;
+      }
+
       $camposAtualizar = [
         'nome' => $chave,
-        'ativo' => $valor,
+        'valor' => $valor,
       ];
 
       $campos = $this->validarCampos($camposAtualizar, true);
@@ -44,17 +58,17 @@ class DashboardAjusteModel extends Model
       }
 
       $sql = 'INSERT INTO
-                ajustes (nome, ativo, empresa_id)
+                ajustes (nome, valor, empresa_id)
               VALUES
                 (?, ?, ?) ON DUPLICATE KEY
               UPDATE
-                ativo =
+                valor =
               VALUES
-                (ativo)';
+                (valor)';
 
       $sqlParams = [
         0 => $campos['nome'],
-        1 => $campos['ativo'],
+        1 => $campos['valor'],
         2 => $campos['empresa_id'],
       ];
 
@@ -74,20 +88,28 @@ class DashboardAjusteModel extends Model
   {
     $colunas = [
       'Ajuste.nome',
-      'Ajuste.ativo',
+      'Ajuste.valor',
     ];
 
     $buscar = parent::selecionar($colunas)
                     ->executarConsulta();
 
     $resultado = [
-      0 => ['Ajuste' => ['nome' => 'artigo_autor', 'ativo' => ATIVO, ]],
-      1 => ['Ajuste' => ['nome' => 'botao_whatsapp', 'ativo' => ATIVO, ]],
-      2 => ['Ajuste' => ['nome' => 'publico_cate_busca', 'ativo' => ATIVO, ]],
-      3 => ['Ajuste' => ['nome' => 'publico_cate_abrir_primeira', 'ativo' => INATIVO, ]],
-      4 => ['Ajuste' => ['nome' => 'publico_topo_fixo', 'ativo' => INATIVO, ]],
-      5 => ['Ajuste' => ['nome' => 'publico_inicio_template', 'ativo' => 1, ]],
-      6 => ['Ajuste' => ['nome' => 'publico_inicio_template_alinhamento', 'ativo' => 1, ]],
+      ['Ajuste' => ['nome' => 'artigo_autor', 'valor' => ATIVO]],
+      ['Ajuste' => ['nome' => 'botao_whatsapp', 'valor' => ATIVO]],
+      ['Ajuste' => ['nome' => 'publico_cate_busca', 'valor' => ATIVO]],
+      ['Ajuste' => ['nome' => 'publico_cate_abrir_primeira', 'valor' => INATIVO]],
+      ['Ajuste' => ['nome' => 'publico_topo_fixo', 'valor' => INATIVO]],
+      ['Ajuste' => ['nome' => 'publico_inicio_template', 'valor' => 1]],
+      ['Ajuste' => ['nome' => 'publico_inicio_template_alinhamento', 'valor' => 1]],
+      ['Ajuste' => ['nome' => 'publico_inicio_titulo', 'valor' => 'Olá, como podemos te ajudar hoje?']],
+      ['Ajuste' => ['nome' => 'publico_inicio_subtitulo', 'valor' => 'Explore nossos guias, tutoriais e artigos para encontrar rapidamente as informações que você precisa.']],
+      ['Ajuste' => ['nome' => 'publico_inicio_busca_tamanho', 'valor' => 2]],
+      ['Ajuste' => ['nome' => 'publico_inicio_busca_alinhamento', 'valor' => 2]],
+      ['Ajuste' => ['nome' => 'publico_inicio_foto', 'valor' => '']],
+      ['Ajuste' => ['nome' => 'publico_inicio_texto_cor', 'valor' => '#000000']],
+      ['Ajuste' => ['nome' => 'publico_inicio_busca_cor', 'valor' => '#000000']],
+      ['Ajuste' => ['nome' => 'publico_inicio_busca_borda', 'valor' => '']],
     ];
 
     // Substitui ajuste conforme DB
@@ -95,7 +117,7 @@ class DashboardAjusteModel extends Model
       foreach ($resultado as $subChave => $subLinha):
 
         if ($linha['Ajuste']['nome'] == $subLinha['Ajuste']['nome']) {
-          $resultado[ $subChave ]['Ajuste']['ativo'] = $linha['Ajuste']['ativo'];
+          $resultado[ $subChave ]['Ajuste']['valor'] = $linha['Ajuste']['valor'];
         }
       endforeach;
     endforeach;
@@ -108,7 +130,7 @@ class DashboardAjusteModel extends Model
   {
     $campos = [
       'nome' => $params['nome'] ?? '',
-      'ativo' => $params['ativo'] ?? 0,
+      'valor' => $params['valor'] ?? '',
       'empresa_id' => $this->empresaPadraoId,
     ];
 
@@ -122,7 +144,7 @@ class DashboardAjusteModel extends Model
     // Campos vazios
     foreach ($campos as $chave => $linha):
       $permitidos = [
-        'ativo',
+        'valor',
       ];
 
       if ($atualizar and ! isset($params[ $chave ])) {
@@ -144,20 +166,16 @@ class DashboardAjusteModel extends Model
     endforeach;
 
     if (empty($msgErro['erro']['mensagem'])) {
-      $campos['ativo'] = filter_var($campos['ativo'], FILTER_SANITIZE_NUMBER_INT);
+      $campos['valor'] = htmlspecialchars($campos['valor']);
       $campos['nome'] = htmlspecialchars($campos['nome']);
       $campos['empresa_id'] = filter_var($campos['empresa_id'], FILTER_SANITIZE_NUMBER_INT);
 
-      if (isset($params['ativo']) and is_array($campos['ativo'])) {
-        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('ativo', 'valInvalido');
-      }
-
-      $ativoCaracteres = 1;
+      $ativoCaracteres = 110;
       $nomeCaracteres = 255;
       $empresaIdCaracteres = 999999999;
 
-      if (strlen($campos['ativo']) > $ativoCaracteres) {
-        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('id', 'caracteres', $ativoCaracteres);
+      if (strlen($campos['valor']) > $ativoCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('valor', 'caracteres', $ativoCaracteres);
       }
 
       if (strlen($campos['nome']) > $nomeCaracteres) {
@@ -174,7 +192,7 @@ class DashboardAjusteModel extends Model
     }
 
     $camposValidados = [
-      'ativo' => $campos['ativo'],
+      'valor' => $campos['valor'],
       'nome' => $campos['nome'],
       'empresa_id' => $campos['empresa_id'],
     ];
