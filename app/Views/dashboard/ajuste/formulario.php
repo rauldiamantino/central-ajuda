@@ -79,8 +79,7 @@
             $templates = [
               1 => 'Texto e ícone centralizados',
               2 => 'Texto e ícone à esquerda',
-              3 => 'Texto e ícone na mesma linha e à esquerda',
-              4 => 'Texto e ícone na mesma linha e centralizados',
+              3 => 'Texto e ícone na mesma linha',
             ];
             ?>
             <div class="w-full flex flex-col gap-2">

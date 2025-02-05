@@ -32,10 +32,6 @@ elseif ((int) $this->buscarAjuste('publico_inicio_template_alinhamento') == 3) {
   $classes_alinhamento_1 = 'items-start text-start';
   $classes_alinhamento_2 = 'flex gap-4 items-center';
 }
-elseif ((int) $this->buscarAjuste('publico_inicio_template_alinhamento') == 4) {
-  $classes_alinhamento_1 = 'items-center text-center';
-  $classes_alinhamento_2 = 'flex gap-4 items-center justify-center';
-}
 ?>
 
 <div class="mx-auto w-full flex flex-col items-center gap-16 py-12">
