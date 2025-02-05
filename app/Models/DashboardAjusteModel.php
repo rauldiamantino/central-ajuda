@@ -18,16 +18,16 @@ class DashboardAjusteModel extends Model
       'publico_cate_busca',
       'publico_cate_abrir_primeira',
       'publico_topo_fixo',
+      'publico_inicio_foto',
+      'publico_inicio_texto_cor',
+      'publico_inicio_busca_cor',
+      'publico_inicio_busca_borda',
       'publico_inicio_template',
       'publico_inicio_template_alinhamento',
       'publico_inicio_titulo',
       'publico_inicio_subtitulo',
       'publico_inicio_busca_tamanho',
       'publico_inicio_busca_alinhamento',
-      'publico_inicio_foto',
-      'publico_inicio_texto_cor',
-      'publico_inicio_busca_cor',
-      'publico_inicio_busca_borda',
     ];
 
     $total = 0;
@@ -100,16 +100,16 @@ class DashboardAjusteModel extends Model
       ['Ajuste' => ['nome' => 'publico_cate_busca', 'valor' => ATIVO]],
       ['Ajuste' => ['nome' => 'publico_cate_abrir_primeira', 'valor' => INATIVO]],
       ['Ajuste' => ['nome' => 'publico_topo_fixo', 'valor' => INATIVO]],
+      ['Ajuste' => ['nome' => 'publico_inicio_foto', 'valor' => '']],
+      ['Ajuste' => ['nome' => 'publico_inicio_texto_cor', 'valor' => '#000000']],
+      ['Ajuste' => ['nome' => 'publico_inicio_busca_cor', 'valor' => '#000000']],
+      ['Ajuste' => ['nome' => 'publico_inicio_busca_borda', 'valor' => '']],
       ['Ajuste' => ['nome' => 'publico_inicio_template', 'valor' => 1]],
       ['Ajuste' => ['nome' => 'publico_inicio_template_alinhamento', 'valor' => 1]],
       ['Ajuste' => ['nome' => 'publico_inicio_titulo', 'valor' => 'Olá, como podemos te ajudar hoje?']],
       ['Ajuste' => ['nome' => 'publico_inicio_subtitulo', 'valor' => 'Explore nossos guias, tutoriais e artigos para encontrar rapidamente as informações que você precisa.']],
       ['Ajuste' => ['nome' => 'publico_inicio_busca_tamanho', 'valor' => 2]],
       ['Ajuste' => ['nome' => 'publico_inicio_busca_alinhamento', 'valor' => 2]],
-      ['Ajuste' => ['nome' => 'publico_inicio_foto', 'valor' => '']],
-      ['Ajuste' => ['nome' => 'publico_inicio_texto_cor', 'valor' => '#000000']],
-      ['Ajuste' => ['nome' => 'publico_inicio_busca_cor', 'valor' => '#000000']],
-      ['Ajuste' => ['nome' => 'publico_inicio_busca_borda', 'valor' => '']],
     ];
 
     // Substitui ajuste conforme DB
