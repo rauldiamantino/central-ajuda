@@ -18,6 +18,8 @@ class DashboardAjusteModel extends Model
       'publico_cate_busca',
       'publico_cate_abrir_primeira',
       'publico_topo_fixo',
+      'publico_inicio_template',
+      'publico_inicio_template_alinhamento',
     ];
 
     $total = 0;
@@ -84,6 +86,8 @@ class DashboardAjusteModel extends Model
       2 => ['Ajuste' => ['nome' => 'publico_cate_busca', 'ativo' => ATIVO, ]],
       3 => ['Ajuste' => ['nome' => 'publico_cate_abrir_primeira', 'ativo' => INATIVO, ]],
       4 => ['Ajuste' => ['nome' => 'publico_topo_fixo', 'ativo' => INATIVO, ]],
+      5 => ['Ajuste' => ['nome' => 'publico_inicio_template', 'ativo' => 1, ]],
+      6 => ['Ajuste' => ['nome' => 'publico_inicio_template_alinhamento', 'ativo' => 1, ]],
     ];
 
     // Substitui ajuste conforme DB
@@ -144,7 +148,7 @@ class DashboardAjusteModel extends Model
       $campos['nome'] = htmlspecialchars($campos['nome']);
       $campos['empresa_id'] = filter_var($campos['empresa_id'], FILTER_SANITIZE_NUMBER_INT);
 
-      if (isset($params['ativo']) and ! in_array($campos['ativo'], [INATIVO, ATIVO])) {
+      if (isset($params['ativo']) and is_array($campos['ativo'])) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('ativo', 'valInvalido');
       }
 
