@@ -92,31 +92,31 @@ class Database
     registrarLog('database-operacoes', $log);
   }
 
-  public function operacoes($sql, $parametros = [])
+  public function operacoes($sql, $parametros)
   {
     $erro = [];
     $resposta = [];
     $sqlFormatado = $sql;
 
     if ($parametros) {
-      foreach ($parametros as $parametro):
+      $temp = $parametros;
+      $sqlFormatado = preg_replace_callback('/\?/', function($matches) use (&$temp) {
+        $parametro = array_shift($temp);
 
         if (is_string($parametro)) {
-          $sqlFormatado = preg_replace('/\?/', "'" . addslashes($parametro) . "'", $sqlFormatado, 1);
+          return "'" . addslashes($parametro) . "'";
         }
-        elseif (is_int($parametro)) {
-          $sqlFormatado = preg_replace('/\?/', (int)$parametro, $sqlFormatado, 1);
-        }
-        elseif (is_float($parametro)) {
-          $sqlFormatado = preg_replace('/\?/', (float)$parametro, $sqlFormatado, 1);
+        elseif (is_int($parametro) or is_float($parametro)) {
+          return $parametro;
         }
         elseif (is_null($parametro)) {
-          $sqlFormatado = preg_replace('/\?/', 'NULL', $sqlFormatado, 1);
+          return 'NULL';
         }
-      endforeach;
+      }, $sqlFormatado);
 
       $sqlFormatado = preg_replace('/\s+/', ' ', $sqlFormatado);
       $sqlFormatado = trim($sqlFormatado);
+      $temp = null;
     }
 
     try {
@@ -145,14 +145,16 @@ class Database
       if (substr($sql, 0, 6) == 'SELECT') {
         $resposta = $stmt->fetchAll(PDO::FETCH_ASSOC);
       }
-      elseif (stripos($sql, 'INSERT') === 0) {
+
+      if (empty($resposta) and stripos($sql, 'INSERT') !== false) {
         $ultimoId = $this->conexao->lastInsertId();
 
         if ($ultimoId) {
           $resposta = ['id' => $ultimoId];
         }
       }
-      else {
+
+      if (empty($resposta)) {
         $linhasAfetadas = $stmt->rowCount();
         $resposta = ['linhasAfetadas' => $linhasAfetadas];
       }

@@ -1,9 +1,10 @@
 <?php
 namespace app\Controllers;
 use app\Core\Cache;
-use app\Models\DashboardCategoriaModel;
-use app\Models\DashboardEmpresaModel;
+use app\Core\Helper;
 use app\Controllers\ViewRenderer;
+use app\Models\DashboardEmpresaModel;
+use app\Models\DashboardCategoriaModel;
 
 class PublicoController extends Controller
 {
@@ -105,7 +106,7 @@ class PublicoController extends Controller
       Cache::definir($cacheNome, $resultado, $this->cacheTempo, $this->empresaPadraoId);
     }
 
-    if ((int) $this->buscarAjuste('publico_cate_abrir_primeira') == ATIVO and isset($resultado[0]['Categoria']['id']) and $this->subdominio) {
+    if ((int) Helper::ajuste('publico_cate_abrir_primeira') == ATIVO and isset($resultado[0]['Categoria']['id']) and $this->subdominio) {
       $this->redirecionar('/categoria/' . $resultado[0]['Categoria']['id']);
     }
 

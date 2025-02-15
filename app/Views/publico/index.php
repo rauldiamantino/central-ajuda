@@ -2,8 +2,8 @@
 <html lang="pt-br">
 
 <?php require_once 'template/cabecalho.php' ?>
-
 <?php // echo isset($inicio) ? 'bg-gray-100' : 'bg-gray-100' ?>
+
 <div class="absolute w-full h-full flex items-center justify-center bg-gray-200/25 efeito-loader-publico-div">
   <div class="efeito-loader-publico">
   </div>
@@ -16,59 +16,66 @@
     <?php if (isset($inicio)) { ?>
       <?php
       // Padrão
-      $classes_busca_tamanho = 'max-w-[800px]';
-      $classes_busca_alinhamento = 'justify-center';
+      $classesBuscaTamanho = 'max-w-[800px]';
+      $classesBuscaAlinhamento = 'justify-center';
 
-      if ((int) $this->buscarAjuste('publico_inicio_busca_tamanho') == 1) {
-        $classes_busca_tamanho = 'max-w-[600px]';
+      $ajusteBuscaTamanho = Helper::ajuste('publico_inicio_busca_tamanho');
+      $ajusteBuscaAlinhamento = Helper::ajuste('publico_inicio_busca_alinhamento');
+
+      if ((int) $ajusteBuscaTamanho == 1) {
+        $classesBuscaTamanho = 'max-w-[600px]';
       }
-      elseif ((int) $this->buscarAjuste('publico_inicio_busca_tamanho') == 2) {
-        $classes_busca_tamanho = 'max-w-[800px]';
+      elseif ((int) $ajusteBuscaTamanho == 2) {
+        $classesBuscaTamanho = 'max-w-[800px]';
       }
-      elseif ((int) $this->buscarAjuste('publico_inicio_busca_tamanho') == 3) {
-        $classes_busca_tamanho = 'max-w-[1244px]';
+      elseif ((int) $ajusteBuscaTamanho == 3) {
+        $classesBuscaTamanho = 'max-w-[1244px]';
       }
 
-      if ((int) $this->buscarAjuste('publico_inicio_busca_alinhamento') == 1) {
-        $classes_busca_alinhamento = 'justify-start';
+      if ((int) $ajusteBuscaAlinhamento == 1) {
+        $classesBuscaAlinhamento = 'justify-start';
       }
-      elseif ((int) $this->buscarAjuste('publico_inicio_busca_alinhamento') == 2) {
-        $classes_busca_alinhamento = 'justify-center';
+      elseif ((int) $ajusteBuscaAlinhamento == 2) {
+        $classesBuscaAlinhamento = 'justify-center';
 
       }
-      elseif ((int) $this->buscarAjuste('publico_inicio_busca_alinhamento') == 3) {
-        $classes_busca_alinhamento = 'justify-end';
+      elseif ((int) $ajusteBuscaAlinhamento == 3) {
+        $classesBuscaAlinhamento = 'justify-end';
       }
 
       // Bloco busca
-      $foto_inicio = '';
-      $buscar_foto_inicio = $this->buscarAjuste('publico_inicio_foto');
-      $classes_foto_fundo = 'pers-publico-inicio-busca template-cor-' . $corPrimaria;
-      $classes_formulario_busca_input = 'pers-publico-input template-cor-' . $corPrimaria;
-      $classes_formulario_busca_lupa = 'pers-publico-lupa template-cor-' . $corPrimaria;;
+      $fotoInicio = '';
+      $buscarFotoInicio = Helper::ajuste('publico_inicio_foto');
+      $classesFotoFundo = 'pers-publico-inicio-busca template-cor-' . $corPrimaria;
+      $classesFormularioBuscaInput = 'pers-publico-input template-cor-' . $corPrimaria;
+      $classesFormularioBuscaLupa = 'pers-publico-lupa template-cor-' . $corPrimaria;;
 
-      $style_foto_fundo = '';
-      $style_formulario_busca_input = '';
-      $style_formulario_busca_lupa = '';
+      $styleFotoFundo = '';
+      $styleFormularioBuscaInput = '';
+      $styleFormularioBuscaLupa = '';
 
-      if ($buscar_foto_inicio) {
-        $foto_inicio = $this->renderImagem($buscar_foto_inicio);
-        $classes_foto_fundo = '';
-        $classes_formulario_busca_input = '';
-        $classes_formulario_busca_lupa = '';
+      if ($buscarFotoInicio) {
+        $fotoInicio = $this->renderImagem($buscarFotoInicio);
+        $classesFotoFundo = '';
+        $classesFormularioBuscaInput = '';
+        $classesFormularioBuscaLupa = '';
 
-        $style_formulario_busca_input = 'style="color: ' . $this->buscarAjuste('publico_inicio_busca_cor') . ';border: 1px solid ' . $this->buscarAjuste('publico_inicio_busca_borda') . ';"';
-        $style_formulario_busca_lupa = 'style="color: ' . $this->buscarAjuste('publico_inicio_busca_cor') . ';"';
-        $style_foto_fundo = 'style="background-image: url(' . $foto_inicio . '); background-size: cover; background-position: center; color: ' . $this->buscarAjuste('publico_inicio_texto_cor') . ';"';
+        $ajusteBuscaCor = Helper::ajuste('publico_inicio_busca_cor');
+        $ajusteBuscaBorda = Helper::ajuste('publico_inicio_busca_borda');
+        $ajusteBuscaTextoCor = Helper::ajuste('publico_inicio_texto_cor');
+
+        $styleFormularioBuscaInput = 'style="color: ' . $ajusteBuscaCor . ';border: 1px solid ' . $ajusteBuscaBorda . ';"';
+        $styleFormularioBuscaLupa = 'style="color: ' . $ajusteBuscaCor . ';"';
+        $styleFotoFundo = 'style="background-image: url(' . $fotoInicio . '); background-size: cover; background-position: center; color: ' . $ajusteBuscaTextoCor . ';"';
       }
       ?>
 
-      <div class="px-4 md:px-8 py-16 md:py-32 w-full flex items-center justify-center <?php echo $classes_foto_fundo; ?>" <?php echo $style_foto_fundo; ?>>
-        <div class="w-full max-w-[1244px] flex <?php echo $classes_busca_alinhamento; ?>">
-          <div class="w-full <?php echo $classes_busca_tamanho; ?> flex flex-col items-start gap-6">
+      <div class="px-4 md:px-8 py-16 md:py-32 w-full flex items-center justify-center <?php echo $classesFotoFundo; ?>" <?php echo $styleFotoFundo; ?>>
+        <div class="w-full max-w-[1244px] flex <?php echo $classesBuscaAlinhamento; ?>">
+          <div class="w-full <?php echo $classesBuscaTamanho; ?> flex flex-col items-start gap-6">
             <div class="flex flex-col gap-3">
-              <h2 class="font-bold text-3xl"><?php echo $this->buscarAjuste('publico_inicio_titulo'); ?></h2>
-              <div class="font-light"><?php echo $this->buscarAjuste('publico_inicio_subtitulo'); ?></div>
+              <h2 class="font-bold text-3xl"><?php echo Helper::ajuste('publico_inicio_titulo'); ?></h2>
+              <div class="font-light"><?php echo Helper::ajuste('publico_inicio_subtitulo'); ?></div>
             </div>
             <div class="w-full flex flex-col justify-center">
               <?php require_once 'inicio/formulario-busca.php' ?>

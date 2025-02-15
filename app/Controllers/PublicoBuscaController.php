@@ -54,7 +54,7 @@ class PublicoBuscaController extends PublicoController
 
     $categorias = [];
 
-    if ((int) $this->buscarAjuste('publico_cate_busca') == 1) {
+    if ((int) Helper::ajuste('publico_cate_busca') == 1) {
       $condicoes[] = [
         'campo' => 'Categoria.ativo', 'operador' => '=', 'valor' => ATIVO,
       ];
@@ -97,7 +97,7 @@ class PublicoBuscaController extends PublicoController
 
     $menuLateral = false;
 
-    if ((int) $this->buscarAjuste('publico_cate_busca') == ATIVO) {
+    if ((int) Helper::ajuste('publico_cate_busca') == ATIVO) {
       $menuLateral = true;
     }
 

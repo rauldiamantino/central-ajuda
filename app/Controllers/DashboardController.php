@@ -1,5 +1,6 @@
 <?php
 namespace app\Controllers;
+use app\Core\Helper;
 use app\Models\DashboardModel;
 use app\Controllers\Controller;
 use app\Controllers\ViewRenderer;

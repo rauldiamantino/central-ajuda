@@ -2,16 +2,16 @@
 // Padrão
 $classes_colunas = 'w-full h-max grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 justify-start gap-4';
 
-if ((int) $this->buscarAjuste('publico_inicio_template') == 1) {
+if ((int) Helper::ajuste('publico_inicio_template') == 1) {
   $classes_colunas = 'w-full h-max grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 justify-start gap-4';
 }
-elseif ((int) $this->buscarAjuste('publico_inicio_template') == 2) {
+elseif ((int) Helper::ajuste('publico_inicio_template') == 2) {
   $classes_colunas = 'w-full h-max grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-start gap-4';
 }
-elseif ((int) $this->buscarAjuste('publico_inicio_template') == 3) {
+elseif ((int) Helper::ajuste('publico_inicio_template') == 3) {
   $classes_colunas = 'w-full h-max grid grid-cols-1 sm:grid-cols-2 justify-start gap-4';
 }
-elseif ((int) $this->buscarAjuste('publico_inicio_template') == 4) {
+elseif ((int) Helper::ajuste('publico_inicio_template') == 4) {
   $classes_colunas = 'w-full h-max grid grid-cols-1 justify-start gap-4';
 }
 
@@ -19,16 +19,16 @@ elseif ((int) $this->buscarAjuste('publico_inicio_template') == 4) {
 $classes_alinhamento_1 = 'items-center text-center';
 $classes_alinhamento_2 = 'flex flex-col gap-4 items-center';
 
-if ((int) $this->buscarAjuste('publico_inicio_template_alinhamento') == 1) {
+if ((int) Helper::ajuste('publico_inicio_template_alinhamento') == 1) {
   $classes_alinhamento_1 = 'items-center text-center';
   $classes_alinhamento_2 = 'w-full flex flex-col gap-4 items-center';
 }
-elseif ((int) $this->buscarAjuste('publico_inicio_template_alinhamento') == 2) {
+elseif ((int) Helper::ajuste('publico_inicio_template_alinhamento') == 2) {
   $classes_alinhamento_1 = 'items-start text-start';
   $classes_alinhamento_2 = 'flex flex-col gap-4 items-start';
 
 }
-elseif ((int) $this->buscarAjuste('publico_inicio_template_alinhamento') == 3) {
+elseif ((int) Helper::ajuste('publico_inicio_template_alinhamento') == 3) {
   $classes_alinhamento_1 = 'items-start text-start';
   $classes_alinhamento_2 = 'flex gap-4 items-center';
 }

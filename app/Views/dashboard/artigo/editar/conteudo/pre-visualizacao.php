@@ -29,13 +29,13 @@ if ($conteudos) {
     </div>
     <div class="w-max flex items-center gap-2 pt-4 px-3">
 
-      <?php if (isset($artigo['Usuario']['nome']) and $artigo['Usuario']['nome'] and isset($artigo['Usuario']['foto']) and $artigo['Usuario']['foto'] and (int) $this->buscarAjuste('artigo_autor') == ATIVO) { ?>
+      <?php if (isset($artigo['Usuario']['nome']) and $artigo['Usuario']['nome'] and isset($artigo['Usuario']['foto']) and $artigo['Usuario']['foto'] and (int) Helper::ajuste('artigo_autor') == ATIVO) { ?>
         <span class="w-10 h-10 rounded-full">
           <img src="<?php echo $this->renderImagem($artigo['Usuario']['foto']) ?>" class="rounded-full" alt="foto-usuario" onerror="this.onerror=null; this.src='/img/sem-imagem-perfil.svg';">
         </span>
       <?php } ?>
       <div class="w-max flex flex-col justify-center items-start">
-        <?php if (isset($artigo['Usuario']['nome']) and $artigo['Usuario']['nome'] and (int) $this->buscarAjuste('artigo_autor') == ATIVO) { ?>
+        <?php if (isset($artigo['Usuario']['nome']) and $artigo['Usuario']['nome'] and (int) Helper::ajuste('artigo_autor') == ATIVO) { ?>
           <span><?php echo $artigo['Usuario']['nome'] ?></span>
         <?php } ?>
         <div class="text-xs font-light">

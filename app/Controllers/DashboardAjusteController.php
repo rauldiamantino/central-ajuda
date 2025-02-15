@@ -1,6 +1,7 @@
 <?php
 namespace app\Controllers;
 use app\Core\Cache;
+use app\Core\Helper;
 use app\Models\DashboardAjusteModel;
 use app\Controllers\Components\DatabaseFirebaseComponent;
 
@@ -17,7 +18,7 @@ class DashboardAjusteController extends DashboardController
 
   public function ajustesVer()
   {
-    $resultado = $this->ajusteModel->buscarAjustes();
+    $resultado = $this->ajusteModel->buscarTodos();
 
     $this->visao->variavel('ajustes', $resultado);
     $this->visao->variavel('metaTitulo', 'Ajustes');
@@ -49,20 +50,24 @@ class DashboardAjusteController extends DashboardController
       unset($json['publico_inicio_foto']);
     }
 
-    $resultado = $this->ajusteModel->atualizarAjustes($json);
+    $resultado = $this->ajusteModel->atualizarTodos($json);
 
     if (isset($resultado['erro'])) {
       $this->redirecionarErro('/dashboard/ajustes', $resultado['erro']);
     }
 
-    Cache::apagar('ajustes', $this->usuarioLogado['empresaId']);
+    if (isset($resultado['linhasAfetadas']) and $resultado['linhasAfetadas'] == 0) {
+      $this->redirecionar('/dashboard/ajustes', 'Nenhuma alteração realizada');
+    }
+
+    $this->limparCacheTodos(['ajustes_'], $this->empresaPadraoId);
 
     $this->redirecionarSucesso('/dashboard/ajustes', 'Ajuste alterado com sucesso');
   }
 
   public function apagarFoto()
   {
-    $foto = $this->buscarAjuste('publico_inicio_foto');
+    $foto = Helper::ajuste('publico_inicio_foto');
 
     if (empty($foto)) {
       $this->sessaoUsuario->definir('erro', 'Imagem não encontrada');
@@ -78,40 +83,51 @@ class DashboardAjusteController extends DashboardController
     }
 
     // Apaga Banco de dados
-    $this->ajusteModel->atualizarAjustes(['publico_inicio_foto' => '']);
+    $this->ajusteModel->apagarAjuste(['nome' => 'publico_inicio_foto']);
 
     // Limpa cache de artigos públicos
-    Cache::apagar('ajustes', $this->usuarioLogado['empresaId']);
+    $this->limparCacheTodos(['ajustes_'], $this->empresaPadraoId);
 
     $this->sessaoUsuario->definir('ok', 'Foto removida com sucesso');
     $this->responderJson(['ok' => true]);
   }
 
-  public function buscarAjuste(string $nome)
+  public function buscar(string $nome): array
   {
-    $resultado = $this->ajusteModel->buscarAjustes($nome);
-
-    if (empty($resultado)) {
-      return '';
+    if (is_array($nome)) {
+      $nome = '';
     }
 
-    foreach ($resultado as $linha):
+    $condicao = [
+      [
+        'campo' => 'Ajuste.nome',
+        'operador' => '=',
+        'valor' => $nome,
+      ],
+    ];
 
-      if (! isset($linha['Ajuste']['nome'])) {
-        continue;
-      }
+    $colunas = [
+      'Ajuste.nome',
+      'Ajuste.valor',
+    ];
 
-      if (! isset($linha['Ajuste']['valor'])) {
-        continue;
-      }
+    $cacheNome = 'ajustes_' . $nome;
+    $cacheTempo = 60 * 30;
+    $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
 
-      if ($linha['Ajuste']['nome'] != $nome) {
-        continue;
-      }
+    if ($resultado == null) {
+      $resultado = $this->ajusteModel->selecionar($colunas)
+                                     ->condicao($condicao)
+                                     ->limite(1)
+                                     ->executarConsulta();
 
-      return $linha['Ajuste']['valor'];
-    endforeach;
+      Cache::definir($cacheNome, $resultado, $cacheTempo, $this->empresaPadraoId);
+    }
 
-    return '';
+    if (! is_array($resultado)) {
+      $resultado = [];
+    }
+
+    return $resultado;
   }
 }
