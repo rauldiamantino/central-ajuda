@@ -46,9 +46,9 @@
       // Bloco busca
       $fotoInicio = '';
       $buscarFotoInicio = Helper::ajuste('publico_inicio_foto');
-      $classesFotoFundo = 'pers-publico-inicio-busca template-cor-' . $corPrimaria;
-      $classesFormularioBuscaInput = 'pers-publico-input template-cor-' . $corPrimaria;
-      $classesFormularioBuscaLupa = 'pers-publico-lupa template-cor-' . $corPrimaria;;
+      $classesFotoFundo = 'pers-publico-inicio-busca template-cor-' . Helper::ajuste('publico_cor_primaria');
+      $classesFormularioBuscaInput = 'pers-publico-input template-cor-' . Helper::ajuste('publico_cor_primaria');
+      $classesFormularioBuscaLupa = 'pers-publico-lupa template-cor-' . Helper::ajuste('publico_cor_primaria');;
 
       $styleFotoFundo = '';
       $styleFormularioBuscaInput = '';

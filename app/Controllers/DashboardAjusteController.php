@@ -92,40 +92,16 @@ class DashboardAjusteController extends DashboardController
     $this->responderJson(['ok' => true]);
   }
 
-  public function buscar(string $nome): array
+  public function buscar(string $nome)
   {
-    if (is_array($nome)) {
-      $nome = '';
-    }
-
-    $condicao = [
-      [
-        'campo' => 'Ajuste.nome',
-        'operador' => '=',
-        'valor' => $nome,
-      ],
-    ];
-
-    $colunas = [
-      'Ajuste.nome',
-      'Ajuste.valor',
-    ];
-
     $cacheNome = 'ajustes_' . $nome;
     $cacheTempo = 60 * 30;
     $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
 
     if ($resultado == null) {
-      $resultado = $this->ajusteModel->selecionar($colunas)
-                                     ->condicao($condicao)
-                                     ->limite(1)
-                                     ->executarConsulta();
+      $resultado = $this->ajusteModel->buscar($nome);
 
       Cache::definir($cacheNome, $resultado, $cacheTempo, $this->empresaPadraoId);
-    }
-
-    if (! is_array($resultado)) {
-      $resultado = [];
     }
 
     return $resultado;

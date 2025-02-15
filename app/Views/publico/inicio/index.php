@@ -45,7 +45,7 @@ elseif ((int) Helper::ajuste('publico_inicio_template_alinhamento') == 3) {
 
             <?php if ($linha['Categoria']['icone'] and $this->iconeExiste($linha['Categoria']['icone'])) { ?>
               <div class="w-max">
-                <div class="w-12 h-12 pers-publico-icones template-cor-<?php echo $corPrimaria; ?>">
+                <div class="w-12 h-12 pers-publico-icones template-cor-<?php echo Helper::ajuste('publico_cor_primaria'); ?>">
                   <?php echo $this->renderIcone($linha['Categoria']['icone']); ?>
                 </div>
               </div>

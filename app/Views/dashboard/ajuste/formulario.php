@@ -49,6 +49,43 @@
           <span class="block text-sm font-medium text-gray-700">Fixar barra de navegação superior</span>
         </label>
       <?php } ?>
+    </div>
+    <?php // fim coluna 2 ?>
+
+    <?php // coluna 2 ?>
+    <div class="w-full flex flex-col gap-6">
+      <?php if (isset($ajustes['publico_cor_primaria'])) { ?>
+        <div class="w-full flex flex-col gap-2">
+          <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
+            <div class="flex flex-col text-sm font-medium text-gray-700">
+              <span>Cor primária</span>
+              <span class="font-extralight">Escolha a cor principal que representará sua empresa. Esta cor será usada em partes de destaque da sua Central de Ajuda, como botões e cabeçalhos.</span>
+            </div>
+            <div class="mt-4 lg:mt-0 flex flex-wrap gap-2">
+              <?php // Azul escuro ?>
+              <label class="inline-block">
+                <input type="radio" name="publico_cor_primaria" value="1" class="hidden peer" <?php echo ($ajustes['publico_cor_primaria'] == 1) ? 'checked' : ''; ?> />
+                <span class="block w-9 h-9 bg-[#2d2d2d] cursor-pointer rounded peer-checked:ring-2 peer-checked:ring-offset-1 peer-checked:ring-gray-500"></span>
+              </label>
+              <?php // Laranja ?>
+              <label class="inline-block">
+                <input type="radio" name="publico_cor_primaria" value="2" class="hidden peer" <?php echo ($ajustes['publico_cor_primaria'] == 2) ? 'checked' : ''; ?> />
+                <span class="block w-9 h-9 bg-[#f05829] cursor-pointer rounded peer-checked:ring-2 peer-checked:ring-offset-1 peer-checked:ring-gray-500"></span>
+              </label>
+              <?php // Cinza azulado ?>
+              <label class="inline-block">
+                <input type="radio" name="publico_cor_primaria" value="8" class="hidden peer" <?php echo ($ajustes['publico_cor_primaria'] == 8) ? 'checked' : ''; ?> />
+                <span class="block w-9 h-9 bg-[#4A5568] cursor-pointer rounded peer-checked:ring-2 peer-checked:ring-offset-1 peer-checked:ring-gray-500"></span>
+              </label>
+              <?php // Roxo escuro ?>
+              <label class="inline-block">
+                <input type="radio" name="publico_cor_primaria" value="9" class="hidden peer" <?php echo ($ajustes['publico_cor_primaria'] == 9) ? 'checked' : ''; ?> />
+                <span class="block w-9 h-9 bg-[#4B0082] cursor-pointer rounded peer-checked:ring-2 peer-checked:ring-offset-1 peer-checked:ring-gray-500"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      <?php } ?>
 
       <?php if (isset($ajustes['publico_inicio_foto'])) { ?>
 
@@ -86,7 +123,7 @@
               <span>Tela inicial (cor do texto)</span>
               <span class="font-extralight">Selecione uma cor alternativa para o título e subtítulo, quando anexar uma imagem.</span>
             </div>
-            <input type="color" id="publico_inicio_texto_cor" name="publico_inicio_texto_cor" class="w-10 h-10" value="<?php echo $ajustes['publico_inicio_texto_cor']; ?>">
+            <input type="color" id="publico_inicio_texto_cor" name="publico_inicio_texto_cor" class="w-10 h-10 cursor-pointer" value="<?php echo $ajustes['publico_inicio_texto_cor']; ?>">
           </div>
         </div>
       <?php } ?>
@@ -98,7 +135,7 @@
               <span>Tela inicial busca (cor do texto e ícone)</span>
               <span class="font-extralight">Selecione uma cor alternativa para o ícone e texto do campo de busca, quando anexar uma imagem.</span>
             </div>
-            <input type="color" id="publico_inicio_busca_cor" name="publico_inicio_busca_cor" class="w-10 h-10 rounded-lg" value="<?php echo $ajustes['publico_inicio_busca_cor']; ?>">
+            <input type="color" id="publico_inicio_busca_cor" name="publico_inicio_busca_cor" class="w-10 h-10 cursor-pointer" value="<?php echo $ajustes['publico_inicio_busca_cor']; ?>">
           </div>
         </div>
       <?php } ?>
@@ -110,16 +147,14 @@
               <span>Tela inicial busca (cor da borda)</span>
               <span class="font-extralight">Selecione uma cor alternativa para a borda do campo de busca, quando anexar uma imagem.</span>
             </div>
-            <input type="color" id="publico_inicio_busca_borda" name="publico_inicio_busca_borda" class="w-10 h-10 rounded-lg" value="<?php echo $ajustes['publico_inicio_busca_borda']; ?>">
+            <input type="color" id="publico_inicio_busca_borda" name="publico_inicio_busca_borda" class="w-10 h-10 cursor-pointer" value="<?php echo $ajustes['publico_inicio_busca_borda']; ?>">
           </div>
         </div>
       <?php } ?>
-    </div>
-    <?php // fim coluna 2 ?>
 
-    <?php // coluna 2 ?>
-    <div class="w-full flex flex-col gap-6">
       <?php if (isset($ajustes['publico_inicio_template'])) { ?>
+        <div class="mt-6 border-t margem"></div>
+
         <?php
         $templates = [
           1 => 'No máximo 4 colunas (padrão)',

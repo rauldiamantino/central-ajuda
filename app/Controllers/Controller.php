@@ -1,6 +1,7 @@
 <?php
 namespace app\Controllers;
 use app\Core\Cache;
+use app\Core\Helper;
 use app\Core\SessaoUsuario;
 use app\Models\DashboardAjusteModel;
 
@@ -30,7 +31,6 @@ class Controller
       'empresaAtivo' => intval($resultado['empresaAtivo'] ?? 0),
       'empresaCriado' => $resultado['empresaCriado'] ?? '',
       'gratisPrazo' => $resultado['gratisPrazo'] ?? '',
-      'corPrimaria' => intval($resultado['corPrimaria'] ?? 1),
       'urlSite' => $resultado['urlSite'] ?? '',
       'assinaturaIdAsaas' => $resultado['assinaturaIdAsaas'] ?? '',
       'assinaturaStatus' => intval($resultado['assinaturaStatus'] ?? 0),

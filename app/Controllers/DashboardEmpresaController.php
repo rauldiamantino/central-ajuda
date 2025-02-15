@@ -38,7 +38,6 @@ class DashboardEmpresaController extends DashboardController
       'Empresa.telefone',
       'Empresa.logo',
       'Empresa.favicon',
-      'Empresa.cor_primaria',
       'Empresa.url_site',
       'Empresa.meta_titulo',
       'Empresa.meta_descricao',
@@ -177,7 +176,6 @@ class DashboardEmpresaController extends DashboardController
       'Empresa.ativo',
       'Empresa.subdominio',
       'Empresa.subdominio_2',
-      'Empresa.cor_primaria',
       'Empresa.url_site',
     ];
 
@@ -187,7 +185,6 @@ class DashboardEmpresaController extends DashboardController
 
     if (isset($empresa[0]['Empresa']['ativo'])) {
       $this->usuarioLogado['empresaAtivo'] = $empresa[0]['Empresa']['ativo'];
-      $this->usuarioLogado['corPrimaria'] = $empresa[0]['Empresa']['cor_primaria'];
       $this->usuarioLogado['urlSite'] = $empresa[0]['Empresa']['url_site'];
       $this->usuarioLogado['subdominio_2'] = $empresa[0]['Empresa']['subdominio_2'];
       $this->sessaoUsuario->definir('usuario', $this->usuarioLogado);

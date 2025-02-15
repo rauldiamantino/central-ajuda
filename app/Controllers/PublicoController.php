@@ -20,7 +20,6 @@ class PublicoController extends Controller
   protected $telefone;
   protected $logo;
   protected $favicon;
-  protected $corPrimaria;
   protected $urlSite;
   protected $visao;
   protected $metaTituloEmpresa;
@@ -48,7 +47,6 @@ class PublicoController extends Controller
     $this->visao = new ViewRenderer('/publico');
     $this->visao->variavel('logo', $this->logo);
     $this->visao->variavel('favicon', $this->favicon);
-    $this->visao->variavel('corPrimaria', $this->corPrimaria);
     $this->visao->variavel('subdominio', $this->subdominio);
     $this->visao->variavel('subdominio_2', $this->subdominio_2);
     $this->visao->variavel('empresaId', $this->empresaId);
@@ -147,7 +145,6 @@ class PublicoController extends Controller
       'Empresa.nome',
       'Empresa.cnpj',
       'Empresa.favicon',
-      'Empresa.cor_primaria',
       'Empresa.telefone',
       'Empresa.url_site',
       'Empresa.meta_titulo',
@@ -167,7 +164,6 @@ class PublicoController extends Controller
 
     $this->logo = $resultado[0]['Empresa']['logo'] ?? '';
     $this->favicon = $resultado[0]['Empresa']['favicon'] ?? '';
-    $this->corPrimaria = $resultado[0]['Empresa']['cor_primaria'] ?? '';
     $this->urlSite = $resultado[0]['Empresa']['url_site'] ?? '';
     $this->empresaNome = $resultado[0]['Empresa']['nome'] ?? '';
     $this->telefone = intval($resultado[0]['Empresa']['telefone'] ?? 0);

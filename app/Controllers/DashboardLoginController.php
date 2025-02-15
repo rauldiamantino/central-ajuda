@@ -149,7 +149,6 @@ class DashboardLoginController extends DashboardController
         $this->usuarioLogado['empresaAtivo'] = $linha['Empresa']['ativo'];
         $this->usuarioLogado['empresaCriado'] = $linha['Empresa']['criado'];
         $this->usuarioLogado['gratisPrazo'] = $linha['Assinatura']['gratis_prazo'] ?? '';
-        $this->usuarioLogado['corPrimaria'] = intval($linha['Empresa']['cor_primaria'] ?? 1);
         $this->usuarioLogado['urlSite'] = $linha['Empresa']['url_site'] ?? '';
         $this->usuarioLogado['assinaturaStatus'] = $linha['Assinatura']['status'];
         $this->usuarioLogado['assinaturaIdAsaas'] = $linha['Assinatura']['asaas_id'];
@@ -204,7 +203,6 @@ class DashboardLoginController extends DashboardController
       'empresaAtivo' => $resultado['ok']['Empresa.ativo'],
       'empresaCriado' => $resultado['ok']['Empresa.criado'],
       'gratisPrazo' => $resultado['ok']['Assinatura.gratis_prazo'],
-      'corPrimaria' => $resultado['ok']['Empresa.cor_primaria'],
       'urlSite' => $resultado['ok']['Empresa.url_site'],
       'assinaturaIdAsaas' => $resultado['ok']['Assinatura.asaas_id'],
       'assinaturaStatus' => $resultado['ok']['Assinatura.status'],

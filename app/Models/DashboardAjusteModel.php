@@ -89,6 +89,7 @@ class DashboardAjusteModel extends Model
       'publico_cate_busca',
       'publico_cate_abrir_primeira',
       'publico_topo_fixo',
+      'publico_cor_primaria',
       'publico_inicio_foto',
       'publico_inicio_texto_cor',
       'publico_inicio_busca_cor',
@@ -170,13 +171,60 @@ class DashboardAjusteModel extends Model
     $buscar = parent::selecionar($colunas)
                     ->executarConsulta();
 
-    $resultado = [
+    $resultado = $this->ajustesPadroes();
+    foreach ($buscar as $linha):
+
+      if (isset($resultado[ $linha['Ajuste']['nome'] ])) {
+        $resultado[ $linha['Ajuste']['nome'] ] = $linha['Ajuste']['valor'];
+      }
+    endforeach;
+
+    return $resultado;
+  }
+
+  public function buscar(string $nome)
+  {
+    if (is_array($nome)) {
+      $nome = '';
+    }
+
+    $condicao = [
+      [
+        'campo' => 'Ajuste.nome',
+        'operador' => '=',
+        'valor' => $nome,
+      ],
+    ];
+
+    $colunas = [
+      'Ajuste.nome',
+      'Ajuste.valor',
+    ];
+
+    $buscar = parent::selecionar($colunas)
+                    ->condicao($condicao)
+                    ->limite(1)
+                    ->executarConsulta();
+
+    $resultado = $this->ajustesPadroes($nome);
+
+    if (isset($buscar[0]['Ajuste']['nome']) and isset($resultado[ $buscar[0]['Ajuste']['nome'] ])) {
+      $resultado = [$nome => $buscar[0]['Ajuste']['valor'] ?? ''];
+    }
+
+    return $resultado;
+  }
+
+  public function ajustesPadroes(string $ajuste = ''): array
+  {
+    $padrao = [
       'artigo_autor' => 1,
       'botao_whatsapp' => 1,
       'publico_cate_busca' => 1,
       'publico_cate_abrir_primeira' => 0,
       'publico_topo_fixo' => 0,
       'publico_inicio_foto' => '',
+      'publico_cor_primaria' => 1,
       'publico_inicio_texto_cor' => '#000000',
       'publico_inicio_busca_cor' => '#000000',
       'publico_inicio_busca_borda' => '',
@@ -188,14 +236,11 @@ class DashboardAjusteModel extends Model
       'publico_inicio_busca_alinhamento' => 2,
     ];
 
-    foreach ($buscar as $linha):
+    if (empty($ajuste)) {
+      return $padrao;
+    }
 
-      if (isset($resultado[ $linha['Ajuste']['nome'] ])) {
-        $resultado[ $linha['Ajuste']['nome'] ] = $linha['Ajuste']['valor'];
-      }
-    endforeach;
-
-    return $resultado;
+    return [$ajuste => $padrao[ $ajuste ] ?? ''];
   }
 
   // --- Métodos auxiliares

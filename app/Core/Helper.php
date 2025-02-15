@@ -10,6 +10,6 @@ class Helper
     $ajusteController = new DashboardAjusteController();
     $buscar = $ajusteController->buscar($nome);
 
-    return $buscar[0]['Ajuste']['valor'] ?? '';
+    return reset($buscar);
   }
 }
