@@ -92,7 +92,7 @@ if (isset($inicio)) {
 
         <?php if ($buscarFotoInicioDesktop) { ?>
           <div class="absolute inset-0 top-0 -z-10 overflow-hidden">
-            <img src="<?php echo $fotoInicioDesktop; ?>" alt="Imagem de fundo desktop" class="min-w-full h-full object-cover" />
+            <img src="<?php echo $fotoInicioDesktop; ?>" alt="Imagem de fundo desktop" class="min-w-full h-full object-cover opacity-0" onload="this.style.opacity=1;" />
           </div>
         <?php } ?>
 
