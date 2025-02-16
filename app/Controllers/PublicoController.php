@@ -1,9 +1,10 @@
 <?php
 namespace app\Controllers;
 use app\Core\Cache;
-use app\Models\DashboardCategoriaModel;
-use app\Models\DashboardEmpresaModel;
+use app\Core\Helper;
 use app\Controllers\ViewRenderer;
+use app\Models\DashboardEmpresaModel;
+use app\Models\DashboardCategoriaModel;
 
 class PublicoController extends Controller
 {
@@ -19,7 +20,6 @@ class PublicoController extends Controller
   protected $telefone;
   protected $logo;
   protected $favicon;
-  protected $corPrimaria;
   protected $urlSite;
   protected $visao;
   protected $metaTituloEmpresa;
@@ -47,7 +47,6 @@ class PublicoController extends Controller
     $this->visao = new ViewRenderer('/publico');
     $this->visao->variavel('logo', $this->logo);
     $this->visao->variavel('favicon', $this->favicon);
-    $this->visao->variavel('corPrimaria', $this->corPrimaria);
     $this->visao->variavel('subdominio', $this->subdominio);
     $this->visao->variavel('subdominio_2', $this->subdominio_2);
     $this->visao->variavel('empresaId', $this->empresaId);
@@ -105,7 +104,7 @@ class PublicoController extends Controller
       Cache::definir($cacheNome, $resultado, $this->cacheTempo, $this->empresaPadraoId);
     }
 
-    if ((int) $this->buscarAjuste('publico_cate_abrir_primeira') == ATIVO and isset($resultado[0]['Categoria']['id']) and $this->subdominio) {
+    if ((int) Helper::ajuste('publico_cate_abrir_primeira') == ATIVO and isset($resultado[0]['Categoria']['id']) and $this->subdominio) {
       $this->redirecionar('/categoria/' . $resultado[0]['Categoria']['id']);
     }
 
@@ -146,7 +145,6 @@ class PublicoController extends Controller
       'Empresa.nome',
       'Empresa.cnpj',
       'Empresa.favicon',
-      'Empresa.cor_primaria',
       'Empresa.telefone',
       'Empresa.url_site',
       'Empresa.meta_titulo',
@@ -166,7 +164,6 @@ class PublicoController extends Controller
 
     $this->logo = $resultado[0]['Empresa']['logo'] ?? '';
     $this->favicon = $resultado[0]['Empresa']['favicon'] ?? '';
-    $this->corPrimaria = $resultado[0]['Empresa']['cor_primaria'] ?? '';
     $this->urlSite = $resultado[0]['Empresa']['url_site'] ?? '';
     $this->empresaNome = $resultado[0]['Empresa']['nome'] ?? '';
     $this->telefone = intval($resultado[0]['Empresa']['telefone'] ?? 0);

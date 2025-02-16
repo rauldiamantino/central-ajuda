@@ -10,27 +10,81 @@ class DashboardAjusteModel extends Model
   }
 
   // --- CRUD ---
-  public function atualizarAjustes(array $json = []): array
+  public function adicionar(array $params = []): array
   {
-    $permitidos = [
-      'artigo_autor',
-      'botao_whatsapp',
-      'publico_cate_busca',
-      'publico_cate_abrir_primeira',
-      'publico_topo_fixo',
-      'publico_inicio_foto',
-      'publico_inicio_texto_cor',
-      'publico_inicio_busca_cor',
-      'publico_inicio_busca_borda',
-      'publico_inicio_template',
-      'publico_inicio_template_alinhamento',
-      'publico_inicio_titulo',
-      'publico_inicio_subtitulo',
-      'publico_inicio_busca_tamanho',
-      'publico_inicio_busca_alinhamento',
+    $atualizar = true;
+    $campos = $this->validarCampos($params, $atualizar);
+
+    if (isset($campos['erro'])) {
+      return $campos;
+    }
+
+    $sql = <<<SQL
+            INSERT INTO
+              `ajustes` (`nome`, `valor`, `empresa_id`)
+            VALUES
+              (?, ?, ?) ON DUPLICATE KEY
+            UPDATE `valor` = VALUES (`valor`);
+           SQL;
+
+    $sqlParams = [
+      0 => $campos['nome'],
+      1 => $campos['valor'],
+      2 => $campos['empresa_id'],
     ];
 
-    $total = 0;
+    $atualizar = $this->executarQuery($sql, $sqlParams);
+
+    if (isset($atualizar['erro'])) {
+      return $atualizar;
+    }
+
+    return ['ok' => intval($atualizar['linhasAfetadas'] ?? 0)];
+  }
+
+  public function apagarAjuste(array $params): array
+  {
+    $atualizar = true;
+    $campos = $this->validarCampos($params, $atualizar);
+
+    if (isset($campos['erro'])) {
+      return $campos;
+    }
+
+    if (! isset($campos['nome'])) {
+      $msgErro = [
+        'erro' => [
+          'codigo' => 400,
+          'mensagem' => 'Nome do ajuste não informado',
+        ],
+      ];
+
+      return $msgErro;
+    }
+
+    $sql = <<<SQL
+            DELETE FROM `ajustes` WHERE `nome` = ? AND `empresa_id` = ?
+           SQL;
+
+    $sqlParams = [
+      0 => $campos['nome'],
+      1 => $campos['empresa_id'],
+    ];
+
+    $apagar = $this->executarQuery($sql, $sqlParams);
+
+    if (isset($apagar['erro'])) {
+      return $apagar;
+    }
+
+    return ['ok' => intval($apagar['linhasAfetadas'] ?? 0)];
+  }
+
+  // Formulário com todos os ajustes
+  public function atualizarTodos(array $json = []): array
+  {
+    $permitidos = array_keys($this->ajustesPadroes());
+
     $campos = [];
     foreach ($permitidos as $linha) :
 
@@ -39,52 +93,58 @@ class DashboardAjusteModel extends Model
       }
     endforeach;
 
+    if (empty($campos)) {
+      return ['ok' => 0];
+    }
+
+    $camposValidados = [];
     foreach ($campos as $chave => $valor):
-
-      // Previne injection de robô
-      if (is_array($valor)) {
-        continue;
-      }
-
       $camposAtualizar = [
         'nome' => $chave,
         'valor' => $valor,
       ];
 
-      $campos = $this->validarCampos($camposAtualizar, true);
+      $campoValidar = $this->validarCampos($camposAtualizar, true);
 
-      if (isset($campos['erro'])) {
-        return $campos;
+      if (isset($campoValidar['erro'])) {
+        return $campoValidar;
       }
 
-      $sql = 'INSERT INTO
-                ajustes (nome, valor, empresa_id)
-              VALUES
-                (?, ?, ?) ON DUPLICATE KEY
-              UPDATE
-                valor =
-              VALUES
-                (valor)';
-
-      $sqlParams = [
-        0 => $campos['nome'],
-        1 => $campos['valor'],
-        2 => $campos['empresa_id'],
-      ];
-
-      $atualizar = $this->executarQuery($sql, $sqlParams);
-
-      if (isset($atualizar['erro'])) {
-        return $atualizar;
-      }
-
-      $total += intval($atualizar['linhasAfetadas'] ?? 0);
+      $camposValidados[] = $campoValidar;
     endforeach;
 
-    return ['ok' => $total];
+    $placeholders = str_repeat('(?, ?, ?), ', count($camposValidados));
+    $placeholders = rtrim($placeholders, ', ');
+
+    $sql = <<<SQL
+            INSERT INTO
+              `ajustes` (`nome`, `valor`, `empresa_id`)
+            VALUES
+              $placeholders ON DUPLICATE KEY
+            UPDATE `valor` = VALUES (`valor`);
+           SQL;
+
+    $sqlParams = [];
+    foreach ($camposValidados as $linha):
+      $sqlParams[] = $linha['nome'];
+      $sqlParams[] = $linha['valor'];
+      $sqlParams[] = $linha['empresa_id'];
+    endforeach;
+
+    $atualizar = $this->executarQuery($sql, $sqlParams);
+
+    if (isset($atualizar['erro'])) {
+      return $atualizar;
+    }
+
+    if (! isset($atualizar['linhasAfetadas']) and isset($atualizar['id'])) {
+      $atualizar['linhasAfetadas'] = 1;
+    }
+
+    return $atualizar;
   }
 
-  public function buscarAjustes()
+  public function buscarTodos()
   {
     $colunas = [
       'Ajuste.nome',
@@ -94,35 +154,82 @@ class DashboardAjusteModel extends Model
     $buscar = parent::selecionar($colunas)
                     ->executarConsulta();
 
-    $resultado = [
-      ['Ajuste' => ['nome' => 'artigo_autor', 'valor' => ATIVO]],
-      ['Ajuste' => ['nome' => 'botao_whatsapp', 'valor' => ATIVO]],
-      ['Ajuste' => ['nome' => 'publico_cate_busca', 'valor' => ATIVO]],
-      ['Ajuste' => ['nome' => 'publico_cate_abrir_primeira', 'valor' => INATIVO]],
-      ['Ajuste' => ['nome' => 'publico_topo_fixo', 'valor' => INATIVO]],
-      ['Ajuste' => ['nome' => 'publico_inicio_foto', 'valor' => '']],
-      ['Ajuste' => ['nome' => 'publico_inicio_texto_cor', 'valor' => '#000000']],
-      ['Ajuste' => ['nome' => 'publico_inicio_busca_cor', 'valor' => '#000000']],
-      ['Ajuste' => ['nome' => 'publico_inicio_busca_borda', 'valor' => '']],
-      ['Ajuste' => ['nome' => 'publico_inicio_template', 'valor' => 1]],
-      ['Ajuste' => ['nome' => 'publico_inicio_template_alinhamento', 'valor' => 1]],
-      ['Ajuste' => ['nome' => 'publico_inicio_titulo', 'valor' => 'Olá, como podemos te ajudar hoje?']],
-      ['Ajuste' => ['nome' => 'publico_inicio_subtitulo', 'valor' => 'Explore nossos guias, tutoriais e artigos para encontrar rapidamente as informações que você precisa.']],
-      ['Ajuste' => ['nome' => 'publico_inicio_busca_tamanho', 'valor' => 2]],
-      ['Ajuste' => ['nome' => 'publico_inicio_busca_alinhamento', 'valor' => 2]],
-    ];
+    $resultado = $this->ajustesPadroes();
+    foreach ($buscar as $linha):
 
-    // Substitui ajuste conforme DB
-    foreach ($buscar as $chave => $linha):
-      foreach ($resultado as $subChave => $subLinha):
-
-        if ($linha['Ajuste']['nome'] == $subLinha['Ajuste']['nome']) {
-          $resultado[ $subChave ]['Ajuste']['valor'] = $linha['Ajuste']['valor'];
-        }
-      endforeach;
+      if (isset($resultado[ $linha['Ajuste']['nome'] ])) {
+        $resultado[ $linha['Ajuste']['nome'] ] = $linha['Ajuste']['valor'];
+      }
     endforeach;
 
     return $resultado;
+  }
+
+  public function buscar(string $nome)
+  {
+    if (is_array($nome)) {
+      $nome = '';
+    }
+
+    $condicao = [
+      [
+        'campo' => 'Ajuste.nome',
+        'operador' => '=',
+        'valor' => $nome,
+      ],
+    ];
+
+    $colunas = [
+      'Ajuste.nome',
+      'Ajuste.valor',
+    ];
+
+    $buscar = parent::selecionar($colunas)
+                    ->condicao($condicao)
+                    ->limite(1)
+                    ->executarConsulta();
+
+    $resultado = $this->ajustesPadroes($nome);
+
+    if (isset($buscar[0]['Ajuste']['nome']) and isset($resultado[ $buscar[0]['Ajuste']['nome'] ])) {
+      $resultado = [$nome => $buscar[0]['Ajuste']['valor'] ?? ''];
+    }
+
+    return $resultado;
+  }
+
+  public function ajustesPadroes(string $ajuste = ''): array
+  {
+    $padrao = [
+      'publico_largura_geral' => 1,
+      'artigo_autor' => 1,
+      'botao_whatsapp' => 1,
+      'publico_cate_busca' => 1,
+      'publico_menu_lateral' => 1,
+      'publico_cate_abrir_primeira' => 0,
+      'publico_topo_fixo' => 0,
+      'publico_topo_borda' => 1,
+      'publico_inicio_cor_fundo' => 1,
+      'publico_inicio_colunas_efeito' => 1,
+      'publico_inicio_foto_mobile' => '',
+      'publico_inicio_foto_desktop' => '',
+      'publico_cor_primaria' => 1,
+      'publico_inicio_texto_cor_mobile' => '#000000',
+      'publico_inicio_texto_cor_desktop' => '#000000',
+      'publico_inicio_busca' => 1,
+      'publico_inicio_template' => 1,
+      'publico_inicio_template_alinhamento' => 1,
+      'publico_inicio_titulo' => 'Olá, como podemos te ajudar hoje?',
+      'publico_inicio_subtitulo' => 'Explore nossos guias, tutoriais e artigos para encontrar rapidamente as informações que você precisa.',
+      'publico_inicio_busca_tamanho' => 2,
+      'publico_inicio_busca_alinhamento' => 2,
+    ];
+
+    if (empty($ajuste)) {
+      return $padrao;
+    }
+
+    return [$ajuste => $padrao[ $ajuste ] ?? ''];
   }
 
   // --- Métodos auxiliares

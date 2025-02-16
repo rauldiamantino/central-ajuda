@@ -1,8 +1,9 @@
 <?php
 namespace app\Controllers;
 use app\Core\Cache;
-use app\Models\DashboardCategoriaModel;
+use app\Core\Helper;
 use app\Models\PublicoBuscaModel;
+use app\Models\DashboardCategoriaModel;
 
 class PublicoBuscaController extends PublicoController
 {
@@ -54,7 +55,7 @@ class PublicoBuscaController extends PublicoController
 
     $categorias = [];
 
-    if ((int) $this->buscarAjuste('publico_cate_busca') == 1) {
+    if ((int) Helper::ajuste('publico_cate_busca') == ATIVO) {
       $condicoes[] = [
         'campo' => 'Categoria.ativo', 'operador' => '=', 'valor' => ATIVO,
       ];
@@ -97,7 +98,7 @@ class PublicoBuscaController extends PublicoController
 
     $menuLateral = false;
 
-    if ((int) $this->buscarAjuste('publico_cate_busca') == ATIVO) {
+    if ((int) Helper::ajuste('publico_cate_busca') == ATIVO) {
       $menuLateral = true;
     }
 

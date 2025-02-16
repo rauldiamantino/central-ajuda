@@ -437,6 +437,11 @@ class Model
     $array = [];
     foreach ($resultado as $linha):
       $registroAtual = [];
+
+      if (! is_array($linha)) {
+        continue;
+      }
+
       foreach ($linha as $chave => $valor):
         $partes = explode('.', $chave);
 

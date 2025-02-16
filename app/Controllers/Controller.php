@@ -1,6 +1,7 @@
 <?php
 namespace app\Controllers;
 use app\Core\Cache;
+use app\Core\Helper;
 use app\Core\SessaoUsuario;
 use app\Models\DashboardAjusteModel;
 
@@ -30,7 +31,6 @@ class Controller
       'empresaAtivo' => intval($resultado['empresaAtivo'] ?? 0),
       'empresaCriado' => $resultado['empresaCriado'] ?? '',
       'gratisPrazo' => $resultado['gratisPrazo'] ?? '',
-      'corPrimaria' => intval($resultado['corPrimaria'] ?? 1),
       'urlSite' => $resultado['urlSite'] ?? '',
       'assinaturaIdAsaas' => $resultado['assinaturaIdAsaas'] ?? '',
       'assinaturaStatus' => intval($resultado['assinaturaStatus'] ?? 0),
@@ -229,39 +229,6 @@ class Controller
     }
 
     return false;
-  }
-
-  public function buscarAjuste(string $nome)
-  {
-    $ajusteModel = new DashboardAjusteModel($this->usuarioLogado, $this->empresaPadraoId, 'Ajuste');
-
-    $cacheTempo = 60 * 60;
-    $cacheNome = 'ajustes';
-    $resultado = Cache::buscar($cacheNome, $this->empresaPadraoId);
-
-    if ($resultado == null) {
-      $resultado = $ajusteModel->buscarAjustes();
-      Cache::definir($cacheNome, $resultado, $cacheTempo, $this->empresaPadraoId);
-    }
-
-    foreach ($resultado as $linha):
-
-      if (! isset($linha['Ajuste']['nome'])) {
-        continue;
-      }
-
-      if (! isset($linha['Ajuste']['valor'])) {
-        continue;
-      }
-
-      if ($linha['Ajuste']['nome'] != $nome) {
-        continue;
-      }
-
-      return $linha['Ajuste']['valor'];
-    endforeach;
-
-    return '';
   }
 
   public function buscarIcones()

@@ -15,7 +15,7 @@ if ($conteudos) {
 }
 ?>
 
-<div class="w-full h-full bg-white py-5 lg:p-10 rounded-md pers-publico-artigo template-cor-<?php echo $this->usuarioLogado['corPrimaria']; ?> dashboard-pre-visualizacao">
+<div class="w-full h-full bg-white py-5 lg:p-10 rounded-md pers-publico-artigo template-cor-<?php echo Helper::ajuste('publico_cor_primaria'); ?> dashboard-pre-visualizacao">
   <div class="flex flex-col justify-between items-start gap-2 md:pt-5 px-3">
     <div class="px-3 flex gap-2 items-center">
       <h1><?php echo $artigo['Artigo']['titulo'] ?? '' ?></h1>
@@ -29,13 +29,13 @@ if ($conteudos) {
     </div>
     <div class="w-max flex items-center gap-2 pt-4 px-3">
 
-      <?php if (isset($artigo['Usuario']['nome']) and $artigo['Usuario']['nome'] and isset($artigo['Usuario']['foto']) and $artigo['Usuario']['foto'] and (int) $this->buscarAjuste('artigo_autor') == ATIVO) { ?>
+      <?php if (isset($artigo['Usuario']['nome']) and $artigo['Usuario']['nome'] and isset($artigo['Usuario']['foto']) and $artigo['Usuario']['foto'] and (int) Helper::ajuste('artigo_autor') == ATIVO) { ?>
         <span class="w-10 h-10 rounded-full">
           <img src="<?php echo $this->renderImagem($artigo['Usuario']['foto']) ?>" class="rounded-full" alt="foto-usuario" onerror="this.onerror=null; this.src='/img/sem-imagem-perfil.svg';">
         </span>
       <?php } ?>
       <div class="w-max flex flex-col justify-center items-start">
-        <?php if (isset($artigo['Usuario']['nome']) and $artigo['Usuario']['nome'] and (int) $this->buscarAjuste('artigo_autor') == ATIVO) { ?>
+        <?php if (isset($artigo['Usuario']['nome']) and $artigo['Usuario']['nome'] and (int) Helper::ajuste('artigo_autor') == ATIVO) { ?>
           <span><?php echo $artigo['Usuario']['nome'] ?></span>
         <?php } ?>
         <div class="text-xs font-light">

@@ -162,7 +162,6 @@ class DashboardEmpresaModel extends Model
       'logo' => $params['logo'] ?? '',
       'favicon' => $params['favicon'] ?? '',
       'cnpj' => $params['cnpj'] ?? '',
-      'cor_primaria' => intval($params['cor_primaria'] ?? 1),
       'url_site' => $params['url_site'] ?? '',
       'meta_titulo' => $params['meta_titulo'] ?? '',
       'meta_descricao' => $params['meta_descricao'] ?? '',
@@ -186,7 +185,6 @@ class DashboardEmpresaModel extends Model
         'subdominio_2',
         'logo',
         'favicon',
-        'cor_primaria',
         'url_site',
         'meta_titulo',
         'meta_descricao',
@@ -218,7 +216,6 @@ class DashboardEmpresaModel extends Model
       $campos['subdominio_2'] = filter_var($campos['subdominio_2'], FILTER_SANITIZE_URL);
       $campos['telefone'] = filter_var($campos['telefone'], FILTER_SANITIZE_NUMBER_INT);
       $cnpjValido = preg_match('/^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/', $campos['cnpj']);
-      $campos['cor_primaria'] = filter_var($campos['cor_primaria'], FILTER_SANITIZE_NUMBER_INT);
       $campos['meta_titulo'] = htmlspecialchars($campos['meta_titulo']);
       $campos['meta_descricao'] = htmlspecialchars($campos['meta_descricao']);
 
@@ -250,7 +247,6 @@ class DashboardEmpresaModel extends Model
       $logoCaracteres = 50;
       $faviconCaracteres = 50;
       $urlSiteCaracteres = 255;
-      $corPrimariaCaracteres = 2;
       $metaTituloCaracteres = 255;
       $metaDescricaoCaracteres = 255;
 
@@ -290,10 +286,6 @@ class DashboardEmpresaModel extends Model
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('url_site', 'caracteres', $urlSiteCaracteres);
       }
 
-      if (strlen($campos['cor_primaria']) > $corPrimariaCaracteres) {
-        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('cor_primaria', 'caracteres', $corPrimariaCaracteres);
-      }
-
       if (mb_strlen($campos['meta_titulo']) > $metaTituloCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('meta_titulo', 'caracteres', $metaTituloCaracteres);
       }
@@ -319,7 +311,6 @@ class DashboardEmpresaModel extends Model
       'cnpj' => $campos['cnpj'],
       'logo' => $campos['logo'],
       'favicon' => $campos['favicon'],
-      'cor_primaria' => $campos['cor_primaria'],
       'url_site' => $campos['url_site'],
       'meta_titulo' => $campos['meta_titulo'],
       'meta_descricao' => $campos['meta_descricao'],
@@ -371,10 +362,6 @@ class DashboardEmpresaModel extends Model
   {
     if ($campo == 'cnpj') {
       $campo = 'CNPJ';
-    }
-
-    if ($campo == 'cor_primaria') {
-      $campo = 'Cor primária';
     }
 
     if ($campo == 'url_site') {

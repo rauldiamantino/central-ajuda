@@ -9,8 +9,6 @@ document.addEventListener('DOMContentLoaded', function() {
     conteudoPublico.classList.remove('hidden')
   }, 700)
 
-  const topoPublico = document.querySelector('.topo-publico')
-  const topoPublicoInverter = document.querySelector('.inverter')
   const menuLateral = document.querySelector('.publico-menu-lateral')
   const btnMenuLateral = document.querySelector('.btn-publico-menu-lateral')
   const btnMenuLateralFechar = document.querySelector('.btn-publico-menu-lateral-fechar')
@@ -86,4 +84,29 @@ document.addEventListener('DOMContentLoaded', function() {
       notificacao.classList.add('hidden')
     }
   }
+
+  const alteraCorLupa = () => {
+    const formsBuscaInicio = document.querySelectorAll('.form-busca-inicio')
+
+    if (! formsBuscaInicio) {
+      return
+    }
+
+    formsBuscaInicio.forEach(form => {
+      const inputBusca = form.querySelector('.input_busca')
+      const botaoBusca = form.querySelector('.botao_busca')
+
+      inputBusca?.addEventListener('focus', () => {
+        botaoBusca.classList.add('text-gray-600')
+        botaoBusca.classList.remove('text-white')
+      })
+
+      inputBusca?.addEventListener('blur', () => {
+        botaoBusca.classList.add('text-white')
+        botaoBusca.classList.remove('text-gray-600')
+      })
+    })
+  }
+
+  alteraCorLupa()
 })

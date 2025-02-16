@@ -89,39 +89,6 @@ if (isset($empresa['Empresa']['favicon']) and $empresa['Empresa']['favicon']) {
       <input type="text" name="meta_descricao" class="<?php echo CLASSES_DASH_INPUT; ?>" placeholder="Ex.: Saiba mais sobre nossos serviços e como podemos ajudar sua empresa." value="<?php echo $empresa['Empresa']['meta_descricao']; ?>">
     </div>
 
-    <?php // Cor primária ?>
-    <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
-      <div class="flex flex-col text-sm font-medium text-gray-700">
-        <span>Cor primária</span>
-        <span class="font-extralight">Escolha a cor principal que representará sua empresa. Esta cor será usada em partes de destaque da sua Central de Ajuda, como botões e cabeçalhos.</span>
-      </div>
-      <div class="mt-4 lg:mt-0 flex flex-wrap gap-2">
-        <?php // Azul escuro ?>
-        <label class="inline-block">
-          <input type="radio" name="cor_primaria" value="1" class="hidden peer" <?php echo ($empresa['Empresa']['cor_primaria'] == 1) ? 'checked' : ''; ?> />
-          <span class="block w-9 h-9 bg-[#2d2d2d] cursor-pointer rounded peer-checked:ring-2 peer-checked:ring-offset-1 peer-checked:ring-gray-500"></span>
-        </label>
-
-        <!-- Laranja -->
-        <label class="inline-block">
-          <input type="radio" name="cor_primaria" value="2" class="hidden peer" <?php echo ($empresa['Empresa']['cor_primaria'] == 2) ? 'checked' : ''; ?> />
-          <span class="block w-9 h-9 bg-[#f05829] cursor-pointer rounded peer-checked:ring-2 peer-checked:ring-offset-1 peer-checked:ring-gray-500"></span>
-        </label>
-
-        <!-- Cinza azulado  -->
-        <label class="inline-block">
-          <input type="radio" name="cor_primaria" value="8" class="hidden peer" <?php echo ($empresa['Empresa']['cor_primaria'] == 8) ? 'checked' : ''; ?> />
-          <span class="block w-9 h-9 bg-[#4A5568] cursor-pointer rounded peer-checked:ring-2 peer-checked:ring-offset-1 peer-checked:ring-gray-500"></span>
-        </label>
-
-        <!-- Roxo escuro  -->
-        <label class="inline-block">
-          <input type="radio" name="cor_primaria" value="9" class="hidden peer" <?php echo ($empresa['Empresa']['cor_primaria'] == 9) ? 'checked' : ''; ?> />
-          <span class="block w-9 h-9 bg-[#4B0082] cursor-pointer rounded peer-checked:ring-2 peer-checked:ring-offset-1 peer-checked:ring-gray-500"></span>
-        </label>
-      </div>
-    </div>
-
     <?php // Logo ?>
     <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
       <input type="hidden" name="logo" value="<?php echo $empresa['Empresa']['logo']; ?>" class="url-imagem">

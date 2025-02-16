@@ -1,8 +1,8 @@
 <?php
-require '../vendor/autoload.php';
+require_once '../vendor/autoload.php';
 
-use app\Core\Cache;
 use app\Roteamento\Roteador;
+class_alias('app\Core\Helper', 'Helper');
 
 // Sentry
 if (! HOST_LOCAL) {
@@ -14,7 +14,6 @@ if (! HOST_LOCAL) {
 
 $roteador = new Roteador();
 $roteador->rotear();
-
 // Testes
 // self::iniciarMemcached();
 // self::$memcached->flush();
