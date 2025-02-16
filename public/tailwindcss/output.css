@@ -2971,6 +2971,10 @@ video {
     max-width: 18rem;
   }
 
+  .md\:max-w-80 {
+    max-width: 20rem;
+  }
+
   .md\:translate-x-0 {
     --tw-translate-x: 0px;
     transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
@@ -3132,6 +3136,10 @@ video {
   .lg\:w-max {
     width: -moz-max-content;
     width: max-content;
+  }
+
+  .lg\:max-w-\[1034px\] {
+    max-width: 1034px;
   }
 
   .lg\:select-auto {

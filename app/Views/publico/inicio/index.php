@@ -30,7 +30,7 @@ elseif ((int) Helper::ajuste('publico_inicio_colunas_efeito') == 3) {
 elseif ((int) Helper::ajuste('publico_inicio_colunas_efeito') == 4) {
   $classes_colunas_efeito = 'pers-publico-colunas template-cor-' . Helper::ajuste('publico_cor_primaria');
   $classes_colunas_icones_efeito = 'pers-publico-colunas-icones template-cor-' . Helper::ajuste('publico_cor_primaria');
-  $classes_colunas_descricao_efeito = $classes_colunas_icones_efeito;
+  $classes_colunas_descricao_efeito = 'pers-publico-colunas-descricao template-cor-' . Helper::ajuste('publico_cor_primaria');
 }
 
 // Padrão
