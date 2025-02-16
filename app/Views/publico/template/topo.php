@@ -1,4 +1,17 @@
-<header class="border-b border-slate-200 <?php echo (int) Helper::ajuste('publico_topo_fixo') == ATIVO ? 'sticky' : '' ?> z-20 top-0 w-full h-20 flex justify-center items-center <?php echo isset($inicio) ? 'py-12' : 'py-20'; ?> md:py-4 px-4 xl:px-0 md:gap-10 bg-white text-black transition duration-300 topo-publico bg-white">
+<?php
+$classesTopoFixo = '';
+$classesTopoBorda = 'border-transparent';
+
+if ((int) Helper::ajuste('publico_topo_fixo') == ATIVO) {
+  $classesTopoFixo = 'sticky';
+}
+
+if ((int) Helper::ajuste('publico_topo_borda') == ATIVO) {
+  $classesTopoBorda = 'border-slate-200';
+}
+?>
+
+<header class="border-b <?php echo $classesTopoBorda . ' ' . $classesTopoFixo; ?> z-20 top-0 w-full h-20 flex justify-center items-center <?php echo isset($inicio) ? 'py-12' : 'py-20'; ?> md:py-4 px-4 xl:px-0 md:gap-10 bg-white text-black transition duration-300 topo-publico">
 
   <?php // Preloads ?>
   <link rel="preload" href="<?php echo $this->renderImagem($logo); ?>" as="image">

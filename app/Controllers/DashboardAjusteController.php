@@ -29,25 +29,53 @@ class DashboardAjusteController extends DashboardController
   public function atualizar()
   {
     $json = $this->receberJson();
+    $formFotoMobile = false;
+    $formFotoDesktop = false;
 
     // Atualiza foto de início
-    if (isset($_FILES['arquivo-foto']) and $_FILES['arquivo-foto']['error'] === UPLOAD_ERR_OK) {
+    if (isset($_FILES)) {
       $firebase = new DatabaseFirebaseComponent();
-      $extensao = pathinfo($_FILES['arquivo-foto']['name'], PATHINFO_EXTENSION);
 
-      $params = [
-        'nome' => 'in',
-        'imagemAtual' => $json['publico_inicio_foto'] ?? '',
-      ];
+      foreach ($_FILES as $chave => $linha):
+        $extensao = pathinfo($linha['name'], PATHINFO_EXTENSION);
 
-      if ($firebase->adicionarImagem($this->empresaPadraoId, $_FILES['arquivo-foto'], $params) == false) {
-        $this->redirecionarErro('/dashboard/ajustes', 'Erro ao fazer upload da foto de início');
-      }
+        if ($chave == 'arquivo-foto-mobile' and $linha['error'] === UPLOAD_ERR_OK) {
+          $params = [
+            'nome' => 'in-mobile',
+            'imagemAtual' => $json['publico_inicio_foto_mobile'] ?? '',
+          ];
 
-      $json['publico_inicio_foto'] = $this->empresaPadraoId . '/' . $params['nome'] . '.' . $extensao;
+          if ($firebase->adicionarImagem($this->empresaPadraoId, $linha, $params) == false) {
+            $this->redirecionarErro('/dashboard/ajustes', 'Erro ao fazer upload da foto de início (mobile)');
+          }
+
+          $formFotoMobile = true;
+          $json['publico_inicio_foto_mobile'] = $this->empresaPadraoId . '/' . $params['nome'] . '.' . $extensao;
+        }
+        elseif ($chave == 'arquivo-foto-desktop' and $linha['error'] === UPLOAD_ERR_OK) {
+          $params = [
+            'nome' => 'in-desktop',
+            'imagemAtual' => $json['publico_inicio_foto_desktop'] ?? '',
+          ];
+
+          if ($firebase->adicionarImagem($this->empresaPadraoId, $linha, $params) == false) {
+            $this->redirecionarErro('/dashboard/ajustes', 'Erro ao fazer upload da foto de início (desktop)');
+          }
+
+          $formFotoDesktop = true;
+          $json['publico_inicio_foto_desktop'] = $this->empresaPadraoId . '/' . $params['nome'] . '.' . $extensao;
+        }
+
+      endforeach;
     }
-    else {
-      unset($json['publico_inicio_foto']);
+
+    // Grava apenas se alterar no Firebase
+    if ($formFotoMobile == false and isset($json['publico_inicio_foto_mobile'])) {
+      unset($json['publico_inicio_foto_mobile']);
+    }
+
+    if ($formFotoDesktop == false and isset($json['publico_inicio_foto_desktop'])) {
+      unset($json['publico_inicio_foto_desktop']);
     }
 
     $resultado = $this->ajusteModel->atualizarTodos($json);
@@ -56,7 +84,7 @@ class DashboardAjusteController extends DashboardController
       $this->redirecionarErro('/dashboard/ajustes', $resultado['erro']);
     }
 
-    if (isset($resultado['linhasAfetadas']) and $resultado['linhasAfetadas'] == 0) {
+    if (isset($resultado['linhasAfetadas']) and $resultado['linhasAfetadas'] == 0 and $formFotoMobile == false and $formFotoDesktop == false) {
       $this->redirecionar('/dashboard/ajustes', 'Nenhuma alteração realizada');
     }
 
@@ -67,7 +95,19 @@ class DashboardAjusteController extends DashboardController
 
   public function apagarFoto()
   {
-    $foto = Helper::ajuste('publico_inicio_foto');
+    $foto = '';
+    $ajusteNome = '';
+    $tipo = $_GET['tipo'] ?? '';
+
+    if ($tipo == 'mobile') {
+      $ajusteNome = 'publico_inicio_foto_mobile';
+    }
+
+    if ($tipo == 'desktop') {
+      $ajusteNome = 'publico_inicio_foto_desktop';
+    }
+
+    $foto = Helper::ajuste($ajusteNome);
 
     if (empty($foto)) {
       $this->sessaoUsuario->definir('erro', 'Imagem não encontrada');
@@ -83,7 +123,7 @@ class DashboardAjusteController extends DashboardController
     }
 
     // Apaga Banco de dados
-    $this->ajusteModel->apagarAjuste(['nome' => 'publico_inicio_foto']);
+    $this->ajusteModel->apagarAjuste(['nome' => $ajusteNome]);
 
     // Limpa cache de artigos públicos
     $this->limparCacheTodos(['ajustes_'], $this->empresaPadraoId);

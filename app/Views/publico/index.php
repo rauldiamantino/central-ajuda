@@ -43,33 +43,44 @@
       }
 
       // Bloco busca
-      $fotoInicio = '';
-      $classesFotoFundo = 'pers-publico-inicio-busca template-cor-' . Helper::ajuste('publico_cor_primaria');
-      $styleFotoFundo = '';
+      $styleFotoFundoMobile = '';
+      $styleFotoFundoDesktop = '';
+      $classesFotoFundoMobile = 'pers-publico-inicio-busca template-cor-' . Helper::ajuste('publico_cor_primaria');
+      $classesFotoFundoDesktop = 'pers-publico-inicio-busca template-cor-' . Helper::ajuste('publico_cor_primaria');
 
-      $buscarFotoInicio = Helper::ajuste('publico_inicio_foto');
+      $buscarFotoInicioMobile = Helper::ajuste('publico_inicio_foto_mobile');
+      $buscarFotoInicioDesktop = Helper::ajuste('publico_inicio_foto_desktop');
 
-      if ($buscarFotoInicio) {
-        $fotoInicio = $this->renderImagem($buscarFotoInicio);
+      if ($buscarFotoInicioMobile) {
+        $fotoInicioMobile = $this->renderImagem($buscarFotoInicioMobile);
 
-        $classesFotoFundo = '';
-        $ajusteBuscaTextoCor = Helper::ajuste('publico_inicio_texto_cor');
-        $styleFotoFundo = 'style="background-image: url(' . $fotoInicio . '); background-size: cover; background-position: center; color: ' . $ajusteBuscaTextoCor . ';"';
+        $classesFotoFundoMobile = '';
+        $ajusteBuscaTextoCor = Helper::ajuste('publico_inicio_texto_cor_mobile');
+        $styleFotoFundoMobile = 'style="background-image: url(' . $fotoInicioMobile . '); background-size: cover; background-position: center; color: ' . $ajusteBuscaTextoCor . ';"';
+      }
+
+      if ($buscarFotoInicioDesktop) {
+        $fotoInicioDesktop = $this->renderImagem($buscarFotoInicioDesktop);
+
+        $classesFotoFundoDesktop = '';
+        $ajusteBuscaTextoCor = Helper::ajuste('publico_inicio_texto_cor_desktop');
+        $styleFotoFundoDesktop = 'style="background-image: url(' . $fotoInicioDesktop . '); background-size: cover; background-position: center; color: ' . $ajusteBuscaTextoCor . ';"';
+      }
+
+      if ((int) Helper::ajuste('publico_inicio_cor_fundo') == INATIVO) {
+        $classesFotoFundoMobile = '';
+        $classesFotoFundoDesktop = '';
       }
       ?>
 
-      <div class="px-4 md:px-8 py-16 md:py-32 w-full flex items-center justify-center <?php echo $classesFotoFundo; ?>" <?php echo $styleFotoFundo; ?>>
-        <div class="w-full max-w-[1244px] flex <?php echo $classesBuscaAlinhamento; ?>">
-          <div class="w-full <?php echo $classesBuscaTamanho; ?> flex flex-col items-start gap-6">
-            <div class="flex flex-col gap-3">
-              <h2 class="font-bold text-3xl"><?php echo Helper::ajuste('publico_inicio_titulo'); ?></h2>
-              <div class="font-light"><?php echo Helper::ajuste('publico_inicio_subtitulo'); ?></div>
-            </div>
-            <div class="w-full flex flex-col justify-center">
-              <?php require_once 'inicio/formulario-busca.php' ?>
-            </div>
-          </div>
-        </div>
+      <?php // Fundo resoluções Mobile ?>
+      <div class="px-4 md:hidden md:px-8 py-16 md:py-32 w-full flex items-center justify-center <?php echo $classesFotoFundoMobile; ?>" <?php echo $styleFotoFundoMobile; ?>>
+        <?php require 'inicio/formulario-busca.php' ?>
+      </div>
+
+      <?php // Fundo resoluções Desktop ?>
+      <div class="hidden px-4 md:px-8 py-16 md:py-32 w-full md:flex items-center justify-center <?php echo $classesFotoFundoDesktop; ?>" <?php echo $styleFotoFundoDesktop; ?>>
+        <?php require 'inicio/formulario-busca.php' ?>
       </div>
     <?php } ?>
 
