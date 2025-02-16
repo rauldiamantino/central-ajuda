@@ -83,24 +83,7 @@ class DashboardAjusteModel extends Model
   // Formulário com todos os ajustes
   public function atualizarTodos(array $json = []): array
   {
-    $permitidos = [
-      'artigo_autor',
-      'botao_whatsapp',
-      'publico_cate_busca',
-      'publico_cate_abrir_primeira',
-      'publico_topo_fixo',
-      'publico_cor_primaria',
-      'publico_inicio_foto',
-      'publico_inicio_texto_cor',
-      'publico_inicio_busca_cor',
-      'publico_inicio_busca_borda',
-      'publico_inicio_template',
-      'publico_inicio_template_alinhamento',
-      'publico_inicio_titulo',
-      'publico_inicio_subtitulo',
-      'publico_inicio_busca_tamanho',
-      'publico_inicio_busca_alinhamento',
-    ];
+    $permitidos = array_keys($this->ajustesPadroes());
 
     $campos = [];
     foreach ($permitidos as $linha) :
@@ -226,8 +209,7 @@ class DashboardAjusteModel extends Model
       'publico_inicio_foto' => '',
       'publico_cor_primaria' => 1,
       'publico_inicio_texto_cor' => '#000000',
-      'publico_inicio_busca_cor' => '#000000',
-      'publico_inicio_busca_borda' => '',
+      'publico_inicio_busca' => 1,
       'publico_inicio_template' => 1,
       'publico_inicio_template_alinhamento' => 1,
       'publico_inicio_titulo' => 'Olá, como podemos te ajudar hoje?',

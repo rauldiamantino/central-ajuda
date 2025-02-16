@@ -2,7 +2,6 @@
 <html lang="pt-br">
 
 <?php require_once 'template/cabecalho.php' ?>
-<?php // echo isset($inicio) ? 'bg-gray-100' : 'bg-gray-100' ?>
 
 <div class="absolute w-full h-full flex items-center justify-center bg-gray-200/25 efeito-loader-publico-div">
   <div class="efeito-loader-publico">
@@ -45,27 +44,16 @@
 
       // Bloco busca
       $fotoInicio = '';
-      $buscarFotoInicio = Helper::ajuste('publico_inicio_foto');
       $classesFotoFundo = 'pers-publico-inicio-busca template-cor-' . Helper::ajuste('publico_cor_primaria');
-      $classesFormularioBuscaInput = 'pers-publico-input template-cor-' . Helper::ajuste('publico_cor_primaria');
-      $classesFormularioBuscaLupa = 'pers-publico-lupa template-cor-' . Helper::ajuste('publico_cor_primaria');;
-
       $styleFotoFundo = '';
-      $styleFormularioBuscaInput = '';
-      $styleFormularioBuscaLupa = '';
+
+      $buscarFotoInicio = Helper::ajuste('publico_inicio_foto');
 
       if ($buscarFotoInicio) {
         $fotoInicio = $this->renderImagem($buscarFotoInicio);
+
         $classesFotoFundo = '';
-        $classesFormularioBuscaInput = '';
-        $classesFormularioBuscaLupa = '';
-
-        $ajusteBuscaCor = Helper::ajuste('publico_inicio_busca_cor');
-        $ajusteBuscaBorda = Helper::ajuste('publico_inicio_busca_borda');
         $ajusteBuscaTextoCor = Helper::ajuste('publico_inicio_texto_cor');
-
-        $styleFormularioBuscaInput = 'style="color: ' . $ajusteBuscaCor . ';border: 1px solid ' . $ajusteBuscaBorda . ';"';
-        $styleFormularioBuscaLupa = 'style="color: ' . $ajusteBuscaCor . ';"';
         $styleFotoFundo = 'style="background-image: url(' . $fotoInicio . '); background-size: cover; background-position: center; color: ' . $ajusteBuscaTextoCor . ';"';
       }
       ?>

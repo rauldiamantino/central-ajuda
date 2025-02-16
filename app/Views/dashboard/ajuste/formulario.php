@@ -128,27 +128,24 @@
         </div>
       <?php } ?>
 
-      <?php if (isset($ajustes['publico_inicio_busca_cor'])) { ?>
-        <div class="w-full flex flex-col gap-2">
-          <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
-            <div class="flex flex-col text-sm font-medium text-gray-700">
-              <span>Tela inicial busca (cor do texto e ícone)</span>
-              <span class="font-extralight">Selecione uma cor alternativa para o ícone e texto do campo de busca, quando anexar uma imagem.</span>
-            </div>
-            <input type="color" id="publico_inicio_busca_cor" name="publico_inicio_busca_cor" class="w-10 h-10 cursor-pointer" value="<?php echo $ajustes['publico_inicio_busca_cor']; ?>">
-          </div>
-        </div>
-      <?php } ?>
+      <?php if (isset($ajustes['publico_inicio_busca'])) { ?>
+        <div class="mt-6 border-t margem"></div>
 
-      <?php if (isset($ajustes['publico_inicio_busca_borda'])) { ?>
-        <div class="w-full flex flex-col gap-2">
-          <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
-            <div class="flex flex-col text-sm font-medium text-gray-700">
-              <span>Tela inicial busca (cor da borda)</span>
-              <span class="font-extralight">Selecione uma cor alternativa para a borda do campo de busca, quando anexar uma imagem.</span>
-            </div>
-            <input type="color" id="publico_inicio_busca_borda" name="publico_inicio_busca_borda" class="w-10 h-10 cursor-pointer" value="<?php echo $ajustes['publico_inicio_busca_borda']; ?>">
-          </div>
+        <?php
+        $templates = [
+          1 => 'Campo de busca com transparência (padrão)',
+          2 => 'Campo de busca sem transparência',
+        ];
+        ?>
+        <div class="w-full flex flex-col gapbusca2">
+          <label for="publico_inicio_busca" class="block text-sm font-medium text-gray-700">Tela inicial busca</label>
+          <select id="publico_inicio_busca" name="publico_inicio_busca" class="<?php echo CLASSES_DASH_INPUT; ?>">
+            <?php foreach ($templates as $chaveTemplate => $linhaTemplate): ?>
+              <option value="<?php echo $chaveTemplate; ?>" <?php echo $chaveTemplate == $ajustes['publico_inicio_busca'] ? 'selected' : ''; ?>>
+                <?php echo $linhaTemplate; ?>
+              </option>
+            <?php endforeach; ?>
+          </select>
         </div>
       <?php } ?>
 
