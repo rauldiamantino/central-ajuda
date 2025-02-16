@@ -1,0 +1,1 @@
+ALTER TABLE `empresas` DROP COLUMN `cor_primaria`;
