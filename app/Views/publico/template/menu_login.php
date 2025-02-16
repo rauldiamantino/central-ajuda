@@ -1,7 +1,7 @@
 <?php
 $classeLogin = 'text-gray-700 hover:border-slate-100';
 
-if ((int) Helper::ajuste('publico_topo_cor') == ATIVO and isset($inicio)) {
+if ((int) Helper::ajuste('publico_inicio_topo_cor') == ATIVO and isset($inicio)) {
   $classeLogin = 'text-white';
 }
 ?>
