@@ -177,57 +177,15 @@
         </div>
       <?php } ?>
 
-      <?php if (isset($ajustes['publico_inicio_texto_cor_mobile'])) { ?>
-        <div class="mt-6 border-t margem"></div>
-
-        <div class="w-full flex flex-col gap-2">
-          <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
-            <div class="flex flex-col text-sm font-medium text-gray-700">
-              <span>Tela inicial texto (mobile)</span>
-              <span class="font-extralight">Selecione uma cor alternativa para o título e subtítulo, <span class="font-normal">quando anexar uma imagem</span>.</span>
-            </div>
-            <input type="color" id="publico_inicio_texto_cor_mobile" name="publico_inicio_texto_cor_mobile" class="w-10 h-10 cursor-pointer" value="<?php echo $ajustes['publico_inicio_texto_cor_mobile']; ?>">
-          </div>
-        </div>
-      <?php } ?>
-
       <?php if (isset($ajustes['publico_inicio_texto_cor_desktop'])) { ?>
 
         <div class="w-full flex flex-col gap-2">
           <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
             <div class="flex flex-col text-sm font-medium text-gray-700">
-              <span>Tela inicial texto (desktop)</span>
-              <span class="font-extralight">Selecione uma cor alternativa para o título e subtítulo, <span class="font-normal">quando anexar uma imagem</span>.</span>
+              <span>Tela inicial texto</span>
+              <span class="font-extralight">Selecione uma cor alternativa para o título, subtítulo e botão login <span class="font-normal">quando anexar uma imagem</span>.</span>
             </div>
             <input type="color" id="publico_inicio_texto_cor_desktop" name="publico_inicio_texto_cor_desktop" class="w-10 h-10 cursor-pointer" value="<?php echo $ajustes['publico_inicio_texto_cor_desktop']; ?>">
-          </div>
-        </div>
-      <?php } ?>
-
-      <?php if (isset($ajustes['publico_inicio_foto_mobile'])) { ?>
-        <div class="mt-6 border-t margem"></div>
-
-        <div class="w-full flex flex-col gap-2">
-          <div class="w-full lg:w-[700px] py-4 grid lg:gap-10 lg:grid-cols-[250px_1fr] items-center">
-            <input type="hidden" name="publico_inicio_foto_mobile" value="<?php echo $ajustes['publico_inicio_foto_mobile']; ?>" class="url-imagem">
-            <input type="file" accept="image/*" id="inicio-editar-foto-mobile" name="arquivo-foto-mobile" class="hidden inicio-editar-foto-mobile-escolher" onchange="mostrarImagemMobileInicio(event)">
-            <div class="flex flex-col text-sm font-medium text-gray-700">
-              <span>Tela inicial imagem (mobile)</span>
-              <span class="font-extralight">Envie uma imagem de fundo para a tela inicial. O arquivo deve ter até 2MB e estar no formato .svg, .jpg ou .png.</span>
-            </div>
-            <div class="w-max flex flex-col items-center justify-center gap-4">
-              <button type="button" for="inicio-editar-foto-mobile" class="mt-2 lg:mt-0 w-max h-max flex items-center justify-center border border-gray-200 hover:border-gray-300 rounded-lg inicio-btn-foto-mobile-editar-escolher" onclick="alterarImagemMobileInicio(event)">
-                <div class="w-max h-max">
-                  <img src="<?php echo $this->renderImagem($ajustes['publico_inicio_foto_mobile']); ?>" class="p-1 w-20 h-20 rounded-lg inicio-alterar-foto-mobile" onerror="this.onerror=null; this.src='/img/sem-imagem.svg';">
-                </div>
-                <span class="text-gray-700 h-max w-max empresa-txt-imagem-editar-mobile-escolher"><?php echo $ajustes['publico_inicio_foto_mobile'] ? '' : ''; ?></span>
-              </button>
-
-              <?php if ($ajustes['publico_inicio_foto_mobile']) { ?>
-                <button type="button" class="text-xs text-red-600 hover:underline duration-150 inicio-remover-foto-mobile" onclick="removerFotoMobileInicio()">Remover</button>
-              <?php } ?>
-            </div>
-            <h3 class="mt-4 hidden font-light text-left text-sm text-red-800 erro-inicio-foto-mobile">Erro</h3>
           </div>
         </div>
       <?php } ?>
@@ -238,7 +196,7 @@
             <input type="hidden" name="publico_inicio_foto_desktop" value="<?php echo $ajustes['publico_inicio_foto_desktop']; ?>" class="url-imagem">
             <input type="file" accept="image/*" id="inicio-editar-foto-desktop" name="arquivo-foto-desktop" class="hidden inicio-editar-foto-desktop-escolher" onchange="mostrarImagemDesktopInicio(event)">
             <div class="flex flex-col text-sm font-medium text-gray-700">
-              <span>Tela inicial imagem (desktop)</span>
+              <span>Tela inicial imagem</span>
               <span class="font-extralight">Envie uma imagem de fundo para a tela inicial. O arquivo deve ter até 2MB e estar no formato .svg, .jpg ou .png.</span>
             </div>
             <div class="w-max flex flex-col items-center justify-center gap-4">
