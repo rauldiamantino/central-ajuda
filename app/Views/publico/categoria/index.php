@@ -8,24 +8,24 @@
     <span class="underline"><?php echo $categoriaNome ?></span>
   </div>
 
-  <div class="flex justify-start items-center gap-2 pt-6 publico-artigo-blocos publico-artigo-topo">
+  <div class="w-full flex justify-start items-center gap-2 pt-6 publico-artigo-blocos publico-artigo-topo">
 
     <?php if ($categoriaNome and $categoriaIcone and $this->iconeExiste($categoriaIcone)) { ?>
-      <div class="w-8 pers-publico-icones template-cor-<?php echo Helper::ajuste('publico_cor_primaria'); ?>">
+      <div class="flex-shrink-0 w-8 pers-publico-icones template-cor-<?php echo Helper::ajuste('publico_cor_primaria'); ?>">
         <?php echo $this->renderIcone($categoriaIcone); ?>
       </div>
     <?php } elseif ($categoriaNome) { ?>
-      <span class="pers-publico-icones template-cor-<?php echo Helper::ajuste('publico_cor_primaria'); ?>">
+      <span class="flex-shrink-0 pers-publico-icones template-cor-<?php echo Helper::ajuste('publico_cor_primaria'); ?>">
         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" viewBox="0 0 16 16">
           <path d="M3 2v4.586l7 7L14.586 9l-7-7zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586z"/>
           <path d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1z"/>
         </svg>
       </span>
     <?php } ?>
-    <h1 class="text-base publico-artigo-titulo"><?php echo $categoriaNome ?></h1>
+    <h1 class="text-base leading-none publico-artigo-titulo"><?php echo $categoriaNome ?></h1>
   </div>
 
-  <div class="pt-1 w-full text-lg font-extralight">
+  <div class="mt-6 w-full text-lg font-extralight">
     <?php echo $artigos[0]['Categoria']['descricao'] ?? ''; ?>
   </div>
 

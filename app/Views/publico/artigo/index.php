@@ -17,13 +17,13 @@ if ($conteudos) {
 
 <div class="w-full max-w-full flex flex-col py-14 overflow-x-hidden">
   <div class="pb-6 flex flex-wrap gap-2 font-light text-sm publico-migalhas">
-    <a href="/" class="hover:underline whitespace-nowrap">Início</a>
+    <a href="/" class="hover:underline whitespace-wrap">Início</a>
     <?php if (isset($artigo['Categoria']['nome'])) { ?>
       <span>></span>
-      <a href="<?php echo '/categoria/' . $artigo['Artigo']['categoria_id'] . '/' . $this->gerarSlug($artigo['Categoria']['nome']); ?>" class="hover:underline whitespace-nowrap"><?php echo $artigo['Categoria']['nome'] ?></a>
+      <a href="<?php echo '/categoria/' . $artigo['Artigo']['categoria_id'] . '/' . $this->gerarSlug($artigo['Categoria']['nome']); ?>" class="hover:underline whitespace-wrap"><?php echo $artigo['Categoria']['nome'] ?></a>
     <?php } ?>
     <span>></span>
-    <span class="underline whitespace-nowrap truncate"><?php echo $artigo['Artigo']['titulo'] ?></span>
+    <span class="underline whitespace-wrap"><?php echo $artigo['Artigo']['titulo'] ?></span>
   </div>
   <div class="w-full flex flex-col bg-white"> <?php // rounded-lg shadow px-4 xl:px-10 ?>
     <div class="flex flex-col justify-between items-start gap-2 pt-10 pers-publico-artigo template-cor-<?php echo Helper::ajuste('publico_cor_primaria'); ?> publico-artigo-blocos publico-artigo-topo">

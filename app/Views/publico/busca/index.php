@@ -16,7 +16,7 @@
             <?php if (isset($linha['Artigo']['codigo']) and $linha['Artigo']['codigo'] > 0) { ?>
                 <div class="pb-0 flex gap-2 items-center font-light text-sm publico-migalhas">
                   <?php if ($linha['Categoria']['icone'] and $this->iconeExiste($linha['Categoria']['icone'])) { ?>
-                    <div class="w-6 pers-publico-icones template-cor-<?php echo Helper::ajuste('publico_cor_primaria'); ?>">
+                    <div class="flex-shrink-0 w-6 pers-publico-icones template-cor-<?php echo Helper::ajuste('publico_cor_primaria'); ?>">
                       <?php echo $this->renderIcone($linha['Categoria']['icone']); ?>
                     </div>
                   <?php } else { ?>

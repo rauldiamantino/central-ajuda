@@ -201,9 +201,11 @@ class DashboardAjusteModel extends Model
   public function ajustesPadroes(string $ajuste = ''): array
   {
     $padrao = [
+      'publico_largura_geral' => 1,
       'artigo_autor' => 1,
       'botao_whatsapp' => 1,
       'publico_cate_busca' => 1,
+      'publico_menu_lateral' => 1,
       'publico_cate_abrir_primeira' => 0,
       'publico_topo_fixo' => 0,
       'publico_topo_borda' => 1,

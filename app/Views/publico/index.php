@@ -9,6 +9,16 @@
 </div>
 
 <body class="min-h-screen max-w-screen flex flex-col font-normal bg-white" data-base-url="<?php echo RAIZ; ?>">
+  <?php
+  $classesLarguraGeral = 'max-w-[1244px]';
+
+  if ((int) Helper::ajuste('publico_largura_geral') == 2) {
+    $classesLarguraGeral = 'max-w-[990px]';
+  }
+  elseif ((int) Helper::ajuste('publico_largura_geral') == 3) {
+    $classesLarguraGeral = 'max-w-[940px]';
+  }
+  ?>
   <div class="hidden" id="conteudo-publico">
     <?php require_once 'template/topo.php' ?>
 
@@ -110,9 +120,9 @@
       <?php $this->sessaoUsuario->apagar('ok'); ?>
       <?php $this->sessaoUsuario->apagar('erro'); ?>
 
-      <div class="w-full max-w-[1244px] min-h-screen flex gap-4"> <?php // rounded-md ?>
+      <div class="w-full <?php echo $classesLarguraGeral ?> min-h-screen flex gap-4"> <?php // rounded-md ?>
 
-        <?php if ($menuLateral) { ?>
+        <?php if ($menuLateral and (int) Helper::ajuste('publico_menu_lateral') == ATIVO) { ?>
           <?php require_once 'template/menu_lateral.php' ?>
         <?php } ?>
 

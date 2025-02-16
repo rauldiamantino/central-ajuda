@@ -1,4 +1,4 @@
-<div class="w-full max-w-[1244px] flex <?php echo $classesBuscaAlinhamento; ?>">
+<div class="w-full <?php echo $classesLarguraGeral ?> flex <?php echo $classesBuscaAlinhamento; ?>">
   <div class="w-full <?php echo $classesBuscaTamanho; ?> flex flex-col items-start gap-6">
     <div class="flex flex-col gap-3">
       <h2 class="font-bold text-3xl"><?php echo Helper::ajuste('publico_inicio_titulo'); ?></h2>

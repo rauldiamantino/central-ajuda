@@ -55,7 +55,7 @@ class PublicoBuscaController extends PublicoController
 
     $categorias = [];
 
-    if ((int) Helper::ajuste('publico_cate_busca') == 1) {
+    if ((int) Helper::ajuste('publico_cate_busca') == ATIVO) {
       $condicoes[] = [
         'campo' => 'Categoria.ativo', 'operador' => '=', 'valor' => ATIVO,
       ];
