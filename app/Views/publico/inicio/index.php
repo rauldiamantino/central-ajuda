@@ -46,7 +46,8 @@ elseif ((int) Helper::ajuste('publico_inicio_template_alinhamento') == 2) {
   $classes_alinhamento_2 = 'flex flex-col gap-5 items-start';
 
 }
-elseif ((int) Helper::ajuste('publico_inicio_template_alinhamento') == 3) {
+elseif ((int) Helper::ajuste('publico_inicio_template_alinhamento') == 3 and ((int) Helper::ajuste('publico_largura_geral') == 1 or (int) Helper::ajuste('publico_inicio_template') > 2)) {
+  // Somente largura 100%
   $classes_alinhamento_1 = 'items-start text-start';
   $classes_alinhamento_2 = 'flex gap-5 items-center';
 }
