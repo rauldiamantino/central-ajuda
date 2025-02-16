@@ -6,75 +6,75 @@
     <?php // coluna 1 ?>
     <div class="w-full flex flex-col gap-6">
       <?php if(isset($ajustes['publico_menu_lateral'])) { ?>
-        <label class="w-max flex gap-3 items-center justify-start">
+        <label class="w-full flex gap-3 items-center justify-start">
           <input type="hidden" name="publico_menu_lateral" value="0">
           <input type="checkbox" value="1" class="sr-only peer" <?php echo $ajustes['publico_menu_lateral'] == ATIVO ? 'checked' : '' ?> name="publico_menu_lateral">
-          <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
+          <div class="relative min-w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
           <span class="block text-sm font-medium text-gray-700">Exibir menu lateral</span>
         </label>
       <?php } ?>
 
       <?php if(isset($ajustes['publico_cate_busca'])) { ?>
-        <label class="w-max flex gap-3 items-center justify-start">
+        <label class="w-full flex gap-3 items-center justify-start">
           <input type="hidden" name="publico_cate_busca" value="0">
           <input type="checkbox" value="1" class="sr-only peer" <?php echo $ajustes['publico_cate_busca'] == ATIVO ? 'checked' : '' ?> name="publico_cate_busca">
-          <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
+          <div class="relative min-w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
           <span class="block text-sm font-medium text-gray-700">Exibir categorias na página de busca</span>
         </label>
       <?php } ?>
 
       <?php if(isset($ajustes['publico_cate_abrir_primeira'])) { ?>
-        <label class="w-max flex gap-3 items-center justify-start">
+        <label class="w-full flex gap-3 items-center justify-start">
           <input type="hidden" name="publico_cate_abrir_primeira" value="0">
           <input type="checkbox" value="1" class="sr-only peer" <?php echo $ajustes['publico_cate_abrir_primeira'] == ATIVO ? 'checked' : '' ?> name="publico_cate_abrir_primeira">
-          <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
+          <div class="relative min-w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
           <span class="block text-sm font-medium text-gray-700">Exibir automaticamente primeira categoria</span>
         </label>
       <?php } ?>
 
       <?php if(isset($ajustes['publico_topo_fixo'])) { ?>
-        <label class="w-max flex gap-3 items-center justify-start">
+        <label class="w-full flex gap-3 items-center justify-start">
           <input type="hidden" name="publico_topo_fixo" value="0">
           <input type="checkbox" value="1" class="sr-only peer" <?php echo $ajustes['publico_topo_fixo'] == ATIVO ? 'checked' : '' ?> name="publico_topo_fixo">
-          <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
+          <div class="relative min-w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
           <span class="block text-sm font-medium text-gray-700">Fixar barra de navegação superior</span>
         </label>
       <?php } ?>
 
       <?php if(isset($ajustes['publico_topo_borda'])) { ?>
-        <label class="w-max flex gap-3 items-center justify-start">
+        <label class="w-full flex gap-3 items-center justify-start">
           <input type="hidden" name="publico_topo_borda" value="0">
           <input type="checkbox" value="1" class="sr-only peer" <?php echo $ajustes['publico_topo_borda'] == ATIVO ? 'checked' : '' ?> name="publico_topo_borda">
-          <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
+          <div class="relative min-w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
           <span class="block text-sm font-medium text-gray-700">Exibir borda do topo</span>
         </label>
       <?php } ?>
 
       <?php if(isset($ajustes['publico_inicio_cor_fundo'])) { ?>
-        <label class="w-max flex gap-3 items-center justify-start">
+        <label class="w-full flex gap-3 items-center justify-start">
           <input type="hidden" name="publico_inicio_cor_fundo" value="0">
           <input type="checkbox" value="1" class="sr-only peer" <?php echo $ajustes['publico_inicio_cor_fundo'] == ATIVO ? 'checked' : '' ?> name="publico_inicio_cor_fundo">
-          <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
-          <span class="block text-sm font-medium text-gray-700">Exibir cor primária no fundo da tela de início</span>
+          <div class="relative min-w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
+          <span class="block text-sm font-medium text-gray-700">Exibir cor primária no fundo da tela de início teste tamanho</span>
         </label>
       <?php } ?>
 
       <?php if(isset($ajustes['botao_whatsapp'])) { ?>
         <div class="mt-6 border-t margem"></div>
 
-        <label class="w-max flex gap-3 items-center justify-start">
+        <label class="w-full flex gap-3 items-center justify-start">
           <input type="hidden" name="botao_whatsapp" value="0">
           <input type="checkbox" value="1" class="sr-only peer" <?php echo $ajustes['botao_whatsapp'] == ATIVO ? 'checked' : '' ?> name="botao_whatsapp">
-          <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
+          <div class="relative min-w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
           <span class="block text-sm font-medium text-gray-700">Exibir botão WhatsApp</span>
         </label>
       <?php } ?>
 
       <?php if(isset($ajustes['artigo_autor'])) { ?>
-        <label class="w-max flex gap-3 items-center justify-start">
+        <label class="w-full flex gap-3 items-center justify-start">
           <input type="hidden" name="artigo_autor" value="0">
           <input type="checkbox" value="1" class="sr-only peer" <?php echo $ajustes['artigo_autor'] == ATIVO ? 'checked' : '' ?> name="artigo_autor">
-          <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
+          <div class="relative min-w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
           <span class="block text-sm font-medium text-gray-700">Exibir autor do artigo</span>
         </label>
       <?php } ?>
