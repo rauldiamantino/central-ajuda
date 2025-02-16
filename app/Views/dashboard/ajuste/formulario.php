@@ -267,10 +267,30 @@
         ];
         ?>
         <div class="w-full flex flex-col gap-2">
-          <label for="publico_inicio_busca_alinhamento" class="block text-sm font-medium text-gray-700">Tela inicial busca (alinhamento)</label>
+          <label for="publico_inicio_busca_alinhamento" class="block text-sm font-medium text-gray-700">Tela inicial busca (alinhamento do bloco)</label>
           <select id="publico_inicio_busca_alinhamento" name="publico_inicio_busca_alinhamento" class="<?php echo CLASSES_DASH_INPUT; ?>">
             <?php foreach ($templates as $chaveTemplate => $linhaTemplate): ?>
               <option value="<?php echo $chaveTemplate; ?>" <?php echo $chaveTemplate == $ajustes['publico_inicio_busca_alinhamento'] ? 'selected' : ''; ?>>
+                <?php echo $linhaTemplate; ?>
+              </option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+      <?php } ?>
+
+      <?php if (isset($ajustes['publico_inicio_busca_alinhamento_texto'])) { ?>
+        <?php
+        $templates = [
+          1 => 'Alinhado à esquerda (padrão)',
+          2 => 'Centralizado',
+          3 => 'Alinhado à direita',
+        ];
+        ?>
+        <div class="w-full flex flex-col gap-2">
+          <label for="publico_inicio_busca_alinhamento_texto" class="block text-sm font-medium text-gray-700">Tela inicial busca (alinhamento do texto)</label>
+          <select id="publico_inicio_busca_alinhamento_texto" name="publico_inicio_busca_alinhamento_texto" class="<?php echo CLASSES_DASH_INPUT; ?>">
+            <?php foreach ($templates as $chaveTemplate => $linhaTemplate): ?>
+              <option value="<?php echo $chaveTemplate; ?>" <?php echo $chaveTemplate == $ajustes['publico_inicio_busca_alinhamento_texto'] ? 'selected' : ''; ?>>
                 <?php echo $linhaTemplate; ?>
               </option>
             <?php endforeach; ?>

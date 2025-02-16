@@ -223,6 +223,7 @@ class DashboardAjusteModel extends Model
       'publico_inicio_subtitulo' => 'Explore nossos guias, tutoriais e artigos para encontrar rapidamente as informações que você precisa.',
       'publico_inicio_busca_tamanho' => 2,
       'publico_inicio_busca_alinhamento' => 2,
+      'publico_inicio_busca_alinhamento_texto' => 1,
     ];
 
     if (empty($ajuste)) {

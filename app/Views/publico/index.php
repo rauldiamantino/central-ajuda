@@ -30,6 +30,7 @@
 
       $ajusteBuscaTamanho = Helper::ajuste('publico_inicio_busca_tamanho');
       $ajusteBuscaAlinhamento = Helper::ajuste('publico_inicio_busca_alinhamento');
+      $ajusteBuscaAlinhamentoTexto = Helper::ajuste('publico_inicio_busca_alinhamento_texto');
 
       if ((int) $ajusteBuscaTamanho == 1) {
         $classesBuscaTamanho = 'max-w-[600px]';
@@ -50,6 +51,17 @@
       }
       elseif ((int) $ajusteBuscaAlinhamento == 3) {
         $classesBuscaAlinhamento = 'justify-end';
+      }
+
+      if ((int) $ajusteBuscaAlinhamentoTexto == 1) {
+        $classesBuscaAlinhamentoTexto = 'text-start';
+      }
+      elseif ((int) $ajusteBuscaAlinhamentoTexto == 2) {
+        $classesBuscaAlinhamentoTexto = 'text-center';
+
+      }
+      elseif ((int) $ajusteBuscaAlinhamentoTexto == 3) {
+        $classesBuscaAlinhamentoTexto = 'text-end';
       }
 
       // Bloco busca
