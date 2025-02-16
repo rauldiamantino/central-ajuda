@@ -53,9 +53,9 @@ elseif ((int) Helper::ajuste('publico_inicio_template_alinhamento') == 3 and ((i
 }
 ?>
 
-<div class="mx-auto w-full flex flex-col items-center gap-16 py-12">
+<div class="mx-auto w-full flex flex-col items-center gap-16 pb-12 text-gray-800">
   <div class="w-full flex flex-col gap-2">
-    <h3 class="font-extralight text-xs text-gray-800">CATEGORIAS</h3>
+    <h3 class="font-extralight text-xs">CATEGORIAS</h3>
     <div class="<?php echo $classes_colunas; ?>">
       <?php foreach ($categorias as $chave => $linha): ?>
         <a href="<?php echo '/categoria/' . $linha['Categoria']['id'] . '/' . $this->gerarSlug($linha['Categoria']['nome']); ?>" class="border border-slate-200 shadow p-5 h-full min-h-[200px] bg-white flex flex-col justify-start gap-5 rounded-lg <?php echo $classes_colunas_efeito . ' ' . $classes_alinhamento_1; ?> duration-100">

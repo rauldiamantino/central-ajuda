@@ -32,6 +32,26 @@
         </label>
       <?php } ?>
 
+      <?php if(isset($ajustes['publico_topo_borda_inicio'])) { ?>
+        <div class="mt-6 border-t margem"></div>
+
+        <label class="w-full flex gap-3 items-center justify-start">
+          <input type="hidden" name="publico_topo_borda_inicio" value="0">
+          <input type="checkbox" value="1" class="sr-only peer" <?php echo $ajustes['publico_topo_borda_inicio'] == ATIVO ? 'checked' : '' ?> name="publico_topo_borda_inicio">
+          <div class="relative min-w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
+          <span class="block text-sm font-medium text-gray-700">Exibir borda do topo (início)</span>
+        </label>
+      <?php } ?>
+
+      <?php if(isset($ajustes['publico_topo_borda_demais'])) { ?>
+        <label class="w-full flex gap-3 items-center justify-start">
+          <input type="hidden" name="publico_topo_borda_demais" value="0">
+          <input type="checkbox" value="1" class="sr-only peer" <?php echo $ajustes['publico_topo_borda_demais'] == ATIVO ? 'checked' : '' ?> name="publico_topo_borda_demais">
+          <div class="relative min-w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
+          <span class="block text-sm font-medium text-gray-700">Exibir borda do topo (demais telas)</span>
+        </label>
+      <?php } ?>
+
       <?php if(isset($ajustes['publico_topo_fixo'])) { ?>
         <label class="w-full flex gap-3 items-center justify-start">
           <input type="hidden" name="publico_topo_fixo" value="0">
@@ -41,21 +61,39 @@
         </label>
       <?php } ?>
 
-      <?php if(isset($ajustes['publico_topo_borda'])) { ?>
-        <label class="w-full flex gap-3 items-center justify-start">
-          <input type="hidden" name="publico_topo_borda" value="0">
-          <input type="checkbox" value="1" class="sr-only peer" <?php echo $ajustes['publico_topo_borda'] == ATIVO ? 'checked' : '' ?> name="publico_topo_borda">
-          <div class="relative min-w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
-          <span class="block text-sm font-medium text-gray-700">Exibir borda do topo</span>
-        </label>
-      <?php } ?>
-
       <?php if(isset($ajustes['publico_inicio_cor_fundo'])) { ?>
+        <div class="mt-6 border-t margem"></div>
+
         <label class="w-full flex gap-3 items-center justify-start">
           <input type="hidden" name="publico_inicio_cor_fundo" value="0">
           <input type="checkbox" value="1" class="sr-only peer" <?php echo $ajustes['publico_inicio_cor_fundo'] == ATIVO ? 'checked' : '' ?> name="publico_inicio_cor_fundo">
           <div class="relative min-w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
-          <span class="block text-sm font-medium text-gray-700">Exibir cor primária no fundo da tela de início teste tamanho</span>
+          <span class="block text-sm font-medium text-gray-700">Exibir cor primária no fundo da tela de início</span>
+        </label>
+      <?php } ?>
+
+      <?php if(isset($ajustes['publico_inicio_topo_cor'])) { ?>
+        <label class="w-full flex gap-3 items-center justify-start">
+          <input type="hidden" name="publico_inicio_topo_cor" value="0">
+          <input type="checkbox" value="1" class="sr-only peer" <?php echo $ajustes['publico_inicio_topo_cor'] == ATIVO ? 'checked' : '' ?> name="publico_inicio_topo_cor">
+          <div class="relative min-w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
+
+          <div class="flex flex-col text-sm font-medium text-gray-700">
+            <span class="block text-sm font-medium text-gray-700">Exibir cor primária no fundo do <span class="underline">topo</span> da tela de início</span>
+            <span class="font-extralight">É necessário que o ajuste <span class="font-normal">Exibir cor primária no fundo da tela de início</span> esteja habilitado.</span>
+          </div>
+        </label>
+      <?php } ?>
+
+      <?php if(isset($ajustes['publico_inicio_logo_cor_inverter'])) { ?>
+        <label class="w-full flex gap-3 items-center justify-start">
+          <input type="hidden" name="publico_inicio_logo_cor_inverter" value="0">
+          <input type="checkbox" value="1" class="sr-only peer" <?php echo $ajustes['publico_inicio_logo_cor_inverter'] == ATIVO ? 'checked' : '' ?> name="publico_inicio_logo_cor_inverter">
+          <div class="relative min-w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
+          <div class="flex flex-col text-sm font-medium text-gray-700">
+            <span class="block text-sm font-medium text-gray-700">Inverter a cor do logo na tela de início</span>
+            <span class="font-extralight">Também inverte a cor do menu hamburguer no mobile</span>
+          </div>
         </label>
       <?php } ?>
 
@@ -86,9 +124,10 @@
       <?php if (isset($ajustes['publico_largura_geral'])) { ?>
         <?php
         $templates = [
-          1 => 'No máximo 1244px (padrão)',
-          2 => 'No máximo 990px',
-          3 => 'No máximo 940px',
+          1 => 'Grande (padrão)',
+          2 => 'Média',
+          3 => 'Pequena',
+          4 => 'Extra pequena',
         ];
         ?>
         <div class="w-full flex flex-col gap-2">
@@ -318,6 +357,28 @@
         </div>
       <?php } ?>
 
+      <?php if (isset($ajustes['publico_inicio_arredondamento'])) { ?>
+        <div class="mt-6 border-t margem"></div>
+
+        <?php
+        $templates = [
+          0 => 'Sem efeito',
+          1 => 'Arredondamento interno (padrão)',
+          2 => 'Arredondamento externo',
+        ];
+        ?>
+        <div class="w-full flex flex-col gapbusca2">
+          <label for="publico_inicio_arredondamento" class="block text-sm font-medium text-gray-700">Tela inicial (efeito de arredondamento)</label>
+          <select id="publico_inicio_arredondamento" name="publico_inicio_arredondamento" class="<?php echo CLASSES_DASH_INPUT; ?>">
+            <?php foreach ($templates as $chaveTemplate => $linhaTemplate): ?>
+              <option value="<?php echo $chaveTemplate; ?>" <?php echo $chaveTemplate == $ajustes['publico_inicio_arredondamento'] ? 'selected' : ''; ?>>
+                <?php echo $linhaTemplate; ?>
+              </option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+      <?php } ?>
+
       <?php if (isset($ajustes['publico_inicio_template'])) { ?>
         <div class="mt-6 border-t margem"></div>
 
@@ -346,7 +407,7 @@
         $templates = [
           1 => 'Texto e ícone centralizados (padrão)',
           2 => 'Texto e ícone à esquerda',
-          3 => 'Texto e ícone na mesma linha (somente largura 100% ou até 2 colunas)',
+          3 => 'Texto e ícone na mesma linha (somente largura grande ou até 2 colunas)',
         ];
         ?>
         <div class="w-full flex flex-col gap-2">

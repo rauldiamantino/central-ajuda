@@ -208,7 +208,8 @@ class DashboardAjusteModel extends Model
       'publico_menu_lateral' => 1,
       'publico_cate_abrir_primeira' => 0,
       'publico_topo_fixo' => 0,
-      'publico_topo_borda' => 1,
+      'publico_topo_borda_inicio' => 0,
+      'publico_topo_borda_demais' => 1,
       'publico_inicio_cor_fundo' => 1,
       'publico_inicio_colunas_efeito' => 1,
       'publico_inicio_foto_mobile' => '',
@@ -224,6 +225,9 @@ class DashboardAjusteModel extends Model
       'publico_inicio_busca_tamanho' => 2,
       'publico_inicio_busca_alinhamento' => 2,
       'publico_inicio_busca_alinhamento_texto' => 1,
+      'publico_inicio_arredondamento' => 1,
+      'publico_inicio_topo_cor' => 1,
+      'publico_inicio_logo_cor_inverter' => 1,
     ];
 
     if (empty($ajuste)) {
