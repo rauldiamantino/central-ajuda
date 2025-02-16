@@ -33,7 +33,7 @@ if ((int) Helper::ajuste('publico_topo_borda_demais') == INATIVO and ! isset($in
   <div class="w-full <?php echo $classesLarguraGeral ?> flex items-center gap-2 justify-center">
 
       <div class="w-full flex flex-col md:flex-row gap-6 justify-between md:items-center">
-        <div class="md:w-max flex flex-shrink-0 <?php echo (int) Helper::ajuste('publico_menu_lateral') == ATIVO ? 'justify-between' : 'justify-center'; ?> md:justify-start items-center gap-4 inverter transition-invert duration-300">
+        <div class="w-full md:w-[200px] flex flex-shrink-0 <?php echo (int) Helper::ajuste('publico_menu_lateral') == ATIVO ? 'justify-between' : 'justify-center'; ?> md:justify-start items-center gap-4 inverter transition-invert duration-300">
           <a href="/"><img src="<?php echo $this->renderImagem($logo); ?>" alt="<?php echo $empresaNome; ?>" class="w-full max-h-14 <?php echo $classesTopoLogo; ?>" onerror="this.onerror=null; this.src='/img/sem-imagem.svg';"></a>
 
           <?php if ($menuLateral and (int) Helper::ajuste('publico_menu_lateral') == ATIVO) { ?>

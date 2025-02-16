@@ -1123,6 +1123,10 @@ video {
   max-width: 100%;
 }
 
+.max-w-\[300px\] {
+  max-width: 300px;
+}
+
 .flex-shrink-0 {
   flex-shrink: 0;
 }
@@ -3042,6 +3046,22 @@ video {
   .md\:w-max {
     width: -moz-max-content;
     width: max-content;
+  }
+
+  .md\:w-\[300px\] {
+    width: 300px;
+  }
+
+  .md\:w-\[200px\] {
+    width: 200px;
+  }
+
+  .md\:w-8\/12 {
+    width: 66.666667%;
+  }
+
+  .md\:w-9\/12 {
+    width: 75%;
   }
 
   .md\:max-w-56 {
