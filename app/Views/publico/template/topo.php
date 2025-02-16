@@ -8,7 +8,7 @@ if ((int) Helper::ajuste('publico_topo_fixo') == ATIVO) {
   $classesTopoFixo = 'sticky';
 }
 
-if ((int) Helper::ajuste('publico_topo_cor') == ATIVO and (isset($inicio))) {
+if ((int) Helper::ajuste('publico_inicio_topo_cor') == ATIVO and (isset($inicio))) {
   $classesTopoCor = 'bg-transparent text-white';
 }
 
