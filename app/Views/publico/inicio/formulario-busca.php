@@ -1,9 +1,22 @@
+<?php
+$titulo = Helper::ajuste('publico_inicio_titulo');;
+$subtitulo = Helper::ajuste('publico_inicio_subtitulo');;
+?>
 <div class="w-full <?php echo $classesLarguraGeral ?> flex <?php echo $classesBuscaAlinhamento . ' ' . $classesBuscaAlinhamentoTexto; ?>">
   <div class="w-full <?php echo $classesBuscaTamanho; ?> flex flex-col items-start gap-6">
-    <div class="w-full flex flex-col gap-3">
-      <h2 class="w-full font-bold text-3xl"><?php echo Helper::ajuste('publico_inicio_titulo'); ?></h2>
-      <div class="w-full block font-light"><?php echo Helper::ajuste('publico_inicio_subtitulo'); ?></div>
-    </div>
+
+    <?php if ($titulo or $subtitulo) { ?>
+      <div class="w-full flex flex-col gap-3">
+        <?php if ($titulo) { ?>
+          <h2 class="w-full font-bold text-3xl"><?php echo $titulo ?></h2>
+        <?php } ?>
+
+        <?php if ($subtitulo) { ?>
+          <div class="w-full block font-light"><?php echo $subtitulo ?></div>
+        <?php } ?>
+      </div>
+    <?php  } ?>
+
     <div class="w-full flex flex-col justify-center">
 
       <?php if ((int) Helper::ajuste('publico_inicio_busca') == 2) { ?>
