@@ -82,13 +82,22 @@ if (isset($inicio)) {
   elseif ((int) Helper::ajuste('publico_largura_geral') == 4) {
     $classesLarguraGeral = 'max-w-[800px]';
   }
+
+  $classesAlturaFundo = 'h-[540px]';
+
+  if ((int) Helper::ajuste('publico_inicio_arredondamento') == 0) {
+    $classesAlturaFundo = 'pt-24 md:pt-20 h-[460px] md:h-[480px]';
+  }
+  elseif ((int) Helper::ajuste('publico_inicio_arredondamento') > 0) {
+    $classesAlturaFundo = 'pt-14 md:pt-5 h-[500px] md:h-[540px]';
+  }
   ?>
   <div id="conteudo-publico">
     <?php require_once 'template/topo.php'; ?>
 
     <?php if (isset($inicio)) { ?>
       <?php // Fundo resoluções Desktop ?>
-      <div class="relative px-4 md:px-8 mb-10 w-full h-[500px] flex items-center justify-center">
+      <div class="<?php echo $classesAlturaFundo; ?> relative px-4 md:px-8 w-full flex items-center justify-center">
 
         <?php if ($buscarFotoInicioDesktop) { ?>
           <div class="absolute inset-0 top-0 -z-10 overflow-hidden">
@@ -129,18 +138,18 @@ if (isset($inicio)) {
       <div class="relative min-w-full h-full">
 
         <?php if ((int) Helper::ajuste('publico_inicio_arredondamento') == 1 and isset($inicio)) { ?>
-          <svg class="absolute -top-[100px] left-0 w-full h-[100px]" viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="absolute -top-[60px] md:-top-[100px] left-0 w-full h-[70px] md:h-[100px]" viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
             <path fill="white" d="M0,0 Q720,100 1440,0 V100 H0 Z"></path>
           </svg>
         <?php } ?>
 
         <?php if ((int) Helper::ajuste('publico_inicio_arredondamento') == 2 and isset($inicio)) { ?>
-          <svg class="absolute -top-[138px] left-0 w-full h-[100px]" viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="absolute -top-[60px] md:-top-[120px] left-0 w-full h-[60px] md:h-[120px]" viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
             <path fill="white" d="M0,100 Q720,0 1440,100 V100 H0 Z"></path>
           </svg>
         <?php } ?>
 
-        <div class="px-4 <?php echo isset($inicio) ? 'pt-4' : 'pt-4' ?> w-full h-full bg-white text-black">
+        <div class="px-4 <?php echo isset($inicio) ? 'pt-16' : 'pt-4' ?> w-full h-full bg-white text-black">
           <div class="mx-auto w-full <?php echo $classesLarguraGeral ?> min-h-screen flex gap-4">
 
             <?php if ($menuLateral and (int) Helper::ajuste('publico_menu_lateral') == ATIVO) { ?>

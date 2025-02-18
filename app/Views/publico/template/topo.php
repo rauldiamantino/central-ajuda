@@ -34,10 +34,10 @@ if ((int) Helper::ajuste('publico_topo_borda_demais') == INATIVO and ! isset($in
 
 <header class="border-b <?php echo $classesTopoBorda . ' ' . $classesTopoFixo. ' ' . $classesTopoCor ?> z-20 top-0 w-full h-24 lg:mx-auto flex justify-center items-center <?php echo isset($inicio) ? 'py-12' : 'py-20'; ?> md:py-4 px-4 xl:px-0 md:gap-10 transition duration-300 topo-publico">
 
-  <div class="w-full <?php echo $classesLarguraGeral ?> flex items-center gap-2 justify-center">
+  <div class="w-full <?php echo $classesLarguraGeral ?> flex items-center gap-4 justify-center">
 
-      <div class="w-full flex flex-col md:flex-row gap-6 justify-between md:items-center">
-        <div class="w-full md:w-[200px] flex flex-shrink-0 <?php echo (int) Helper::ajuste('publico_menu_lateral') == ATIVO ? 'justify-between' : 'justify-center'; ?> md:justify-start items-center gap-4 inverter transition-invert duration-300">
+      <div class="w-full flex flex-col md:flex-row gap-5 justify-between md:items-center">
+        <div class="w-full md:w-[220px] flex flex-shrink-0 <?php echo (int) Helper::ajuste('publico_menu_lateral') == ATIVO ? 'justify-between' : 'justify-center'; ?> md:justify-start items-center gap-4 inverter transition-invert duration-300">
           <a href="/"><img src="<?php echo $this->renderImagem($logo); ?>" alt="<?php echo $empresaNome; ?>" class="w-full max-h-14 <?php echo $classesTopoLogo; ?>" onerror="this.onerror=null; this.src='/img/sem-imagem.svg';"></a>
 
           <?php if ($menuLateral and (int) Helper::ajuste('publico_menu_lateral') == ATIVO) { ?>
@@ -49,7 +49,7 @@ if ((int) Helper::ajuste('publico_topo_borda_demais') == INATIVO and ! isset($in
           <?php } ?>
         </div>
 
-        <div class="<?php echo isset($inicio) ? 'hidden ' : '' ?>w-full flex justify-center gap-2">
+        <div class="<?php echo isset($inicio) ? 'hidden' : 'block' ?> w-full">
           <?php require_once 'formulario-busca.php' ?>
         </div>
 

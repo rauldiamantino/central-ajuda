@@ -201,7 +201,7 @@ class DashboardAjusteModel extends Model
   public function ajustesPadroes(string $ajuste = ''): array
   {
     $padrao = [
-      'publico_largura_geral' => 1,
+      'publico_largura_geral' => 2,
       'artigo_autor' => 1,
       'botao_whatsapp' => 1,
       'publico_cate_busca' => 1,
@@ -218,16 +218,16 @@ class DashboardAjusteModel extends Model
       'publico_inicio_texto_cor_mobile' => '#000000',
       'publico_inicio_texto_cor_desktop' => '#000000',
       'publico_inicio_busca' => 1,
-      'publico_inicio_template' => 1,
+      'publico_inicio_template' => 2,
       'publico_inicio_template_alinhamento' => 1,
       'publico_inicio_titulo' => 'Olá, como podemos te ajudar hoje?',
       'publico_inicio_subtitulo' => 'Explore nossos guias, tutoriais e artigos para encontrar rapidamente as informações que você precisa.',
       'publico_inicio_busca_tamanho' => 2,
       'publico_inicio_busca_alinhamento' => 2,
       'publico_inicio_busca_alinhamento_texto' => 1,
-      'publico_inicio_arredondamento' => 1,
-      'publico_inicio_topo_cor' => 1,
-      'publico_inicio_logo_cor_inverter' => 1,
+      'publico_inicio_arredondamento' => 0,
+      'publico_inicio_topo_cor' => 0,
+      'publico_inicio_logo_cor_inverter' => 0,
     ];
 
     if (empty($ajuste)) {

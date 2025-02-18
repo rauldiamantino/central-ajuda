@@ -61,27 +61,27 @@
         </label>
       <?php } ?>
 
-      <?php if(isset($ajustes['publico_inicio_cor_fundo'])) { ?>
+      <?php if(isset($ajustes['publico_inicio_topo_cor'])) { ?>
         <div class="mt-6 border-t margem"></div>
 
-        <label class="w-full flex gap-3 items-center justify-start">
-          <input type="hidden" name="publico_inicio_cor_fundo" value="0">
-          <input type="checkbox" value="1" class="sr-only peer" <?php echo $ajustes['publico_inicio_cor_fundo'] == ATIVO ? 'checked' : '' ?> name="publico_inicio_cor_fundo">
-          <div class="relative min-w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
-          <span class="block text-sm font-medium text-gray-700">Exibir cor primária no fundo da tela de início</span>
-        </label>
-      <?php } ?>
-
-      <?php if(isset($ajustes['publico_inicio_topo_cor'])) { ?>
         <label class="w-full flex gap-3 items-center justify-start">
           <input type="hidden" name="publico_inicio_topo_cor" value="0">
           <input type="checkbox" value="1" class="sr-only peer" <?php echo $ajustes['publico_inicio_topo_cor'] == ATIVO ? 'checked' : '' ?> name="publico_inicio_topo_cor">
           <div class="relative min-w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
 
           <div class="flex flex-col text-sm font-medium text-gray-700">
-            <span class="block text-sm font-medium text-gray-700">Exibir cor primária no fundo do <span class="underline">topo</span> da tela de início</span>
-            <span class="font-extralight">É necessário que o ajuste <span class="font-normal">Exibir cor primária no fundo da tela de início</span> esteja habilitado.</span>
+            <span class="block text-sm font-medium text-gray-700">Topo transparente</span>
           </div>
+        </label>
+      <?php } ?>
+
+
+      <?php if(isset($ajustes['publico_inicio_cor_fundo'])) { ?>
+        <label class="w-full flex gap-3 items-center justify-start">
+          <input type="hidden" name="publico_inicio_cor_fundo" value="0">
+          <input type="checkbox" value="1" class="sr-only peer" <?php echo $ajustes['publico_inicio_cor_fundo'] == ATIVO ? 'checked' : '' ?> name="publico_inicio_cor_fundo">
+          <div class="relative min-w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
+          <span class="block text-sm font-medium text-gray-700">Exibir cor primária no fundo da tela de início</span>
         </label>
       <?php } ?>
 
@@ -124,8 +124,8 @@
       <?php if (isset($ajustes['publico_largura_geral'])) { ?>
         <?php
         $templates = [
-          1 => 'Grande (padrão)',
-          2 => 'Média',
+          1 => 'Grande',
+          2 => 'Média (padrão)',
           3 => 'Pequena',
           4 => 'Extra pequena',
         ];
@@ -320,9 +320,9 @@
 
         <?php
         $templates = [
-          0 => 'Sem efeito',
-          1 => 'Arredondamento interno (padrão)',
-          2 => 'Arredondamento externo',
+          0 => 'Sem efeito (padrão)',
+          1 => 'Arredondamento externo',
+          2 => 'Arredondamento interno',
         ];
         ?>
         <div class="w-full flex flex-col gapbusca2">
@@ -342,8 +342,8 @@
 
         <?php
         $templates = [
-          1 => 'No máximo 4 colunas (padrão)',
-          2 => 'No máximo 3 colunas',
+          1 => 'No máximo 4 colunas',
+          2 => 'No máximo 3 colunas (padrão)',
           3 => 'No máximo 2 colunas',
           4 => 'Coluna única',
         ];
