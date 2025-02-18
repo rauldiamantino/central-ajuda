@@ -3,11 +3,6 @@
 
 <?php require_once 'template/cabecalho.php' ?>
 
-<!-- <div class="absolute w-full h-full flex items-center justify-center bg-gray-200/25 efeito-loader-publico-div">
-  <div class="efeito-loader-publico">
-  </div>
-</div> -->
-
 <?php
 $styleFotoFundoDesktop = '';
 $classesFundoDesktop = 'pers-publico-inicio-busca template-cor-' . Helper::ajuste('publico_cor_primaria');
@@ -69,7 +64,13 @@ if (isset($inicio)) {
 }
 ?>
 
-<body class="min-h-screen max-w-screen flex flex-col font-normal bg-white text-black <?php echo $classesFundoDesktop; ?>" <?php echo $styleFotoFundoDesktop; ?> data-base-url="<?php echo RAIZ; ?>">
+<div class="absolute w-full h-full flex items-center justify-center bg-gray-200/25 efeito-loader-publico-div">
+  <div class="efeito-loader-publico">
+  </div>
+</div>
+
+
+<body class="min-h-screen max-w-screen flex flex-col font-normal bg-white text-black" data-base-url="<?php echo RAIZ; ?>">
   <?php
   $classesLarguraGeral = 'max-w-[1244px]';
 
@@ -92,7 +93,7 @@ if (isset($inicio)) {
     $classesAlturaFundo = 'pt-14 md:pt-5 h-[500px] md:h-[540px]';
   }
   ?>
-  <div id="conteudo-publico">
+  <div class="hidden <?php echo $classesFundoDesktop; ?>" <?php echo $styleFotoFundoDesktop; ?> id="conteudo-publico">
     <?php require_once 'template/topo.php'; ?>
 
     <?php if (isset($inicio)) { ?>

@@ -26,4 +26,5 @@
   <?php } ?>
 
   <link rel="canonical" href="<?php echo $urlCanonica; ?>">
+  <link rel="preload" href="<?php echo $this->renderImagem($logo); ?>" as="image" type="image/png">
 </head>

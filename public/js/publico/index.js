@@ -1,13 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
-  // const efeitoLoaderDiv = document.querySelector('.efeito-loader-publico-div')
-  // const efeitoLoader = document.querySelector('.efeito-loader-publico')
-  // const conteudoPublico = document.querySelector('#conteudo-publico')
+  const efeitoLoaderDiv = document.querySelector('.efeito-loader-publico-div')
+  const efeitoLoader = document.querySelector('.efeito-loader-publico')
+  const conteudoPublico = document.querySelector('#conteudo-publico')
 
-  // setTimeout(() => {
-  //   efeitoLoaderDiv.classList.add('hidden')
-  //   efeitoLoader.classList.add('hidden')
-  //   conteudoPublico.classList.remove('hidden')
-  // }, 50)
+  setTimeout(() => {
+    efeitoLoaderDiv.classList.add('hidden')
+    efeitoLoader.classList.add('hidden')
+    conteudoPublico.classList.remove('hidden')
+  }, 700)
 
   const menuLateral = document.querySelector('.publico-menu-lateral')
   const btnMenuLateral = document.querySelector('.btn-publico-menu-lateral')
