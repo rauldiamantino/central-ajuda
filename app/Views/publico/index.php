@@ -139,7 +139,7 @@ if (isset($inicio)) {
       <div class="relative min-w-full h-full">
 
         <?php if ((int) Helper::ajuste('publico_inicio_arredondamento') == 1 and isset($inicio)) { ?>
-          <svg class="absolute -top-[60px] md:-top-[100px] left-0 w-full h-[70px] md:h-[100px]" viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="absolute -top-[60px] md:-top-[99px] left-0 w-full h-[70px] md:h-[100px]" viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
             <path fill="white" d="M0,0 Q720,100 1440,0 V100 H0 Z"></path>
           </svg>
         <?php } ?>
