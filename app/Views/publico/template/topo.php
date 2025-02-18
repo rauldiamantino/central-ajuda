@@ -46,7 +46,7 @@ if ((int) Helper::ajuste('publico_topo_borda_demais') == INATIVO and ! isset($in
           <?php } ?>
         </div>
 
-        <div class="<?php echo isset($inicio) ? 'hidden' : 'block' ?> w-full">
+        <div class="<?php echo isset($inicio) ? 'hidden' : '' ?> w-full md:max-w-[500px]">
           <?php require_once 'formulario-busca.php' ?>
         </div>
 
