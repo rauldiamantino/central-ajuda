@@ -1,3 +1,13 @@
+const mostrarLoader = () => {
+  const efeitoLoader = document.querySelector('.efeito-loader-min');
+  efeitoLoader.classList.remove('hidden');
+}
+
+const ocultarLoader = () => {
+  const efeitoLoader = document.querySelector('.efeito-loader-min');
+  efeitoLoader.classList.add('hidden');
+}
+
 const alterarImagemMobileInicio = () => {
   const editarImagemMobileEscolher = document.querySelector('.inicio-editar-foto-mobile-escolher')
 
@@ -12,10 +22,13 @@ const mostrarImagemMobileInicio = async (event) => {
   const anexo = event.target.files[0]
   const imgElemento = document.querySelector('.inicio-alterar-foto-mobile')
   const msgErroImagem = document.querySelector('.erro-inicio-foto-mobile')
+  const inputFile = event.target;
 
   if (! anexo) {
     return
   }
+
+  mostrarLoader()
 
   const formatosPermitidos = ['image/jpeg', 'image/png', 'image/svg+xml']
   msgErroImagem.dataset.sucesso = 'true'
@@ -45,6 +58,7 @@ const mostrarImagemMobileInicio = async (event) => {
   }
 
   try {
+    inputFile.disabled = true;
     const webpBlob = await imagem2Webp(anexo);
     const webpFile = new File([webpBlob], 'nova-imagem.webp', { type: 'image/webp' });
     const dataTransfer = new DataTransfer();
@@ -60,6 +74,9 @@ const mostrarImagemMobileInicio = async (event) => {
     msgErroImagem.dataset.sucesso = 'false';
     msgErroImagem.classList.remove('hidden');
   }
+
+  inputFile.disabled = false
+  ocultarLoader()
 }
 
 const removerFotoMobileInicio = () => {
@@ -94,10 +111,13 @@ const mostrarImagemDesktopInicio = async (event) => {
   const anexo = event.target.files[0]
   const imgElemento = document.querySelector('.inicio-alterar-foto-desktop')
   const msgErroImagem = document.querySelector('.erro-inicio-foto-desktop')
+  const inputFile = event.target;
 
   if (! anexo) {
     return
   }
+
+  mostrarLoader()
 
   const formatosPermitidos = ['image/jpeg', 'image/png', 'image/svg+xml']
   msgErroImagem.dataset.sucesso = 'true'
@@ -127,6 +147,7 @@ const mostrarImagemDesktopInicio = async (event) => {
   }
 
   try {
+    inputFile.disabled = true;
     const webpBlob = await imagem2Webp(anexo);
     const webpFile = new File([webpBlob], 'nova-imagem.webp', { type: 'image/webp' });
     const dataTransfer = new DataTransfer();
@@ -142,6 +163,9 @@ const mostrarImagemDesktopInicio = async (event) => {
     msgErroImagem.dataset.sucesso = 'false';
     msgErroImagem.classList.remove('hidden');
   }
+
+  inputFile.disabled = false
+  ocultarLoader()
 }
 
 const removerFotoDesktopInicio = () => {

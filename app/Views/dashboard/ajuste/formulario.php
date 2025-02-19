@@ -200,11 +200,12 @@
               <span class="font-extralight">Envie uma imagem de fundo para a tela inicial. O arquivo deve ter até 2MB e estar no formato .svg, .jpg ou .png.</span>
             </div>
             <div class="w-max flex flex-col items-center justify-center gap-4">
-              <button type="button" for="inicio-editar-foto-desktop" class="mt-2 lg:mt-0 w-max h-max flex items-center justify-center border border-gray-200 hover:border-gray-300 rounded-lg inicio-btn-foto-desktop-editar-escolher" onclick="alterarImagemDesktopInicio(event)">
+              <button type="button" for="inicio-editar-foto-desktop" class="relative mt-2 lg:mt-0 w-max h-max flex items-center justify-center border border-gray-200 hover:border-gray-300 rounded-lg inicio-btn-foto-desktop-editar-escolher" onclick="alterarImagemDesktopInicio(event)">
                 <div class="w-max h-max">
                   <img src="<?php echo $this->renderImagem($ajustes['publico_inicio_foto_desktop']); ?>" class="p-1 w-20 h-20 rounded-lg inicio-alterar-foto-desktop" onerror="this.onerror=null; this.src='/img/sem-imagem.svg';">
                 </div>
                 <span class="text-gray-700 h-max w-max empresa-txt-imagem-desktop-editar-escolher"><?php echo $ajustes['publico_inicio_foto_desktop'] ? '' : ''; ?></span>
+                <div class="hidden efeito-loader-min"></div>
               </button>
 
               <?php if ($ajustes['publico_inicio_foto_desktop']) { ?>
