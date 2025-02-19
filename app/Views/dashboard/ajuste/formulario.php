@@ -61,12 +61,12 @@
         </label>
       <?php } ?>
 
-      <?php if(isset($ajustes['publico_inicio_topo_cor'])) { ?>
+      <?php if(isset($ajustes['publico_inicio_topo_transparente'])) { ?>
         <div class="mt-6 border-t margem"></div>
 
         <label class="w-full flex gap-3 items-center justify-start">
-          <input type="hidden" name="publico_inicio_topo_cor" value="0">
-          <input type="checkbox" value="1" class="sr-only peer" <?php echo $ajustes['publico_inicio_topo_cor'] == ATIVO ? 'checked' : '' ?> name="publico_inicio_topo_cor">
+          <input type="hidden" name="publico_inicio_topo_transparente" value="0">
+          <input type="checkbox" value="1" class="sr-only peer" <?php echo $ajustes['publico_inicio_topo_transparente'] == ATIVO ? 'checked' : '' ?> name="publico_inicio_topo_transparente">
           <div class="relative min-w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-800"></div>
 
           <div class="flex flex-col text-sm font-medium text-gray-700">

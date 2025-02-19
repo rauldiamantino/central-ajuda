@@ -15,9 +15,9 @@ else {
 
 // Estilo template
 $classesPublicoFundo = '';
-$stylePublicoTexto = 'style="color: ' . Helper::ajuste('publico_inicio_texto_cor_desktop') . ';"';;
+$stylePublicoTexto = 'style="color: ' . Helper::ajuste('publico_inicio_texto_cor_desktop') . ';"';
 
-if ((int) Helper::ajuste('publico_inicio_cor_fundo') == ATIVO) {
+if ((int) Helper::ajuste('publico_inicio_cor_fundo') == ATIVO and empty(Helper::ajuste('publico_inicio_foto_desktop'))) {
   $classesPublicoFundo = 'pers-publico-fundo template-cor-' . Helper::ajuste('publico_cor_primaria');
 }
 ?>
@@ -29,7 +29,7 @@ if ((int) Helper::ajuste('publico_inicio_cor_fundo') == ATIVO) {
   <body class="min-h-screen max-w-screen flex flex-col font-normal bg-white text-black" data-base-url="<?php echo RAIZ; ?>">
     <?php require_once 'template/efeito-loader.php'; ?>
 
-    <div class="hidden <?php echo $classesPublicoFundo; ?>" <?php echo $stylePublicoTexto; ?> id="conteudo-publico">
+    <div class="hidden <?php echo $classesPublicoFundo; ?>" id="conteudo-publico">
       <?php require_once 'template/topo.php'; ?>
       <?php require_once 'inicio/bloco-busca.php'; ?>
       <?php require_once 'template/notificacoes.php' ?>

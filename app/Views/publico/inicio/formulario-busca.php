@@ -1,12 +1,12 @@
 <?php
-$titulo = Helper::ajuste('publico_inicio_titulo');;
-$subtitulo = Helper::ajuste('publico_inicio_subtitulo');;
+$titulo = Helper::ajuste('publico_inicio_titulo');
+$subtitulo = Helper::ajuste('publico_inicio_subtitulo');
 ?>
 <div class="w-full <?php echo $classesLarguraGeral ?> flex <?php echo $classesBuscaAlinhamento . ' ' . $classesBuscaAlinhamentoTexto; ?>">
   <div class="w-full <?php echo $classesBuscaTamanho; ?> flex flex-col items-start gap-6">
 
     <?php if ($titulo or $subtitulo) { ?>
-      <div class="w-full flex flex-col gap-3">
+      <div class="w-full flex flex-col gap-3" <?php echo $styleFundoBuscaInicio; ?>>
         <?php if ($titulo) { ?>
           <h2 class="w-full font-bold text-3xl"><?php echo $titulo ?></h2>
         <?php } ?>

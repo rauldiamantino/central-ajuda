@@ -2,11 +2,11 @@
 $classeLogin = 'text-gray-700 hover:border-slate-100';
 $styleLogin = '';
 
-if ((int) Helper::ajuste('publico_inicio_topo_cor') == ATIVO and isset($inicio)) {
+if (isset($inicio) and (int) Helper::ajuste('publico_inicio_topo_transparente') == ATIVO and (int) Helper::ajuste('publico_inicio_cor_fundo') == ATIVO) {
   $classeLogin = 'text-white';
 }
 
-if (isset($inicio) and Helper::ajuste('publico_inicio_foto_desktop')) {
+if (isset($inicio) and (int) Helper::ajuste('publico_inicio_topo_transparente') == ATIVO and Helper::ajuste('publico_inicio_foto_desktop')) {
   $classeLogin = '';
   $styleLogin = 'style="color: ' . Helper::ajuste('publico_inicio_texto_cor_desktop') . ';"';
 }
@@ -21,6 +21,6 @@ if (isset($inicio) and Helper::ajuste('publico_inicio_foto_desktop')) {
       </li>
     <?php } ?>
 
-    <li class="flex items-center justify-center"><a href="/dashboard/login" target="_blank" class="border border-transparent <?php echo $classeLogin; ?> px-4 py-2 rounded-lg" <?php echo $styleLogin; ?>>Login</a></li>
+    <li class="flex items-center justify-center"><a href="/dashboard/login" target="_blank" class="border border-transparent <?php echo $classeLogin; ?> px-4 py-2 rounded-lg menu-login-desktop" <?php echo $styleLogin; ?>>Login</a></li>
   </ul>
 </nav>

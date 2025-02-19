@@ -226,7 +226,7 @@ class DashboardAjusteModel extends Model
       'publico_inicio_busca_alinhamento' => 2,
       'publico_inicio_busca_alinhamento_texto' => 1,
       'publico_inicio_arredondamento' => 0,
-      'publico_inicio_topo_cor' => 0,
+      'publico_inicio_topo_transparente' => 0,
       'publico_inicio_logo_cor_inverter' => 0,
     ];
 

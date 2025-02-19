@@ -108,5 +108,67 @@ document.addEventListener('DOMContentLoaded', function() {
     })
   }
 
+  const scrollMenuTopo = () => {
+    let menuLoginCor = ''
+
+    document.addEventListener('scroll', function () {
+      const topo = document.querySelector('#topo')
+
+      if (! topo) {
+        return
+      }
+
+      const logo = topo.querySelector('img')
+      const menuLogin = topo.querySelector('.menu-login-desktop')
+      const menuHamburguer = topo.querySelector('.menu-hamburguer-mobile')
+      const telaInicio = topo.dataset.inicio
+      const topoFixo = topo.dataset.topoFixo
+      const topoInverter = topo.dataset.topoInverter
+      const topoTransparente = topo.dataset.topoTransparente
+
+      if (topoFixo == 0) {
+        return
+      }
+
+      if (telaInicio && menuLogin && menuLoginCor == '') {
+        menuLoginCor = getComputedStyle(menuLogin).color
+      }
+
+      if (window.scrollY > 50) {
+        topo.classList.add('shadow-md')
+
+        if (telaInicio && menuLogin) {
+          menuLogin.style.color = '#374151'
+        }
+
+        if (telaInicio && topoInverter == 1) {
+          logo?.classList.remove('filter', 'invert', 'grayscale', 'brightness-0')
+          menuHamburguer?.classList.remove('filter', 'invert', 'grayscale', 'brightness-0')
+        }
+
+        if (telaInicio && topoTransparente == 1) {
+          topo.classList.add('bg-white')
+        }
+      }
+      else {
+        topo.classList.remove('shadow-md')
+
+        if (telaInicio && menuLogin) {
+          menuLogin.style.color = menuLoginCor
+        }
+
+        if (telaInicio && topoInverter == 1) {
+          logo?.classList.add('filter', 'invert', 'grayscale', 'brightness-0')
+          menuHamburguer?.classList.add('filter', 'invert', 'grayscale', 'brightness-0')
+        }
+
+        if (telaInicio && topoTransparente == 1) {
+          topo.classList.remove('bg-white')
+        }
+      }
+    })
+  }
+
+  scrollMenuTopo()
   alteraCorLupa()
 })
