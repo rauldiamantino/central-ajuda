@@ -32,9 +32,9 @@ class PublicoArtigoController extends PublicoController
 
     // Artigo
     $condicoes = [
-      0 => ['campo' => 'Artigo.codigo', 'operador' => '=', 'valor' => (int) $codigo],
-      1 => ['campo' => 'Artigo.ativo', 'operador' => '=', 'valor' => ATIVO],
-      3 => ['campo' => 'Artigo.excluido', 'operador' => '=', 'valor' => INATIVO],
+      ['campo' => 'Artigo.codigo', 'operador' => '=', 'valor' => (int) $codigo],
+      ['campo' => 'Artigo.ativo', 'operador' => '=', 'valor' => ATIVO],
+      ['campo' => 'Artigo.excluido', 'operador' => '=', 'valor' => INATIVO],
     ];
 
     if ($this->exibirInativos()) {
@@ -137,9 +137,9 @@ class PublicoArtigoController extends PublicoController
 
       // Artigos relacionados
       $condDemaisArtigos = [
-        0 => ['campo' => 'Artigo.categoria_id', 'operador' => '=', 'valor' => intval($artigo[0]['Artigo']['categoria_id'] ?? 0)],
-        1 => ['campo' => 'Artigo.ativo', 'operador' => '=', 'valor' => ATIVO],
-        2 => ['campo' => 'Artigo.excluido', 'operador' => '=', 'valor' => INATIVO],
+        ['campo' => 'Artigo.categoria_id', 'operador' => '=', 'valor' => intval($artigo[0]['Artigo']['categoria_id'] ?? 0)],
+        ['campo' => 'Artigo.ativo', 'operador' => '=', 'valor' => ATIVO],
+        ['campo' => 'Artigo.excluido', 'operador' => '=', 'valor' => INATIVO],
       ];
 
       if ($this->exibirInativos()) {

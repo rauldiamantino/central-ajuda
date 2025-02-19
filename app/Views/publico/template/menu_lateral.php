@@ -1,4 +1,8 @@
 <?php
+if (empty($menuLateral) or (int) Helper::ajuste('publico_menu_lateral') == INATIVO) {
+  return;
+}
+
 $categoriaAtual = intval($artigos[0]['Artigo']['categoria_id'] ?? 0);
 $artigoAtual = intval($artigo['Artigo']['id'] ?? 0);
 

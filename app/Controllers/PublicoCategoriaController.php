@@ -71,9 +71,9 @@ class PublicoCategoriaController extends PublicoController
 
     if ($categorias) {
       $condArtigos = [
-        0 => ['campo' => 'Artigo.categoria_id', 'operador' => '=', 'valor' => (int) $id],
-        1 => ['campo' => 'Categoria.ativo', 'operador' => '=', 'valor' => ATIVO],
-        2 => ['campo' => 'Artigo.ativo', 'operador' => '=', 'valor' => ATIVO],
+        ['campo' => 'Artigo.categoria_id', 'operador' => '=', 'valor' => (int) $id],
+        ['campo' => 'Categoria.ativo', 'operador' => '=', 'valor' => ATIVO],
+        ['campo' => 'Artigo.ativo', 'operador' => '=', 'valor' => ATIVO],
       ];
 
       if ($this->exibirInativos()) {
