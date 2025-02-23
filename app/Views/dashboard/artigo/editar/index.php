@@ -73,79 +73,56 @@ if ($dominio) {
 
   <div class="w-full border-t border-slate-300 pt-4 flex flex-col lg:justify-between gap-5">
 
-    <?php
-    if ($this->usuarioLogado['nivel'] != USUARIO_LEITURA) {
-      require_once 'conteudo/menu-adicionar.php';
-    }
-    ?>
-
     <div class="w-full max-w-[990px] border border-slate-300 bg-white duration-350 shadow rounded-md">
       <div class="relative pb-10 w-full">
-        <div class="w-full sm:w-max flex flex-col sm:flex-row gap-2 sm:justify-start sm:items-center p-6">
-          <div class="w-full sm:w-max flex gap-2 justify-start items-center">
-            <?php if (isset($artigo['Categoria']['ativo']) and $artigo['Categoria']['ativo'] == ATIVO) { ?>
-              <div class="w-full sm:w-max border text-green-900 flex gap-2 items-center justify-center text-xs p-1.5 rounded">
-                Categoria pública
+        <div class="w-full flex flex-col items-start sm:flex-row sm:justify-between sm:items-center">
+
+          <?php // Status de Categoria e Artigo ?>
+          <div class="w-max flex flex-col sm:flex-row gap-2 sm:justify-start sm:items-center p-6">
+            <div>
+              <span class="text-xs font-extralight italic">Status</span>
+              <div class="mr-5 w-max flex flex-row gap-2 justify-start items-center">
+                <div class="w-full sm:w-max flex gap-2 justify-start items-center">
+                  <?php if (isset($artigo['Categoria']['ativo']) and $artigo['Categoria']['ativo'] == ATIVO) { ?>
+                    <div class="w-max border text-green-900 flex gap-2 items-center justify-center text-xs p-1.5 rounded">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z" />
+                      </svg>
+                    </div>
+                  <?php } else { ?>
+                    <div class="w-max border text-red-900 flex gap-2 items-center justify-center text-xs p-1.5 rounded">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z" />
+                      </svg>
+                    </div>
+                  <?php } ?>
+                </div>
+                <div class="w-full flex gap-2 justify-start items-center">
+                  <?php if (isset($artigo['Artigo']['ativo']) and $artigo['Artigo']['ativo'] == ATIVO) { ?>
+                    <div class="w-max border text-green-900 flex gap-2 items-center justify-center text-xs p-1.5 rounded">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
+                      </svg>
+                    </div>
+                  <?php } else { ?>
+                    <div class="w-max border text-red-900 flex gap-2 items-center justify-center text-xs p-1.5 rounded">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
+                      </svg>
+                    </div>
+                  <?php } ?>
+                </div>
               </div>
-            <?php } else { ?>
-              <div class="w-full sm:w-max border text-red-900 flex gap-2 items-center justify-center text-xs p-1.5 rounded">
-                Categoria privada
-              </div>
-            <?php } ?>
+            </div>
+
+            <?php
+            if ($this->usuarioLogado['nivel'] != USUARIO_LEITURA) {
+              require_once 'conteudo/menu-adicionar.php';
+            }
+            ?>
           </div>
-          <div class="w-full flex gap-2 justify-start items-center">
-            <?php if (isset($artigo['Artigo']['ativo']) and $artigo['Artigo']['ativo'] == ATIVO) { ?>
-              <div class="w-full sm:w-max border text-green-900 flex gap-2 items-center justify-center text-xs p-1.5 rounded">
-                Artigo público
-              </div>
-            <?php } else { ?>
-              <div class="w-full sm:w-max border text-red-900 flex gap-2 items-center justify-center text-xs p-1.5 rounded">
-                Artigo privado
-              </div>
-            <?php } ?>
-          </div>
-
-          <?php
-          $classeDesbloqueado = 'hidden';
-          $classeBloqueado = '';
-          $acaoBotaoBloqueio = '';
-
-          if (isset($artigo['Artigo']['editar']) and $artigo['Artigo']['editar'] == ATIVO) {
-            $classeDesbloqueado = '';
-            $classeBloqueado = 'hidden';
-            $acaoBotaoBloqueio = '';
-          }
-
-          if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) {
-            $classeDesbloqueado = 'hidden';
-            $classeBloqueado = '';
-            $acaoBotaoBloqueio = 'disabled';
-          }
-
-          ?>
-          <button
-            type="button"
-            class="<?php echo $classeBloqueado; ?> flex w-full sm:w-max gap-1 items-center justify-center text-xs hover:bg-gray-300/25 duration-150 py-1 px-2 rounded pre-visualizacao-bloqueado"
-            onclick="definirDesbloqueio(<?php echo $artigo['Artigo']['id']; ?>, <?php echo $this->usuarioLogado['nivel']; ?>)"
-            <?php echo $acaoBotaoBloqueio; ?>
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5">
-              <path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z" clip-rule="evenodd" />
-            </svg>
-            Bloqueado
-          </button>
-
-          <button
-            type="button"
-            class="<?php echo $classeDesbloqueado; ?> flex w-full sm:w-max border border-blue-900/75 text-blue-900 gap-1 items-center justify-center text-xs hover:bg-blue-100/25 duration-150 py-1 px-2 rounded pre-visualizacao-bloquear"
-            onclick="definirBloqueio(<?php echo $artigo['Artigo']['id']; ?>)"
-            <?php echo $acaoBotaoBloqueio; ?>
-            >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5">
-              <path d="M18 1.5c2.9 0 5.25 2.35 5.25 5.25v3.75a.75.75 0 0 1-1.5 0V6.75a3.75 3.75 0 1 0-7.5 0v3a3 3 0 0 1 3 3v6.75a3 3 0 0 1-3 3H3.75a3 3 0 0 1-3-3v-6.75a3 3 0 0 1 3-3h9v-3c0-2.9 2.35-5.25 5.25-5.25Z" />
-            </svg>
-            Desbloqueado
-          </button>
         </div>
 
         <?php require_once 'conteudo/pre-visualizacao.php' ?>

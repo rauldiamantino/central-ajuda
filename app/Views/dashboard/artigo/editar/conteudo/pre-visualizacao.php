@@ -14,6 +14,7 @@ if ($conteudos) {
   endforeach;
 }
 
+// Modo leitura
 if (isset($artigo['Artigo']['editar'])) {
   $acaoBotaoEditar = 'disabled';
   $acaoCliqueBotaoEditar = '';
