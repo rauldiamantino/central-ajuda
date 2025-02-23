@@ -60,17 +60,21 @@ class DashboardConteudoController extends DashboardController
       $this->redirecionarErro('/dashboard/artigos', 'Artigo não encontrado');
     }
 
-    if (isset($dados['tipo']) and $dados['tipo'] == 2 and (! isset($_FILES['arquivo-imagem']) or $_FILES['arquivo-imagem']['error'] !== UPLOAD_ERR_OK)) {
-      $this->redirecionarErro('/dashboard/artigo/editar/' . $artigoCodigo, 'Imagem inválida');
-    }
-
-    $resultado = $this->conteudoModel->adicionar($dados);
-
     $urlRetorno = '/dashboard/artigo/editar/' . $artigoCodigo;
 
     if ($botaoVoltar) {
       $urlRetorno .= '?referer=' . $botaoVoltar;
     }
+
+    if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) {
+      $this->redirecionarErro($urlRetorno, MSG_ERRO_PERMISSAO);
+    }
+
+    if (isset($dados['tipo']) and $dados['tipo'] == 2 and (! isset($_FILES['arquivo-imagem']) or $_FILES['arquivo-imagem']['error'] !== UPLOAD_ERR_OK)) {
+      $this->redirecionarErro($urlRetorno, 'Imagem inválida');
+    }
+
+    $resultado = $this->conteudoModel->adicionar($dados);
 
     if (! isset($resultado['id']) or empty($resultado['id'])) {
       $this->redirecionarErro($urlRetorno, $resultado['erro'] ?? '');
@@ -193,6 +197,10 @@ class DashboardConteudoController extends DashboardController
       $this->redirecionarErro('/dashboard/artigos', 'Artigo não encontrado');
     }
 
+    if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) {
+      $this->redirecionarErro('/dashboard/artigo/editar/' . $artigoCodigo . $referer, MSG_ERRO_PERMISSAO);
+    }
+
     $resultado = $this->conteudoModel->atualizar($json, $id);
 
     if (isset($resultado['erro'])) {
@@ -239,6 +247,11 @@ class DashboardConteudoController extends DashboardController
 
   public function atualizarOrdem()
   {
+    if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) {
+      $this->sessaoUsuario->definir('erro', MSG_ERRO_PERMISSAO);
+      $this->responderJson(['erro' => false], 403);
+    }
+
     $json = $this->receberJson();
     $resultado = $this->conteudoModel->atualizarOrdem($json);
 
@@ -280,6 +293,11 @@ class DashboardConteudoController extends DashboardController
 
   public function apagar(int $id)
   {
+    if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) {
+      $this->sessaoUsuario->definir('erro', MSG_ERRO_PERMISSAO);
+      $this->responderJson(['erro' => false], 403);
+    }
+
     // Cache
     $condicao = [
       'campo' => 'Conteudo.id',

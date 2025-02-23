@@ -73,7 +73,11 @@ if ($dominio) {
 
   <div class="w-full border-t border-slate-300 pt-4 flex flex-col lg:justify-between gap-5">
 
-    <?php require_once 'conteudo/menu-adicionar.php' ?>
+    <?php
+    if ($this->usuarioLogado['nivel'] != USUARIO_LEITURA) {
+      require_once 'conteudo/menu-adicionar.php';
+    }
+    ?>
 
     <div class="w-full max-w-[990px] border border-slate-300 bg-white duration-350 shadow rounded-md">
       <div class="relative pb-10 w-full">

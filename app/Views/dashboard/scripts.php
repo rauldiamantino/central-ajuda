@@ -22,6 +22,7 @@
 <script src="<?php echo '/js/dashboard/categorias/index.js'; ?>"></script>
 <script src="<?php echo '/js/dashboard/categorias/organizar.js'; ?>"></script>
 <script src="<?php echo '/js/dashboard/artigos/index.js'; ?>" type="module"></script>
+<script src="<?php echo '/js/dashboard/artigos/bloquear-edicao.js'; ?>"></script>
 <script src="<?php echo '/js/dashboard/artigos/filtrar.js'; ?>"></script>
 <script src="<?php echo '/js/dashboard/categorias/filtrar.js'; ?>"></script>
 <script src="<?php echo '/js/dashboard/artigos/organizar.js'; ?>"></script>

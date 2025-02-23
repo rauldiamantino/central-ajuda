@@ -5,7 +5,7 @@ if ($this->usuarioLogado['foto']) {
 }
 
 $paginaSelecionada = $paginaMenuLateral ?? '';
-$classeRestrito = $this->usuarioLogado['nivel'] == USUARIO_RESTRITO ? 'text-gray-500' : '';
+$classeRestrito = $this->usuarioLogado['nivel'] == USUARIO_LEITURA ? 'text-gray-500' : '';
 
 $dominio = $this->usuarioLogado['subdominio_2'];
 
@@ -16,15 +16,18 @@ if (empty($dominio)) {
 
 <asside class="pb-20 md:pb-0 fixed inset-y-0 left-0 z-20 transform -translate-x-full transition-transform duration-100 xl:translate-x-0 border-r border-slate-200 flex flex-col justify-start bg-gray-800 w-full md:w-96 lg:w-72 min-h-screen overflow-y-auto overflow-estilo dashboard-menu-lateral">
   <div class="px-4 py-10 flex flex-col gap-6 w-full text-gray-200 text-sm group">
+
+    <?php // Logo 360Help ?>
     <div class="w-full flex justify-between xl:justify-center gap-8 items-center text-gray-400">
       <a href="/dashboard" class="w-max justify-start flex items-center">
         <img src="/img/360help-preto.svg" class="w-36">
       </a>
-
       <button class="h-max w-max xl:hidden btn-dashboard-menu-lateral-fechar">
         <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="currentColor"><path d="m287-446.67 240 240L480-160 160-480l320-320 47 46.67-240 240h513v66.66H287Z"/></svg>
       </button>
     </div>
+
+    <?php // Usuário logado ?>
     <div class="py-5 border-y border-slate-700/70 w-full flex justify-between items-center gap-3 rounded-lg">
       <div class="w-2/3 flex gap-3 items-center">
         <div class="min-w-max border border-gray-600 rounded-full text-gray-500">
@@ -45,6 +48,7 @@ if (empty($dominio)) {
         </div>
       </div>
 
+      <?php // Menu auxiliar ?>
       <div class="flex relative">
         <button type="button" class="p-3 text-gray-500 bg-gray-700/20 hover:bg-gray-400/20 rounded-lg cursor-pointer" onclick="document.querySelector('.menu-lateral-usuario').classList.toggle('hidden')">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" stroke="currentColor" stroke-width="1" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
@@ -99,6 +103,8 @@ if (empty($dominio)) {
       </div>
     </div>
   </div>
+
+  <?php // Menu lateral ?>
   <ul class="flex flex-col gap-2 text-gray-200 px-4 pb-4">
     <h3 class="px-6 pb-2 text-xs font-extralight text-slate-300">MENU</h3>
     <li class="px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'dashboard' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
@@ -107,7 +113,9 @@ if (empty($dominio)) {
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
             <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
           </svg>
-          <span>Início</span>
+          <span class="w-full flex justify-between items-center gap-2">
+            Início
+          </span>
         </div>
       </a>
     </li>
@@ -130,18 +138,25 @@ if (empty($dominio)) {
         </div>
       </a>
     </li>
-    <li class="px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'ajustes' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
+    <li class="<?php echo $classeRestrito; ?> px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'ajustes' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
       <a href="/dashboard/ajustes" class="w-full p-2">
         <div class="flex items-center gap-3">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="" viewBox="0 0 16 16">
             <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0"/>
             <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z"/>
           </svg>
-          <span>Ajustes</span>
+          <span class="w-full flex justify-between items-center gap-2">
+            Ajustes
+            <?php if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) { ?>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
+                <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2M5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1"/>
+              </svg>
+            <?php } ?>
+          </span>
         </div>
       </a>
     </li>
-    <li class="px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'empresa' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
+    <li class="<?php echo $classeRestrito; ?> px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'empresa' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
       <a href="/dashboard/empresa/editar" class="w-full p-2">
         <div class="w-full flex items-center gap-3">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="" viewBox="0 0 16 16">
@@ -151,6 +166,11 @@ if (empty($dominio)) {
           <div class="w-full flex gap-2 justify-between items-center">
             <span class="w-full flex justify-between items-center gap-2">
               Empresa
+              <?php if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) { ?>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
+                  <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2M5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1"/>
+                </svg>
+              <?php } ?>
             </span>
           </div>
         </div>
@@ -164,7 +184,7 @@ if (empty($dominio)) {
           </svg>
           <span class="w-full flex justify-between items-center gap-2">
             Usuários
-            <?php if ($this->usuarioLogado['nivel'] == USUARIO_RESTRITO) { ?>
+            <?php if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) { ?>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
                 <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2M5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1"/>
               </svg>
@@ -182,7 +202,7 @@ if (empty($dominio)) {
           <div class="w-full flex gap-2 justify-between items-center">
             <span class="w-full flex justify-between items-center gap-2">
               Assinatura
-              <?php if ($this->usuarioLogado['nivel'] == USUARIO_RESTRITO) { ?>
+              <?php if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) { ?>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
                   <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2M5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1"/>
                 </svg>
@@ -201,6 +221,11 @@ if (empty($dominio)) {
           <div class="w-full flex gap-2 justify-between items-center">
             <span class="w-full flex justify-between items-center gap-2">
               Relatórios
+              <?php if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) { ?>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
+                  <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2M5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1"/>
+                </svg>
+              <?php } ?>
             </span>
           </div>
         </div>
@@ -275,16 +300,6 @@ if (empty($dominio)) {
           </div>
         </button>
       </li>
-      <!-- <li class="px-4 hover:bg-gray-700 <?php echo $paginaSelecionada == 'login' ? 'bg-gray-700' : ''; ?> rounded-lg cursor-pointer flex justify-between group">
-        <button type="button" onclick="window.location.href='/login/suporte'" class="w-full p-2">
-          <div class="flex justify-start items-center gap-3">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="" viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5m14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5"/>
-            </svg>
-            <span>Trocar empresa</span>
-          </div>
-        </button>
-      </li> -->
     <?php } ?>
     <?php $diasGratis = 10 ?>
   </ul>

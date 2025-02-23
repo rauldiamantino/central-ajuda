@@ -149,11 +149,8 @@ class DashboardCategoriaController extends DashboardController
     $paginaAtual = intval($_GET['pagina'] ?? 0);
     $botaoVoltar = $this->obterReferer();
 
-    $condContarArtigos = [
-      'campo' => 'Artigo.categoria_id',
-      'operador' => '=',
-      'valor' => $id,
-    ];
+    $condContarArtigos[] = ['campo' => 'Artigo.categoria_id', 'operador' => '=', 'valor' => $id];
+    $condContarArtigos[] = ['campo' => 'Artigo.excluido', 'operador' => '=', 'valor' => INATIVO];
 
     $artigosTotal = $this->artigoModel->contar('Artigo.id')
                                       ->condicao($condContarArtigos)
@@ -163,11 +160,8 @@ class DashboardCategoriaController extends DashboardController
 
     $id = (int) $id;
 
-    $condicao = [
-      'campo' => 'Categoria.id',
-      'operador' => '=',
-      'valor' => $id,
-    ];
+    $condicao[] = ['campo' => 'Categoria.id', 'operador' => '=', 'valor' => $id];
+    $condicao[] = ['campo' => 'Artigo.excluido', 'operador' => '=', 'valor' => INATIVO];
 
     $colunas = [
       'Categoria.id',
@@ -254,15 +248,19 @@ class DashboardCategoriaController extends DashboardController
 
   public function adicionar(array $params = []): array
   {
-    $dados = $this->receberJson();
-    $resultado = $this->categoriaModel->adicionar($dados);
-
     $referer = '';
     $botaoVoltar = $this->obterReferer();
 
     if ($botaoVoltar) {
       $referer = '?referer=' . urlencode($botaoVoltar);
     }
+
+    if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) {
+      $this->redirecionarErro('/dashboard/categorias' . $referer, MSG_ERRO_PERMISSAO);
+    }
+
+    $dados = $this->receberJson();
+    $resultado = $this->categoriaModel->adicionar($dados);
 
     if (! isset($resultado['id']) or empty($resultado['id'])) {
       $this->redirecionarErro('/dashboard/categorias', $resultado['erro'] ?? '');
@@ -322,15 +320,19 @@ class DashboardCategoriaController extends DashboardController
 
   public function atualizar(int $id)
   {
-    $json = $this->receberJson();
-    $resultado = $this->categoriaModel->atualizar($json, $id);
-
     $referer = '';
     $botaoVoltar = $this->obterReferer();
 
     if ($botaoVoltar) {
       $referer = '?referer=' . urlencode($botaoVoltar);
     }
+
+    if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) {
+      $this->redirecionarErro('/dashboard/categoria/editar/'. $id . $referer, MSG_ERRO_PERMISSAO);
+    }
+
+    $json = $this->receberJson();
+    $resultado = $this->categoriaModel->atualizar($json, $id);
 
     if (isset($resultado['erro'])) {
       $this->redirecionarErro('/dashboard/categoria/editar/'. $id . $referer, $resultado['erro']);
@@ -346,6 +348,11 @@ class DashboardCategoriaController extends DashboardController
 
   public function atualizarOrdem()
   {
+    if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) {
+      $this->sessaoUsuario->definir('erro', MSG_ERRO_PERMISSAO);
+      $this->responderJson(['erro' => false], 403);
+    }
+
     $json = $this->receberJson();
     $resultado = $this->categoriaModel->atualizarOrdem($json);
 
@@ -364,6 +371,11 @@ class DashboardCategoriaController extends DashboardController
 
   public function apagar(int $id)
   {
+    if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) {
+      $this->sessaoUsuario->definir('erro', MSG_ERRO_PERMISSAO);
+      $this->responderJson(['erro' => false], 403);
+    }
+
     $resultado = $this->categoriaModel->apagarCategoria($id);
 
     if (isset($resultado['erro'])) {

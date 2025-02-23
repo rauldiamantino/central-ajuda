@@ -23,6 +23,7 @@ class PublicoBuscaController extends PublicoController
 
   public function buscar()
   {
+    // Termo de busca
     $paginasTotal = 0;
     $intervaloInicio = 0;
     $intervaloFim = 0;
@@ -53,6 +54,7 @@ class PublicoBuscaController extends PublicoController
       $intervaloFim = min($pagina * $limite, $artigosTotal);
     }
 
+    // Categorias no menu lateral
     $categorias = [];
 
     if ((int) Helper::ajuste('publico_cate_busca') == ATIVO) {

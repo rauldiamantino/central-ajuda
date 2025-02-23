@@ -22,11 +22,7 @@ class PublicoCategoriaController extends PublicoController
     $categorias = [];
     $artigos = [];
 
-    $condicoes[] = [
-      'campo' => 'Categoria.ativo',
-      'operador' => '=',
-      'valor' => ATIVO,
-    ];
+    $condicoes[] = ['campo' => 'Categoria.ativo', 'operador' => '=', 'valor' => ATIVO];
 
     if ($this->exibirInativos()) {
       $condicoes = [];
@@ -74,6 +70,7 @@ class PublicoCategoriaController extends PublicoController
         ['campo' => 'Artigo.categoria_id', 'operador' => '=', 'valor' => (int) $id],
         ['campo' => 'Categoria.ativo', 'operador' => '=', 'valor' => ATIVO],
         ['campo' => 'Artigo.ativo', 'operador' => '=', 'valor' => ATIVO],
+        ['campo' => 'Artigo.excluido', 'operador' => '=', 'valor' => INATIVO],
       ];
 
       if ($this->exibirInativos()) {

@@ -1,7 +1,7 @@
 <?php
 $nivelAcesso = [
   USUARIO_TOTAL => 'Acesso total',
-  USUARIO_RESTRITO => 'Acesso restrito',
+  USUARIO_LEITURA => 'Modo leitura',
 ];
 
 $tipoUsuario = [

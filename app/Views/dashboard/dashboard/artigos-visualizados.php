@@ -1,3 +1,9 @@
+<?php
+if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) {
+  return;
+}
+?>
+
 <details class="bg-gray-100 py-4 rounded-lg" open>
   <summary class="w-max cursor-pointer font-semibold text-gray-700 py-3 text-lg flex items-center gap-2">
     <span>Artigos mais visualizados</span>

@@ -347,6 +347,10 @@ class DashboardArtigoController extends DashboardController
 
   public function adicionar(): array
   {
+    if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) {
+      $this->redirecionarErro('/dashboard/artigos', MSG_ERRO_PERMISSAO);
+    }
+
     $dados = $this->receberJson();
     $resultado = $this->artigoModel->adicionar($dados);
 
@@ -487,14 +491,18 @@ class DashboardArtigoController extends DashboardController
       $this->redirecionarErro('/dashboard/artigos', 'Artigo não encontrado');
     }
 
-    $resultado = $this->artigoModel->atualizar($json, $id);
-
     $referer = '';
     $botaoVoltar = $this->obterReferer();
 
     if ($botaoVoltar) {
       $referer = '?referer=' . urlencode($botaoVoltar);
     }
+
+    if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) {
+      $this->redirecionarErro('/dashboard/artigo/editar/' . $artigoCodigo . $referer, MSG_ERRO_PERMISSAO);
+    }
+
+    $resultado = $this->artigoModel->atualizar($json, $id);
 
     if (isset($resultado['erro'])) {
       $this->redirecionarErro('/dashboard/artigo/editar/' . $artigoCodigo . $referer, $resultado['erro']);
@@ -511,6 +519,11 @@ class DashboardArtigoController extends DashboardController
 
   public function atualizarOrdem()
   {
+    if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) {
+      $this->sessaoUsuario->definir('erro', MSG_ERRO_PERMISSAO);
+      $this->responderJson(['erro' => false], 403);
+    }
+
     $json = $this->receberJson();
     $resultado = $this->artigoModel->atualizarOrdem($json);
 
@@ -550,6 +563,11 @@ class DashboardArtigoController extends DashboardController
 
   public function apagar(int $id)
   {
+    if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) {
+      $this->sessaoUsuario->definir('erro', MSG_ERRO_PERMISSAO);
+      $this->responderJson(['erro' => false], 403);
+    }
+
     // Cache
     $condicao = [
       'campo' => 'Artigo.id',

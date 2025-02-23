@@ -16,7 +16,7 @@ class DashboardUsuarioController extends DashboardController
 
   public function usuariosVer()
   {
-    if ($this->usuarioLogado['nivel'] == USUARIO_RESTRITO) {
+    if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) {
       $this->redirecionarErro('/dashboard', 'Você não tem permissão para realizar esta ação.');
     }
 
@@ -90,7 +90,7 @@ class DashboardUsuarioController extends DashboardController
 
   public function usuarioEditarVer(int $id)
   {
-    if ($this->usuarioLogado['nivel'] == USUARIO_RESTRITO and $this->usuarioLogado['id'] != $id) {
+    if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA and $this->usuarioLogado['id'] != $id) {
       $this->redirecionarErro('/dashboard', 'Você não tem permissão para realizar esta ação.');
     }
 
@@ -146,7 +146,7 @@ class DashboardUsuarioController extends DashboardController
 
   public function usuarioAdicionarVer()
   {
-    if ($this->usuarioLogado['nivel'] == USUARIO_RESTRITO) {
+    if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) {
       $this->redirecionarErro('/dashboard', 'Você não tem permissão para realizar esta ação.');
     }
 
@@ -177,7 +177,7 @@ class DashboardUsuarioController extends DashboardController
 
   public function adicionar(): array
   {
-    if ($this->usuarioLogado['nivel'] == USUARIO_RESTRITO) {
+    if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) {
       $this->redirecionarErro('/dashboard', 'Você não tem permissão para realizar esta ação.');
     }
 
@@ -204,7 +204,7 @@ class DashboardUsuarioController extends DashboardController
 
   public function atualizar(int $id)
   {
-    if ($this->usuarioLogado['nivel'] == USUARIO_RESTRITO and $this->usuarioLogado['id'] != $id) {
+    if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA and $this->usuarioLogado['id'] != $id) {
       $this->redirecionarErro('/dashboard', 'Você não tem permissão para realizar esta ação.');
     }
 
@@ -244,7 +244,7 @@ class DashboardUsuarioController extends DashboardController
 
   public function apagar(int $id)
   {
-    if ($this->usuarioLogado['nivel'] == USUARIO_RESTRITO) {
+    if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) {
       $this->redirecionarErro('/dashboard', 'Você não tem permissão para realizar esta ação.');
     }
 

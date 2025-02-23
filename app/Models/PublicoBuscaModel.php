@@ -51,6 +51,8 @@ class PublicoBuscaModel extends PublicoModel
               AND
                 `Artigo`.`ativo` = ?
               AND
+                `Categoria`.`ativo` = ?
+              AND
                 `Artigo`.`excluido` = ?
               AND (
                   MATCH(`Categoria`.`nome`, `Categoria`.`descricao`)
@@ -79,6 +81,7 @@ class PublicoBuscaModel extends PublicoModel
       $this->empresaPadraoId, // Conteudo.empresa_id (usado no JOIN)
       $this->empresaPadraoId, // Artigo.empresa_id
       ATIVO,                  // Artigo.ativo
+      ATIVO,                  // Categoria.ativo
       INATIVO,                // Artigo.excluido
       $textoBusca,            // MATCH Categoria.nome
       $textoBusca,            // MATCH Artigo.titulo

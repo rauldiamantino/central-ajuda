@@ -6,7 +6,7 @@ if ($this->usuarioLogado['foto']) {
 
 $nivelAcesso = [
   USUARIO_TOTAL => 'Acesso total',
-  USUARIO_RESTRITO => 'Acesso restrito',
+  USUARIO_LEITURA => 'Modo leitura',
 ];
 
 $ultimoAcesso = $usuario['Usuario']['ultimo_acesso'] ?? '';

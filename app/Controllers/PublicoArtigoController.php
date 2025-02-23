@@ -35,6 +35,7 @@ class PublicoArtigoController extends PublicoController
       ['campo' => 'Artigo.codigo', 'operador' => '=', 'valor' => (int) $codigo],
       ['campo' => 'Artigo.ativo', 'operador' => '=', 'valor' => ATIVO],
       ['campo' => 'Artigo.excluido', 'operador' => '=', 'valor' => INATIVO],
+      ['campo' => 'Categoria.ativo', 'operador' => '=', 'valor' => ATIVO],
     ];
 
     if ($this->exibirInativos()) {
@@ -96,11 +97,7 @@ class PublicoArtigoController extends PublicoController
 
     // Conteúdos do artigo
     if ($artigo) {
-      $condConteudo[] = [
-        'campo' => 'Conteudo.artigo_id',
-        'operador' => '=',
-        'valor' => $artigoId,
-      ];
+      $condConteudo[] = ['campo' => 'Conteudo.artigo_id', 'operador' => '=', 'valor' => $artigoId];
 
       $colConteudo = [
         'Conteudo.id',
@@ -140,6 +137,7 @@ class PublicoArtigoController extends PublicoController
         ['campo' => 'Artigo.categoria_id', 'operador' => '=', 'valor' => intval($artigo[0]['Artigo']['categoria_id'] ?? 0)],
         ['campo' => 'Artigo.ativo', 'operador' => '=', 'valor' => ATIVO],
         ['campo' => 'Artigo.excluido', 'operador' => '=', 'valor' => INATIVO],
+        ['campo' => 'Categoria.ativo', 'operador' => '=', 'valor' => ATIVO],
       ];
 
       if ($this->exibirInativos()) {

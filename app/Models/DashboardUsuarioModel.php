@@ -476,7 +476,7 @@ class DashboardUsuarioModel extends Model
       }
 
       // 1 - Total, 2 - Restrito
-      if (isset($params['nivel']) and ! in_array($campos['nivel'], [USUARIO_TOTAL, USUARIO_RESTRITO])) {
+      if (isset($params['nivel']) and ! in_array($campos['nivel'], [USUARIO_TOTAL, USUARIO_LEITURA])) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('nivel', 'valInvalido');
       }
 

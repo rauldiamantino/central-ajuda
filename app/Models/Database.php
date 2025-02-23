@@ -145,16 +145,14 @@ class Database
       if (substr($sql, 0, 6) == 'SELECT') {
         $resposta = $stmt->fetchAll(PDO::FETCH_ASSOC);
       }
-
-      if (empty($resposta) and stripos($sql, 'INSERT') !== false) {
+      elseif (stripos($sql, 'INSERT') !== false) {
         $ultimoId = $this->conexao->lastInsertId();
 
         if ($ultimoId) {
           $resposta = ['id' => $ultimoId];
         }
       }
-
-      if (empty($resposta)) {
+      else {
         $linhasAfetadas = $stmt->rowCount();
         $resposta = ['linhasAfetadas' => $linhasAfetadas];
       }
