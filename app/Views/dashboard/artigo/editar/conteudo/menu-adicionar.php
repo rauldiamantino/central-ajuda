@@ -1,3 +1,9 @@
+<?php
+if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) {
+  return;
+}
+?>
+
 <div class="menu-adicionar">
   <span class="text-xs font-extralight italic">Ação</span>
   <div class="w-max flex flex-row gap-2 justify-start items-center form-conteudo conteudo-botoes-adicionar">
