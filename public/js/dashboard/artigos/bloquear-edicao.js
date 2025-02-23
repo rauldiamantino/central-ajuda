@@ -1,23 +1,17 @@
-document.addEventListener('DOMContentLoaded', function() {
-  const preVisualizacao = document.querySelector('.dashboard-pre-visualizacao')
-
-  if (! preVisualizacao) {
-    return
-  }
-
-  const dataUsuarioNivel = preVisualizacao.dataset.usuarioNivel
-  const btnBloqueado = document.querySelector('.pre-visualizacao-bloqueado')
-
-  if (! dataUsuarioNivel || ! btnBloqueado) {
-    return
-  }
-
+const definirBloqueio = (artigoId) => {
+  requisicaoAtualizar(artigoId, 0)
   bloquearEdicao()
+}
 
-  if (dataUsuarioNivel == 2) {
-    btnBloqueado.disabled = true
+const definirDesbloqueio = (artigoId, usuarioNivel) => {
+
+  if (usuarioNivel == 2) {
+    return
   }
-})
+
+  requisicaoAtualizar(artigoId, 1)
+  desbloquearEdicao()
+}
 
 const desbloquearEdicao = () => {
   const btnBloquear = document.querySelector('.pre-visualizacao-bloquear')
@@ -47,7 +41,7 @@ const desbloquearEdicao = () => {
     divPaiBtnEditar.classList.add('hover:bg-gray-600/10')
     conteudoTitulo?.classList.add('pointer-events-none')
     conteudoTitulo?.classList.remove('select-text')
-    conteudoConteudo?.classList.add('pointer-events-none')
+    conteudoConteudo?.classList.add('pointer-events-none', 'group-hover:block')
     conteudoConteudo?.classList.remove('select-text')
   })
 }
@@ -80,7 +74,40 @@ const bloquearEdicao = () => {
     divPaiBtnEditar.classList.remove('hover:bg-gray-600/10')
     conteudoTitulo?.classList.remove('pointer-events-none')
     conteudoTitulo?.classList.add('select-text')
-    conteudoConteudo?.classList.remove('pointer-events-none')
+    conteudoConteudo?.classList.remove('pointer-events-none', 'group-hover:block')
     conteudoConteudo?.classList.add('select-text')
   })
+}
+
+const requisicaoAtualizar = (artigoId, artigoEditar) => {
+
+  if (artigoId === undefined || empresaId === undefined) {
+    return
+  }
+
+  fetch(`/d/artigo/${artigoId}`, {
+    method: 'PUT',
+    headers: {
+      'X-Requested-With': 'fetch' ,
+    },
+    body: JSON.stringify({editar: parseInt(artigoEditar)})
+    })
+    .then(resposta => resposta.json())
+    .then(resposta => {
+
+      if (resposta.linhasAfetadas != undefined) {
+        return true
+      }
+      else if (resposta.erro) {
+        throw new Error(resposta.erro)
+      }
+      else {
+        throw new Error('Erro ao atualizar bloqueio de edição')
+      }
+    })
+    .catch(error => {
+      console.log(error)
+    })
+
+    return false;
 }

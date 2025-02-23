@@ -43,7 +43,7 @@ class DashboardArtigoModel extends Model
       $usuarioId = (int) $campos['usuario_id'];
       $empresaId = (int) $campos['empresa_id'];
       $categoriaId = intval($campos['categoria_id'] ?? 0);
-      $visualizacoes = (int) $campos['visualizacoes'];
+      $editar = intval($campos['editar'] ?? 0);
       $ordem = (int) $campos['ordem'];
       $metaTitulo = $campos['meta_titulo'];
       $metaDescricao = $campos['meta_descricao'];
@@ -61,7 +61,7 @@ class DashboardArtigoModel extends Model
         'usuario_id' => $usuarioId,
         'empresa_id' => $empresaId,
         'categoria_id' => $categoriaId,
-        'visualizacoes' => $visualizacoes,
+        'editar' => $editar,
         'ordem' => $ordem,
         'meta_titulo' => $metaTitulo,
         'meta_descricao' => $metaDescricao,
@@ -200,7 +200,7 @@ class DashboardArtigoModel extends Model
       'usuario_id' => $params['usuario_id'] ?? 0,
       'empresa_id' => $this->empresaPadraoId,
       'categoria_id' => $params['categoria_id'] ?? 0,
-      'visualizacoes' => $params['visualizacoes'] ?? 0,
+      'editar' => intval($params['editar'] ?? 0),
       'ordem' => $params['ordem'] ?? 0,
       'modificado' => $params['modificado'] ?? '',
       'meta_titulo' => $params['meta_titulo'] ?? '',
@@ -220,7 +220,7 @@ class DashboardArtigoModel extends Model
         'ativo',
         'excluido',
         'categoria_id',
-        'visualizacoes',
+        'editar',
         'modificado',
         'meta_titulo',
         'meta_descricao',
@@ -249,6 +249,7 @@ class DashboardArtigoModel extends Model
 
     if (empty($msgErro['erro']['mensagem'])) {
       $campos['ativo'] = filter_var($campos['ativo'], FILTER_SANITIZE_NUMBER_INT);
+      $campos['editar'] = filter_var($campos['editar'], FILTER_SANITIZE_NUMBER_INT);
       $campos['excluido'] = filter_var($campos['excluido'], FILTER_SANITIZE_NUMBER_INT);
       $campos['titulo'] = htmlspecialchars($campos['titulo']);
       $campos['usuario_id'] = filter_var($campos['usuario_id'], FILTER_SANITIZE_NUMBER_INT);
@@ -260,6 +261,10 @@ class DashboardArtigoModel extends Model
 
       if (isset($params['ativo']) and ! in_array($campos['ativo'], [INATIVO, ATIVO])) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('ativo', 'valInvalido');
+      }
+
+      if (isset($params['editar']) and ! in_array($campos['editar'], [INATIVO, ATIVO])) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('editar', 'valInvalido');
       }
 
       if (isset($params['excluido']) and ! in_array($campos['excluido'], [INATIVO, ATIVO])) {
@@ -278,6 +283,7 @@ class DashboardArtigoModel extends Model
       }
 
       $ativoCaracteres = 1;
+      $editarCaracteres = 1;
       $excluidoCaracteres = 1;
       $tituloCaracteres = 255;
       $empresaIdCaracteres = 999999999;
@@ -290,6 +296,10 @@ class DashboardArtigoModel extends Model
 
       if (strlen($campos['ativo']) > $ativoCaracteres) {
         $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('id', 'caracteres', $ativoCaracteres);
+      }
+
+      if (strlen($campos['editar']) > $editarCaracteres) {
+        $msgErro['erro']['mensagem'][] = $this->gerarMsgErro('id', 'caracteres', $editarCaracteres);
       }
 
       if (strlen($campos['excluido']) > $excluidoCaracteres) {
@@ -340,7 +350,7 @@ class DashboardArtigoModel extends Model
       'usuario_id' => $campos['usuario_id'],
       'empresa_id' => $campos['empresa_id'],
       'categoria_id' => $campos['categoria_id'],
-      'visualizacoes' => $campos['visualizacoes'],
+      'editar' => $campos['editar'],
       'ordem' => $campos['ordem'],
       'modificado' => $campos['modificado'],
       'meta_titulo' => $campos['meta_titulo'],

@@ -93,6 +93,7 @@ return [
     'POST:/d/artigo'                                    => ['controlador' => [DashboardArtigoController::class,         'adicionar'],                     'permissao' => $logadoTodos],
     'PUT:/d/artigo/{id}'                                => ['controlador' => [DashboardArtigoController::class,         'atualizar'],                     'permissao' => $logadoTodos],
     'PUT:/d/artigo/ordem'                               => ['controlador' => [DashboardArtigoController::class,         'atualizarOrdem'],                'permissao' => $logadoTodos],
+    'PUT:/d/artigo/editar'                              => ['controlador' => [DashboardArtigoController::class,         'atualizarEditar'],               'permissao' => $logadoTodos],
     'DELETE:/d/artigo/{id}'                             => ['controlador' => [DashboardArtigoController::class,         'apagar'],                        'permissao' => $logadoTodos],
     'GET:/d/conteudos'                                  => ['controlador' => [DashboardConteudoController::class,       'buscar'],                        'permissao' => $logadoTodos],
     'GET:/d/conteudos/{id}'                             => ['controlador' => [DashboardConteudoController::class,       'buscar'],                        'permissao' => $logadoTodos],

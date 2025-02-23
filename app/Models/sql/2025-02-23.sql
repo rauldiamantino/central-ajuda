@@ -1,0 +1,1 @@
+ALTER TABLE `artigos` CHANGE `visualizacoes` `editar` TINYINT DEFAULT '0';

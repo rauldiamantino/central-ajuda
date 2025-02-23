@@ -13,41 +13,42 @@ if ($conteudos) {
     }
   endforeach;
 }
+
+if (isset($artigo['Artigo']['editar'])) {
+  $acaoBotaoEditar = 'disabled';
+  $acaoCliqueBotaoEditar = '';
+  $classeDivPaiBtnEditar = '';
+  $classeConteudoTitulo = 'select-text';
+  $classeConteudoConteudo = 'select-text';
+
+  if ($artigo['Artigo']['editar'] == ATIVO) {
+    $acaoBotaoEditar = '';
+    $acaoCliqueBotaoEditar = 'onclick="abrirModalEditar(event)"';
+    $classeDivPaiBtnEditar = 'hover:bg-gray-600/10';
+    $classeConteudoTitulo = 'pointer-events-none';
+    $classeConteudoConteudo = 'pointer-events-none group-hover:block';
+  }
+
+  if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) {
+    $acaoBotaoEditar = 'disabled';
+    $acaoCliqueBotaoEditar = '';
+    $classeDivPaiBtnEditar = '';
+    $classeConteudoTitulo = 'select-text';
+    $classeConteudoConteudo = 'select-text';
+  }
+}
 ?>
 
 <div
   class="w-full h-full bg-white py-5 lg:p-10 rounded-md pers-publico-artigo template-cor-<?php echo Helper::ajuste('publico_cor_primaria'); ?> dashboard-pre-visualizacao"
   data-usuario-nivel="<?php echo $this->usuarioLogado['nivel']; ?>"
+  data-artigo="<?php echo $artigo['Artigo']['id'] ?? ''; ?>"
 >
   <div class="flex flex-col justify-between items-start gap-2 px-3">
-
-    <div class="w-full flex justify-end items-center">
-      <div class="w-max px-3">
-        <button type="button" class="border border-gray-300 flex gap-2 items-center justify-center text-sm hover:bg-gray-100/25 p-1 rounded pre-visualizacao-bloqueado" onclick="desbloquearEdicao()">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5">
-            <path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z" clip-rule="evenodd" />
-          </svg>
-          Bloqueado
-        </button>
-        <button type="button" class="hidden border border-blue-900/75 text-blue-900 flex gap-2 items-center justify-center text-sm hover:bg-blue-100/25 p-1 rounded pre-visualizacao-bloquear" onclick="bloquearEdicao()">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5">
-            <path d="M18 1.5c2.9 0 5.25 2.35 5.25 5.25v3.75a.75.75 0 0 1-1.5 0V6.75a3.75 3.75 0 1 0-7.5 0v3a3 3 0 0 1 3 3v6.75a3 3 0 0 1-3 3H3.75a3 3 0 0 1-3-3v-6.75a3 3 0 0 1 3-3h9v-3c0-2.9 2.35-5.25 5.25-5.25Z" />
-          </svg>
-          Bloquear
-        </button>
-      </div>
-    </div>
-
     <div class="px-3 flex gap-2 items-center">
       <h1><?php echo $artigo['Artigo']['titulo'] ?? '' ?></h1>
-      <?php if (isset($artigo['Artigo']['ativo']) and $artigo['Artigo']['ativo'] == INATIVO) { ?>
-        <div class="text-red-800">
-          <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 16 16">
-            <circle cx="8" cy="8" r="8"/>
-          </svg>
-        </div>
-      <?php } ?>
     </div>
+
     <div class="w-max flex items-center gap-2 pt-4 px-3">
 
       <?php if (isset($artigo['Usuario']['nome']) and $artigo['Usuario']['nome'] and isset($artigo['Usuario']['foto']) and $artigo['Usuario']['foto'] and (int) Helper::ajuste('artigo_autor') == ATIVO) { ?>
@@ -67,7 +68,7 @@ if ($conteudos) {
     <div class="w-full flex flex-col pt-6 pb-2 border-b border-slate-200">
       <?php if ($conteudos) { ?>
         <?php foreach ($conteudos as $chave => $linha) : ?>
-          <div class="relative w-full h-full group duration-150 rounded-lg div-pai-conteudo-editar">
+          <div class="relative w-full h-full group duration-150 rounded-lg div-pai-conteudo-editar <?php echo $classeDivPaiBtnEditar; ?>">
             <?php if ($linha['Conteudo']['tipo'] == 1) { ?>
               <button
                 class="p-3 w-full flex flex-col gap-2 items-start text-left leading-7 bloco-editar-conteudo-texto"
@@ -79,12 +80,13 @@ if ($conteudos) {
                 data-ordem-prox="<?php echo $ordem['prox'] ?? 0; ?>"
                 data-conteudo-titulo-ocultar="<?php echo $linha['Conteudo']['titulo_ocultar']; ?>"
                 data-conteudo-texto="<?php echo $linha['Conteudo']['conteudo'] ?>"
-                disabled
+                <?php echo $acaoBotaoEditar; ?>
+                <?php echo $acaoCliqueBotaoEditar; ?>
               >
                 <?php if ($linha['Conteudo']['titulo'] and $linha['Conteudo']['titulo_ocultar'] == INATIVO) { ?>
-                  <h2 class="max-w-full pre-visualizacao-conteudo-titulo"><?php echo $linha['Conteudo']['titulo'] ?></h2>
+                  <h2 class="max-w-full <?php echo $classeConteudoTitulo; ?> pre-visualizacao-conteudo-titulo"><?php echo $linha['Conteudo']['titulo'] ?></h2>
                 <?php } ?>
-                <div class="w-full pre-visualizacao-conteudo-conteudo">
+                <div class="w-full <?php echo $classeConteudoConteudo; ?> pre-visualizacao-conteudo-conteudo">
                   <?php if (empty($linha['Conteudo']['conteudo'])) { ?><br>
                   <?php } else { echo htmlspecialchars_decode($linha['Conteudo']['conteudo']); } ?>
                 </div>
@@ -105,13 +107,14 @@ if ($conteudos) {
                 data-ordem-prox="<?php echo $ordem['prox'] ?? 0; ?>"
                 data-conteudo-titulo-ocultar="<?php echo $linha['Conteudo']['titulo_ocultar']; ?>"
                 data-conteudo-texto="<?php echo $linha['Conteudo']['conteudo'] ?>"
-                disabled
+                <?php echo $acaoBotaoEditar; ?>
+                <?php echo $acaoCliqueBotaoEditar; ?>
               >
                 <?php if ($linha['Conteudo']['titulo'] and $linha['Conteudo']['titulo_ocultar'] == INATIVO) { ?>
-                  <h2 class="max-w-full pre-visualizacao-conteudo-titulo"><?php echo $linha['Conteudo']['titulo'] ?></h2>
+                  <h2 class="max-w-full <?php echo $classeConteudoTitulo; ?> pre-visualizacao-conteudo-titulo"><?php echo $linha['Conteudo']['titulo'] ?></h2>
                 <?php } ?>
 
-                <img src="<?php echo $this->renderImagem($linha['Conteudo']['url']); ?>" class="w-full pre-visualizacao-conteudo-conteudo" onerror="this.onerror=null; this.src='/img/sem-imagem.svg';">
+                <img src="<?php echo $this->renderImagem($linha['Conteudo']['url']); ?>" class="w-full <?php echo $classeConteudoConteudo; ?> pre-visualizacao-conteudo-conteudo" onerror="this.onerror=null; this.src='/img/sem-imagem.svg';">
               </button>
 
               <?php // Edição escondido ?>
@@ -129,12 +132,13 @@ if ($conteudos) {
                 data-ordem-prox="<?php echo $ordem['prox'] ?? 0; ?>"
                 data-conteudo-titulo-ocultar="<?php echo $linha['Conteudo']['titulo_ocultar']; ?>"
                 data-conteudo-texto="<?php echo $linha['Conteudo']['conteudo'] ?>"
-                disabled
+                <?php echo $acaoBotaoEditar; ?>
+                <?php echo $acaoCliqueBotaoEditar; ?>
               >
                 <?php if ($linha['Conteudo']['titulo'] and $linha['Conteudo']['titulo_ocultar'] == INATIVO) { ?>
-                  <h2 class="max-w-full pre-visualizacao-conteudo-titulo"><?php echo $linha['Conteudo']['titulo'] ?></h2>
+                  <h2 class="max-w-full <?php echo $classeConteudoTitulo; ?> pre-visualizacao-conteudo-titulo"><?php echo $linha['Conteudo']['titulo'] ?></h2>
                 <?php } else { ?>
-                  <div class="hidden px-1 py-4 group-hover:block text-2xl text-gray-400 font-extralight italic pre-visualizacao-conteudo-conteudo">*** Sem título ***</div>
+                  <div class="hidden px-1 py-4 group-hover:block text-2xl text-gray-400 font-extralight italic <?php echo $classeConteudoConteudo; ?> pre-visualizacao-conteudo-conteudo">*** Sem título ***</div>
                 <?php } ?>
 
                 <?php if (preg_match('/(youtube\.com|youtu\.be)/', $linha['Conteudo']['url'])) { ?>

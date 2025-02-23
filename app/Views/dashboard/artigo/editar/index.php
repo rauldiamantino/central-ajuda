@@ -81,13 +81,76 @@ if ($dominio) {
 
     <div class="w-full max-w-[990px] border border-slate-300 bg-white duration-350 shadow rounded-md">
       <div class="relative pb-10 w-full">
-        <?php if(isset($artigo['Artigo']['ativo']) and (int) $artigo['Artigo']['ativo'] == INATIVO) { ?>
-          <div class="md:absolute w-full p-4 flex justify-end">
-            <div class="w-full md:w-max py-1 px-4 bg-red-900 text-center text-white text-xs font-light rounded">
-              Não publicado
+        <div class="w-full flex gap-2 justify-start items-center p-6">
+
+          <div class="flex gap-2 items-center">
+            <div>
+              <?php if (isset($artigo['Categoria']['ativo']) and $artigo['Categoria']['ativo'] == ATIVO) { ?>
+                <div class="w-max border text-green-900 flex gap-2 items-center justify-center text-xs p-1.5 rounded">
+                  Categoria pública
+                </div>
+              <?php } else { ?>
+                <div class="w-max border text-red-900 flex gap-2 items-center justify-center text-xs p-1.5 rounded">
+                  Categoria privada
+                </div>
+              <?php } ?>
+            </div>
+            <div>
+              <?php if (isset($artigo['Artigo']['ativo']) and $artigo['Artigo']['ativo'] == ATIVO) { ?>
+                <div class="w-max border text-green-900 flex gap-2 items-center justify-center text-xs p-1.5 rounded">
+                  Artigo público
+                </div>
+              <?php } else { ?>
+                <div class="w-max border text-red-900 flex gap-2 items-center justify-center text-xs p-1.5 rounded">
+                  Artigo privado
+                </div>
+              <?php } ?>
             </div>
           </div>
-        <?php } ?>
+
+          <?php
+          $classeDesbloqueado = 'hidden';
+          $classeBloqueado = '';
+          $acaoBotaoBloqueio = '';
+
+          if (isset($artigo['Artigo']['editar']) and $artigo['Artigo']['editar'] == ATIVO) {
+            $classeDesbloqueado = '';
+            $classeBloqueado = 'hidden';
+            $acaoBotaoBloqueio = '';
+          }
+
+          if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) {
+            $classeDesbloqueado = 'hidden';
+            $classeBloqueado = '';
+            $acaoBotaoBloqueio = 'disabled';
+          }
+
+          ?>
+          <button
+            type="button"
+            class="<?php echo $classeBloqueado; ?> flex w-max gap-1 items-center justify-center text-xs hover:bg-gray-300/25 duration-150 py-1 px-2 rounded pre-visualizacao-bloqueado"
+            onclick="definirDesbloqueio(<?php echo $artigo['Artigo']['id']; ?>, <?php echo $this->usuarioLogado['nivel']; ?>)"
+            <?php echo $acaoBotaoBloqueio; ?>
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5">
+              <path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z" clip-rule="evenodd" />
+            </svg>
+            Bloqueado
+          </button>
+
+          <button
+            type="button"
+            class="<?php echo $classeDesbloqueado; ?> flex w-max border border-blue-900/75 text-blue-900 gap-1 items-center justify-center text-xs hover:bg-blue-100/25 duration-150 py-1 px-2 rounded pre-visualizacao-bloquear"
+            onclick="definirBloqueio(<?php echo $artigo['Artigo']['id']; ?>)"
+            <?php echo $acaoBotaoBloqueio; ?>
+            >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5">
+              <path d="M18 1.5c2.9 0 5.25 2.35 5.25 5.25v3.75a.75.75 0 0 1-1.5 0V6.75a3.75 3.75 0 1 0-7.5 0v3a3 3 0 0 1 3 3v6.75a3 3 0 0 1-3 3H3.75a3 3 0 0 1-3-3v-6.75a3 3 0 0 1 3-3h9v-3c0-2.9 2.35-5.25 5.25-5.25Z" />
+            </svg>
+            Desbloqueado
+          </button>
+        </div>
+
         <?php require_once 'conteudo/pre-visualizacao.php' ?>
       </div>
     </div>

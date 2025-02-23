@@ -106,7 +106,8 @@ class DashboardArtigoController extends DashboardController
         'Artigo.titulo',
         'Artigo.usuario_id',
         'Artigo.categoria_id',
-        'Artigo.visualizacoes',
+        'Artigo.editar',
+        'Categoria.ativo',
         'Categoria.nome',
         'Usuario.nome',
         'Usuario.email',
@@ -223,7 +224,8 @@ class DashboardArtigoController extends DashboardController
       'Artigo.titulo',
       'Artigo.usuario_id',
       'Artigo.categoria_id',
-      'Artigo.visualizacoes',
+      'Artigo.editar',
+      'Categoria.ativo',
       'Categoria.nome',
       'Usuario.nome',
       'Usuario.foto',
@@ -434,6 +436,7 @@ class DashboardArtigoController extends DashboardController
       'Artigo.id',
       'Artigo.codigo',
       'Artigo.titulo',
+      'Artigo.editar',
     ];
 
     $ordem = [
@@ -487,7 +490,10 @@ class DashboardArtigoController extends DashboardController
     // Sempre busca o código para redirecionamentos
     $artigoCodigo = $resultado[0]['Artigo']['codigo'] ?? 0;
 
-    if (empty($artigoCodigo)) {
+    if ($this->requisicaoFetch() and empty($artigoCodigo)) {
+      $this->responderJson(['erro' => 'Artigo não encontrado'], 400);
+    }
+    elseif (empty($artigoCodigo)) {
       $this->redirecionarErro('/dashboard/artigos', 'Artigo não encontrado');
     }
 
@@ -498,23 +504,39 @@ class DashboardArtigoController extends DashboardController
       $referer = '?referer=' . urlencode($botaoVoltar);
     }
 
-    if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) {
+    if ($this->requisicaoFetch() and $this->usuarioLogado['nivel'] == USUARIO_LEITURA) {
+      $this->sessaoUsuario->definir('erro', MSG_ERRO_PERMISSAO);
+      $this->responderJson(['erro' => false], 403);
+    }
+    elseif ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) {
       $this->redirecionarErro('/dashboard/artigo/editar/' . $artigoCodigo . $referer, MSG_ERRO_PERMISSAO);
     }
 
     $resultado = $this->artigoModel->atualizar($json, $id);
 
-    if (isset($resultado['erro'])) {
+    if ($this->requisicaoFetch() and isset($resultado['erro'])) {
+      $codigo = $resultado['erro']['codigo'] ?? 500;
+      $this->responderJson($resultado, $codigo);
+    }
+    elseif (isset($resultado['erro'])) {
       $this->redirecionarErro('/dashboard/artigo/editar/' . $artigoCodigo . $referer, $resultado['erro']);
     }
 
     Cache::apagar('publico-artigo_' . $artigoCodigo, $this->usuarioLogado['empresaId']);
     Cache::apagar('publico-categorias', $this->usuarioLogado['empresaId']);
     Cache::apagar('publico-categorias-inicio', $this->usuarioLogado['empresaId']);
-    Cache::apagar('publico-categoria-' . $json['categoria_id'] . '-artigos', $this->usuarioLogado['empresaId']);
-    Cache::apagar('publico-artigos-categoria-' . $json['categoria_id'], $this->usuarioLogado['empresaId']);
 
-    $this->redirecionarSucesso('/dashboard/artigo/editar/' . $artigoCodigo . $referer, 'Registro alterado com sucesso');
+    if (isset($json['categoria_id'])) {
+      Cache::apagar('publico-categoria-' . $json['categoria_id'] . '-artigos', $this->usuarioLogado['empresaId']);
+      Cache::apagar('publico-artigos-categoria-' . $json['categoria_id'], $this->usuarioLogado['empresaId']);
+    }
+
+    if ($this->requisicaoFetch()) {
+      $this->responderJson($resultado);
+    }
+    else {
+      $this->redirecionarSucesso('/dashboard/artigo/editar/' . $artigoCodigo . $referer, 'Registro alterado com sucesso');
+    }
   }
 
   public function atualizarOrdem()
@@ -526,6 +548,57 @@ class DashboardArtigoController extends DashboardController
 
     $json = $this->receberJson();
     $resultado = $this->artigoModel->atualizarOrdem($json);
+
+    if (isset($resultado['erro'])) {
+      $this->sessaoUsuario->definir('erro', $resultado['erro']);
+
+      $codigo = $resultado['erro']['codigo'] ?? 500;
+      $this->responderJson($resultado, $codigo);
+    }
+
+    // Cache
+    $condicao = [
+      'campo' => 'Artigo.id',
+      'operador' => '=',
+      'valor' => $json[0]['id'],
+    ];
+
+    $colunas = [
+      'Artigo.categoria_id',
+    ];
+
+    $buscarArtigo = $this->artigoModel->selecionar($colunas)
+                                      ->condicao($condicao)
+                                      ->executarConsulta();
+
+    $categoriaId = $buscarArtigo[0]['Artigo']['categoria_id'] ?? 0;
+
+    if ($categoriaId) {
+      Cache::apagar('publico-artigos-categoria-' . $categoriaId, $this->usuarioLogado['empresaId']);
+      Cache::apagar('publico-categoria-' . $categoriaId . '-artigos', $this->usuarioLogado['empresaId']);
+    }
+
+    $this->sessaoUsuario->definir('ok', 'Posições reorganizados');
+
+    $this->responderJson($resultado);
+  }
+
+  public function atualizarEditar()
+  {
+    if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) {
+      $this->sessaoUsuario->definir('erro', MSG_ERRO_PERMISSAO);
+      $this->responderJson(['erro' => false], 403);
+    }
+
+    $json = $this->receberJson();
+
+    $artigoId = $json['id'] ?? '';
+    $artigoEditar = $json['editar'] ?? '';
+
+    $artigoId = $this->filtrarInjection($artigoId);
+    $artigoEditar = $this->filtrarInjection($artigoEditar);
+
+    $resultado = $this->artigoModel->atualizarEditar($json);
 
     if (isset($resultado['erro'])) {
       $this->sessaoUsuario->definir('erro', $resultado['erro']);
