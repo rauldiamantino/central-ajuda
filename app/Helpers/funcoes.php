@@ -1,15 +1,15 @@
 <?php
 
 use app\Core\SessaoUsuario;
-function pr($valor, $dump = false) {
+function pr($valor, $print = true) {
 
   echo '<pre>';
 
-  if ($dump) {
-    var_dump($valor);
+  if ($print) {
+    print_r($valor);
   }
   else {
-    print_r($valor);
+    var_dump($valor);
   }
 
   echo '</pre>';

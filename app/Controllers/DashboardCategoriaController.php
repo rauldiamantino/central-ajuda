@@ -149,6 +149,7 @@ class DashboardCategoriaController extends DashboardController
     $paginaAtual = intval($_GET['pagina'] ?? 0);
     $botaoVoltar = $this->obterReferer();
 
+    // Total artigos
     $condContarArtigos[] = ['campo' => 'Artigo.categoria_id', 'operador' => '=', 'valor' => $id];
     $condContarArtigos[] = ['campo' => 'Artigo.excluido', 'operador' => '=', 'valor' => INATIVO];
 
@@ -160,8 +161,8 @@ class DashboardCategoriaController extends DashboardController
 
     $id = (int) $id;
 
+    // Categoria
     $condicao[] = ['campo' => 'Categoria.id', 'operador' => '=', 'valor' => $id];
-    $condicao[] = ['campo' => 'Artigo.excluido', 'operador' => '=', 'valor' => INATIVO];
 
     $colunas = [
       'Categoria.id',
@@ -173,6 +174,26 @@ class DashboardCategoriaController extends DashboardController
       'Categoria.modificado',
       'Categoria.meta_titulo',
       'Categoria.meta_descricao',
+    ];
+
+    $categoria = $this->categoriaModel->selecionar($colunas)
+                                      ->condicao($condicao)
+                                      ->limite(1)
+                                      ->executarConsulta();
+
+    if (isset($categoria['erro']) and $categoria['erro']) {
+      $this->redirecionarErro('/dashboard/categorias', $categoria['erro']);
+    }
+
+    // Apenas primeira posição
+    $categoria = reset($categoria);
+
+    // Artigos
+    $condicao = [];
+    $condicao[] = ['campo' => 'Artigo.categoria_id', 'operador' => '=', 'valor' => $id];
+    $condicao[] = ['campo' => 'Artigo.excluido', 'operador' => '=', 'valor' => INATIVO];
+
+    $colunas = [
       'Artigo.id',
       'Artigo.codigo',
       'Artigo.titulo',
@@ -184,12 +205,6 @@ class DashboardCategoriaController extends DashboardController
       'Usuario.email',
     ];
 
-    $uniaoArtigos = [
-      'tabelaJoin' => 'Artigo',
-      'campoA' => 'Artigo.categoria_id',
-      'campoB' => 'Categoria.id',
-    ];
-
     $uniaoUsuarios = [
       'tabelaJoin' => 'Usuario',
       'campoA' => 'Usuario.id',
@@ -197,7 +212,6 @@ class DashboardCategoriaController extends DashboardController
     ];
 
     $ordem = [
-      'Categoria.nome' => 'ASC',
       'Artigo.ordem' => 'ASC',
     ];
 
@@ -208,20 +222,23 @@ class DashboardCategoriaController extends DashboardController
       $paginaAtual = min($paginaAtual, $paginasTotal);
     }
 
-    $categoria = $this->categoriaModel->selecionar($colunas)
-                                      ->condicao($condicao)
-                                      ->juntar($uniaoArtigos, 'LEFT')
-                                      ->juntar($uniaoUsuarios, 'LEFT')
-                                      ->pagina($limite, $paginaAtual)
-                                      ->ordem($ordem)
-                                      ->executarConsulta();
+    $artigos = $this->artigoModel->selecionar($colunas)
+                                 ->condicao($condicao)
+                                 ->juntar($uniaoUsuarios, 'LEFT')
+                                 ->pagina($limite, $paginaAtual)
+                                 ->ordem($ordem)
+                                 ->executarConsulta();
 
+    if (isset($artigos['erro']) and $artigos['erro']) {
+      $this->redirecionarErro('/dashboard/categoria/editar/' . $id, $artigos['erro']);
+    }
+
+    // Categoria e Artigos
+    $categoria['artigos'] = $artigos;
+
+    // Paginação
     $intervaloInicio = ($paginaAtual - 1) * $limite + 1;
     $intervaloFim = min($paginaAtual * $limite, $artigosTotal);
-
-    if (isset($categoria['erro']) and $categoria['erro']) {
-      $this->redirecionarErro('/dashboard/categorias', $categoria['erro']);
-    }
 
     // Adicionar artigo
     $ordem = [];
