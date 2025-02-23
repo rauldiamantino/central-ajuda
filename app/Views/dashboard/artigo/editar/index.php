@@ -81,31 +81,28 @@ if ($dominio) {
 
     <div class="w-full max-w-[990px] border border-slate-300 bg-white duration-350 shadow rounded-md">
       <div class="relative pb-10 w-full">
-        <div class="w-full flex gap-2 justify-start items-center p-6">
-
-          <div class="flex gap-2 items-center">
-            <div>
-              <?php if (isset($artigo['Categoria']['ativo']) and $artigo['Categoria']['ativo'] == ATIVO) { ?>
-                <div class="w-max border text-green-900 flex gap-2 items-center justify-center text-xs p-1.5 rounded">
-                  Categoria pública
-                </div>
-              <?php } else { ?>
-                <div class="w-max border text-red-900 flex gap-2 items-center justify-center text-xs p-1.5 rounded">
-                  Categoria privada
-                </div>
-              <?php } ?>
-            </div>
-            <div>
-              <?php if (isset($artigo['Artigo']['ativo']) and $artigo['Artigo']['ativo'] == ATIVO) { ?>
-                <div class="w-max border text-green-900 flex gap-2 items-center justify-center text-xs p-1.5 rounded">
-                  Artigo público
-                </div>
-              <?php } else { ?>
-                <div class="w-max border text-red-900 flex gap-2 items-center justify-center text-xs p-1.5 rounded">
-                  Artigo privado
-                </div>
-              <?php } ?>
-            </div>
+        <div class="w-full sm:w-max flex flex-col sm:flex-row gap-2 sm:justify-start sm:items-center p-6">
+          <div class="w-full sm:w-max flex gap-2 justify-start items-center">
+            <?php if (isset($artigo['Categoria']['ativo']) and $artigo['Categoria']['ativo'] == ATIVO) { ?>
+              <div class="w-full sm:w-max border text-green-900 flex gap-2 items-center justify-center text-xs p-1.5 rounded">
+                Categoria pública
+              </div>
+            <?php } else { ?>
+              <div class="w-full sm:w-max border text-red-900 flex gap-2 items-center justify-center text-xs p-1.5 rounded">
+                Categoria privada
+              </div>
+            <?php } ?>
+          </div>
+          <div class="w-full flex gap-2 justify-start items-center">
+            <?php if (isset($artigo['Artigo']['ativo']) and $artigo['Artigo']['ativo'] == ATIVO) { ?>
+              <div class="w-full sm:w-max border text-green-900 flex gap-2 items-center justify-center text-xs p-1.5 rounded">
+                Artigo público
+              </div>
+            <?php } else { ?>
+              <div class="w-full sm:w-max border text-red-900 flex gap-2 items-center justify-center text-xs p-1.5 rounded">
+                Artigo privado
+              </div>
+            <?php } ?>
           </div>
 
           <?php
@@ -128,7 +125,7 @@ if ($dominio) {
           ?>
           <button
             type="button"
-            class="<?php echo $classeBloqueado; ?> flex w-max gap-1 items-center justify-center text-xs hover:bg-gray-300/25 duration-150 py-1 px-2 rounded pre-visualizacao-bloqueado"
+            class="<?php echo $classeBloqueado; ?> flex w-full sm:w-max gap-1 items-center justify-center text-xs hover:bg-gray-300/25 duration-150 py-1 px-2 rounded pre-visualizacao-bloqueado"
             onclick="definirDesbloqueio(<?php echo $artigo['Artigo']['id']; ?>, <?php echo $this->usuarioLogado['nivel']; ?>)"
             <?php echo $acaoBotaoBloqueio; ?>
           >
@@ -140,7 +137,7 @@ if ($dominio) {
 
           <button
             type="button"
-            class="<?php echo $classeDesbloqueado; ?> flex w-max border border-blue-900/75 text-blue-900 gap-1 items-center justify-center text-xs hover:bg-blue-100/25 duration-150 py-1 px-2 rounded pre-visualizacao-bloquear"
+            class="<?php echo $classeDesbloqueado; ?> flex w-full sm:w-max border border-blue-900/75 text-blue-900 gap-1 items-center justify-center text-xs hover:bg-blue-100/25 duration-150 py-1 px-2 rounded pre-visualizacao-bloquear"
             onclick="definirBloqueio(<?php echo $artigo['Artigo']['id']; ?>)"
             <?php echo $acaoBotaoBloqueio; ?>
             >
