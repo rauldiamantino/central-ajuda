@@ -1,7 +1,7 @@
 <?php
 $status = [
-  'Ativo' => 1,
-  'Inativo' => 0,
+  'Público' => 1,
+  'Privado' => 0,
   'Todos' => 'null',
 ];
 
