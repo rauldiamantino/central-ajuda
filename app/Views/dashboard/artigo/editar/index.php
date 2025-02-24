@@ -19,7 +19,7 @@ if ($dominio) {
         Editar artigo
 
         <?php if ((int) $this->usuarioLogado['padrao'] == USUARIO_SUPORTE) { ?>
-          <span class="text-gray-400 font-extralight">#<?php echo $artigo['Artigo']['id'] ?></span>
+          <span class="text-gray-400 font-extralight">#<?php echo $artigo['Artigo']['id'] . '-' . $artigo['Artigo']['codigo'] ?></span>
         <?php } ?>
       </h2>
       <p class="text-gray-600">Vamos deixar seus tutoriais ainda melhores?</p>
