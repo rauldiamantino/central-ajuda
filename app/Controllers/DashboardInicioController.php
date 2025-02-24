@@ -46,11 +46,9 @@ class DashboardInicioController extends DashboardController
   private function contarUsuarios()
   {
     $condicoes = [
-      [
-        'campo' => 'Usuario.padrao',
-        'operador' => '!=',
-        'valor' => USUARIO_SUPORTE,
-      ],
+      'campo' => 'Usuario.padrao',
+      'operador' => '!=',
+      'valor' => USUARIO_SUPORTE,
     ];
 
     if ($this->usuarioLogado['padrao'] == USUARIO_SUPORTE) {
@@ -66,7 +64,14 @@ class DashboardInicioController extends DashboardController
 
   private function contarArtigos()
   {
+    $condicoes = [
+      'campo' => 'Artigo.excluido',
+      'operador' => '=',
+      'valor' => INATIVO,
+    ];
+
     $resultado = $this->artigoModel->contar('Artigo.id')
+                                   ->condicao($condicoes)
                                    ->executarConsulta();
 
     return $resultado['total'] ?? 0;
@@ -91,11 +96,9 @@ class DashboardInicioController extends DashboardController
   private function contarFeedbacksGostou()
   {
     $condicoes = [
-      [
-        'campo' => 'Feedback.util',
-        'operador' => '=',
-        'valor' => 1,
-      ],
+      'campo' => 'Feedback.util',
+      'operador' => '=',
+      'valor' => 1,
     ];
 
     $resultado = $this->feedbackModel->contar('Feedback.id')
@@ -108,11 +111,9 @@ class DashboardInicioController extends DashboardController
   private function contarFeedbacksNaoGostou()
   {
     $condicoes = [
-      [
-        'campo' => 'Feedback.util',
-        'operador' => '=',
-        'valor' => 0,
-      ],
+      'campo' => 'Feedback.util',
+      'operador' => '=',
+      'valor' => 0,
     ];
 
     $resultado = $this->feedbackModel->contar('Feedback.id')

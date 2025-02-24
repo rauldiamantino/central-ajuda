@@ -10,7 +10,6 @@ class DashboardArtigoModel extends Model
     parent::__construct($usuarioLogado, $empresaPadraoId, 'Artigo');
   }
 
-  // --- CRUD ---
   public function adicionar(array $params = []): array
   {
     if ($this->sessaoUsuario->buscar('bloqueio-espaco-' . $this->empresaPadraoId)) {
