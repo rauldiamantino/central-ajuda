@@ -7,10 +7,11 @@ if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) {
 <div class="menu-adicionar">
   <span class="text-xs font-extralight italic">Ação</span>
   <div class="w-max flex flex-row gap-2 justify-start items-center form-conteudo conteudo-botoes-adicionar">
+    <?php // Ação editor ?>
     <input type="hidden" name="artigo.id" value="<?php echo $artigo['Artigo']['id'] ?>">
     <button
       type="button"
-      class="flex w-full sm:w-max border text-purple-900 gap-1 items-center justify-center text-xs hover:bg-purple-100/25 duration-150 py-1 px-2 rounded conteudo-btn-texto-adicionar"
+      class="flex w-full sm:w-max border gap-1 items-center justify-center text-xs hover:bg-gray-300/25 duration-150 py-1 px-2 rounded conteudo-btn-texto-adicionar"
       onclick="abrirModalAdicionar('texto')"
       >
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -19,7 +20,7 @@ if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) {
     </button>
     <button
       type="button"
-      class="flex w-full sm:w-max border text-red-900 gap-1 items-center justify-center text-xs hover:bg-red-100/25 duration-150 py-1 px-2 rounded botao-abrir-menu-adicionar-video"
+      class="flex w-full sm:w-max border gap-1 items-center justify-center text-xs hover:bg-gray-300/25 duration-150 py-1 px-2 rounded botao-abrir-menu-adicionar-video"
       onclick="abrirModalAdicionar('video')"
       >
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -28,7 +29,7 @@ if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) {
     </button>
     <button
       type="button"
-      class="flex w-full sm:w-max border text-blue-900 gap-1 items-center justify-center text-xs hover:bg-blue-100/25 duration-150 py-1 px-2 rounded botao-abrir-menu-adicionar-imagem"
+      class="flex w-full sm:w-max border gap-1 items-center justify-center text-xs hover:bg-gray-300/25 duration-150 py-1 px-2 rounded botao-abrir-menu-adicionar-imagem"
       onclick="abrirModalAdicionar('imagem')"
       >
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -62,9 +63,10 @@ if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) {
         <path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z" clip-rule="evenodd" />
       </svg>
     </button>
+
     <button
       type="button"
-      class="<?php echo $classeDesbloqueado; ?> flex w-full sm:w-max border text-green-900 gap-1 items-center justify-center text-xs hover:bg-green-100/25 duration-150 py-1 px-2 rounded pre-visualizacao-bloquear"
+      class="<?php echo $classeDesbloqueado; ?> flex w-full sm:w-max border text-green-900 gap-1 items-center justify-center text-xs hover:bg-gray-300/25 duration-150 py-1 px-2 rounded pre-visualizacao-bloquear"
       onclick="definirBloqueio(<?php echo $artigo['Artigo']['id']; ?>)"
       <?php echo $acaoBotaoBloqueio; ?>
       >
