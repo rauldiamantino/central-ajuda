@@ -27,7 +27,6 @@ class DashboardCategoriaController extends DashboardController
     $paginaAtual = intval($_GET['pagina'] ?? 0);
     $botaoVoltar = $this->obterReferer();
 
-
     // Filtros
     $categoriaId = $_GET['id'] ?? '';
     $categoriaStatus = $_GET['status'] ?? '';
@@ -124,6 +123,22 @@ class DashboardCategoriaController extends DashboardController
     $ordem = [
       'prox' => $ordemAtual + 1,
     ];
+
+    if (empty($botaoVoltar)) {
+      $botaoVoltar = '?referer=' . urlencode('/dashboard/categorias?pagina=' . $paginaAtual);
+    }
+
+    if ($filtroAtual) {
+      foreach ($filtroAtual as $chave => $linha):
+
+        if (empty($botaoVoltar)) {
+          $botaoVoltar = '?referer=' . urlencode('/dashboard/categorias?' . $chave . '=' . $linha);
+        }
+        else {
+          $botaoVoltar .= urlencode('&' . $chave . '=' . $linha);
+        }
+      endforeach;
+    }
 
     $this->visao->variavel('botaoVoltar', $botaoVoltar);
     $this->visao->variavel('ordem', $ordem);

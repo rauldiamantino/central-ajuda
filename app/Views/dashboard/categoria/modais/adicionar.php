@@ -2,7 +2,7 @@
   <form method="POST" action="/d/categoria" class="w-full flex flex-col gap-4 p-4 rounded-lg shadow bg-white" onsubmit="evitarDuploClique(event)">
     <?php if (isset($ordem['prox'])) { ?>
       <input type="hidden" name="ordem" value="<?php echo $ordem['prox'] ?>">
-      <input type="hidden" name="referer" value="<?php echo urlencode('/dashboard/categorias?pagina=' . $pagina); ?>">
+      <input type="hidden" name="referer" value="<?php echo $botaoVoltar; ?>">
     <?php } ?>
     <div class="w-full flex gap-4">
       <div>

@@ -18,7 +18,7 @@
       <tbody class="divide-y">
         <?php foreach ($categorias as $chave => $linha) : ?>
           <?php if (isset($linha['Categoria']['id'])) { ?>
-            <tr class="hover:bg-gray-100 cursor-pointer select-none lg:select-auto" onclick="window.location='<?php echo '/dashboard/categoria/editar/' . $linha['Categoria']['id'] . '?referer=' . urlencode('/dashboard/categorias?pagina=' . $pagina); ?>';">
+            <tr class="hover:bg-gray-100 cursor-pointer select-none lg:select-auto" onclick="window.location='<?php echo '/dashboard/categoria/editar/' . $linha['Categoria']['id'] . $botaoVoltar; ?>';">
               <td class="py-6 px-6 font-semibold text-gray-900">
                 <?php if ($linha['Categoria']['icone'] and $this->iconeExiste($linha['Categoria']['icone'])) { ?>
                   <div class="w-6">
