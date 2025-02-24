@@ -10,7 +10,7 @@ if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) {
     <input type="hidden" name="artigo.id" value="<?php echo $artigo['Artigo']['id'] ?>">
     <button
       type="button"
-      class="flex w-full sm:w-max border border-green-900/75 text-green-900 gap-1 items-center justify-center text-xs hover:bg-green-100/25 duration-150 py-1 px-2 rounded conteudo-btn-texto-adicionar"
+      class="flex w-full sm:w-max border text-purple-900 gap-1 items-center justify-center text-xs hover:bg-purple-100/25 duration-150 py-1 px-2 rounded conteudo-btn-texto-adicionar"
       onclick="abrirModalAdicionar('texto')"
       >
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -19,7 +19,7 @@ if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) {
     </button>
     <button
       type="button"
-      class="flex w-full sm:w-max border border-red-900/75 text-red-900 gap-1 items-center justify-center text-xs hover:bg-red-100/25 duration-150 py-1 px-2 rounded botao-abrir-menu-adicionar-video"
+      class="flex w-full sm:w-max border text-red-900 gap-1 items-center justify-center text-xs hover:bg-red-100/25 duration-150 py-1 px-2 rounded botao-abrir-menu-adicionar-video"
       onclick="abrirModalAdicionar('video')"
       >
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -28,7 +28,7 @@ if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) {
     </button>
     <button
       type="button"
-      class="flex w-full sm:w-max border border-blue-900/75 text-blue-900 gap-1 items-center justify-center text-xs hover:bg-blue-100/25 duration-150 py-1 px-2 rounded botao-abrir-menu-adicionar-imagem"
+      class="flex w-full sm:w-max border text-blue-900 gap-1 items-center justify-center text-xs hover:bg-blue-100/25 duration-150 py-1 px-2 rounded botao-abrir-menu-adicionar-imagem"
       onclick="abrirModalAdicionar('imagem')"
       >
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -64,7 +64,7 @@ if ($this->usuarioLogado['nivel'] == USUARIO_LEITURA) {
     </button>
     <button
       type="button"
-      class="<?php echo $classeDesbloqueado; ?> flex w-full sm:w-max border border-blue-900/75 text-blue-900 gap-1 items-center justify-center text-xs hover:bg-blue-100/25 duration-150 py-1 px-2 rounded pre-visualizacao-bloquear"
+      class="<?php echo $classeDesbloqueado; ?> flex w-full sm:w-max border text-green-900 gap-1 items-center justify-center text-xs hover:bg-green-100/25 duration-150 py-1 px-2 rounded pre-visualizacao-bloquear"
       onclick="definirBloqueio(<?php echo $artigo['Artigo']['id']; ?>)"
       <?php echo $acaoBotaoBloqueio; ?>
       >

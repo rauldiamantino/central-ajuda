@@ -41,7 +41,7 @@ if (isset($artigo['Artigo']['editar'])) {
 ?>
 
 <div
-  class="w-full h-full bg-white py-5 lg:p-10 rounded-md pers-publico-artigo template-cor-<?php echo Helper::ajuste('publico_cor_primaria'); ?> dashboard-pre-visualizacao"
+  class="border border-slate-300 w-full h-full bg-white shadow py-5 lg:p-10 rounded-md pers-publico-artigo template-cor-<?php echo Helper::ajuste('publico_cor_primaria'); ?> dashboard-pre-visualizacao"
   data-usuario-nivel="<?php echo $this->usuarioLogado['nivel']; ?>"
   data-artigo="<?php echo $artigo['Artigo']['id'] ?? ''; ?>"
 >

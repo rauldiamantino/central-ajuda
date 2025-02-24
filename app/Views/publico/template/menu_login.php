@@ -1,5 +1,5 @@
 <?php
-$classeLogin = 'text-gray-700 hover:border-slate-100';
+$classeLogin = 'text-gray-700 hover:border-slate-200';
 $styleLogin = '';
 
 if (isset($inicio) and (int) Helper::ajuste('publico_inicio_topo_transparente') == ATIVO and (int) Helper::ajuste('publico_inicio_cor_fundo') == ATIVO) {

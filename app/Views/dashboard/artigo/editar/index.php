@@ -32,10 +32,10 @@ if ($dominio) {
 
   <div class="w-full border-t border-slate-300 pt-4 flex flex-col lg:justify-between gap-5">
 
-    <div class="w-full max-w-[990px] border border-slate-300 bg-white duration-350 shadow rounded-md">
-      <div class="relative pb-10 w-full">
+    <div class="w-full max-w-[990px] bg-white duration-350">
+      <div class="relative pb-10 w-full bg-gray-100">
         <div class="w-full flex flex-col items-start sm:flex-row sm:justify-between sm:items-center">
-          <div class="w-max flex flex-col sm:flex-row gap-2 sm:justify-start sm:items-center p-6">
+          <div class="w-full flex gap-6 justify-start items-center pt-2 pb-6">
             <?php require_once 'conteudo/menu-status.php'; ?>
             <?php require_once 'conteudo/menu-adicionar.php'; ?>
           </div>
