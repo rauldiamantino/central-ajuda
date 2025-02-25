@@ -2,7 +2,7 @@
 <div class="p-3 w-full hidden container-pre-visualizar container-conteudo-video-editar alvo-editar" data-conteudo-id="<?php echo $linha['Conteudo']['id'] ?>" data-conteudo-tipo="<?php echo $linha['Conteudo']['tipo'] ?>">
   <div class="font-extralight pb-10 flex flex-col">
     <div class="font-normal text-2xl">Edição de vídeo</div>
-    <span>Não esqueca de clicar em gravar :)</span>
+    <span>Não esqueça de clicar em gravar :)</span>
   </div>
   <form method="POST" action="<?php echo '/d/conteudo/' . $linha['Conteudo']['id']; ?>" class="flex flex-col items-end gap-2" enctype="multipart/form-data" onsubmit="evitarDuploClique(event)">
     <input type="hidden" name="_method" value="PUT">
