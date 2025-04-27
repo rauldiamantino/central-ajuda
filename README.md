@@ -13,18 +13,26 @@ https://drive.google.com/file/d/1zS036Kehehj0HVYckHTmMV-LFuRsygaA/view?usp=drive
 https://www.youtube.com/watch?v=lLM-Z9XUcbQ
 
 ## Principais funcionalidades:
-- Página pública
-  - Artigos
-  - Categorias
-  - Busca de artigos
-  - Botão de WhatsApp
-- Dashboard
-  - Cadastro de usuários com níveis de acesso
-  - Alteração de cadastro de usuário e senhas
-  - Cadastro de artigos
-  - Cadastro de conteúdo em texto, vídeo e imagem
-  - Cadastro de categorias
-  - Ajustes gerais de visual da página pública
+**Página Pública:**
+- Artigos e categorias organizados para fácil acesso.
+- Busca FULL Text eficiente em artigos.
+- Botão de WhatsApp para suporte rápido.
+- Contador de visualizações para artigos.
+- Temas de cores personalizáveis (4 opções).
+- Personalização da tela inicial (layout e ícones).
+
+**Dashboard Administrativa:**
+
+- Gestão de usuários com níveis de acesso (Leitura / Total).
+- Criação e edição de artigos (texto, vídeo, imagem).
+- Organização manual dos artigos e categorias.
+- Cadastro e organização de categorias.
+- Relatórios de visualizações e feedbacks por período.
+- Tela de debug para suporte técnico.
+- Ajustes no visual da central de ajuda.
+
+**Integrações e Pagamento:**
+- Integração com pagamento recorrente via Asaas
 
 ## Tecnologias utilizadas
 - PHP 8.2
@@ -35,4 +43,4 @@ https://www.youtube.com/watch?v=lLM-Z9XUcbQ
 - Docker
 
 ## Status
-Pivotei o projeto para focar em estudos necessários para o meu momento atual
+O projeto foi pausado para focar em estudos necessários para meu momento atual
