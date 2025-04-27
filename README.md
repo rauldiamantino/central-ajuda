@@ -46,7 +46,7 @@ Atualmente, o projeto está pausado enquanto foco no aprimoramento das minhas ha
 https://youtu.be/ggACtQK0Ev4
 
 ### Como criar artigos (vídeo)
-https://www.youtube.com/watch?v=lLM-Z9XUcbQ
+https://youtu.be/lLM-Z9XUcbQ
 
 ### Central de Ajuda - Início
 ![Screenshot 2025-04-27 144932](https://github.com/user-attachments/assets/8ae90c49-7776-4135-a475-d1662f41edb2)
