@@ -12,6 +12,7 @@ Atualmente, o projeto está pausado enquanto foco no aprimoramento das minhas ha
 - Busca FULL Text por nome ou descrição da categoria e nome ou conteúdo do artigo
 - Botão de WhatsApp para suporte rápido
 - Botão de feedback (gostei e não gostei)
+- Link rápido para edição de artigo e categoria (somente logado)
 
 **Dashboard:**
 - Gestão de usuários com níveis de acesso (Leitura / Total)
