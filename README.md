@@ -1,28 +1,32 @@
 # Central de Ajuda - 360help
 
 ## Introdução
-A 360Help é uma plataforma para pequenas e médias empresas, projetada para organizar e disponibilizar conteúdos de forma profissional e eficiente, melhorando a experiência do cliente. 
-O sistema permite gerenciar artigos e categorias de forma simples, com personalizações e recursos úteis para otimizar o atendimento. 
+A 360Help é uma plataforma multitenant projetada para pequenas e médias empresas, com foco em organizar e disponibilizar conteúdos de maneira profissional, otimizando a experiência do cliente. O sistema permite gerenciar artigos, categorias e personalizar a interface, oferecendo uma solução prática e eficiente para atendimento.
 
-Atualmente, o projeto está pausado enquanto foco no aprimoramento de minhas habilidades profissionais.
+Atualmente, o projeto está pausado enquanto foco no aprimoramento das minhas habilidades profissionais.
 
 ## Principais funcionalidades:
-**Página Pública:**
-- Artigos e categorias organizados para fácil acesso.
-- Busca FULL Text eficiente em artigos.
-- Botão de WhatsApp para suporte rápido.
-- Contador de visualizações para artigos.
-- Temas de cores personalizáveis (4 opções).
-- Personalização da tela inicial (layout e ícones).
+**Central de ajuda:**
+- Categorias personalizadas com ícones
+- Artigos profissionais com textos, prints ou vídeos (Vimeo e Youtube)
+- Busca FULL Text por nome ou descrição da categoria e nome ou conteúdo do artigo
+- Botão de WhatsApp para suporte rápido
+- Botão de feedback (gostei e não gostei)
 
-**Dashboard Administrativa:**
-- Gestão de usuários com níveis de acesso (Leitura / Total).
-- Criação e edição de artigos (texto, vídeo, imagem).
-- Organização manual dos artigos e categorias.
-- Cadastro e organização de categorias.
-- Relatórios de visualizações e feedbacks por período.
-- Tela de debug para suporte técnico.
-- Ajustes no visual da central de ajuda.
+**Dashboard:**
+- Gestão de usuários com níveis de acesso (Leitura / Total)
+- Criação e edição de artigos (texto, vídeo, imagem)
+- Personalização da ordem de exibição dos artigos e categorias
+- Organização de artigos por categorias
+- Visibilidade de artigos (públicos e privados)
+- Relatórios de visualizações e feedbacks por período
+- Ajustes diversos no visual da central de ajuda
+- Temas de cores personalizáveis (4 opções)
+- Personalização da tela inicial (layout e ícones)
+- Escolher um plano de assinatura via dashboard
+- Período de teste grátis personalizável via acesso de suporte
+- Tela de debug para suporte técnico
+- Limpar cache manualmente (suporte técnico)
 
 **Integrações e Pagamento:**
 - Integração com pagamento recorrente via Asaas
