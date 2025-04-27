@@ -43,7 +43,7 @@ Atualmente, o projeto está pausado enquanto foco no aprimoramento das minhas ha
 
 ## Conheça o projeto
 ### Visão geral (vídeo)
-https://drive.google.com/file/d/1zS036Kehehj0HVYckHTmMV-LFuRsygaA/view?usp=drive_link
+https://youtu.be/ggACtQK0Ev4
 
 ### Como criar artigos (vídeo)
 https://www.youtube.com/watch?v=lLM-Z9XUcbQ
