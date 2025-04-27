@@ -3,36 +3,14 @@
 ## Introdução
 Esta plataforma permite que sua empresa cadastre uma base de conhecimento e a disponibilize de forma profissional para seus clientes.
 
-![image](https://github.com/user-attachments/assets/1fbf18df-137e-4d2f-bf07-85e859e0b818)
+![Screenshot 2025-04-27 135535](https://github.com/user-attachments/assets/65464b2f-bd97-4802-b5e3-8cd8e89de8d5)
 
 ## Conheça o projeto (vídeos)
-<details>
-  <summary>Público - Central de Ajuda</summary>
-  <br>
+### Visão geral
+https://drive.google.com/file/d/1zS036Kehehj0HVYckHTmMV-LFuRsygaA/view?usp=drive_link
 
-  https://github.com/user-attachments/assets/a265ff0f-b32b-4b22-8c7d-c7afda1b6c1e
-</details>
-
-<details>
-  <summary>Dashboard - Artigos e Categorias</summary>
-  <br>
-
-  https://github.com/user-attachments/assets/a9011816-ff50-46d8-88df-c272c4dcc07b
-</details>
-
-<details>
-  <summary>Dashboard - Ajustes Gerais</summary>
-  <br>
-
-  https://github.com/user-attachments/assets/d44f2479-1bf3-4de9-868a-8dec18b03919
-</details>
-
-<details>
-  <summary>Dashboard - Login e Cadastro</summary>
-  <br>
-
-  https://github.com/user-attachments/assets/fdc91a25-8829-472f-9719-3a37d7a738ca
-</details>
+### Como criar artigos:
+https://www.youtube.com/watch?v=lLM-Z9XUcbQ
 
 ## Principais funcionalidades:
 - Página pública
@@ -54,6 +32,7 @@ Esta plataforma permite que sua empresa cadastre uma base de conhecimento e a di
 - Tailwindcss
 - Firebase Storage para armazenamento de imagens
 - CKEditor5 (Editor WYSIWYG)
+- Docker
 
-## Próximos passos
-Atualmente, estou aprimorando o sistema de autenticação e gerenciamento de sessão dos usuários.
+## Status
+Pivotei o projeto para focar em estudos necessários para o meu momento atual
