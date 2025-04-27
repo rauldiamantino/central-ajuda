@@ -29,16 +29,17 @@ Atualmente, o projeto está pausado enquanto foco no aprimoramento das minhas ha
 - Tela de debug para suporte técnico
 - Limpar cache manualmente (suporte técnico)
 
-**Integrações e Pagamento:**
-- Integração com pagamento recorrente via Asaas
-
 ## Tecnologias utilizadas
 - PHP 8.2
 - Javascript
 - Tailwindcss
-- Firebase Storage para armazenamento de imagens
+- Firebase Storage (armazenamento de imagens)
 - CKEditor5 (Editor WYSIWYG)
-- Docker
+- Docker (ambiente local)
+- Digital Ocean (deploy)
+- Cloudflare (firewall, proteção contra DDoS, otimização de desempenho, SSL/TLS, monitoramento)
+- Sentry (observabilidade)
+- Asaas (pagamento recorrente)
 
 ## Conheça o projeto
 ### Visão geral (vídeo)
