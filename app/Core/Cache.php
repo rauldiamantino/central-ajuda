@@ -247,14 +247,17 @@ class Cache
 
   public static function resetarCacheEmpresa(int $empresaId)
   {
-    if (! self::verificarAtivo([$empresaId])) {
-      return;
+    self::iniciarMemcached();
+    
+    if (self::verificarAtivo([$empresaId])) {
+      self::apagarChavesPrefixo((string) $empresaId);
+
+      self::$sessaoUsuario->definir('ok', 'Reset cache empresa');
+    }
+    else {
+      self::$sessaoUsuario->definir('ok', 'Cache desativado');
     }
 
-    self::iniciarMemcached();
-    self::apagarChavesPrefixo((string) $empresaId);
-
-    self::$sessaoUsuario->definir('ok', 'Reset cache empresa');
     header('Location: /dashboard');
     exit();
   }

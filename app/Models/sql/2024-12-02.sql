@@ -15,7 +15,7 @@ CREATE TABLE `assinaturas` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_id_asaas_id_empresa_id` (`id`, `asaas_id`,`empresa_id`),
   KEY `assinaturas_empresa_id_idx` (`empresa_id`)
-)
+);
 
 ALTER TABLE `central-ajuda-teste`.`empresas`
 DROP COLUMN `gratis_prazo`,

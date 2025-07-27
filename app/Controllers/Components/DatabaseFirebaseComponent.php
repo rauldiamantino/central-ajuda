@@ -1,7 +1,9 @@
 <?php
 namespace app\Controllers\Components;
-use app\Controllers\DashboardController;
 use Google\Cloud\Storage\StorageClient;
+use app\Controllers\DashboardController;
+use Google\Cloud\Core\Exception\ServiceException;
+use Google\Cloud\Core\Exception\NotFoundException;
 
 class DatabaseFirebaseComponent extends DashboardController
 {
@@ -85,7 +87,7 @@ class DatabaseFirebaseComponent extends DashboardController
 
       return true;
     }
-    catch (Google\Cloud\Core\Exception\ServiceException $e) {
+    catch (ServiceException $e) {
       registrarLog('Erro no upload', $e->getMessage());
       registrarSentry($e);
 
@@ -127,13 +129,13 @@ class DatabaseFirebaseComponent extends DashboardController
         return true;
       }
     }
-    catch (Google\Cloud\Core\Exception\NotFoundException $e) {
+    catch (NotFoundException $e) {
       registrarLog('Arquivo não encontrado', $e->getMessage());
       registrarSentry($e);
 
       return false;
     }
-    catch (Google\Cloud\Core\Exception\ServiceException $e) {
+    catch (ServiceException $e) {
       registrarLog('Erro no serviço', $e->getMessage());
       registrarSentry($e);
 
@@ -185,13 +187,13 @@ class DatabaseFirebaseComponent extends DashboardController
 
       return true;
     }
-    catch (Google\Cloud\Core\Exception\NotFoundException $e) {
+    catch (NotFoundException $e) {
       registrarLog('Arquivos não encontrados', $e->getMessage());
       registrarSentry($e);
 
       return false;
     }
-    catch (Google\Cloud\Core\Exception\ServiceException $e) {
+    catch (ServiceException $e) {
       registrarLog('Erro no serviço', $e->getMessage());
       registrarSentry($e);
 
