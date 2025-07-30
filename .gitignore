@@ -10,3 +10,4 @@ apache.conf
 app/Config/app.php
 app/Config/firebase.json
 config/php.ini
+certs

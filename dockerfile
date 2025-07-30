@@ -39,13 +39,15 @@ COPY ./app /var/www/app
 COPY ./apache.conf /etc/apache2/sites-available/000-default.conf
 COPY ./config/php.ini /usr/local/etc/php/
 
-# Ativa o módulo de reescrita e SSL do Apache
+# Copia o certificado e chave da Cloudflare para dentro do container
+COPY ./certs/origin.pem /etc/ssl/certs/origin.pem
+COPY ./certs/origin.key /etc/ssl/private/origin.key
+
+# Ativa os módulos Apache necessários
 RUN a2enmod rewrite ssl
 
-# Define argumento para o ambiente, default é local
+# Copia o config SSL conforme ambiente (supondo que já tem apache-ssl-cloudflare.conf)
 ARG ENVIRONMENT=local
-
-# Copia o config SSL correto conforme ambiente
 COPY ./apache-ssl-${ENVIRONMENT}.conf /etc/apache2/sites-available/360help-ssl.conf
 
 # Ativa o site SSL
@@ -54,5 +56,4 @@ RUN a2ensite 360help-ssl.conf
 # Expõe as portas HTTP e HTTPS
 EXPOSE 80 443
 
-# Comando padrão
 CMD ["apache2-foreground"]
