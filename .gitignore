@@ -9,5 +9,4 @@ mysql-dev
 apache.conf
 app/Config/app.php
 app/Config/firebase.json
-.htaccess
 config/php.ini
