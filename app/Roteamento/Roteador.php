@@ -406,6 +406,7 @@ class Roteador
     $dominiosPadrao = [
       '360help.com.br',
       'www.360help.com.br',
+      '206.189.182.183',
     ];
 
     if (HOST_LOCAL) {
