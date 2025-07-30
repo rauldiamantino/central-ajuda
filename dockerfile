@@ -42,16 +42,16 @@ COPY ./config/php.ini /usr/local/etc/php/
 # Ativa o módulo de reescrita e SSL do Apache
 RUN a2enmod rewrite ssl
 
-# Copia o config HTTP padrão
-COPY ./apache.conf /etc/apache2/sites-available/000-default.conf
+# Define argumento para o ambiente, default é local
+ARG ENVIRONMENT=local
 
-# Copia o config SSL (crie este arquivo)
-COPY ./apache-ssl.conf /etc/apache2/sites-available/360help-ssl.conf
+# Copia o config SSL correto conforme ambiente
+COPY ./apache-ssl-${ENVIRONMENT}.conf /etc/apache2/sites-available/360help-ssl.conf
 
 # Ativa o site SSL
 RUN a2ensite 360help-ssl.conf
 
-# Expõe as portas 80 e 443
+# Expõe as portas HTTP e HTTPS
 EXPOSE 80 443
 
 # Comando padrão
