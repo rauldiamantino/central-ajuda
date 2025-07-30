@@ -6,6 +6,9 @@ services:
     ports:
       - 80:80
     volumes:
+      - ./public:/var/www/html
+      - ./app:/var/www/app
+      - ./vendor:/var/www/vendor
       - ./app/logs/:/var/log/apache2
       - ./config/php.ini:/usr/local/etc/php/php.ini
     networks:
