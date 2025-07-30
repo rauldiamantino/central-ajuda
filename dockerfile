@@ -39,5 +39,20 @@ COPY ./app /var/www/app
 COPY ./apache.conf /etc/apache2/sites-available/000-default.conf
 COPY ./config/php.ini /usr/local/etc/php/
 
+# Ativa o módulo de reescrita e SSL do Apache
+RUN a2enmod rewrite ssl
+
+# Copia o config HTTP padrão
+COPY ./apache.conf /etc/apache2/sites-available/000-default.conf
+
+# Copia o config SSL (crie este arquivo)
+COPY ./apache-ssl.conf /etc/apache2/sites-available/360help-ssl.conf
+
+# Ativa o site SSL
+RUN a2ensite 360help-ssl.conf
+
+# Expõe as portas 80 e 443
+EXPOSE 80 443
+
 # Comando padrão
 CMD ["apache2-foreground"]

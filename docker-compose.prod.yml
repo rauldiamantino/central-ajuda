@@ -4,13 +4,15 @@ services:
       dockerfile: Dockerfile
     container_name: ambiente-php
     ports:
-      - 80:80
+      - "80:80"
+      - "443:443"
     volumes:
       - ./public:/var/www/html
       - ./app:/var/www/app
       - ./vendor:/var/www/vendor
       - ./app/logs/:/var/log/apache2
       - ./config/php.ini:/usr/local/etc/php/php.ini
+      - /etc/letsencrypt:/etc/letsencrypt:ro
     networks:
       - network
     env_file:
