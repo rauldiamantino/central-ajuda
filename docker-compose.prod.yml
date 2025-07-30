@@ -18,6 +18,8 @@ services:
 
   db:
     image: mysql:8.0.33
+    ports: 
+      - "3306:3306"
     container_name: mysql-php
     volumes:
       - mysql-data:/var/lib/mysql
