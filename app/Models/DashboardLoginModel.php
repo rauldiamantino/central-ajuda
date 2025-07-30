@@ -94,11 +94,11 @@ class DashboardLoginModel extends Model
       $loginSucesso = false;
     }
 
-    if (! isset($usuario[0]['Assinatura.asaas_id'])) {
+    if (! array_key_exists('Assinatura.asaas_id', $usuario[0])) {
       $loginSucesso = false;
     }
 
-    if (! isset($usuario[0]['Assinatura.status'])) {
+    if (! array_key_exists('Assinatura.status', $usuario[0])) {
       $loginSucesso = false;
     }
 
