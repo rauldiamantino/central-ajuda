@@ -1,6 +1,6 @@
 <?php
 require_once '../vendor/autoload.php';
-var_dump('teste');
+
 use app\Roteamento\Roteador;
 class_alias('app\Core\Helper', 'Helper');
 
