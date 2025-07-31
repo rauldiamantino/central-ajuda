@@ -1,4 +1,7 @@
 <?php
+
+use app\Core\Helper;
+
 $classesTopoFixo = '';
 $classesTopoCor = 'bg-white text-black';
 $classesTopoBorda = 'border-b-slate-200/60';
@@ -16,7 +19,7 @@ if ((int) Helper::ajuste('publico_topo_fixo') == ATIVO) {
   }
 }
 
-if ((int) $ajusteTopoFixo == INATIVO) {
+if (isset($inicio) and (int) $ajusteTopoFixo == INATIVO) {
   $classesTopoFixo = 'absolute';
 }
 

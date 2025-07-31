@@ -1,4 +1,7 @@
 <?php
+
+use app\Core\Helper;
+
 // Largura geral
 if ((int) Helper::ajuste('publico_largura_geral') == 4) {
   $classesLarguraGeral = 'max-w-[800px]';
