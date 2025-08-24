@@ -13,47 +13,41 @@ RUN apt-get update && \
         libicu-dev \
         libonig-dev \
         gnupg2 \
-        lsb-release && \
-    # Limpa a cache do apt
+        lsb-release \
+        telnet && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
-# Instala as extensões PHP necessárias
+# Extensões PHP
 RUN docker-php-ext-configure intl && \
-    docker-php-ext-install pdo pdo_mysql && \
-    docker-php-ext-install intl
+    docker-php-ext-install pdo pdo_mysql intl
 
-# Instala o memcached
-RUN pecl install memcached && \
-    docker-php-ext-enable memcached
+# Memcached
+RUN pecl install memcached && docker-php-ext-enable memcached
 
-RUN apt-get update && apt-get install -y telnet
+# Habilita módulos do Apache
+RUN a2enmod rewrite ssl
 
-# Ativa o módulo de reescrita do Apache
-RUN a2enmod rewrite
+# Remove sites padrão para evitar conflitos
+RUN a2dissite 000-default.conf default-ssl.conf || true
 
-# Copia os arquivos do projeto
+# Copia arquivos do projeto (se você não usa volumes)
 COPY ./public /var/www/html
 COPY ./vendor /var/www/vendor
 COPY ./app /var/www/app
-COPY ./apache.conf /etc/apache2/sites-available/000-default.conf
 COPY ./config/php.ini /usr/local/etc/php/
 
-# Copia o certificado e chave da Cloudflare para dentro do container
+# Copia certificado Cloudflare
 COPY ./certs/origin.pem /etc/ssl/certs/origin.pem
 COPY ./certs/origin.key /etc/ssl/private/origin.key
+RUN chmod 600 /etc/ssl/private/origin.key && chmod 644 /etc/ssl/certs/origin.pem
 
-# Ativa os módulos Apache necessários
-RUN a2enmod rewrite ssl
-
-# Copia o config SSL conforme ambiente (supondo que já tem apache-ssl-cloudflare.conf)
-ARG ENVIRONMENT=local
+# Copia config SSL (ajustável via ARG)
+ARG ENVIRONMENT=prod
 COPY ./apache-ssl-${ENVIRONMENT}.conf /etc/apache2/sites-available/360help-ssl.conf
-
-# Ativa o site SSL
 RUN a2ensite 360help-ssl.conf
 
-# Expõe as portas HTTP e HTTPS
+# Exposição de portas
 EXPOSE 80 443
 
 CMD ["apache2-foreground"]
