@@ -12,6 +12,7 @@ services:
       - ./app/logs/:/var/log/apache2
       - ./config/php.ini:/usr/local/etc/php/php.ini
       - ./certs:/etc/apache2/certs:ro
+      - ./apache-ssl-local.conf:/etc/apache2/sites-available/default-ssl.conf:ro
     links:
       - db
       - memcached
