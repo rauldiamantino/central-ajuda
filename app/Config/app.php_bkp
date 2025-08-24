@@ -4,6 +4,7 @@ define('GRAVAR_CACHE', 0);
 define('DEBUG', 1);
 
 define('MYSQL_HOST', 'db');
+define('MYSQL_PORTA', 3306);
 define('MYSQL_NOME', 'central-ajuda-teste');
 define('MYSQL_USUARIO', 'root');
 define('MYSQL_SENHA', 'root');

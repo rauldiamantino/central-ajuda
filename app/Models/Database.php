@@ -12,11 +12,12 @@ class Database
   {
     try {
       $host = MYSQL_HOST;
+      $port = MYSQL_PORTA;
       $dbname = MYSQL_NOME;
       $user = MYSQL_USUARIO;
       $password = MYSQL_SENHA;
 
-      $dsn = 'mysql:host=' . $host . ';dbname=' . $dbname . ';charset=utf8mb4';
+      $dsn = 'mysql:host=' . $host . ';port=' . $port . ';dbname=' . $dbname . ';charset=utf8mb4';
       $this->conexao = new PDO($dsn, $user, $password);
 
       $this->conexao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
