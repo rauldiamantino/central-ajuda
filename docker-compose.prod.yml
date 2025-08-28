@@ -19,23 +19,16 @@ services:
     env_file:
       - .env
 
-  db:
-  image: mysql:8.0.33
-  container_name: mysql-php
-  environment:
-    - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-  volumes:
-    - mysql-data:/var/lib/mysql
-    - ./certs/mysql:/etc/mysql/certs:ro
-  command: >
-    --ssl-ca=/etc/mysql/certs/origin.pem
-    --ssl-cert=/etc/mysql/certs/origin.pem
-    --ssl-key=/etc/mysql/certs/origin.key
-  ports:
-    - "3306:3306"
-  networks:
-    - network
-
+    db:
+      image: mysql:8.0.33
+      container_name: mysql-php
+      environment:
+        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      command: --ssl=0
+      ports:
+        - "3306:3306"
+      networks:
+        - network
 
   memcached:
     image: memcached:latest
