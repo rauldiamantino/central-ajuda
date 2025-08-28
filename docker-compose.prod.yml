@@ -19,16 +19,16 @@ services:
     env_file:
       - .env
 
-    db:
-      image: mysql:8.0.33
-      container_name: mysql-php
-      environment:
-        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      command: --ssl=0
-      ports:
-        - "3306:3306"
-      networks:
-        - network
+  db:
+    image: mysql:8.0.33
+    container_name: mysql-php
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    command: --ssl=0
+    ports:
+      - "3306:3306"
+    networks:
+      - network
 
   memcached:
     image: memcached:latest
