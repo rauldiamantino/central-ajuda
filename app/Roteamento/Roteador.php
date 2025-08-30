@@ -467,12 +467,6 @@ class Roteador
       $cacheNome = 'roteador-' . $this->subdominio_2;
     }
 
-    // Provisório (Google Search)
-    if (! HOST_LOCAL and empty($this->subdominio_2) and $valor == 'padrao') {
-      header('Location: https://teste.360help.com.br');
-      exit;
-    }
-
     // Cache 1 hora
     $cacheTempo = 60 * 60;
     $buscarEmpresa = Cache::buscarSemId($cacheNome);
